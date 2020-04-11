@@ -1,0 +1,9 @@
+PASS / NICK
+Chat react only after NICK is send.
+Errors :
+
+':tmi.twitch.tv NOTICE * :Improperly formatted auth'
+        - if no PASS sent or invalid formatted PASS
+
+':tmi.twitch.tv NOTICE * :Login authentication failed'
+        - if PASS invalid
