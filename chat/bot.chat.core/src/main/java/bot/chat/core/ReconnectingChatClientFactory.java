@@ -1,23 +1,19 @@
 package bot.chat.core;
 
+import bot.common.lang.Prioritized;
+import bot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
 
-import java.util.Comparator;
 import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
 /**
  * @author perococco
  **/
-public interface ReconnectingChatClientFactory {
+public interface ReconnectingChatClientFactory extends Prioritized {
 
     @NonNull
     ChatClient createReconnectingChatClient(@NonNull ChatClient chatClient, @NonNull ReconnectionPolicy policy);
-
-    int priority();
-
-
-
 
     @NonNull
     static ReconnectingChatClientFactory with(@NonNull BiFunction<? super ChatClient, ? super ReconnectionPolicy,? extends ChatClient> factory) {
@@ -42,10 +38,6 @@ public interface ReconnectingChatClientFactory {
 
     @NonNull
     static ReconnectingChatClientFactory getInstance() {
-        return ServiceLoader.load(ReconnectingChatClientFactory.class)
-                     .stream()
-                     .map(ServiceLoader.Provider::get)
-                     .max(Comparator.comparingInt(ReconnectingChatClientFactory::priority))
-                     .orElseThrow(() -> new RuntimeException("Could not find any implementation of "+ReconnectingChatClientFactory.class));
+        return ServiceLoaderHelper.getService(ServiceLoader.load(ReconnectingChatClientFactory.class));
     }
 }

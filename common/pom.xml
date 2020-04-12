@@ -23,6 +23,7 @@
 
     <modules>
         <module>bot.common.lang</module>
+        <module>bot.common.irc</module>
     </modules>
 
 </project>

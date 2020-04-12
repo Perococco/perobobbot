@@ -58,6 +58,11 @@ public class PerococcoReconnectingChatClient extends ChatClientBase implements C
         warnListenerOnDisconnection();
     }
 
+    @Override
+    public boolean hasReconnectingProperty() {
+        return true;
+    }
+
     @NonNull
     public static ReconnectingChatClientFactory provider() {
         return ReconnectingChatClientFactory.with(

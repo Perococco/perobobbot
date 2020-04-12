@@ -59,6 +59,11 @@ public class WebSocketChatClient extends ChatClientBase {
         return chat != null;
     }
 
+    @Override
+    public boolean hasReconnectingProperty() {
+        return false;
+    }
+
     private class MyEndPoint extends Endpoint {
         @Override
         public void onClose(Session session, CloseReason closeReason) {

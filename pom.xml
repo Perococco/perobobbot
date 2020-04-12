@@ -21,6 +21,5 @@
         <module>maven</module>
         <module>common</module>
         <module>chat</module>
-        <module>twitch</module>
     </modules>
 </project>
