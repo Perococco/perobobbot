@@ -7,7 +7,7 @@ import lombok.NonNull;
 /**
  * @author perococco
  **/
-public class PerococcoIRCParserFactory implements IRCParserFactory {
+public class PerococcoIRCParserFactory extends IRCParserFactory {
 
     @Override
     public @NonNull IRCParser create() {

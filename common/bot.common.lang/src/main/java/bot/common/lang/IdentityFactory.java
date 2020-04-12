@@ -7,13 +7,19 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public interface IdentityFactory extends Prioritized {
+public abstract class IdentityFactory implements Prioritized {
 
     @NonNull
-    <S> Identity<S> create(@NonNull S initialValue);
+    public abstract <S> Identity<S> create(@NonNull S initialValue);
+
 
     @NonNull
-    static IdentityFactory getInstance() {
-        return ServiceLoaderHelper.getService(ServiceLoader.load(IdentityFactory.class));
+    public static IdentityFactory getInstance() {
+        return Holder.INSTANCE;
     }
+
+    private static class Holder {
+        public static final IdentityFactory INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(IdentityFactory.class));
+    }
+
 }

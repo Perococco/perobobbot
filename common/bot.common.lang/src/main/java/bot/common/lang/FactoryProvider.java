@@ -16,16 +16,14 @@ public class FactoryProvider {
             @NonNull Consumer<? super R> initializer,
             @NonNull Consumer<? super R> finalizer
     ) {
-        final WithLifeCycle withLifeCycle = ServiceLoaderHelper.getService(ServiceLoader.load(WithLifeCycle.class));
-        return withLifeCycle.get(constructor,initializer,finalizer);
+        return WithLifeCycleHolder.INSTANCE.get(constructor,initializer,finalizer);
     }
 
     public static <R,T> Factory<T,R> basic(
             @NonNull Function<? super R, ? super T> constructor,
             @NonNull Consumer<? super R> initializer
     ) {
-        final Basic basic = ServiceLoaderHelper.getService(ServiceLoader.load(Basic.class));
-        return basic.get(constructor,initializer);
+        return BasicHolder.INSTANCE.get(constructor,initializer);
     }
 
     public interface WithLifeCycle extends Prioritized {
@@ -47,5 +45,12 @@ public class FactoryProvider {
                 @NonNull Consumer<? super R> initializer
                 );
 
+    }
+
+    private static class WithLifeCycleHolder {
+        private static final WithLifeCycle INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(WithLifeCycle.class));
+    }
+    private static class BasicHolder {
+        private static final Basic INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(Basic.class));
     }
 }

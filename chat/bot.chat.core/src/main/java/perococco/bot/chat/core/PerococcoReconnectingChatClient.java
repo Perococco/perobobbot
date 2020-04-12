@@ -65,9 +65,18 @@ public class PerococcoReconnectingChatClient extends ChatClientBase implements C
 
     @NonNull
     public static ReconnectingChatClientFactory provider() {
-        return ReconnectingChatClientFactory.with(
-                (c,p) -> new PerococcoReconnectingChatClient(ReconnectionManager.factory(c,p))
-        );
+        return new ReconnectingChatClientFactory() {
+            @Override
+            public @NonNull ChatClient createReconnectingChatClient(@NonNull ChatClient chatClient,
+                    @NonNull ReconnectionPolicy policy) {
+                return new PerococcoReconnectingChatClient(ReconnectionManager.factory(chatClient,policy));
+            }
+
+            @Override
+            public int priority() {
+                return Integer.MIN_VALUE;
+            }
+        };
     }
 
 }

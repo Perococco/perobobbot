@@ -9,12 +9,17 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public interface IRCParserFactory extends Prioritized {
+public abstract class IRCParserFactory implements Prioritized {
 
     @NonNull
-    IRCParser create();
+    public abstract IRCParser create();
 
+    @NonNull
     static IRCParserFactory getInstance() {
-        return ServiceLoaderHelper.getService(ServiceLoader.load(IRCParserFactory.class));
+        return Holder.INSTANCE;
+    }
+
+    private static class Holder {
+        private static final IRCParserFactory INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(IRCParserFactory.class));
     }
 }

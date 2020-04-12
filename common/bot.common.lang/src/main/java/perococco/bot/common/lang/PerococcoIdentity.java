@@ -18,7 +18,7 @@ public class PerococcoIdentity<S> implements Identity<S> {
 
     @NonNull
     public static IdentityFactory provider() {
-        return PerococcoIdentityFactory.INSTANCE;
+        return new PerococcoIdentityFactory();
     }
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(

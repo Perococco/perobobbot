@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -14,6 +15,17 @@ import java.util.concurrent.locks.Condition;
  **/
 @Log4j2
 public abstract class Looper {
+
+    @NonNull
+    public static Looper basic(@NonNull Callable<IterationCommand> iterationAction) {
+        return new Looper() {
+            @Override
+            protected @NonNull IterationCommand performOneIteration() throws Exception {
+                return iterationAction.call();
+            }
+        };
+    }
+
 
     public enum IterationCommand {
         CONTINUE,
@@ -72,12 +84,12 @@ public abstract class Looper {
         return current != null && !current.isDone();
     }
 
-    protected abstract void beforeLooping();
+    protected void beforeLooping() {};
 
     @NonNull
     protected abstract IterationCommand performOneIteration() throws Exception;
 
-    protected abstract void afterLooping();
+    protected void afterLooping() {};
 
     private class Loop implements Runnable {
 

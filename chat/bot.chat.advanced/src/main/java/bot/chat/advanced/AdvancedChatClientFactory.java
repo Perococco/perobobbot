@@ -10,14 +10,19 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public interface AdvancedChatClientFactory extends Prioritized {
+public abstract class AdvancedChatClientFactory implements Prioritized {
 
     @NonNull
-    AdvancedChatClient createBasedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher matcher, @NonNull MessageConverter messageConverter);
+    public abstract AdvancedChatClient createBasedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher matcher, @NonNull MessageConverter messageConverter);
 
     @NonNull
-    static AdvancedChatClientFactory getInstance() {
-        return ServiceLoaderHelper.getService(ServiceLoader.load(AdvancedChatClientFactory.class));
+    public static AdvancedChatClientFactory getInstance() {
+        return Holder.INSTANCE;
+    }
+
+    private static class Holder {
+
+        private static final AdvancedChatClientFactory INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(AdvancedChatClientFactory.class));
     }
 
 }
