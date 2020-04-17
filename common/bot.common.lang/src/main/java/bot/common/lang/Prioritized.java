@@ -5,5 +5,4 @@ package bot.common.lang;
  **/
 public interface Prioritized {
 
-    int priority();
 }

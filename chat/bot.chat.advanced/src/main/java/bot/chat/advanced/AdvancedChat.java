@@ -1,22 +1,27 @@
 package bot.chat.advanced;
 
-import bot.common.lang.Nil;
 import bot.common.lang.Subscription;
 import lombok.NonNull;
 
+import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
 /**
  * @author perococco
  **/
-public interface AdvancedChat {
+public interface AdvancedChat<M> {
 
     @NonNull
-    CompletionStage<Nil> sendCommand(@NonNull Command command);
+    CompletionStage<DispatchSlip> sendCommand(@NonNull Command command);
 
     @NonNull
-    <A> CompletionStage<A> sendRequest(@NonNull Request<A> request);
+    <A> CompletionStage<ReceiptSlip<A>> sendRequest(@NonNull Request<A> request);
 
     @NonNull
-    Subscription addChatListener(@NonNull AdvancedChatListener listener);
+    Subscription addChatListener(@NonNull AdvancedChatListener<M> listener);
+
+    @NonNull
+    Duration timeout();
+
+    void timeout(@NonNull Duration duration);
 }

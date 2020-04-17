@@ -2,9 +2,9 @@ package bot.chat.advanced;
 
 import lombok.NonNull;
 
-public interface AdvancedChatListener {
+public interface AdvancedChatListener<M> {
 
-    void onReceivedMessage(@NonNull Message receivedMessage);
+    void onReceivedMessage(@NonNull M receivedMessage);
 
     void onPostMessage(@NonNull Message postMessage);
 

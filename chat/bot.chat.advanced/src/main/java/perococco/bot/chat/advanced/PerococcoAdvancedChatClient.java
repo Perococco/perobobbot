@@ -14,45 +14,27 @@ import lombok.Synchronized;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class PerococcoAdvancedChatClient implements AdvancedChatClient, ChatClientListener {
-
-    @NonNull
-    public static AdvancedChatClientFactory provider() {
-        return new AdvancedChatClientFactory() {
-            @Override
-            public @NonNull AdvancedChatClient createBasedOn(
-                    @NonNull ChatClient chatClient,
-                    @NonNull RequestAnswerMatcher matcher,
-                    @NonNull MessageConverter messageConverter) {
-                return new PerococcoAdvancedChatClient(chatClient, matcher, messageConverter);
-            }
-
-            @Override
-            public int priority() {
-                return Integer.MIN_VALUE;
-            }
-        };
-    }
+public class PerococcoAdvancedChatClient<M> implements AdvancedChatClient<M>, ChatClientListener {
 
 
     @NonNull
     private final ChatClient chatClient;
 
     @NonNull
-    private final RequestAnswerMatcher matcher;
+    private final RequestAnswerMatcher<M> matcher;
 
     @NonNull
-    private final MessageConverter messageConverter;
+    private final MessageConverter<M> messageConverter;
 
-    private final Listeners<AdvancedChatClientListener> listeners = new Listeners<>();
+    private final Listeners<AdvancedChatClientListener<M>> listeners = new Listeners<>();
 
-    private PerococcoAdvancedChat advancedChat = null;
+    private PerococcoAdvancedChat<M> advancedChat = null;
 
     private Subscription subscription = Subscription.NONE;
 
     @Override
     @Synchronized
-    public @NonNull AdvancedChat connect() {
+    public @NonNull AdvancedChat<M> connect() {
         if (advancedChat != null) {
             return advancedChat;
         }
@@ -77,13 +59,13 @@ public class PerococcoAdvancedChatClient implements AdvancedChatClient, ChatClie
     }
 
     @Override
-    public @NonNull Subscription addChatClientListener(@NonNull AdvancedChatClientListener listener) {
+    public @NonNull Subscription addChatClientListener(@NonNull AdvancedChatClientListener<M> listener) {
         return listeners.addListener(listener);
     }
 
     @Override
     public void onConnection(@NonNull Chat chat) {
-        this.advancedChat = new PerococcoAdvancedChat(chat, matcher, messageConverter);
+        this.advancedChat = new PerococcoAdvancedChat<>(chat, matcher, messageConverter);
         this.advancedChat.start();
         listeners.warnListeners(AdvancedChatClientListener::onConnection, advancedChat);
     }

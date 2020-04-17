@@ -11,7 +11,7 @@ import java.util.function.Function;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class PerococcoReconnectingChatClient extends ChatClientBase implements ChatClient, ChatClientListener {
 
     private final Function<ChatClientListener,ReconnectionManager> reconnectionManagerFactory;
@@ -55,28 +55,18 @@ public class PerococcoReconnectingChatClient extends ChatClientBase implements C
 
     @Override
     public void onDisconnection() {
+        bridge.clearProxy();
         warnListenerOnDisconnection();
     }
 
     @Override
-    public boolean hasReconnectingProperty() {
-        return true;
+    public ChatClient withoutReconnection() {
+        disconnect();
+        return
     }
 
-    @NonNull
-    public static ReconnectingChatClientFactory provider() {
-        return new ReconnectingChatClientFactory() {
-            @Override
-            public @NonNull ChatClient createReconnectingChatClient(@NonNull ChatClient chatClient,
-                    @NonNull ReconnectionPolicy policy) {
-                return new PerococcoReconnectingChatClient(ReconnectionManager.factory(chatClient,policy));
-            }
-
-            @Override
-            public int priority() {
-                return Integer.MIN_VALUE;
-            }
-        };
+    @Override
+    public @NonNull ChatClient withReconnection(@NonNull ReconnectionPolicy policy, @NonNull ReconnectionListener listener) {
+        throw new IllegalStateException("This chat client has already reconnection capability");
     }
-
 }

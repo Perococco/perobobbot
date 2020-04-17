@@ -11,16 +11,16 @@ import java.util.concurrent.CompletionStage;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public abstract class AbstractPostData<A> implements PostData<A> {
+public abstract class AbstractPostData<A,S extends Message, M> implements PostData<A,M> {
 
     @NonNull
-    private final Message message;
+    private final S message;
 
     @NonNull
     private final CompletableFuture<A> completableFuture = new CompletableFuture<>();
 
     @Override
-    public @NonNull Message message() {
+    public @NonNull S message() {
         return message;
     }
 

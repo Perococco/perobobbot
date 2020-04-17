@@ -1,5 +1,5 @@
 import bot.chat.core.ReconnectingChatClientFactory;
-import perococco.bot.chat.core.PerococcoReconnectingChatClient;
+import perococco.bot.chat.core.PerococcoReconnectingChatClientFactory;
 
 /**
  * @author perococco
@@ -15,5 +15,5 @@ module bot.chat.core {
 
     exports bot.chat.core;
     uses ReconnectingChatClientFactory;
-    provides ReconnectingChatClientFactory with PerococcoReconnectingChatClient;
+    provides ReconnectingChatClientFactory with PerococcoReconnectingChatClientFactory;
 }

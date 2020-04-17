@@ -9,6 +9,7 @@ import java.util.function.Function;
 /**
  * @author perococco
  **/
+@Priority(Integer.MIN_VALUE)
 public class FactoryProvider {
 
     public static <R,T> Factory<T,R> withLifeCycle(
@@ -26,7 +27,8 @@ public class FactoryProvider {
         return BasicHolder.INSTANCE.get(constructor,initializer);
     }
 
-    public interface WithLifeCycle extends Prioritized {
+    @Priority(Integer.MIN_VALUE)
+    public interface WithLifeCycle {
 
         @NonNull
         <R,T> Factory<T,R> get(
@@ -37,7 +39,8 @@ public class FactoryProvider {
 
     }
 
-    public interface Basic extends Prioritized {
+    @Priority(Integer.MIN_VALUE)
+    public interface Basic {
 
         @NonNull
         <R,T> Factory<T,R> get(

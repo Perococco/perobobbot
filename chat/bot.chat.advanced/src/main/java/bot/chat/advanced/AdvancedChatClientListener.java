@@ -7,18 +7,18 @@ import java.util.function.Consumer;
 /**
  * @author perococco
  **/
-public interface AdvancedChatClientListener {
+public interface AdvancedChatClientListener<M> {
 
-    void onConnection(@NonNull AdvancedChat chat);
+    void onConnection(@NonNull AdvancedChat<M> chat);
 
     void onDisconnection();
 
 
     @NonNull
-    static <C> AdvancedChatClientListener with(@NonNull Consumer<AdvancedChat> onConnection, @NonNull Runnable onDisconnection) {
-        return new AdvancedChatClientListener() {
+    static <M> AdvancedChatClientListener<M> with(@NonNull Consumer<AdvancedChat<M>> onConnection, @NonNull Runnable onDisconnection) {
+        return new AdvancedChatClientListener<>() {
             @Override
-            public void onConnection(@NonNull AdvancedChat chat) {
+            public void onConnection(@NonNull AdvancedChat<M> chat) {
                 onConnection.accept(chat);
             }
 

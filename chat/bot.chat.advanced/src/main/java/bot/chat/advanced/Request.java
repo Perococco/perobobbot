@@ -9,5 +9,4 @@ public interface Request<A> extends Message {
 
     @NonNull
     Class<A> answerType();
-
 }

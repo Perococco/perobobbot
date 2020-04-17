@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingDeque;
@@ -18,19 +19,19 @@ import java.util.concurrent.BlockingDeque;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class Sender extends Looper {
+public class Sender<M> extends Looper {
 
     @NonNull
     private final Chat chat;
 
     @NonNull
-    private final Listeners<AdvancedChatListener> listeners;
+    private final Listeners<AdvancedChatListener<M>> listeners;
 
     @NonNull
-    private final BlockingDeque<RequestPostData<?>> requestPostDataQueue;
+    private final BlockingDeque<RequestPostData<?,M>> requestPostDataQueue;
 
     @NonNull
-    private final BlockingDeque<PostData<?>> postQueue;
+    private final BlockingDeque<PostData<?,M>> postQueue;
 
     private final Timer timer = new Timer("Request timeout");
 
@@ -40,19 +41,14 @@ public class Sender extends Looper {
     private Duration timeout = Duration.ofMinutes(1);
 
     @Override
-    protected void beforeLooping() {}
-
-    @Override
-    protected void afterLooping() {}
-
-    @Override
     protected @NonNull IterationCommand performOneIteration() throws Exception {
-        final PostData<?> postData = postQueue.takeFirst();
+        final PostData<?,M> postData = postQueue.takeFirst();
 
         try {
             postData.asRequestPostData().ifPresent(this::handleRequestPostData);
+            final Instant dispatchingTime = Instant.now();
             this.postMessageToChat(postData);
-            this.performActionsAfterSuccessfulPost(postData);
+            this.performActionsAfterSuccessfulPost(postData,dispatchingTime);
         } catch (Throwable t) {
             this.performActionsAfterFailedPost(postData,t);
             throw t;
@@ -61,16 +57,16 @@ public class Sender extends Looper {
         return IterationCommand.CONTINUE;
     }
 
-    private void handleRequestPostData(@NonNull RequestPostData<?> requestPostData) {
+    private void handleRequestPostData(@NonNull RequestPostData<?,M> requestPostData) {
         this.addRequestPostDataToQueue(requestPostData);
         this.addTimeoutTimerForRequest(requestPostData);
     }
 
-    private void addRequestPostDataToQueue(@NonNull RequestPostData<?> requestPostData) {
+    private void addRequestPostDataToQueue(@NonNull RequestPostData<?,M> requestPostData) {
         requestPostDataQueue.offerLast(requestPostData);
     }
 
-    protected void addTimeoutTimerForRequest(@NonNull RequestPostData<?> requestPostData) {
+    protected void addTimeoutTimerForRequest(@NonNull RequestPostData<?,M> requestPostData) {
         final Duration timeout = this.timeout;
         timer.schedule(new TimerTask() {
             @Override
@@ -80,16 +76,16 @@ public class Sender extends Looper {
         },timeout.toMillis());
     }
 
-    private void postMessageToChat(@NonNull PostData<?> postData) {
+    private void postMessageToChat(@NonNull PostData<?,M> postData) {
         chat.postMessage(postData.messagePayload());
     }
 
-    private void performActionsAfterSuccessfulPost(@NonNull PostData<?> postData) {
+    private void performActionsAfterSuccessfulPost(@NonNull PostData<?,M> postData, @NonNull Instant dispatchingTime) {
         listeners.warnListeners(AdvancedChatListener::onPostMessage, postData.message());
-        postData.onMessagePosted();
+        postData.onMessagePosted(dispatchingTime);
     }
 
-    private void performActionsAfterFailedPost(@NonNull PostData<?> postData, @NonNull Throwable t) {
+    private void performActionsAfterFailedPost(@NonNull PostData<?,M> postData, @NonNull Throwable t) {
         listeners.warnListeners(AdvancedChatListener::onError,t);
         postData.onMessagePostFailure(t);
     }

@@ -18,10 +18,12 @@ public interface ChatClient {
     @NonNull
     Subscription addChatClientListener(@NonNull ChatClientListener listener);
 
-    boolean hasReconnectingProperty();
+    default ChatClient withoutReconnection() {
+        return this;
+    }
 
     @NonNull
-    default ChatClient withReconnection(@NonNull ReconnectionPolicy policy) {
+    default ChatClient withReconnection(@NonNull ReconnectionPolicy policy, @NonNull ReconnectionListener listener) {
         return ReconnectingChatClientFactory.getInstance().createReconnectingChatClient(this,policy);
     }
 }

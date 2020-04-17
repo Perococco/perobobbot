@@ -1,0 +1,39 @@
+package bot.twitch.chat.message.to;
+
+import bot.twitch.chat.Channel;
+import bot.twitch.chat.TwitchChatState;
+import bot.twitch.chat.message.IRCCommand;
+import lombok.Getter;
+import lombok.NonNull;
+
+import java.util.Optional;
+
+/**
+ * @author perococco
+ **/
+@Getter
+public class Part extends SimpleRequestToTwitch<bot.twitch.chat.message.from.Part> {
+
+    @NonNull
+    @Getter
+    private final Channel channel;
+
+    public Part(@NonNull Channel channel) {
+        super(IRCCommand.PART, bot.twitch.chat.message.from.Part.class);
+        this.channel = channel;
+    }
+
+    @Override
+    public @NonNull String payload() {
+        return "PART #"+channel.name();
+    }
+
+    @Override
+    protected Optional<bot.twitch.chat.message.from.Part> doIsMyAnswer(@NonNull bot.twitch.chat.message.from.Part twitchAnswer,
+            @NonNull TwitchChatState state) {
+        if (twitchAnswer.channel().equals(channel) && twitchAnswer.user().equals(state.userNickName())) {
+            return Optional.of(twitchAnswer);
+        }
+        return Optional.empty();
+    }
+}

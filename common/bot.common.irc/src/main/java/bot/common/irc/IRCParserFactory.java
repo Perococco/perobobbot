@@ -1,6 +1,5 @@
 package bot.common.irc;
 
-import bot.common.lang.Prioritized;
 import bot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
 
@@ -9,7 +8,7 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public abstract class IRCParserFactory implements Prioritized {
+public abstract class IRCParserFactory {
 
     @NonNull
     public abstract IRCParser create();

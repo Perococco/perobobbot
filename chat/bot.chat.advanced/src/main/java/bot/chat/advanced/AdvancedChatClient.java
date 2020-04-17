@@ -4,22 +4,24 @@ import bot.chat.core.ChatClient;
 import bot.common.lang.Subscription;
 import lombok.NonNull;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * @author perococco
  **/
-public interface AdvancedChatClient {
+public interface AdvancedChatClient<M> {
 
     @NonNull
-    static AdvancedChatClient basedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher matcher, @NonNull MessageConverter messageConverter) {
+    static <M> AdvancedChatClient<M> basedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter) {
         return AdvancedChatClientFactory.getInstance().createBasedOn(chatClient, matcher, messageConverter);
     }
 
     @NonNull
-    AdvancedChat connect();
+    AdvancedChat<M> connect();
 
     void disconnect();
 
     @NonNull
-    Subscription addChatClientListener(@NonNull AdvancedChatClientListener listener);
+    Subscription addChatClientListener(@NonNull AdvancedChatClientListener<M> listener);
 
 }

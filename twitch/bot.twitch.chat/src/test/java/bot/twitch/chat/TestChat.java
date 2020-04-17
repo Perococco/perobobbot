@@ -5,9 +5,11 @@ import bot.chat.core.ChatListener;
 import bot.chat.websocket.WebSocketChatClient;
 import lombok.NonNull;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 /**
  * @author perococco
@@ -24,13 +26,15 @@ public class TestChat {
         chat.addChatListener(new ChatListener() {
             @Override
             public void onReceivedMessage(@NonNull String receivedMessage) {
-                System.out.println(receivedMessage);
-//                try {
-//                    Files.writeString(Path.of("/home/perococco/chat.txt"), receivedMessage+"\n", StandardOpenOption.APPEND,
-//                                      StandardOpenOption.CREATE);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Files.writeString(Path.of("/home/perococco/chat_3.txt"), receivedMessage+"\n", StandardOpenOption.APPEND,
+                                      StandardOpenOption.CREATE);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (receivedMessage.startsWith("PING")) {
+                    chat.postMessage("PONG :tmi.twitch.tv");
+                }
             }
 
             @Override
@@ -43,10 +47,12 @@ public class TestChat {
                 throwable.printStackTrace();
             }
         });
-        chat.postMessage("PASS oauth:q" + Files.readString(Path.of("/home/perococco/oauth.txt")).substring(1));
-        Thread.sleep(1000);
+        chat.postMessage("CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership");
+        chat.postMessage("PASS oauth:" + Files.readString(Path.of("/home/perococco/oauth.txt")));
         chat.postMessage("NICK perococco");
-//        chat.postMessage("CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership");
-//        chat.postMessage("JOIN #joueur_du_grenier");
+
+        chat.postMessage("JOIN #perococco");
+        chat.postMessage("PRIVMSG #perococco :Hello");
+        chat.postMessage("PART #perococco");
     }
 }

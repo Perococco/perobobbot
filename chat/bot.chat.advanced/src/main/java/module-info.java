@@ -1,5 +1,5 @@
 import bot.chat.advanced.AdvancedChatClientFactory;
-import perococco.bot.chat.advanced.PerococcoAdvancedChatClient;
+import perococco.bot.chat.advanced.PerococcoAdvancedChatClientFactory;
 
 /**
  * @author perococco
@@ -16,5 +16,5 @@ module bot.chat.advanced {
     exports bot.chat.advanced;
     uses AdvancedChatClientFactory;
 
-    provides AdvancedChatClientFactory with PerococcoAdvancedChatClient;
+    provides AdvancedChatClientFactory with PerococcoAdvancedChatClientFactory;
 }

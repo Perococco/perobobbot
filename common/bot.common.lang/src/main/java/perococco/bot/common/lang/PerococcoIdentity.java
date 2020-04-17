@@ -70,10 +70,26 @@ public class PerococcoIdentity<S> implements Identity<S> {
         return addAction(IdentityAction.apply(function));
     }
 
+    @Override
+    public void runAndWait(@NonNull Consumer<? super S> action) throws InterruptedException, ExecutionException {
+        addActionAndWait(IdentityAction.run(action));
+    }
+
+    @Override
+    public <R> @NonNull R applyAndWait(@NonNull Function<? super S,? extends R> function) throws InterruptedException, ExecutionException {
+        return addActionAndWait(IdentityAction.apply(function));
+    }
+
     @NonNull
     private <R> CompletionStage<R> addAction(@NonNull IdentityAction<S,R> identityAction) {
         actionConsumer.get().accept(identityAction);
         return identityAction.completionStage();
+    }
+
+    @NonNull
+    private <R> R addActionAndWait(@NonNull IdentityAction<S,R> identityAction) throws ExecutionException, InterruptedException {
+        actionConsumer.get().accept(identityAction);
+        return identityAction.get();
     }
 
     private class Runner implements Runnable {

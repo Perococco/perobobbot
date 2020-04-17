@@ -1,10 +1,10 @@
 package bot.common.irc;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.*;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author perococco
@@ -14,10 +14,9 @@ import java.util.Optional;
 public class IRCParsing {
 
     @NonNull
-    private final String message;
+    private final String rawMessage;
 
     @NonNull
-    @Singular
     private final ImmutableMap<String,Tag> tags;
 
     @Getter(AccessLevel.NONE)
@@ -27,10 +26,25 @@ public class IRCParsing {
     private final String command;
 
     @NonNull
-    @Singular
-    private final ImmutableList<String> params;
+    private final Params params;
 
+    @NonNull
     public Optional<Prefix> prefix() {
         return Optional.ofNullable(prefix);
+    }
+
+    @NonNull
+    public String lastParameter() {
+        return params.lastParameter();
+    }
+
+    @NonNull
+    public Stream<String> splitLastParameter(@NonNull String sep) {
+        return Stream.of(lastParameter().split(sep));
+    }
+
+    @NonNull
+    public Optional<String> tagValue(@NonNull String tagName) {
+        return Optional.ofNullable(tags.get(tagName)).map(Tag::value);
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -44,6 +45,10 @@ public class IdentityAction<S,R> {
     @NonNull
     public CompletionStage<R> completionStage() {
         return completableFuture;
+    }
+
+    public R get() throws ExecutionException, InterruptedException {
+        return completableFuture.get();
     }
 
     public S execute(S oldValue) {

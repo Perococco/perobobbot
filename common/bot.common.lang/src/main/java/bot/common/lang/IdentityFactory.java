@@ -7,7 +7,7 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public abstract class IdentityFactory implements Prioritized {
+public abstract class IdentityFactory {
 
     @NonNull
     public abstract <S> Identity<S> create(@NonNull S initialValue);

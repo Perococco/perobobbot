@@ -1,6 +1,7 @@
 package bot.twitch.chat;
 
-import bot.twitch.chat.message.TwitchMessage;
+import bot.twitch.chat.message.from.MessageFromTwitch;
+import bot.twitch.chat.message.to.MessageToTwitch;
 import lombok.NonNull;
 
 /**
@@ -8,8 +9,8 @@ import lombok.NonNull;
  **/
 public interface TwitchChatListener {
 
-    void onReceivedMessage(@NonNull TwitchMessage receivedMessage);
+    void onMessageFromTwitch(@NonNull MessageFromTwitch messageFromTwitch);
 
-    void onPostedMessage(@NonNull TwitchMessage postedMessage);
+    void onMessageToTwitch(@NonNull MessageToTwitch messageToTwitch);
 
 }

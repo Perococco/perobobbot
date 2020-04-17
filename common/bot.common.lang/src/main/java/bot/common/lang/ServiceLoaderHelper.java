@@ -11,10 +11,16 @@ import java.util.ServiceLoader;
 public class ServiceLoaderHelper {
 
     @NonNull
-    public static <S extends Prioritized> S getService(@NonNull ServiceLoader<S> serviceLoader) {
+    public static <S> S getService(@NonNull ServiceLoader<S> serviceLoader) {
         return serviceLoader.stream()
+                            .peek(s -> System.out.println(s))
+                            .max(Comparator.comparingInt(ServiceLoaderHelper::getPriority))
                             .map(ServiceLoader.Provider::get)
-                            .max(Comparator.comparingInt(Prioritized::priority))
                             .orElseThrow(() -> new RuntimeException("Could not find any implementation with "+serviceLoader));
+    }
+
+    private static int getPriority(@NonNull ServiceLoader.Provider<?> provider) {
+        final Priority priority = provider.type().getAnnotation(Priority.class);
+        return priority == null ? Integer.MIN_VALUE:priority.value();
     }
 }

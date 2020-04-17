@@ -1,7 +1,6 @@
 package bot.chat.advanced;
 
 import bot.chat.core.ChatClient;
-import bot.common.lang.Prioritized;
 import bot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
 
@@ -10,10 +9,10 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public abstract class AdvancedChatClientFactory implements Prioritized {
+public abstract class AdvancedChatClientFactory {
 
     @NonNull
-    public abstract AdvancedChatClient createBasedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher matcher, @NonNull MessageConverter messageConverter);
+    public abstract <M> AdvancedChatClient<M> createBasedOn(@NonNull ChatClient chatClient, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter);
 
     @NonNull
     public static AdvancedChatClientFactory getInstance() {

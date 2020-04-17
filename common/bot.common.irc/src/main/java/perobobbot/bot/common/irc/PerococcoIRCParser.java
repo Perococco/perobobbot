@@ -1,16 +1,14 @@
 package perobobbot.bot.common.irc;
 
-import bot.common.irc.IRCParser;
-import bot.common.irc.IRCParsing;
-import bot.common.irc.Tag;
+import bot.common.irc.*;
+import bot.common.lang.MapTool;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -22,68 +20,77 @@ public class PerococcoIRCParser implements IRCParser {
 
     public static final String TAGS_PREFIX = "@";
     public static final String PREFIX_PREFIX = ":";
+    public static final String LAST_PARAMETER_PREFIX = ":";
 
     private final TagParser tagParser = new TagParser();
     private final PrefixParser prefixParser = new PrefixParser();
 
     @Override
     public @NonNull IRCParsing parse(@NonNull String message) {
-        return new Execution(new ParsedString(message)).parse();
+        return new Execution(message).parse();
     }
 
     @RequiredArgsConstructor
     private final class Execution {
 
         @NonNull
-        private final ParsedString message;
+        private final String rawMessage;
 
-        private final IRCParsing.Builder builder = IRCParsing.builder();
+        private Prefix prefix;
+
+        private ImmutableMap<String,Tag> tags = ImmutableMap.of();
+
+        private String command;
+
+        private Params params;
 
         public IRCParsing parse() {
-            if (message.startsWith(TAGS_PREFIX)) {
-                parseTags();
-            }
-            if (message.startsWith(PREFIX_PREFIX)) {
-                parsePrefix();
-            }
+            final ParsedString parsedString = new ParsedString(rawMessage);
 
-            parseCommand();
-            parseParams();
+            parsedString.extractToNextSpaceIfStartWith(TAGS_PREFIX).ifPresent(this::parseTags);
+            parsedString.extractToNextSpaceIfStartWith(PREFIX_PREFIX).ifPresent(this::parsePrefix);
 
-            return builder.build();
+            parseCommand(parsedString);
+            parseParams(parsedString);
+
+            return IRCParsing.builder()
+                             .rawMessage(rawMessage)
+                             .prefix(prefix)
+                             .tags(tags)
+                             .params(params)
+                             .command(command)
+                             .build();
         }
 
 
-        private void parseTags() {
-            final String tagsAsString = message.moveByStringLength(TAGS_PREFIX)
-                                               .extractToNextSpace();
-            final Map<String,Tag> tags = Stream.of(tagsAsString.split(";"))
-                                               .map(tagParser::parse)
-                                               .flatMap(Optional::stream)
-                                               .filter(t -> !t.value().isEmpty())
-                                               .collect(Collectors.toMap(Tag::keyName, t -> t));
-
-            tags.forEach(builder::tag);
+        private void parseTags(@NonNull String tagsAsString) {
+            tags = Stream.of(tagsAsString.split(";"))
+                         .map(tagParser::parse)
+                         .flatMap(Optional::stream)
+                         .filter(t -> !t.value().isEmpty())
+                         .collect(MapTool.collector(Tag::keyName));
         }
 
-        private void parsePrefix() {
-            final String prefixAsString = message.moveByStringLength(PREFIX_PREFIX)
-                                                 .extractToNextSpace();
-            prefixParser.parse(prefixAsString).ifPresent(builder::prefix);
+        private void parsePrefix(@NonNull String prefixAsString) {
+            prefix = prefixParser.parse(prefixAsString).orElse(null);
         }
 
-        private void parseCommand() {
-            builder.command(message.extractToNextSpace());
+        private void parseCommand(@NonNull ParsedString parsedString) {
+            command = parsedString.extractToNextSpaceOrEndOfString();
         }
 
-        private void parseParams() {
-            while (!message.isEmpty()) {
-                if (message.startsWith(":")) {
-                    builder.param(message.moveBy(1).extractToEndOfString());
+        private void parseParams(@NonNull ParsedString parsedString) {
+            final Params.Builder builder = Params.builder();
+
+            while (!parsedString.isEmpty()) {
+                if (parsedString.startsWith(LAST_PARAMETER_PREFIX)) {
+                    builder.parameter(parsedString.moveByStringLength(LAST_PARAMETER_PREFIX).extractToEndOfString());
                 } else {
-                    builder.param(message.extractToNextSpace());
+                    builder.parameter(parsedString.extractToNextSpaceOrEndOfString());
                 }
             }
+
+            params = builder.build();
         }
 
     }

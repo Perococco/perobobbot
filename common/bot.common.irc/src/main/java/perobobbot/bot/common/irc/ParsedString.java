@@ -3,6 +3,8 @@ package perobobbot.bot.common.irc;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 /**
  * @author perococco
  **/
@@ -42,6 +44,26 @@ public class ParsedString {
 
     public boolean startsWith(@NonNull String prefix) {
         return reference.startsWith(prefix, idx);
+    }
+
+    @NonNull
+    public Optional<String> extractToNextSpaceIfStartWith(@NonNull String prefix) {
+        if (startsWith(prefix)) {
+            return Optional.of(moveByStringLength(prefix).extractToNextSpace());
+        }
+        return Optional.empty();
+    }
+
+    public String extractToNextSpaceOrEndOfString() {
+        final int spaceIndex = reference.indexOf(' ',idx);
+        final String result;
+        if (spaceIndex < 0) {
+            result = reference.substring(idx);
+        } else {
+            result = reference.substring(idx, spaceIndex);
+        }
+        this.idx += result.length()+1;
+        return result;
     }
 
     public String extractToNextSpace() {

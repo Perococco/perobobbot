@@ -1,6 +1,5 @@
 package bot.chat.core;
 
-import bot.common.lang.Prioritized;
 import bot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
 
@@ -9,10 +8,13 @@ import java.util.ServiceLoader;
 /**
  * @author perococco
  **/
-public abstract class ReconnectingChatClientFactory implements Prioritized {
+public abstract class ReconnectingChatClientFactory {
 
     @NonNull
-    public abstract ChatClient createReconnectingChatClient(@NonNull ChatClient chatClient, @NonNull ReconnectionPolicy policy);
+    public abstract ChatClient createReconnectingChatClient(
+            @NonNull ChatClient chatClient,
+            @NonNull ReconnectionPolicy policy
+    );
 
 
     @NonNull
