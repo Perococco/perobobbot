@@ -2,13 +2,14 @@ package bot.twitch.chat;
 
 import bot.chat.advanced.DispatchSlip;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.experimental.Delegate;
 
 /**
  * @author perococco
  **/
-@Value
+@RequiredArgsConstructor
 public class TwitchDispatchSlip implements TwitchChat, DispatchSlip {
 
     @NonNull
