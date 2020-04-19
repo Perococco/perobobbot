@@ -1,9 +1,12 @@
 package perococco.bot.twitch.chat;
 
 import bot.chat.advanced.*;
-import bot.chat.core.ChatClient;
+import bot.chat.advanced.event.AdvancedChatEvent;
+import bot.chat.core.ChatManager;
+import bot.chat.core.ChatManagerFactory;
 import bot.common.lang.ThrowableTool;
 import bot.twitch.chat.*;
+import bot.twitch.chat.message.from.GlobalUserState;
 import bot.twitch.chat.message.from.Join;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.from.Part;
@@ -12,6 +15,7 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 
+import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -19,22 +23,19 @@ import java.util.concurrent.CompletionStage;
  * @author perococco
  **/
 @Log4j2
-public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedChatListener<MessageFromTwitch>, AdvancedChatClientListener<MessageFromTwitch> {
+public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedChatListener<MessageFromTwitch> {
 
     @NonNull
     private final ConnectionIdentity connectionIdentity = new ConnectionIdentity(this);
 
     @NonNull
-    private final AdvancedChatClient<MessageFromTwitch> chatClient;
+    private final AdvancedChatManager<MessageFromTwitch> chatManager;
 
-    public PerococcoTwitchChat(@NonNull ChatClient chatClient) {
-        this.chatClient = AdvancedChatClient.basedOn(
-                chatClient,
-                new TwitchMatcher(connectionIdentity),
-                new TwitchMessageConverter()
-        );
+    public PerococcoTwitchChat(@NonNull URI chatAddress) {
+        final ChatManager chatManager = ChatManagerFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
+        final ChatManager throttled = new ThrottledChatManager(chatManager);
+        this.chatManager = AdvancedChatManagerFactory.getInstance().createBasedOn(throttled,new TwitchMatcher(connectionIdentity), new TwitchMessageConverter());
     }
-
 
     @Override
     public @NonNull CompletionStage<TwitchReceiptSlip<Join>> join(@NonNull Channel channel) {
@@ -56,18 +57,18 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
 
     @Override
     @Synchronized
-    public CompletionStage<TwitchReceiptSlip<OAuthResult>> connect(@NonNull TwitchChatOAuth oAuth) {
+    public @NonNull CompletionStage<TwitchReceiptSlip<GlobalUserState>> start(@NonNull TwitchChatOAuth oAuth) {
         try {
-            this.connectionIdentity.setToConnecting(oAuth);
-            final AdvancedChat<MessageFromTwitch> chat = chatClient.connect();
+            this.connectionIdentity.setToConnecting(oAuth,chatManager);
+            chatManager.start();
 
-            return performAuthentication(chat, oAuth)
+            return performAuthentication(chatManager, oAuth)
                     .whenComplete(
                             (result, error) -> {
-                                if (isAuthenticationSuccessful(result, error)) {
-                                    connectionIdentity.setToConnected(chat);
+                                if (error == null) {
+                                    connectionIdentity.setToConnected(chatManager);
                                 } else {
-                                    connectionIdentity.setToDisconnected();
+                                    requestStop();
                                 }
                             }
                     )
@@ -79,54 +80,32 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
         }
     }
 
+    @Override
+    @Synchronized
+    public void requestStop() {
+        connectionIdentity.setToDisconnected();
+        chatManager.requestStop();
+    }
+
+    @Override
+    @Synchronized
+    public boolean isRunning() {
+        return chatManager.isRunning();
+    }
+
     @NonNull
-    private CompletionStage<ReceiptSlip<OAuthResult>> performAuthentication(@NonNull AdvancedChat<MessageFromTwitch> advancedChat, @NonNull TwitchChatOAuth oAuth) {
+    private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChat<MessageFromTwitch> advancedChat, @NonNull TwitchChatOAuth oAuth) {
         final Cap cap = new Cap(Capability.AllCapabilities());
         final Pass pass = new Pass(oAuth.secret());
         final Nick nick = new Nick(oAuth.nick());
         advancedChat.sendRequest(cap);
         return advancedChat.sendCommand(pass)
                            .thenCompose(r -> advancedChat.sendRequest(nick));
-
-    }
-
-    private static boolean isAuthenticationSuccessful(ReceiptSlip<OAuthResult> result, Throwable error) {
-        assert result != null || error != null;
-        return error == null && result.answer().isSuccess();
     }
 
     @Override
-    @Synchronized
-    public void disconnect() {
-        connectionIdentity.setToDisconnected();
-        chatClient.disconnect();
-    }
-
-
-    @Override
-    public void onConnection(@NonNull AdvancedChat<MessageFromTwitch> chat) {
-    }
-
-    @Override
-    public void onDisconnection() {
-
-    }
-
-    @Override
-    public void onReceivedMessage(@NonNull MessageFromTwitch receivedMessage) {
-        listeners().warnListeners(TwitchChatListener::onMessageFromTwitch, receivedMessage);
-    }
-
-    @Override
-    public void onPostMessage(@NonNull Message postMessage) {
-        if (postMessage instanceof MessageToTwitch) {
-            listeners().warnListeners(TwitchChatListener::onMessageToTwitch, (MessageToTwitch) postMessage);
-        }
-    }
-
-    @Override
-    public void onError(@NonNull Throwable throwable) {
-        LOG.warn("Twitch chat error ", throwable);
+    public void onChatEvent(@NonNull AdvancedChatEvent<MessageFromTwitch> chatEvent) {
+        System.out.println(chatEvent);
     }
 
     @Override

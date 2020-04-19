@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class PongFromTwitch extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class PongFromTwitch implements KnownMessageFromTwitch {
 
     @NonNull
     @Getter

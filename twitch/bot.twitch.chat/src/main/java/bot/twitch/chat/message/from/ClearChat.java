@@ -17,7 +17,7 @@ import java.util.Optional;
  **/
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClearChat extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class ClearChat implements KnownMessageFromTwitch {
 
     @NonNull
     public static ClearChat permanentBan(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel) {

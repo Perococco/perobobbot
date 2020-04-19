@@ -17,4 +17,9 @@ public abstract class CommandToTwitch extends MessageToTwitch implements Command
     @Getter
     private final IRCCommand command;
 
+    @Override
+    public String commandInPayload() {
+        return command.name();
+    }
+
 }

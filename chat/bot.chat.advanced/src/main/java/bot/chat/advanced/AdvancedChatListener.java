@@ -1,14 +1,9 @@
 package bot.chat.advanced;
 
+import bot.chat.advanced.event.AdvancedChatEvent;
 import lombok.NonNull;
 
 public interface AdvancedChatListener<M> {
 
-    void onReceivedMessage(@NonNull M receivedMessage);
-
-    void onPostMessage(@NonNull Message postMessage);
-
-    void onError(@NonNull Throwable throwable);
-
-
+    void onChatEvent(@NonNull AdvancedChatEvent<M> chatEvent);
 }

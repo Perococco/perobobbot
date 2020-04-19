@@ -1,5 +1,6 @@
 package bot.chat.core;
 
+import bot.chat.core.event.ChatEvent;
 import lombok.NonNull;
 
 /**
@@ -7,10 +8,6 @@ import lombok.NonNull;
  **/
 public interface ChatListener {
 
-    void onReceivedMessage(@NonNull String receivedMessage);
-
-    void onPostMessage(@NonNull String postMessage);
-
-    void onError(@NonNull Throwable throwable);
+    void onChatEvent(@NonNull ChatEvent event);
 
 }

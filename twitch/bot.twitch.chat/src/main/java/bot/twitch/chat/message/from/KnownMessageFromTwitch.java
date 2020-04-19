@@ -11,4 +11,5 @@ public interface KnownMessageFromTwitch extends MessageFromTwitch {
     @NonNull
     IRCCommand command();
 
+
 }

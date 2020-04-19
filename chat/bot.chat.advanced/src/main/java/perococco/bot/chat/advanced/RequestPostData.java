@@ -3,6 +3,7 @@ package perococco.bot.chat.advanced;
 import bot.chat.advanced.ReceiptSlip;
 import bot.chat.advanced.Request;
 import bot.chat.advanced.RequestAnswerMatcher;
+import bot.common.lang.fp.TryResult;
 import lombok.NonNull;
 
 import java.time.Duration;
@@ -40,9 +41,15 @@ public class RequestPostData<A,M> extends AbstractPostData<ReceiptSlip<A>, Reque
     }
 
     public boolean tryToCompleteWith(@NonNull M incomingMessage, @NonNull Instant receptionTime) {
-        final Optional<A> a = matcher.performMatch(message(),incomingMessage);
-        a.map(v -> new BasicReceiptSlip<>(dispatchingTime,receptionTime,message(),v)).ifPresent(this::completeWith);
-        return a.isPresent();
+        final Optional<TryResult<Throwable,A>> match = matcher.performMatch(message(), incomingMessage);
+        match.map(t -> t.map(a -> buildReceiptSlip(a,receptionTime)))
+             .ifPresent(t -> t.accept(this::completeExceptionallyWith, this::completeWith));
+        return match.isPresent();
+    }
+
+    @NonNull
+    private BasicReceiptSlip<A> buildReceiptSlip(@NonNull A answer, @NonNull Instant receptionTime) {
+        return new BasicReceiptSlip<>(dispatchingTime,receptionTime,message(),answer);
     }
 
 }

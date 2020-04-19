@@ -23,7 +23,7 @@ class ConnectionValue implements TwitchChatState {
         return DISCONNECTED;
     }
 
-    private static final ConnectionValue DISCONNECTED = new ConnectionValue(ConnectionIdentity.State.DISCONNECTED, null, null, null,Subscription.NONE);
+    private static final ConnectionValue DISCONNECTED = new ConnectionValue(ConnectionIdentity.State.DISCONNECTED, null, null, null,false,Subscription.NONE);
 
 
     @NonNull
@@ -34,6 +34,8 @@ class ConnectionValue implements TwitchChatState {
     private final AdvancedChat<MessageFromTwitch> chat;
 
     private final ImmutableSet<Channel> joinedChannels;
+
+    private final boolean userIsModerator;
 
     @NonNull
     private final Subscription subscription;

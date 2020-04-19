@@ -2,10 +2,11 @@ package perococco.bot.twitch.chat;
 
 import bot.chat.advanced.Request;
 import bot.chat.advanced.RequestAnswerMatcher;
-import bot.common.lang.ReadOnlyIdentity;
 import bot.common.lang.ThrowableTool;
-import bot.twitch.chat.TwitchChatState;
+import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.TwitchMarkers;
+import bot.twitch.chat.UnknownIRCCommand;
+import bot.twitch.chat.message.from.InvalidIRCCommand;
 import bot.twitch.chat.message.from.KnownMessageFromTwitch;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.to.RequestToTwitch;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author perococco
@@ -27,14 +27,27 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
     private final ConnectionIdentity connectionIdentity;
 
     @Override
-    public @NonNull <A> Optional<A> performMatch(@NonNull Request<A> request, @NonNull MessageFromTwitch answer) {
+    public @NonNull <A> Optional<TryResult<Throwable,A>> performMatch(@NonNull Request<A> request, @NonNull MessageFromTwitch answer) {
         if (request instanceof RequestToTwitch) {
+            final RequestToTwitch<A> requestToTwitch = (RequestToTwitch<A>) request;
             try {
-                return performMatch((RequestToTwitch<A>) request, answer);
+                if (answer instanceof InvalidIRCCommand) {
+                    return handleInvalidAnswerType(requestToTwitch, (InvalidIRCCommand) answer);
+                }
+                return performMatch(requestToTwitch, answer);
             } catch (Exception e) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(e);
                 LOG.warn(TwitchMarkers.TWITCH_CHAT, "Error while performing message matching",e);
             }
+        }
+        return Optional.empty();
+    }
+
+    @NonNull
+    private <A> Optional<TryResult<Throwable, A>> handleInvalidAnswerType(RequestToTwitch<A> request, InvalidIRCCommand answer) {
+        final String unknownCommand = answer.requestedCommand();
+        if (unknownCommand.equalsIgnoreCase(request.commandInPayload())) {
+            return Optional.of(TryResult.failure(new UnknownIRCCommand(request.commandInPayload())));
         }
         return Optional.empty();
     }
@@ -48,7 +61,7 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
                 case NOTICE:
                 case USERNOTICE:
                 case CAP:
-                case RPL_WELCOME:
+                case GLOBALUSERSTATE:
                     return true;
                 default:
                     return false;
@@ -58,8 +71,8 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
     }
 
     @NonNull
-    private <A> Optional<A> performMatch(@NonNull RequestToTwitch<A> request, @NonNull MessageFromTwitch answer) {
-        return connectionIdentity.applyWithTwitchState(s -> request.isAnswer(answer, s));
+    private <A> Optional<TryResult<Throwable,A>> performMatch(@NonNull RequestToTwitch<A> request, @NonNull MessageFromTwitch answer) {
+        return connectionIdentity.applyWithTwitchState(s -> request.isMyAnswer(answer, s));
     }
 
 

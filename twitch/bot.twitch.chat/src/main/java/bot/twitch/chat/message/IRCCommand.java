@@ -41,9 +41,9 @@ public enum IRCCommand {
     RPL_MOTDSTART("375"),
     RPL_ENDOFMOTD("376"),
     USERNOTICE,
-    USERSTATE,
-    GLOBALUSERSTATE,
-    ERR_UNKNOWNCOMMAND("421"),
+    USERSTATE(UserState::build),
+    GLOBALUSERSTATE(GlobalUserState::build),
+    ERR_UNKNOWNCOMMAND("421",InvalidIRCCommand::build),
     ;
 
     @NonNull

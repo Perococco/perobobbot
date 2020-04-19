@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @RequiredArgsConstructor
 @Getter
-public class UnknownMessageFromTwitch extends MessageFromTwitchBase implements MessageFromTwitch {
+public class UnknownMessageFromTwitch implements MessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;

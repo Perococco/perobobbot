@@ -2,12 +2,10 @@ package bot.common.lang;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 
 /**
@@ -59,12 +57,23 @@ public abstract class Looper {
     }
 
     public void start() {
+        final CompletableFuture<Nil> starting = new CompletableFuture<>();
         lock.runLocked(() -> {
             if (current != null) {
                 requestStop();
             }
-            this.current = executorService.submit(new Loop());
+            this.current = executorService.submit(new Loop(starting));
         });
+        try {
+            starting.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            if (e.getCause() instanceof RuntimeException) {
+                throw (RuntimeException)e.getCause();
+            }
+            throw new RuntimeException("Expected only runtime exception",e.getCause());
+        }
     }
 
     public void requestStop() {
@@ -91,11 +100,22 @@ public abstract class Looper {
 
     protected void afterLooping() {};
 
+    @RequiredArgsConstructor
     private class Loop implements Runnable {
+
+        @NonNull
+        private final CompletableFuture<Nil> starting;
 
         @Override
         public void run() {
-            beforeLooping();
+            try {
+                beforeLooping();
+                starting.complete(Nil.NIL);
+            } catch (RuntimeException e) {
+                starting.completeExceptionally(e);
+                return;
+            }
+
             try {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
@@ -103,7 +123,6 @@ public abstract class Looper {
                         if (command == IterationCommand.STOP) {
                             break;
                         }
-
                     } catch (Exception e) {
                         ThrowableTool.interruptThreadIfCausedByInterruption(e);
                         LOG.warn("Iteration failed : ", e);

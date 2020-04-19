@@ -3,7 +3,6 @@ package bot.chat.advanced;
 import bot.common.lang.Subscription;
 import lombok.NonNull;
 
-import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -20,8 +19,6 @@ public interface AdvancedChat<M> {
     @NonNull
     Subscription addChatListener(@NonNull AdvancedChatListener<M> listener);
 
-    @NonNull
-    Duration timeout();
+    boolean isRunning();
 
-    void timeout(@NonNull Duration duration);
 }

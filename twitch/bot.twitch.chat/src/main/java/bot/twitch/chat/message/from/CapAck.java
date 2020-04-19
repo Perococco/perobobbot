@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @RequiredArgsConstructor
 @Getter
-public class CapAck extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class CapAck implements KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;

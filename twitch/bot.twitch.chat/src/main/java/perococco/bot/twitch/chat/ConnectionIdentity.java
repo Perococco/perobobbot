@@ -2,8 +2,7 @@ package perococco.bot.twitch.chat;
 
 import bot.chat.advanced.AdvancedChat;
 import bot.chat.advanced.AdvancedChatListener;
-import bot.common.lang.Identity;
-import bot.common.lang.SetTool;
+import bot.chat.advanced.AdvancedChatManager;
 import bot.common.lang.ThrowableTool;
 import bot.twitch.chat.*;
 import bot.twitch.chat.message.from.MessageFromTwitch;
@@ -36,14 +35,14 @@ public class ConnectionIdentity {
     @NonNull
     private final AdvancedChatListener<MessageFromTwitch> listener;
 
-    @Synchronized
     public <T> T applyWithTwitchState(@NonNull Function<? super TwitchChatState, ? extends T> action) {
         return mutateAndGet(UnaryOperator.identity(), action);
     }
 
     @Synchronized
     private <T> T mutateAndGet(@NonNull UnaryOperator<ConnectionValue> mutator, @NonNull Function<? super ConnectionValue, ? extends T> getter) {
-        this.value = mutator.apply(value);
+        final ConnectionValue oldValue = value;
+        this.value = mutator.apply(oldValue);
         return getter.apply(value);
     }
 
@@ -51,12 +50,12 @@ public class ConnectionIdentity {
         mutateAndGet(mutator, Function.identity());
     }
 
-    public void setToConnecting(@NonNull TwitchChatOAuth oAuth) {
+    public void setToConnecting(@NonNull TwitchChatOAuth oAuth, @NonNull AdvancedChatManager<MessageFromTwitch> manager) {
         this.mutate(v -> {
             if (v.state() != State.DISCONNECTED) {
                 throw new TwitchChatAlreadyConnected();
             }
-            return v.toBuilder().state(State.CONNECTING).oAuth(oAuth).build();
+            return v.toBuilder().state(State.CONNECTING).oAuth(oAuth).subscription(manager.addChatListener(listener)).build();
         });
     }
 
@@ -76,7 +75,6 @@ public class ConnectionIdentity {
             return v.toBuilder()
                     .state(State.CONNECTED)
                     .chat(advancedChat)
-                    .subscription(advancedChat.addChatListener(listener))
                     .joinedChannels(ImmutableSet.of())
                     .build();
         });
@@ -104,11 +102,6 @@ public class ConnectionIdentity {
     @NonNull
     public <T, P> CompletionStage<T> witChat(@NonNull BiFunction<? super AdvancedChat<MessageFromTwitch>, ? super P, ? extends CompletionStage<T>> action, @NonNull P parameter) {
         return witChat(c -> action.apply(c, parameter));
-    }
-
-    @NonNull
-    public <T> T withValue(@NonNull Function<? super ConnectionValue, ? extends T> action) {
-        return mutateAndGet(v -> v, action);
     }
 
 }

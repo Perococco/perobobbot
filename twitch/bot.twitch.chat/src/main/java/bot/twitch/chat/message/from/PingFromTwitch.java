@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class PingFromTwitch extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class PingFromTwitch implements KnownMessageFromTwitch {
 
     @NonNull
     @Getter

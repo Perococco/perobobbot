@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class ClearMsg extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class ClearMsg implements KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;

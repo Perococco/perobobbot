@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 @Builder
-public class RoomState extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public class RoomState implements KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;

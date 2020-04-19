@@ -1,11 +1,13 @@
 package bot.twitch.chat.message.to;
 
 import bot.common.lang.CastTool;
+import bot.common.lang.fp.TryResult;
+import bot.twitch.chat.TwitchChatAuthenticationFailure;
 import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.TwitchChatState;
+import bot.twitch.chat.message.from.GlobalUserState;
 import bot.twitch.chat.message.from.Notice;
 import bot.twitch.chat.message.from.MessageFromTwitch;
-import bot.twitch.chat.message.from.Welcome;
 import lombok.NonNull;
 
 import java.util.Optional;
@@ -14,13 +16,13 @@ import java.util.stream.Stream;
 /**
  * @author perococco
  **/
-public class Nick extends RequestToTwitch<OAuthResult> {
+public class Nick extends RequestToTwitch<GlobalUserState> {
 
     @NonNull
     private final String nickname;
 
     public Nick(@NonNull String nickname) {
-        super(IRCCommand.NICK, OAuthResult.class);
+        super(IRCCommand.NICK, GlobalUserState.class);
         this.nickname = nickname;
     }
 
@@ -30,24 +32,24 @@ public class Nick extends RequestToTwitch<OAuthResult> {
     }
 
     @Override
-    public @NonNull Optional<OAuthResult> isAnswer(
+    public @NonNull Optional<TryResult<Throwable,GlobalUserState>> isMyAnswer(
             @NonNull MessageFromTwitch messageFromTwitch,
             @NonNull TwitchChatState state) {
-        return CastTool.castAndCheck(messageFromTwitch, Welcome.class, this::checkWelcome)
+        return CastTool.castAndCheck(messageFromTwitch, GlobalUserState.class, this::checkGlobalUserState)
                        .or(() -> CastTool.castAndCheck(messageFromTwitch, Notice.class, this::checkNotice));
     }
 
     @NonNull
-    private Optional<OAuthResult> checkWelcome(@NonNull Welcome welcome) {
-        return Optional.of(OAuthResult.success());
+    private Optional<TryResult<Throwable,GlobalUserState>> checkGlobalUserState(@NonNull GlobalUserState globalUserState) {
+        return Optional.of(TryResult.success(globalUserState));
     }
 
     @NonNull
-    private Optional<OAuthResult> checkNotice(@NonNull Notice notice) {
+    private Optional<TryResult<Throwable,GlobalUserState>> checkNotice(@NonNull Notice notice) {
         if (Stream.of("Login authentication failed",
                       "Improperly formatted auth")
                   .anyMatch(m -> notice.message().equals(m))) {
-            return Optional.of(OAuthResult.failure(notice.message()));
+            return Optional.of(TryResult.failure(new TwitchChatAuthenticationFailure(notice.message())));
         }
         return Optional.empty();
     }

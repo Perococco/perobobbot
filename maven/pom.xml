@@ -29,17 +29,12 @@
         <log4j.version>2.11.2</log4j.version>
         <byte-buddy.version>1.10.6</byte-buddy.version>
         <lombok.version>1.18.10</lombok.version>
+        <bucket4j.version>4.10.0</bucket4j.version>
 
         <junit-jupiter.version>5.6.1</junit-jupiter.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -56,10 +51,28 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
@@ -91,7 +104,7 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-twitch</artifactId>
+                <artifactId>bot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -118,6 +131,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>28.2-jre</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.vladimir-bukhtoyarov</groupId>
+                <artifactId>bucket4j-core</artifactId>
+                <version>${bucket4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

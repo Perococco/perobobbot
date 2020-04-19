@@ -1,5 +1,7 @@
 package bot.twitch.chat.message.to;
 
+import bot.common.lang.fp.Either;
+import bot.twitch.chat.message.from.GlobalUserState;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,23 +14,22 @@ import lombok.Value;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class OAuthResult {
 
-    private static final OAuthResult SUCCESS = new OAuthResult("");
+    @NonNull
+    private final Either<String, GlobalUserState> either;
 
     @NonNull
-    public static OAuthResult success() {
-        return SUCCESS;
+    public static OAuthResult success(@NonNull GlobalUserState state) {
+        return new OAuthResult(Either.right(state));
     }
 
     @NonNull
     public static OAuthResult failure(@NonNull String failureMessage) {
-        return new OAuthResult(failureMessage);
+        return new OAuthResult(Either.left(failureMessage));
     }
 
-    @NonNull
-    private String failureMessage;
 
     public boolean isSuccess() {
-        return failureMessage.isEmpty();
+        return either.isRight();
     }
 
     public boolean isFailure() {

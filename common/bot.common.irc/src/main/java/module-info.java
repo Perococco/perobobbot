@@ -14,6 +14,7 @@ module bot.common.irc {
     requires bot.common.lang;
 
     exports bot.common.irc;
+    exports perobobbot.bot.common.irc;
 
     uses IRCParserFactory;
     provides IRCParserFactory with PerococcoIRCParserFactory;

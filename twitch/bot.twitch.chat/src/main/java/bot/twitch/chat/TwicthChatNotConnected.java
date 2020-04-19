@@ -1,5 +1,5 @@
 package bot.twitch.chat;
 
-public class TwicthChatNotConnected extends RuntimeException {
+public class TwicthChatNotConnected extends TwitchChatException {
 
 }

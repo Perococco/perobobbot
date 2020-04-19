@@ -19,6 +19,9 @@ public interface ReconnectionPolicy {
 
 
     @NonNull
+    ReconnectionPolicy NO_RECONNECTION = with(i -> false, i -> Duration.ZERO);
+
+    @NonNull
     static ReconnectionPolicy with(@NonNull IntPredicate shouldReconnectPredicate, @NonNull IntFunction<Duration> durationProvider) {
         return new ReconnectionPolicy() {
             @Override

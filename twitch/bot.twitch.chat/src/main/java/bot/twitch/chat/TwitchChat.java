@@ -1,13 +1,11 @@
 package bot.twitch.chat;
 
-import bot.chat.core.ChatClient;
-import bot.common.lang.Nil;
 import bot.common.lang.Subscription;
 import bot.twitch.chat.message.from.Join;
 import bot.twitch.chat.message.from.Part;
 import lombok.NonNull;
-import perococco.bot.twitch.chat.PerococcoTwitchChat;
 
+import java.net.URI;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -15,10 +13,7 @@ import java.util.concurrent.CompletionStage;
  **/
 public interface TwitchChat {
 
-    @NonNull
-    static TwitchChat create(@NonNull ChatClient chatClient) {
-        return new PerococcoTwitchChat(chatClient);
-    }
+    URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
 
     /**
      * Join a channel
@@ -47,6 +42,7 @@ public interface TwitchChat {
 
     Subscription addTwitchChatListener(@NonNull TwitchChatListener listener);
 
+    boolean isRunning();
 
     @NonNull
     default CompletionStage<TwitchReceiptSlip<Join>> join(@NonNull String channelName) {

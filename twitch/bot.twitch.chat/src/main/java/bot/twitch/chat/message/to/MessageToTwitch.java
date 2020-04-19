@@ -12,7 +12,7 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public abstract class MessageToTwitch implements Message {
 
-    @NonNull
-    public abstract IRCCommand command();
+    public abstract String commandInPayload();
+
 
 }

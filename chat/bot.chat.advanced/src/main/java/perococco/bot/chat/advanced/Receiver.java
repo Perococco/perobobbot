@@ -1,15 +1,11 @@
 package perococco.bot.chat.advanced;
 
-import bot.chat.advanced.AdvancedChatListener;
-import bot.chat.advanced.MessageConverter;
-import bot.chat.core.Chat;
-import bot.chat.core.ChatListener;
-import bot.common.lang.Listeners;
+import bot.chat.advanced.event.ReceivedMessages;
 import bot.common.lang.Looper;
-import bot.common.lang.Subscription;
+import bot.common.lang.fp.Consumer1;
+import bot.common.lang.fp.Consumer2;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.Instant;
@@ -27,57 +23,43 @@ import java.util.function.Predicate;
 public class Receiver<M> extends Looper {
 
     @NonNull
-    private final Chat chat;
-
-    @NonNull
-    private final Listeners<AdvancedChatListener<M>> listeners;
+    private final Predicate<? super M> shouldPerformMatching;
 
     @NonNull
     private final BlockingDeque<RequestPostData<?,M>> requestPostData;
 
     @NonNull
-    private final MessageConverter<M> messageFactory;
-
-    private final Predicate<? super M> shouldPerformMatching;
-
-    @NonNull
-    private final BlockingDeque<Reception<M>> incomingMessages = new LinkedBlockingDeque<>();
+    private final BlockingDeque<ReceivedMessages<M>> incomingMessages = new LinkedBlockingDeque<>();
 
     @NonNull
     private final List<RequestPostData<?,M>> pending = new LinkedList<>();
 
-    private Subscription subscription = Subscription.NONE;
-
-
-    @Override
-    protected void beforeLooping() {
-        subscription = Subscription.NONE;
-        subscription = chat.addChatListener(new Listener());
-    }
-
     @Override
     protected @NonNull IterationCommand performOneIteration() throws Exception {
-        final Reception<M> reception = incomingMessages.takeFirst();
-        listeners.warnListeners(AdvancedChatListener::onReceivedMessage,reception.message);
-
-        if (shouldPerformMatching.test(reception.message)) {
-            final boolean messageHandled = this.performRendezvousWithRequests(reception);
-            if (!messageHandled) {
-                LOG.debug("Message without request : {}", reception);
-            }
-        }
-
+        final ReceivedMessages<M> reception = incomingMessages.takeFirst();
+        final Consumer1<M> performRendezVous = Consumer2.of(this::performRendezvousWithRequests)
+                                                        .f2(reception.receptionTime());
+        reception.messages()
+                 .stream()
+                 .filter(shouldPerformMatching)
+                 .forEach(performRendezVous);
         return IterationCommand.CONTINUE;
     }
 
-    private boolean performRendezvousWithRequests(@NonNull Reception<M> incomingMessage) {
+    private void performRendezvousWithRequests(@NonNull M message, @NonNull Instant receptionTime) {
         this.preparePendingRequests();
         for (RequestPostData<?,M> postData : pending) {
-            if (postData.tryToCompleteWith(incomingMessage.message(), incomingMessage.time())) {
-                return true;
+            if (postData.tryToCompleteWith(message, receptionTime)) {
+                return;
             }
         }
-        return false;
+        LOG.debug("Message without request : {}", message);
+    }
+
+    @Override
+    protected void afterLooping() {
+        super.afterLooping();
+        System.out.println("### QUITTING RECEIVER");
     }
 
     private void preparePendingRequests() {
@@ -85,36 +67,8 @@ public class Receiver<M> extends Looper {
         pending.removeIf(RequestPostData::isCompleted);
     }
 
-    @Override
-    protected void afterLooping() {
-        subscription.unsubscribe();
-        subscription = Subscription.NONE;
+    public void onMessageReception(@NonNull ReceivedMessages<M> message) {
+        incomingMessages.add(message);
     }
 
-    private class Listener implements ChatListener {
-
-        @Override
-        public void onReceivedMessage(@NonNull String receivedMessage) {
-            final Instant receptionTime = Instant.now();
-            messageFactory.convert(receivedMessage)
-                    .map(m -> new Reception<>(receptionTime,m))
-                    .ifPresent(incomingMessages::offerLast);
-        }
-
-        @Override
-        public void onPostMessage(@NonNull String postMessage) {}
-
-        @Override
-        public void onError(@NonNull Throwable throwable) {}
-    }
-
-    @Value
-    private static class Reception<M> {
-
-        @NonNull
-        private final Instant time;
-
-        @NonNull
-        private final M message;
-    }
 }

@@ -1,8 +1,6 @@
 package bot.twitch.chat;
 
-import lombok.Builder;
 import lombok.NonNull;
-import lombok.Value;
 
 /**
  * @author perococco
@@ -17,4 +15,5 @@ public interface TwitchChatState {
     @NonNull
     String userNickName();
 
+    boolean userIsModerator();
 }

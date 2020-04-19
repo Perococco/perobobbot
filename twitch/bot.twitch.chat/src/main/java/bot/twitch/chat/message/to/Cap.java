@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.Capability;
 import bot.twitch.chat.TwitchChatState;
 import bot.twitch.chat.message.IRCCommand;

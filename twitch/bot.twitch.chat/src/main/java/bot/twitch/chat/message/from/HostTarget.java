@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @RequiredArgsConstructor
 @Getter
-public abstract class HostTarget extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+public abstract class HostTarget implements KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;

@@ -8,7 +8,9 @@ module bot.twitch.chat {
     requires bot.chat.core;
     requires bot.chat.websocket;
     requires bot.chat.advanced;
-    requires bot.common.irc;
+    requires transitive bot.common.irc;
+
+    requires io.github.bucket4j.core;
 
     requires org.apache.logging.log4j;
 
@@ -19,4 +21,5 @@ module bot.twitch.chat {
     exports bot.twitch.chat.message.to;
     exports bot.twitch.chat.message.from;
 
+    exports perococco.bot.twitch.chat to bot.twitch.chat.test;
 }

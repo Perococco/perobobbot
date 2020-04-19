@@ -13,6 +13,7 @@ module bot.common.lang {
     requires com.google.common;
 
     exports bot.common.lang;
+    exports bot.common.lang.fp;
 
     uses IdentityFactory;
     uses FactoryProvider.WithLifeCycle;

@@ -21,4 +21,7 @@ public interface Chat {
      */
     @NonNull
     Subscription addChatListener(@NonNull ChatListener listener);
+
+    boolean isRunning();
+
 }

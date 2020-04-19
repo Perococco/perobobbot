@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>perococco.bot</groupId>
+        <artifactId>bot-twitch</artifactId>
+        <relativePath>../pom.xml</relativePath>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <version>1.0.0-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bot-twitch-chat-test</artifactId>
+
+    <name>${application.name} - ${module.name} : ${submodule.name}</name>
+
+    <properties>
+        <submodule.name>Chat [TEST]</submodule.name>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-twitch-chat</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>javax-websocket-client-impl</artifactId>
+            <version>9.4.27.v20200227</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

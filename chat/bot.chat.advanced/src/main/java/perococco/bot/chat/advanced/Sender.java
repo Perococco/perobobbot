@@ -1,7 +1,12 @@
 package perococco.bot.chat.advanced;
 
+import bot.chat.advanced.AdvancedChat;
 import bot.chat.advanced.AdvancedChatListener;
+import bot.chat.advanced.event.Error;
+import bot.chat.advanced.event.PostedMessage;
 import bot.chat.core.Chat;
+import bot.chat.core.ChatListener;
+import bot.chat.core.ChatNotConnected;
 import bot.common.lang.Listeners;
 import bot.common.lang.Looper;
 import lombok.Getter;
@@ -14,6 +19,9 @@ import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * @author perococco
@@ -31,14 +39,23 @@ public class Sender<M> extends Looper {
     private final BlockingDeque<RequestPostData<?,M>> requestPostDataQueue;
 
     @NonNull
-    private final BlockingDeque<PostData<?,M>> postQueue;
+    private final BlockingDeque<PostData<?,M>> postQueue = new LinkedBlockingDeque<>();
 
-    private final Timer timer = new Timer("Request timeout");
+    private final Timer timer = new Timer("Request timeout", true);
 
     @NonNull
     @Getter
     @Setter
     private Duration timeout = Duration.ofMinutes(1);
+
+    public <A> CompletionStage<A> send(@NonNull PostData<A,M> postData) {
+        if (isRunning()) {
+            postQueue.add(postData);
+            return postData.completionStage();
+        } else {
+            return CompletableFuture.failedFuture(new ChatNotConnected());
+        }
+    }
 
     @Override
     protected @NonNull IterationCommand performOneIteration() throws Exception {
@@ -81,13 +98,20 @@ public class Sender<M> extends Looper {
     }
 
     private void performActionsAfterSuccessfulPost(@NonNull PostData<?,M> postData, @NonNull Instant dispatchingTime) {
-        listeners.warnListeners(AdvancedChatListener::onPostMessage, postData.message());
+        final PostedMessage<M> postedMessage = new PostedMessage<>(dispatchingTime, postData.message());
+        listeners.warnListeners(AdvancedChatListener::onChatEvent, postedMessage);
         postData.onMessagePosted(dispatchingTime);
     }
 
     private void performActionsAfterFailedPost(@NonNull PostData<?,M> postData, @NonNull Throwable t) {
-        listeners.warnListeners(AdvancedChatListener::onError,t);
+        final Error<M> error = new Error<>(t);
+        listeners.warnListeners(AdvancedChatListener::onChatEvent,error);
         postData.onMessagePostFailure(t);
     }
 
+    @Override
+    protected void afterLooping() {
+        super.afterLooping();
+        System.out.println("### LEAVING SENDER");
+    }
 }

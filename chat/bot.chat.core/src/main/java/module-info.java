@@ -1,5 +1,4 @@
-import bot.chat.core.ReconnectingChatClientFactory;
-import perococco.bot.chat.core.PerococcoReconnectingChatClientFactory;
+import bot.chat.core.ChatManagerFactory;
 
 /**
  * @author perococco
@@ -14,6 +13,6 @@ module bot.chat.core {
     requires org.apache.logging.log4j;
 
     exports bot.chat.core;
-    uses ReconnectingChatClientFactory;
-    provides ReconnectingChatClientFactory with PerococcoReconnectingChatClientFactory;
+    exports bot.chat.core.event;
+    uses ChatManagerFactory;
 }

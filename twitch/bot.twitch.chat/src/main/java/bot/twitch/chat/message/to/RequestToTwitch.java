@@ -1,6 +1,7 @@
 package bot.twitch.chat.message.to;
 
 import bot.chat.advanced.Request;
+import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.TwitchChatState;
 import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.message.from.MessageFromTwitch;
@@ -25,6 +26,10 @@ public abstract class RequestToTwitch<A> extends MessageToTwitch implements Requ
     private final Class<A> answerType;
 
     @NonNull
-    public abstract Optional<A> isAnswer(@NonNull MessageFromTwitch messageFromTwitch, @NonNull TwitchChatState state);
+    public abstract Optional<TryResult<Throwable,A>> isMyAnswer(@NonNull MessageFromTwitch messageFromTwitch, @NonNull TwitchChatState state);
 
+    @Override
+    public String commandInPayload() {
+        return command.name();
+    }
 }

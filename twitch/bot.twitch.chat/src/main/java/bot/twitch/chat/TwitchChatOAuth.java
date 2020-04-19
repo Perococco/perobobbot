@@ -10,6 +10,10 @@ import lombok.Value;
 @Value
 public class TwitchChatOAuth {
 
+    public static TwitchChatOAuth create(@NonNull String nick, @NonNull String secret) {
+        return new TwitchChatOAuth(nick, new Secret(secret));
+    }
+
     @NonNull
     private final String nick;
 

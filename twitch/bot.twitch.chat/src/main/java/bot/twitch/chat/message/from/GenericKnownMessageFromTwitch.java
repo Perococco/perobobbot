@@ -5,19 +5,22 @@ import bot.twitch.chat.message.IRCCommand;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author perococco
  **/
 @Getter
 @RequiredArgsConstructor
-public class GenericKnownMessageFromTwitch extends MessageFromTwitchBase implements KnownMessageFromTwitch {
+@ToString
+public class GenericKnownMessageFromTwitch implements KnownMessageFromTwitch {
 
     @NonNull
     private final IRCCommand command;
 
     @NonNull
     private final IRCParsing ircParsing;
+
 
 
 }
