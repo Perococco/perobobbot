@@ -56,12 +56,6 @@ public class Receiver<M> extends Looper {
         LOG.debug("Message without request : {}", message);
     }
 
-    @Override
-    protected void afterLooping() {
-        super.afterLooping();
-        System.out.println("### QUITTING RECEIVER");
-    }
-
     private void preparePendingRequests() {
         requestPostData.drainTo(pending);
         pending.removeIf(RequestPostData::isCompleted);

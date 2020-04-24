@@ -76,10 +76,6 @@ public class WebSocketChatManager extends ChatBase implements ChatManager {
         }
     }
 
-    private void runWithSession(@NonNull Consumer<Session> action) {
-    }
-
-
     @RequiredArgsConstructor
     private class ChatLooper extends Looper {
 
@@ -102,10 +98,8 @@ public class WebSocketChatManager extends ChatBase implements ChatManager {
         @Override
         protected void afterLooping() {
             super.afterLooping();
-            System.out.println("### LEAVING CHAT LOOP");
             Optional.ofNullable(sessionReference.get()).ifPresent(s -> {
                 try {
-                    System.out.println("### Closing websocket");
                     s.close();
                 } catch (IOException e) {
                     ThrowableTool.interruptThreadIfCausedByInterruption(e);

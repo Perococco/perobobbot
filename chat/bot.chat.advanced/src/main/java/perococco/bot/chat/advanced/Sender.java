@@ -109,9 +109,4 @@ public class Sender<M> extends Looper {
         postData.onMessagePostFailure(t);
     }
 
-    @Override
-    protected void afterLooping() {
-        super.afterLooping();
-        System.out.println("### LEAVING SENDER");
-    }
 }
