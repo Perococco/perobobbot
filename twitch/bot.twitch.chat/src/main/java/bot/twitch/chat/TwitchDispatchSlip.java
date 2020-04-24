@@ -4,18 +4,17 @@ import bot.chat.advanced.DispatchSlip;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.experimental.Delegate;
 
 /**
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class TwitchDispatchSlip implements TwitchChat {
+public class TwitchDispatchSlip implements TwitchChatIO {
 
     @NonNull
     @Delegate
-    private final TwitchChat twitchChat;
+    private final TwitchChatIO twitchChatIO;
 
     @NonNull
     @Getter

@@ -1,12 +1,11 @@
 package bot.twitch.chat.test;
 
-import bot.twitch.chat.TwitchChatManager;
+import bot.twitch.chat.TwitchChat;
 import bot.twitch.chat.TwitchChatOAuth;
 import bot.twitch.chat.TwitchReceiptSlip;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import com.google.common.collect.ImmutableList;
 
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,7 +16,7 @@ public class TestChat {
 
     public static void main(String[] args) throws Exception {
 
-        final TwitchChatManager chat = TwitchChatManager.create();
+        final TwitchChat chat = TwitchChat.create();
 
         chat.addTwitchChatListener(
                 event -> event.acceptIfIsReceiveMessage(m -> displayMessages(m.messages()))

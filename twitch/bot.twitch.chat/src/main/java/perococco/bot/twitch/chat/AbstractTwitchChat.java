@@ -10,8 +10,6 @@ import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.from.Part;
 import bot.twitch.chat.message.from.UserState;
 import bot.twitch.chat.message.to.*;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.concurrent.CompletionStage;
@@ -19,7 +17,7 @@ import java.util.concurrent.CompletionStage;
 /**
  * @author perococco
  **/
-public abstract class AbstractTwitchChat implements TwitchChatManager {
+public abstract class AbstractTwitchChat implements TwitchChat {
 
     private final Listeners<TwitchChatListener> listeners = new Listeners<>();
 

@@ -1,33 +1,62 @@
 package bot.twitch.chat;
 
-import bot.common.lang.Subscription;
-import bot.twitch.chat.message.from.Join;
+import bot.twitch.chat.message.from.GlobalUserState;
 import bot.twitch.chat.message.from.Part;
 import bot.twitch.chat.message.from.UserState;
 import lombok.NonNull;
+import perococco.bot.twitch.chat.PerococcoTwitchChat;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
 
-/**
- * @author perococco
- **/
-public interface TwitchChat {
+public interface TwitchChat extends TwitchChatIO {
 
-    URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
+    @NonNull
+    static TwitchChat create() {
+        return create(TWITCH_CHAT_URI);
+    }
+
+    @NonNull
+    static TwitchChat create(@NonNull URI uri) {
+        return new PerococcoTwitchChat(uri);
+    }
+
 
     /**
-     * Send a message on the provided channel
-     * @param channel the channel to send the message to
-     * @param message the message to send
-     * @return a completion stage that completes when the message has been sent
+     * Join a channel
+     * @param channel the channel to join
+     * @return a completion stage that completes when the join request is answered
      */
     @NonNull
-    CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message);
+    CompletionStage<TwitchReceiptSlip<UserState>> join(@NonNull Channel channel);
 
-    Subscription addTwitchChatListener(@NonNull TwitchChatListener listener);
+    /**
+     * leave a channel
+     * @param channel the channel to leave
+     * @return a completion stage that completes when the part request is answered
+     */
+    @NonNull
+    CompletionStage<TwitchReceiptSlip<Part>> part(@NonNull Channel channel);
 
-    boolean isRunning();
+
+    @NonNull
+    default CompletionStage<TwitchReceiptSlip<UserState>> join(@NonNull String channelName) {
+        return join(Channel.create(channelName));
+    }
+
+    @NonNull
+    default CompletionStage<TwitchReceiptSlip<Part>> part(@NonNull String channelName) {
+        return part(Channel.create(channelName));
+    }
+
+    @NonNull
+    default CompletionStage<TwitchDispatchSlip> message(@NonNull String channelName, @NonNull String message) {
+        return message(Channel.create(channelName),message);
+    }
 
 
+    @NonNull
+    CompletionStage<TwitchReceiptSlip<GlobalUserState>> start(@NonNull TwitchChatOAuth oAuth);
+
+    void requestStop();
 }
