@@ -1,6 +1,7 @@
 package bot.chat.advanced;
 
 import lombok.NonNull;
+import lombok.Value;
 
 import java.time.Instant;
 

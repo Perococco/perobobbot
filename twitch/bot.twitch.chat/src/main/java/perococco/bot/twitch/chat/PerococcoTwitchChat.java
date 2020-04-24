@@ -6,9 +6,8 @@ import bot.chat.core.ChatManager;
 import bot.chat.core.ChatManagerFactory;
 import bot.common.lang.ThrowableTool;
 import bot.twitch.chat.*;
-import bot.twitch.chat.message.from.GlobalUserState;
+import bot.twitch.chat.message.from.*;
 import bot.twitch.chat.message.from.Join;
-import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.from.Part;
 import bot.twitch.chat.message.to.*;
 import lombok.NonNull;
@@ -38,10 +37,10 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
     }
 
     @Override
-    public @NonNull CompletionStage<TwitchReceiptSlip<Join>> join(@NonNull Channel channel) {
+    public @NonNull CompletionStage<TwitchReceiptSlip<UserState>> join(@NonNull Channel channel) {
         return super.join(channel).whenComplete((r, t) -> {
             if (r != null) {
-                connectionIdentity.addJoinedChannel(r.answer().channel());
+                connectionIdentity.addJoinedChannel(r.slipAnswer().channel());
             }
         });
     }
@@ -50,7 +49,7 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
     public @NonNull CompletionStage<TwitchReceiptSlip<Part>> part(@NonNull Channel channel) {
         return super.part(channel).whenComplete((r, t) -> {
             if (r != null) {
-                connectionIdentity.removeJoinedChannel(r.answer().channel());
+                connectionIdentity.removeJoinedChannel(r.slipAnswer().channel());
             }
         });
     }
@@ -105,7 +104,7 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
 
     @Override
     public void onChatEvent(@NonNull AdvancedChatEvent<MessageFromTwitch> chatEvent) {
-        System.out.println(chatEvent);
+        dispatchToTwitchListeners(chatEvent);
     }
 
     @Override

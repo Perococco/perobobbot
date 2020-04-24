@@ -3,10 +3,7 @@ package bot.twitch.chat.message.from;
 import bot.common.irc.IRCParsing;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.message.IRCCommand;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 /**
  * @author perococco
@@ -14,14 +11,15 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @Builder
+@ToString
 public class UserState implements KnownMessageFromTwitch {
 
 
     @NonNull
-    private final IRCParsing ircParsing;
+    private final Channel channel;
 
     @NonNull
-    private final Channel channel;
+    private final IRCParsing ircParsing;
 
     @Override
     public @NonNull IRCCommand command() {

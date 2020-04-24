@@ -2,14 +2,12 @@ package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
 import bot.twitch.chat.message.IRCCommand;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Builder
 @RequiredArgsConstructor
 @Getter
+@ToString
 public class GlobalUserState implements KnownMessageFromTwitch {
 
     @NonNull

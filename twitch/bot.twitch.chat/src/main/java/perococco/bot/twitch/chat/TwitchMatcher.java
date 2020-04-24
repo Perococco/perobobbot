@@ -56,15 +56,10 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
     public boolean shouldPerformMatching(@NonNull MessageFromTwitch message) {
         if (message instanceof KnownMessageFromTwitch) {
             switch (((KnownMessageFromTwitch) message).command()) {
-                case JOIN:
-                case PART:
-                case NOTICE:
-                case USERNOTICE:
-                case CAP:
-                case GLOBALUSERSTATE:
-                    return true;
-                default:
+                case PRIVMSG:
                     return false;
+                default:
+                    return true;
             }
         }
         return false;

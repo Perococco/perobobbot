@@ -6,12 +6,14 @@ import bot.twitch.chat.message.IRCCommand;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author perococco
  **/
 @RequiredArgsConstructor
 @Getter
+@ToString(exclude = "ircParsing")
 public class UserNotice implements KnownMessageFromTwitch {
 
     @NonNull

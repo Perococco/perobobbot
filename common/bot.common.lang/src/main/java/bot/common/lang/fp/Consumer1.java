@@ -1,5 +1,6 @@
 package bot.common.lang.fp;
 
+import bot.common.lang.Nil;
 import lombok.NonNull;
 
 import java.util.function.Consumer;
@@ -13,6 +14,11 @@ public interface Consumer1<A> extends Consumer<A> {
 
 
     void f(@NonNull A a);
+
+    @NonNull
+    default Function1<A, Nil> toFunction() {
+        return a -> { accept(a);return Nil.NIL;};
+    }
 
     @NonNull
     default Function1<A,Consumer0> curry() {

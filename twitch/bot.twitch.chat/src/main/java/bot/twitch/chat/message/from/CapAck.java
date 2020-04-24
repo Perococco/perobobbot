@@ -7,12 +7,14 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author perococco
  **/
 @RequiredArgsConstructor
 @Getter
+@ToString(exclude = "ircParsing")
 public class CapAck implements KnownMessageFromTwitch {
 
     @NonNull

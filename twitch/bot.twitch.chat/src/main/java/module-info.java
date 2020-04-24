@@ -17,6 +17,7 @@ module bot.twitch.chat {
     requires com.google.common;
 
     exports bot.twitch.chat;
+    exports bot.twitch.chat.event;
     exports bot.twitch.chat.message;
     exports bot.twitch.chat.message.to;
     exports bot.twitch.chat.message.from;

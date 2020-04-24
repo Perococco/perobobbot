@@ -4,10 +4,7 @@ import bot.common.irc.IRCParsing;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.message.TagKey;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 /**
  * @author perococco
@@ -15,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 @Getter
+@ToString(exclude = "ircParsing")
 public class ClearMsg implements KnownMessageFromTwitch {
 
     @NonNull
