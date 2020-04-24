@@ -1,6 +1,6 @@
 package perococco.bot.twitch.chat;
 
-import bot.chat.advanced.AdvancedChat;
+import bot.chat.advanced.AdvancedChatIO;
 import bot.common.lang.SetTool;
 import bot.common.lang.Subscription;
 import bot.twitch.chat.Channel;
@@ -31,7 +31,7 @@ class ConnectionValue implements TwitchChatState {
 
     private final TwitchChatOAuth oAuth;
 
-    private final AdvancedChat<MessageFromTwitch> chat;
+    private final AdvancedChatIO<MessageFromTwitch> chat;
 
     private final ImmutableSet<Channel> joinedChannels;
 
@@ -42,7 +42,7 @@ class ConnectionValue implements TwitchChatState {
 
 
     @NonNull
-    public Optional<AdvancedChat<MessageFromTwitch>> chat() {
+    public Optional<AdvancedChatIO<MessageFromTwitch>> chat() {
         return Optional.ofNullable(chat);
     }
 

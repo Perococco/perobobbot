@@ -12,10 +12,10 @@ import lombok.NonNull;
 public class PerococcoAdvancedChatManagerFactory extends AdvancedChatManagerFactory {
 
     @Override
-    public @NonNull <M> AdvancedChatManager<M> createBasedOn(@NonNull Chat chat,
-                                                             @NonNull RequestAnswerMatcher<M> matcher,
-                                                             @NonNull MessageConverter<M> messageConverter) {
-        return new PerococcoAdvancedChatManager<>(chat, matcher, messageConverter);
+    public @NonNull <M> AdvancedChat<M> createBasedOn(@NonNull Chat chat,
+                                                      @NonNull RequestAnswerMatcher<M> matcher,
+                                                      @NonNull MessageConverter<M> messageConverter) {
+        return new PerococcoAdvancedChat<>(chat, matcher, messageConverter);
     }
 
 }

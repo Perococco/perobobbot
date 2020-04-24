@@ -15,13 +15,13 @@ import java.util.ServiceLoader;
 public abstract class AdvancedChatManagerFactory {
 
     @NonNull
-    public <M> AdvancedChatManager<M> createBasedOn(@NonNull URI chatAddress, @NonNull ReconnectionPolicy reconnectionPolicy, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter) {
+    public <M> AdvancedChat<M> createBasedOn(@NonNull URI chatAddress, @NonNull ReconnectionPolicy reconnectionPolicy, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter) {
         final Chat chat = ChatManagerFactory.getInstance().create(chatAddress, reconnectionPolicy);
         return createBasedOn(chat, matcher, messageConverter);
     }
 
     @NonNull
-    public abstract <M> AdvancedChatManager<M> createBasedOn(@NonNull Chat chat, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter);
+    public abstract <M> AdvancedChat<M> createBasedOn(@NonNull Chat chat, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter);
 
     @NonNull
     public static AdvancedChatManagerFactory getInstance() {

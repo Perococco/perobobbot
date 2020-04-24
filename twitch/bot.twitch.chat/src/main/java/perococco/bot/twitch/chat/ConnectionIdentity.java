@@ -1,8 +1,8 @@
 package perococco.bot.twitch.chat;
 
-import bot.chat.advanced.AdvancedChat;
+import bot.chat.advanced.AdvancedChatIO;
 import bot.chat.advanced.AdvancedChatListener;
-import bot.chat.advanced.AdvancedChatManager;
+import bot.chat.advanced.AdvancedChat;
 import bot.common.lang.ThrowableTool;
 import bot.twitch.chat.*;
 import bot.twitch.chat.message.from.MessageFromTwitch;
@@ -50,7 +50,7 @@ public class ConnectionIdentity {
         mutateAndGet(mutator, Function.identity());
     }
 
-    public void setToConnecting(@NonNull TwitchChatOAuth oAuth, @NonNull AdvancedChatManager<MessageFromTwitch> manager) {
+    public void setToConnecting(@NonNull TwitchChatOAuth oAuth, @NonNull AdvancedChat<MessageFromTwitch> manager) {
         this.mutate(v -> {
             if (v.state() != State.DISCONNECTED) {
                 throw new TwitchChatAlreadyConnected();
@@ -67,14 +67,14 @@ public class ConnectionIdentity {
     }
 
     @NonNull
-    public void setToConnected(@NonNull AdvancedChat<MessageFromTwitch> advancedChat) {
+    public void setToConnected(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO) {
         this.mutate(v -> {
             if (v.state() != State.CONNECTING) {
                 throw new IllegalStateException("Can not switch to CONNECTED from CONNECTING state");
             }
             return v.toBuilder()
                     .state(State.CONNECTED)
-                    .chat(advancedChat)
+                    .chat(advancedChatIO)
                     .joinedChannels(ImmutableSet.of())
                     .build();
         });
@@ -90,7 +90,7 @@ public class ConnectionIdentity {
 
     @NonNull
     @Synchronized
-    public <T> CompletionStage<T> witChat(@NonNull Function<? super AdvancedChat<MessageFromTwitch>, ? extends CompletionStage<T>> action) {
+    public <T> CompletionStage<T> witChat(@NonNull Function<? super AdvancedChatIO<MessageFromTwitch>, ? extends CompletionStage<T>> action) {
         try {
             return action.apply(value.chat().orElseThrow(TwicthChatNotConnected::new));
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class ConnectionIdentity {
     }
 
     @NonNull
-    public <T, P> CompletionStage<T> witChat(@NonNull BiFunction<? super AdvancedChat<MessageFromTwitch>, ? super P, ? extends CompletionStage<T>> action, @NonNull P parameter) {
+    public <T, P> CompletionStage<T> witChat(@NonNull BiFunction<? super AdvancedChatIO<MessageFromTwitch>, ? super P, ? extends CompletionStage<T>> action, @NonNull P parameter) {
         return witChat(c -> action.apply(c, parameter));
     }
 

@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
+public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
     @NonNull
     private final Chat chat;
@@ -43,7 +43,7 @@ public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
 
     private final Receiver<M> receiver;
 
-    public PerococcoAdvancedChatManager(
+    public PerococcoAdvancedChat(
             @NonNull Chat chat,
             @NonNull RequestAnswerMatcher<M> matcher,
             @NonNull MessageConverter<M> messageConverter) {

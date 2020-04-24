@@ -27,7 +27,7 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
     private final ConnectionIdentity connectionIdentity = new ConnectionIdentity(this);
 
     @NonNull
-    private final AdvancedChatManager<MessageFromTwitch> chatManager;
+    private final AdvancedChat<MessageFromTwitch> chatManager;
 
     public PerococcoTwitchChat(@NonNull URI chatAddress) {
         final Chat chat = ChatManagerFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
@@ -92,13 +92,13 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
     }
 
     @NonNull
-    private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChat<MessageFromTwitch> advancedChat, @NonNull TwitchChatOAuth oAuth) {
+    private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO, @NonNull TwitchChatOAuth oAuth) {
         final Cap cap = new Cap(Capability.AllCapabilities());
         final Pass pass = new Pass(oAuth.secret());
         final Nick nick = new Nick(oAuth.nick());
-        advancedChat.sendRequest(cap);
-        return advancedChat.sendCommand(pass)
-                           .thenCompose(r -> advancedChat.sendRequest(nick));
+        advancedChatIO.sendRequest(cap);
+        return advancedChatIO.sendCommand(pass)
+                             .thenCompose(r -> advancedChatIO.sendRequest(nick));
     }
 
     @Override
@@ -108,13 +108,13 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
 
     @Override
     protected @NonNull CompletionStage<TwitchDispatchSlip> sendToChat(@NonNull Command command) {
-        return connectionIdentity.witChat(AdvancedChat::sendCommand, command)
+        return connectionIdentity.witChat(AdvancedChatIO::sendCommand, command)
                                  .thenApply(c -> new TwitchDispatchSlip(this, c));
     }
 
     @Override
     protected @NonNull <A> CompletionStage<TwitchReceiptSlip<A>> sendToChat(@NonNull Request<A> request) {
-        return connectionIdentity.witChat(AdvancedChat::sendRequest, request)
+        return connectionIdentity.witChat(AdvancedChatIO::sendRequest, request)
                                  .thenApply(c -> new TwitchReceiptSlip<>(this, c));
     }
 
