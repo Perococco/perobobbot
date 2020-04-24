@@ -116,6 +116,7 @@ public class WebSocketChat extends ChatIOBase implements Chat {
                 LOG.warn("Try reconnection : attempt #{} ",tryIndex);
                 final Duration duration = reconnectionPolicy.delayBeforeNextAttempt(tryIndex);
                 if (!duration.isNegative() && !duration.isZero()) {
+                    //IMPROVE busy wait in loop.
                     Thread.sleep(duration.toMillis());
                 }
                 try {
