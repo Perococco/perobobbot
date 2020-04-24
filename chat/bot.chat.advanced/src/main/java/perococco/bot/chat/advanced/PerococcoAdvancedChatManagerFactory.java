@@ -1,7 +1,7 @@
 package perococco.bot.chat.advanced;
 
 import bot.chat.advanced.*;
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.common.lang.Priority;
 import lombok.NonNull;
 
@@ -12,10 +12,10 @@ import lombok.NonNull;
 public class PerococcoAdvancedChatManagerFactory extends AdvancedChatManagerFactory {
 
     @Override
-    public @NonNull <M> AdvancedChatManager<M> createBasedOn(@NonNull ChatManager chatManager,
+    public @NonNull <M> AdvancedChatManager<M> createBasedOn(@NonNull Chat chat,
                                                              @NonNull RequestAnswerMatcher<M> matcher,
                                                              @NonNull MessageConverter<M> messageConverter) {
-        return new PerococcoAdvancedChatManager<>(chatManager, matcher, messageConverter);
+        return new PerococcoAdvancedChatManager<>(chat, matcher, messageConverter);
     }
 
 }

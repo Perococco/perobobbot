@@ -1,11 +1,9 @@
 package perococco.bot.chat.advanced;
 
-import bot.chat.advanced.AdvancedChat;
 import bot.chat.advanced.AdvancedChatListener;
 import bot.chat.advanced.event.Error;
 import bot.chat.advanced.event.PostedMessage;
-import bot.chat.core.Chat;
-import bot.chat.core.ChatListener;
+import bot.chat.core.ChatIO;
 import bot.chat.core.ChatNotConnected;
 import bot.common.lang.Listeners;
 import bot.common.lang.Looper;
@@ -30,7 +28,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class Sender<M> extends Looper {
 
     @NonNull
-    private final Chat chat;
+    private final ChatIO chat;
 
     @NonNull
     private final Listeners<AdvancedChatListener<M>> listeners;

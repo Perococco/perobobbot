@@ -1,6 +1,6 @@
 package perococco.bot.chat.core;
 
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.chat.core.ChatManagerFactory;
 import bot.chat.core.ReconnectionPolicy;
 import bot.common.lang.ServiceLoaderHelper;
@@ -26,7 +26,7 @@ public class DispatcherChatManagerFactory extends ChatManagerFactory {
     }
 
     @Override
-    public @NonNull ChatManager create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
+    public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
         return factories.stream()
                         .filter(f -> f.canHandle(address,reconnectionPolicy))
                         .findFirst()

@@ -20,13 +20,12 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Condition;
-import java.util.function.Consumer;
 
 /**
  * @author perococco
  **/
 @Log4j2
-public class WebSocketChatManager extends ChatBase implements ChatManager {
+public class WebSocketChat extends ChatIOBase implements Chat {
 
     private final Looper looper;
 
@@ -36,15 +35,15 @@ public class WebSocketChatManager extends ChatBase implements ChatManager {
 
     private final Condition disconnection = lock.newCondition();
 
-    public WebSocketChatManager(@NonNull URI uri, @NonNull ReconnectionPolicy policy) {
+    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy) {
         this(ContainerProvider.getWebSocketContainer(),uri, policy);
     }
 
-    public WebSocketChatManager(@NonNull URI uri) {
+    public WebSocketChat(@NonNull URI uri) {
         this(ContainerProvider.getWebSocketContainer(),uri, ReconnectionPolicy.NO_RECONNECTION);
     }
 
-    public WebSocketChatManager(@NonNull WebSocketContainer webSocketContainer, @NonNull URI uri, @NonNull ReconnectionPolicy policy) {
+    public WebSocketChat(@NonNull WebSocketContainer webSocketContainer, @NonNull URI uri, @NonNull ReconnectionPolicy policy) {
         this.looper = new ChatLooper(webSocketContainer,uri,policy);
     }
 
@@ -130,12 +129,7 @@ public class WebSocketChatManager extends ChatBase implements ChatManager {
         }
 
         private void waitForDisconnection() throws InterruptedException {
-            try {
-                lock.await(disconnection);
-            } catch (InterruptedException e) {
-                throw e;
-            }
-
+            lock.await(disconnection);
         }
 
         private void connect() {

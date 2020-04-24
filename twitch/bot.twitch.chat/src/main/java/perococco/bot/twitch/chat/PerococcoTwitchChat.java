@@ -2,12 +2,11 @@ package perococco.bot.twitch.chat;
 
 import bot.chat.advanced.*;
 import bot.chat.advanced.event.AdvancedChatEvent;
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.chat.core.ChatManagerFactory;
 import bot.common.lang.ThrowableTool;
 import bot.twitch.chat.*;
 import bot.twitch.chat.message.from.*;
-import bot.twitch.chat.message.from.Join;
 import bot.twitch.chat.message.from.Part;
 import bot.twitch.chat.message.to.*;
 import lombok.NonNull;
@@ -31,8 +30,8 @@ public class PerococcoTwitchChat extends AbstractTwitchChat implements AdvancedC
     private final AdvancedChatManager<MessageFromTwitch> chatManager;
 
     public PerococcoTwitchChat(@NonNull URI chatAddress) {
-        final ChatManager chatManager = ChatManagerFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
-        final ChatManager throttled = new ThrottledChatManager(chatManager);
+        final Chat chat = ChatManagerFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
+        final Chat throttled = new ThrottledChat(chat);
         this.chatManager = AdvancedChatManagerFactory.getInstance().createBasedOn(throttled,new TwitchMatcher(connectionIdentity), new TwitchMessageConverter());
     }
 

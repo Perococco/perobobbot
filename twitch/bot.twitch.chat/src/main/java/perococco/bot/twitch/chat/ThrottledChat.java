@@ -1,7 +1,7 @@
 package perococco.bot.twitch.chat;
 
 import bot.chat.core.ChatListener;
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.chat.core.MessagePostingFailure;
 import bot.common.lang.Subscription;
 import io.github.bucket4j.Bucket;
@@ -13,17 +13,17 @@ import lombok.extern.log4j.Log4j2;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2
-public class ThrottledChatManager implements ChatManager {
+public class ThrottledChat implements Chat {
 
     @NonNull
-    private final ChatManager delegate;
+    private final Chat delegate;
 
     @NonNull
     private final Bucket bucket;
 
     private final AtomicReference<TwitchBandwidth> bandwidthType = new AtomicReference<>(TwitchBandwidth.REGULAR);
 
-    public ThrottledChatManager(@NonNull ChatManager delegate) {
+    public ThrottledChat(@NonNull Chat delegate) {
         this.delegate = delegate;
         this.bucket = bandwidthType.get().addLimits(Bucket4j.builder()).build();
     }

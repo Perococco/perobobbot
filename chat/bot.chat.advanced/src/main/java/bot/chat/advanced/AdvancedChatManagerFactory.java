@@ -1,14 +1,12 @@
 package bot.chat.advanced;
 
 import bot.chat.core.Chat;
-import bot.chat.core.ChatManager;
 import bot.chat.core.ChatManagerFactory;
 import bot.chat.core.ReconnectionPolicy;
 import bot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
 
 import java.net.URI;
-import java.util.Optional;
 import java.util.ServiceLoader;
 
 /**
@@ -18,12 +16,12 @@ public abstract class AdvancedChatManagerFactory {
 
     @NonNull
     public <M> AdvancedChatManager<M> createBasedOn(@NonNull URI chatAddress, @NonNull ReconnectionPolicy reconnectionPolicy, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter) {
-        final ChatManager chatManager = ChatManagerFactory.getInstance().create(chatAddress,reconnectionPolicy);
-        return createBasedOn(chatManager,matcher,messageConverter);
+        final Chat chat = ChatManagerFactory.getInstance().create(chatAddress, reconnectionPolicy);
+        return createBasedOn(chat, matcher, messageConverter);
     }
 
     @NonNull
-    public abstract <M> AdvancedChatManager<M> createBasedOn(@NonNull ChatManager chatManager, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter);
+    public abstract <M> AdvancedChatManager<M> createBasedOn(@NonNull Chat chat, @NonNull RequestAnswerMatcher<M> matcher, @NonNull MessageConverter<M> messageConverter);
 
     @NonNull
     public static AdvancedChatManagerFactory getInstance() {

@@ -3,10 +3,9 @@ package perococco.bot.chat.advanced;
 import bot.chat.advanced.*;
 import bot.chat.advanced.event.AdvancedChatEvent;
 import bot.chat.advanced.event.ReceivedMessages;
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.chat.core.event.Error;
 import bot.chat.core.event.*;
-import bot.common.lang.ListTool;
 import bot.common.lang.Listeners;
 import bot.common.lang.Subscription;
 import com.google.common.collect.ImmutableList;
@@ -23,7 +22,7 @@ import java.util.stream.Stream;
 public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
 
     @NonNull
-    private final ChatManager chatManager;
+    private final Chat chat;
 
     @NonNull
     private final RequestAnswerMatcher<M> matcher;
@@ -45,14 +44,14 @@ public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
     private final Receiver<M> receiver;
 
     public PerococcoAdvancedChatManager(
-            @NonNull ChatManager chatManager,
+            @NonNull Chat chat,
             @NonNull RequestAnswerMatcher<M> matcher,
             @NonNull MessageConverter<M> messageConverter) {
-        this.chatManager = chatManager;
+        this.chat = chat;
         this.messageConverter = messageConverter;
         this.matcher = matcher;
         final BlockingDeque<RequestPostData<?,M>> postDataQueue = new LinkedBlockingDeque<>();
-        this.sender = new Sender<>(chatManager,listeners,postDataQueue);
+        this.sender = new Sender<>(chat, listeners, postDataQueue);
         this.receiver = new Receiver<>(matcher::shouldPerformMatching, postDataQueue);
     }
 
@@ -60,8 +59,8 @@ public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
     @Synchronized
     public void start() {
         subscription.unsubscribe();
-        subscription = chatManager.addChatListener(this::onChatEvent);
-        chatManager.start();
+        subscription = chat.addChatListener(this::onChatEvent);
+        chat.start();
         sender.start();
         receiver.start();
     }
@@ -69,7 +68,7 @@ public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
     @Override
     @Synchronized
     public boolean isRunning() {
-        return chatManager.isRunning();
+        return chat.isRunning();
     }
 
     @Override
@@ -79,7 +78,7 @@ public class PerococcoAdvancedChatManager<M> implements AdvancedChatManager<M> {
         subscription = Subscription.NONE;
         sender.requestStop();
         receiver.requestStop();
-        chatManager.requestStop();
+        chat.requestStop();
     }
 
 

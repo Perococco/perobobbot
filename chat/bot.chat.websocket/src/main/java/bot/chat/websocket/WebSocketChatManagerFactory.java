@@ -1,6 +1,6 @@
 package bot.chat.websocket;
 
-import bot.chat.core.ChatManager;
+import bot.chat.core.Chat;
 import bot.chat.core.ChatManagerFactory;
 import bot.chat.core.ReconnectionPolicy;
 import lombok.NonNull;
@@ -10,9 +10,9 @@ import java.net.URI;
 public class WebSocketChatManagerFactory extends ChatManagerFactory {
 
     @Override
-    public @NonNull ChatManager create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
+    public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
         if (this.canHandle(address,reconnectionPolicy)) {
-            return new WebSocketChatManager(address,reconnectionPolicy);
+            return new WebSocketChat(address, reconnectionPolicy);
         }
         throw new IllegalArgumentException("Cannot create chat with provided parameters : address="+address);
     }

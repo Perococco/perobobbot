@@ -4,7 +4,6 @@ import lombok.NonNull;
 import perococco.bot.chat.core.DispatcherChatManagerFactory;
 
 import java.net.URI;
-import java.util.Optional;
 
 public abstract class ChatManagerFactory {
 
@@ -16,7 +15,7 @@ public abstract class ChatManagerFactory {
      * the provided parameters
      */
     @NonNull
-    public abstract ChatManager create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy);
+    public abstract Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy);
 
     public abstract boolean canHandle(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy);
 

@@ -17,7 +17,7 @@ import lombok.NonNull;
  *
  * @author perococco
  **/
-public abstract class ChatBase implements Chat {
+public abstract class ChatIOBase implements ChatIO {
 
     private final Listeners<ChatListener> listeners = new Listeners<>();
 
