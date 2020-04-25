@@ -1,8 +1,7 @@
 package bot.twitch.chat.test;
 
-import bot.twitch.chat.TwitchChat;
-import bot.twitch.chat.TwitchChatOAuth;
-import bot.twitch.chat.TwitchReceiptSlip;
+import bot.common.lang.Secret;
+import bot.twitch.chat.*;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import com.google.common.collect.ImmutableList;
 
@@ -16,20 +15,17 @@ public class TestChat {
 
     public static void main(String[] args) throws Exception {
 
-        final TwitchChat chat = TwitchChat.create();
+        final TwitchChatOptions options = TwitchChatOptions.builder()
+                .nick("perococco")
+                .secret(new Secret(Files.readString(Path.of("/home/perococco/oauth.txt"))))
+                .channel(Channel.create("perococco"))
+                .build();
 
-        chat.addTwitchChatListener(
-                event -> event.acceptIfIsReceiveMessage(m -> displayMessages(m.messages()))
-        );
+        final TwitchChat chat = TwitchChat.create(options);
 
-        final TwitchChatOAuth oAuth = TwitchChatOAuth.create("perococco",Files.readString(Path.of("/home/perococco/oauth.txt")));
+        chat.addTwitchChatListener(System.out::println);
 
-        chat.start(oAuth)
-            .thenCompose(r -> chat.join("gom4rt"))
-            .thenApply(TwitchReceiptSlip::slipAnswer)
-            .thenAccept(System.out::println)
-            .toCompletableFuture().get();
-
+        chat.start();
 
 
     }

@@ -28,7 +28,10 @@ public class SetTool {
 
     @NonNull
     public static <S> ImmutableSet<S> add(@NonNull ImmutableSet<S> source, @NonNull S elementToAdd) {
-        if (source.contains(elementToAdd)) {
+        if (source.isEmpty()) {
+            return ImmutableSet.of(elementToAdd);
+        }
+        else if (source.contains(elementToAdd)) {
             return source;
         }
         return ImmutableSet.<S>builder()

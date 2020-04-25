@@ -2,6 +2,10 @@ package bot.chat.advanced.event;
 
 import lombok.NonNull;
 
+/**
+ * Event sent when the chat is connected
+ * @param <M>
+ */
 public class Connection<M> implements AdvancedChatEvent<M> {
 
     private static final Connection<?> CONNECTION = new Connection<>();

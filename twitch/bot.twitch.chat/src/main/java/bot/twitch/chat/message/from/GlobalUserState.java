@@ -8,7 +8,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Getter
 @ToString
-public class GlobalUserState implements KnownMessageFromTwitch {
+public class GlobalUserState extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -18,9 +18,15 @@ public class GlobalUserState implements KnownMessageFromTwitch {
         return IRCCommand.GLOBALUSERSTATE;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public static GlobalUserState build(@NonNull AnswerBuilderHelper helper) {
         return GlobalUserState.builder()
                               .ircParsing(helper.ircParsing())
                               .build();
     }
+
 }

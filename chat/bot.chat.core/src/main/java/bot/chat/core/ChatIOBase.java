@@ -8,7 +8,7 @@ import lombok.NonNull;
 /**
  * Chat implementing the listener part of the Chat interface.
  * It provides a method to warn the listener that can be
- * used by class extending this :
+ * used by class extending <code>this</code> :
  *
  * <ol>
  *     <li>{@link #warnListeners(ChatEvent)}</li>

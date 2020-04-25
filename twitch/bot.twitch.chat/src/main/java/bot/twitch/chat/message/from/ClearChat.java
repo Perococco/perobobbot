@@ -17,7 +17,7 @@ import java.util.Optional;
  **/
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClearChat implements KnownMessageFromTwitch {
+public class ClearChat extends KnownMessageFromTwitch {
 
     @NonNull
     public static ClearChat permanentBan(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel) {
@@ -55,6 +55,10 @@ public class ClearChat implements KnownMessageFromTwitch {
         return banDuration == null;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
 
     public static @NonNull ClearChat build(@NonNull AnswerBuilderHelper helper) {
         final String user = helper.lastParameter();
@@ -64,4 +68,5 @@ public class ClearChat implements KnownMessageFromTwitch {
         return banDuration.map(d -> ClearChat.temporaryBan(helper.ircParsing(), user, channel, d))
                           .orElseGet(() -> ClearChat.permanentBan(helper.ircParsing(), user, channel));
     }
+
 }

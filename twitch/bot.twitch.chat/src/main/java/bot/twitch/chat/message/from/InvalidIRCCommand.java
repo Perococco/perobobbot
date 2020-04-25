@@ -7,7 +7,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Builder
 @ToString
-public class InvalidIRCCommand implements KnownMessageFromTwitch {
+public class InvalidIRCCommand extends KnownMessageFromTwitch {
 
     @NonNull
     @Getter
@@ -26,6 +26,11 @@ public class InvalidIRCCommand implements KnownMessageFromTwitch {
         return IRCCommand.ERR_UNKNOWNCOMMAND;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
+
     @NonNull
     public static InvalidIRCCommand build(@NonNull AnswerBuilderHelper helper) {
         return InvalidIRCCommand.builder()
@@ -34,4 +39,5 @@ public class InvalidIRCCommand implements KnownMessageFromTwitch {
                 .requestedCommand(helper.parameterAt(1))
                 .build();
     }
+
 }

@@ -15,4 +15,13 @@ public class UnknownMessageFromTwitch implements MessageFromTwitch {
     @NonNull
     private final IRCParsing ircParsing;
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return "UnknownMessageFromTwitch{"+payload()+"}";
+    }
 }

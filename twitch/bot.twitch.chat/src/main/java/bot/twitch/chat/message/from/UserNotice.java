@@ -14,7 +14,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Getter
 @ToString(exclude = "ircParsing")
-public class UserNotice implements KnownMessageFromTwitch {
+public class UserNotice extends KnownMessageFromTwitch {
 
     @NonNull
     public IRCParsing ircParsing;
@@ -28,6 +28,11 @@ public class UserNotice implements KnownMessageFromTwitch {
     @Override
     public @NonNull IRCCommand command() {
         return IRCCommand.USERNOTICE;
+    }
+
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
     }
 
     @NonNull

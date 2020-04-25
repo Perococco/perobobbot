@@ -1,8 +1,5 @@
 package bot.twitch.chat;
 
-import bot.twitch.chat.message.from.GlobalUserState;
-import bot.twitch.chat.message.from.Part;
-import bot.twitch.chat.message.from.UserState;
 import lombok.NonNull;
 import perococco.bot.twitch.chat.PerococcoTwitchChat;
 
@@ -12,51 +9,17 @@ import java.util.concurrent.CompletionStage;
 public interface TwitchChat extends TwitchChatIO {
 
     @NonNull
-    static TwitchChat create() {
-        return create(TWITCH_CHAT_URI);
+    static TwitchChat create(@NonNull TwitchChatOptions options) {
+        return create(TWITCH_CHAT_URI,options);
     }
 
     @NonNull
-    static TwitchChat create(@NonNull URI uri) {
-        return new PerococcoTwitchChat(uri);
-    }
-
-
-    /**
-     * Join a channel
-     * @param channel the channel to join
-     * @return a completion stage that completes when the join request is answered
-     */
-    @NonNull
-    CompletionStage<TwitchReceiptSlip<UserState>> join(@NonNull Channel channel);
-
-    /**
-     * leave a channel
-     * @param channel the channel to leave
-     * @return a completion stage that completes when the part request is answered
-     */
-    @NonNull
-    CompletionStage<TwitchReceiptSlip<Part>> part(@NonNull Channel channel);
-
-
-    @NonNull
-    default CompletionStage<TwitchReceiptSlip<UserState>> join(@NonNull String channelName) {
-        return join(Channel.create(channelName));
+    static TwitchChat create(@NonNull URI uri, @NonNull TwitchChatOptions options) {
+        return new PerococcoTwitchChat(uri,options);
     }
 
     @NonNull
-    default CompletionStage<TwitchReceiptSlip<Part>> part(@NonNull String channelName) {
-        return part(Channel.create(channelName));
-    }
-
-    @NonNull
-    default CompletionStage<TwitchDispatchSlip> message(@NonNull String channelName, @NonNull String message) {
-        return message(Channel.create(channelName),message);
-    }
-
-
-    @NonNull
-    CompletionStage<TwitchReceiptSlip<GlobalUserState>> start(@NonNull TwitchChatOAuth oAuth);
+    CompletionStage<TwitchChatIO> start();
 
     void requestStop();
 }

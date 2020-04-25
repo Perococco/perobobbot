@@ -8,6 +8,7 @@ import bot.chat.core.event.ReceivedMessage;
 import bot.common.lang.Looper;
 import bot.common.lang.SmartLock;
 import bot.common.lang.ThrowableTool;
+import bot.common.lang.WaitStrategy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,16 +36,24 @@ public class WebSocketChat extends ChatIOBase implements Chat {
 
     private final Condition disconnection = lock.newCondition();
 
-    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy) {
-        this(ContainerProvider.getWebSocketContainer(),uri, policy);
-    }
-
     public WebSocketChat(@NonNull URI uri) {
-        this(ContainerProvider.getWebSocketContainer(),uri, ReconnectionPolicy.NO_RECONNECTION);
+        this(uri, ReconnectionPolicy.NO_RECONNECTION);
     }
 
-    public WebSocketChat(@NonNull WebSocketContainer webSocketContainer, @NonNull URI uri, @NonNull ReconnectionPolicy policy) {
-        this.looper = new ChatLooper(webSocketContainer,uri,policy);
+    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy) {
+        this(uri, policy, WaitStrategy.create());
+    }
+
+    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy, @NonNull WaitStrategy waitStrategy) {
+        this(ContainerProvider.getWebSocketContainer(), uri, policy, waitStrategy);
+    }
+
+    public WebSocketChat(
+            @NonNull WebSocketContainer webSocketContainer,
+            @NonNull URI uri,
+            @NonNull ReconnectionPolicy policy,
+            @NonNull WaitStrategy waitStrategy) {
+        this.looper = new ChatLooper(webSocketContainer, uri, policy, waitStrategy);
     }
 
     @Override
@@ -71,7 +80,7 @@ public class WebSocketChat extends ChatIOBase implements Chat {
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException e) {
-            throw new MessagePostingFailure(message,e);
+            throw new MessagePostingFailure(message, e);
         }
     }
 
@@ -84,14 +93,59 @@ public class WebSocketChat extends ChatIOBase implements Chat {
         @NonNull
         private final URI uri;
 
-
         @NonNull
         private final ReconnectionPolicy reconnectionPolicy;
+
+        @NonNull
+        private final WaitStrategy waitStrategy;
 
         @Override
         protected void beforeLooping() {
             super.beforeLooping();
             this.connect();
+        }
+
+        private void connect() {
+            try {
+                webSocketContainer.connectToServer(new ChatEndPoint(), uri);
+            } catch (DeploymentException | IOException e) {
+                throw new ChatConnectionFailure("Connection failed", e);
+            }
+        }
+
+        @Override
+        protected @NonNull IterationCommand performOneIteration() throws Exception {
+            this.waitForDisconnection();
+            int attemptIndex = 0;
+            boolean connected = false;
+
+            while (
+                    !connected
+                    && reconnectionPolicy.shouldReconnect(attemptIndex)
+                    && !Thread.currentThread().isInterrupted()
+            ) {
+                attemptIndex++;
+                LOG.warn("Try reconnection : attempt #{} ", attemptIndex);
+                final Duration duration = reconnectionPolicy.delayBeforeNextAttempt(attemptIndex);
+                waitStrategy.waitFor(duration);
+                connected = tryToConnect();
+            }
+            return IterationCommand.CONTINUE;
+        }
+
+        private void waitForDisconnection() throws InterruptedException {
+            lock.await(disconnection);
+        }
+
+        private boolean tryToConnect() {
+            try {
+                connect();
+                return true;
+            } catch (Exception e) {
+                ThrowableTool.interruptThreadIfCausedByInterruption(e);
+                LOG.warn("Connection failed", e);
+            }
+            return false;
         }
 
         @Override
@@ -102,45 +156,13 @@ public class WebSocketChat extends ChatIOBase implements Chat {
                     s.close();
                 } catch (IOException e) {
                     ThrowableTool.interruptThreadIfCausedByInterruption(e);
-                    LOG.warn("Error while close websocket",e);
+                    LOG.warn("Error while closing websocket", e);
                 }
             });
         }
 
-        @Override
-        protected @NonNull IterationCommand performOneIteration() throws Exception {
-            this.waitForDisconnection();
-            int tryIndex = 0;
-            while(reconnectionPolicy.shouldReconnect(tryIndex) && !Thread.currentThread().isInterrupted()) {
-                tryIndex++;
-                LOG.warn("Try reconnection : attempt #{} ",tryIndex);
-                final Duration duration = reconnectionPolicy.delayBeforeNextAttempt(tryIndex);
-                if (!duration.isNegative() && !duration.isZero()) {
-                    //IMPROVE busy wait in loop.
-                    Thread.sleep(duration.toMillis());
-                }
-                try {
-                    connect();
-                    break;
-                } catch (Exception e) {
-                    LOG.warn("Connection failed",e);
-                }
-            }
-            return IterationCommand.CONTINUE;
-        }
-
-        private void waitForDisconnection() throws InterruptedException {
-            lock.await(disconnection);
-        }
-
-        private void connect() {
-            try {
-                webSocketContainer.connectToServer(new ChatEndPoint(), uri);
-            } catch (DeploymentException | IOException e) {
-                throw new ChatConnectionFailure("Connection failed", e);
-            }
-        }
     }
+
 
     private class ChatEndPoint extends Endpoint implements MessageHandler.Whole<String> {
 
@@ -171,8 +193,6 @@ public class WebSocketChat extends ChatIOBase implements Chat {
             warnListeners(new ReceivedMessage(Instant.now(), message));
         }
     }
-
-
 
 
 }

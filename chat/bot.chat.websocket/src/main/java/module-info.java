@@ -1,7 +1,5 @@
-import bot.chat.core.ChatManagerFactory;
-import bot.chat.websocket.WebSocketChatManagerFactory;
-
-import javax.websocket.WebSocketContainer;
+import bot.chat.core.ChatFactory;
+import bot.chat.websocket.WebSocketChatFactory;
 
 /**
  * @author perococco
@@ -17,5 +15,5 @@ module bot.chat.websocket {
     requires org.apache.logging.log4j;
 
     exports bot.chat.websocket;
-    provides ChatManagerFactory with WebSocketChatManagerFactory;
+    provides ChatFactory with WebSocketChatFactory;
 }

@@ -4,7 +4,6 @@ import lombok.NonNull;
 
 public interface ChatEvent {
 
-    @NonNull
     void accept(@NonNull ChatEventVisitor visitor);
 
 }

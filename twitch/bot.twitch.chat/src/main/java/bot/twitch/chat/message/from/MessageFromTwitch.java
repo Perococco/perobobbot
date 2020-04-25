@@ -28,10 +28,5 @@ public interface MessageFromTwitch extends Message, Tags {
         return ircParsing().tagValue(tagKey.name());
     }
 
-    default <A extends MessageFromTwitch> boolean ifIsRightTypeUsePredicateOtherwiseFalse(@NonNull Class<A> expectedType, @NonNull Predicate<A> predicate) {
-        if (expectedType.isInstance(this)) {
-            return predicate.test(expectedType.cast(this));
-        }
-        return false;
-    }
+    void accept(@NonNull MessageFromTwitchVisitor visitor);
 }

@@ -14,15 +14,11 @@ public interface ChatEventVisitor {
 
     void visit(@NonNull Connection event);
 
-    @NonNull
     void visit(@NonNull Disconnection event);
 
-    @NonNull
     void visit(@NonNull PostedMessage event);
 
-    @NonNull
     void visit(@NonNull ReceivedMessage event);
 
-    @NonNull
     void visit(@NonNull Error event);
 }

@@ -11,9 +11,16 @@ import java.util.function.IntPredicate;
  **/
 public interface ReconnectionPolicy {
 
-
+    /**
+     * @param nbAttemptsSoFar the number of attempts made before calling this method (starts from 0 during a reconnection process)
+     * @return true if the reconnection should be attempted again
+     */
     boolean shouldReconnect(int nbAttemptsSoFar);
 
+    /**
+     * @param nexAttemptIndex the next attempts index (starts from 1 during a reconnection process)
+     * @return the delay before trying a connection
+     */
     @NonNull
     Duration delayBeforeNextAttempt(int nexAttemptIndex);
 
@@ -37,12 +44,12 @@ public interface ReconnectionPolicy {
     }
 
     @NonNull
-    static ReconnectionPolicy with(int maxAttempts, @NonNull IntFunction<Duration> durationGetter) {
+    static ReconnectionPolicy withMaximalNumberOfAttempts(int maxAttempts, @NonNull IntFunction<Duration> durationGetter) {
         return with(i -> i<maxAttempts, durationGetter);
     }
 
     @NonNull
-    static ReconnectionPolicy with(int maxAttempts, @NonNull Duration fixDuration) {
+    static ReconnectionPolicy withMaximalNumberOfAttemptsAndFixDelay(int maxAttempts, @NonNull Duration fixDuration) {
         return with(i -> i<maxAttempts, i -> fixDuration);
     }
 }

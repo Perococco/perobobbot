@@ -1,13 +1,13 @@
 package bot.chat.websocket;
 
 import bot.chat.core.Chat;
-import bot.chat.core.ChatManagerFactory;
+import bot.chat.core.ChatFactory;
 import bot.chat.core.ReconnectionPolicy;
 import lombok.NonNull;
 
 import java.net.URI;
 
-public class WebSocketChatManagerFactory extends ChatManagerFactory {
+public class WebSocketChatFactory extends ChatFactory {
 
     @Override
     public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {

@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 @Getter
 @ToString(exclude = "ircParsing")
-public class ClearMsg implements KnownMessageFromTwitch {
+public class ClearMsg extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -36,6 +36,11 @@ public class ClearMsg implements KnownMessageFromTwitch {
         return IRCCommand.CLEARMSG;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
+
     public static @NonNull ClearMsg build(@NonNull AnswerBuilderHelper helper) {
         return ClearMsg.builder()
                        .ircParsing(helper.ircParsing())
@@ -45,4 +50,5 @@ public class ClearMsg implements KnownMessageFromTwitch {
                        .targetMsgId(helper.tagValue(TagKey.TARGET_MSG_ID))
                        .build();
     }
+
 }

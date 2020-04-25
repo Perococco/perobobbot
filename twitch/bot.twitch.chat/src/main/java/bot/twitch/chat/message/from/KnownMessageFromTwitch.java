@@ -6,10 +6,13 @@ import lombok.NonNull;
 /**
  * @author perococco
  **/
-public interface KnownMessageFromTwitch extends MessageFromTwitch {
+public abstract class KnownMessageFromTwitch implements MessageFromTwitch {
 
     @NonNull
-    IRCCommand command();
+    public abstract IRCCommand command();
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName()+"{"+payload()+"}";
+    }
 }

@@ -20,7 +20,7 @@ public class PrivMsg extends CommandToTwitch {
             @NonNull String message) {
         super(IRCCommand.PRIVMSG);
         this.channel = channel;
-        this.message = message;
+        this.message = PrivMsgValidator.validate(message);
     }
 
     @Override

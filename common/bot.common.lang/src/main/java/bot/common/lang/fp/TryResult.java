@@ -5,27 +5,38 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class TryResult<T extends Throwable,R> {
+public class TryResult<T extends Throwable, R> {
 
     @NonNull
-    public static <T extends Throwable,R> TryResult<T,R> success(@NonNull R result) {
+    public static <R> TryResult<Throwable, R> withStageResult(R result, Throwable error) {
+        if (error != null) {
+            return TryResult.failure(error);
+        }
+        return TryResult.success(result);
+    }
+
+    @NonNull
+    public static <T extends Throwable, R> TryResult<T, R> success(@NonNull R result) {
         return new TryResult<>(Either.right(result));
     }
 
     @NonNull
-    public static <T extends Throwable,R> TryResult<T,R> failure(@NonNull T error) {
+    public static <T extends Throwable, R> TryResult<T, R> failure(@NonNull T error) {
         return new TryResult<>(Either.left(error));
     }
 
     @NonNull
-    private final Either<T,R> either;
+    private final Either<T, R> either;
 
     @NonNull
     public R get() throws T {
-        return either.tryMerge(t -> {throw t;}, r -> r);
+        return either.tryMerge(t -> {
+            throw t;
+        }, r -> r);
     }
 
     @NonNull
@@ -47,7 +58,7 @@ public class TryResult<T extends Throwable,R> {
     }
 
     @NonNull
-    public <S> TryResult<T,S> map(@NonNull Function1<? super R, ? extends S> mapper) {
+    public <S> TryResult<T, S> map(@NonNull Function1<? super R, ? extends S> mapper) {
         return new TryResult<>(either.mapRight(mapper));
     }
 

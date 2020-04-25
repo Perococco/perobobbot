@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class GenericKnownMessageFromTwitch implements KnownMessageFromTwitch {
+public class GenericKnownMessageFromTwitch extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCCommand command;
@@ -21,6 +21,9 @@ public class GenericKnownMessageFromTwitch implements KnownMessageFromTwitch {
     @NonNull
     private final IRCParsing ircParsing;
 
-
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
 
 }

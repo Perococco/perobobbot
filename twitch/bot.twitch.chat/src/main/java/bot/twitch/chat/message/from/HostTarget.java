@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @RequiredArgsConstructor
 @Getter
-public abstract class HostTarget implements KnownMessageFromTwitch {
+public abstract class HostTarget extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -42,6 +42,11 @@ public abstract class HostTarget implements KnownMessageFromTwitch {
             this.hostingChannel = hostingChannel;
         }
 
+        @Override
+        public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+            visitor.visit(this);
+        }
+
     }
 
     /**
@@ -52,6 +57,11 @@ public abstract class HostTarget implements KnownMessageFromTwitch {
 
         public Stop(@NonNull IRCParsing ircParsing, int numberOfViewers) {
             super(ircParsing, numberOfViewers);
+        }
+
+        @Override
+        public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+            visitor.visit(this);
         }
     }
 

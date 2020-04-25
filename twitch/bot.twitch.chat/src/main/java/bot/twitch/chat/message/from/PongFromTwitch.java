@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class PongFromTwitch implements KnownMessageFromTwitch {
+public class PongFromTwitch extends KnownMessageFromTwitch {
 
     @NonNull
     @Getter
@@ -19,6 +19,11 @@ public class PongFromTwitch implements KnownMessageFromTwitch {
     @Override
     public @NonNull IRCCommand command() {
         return IRCCommand.PONG;
+    }
+
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
     }
 
 

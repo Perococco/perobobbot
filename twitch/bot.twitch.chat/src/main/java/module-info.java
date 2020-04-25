@@ -23,4 +23,6 @@ module bot.twitch.chat {
     exports bot.twitch.chat.message.from;
 
     exports perococco.bot.twitch.chat to bot.twitch.chat.test;
+    exports perococco.bot.twitch.chat.state to bot.twitch.chat.test;
+    exports perococco.bot.twitch.chat.actions to bot.twitch.chat.test;
 }

@@ -1,10 +1,12 @@
 package bot.twitch.chat;
 
-import bot.chat.advanced.DispatchSlip;
+import bot.twitch.chat.message.to.CommandToTwitch;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
+
+import java.time.Instant;
 
 /**
  * @author perococco
@@ -18,5 +20,9 @@ public class TwitchDispatchSlip implements TwitchChatIO {
 
     @NonNull
     @Getter
-    private final DispatchSlip slip;
+    private final CommandToTwitch sentCommand;
+
+    @NonNull
+    @Getter
+    private final Instant dispatchingTime;
 }

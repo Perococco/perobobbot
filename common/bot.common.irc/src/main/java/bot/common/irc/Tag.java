@@ -11,7 +11,6 @@ import java.util.Optional;
 @Builder(builderClassName = "Builder")
 public class Tag {
 
-    @Getter(AccessLevel.NONE)
     private final boolean client;
 
     @Getter(AccessLevel.NONE)
@@ -23,9 +22,6 @@ public class Tag {
     @NonNull
     private final String value;
 
-    public boolean client() {
-        return client;
-    }
 
     @NonNull
     public Optional<String> vendor() {

@@ -9,7 +9,7 @@ import lombok.NonNull;
  * @author perococco
  **/
 @Priority(Integer.MIN_VALUE)
-public class PerococcoAdvancedChatManagerFactory extends AdvancedChatManagerFactory {
+public class PerococcoAdvancedChatFactory extends AdvancedChatFactory {
 
     @Override
     public @NonNull <M> AdvancedChat<M> createBasedOn(@NonNull Chat chat,

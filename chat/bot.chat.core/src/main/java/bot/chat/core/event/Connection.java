@@ -11,8 +11,7 @@ public class Connection implements ChatEvent {
         return CONNECTION;
     }
 
-    private Connection() {
-    }
+    private Connection() {}
 
     @Override
     public void accept(@NonNull ChatEventVisitor visitor) {

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 @Getter
-public class Mode implements KnownMessageFromTwitch {
+public class Mode extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -36,6 +36,10 @@ public class Mode implements KnownMessageFromTwitch {
         return !gainedModeration;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
 
     public static @NonNull Mode build(@NonNull AnswerBuilderHelper helper) {
         return Mode.builder()

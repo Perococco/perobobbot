@@ -19,4 +19,10 @@ public class ReceivedMessages implements TwitchChatEvent {
     @Getter
     private final ImmutableList<MessageFromTwitch> messages;
 
+    @Override
+    public String toString() {
+        return "ReceivedMessages{" +
+               "messages=" + messages +
+               '}';
+    }
 }

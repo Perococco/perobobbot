@@ -12,7 +12,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @Builder
 @ToString
-public class UserState implements KnownMessageFromTwitch {
+public class UserState extends KnownMessageFromTwitch {
 
 
     @NonNull
@@ -24,6 +24,11 @@ public class UserState implements KnownMessageFromTwitch {
     @Override
     public @NonNull IRCCommand command() {
         return IRCCommand.USERSTATE;
+    }
+
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
     }
 
     public static UserState build(@NonNull AnswerBuilderHelper helper) {

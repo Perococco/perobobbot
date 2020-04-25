@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 @Getter
 @ToString(exclude = "ircParsing")
-public class Join implements KnownMessageFromTwitch {
+public class Join extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -28,6 +28,10 @@ public class Join implements KnownMessageFromTwitch {
         return IRCCommand.JOIN;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
 
     public static @NonNull Join build(@NonNull AnswerBuilderHelper helper) {
         return Join.builder()

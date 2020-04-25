@@ -15,7 +15,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Getter
 @ToString(exclude = "ircParsing")
-public class CapAck implements KnownMessageFromTwitch {
+public class CapAck extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -30,6 +30,10 @@ public class CapAck implements KnownMessageFromTwitch {
         return IRCCommand.CAP;
     }
 
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
+    }
 
     @NonNull
     public static CapAck build(@NonNull AnswerBuilderHelper helper) {

@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @Builder
 @ToString(exclude = "ircParsing")
-public class PrivMsgFromTwitch implements KnownMessageFromTwitch {
+public class PrivMsgFromTwitch extends KnownMessageFromTwitch {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -29,6 +29,11 @@ public class PrivMsgFromTwitch implements KnownMessageFromTwitch {
     @Override
     public @NonNull IRCCommand command() {
         return IRCCommand.PRIVMSG;
+    }
+
+    @Override
+    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
+        visitor.visit(this);
     }
 
     @NonNull

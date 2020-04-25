@@ -29,9 +29,10 @@ public class Part extends SimpleRequestToTwitch<bot.twitch.chat.message.from.Par
     }
 
     @Override
+    @NonNull
     protected Optional<bot.twitch.chat.message.from.Part> doIsMyAnswer(@NonNull bot.twitch.chat.message.from.Part twitchAnswer,
             @NonNull TwitchChatState state) {
-        if (twitchAnswer.channel().equals(channel) && twitchAnswer.user().equals(state.userNickName())) {
+        if (twitchAnswer.channel().equals(channel) && twitchAnswer.user().equals(state.username())) {
             return Optional.of(twitchAnswer);
         }
         return Optional.empty();

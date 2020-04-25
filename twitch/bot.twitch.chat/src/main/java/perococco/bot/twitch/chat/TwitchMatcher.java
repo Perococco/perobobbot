@@ -6,6 +6,7 @@ import bot.common.lang.ThrowableTool;
 import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.TwitchMarkers;
 import bot.twitch.chat.UnknownIRCCommand;
+import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.message.from.InvalidIRCCommand;
 import bot.twitch.chat.message.from.KnownMessageFromTwitch;
 import bot.twitch.chat.message.from.MessageFromTwitch;
@@ -13,6 +14,7 @@ import bot.twitch.chat.message.to.RequestToTwitch;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import perococco.bot.twitch.chat.state.ConnectionIdentity;
 
 import java.util.Optional;
 
@@ -55,12 +57,8 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
     @Override
     public boolean shouldPerformMatching(@NonNull MessageFromTwitch message) {
         if (message instanceof KnownMessageFromTwitch) {
-            switch (((KnownMessageFromTwitch) message).command()) {
-                case PRIVMSG:
-                    return false;
-                default:
-                    return true;
-            }
+            final KnownMessageFromTwitch messageFromTwitch = (KnownMessageFromTwitch) message;
+            return messageFromTwitch.command() != IRCCommand.PRIVMSG;
         }
         return false;
     }

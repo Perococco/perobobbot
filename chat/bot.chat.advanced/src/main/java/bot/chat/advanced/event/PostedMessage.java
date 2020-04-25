@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Event sent when a message is posted to the chat
+ * @param <M>
+ */
 @RequiredArgsConstructor
 @Getter
 public class PostedMessage<M> implements AdvancedChatEvent<M> {

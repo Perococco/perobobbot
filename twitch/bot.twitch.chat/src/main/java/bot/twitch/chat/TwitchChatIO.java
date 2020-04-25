@@ -25,8 +25,17 @@ public interface TwitchChatIO {
     @NonNull
     CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message);
 
+    /**
+     * Add a listener of event that occurs on the Twitch chat
+     * @param listener the listener to add
+     * @return a subscription that can be used to remove the listener
+     */
+    @NonNull
     Subscription addTwitchChatListener(@NonNull TwitchChatListener listener);
 
+    /**
+     * @return true if this TwitchChat is running
+     */
     boolean isRunning();
 
 

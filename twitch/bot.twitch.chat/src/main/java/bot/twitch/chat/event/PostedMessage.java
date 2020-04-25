@@ -1,6 +1,5 @@
 package bot.twitch.chat.event;
 
-import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.to.MessageToTwitch;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,4 +18,8 @@ public class PostedMessage implements TwitchChatEvent {
     @Getter
     private final MessageToTwitch postedMessage;
 
+    @Override
+    public String toString() {
+        return "PostedMessage{" + postedMessage +"}";
+    }
 }

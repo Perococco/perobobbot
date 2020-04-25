@@ -1,4 +1,4 @@
-import bot.chat.core.ChatManagerFactory;
+import bot.chat.core.ChatFactory;
 
 /**
  * @author perococco
@@ -14,5 +14,5 @@ module bot.chat.core {
 
     exports bot.chat.core;
     exports bot.chat.core.event;
-    uses ChatManagerFactory;
+    uses ChatFactory;
 }

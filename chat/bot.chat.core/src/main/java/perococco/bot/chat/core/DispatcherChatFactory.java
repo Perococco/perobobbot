@@ -1,7 +1,7 @@
 package perococco.bot.chat.core;
 
 import bot.chat.core.Chat;
-import bot.chat.core.ChatManagerFactory;
+import bot.chat.core.ChatFactory;
 import bot.chat.core.ReconnectionPolicy;
 import bot.common.lang.ServiceLoaderHelper;
 import com.google.common.collect.ImmutableList;
@@ -11,18 +11,18 @@ import java.net.URI;
 import java.util.ServiceLoader;
 
 
-public class DispatcherChatManagerFactory extends ChatManagerFactory {
+public class DispatcherChatFactory extends ChatFactory {
 
     @NonNull
-    public static ChatManagerFactory getInstance() {
+    public static ChatFactory getInstance() {
         return Holder.INSTANCE;
     }
 
     @NonNull
-    private final ImmutableList<ChatManagerFactory> factories;
+    private final ImmutableList<ChatFactory> factories;
 
-    public DispatcherChatManagerFactory() {
-        this.factories = ServiceLoaderHelper.getServices(ServiceLoader.load(ChatManagerFactory.class));
+    public DispatcherChatFactory() {
+        this.factories = ServiceLoaderHelper.getServices(ServiceLoader.load(ChatFactory.class));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DispatcherChatManagerFactory extends ChatManagerFactory {
     }
 
     private static class Holder {
-        private static final ChatManagerFactory INSTANCE = new DispatcherChatManagerFactory();
+        private static final ChatFactory INSTANCE = new DispatcherChatFactory();
     }
 
 }
