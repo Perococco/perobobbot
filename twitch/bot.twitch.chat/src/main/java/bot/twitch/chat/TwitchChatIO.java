@@ -2,8 +2,10 @@ package bot.twitch.chat;
 
 import bot.common.lang.Subscription;
 import bot.twitch.chat.message.from.Join;
+import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.from.Part;
 import bot.twitch.chat.message.from.UserState;
+import bot.twitch.chat.message.to.PrivMsg;
 import lombok.NonNull;
 
 import java.net.URI;
@@ -32,6 +34,9 @@ public interface TwitchChatIO {
      */
     @NonNull
     Subscription addTwitchChatListener(@NonNull TwitchChatListener listener);
+
+    @NonNull
+    Subscription addPrivateMessageListener(@NonNull PrivMsgFromTwitchListener listener);
 
     /**
      * @return true if this TwitchChat is running

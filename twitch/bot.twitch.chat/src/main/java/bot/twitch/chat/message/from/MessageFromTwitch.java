@@ -25,8 +25,8 @@ public interface MessageFromTwitch extends Message, Tags {
 
     @Override
     default @NonNull Optional<String> findTag(@NonNull TagKey tagKey) {
-        return ircParsing().tagValue(tagKey.name());
+        return ircParsing().tagValue(tagKey.keyName());
     }
 
-    void accept(@NonNull MessageFromTwitchVisitor visitor);
+    <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor);
 }

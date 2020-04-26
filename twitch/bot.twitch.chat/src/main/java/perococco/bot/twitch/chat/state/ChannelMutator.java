@@ -1,22 +1,23 @@
 package perococco.bot.twitch.chat.state;
 
-import bot.common.lang.fp.UnaryOperator1;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.message.from.UserState;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 
-public abstract class ChannelMutator implements UnaryOperator1<ConnectionValue> {
+public interface ChannelMutator extends IdentityMutator {
 
     @Override
-    public @NonNull ConnectionValue f(@NonNull ConnectionValue connectionValue) {
-        final ImmutableMap<Channel,UserState> newChannels = mutate(connectionValue.joinedChannels());
-        if (newChannels == connectionValue.joinedChannels()) {
-            return connectionValue;
+    @NonNull
+    default ConnectionValue mutate(@NonNull ConnectionValue currentValue) {
+        final ImmutableMap<Channel,UserState> newChannels = mutate(currentValue.joinedChannels());
+        if (newChannels == currentValue.joinedChannels()) {
+            return currentValue;
         }
-        return connectionValue.toBuilder().joinedChannels(newChannels).build();
+        return currentValue.toBuilder().joinedChannels(newChannels).build();
     }
 
-    protected abstract ImmutableMap<Channel, UserState> mutate(@NonNull ImmutableMap<Channel,UserState> currentValue);
+    @NonNull
+    ImmutableMap<Channel, UserState> mutate(@NonNull ImmutableMap<Channel,UserState> currentValue);
 
 }

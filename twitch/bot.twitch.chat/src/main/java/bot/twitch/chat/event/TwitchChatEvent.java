@@ -1,25 +1,21 @@
 package bot.twitch.chat.event;
 
-import bot.common.lang.CastTool;
-import bot.common.lang.fp.Consumer1;
-import bot.common.lang.fp.Function1;
+import bot.twitch.chat.TwitchChatState;
 import lombok.NonNull;
-
-import java.util.Optional;
 
 public interface TwitchChatEvent {
 
+    /**
+     * @return the state of the chat after this event has been process (for instance, if this event add
+     * a moderator to a channel, that will be reflected in the returned state).
+     */
     @NonNull
-    default <E extends TwitchChatEvent> Optional<E> as(@NonNull Class<E> type) {
-        return CastTool.cast(type,this);
-    }
+    TwitchChatState state();
 
     @NonNull
-    default <T> Optional<T> applyIfIsReceivedMessage(@NonNull Function1<? super ReceivedMessages, ? extends T> function) {
-        return as(ReceivedMessages.class).map(function);
-    }
+    <T> T accept(@NonNull TwitchChatEventVisitor<T> visitor);
 
-    default void acceptIfIsReceiveMessage(@NonNull Consumer1<? super ReceivedMessages> consumer) {
-        as(ReceivedMessages.class).ifPresent(consumer);
+    default boolean isPing() {
+        return false;
     }
 }

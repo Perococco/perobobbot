@@ -28,7 +28,6 @@ public class ConnectionValue implements TwitchChatState {
             ConnectionIdentity.State.DISCONNECTED,
             null,
             null,
-            false,
             ImmutableMap.of(),
             Subscription.NONE
     );
@@ -39,9 +38,7 @@ public class ConnectionValue implements TwitchChatState {
 
     private final IO io;
 
-    private final String username;
-
-    private final boolean userIsModerator;
+    private final String userName;
 
     @NonNull
     private final ImmutableMap<Channel, UserState> joinedChannels;
@@ -69,8 +66,8 @@ public class ConnectionValue implements TwitchChatState {
         return state == ConnectionIdentity.State.CONNECTED;
     }
 
-    public @NonNull String username() {
-        return username == null ? "":username;
+    public @NonNull String userName() {
+        return userName == null ? "": userName;
     }
 
     @NonNull

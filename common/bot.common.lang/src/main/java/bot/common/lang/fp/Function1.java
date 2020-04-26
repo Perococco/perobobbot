@@ -3,9 +3,10 @@ package bot.common.lang.fp;
 import lombok.NonNull;
 
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public interface Function1<A,R> extends Function<A,R> {
-
+    
     @NonNull
     static <A,R> Function1<A,R> toFunction1(@NonNull Function<A,R> function) {
         if (function instanceof Function1) {
@@ -13,6 +14,17 @@ public interface Function1<A,R> extends Function<A,R> {
         }
         return function::apply;
     }
+
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @param <T> the type of the input and output of the operator
+     * @return a unary operator that always returns its input argument
+     */
+    static <T> Function1<T,T> identity() {
+        return t -> t;
+    }
+
 
     @NonNull
     R f(@NonNull A a);

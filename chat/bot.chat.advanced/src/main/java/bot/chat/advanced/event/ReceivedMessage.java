@@ -1,6 +1,5 @@
 package bot.chat.advanced.event;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import java.time.Instant;
  * @param <M>
  */
 @RequiredArgsConstructor
-public class ReceivedMessages<M> implements AdvancedChatEvent<M> {
+public class ReceivedMessage<M> implements AdvancedChatEvent<M> {
 
     @NonNull
     @Getter
@@ -20,15 +19,16 @@ public class ReceivedMessages<M> implements AdvancedChatEvent<M> {
 
     @NonNull
     @Getter
-    private final ImmutableList<M> messages;
+    private final M message;
 
+    @NonNull
     @Override
-    public void accept(@NonNull AdvancedChatEventVisitor<M> visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override
     public String toString() {
-        return "ReceivedMessage{" + messages + "}";
+        return "ReceivedMessage{" + message + "}";
     }
 }

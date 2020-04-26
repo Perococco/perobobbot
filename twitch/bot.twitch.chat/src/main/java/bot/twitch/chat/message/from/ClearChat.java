@@ -2,6 +2,7 @@ package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
 import bot.twitch.chat.Channel;
+import bot.twitch.chat.ChannelSpecific;
 import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.message.TagKey;
 import lombok.AccessLevel;
@@ -17,7 +18,7 @@ import java.util.Optional;
  **/
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ClearChat extends KnownMessageFromTwitch {
+public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific {
 
     @NonNull
     public static ClearChat permanentBan(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel) {
@@ -56,14 +57,15 @@ public class ClearChat extends KnownMessageFromTwitch {
     }
 
     @Override
-    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     public static @NonNull ClearChat build(@NonNull AnswerBuilderHelper helper) {
         final String user = helper.lastParameter();
-        final Channel channel = helper.channelFormParameterAt(0);
-        final Optional<Duration> banDuration = helper.optionalIntTagValue(TagKey.BAN_DURATION, Duration::ofSeconds);
+        final Channel channel = helper.channelFromParameterAt(0);
+        final Optional<Duration> banDuration = helper.optionalTagValueAsInt(TagKey.BAN_DURATION)
+                                                     .map(Duration::ofSeconds);
 
         return banDuration.map(d -> ClearChat.temporaryBan(helper.ircParsing(), user, channel, d))
                           .orElseGet(() -> ClearChat.permanentBan(helper.ircParsing(), user, channel));

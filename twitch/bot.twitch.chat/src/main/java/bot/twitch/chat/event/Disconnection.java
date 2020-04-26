@@ -1,16 +1,20 @@
 package bot.twitch.chat.event;
 
+import bot.twitch.chat.TwitchChatState;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class Disconnection implements TwitchChatEvent {
 
-    private static final Disconnection DISCONNECTION = new Disconnection();
-
     @NonNull
-    public static Disconnection create() {
-        return DISCONNECTION;
-    }
+    @Getter
+    private final TwitchChatState state;
 
-    private Disconnection() {}
+    @Override
+    public <T> @NonNull T accept(@NonNull TwitchChatEventVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 
 }

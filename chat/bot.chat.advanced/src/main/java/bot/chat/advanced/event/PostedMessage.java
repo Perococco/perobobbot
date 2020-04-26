@@ -22,9 +22,10 @@ public class PostedMessage<M> implements AdvancedChatEvent<M> {
     @Getter
     private final Message postedMessage;
 
+    @NonNull
     @Override
-    public void accept(@NonNull AdvancedChatEventVisitor<M> visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

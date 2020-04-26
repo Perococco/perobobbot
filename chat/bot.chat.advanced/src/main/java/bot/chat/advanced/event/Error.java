@@ -16,9 +16,10 @@ public class Error<M> implements AdvancedChatEvent<M> {
     @NonNull
     private final Throwable error;
 
+    @NonNull
     @Override
-    public void accept(@NonNull AdvancedChatEventVisitor<M> visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

@@ -26,8 +26,6 @@ public class TestChat {
         chat.addTwitchChatListener(System.out::println);
 
         chat.start();
-
-
     }
 
     private static void displayMessages(ImmutableList<MessageFromTwitch> messages) {

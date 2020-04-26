@@ -2,15 +2,20 @@ package bot.chat.advanced.event;
 
 import lombok.NonNull;
 
-public interface AdvancedChatEventVisitor<M> {
+public interface AdvancedChatEventVisitor<M,T> {
 
-    void visit(@NonNull Connection<M> event);
+    @NonNull
+    T visit(@NonNull Connection<M> event);
 
-    void visit(@NonNull Disconnection<M> event);
+    @NonNull
+    T visit(@NonNull Disconnection<M> event);
 
-    void visit(@NonNull PostedMessage<M> event);
+    @NonNull
+    T visit(@NonNull PostedMessage<M> event);
 
-    void visit(@NonNull ReceivedMessages<M> event);
+    @NonNull
+    T visit(@NonNull ReceivedMessage<M> event);
 
-    void visit(@NonNull Error<M> event);
+    @NonNull
+    T visit(@NonNull Error<M> event);
 }

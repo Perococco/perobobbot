@@ -1,19 +1,19 @@
 package bot.twitch.chat.event;
 
+import bot.twitch.chat.TwitchChatState;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Getter
 public class Error implements TwitchChatEvent {
 
     @NonNull
-    public static Error with(@NonNull Throwable error) {
-        return new Error(error);
-    }
+    @Getter
+    private final TwitchChatState state;
 
     @NonNull
+    @Getter
     private final Throwable error;
 
     @Override
@@ -22,4 +22,10 @@ public class Error implements TwitchChatEvent {
                 "error=" + error.getMessage() +
                 '}';
     }
+
+    @Override
+    public <T> @NonNull T accept(@NonNull TwitchChatEventVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

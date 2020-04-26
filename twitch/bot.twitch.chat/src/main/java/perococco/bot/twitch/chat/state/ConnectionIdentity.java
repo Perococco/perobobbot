@@ -2,7 +2,6 @@ package perococco.bot.twitch.chat.state;
 
 import bot.chat.advanced.AdvancedChat;
 import bot.common.lang.Subscription;
-import bot.common.lang.ThrowableTool;
 import bot.common.lang.fp.Consumer1;
 import bot.common.lang.fp.Function1;
 import bot.twitch.chat.TwitchChatAlreadyConnected;
@@ -17,10 +16,8 @@ import perococco.bot.twitch.chat.IO;
 import perococco.bot.twitch.chat.IOWithAdvancedChat;
 import perococco.bot.twitch.chat.actions.IOAction;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -39,19 +36,26 @@ public class ConnectionIdentity {
      */
     private ConnectionValue value = ConnectionValue.disconnected();
 
-    public <T> T applyWithTwitchState(@NonNull Function<? super TwitchChatState, ? extends T> action) {
-        return mutateAndGet(UnaryOperator.identity(), action);
+    @NonNull
+    public TwitchChatState state() {
+        return value;
     }
 
     @Synchronized
-    private <T> T mutateAndGet(@NonNull UnaryOperator<ConnectionValue> mutator, @NonNull Function<? super ConnectionValue, ? extends T> getter) {
+    public <T> T mutateAndGet(@NonNull IdentityMutator mutator, @NonNull Function1<? super ConnectionValue, ? extends T> getter) {
         final ConnectionValue oldValue = value;
-        this.value = mutator.apply(oldValue);
+        this.value = mutator.mutate(oldValue);
         return getter.apply(value);
     }
 
-    private void mutate(@NonNull UnaryOperator<ConnectionValue> mutator) {
-        mutateAndGet(mutator, Function.identity());
+    @NonNull
+    public <T> T applyWithTwitchState(@NonNull Function1<? super TwitchChatState, ? extends T> action) {
+        return mutateAndGet(IdentityMutator.IDENTITY, action);
+    }
+
+    @NonNull
+    public TwitchChatState mutate(@NonNull IdentityMutator mutator) {
+        return mutateAndGet(mutator, Function1.identity());
     }
 
 
@@ -134,7 +138,5 @@ public class ConnectionIdentity {
     public void acceptWithIO(@NonNull Consumer1<? super IO> action) {
         applyWithValue(action.toFunction(), ConnectionValue::io);
     }
-
-
 
 }

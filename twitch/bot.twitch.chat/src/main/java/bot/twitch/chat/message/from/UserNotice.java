@@ -2,6 +2,7 @@ package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
 import bot.twitch.chat.Channel;
+import bot.twitch.chat.ChannelSpecific;
 import bot.twitch.chat.message.IRCCommand;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Getter
 @ToString(exclude = "ircParsing")
-public class UserNotice extends KnownMessageFromTwitch {
+public class UserNotice extends KnownMessageFromTwitch implements ChannelSpecific {
 
     @NonNull
     public IRCParsing ircParsing;
@@ -31,15 +32,15 @@ public class UserNotice extends KnownMessageFromTwitch {
     }
 
     @Override
-    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @NonNull
     public static UserNotice build(@NonNull AnswerBuilderHelper helper) {
         return new UserNotice(
                 helper.ircParsing(),
-                helper.channelFormParameterAt(0),
+                helper.channelFromParameterAt(0),
                 helper.lastParameter()
         );
     }

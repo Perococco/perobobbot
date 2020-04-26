@@ -13,7 +13,6 @@ public interface TwitchChatState {
      * empty if not defined
      */
     @NonNull
-    String username();
+    String userName();
 
-    boolean userIsModerator();
 }

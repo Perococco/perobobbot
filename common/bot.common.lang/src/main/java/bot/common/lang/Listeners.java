@@ -34,12 +34,12 @@ public class Listeners<L> {
 
     @Synchronized
     public Subscription addListener(@NonNull L listener) {
-        this.listeners = ListTool.addFirst(listeners,listener);
+        this.listeners = ListTool.addLast(listeners,listener);
         return () -> removeListener(listener);
     }
 
     @Synchronized
     private void removeListener(@NonNull L listener) {
-        this.listeners = ListTool.removeFirst(listeners,listener);
+        this.listeners = ListTool.removeLast(listeners,listener);
     }
 }

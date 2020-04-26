@@ -19,7 +19,8 @@ public class Connection<M> implements AdvancedChatEvent<M> {
     private Connection() {}
 
     @Override
-    public void accept(@NonNull AdvancedChatEventVisitor<M> visitor) {
-        visitor.visit(this);
+    @NonNull
+    public <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor) {
+        return visitor.visit(this);
     }
 }

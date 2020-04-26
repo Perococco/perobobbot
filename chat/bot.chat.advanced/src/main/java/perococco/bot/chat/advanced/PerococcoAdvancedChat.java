@@ -2,7 +2,7 @@ package perococco.bot.chat.advanced;
 
 import bot.chat.advanced.*;
 import bot.chat.advanced.event.AdvancedChatEvent;
-import bot.chat.advanced.event.ReceivedMessages;
+import bot.chat.advanced.event.ReceivedMessage;
 import bot.chat.core.Chat;
 import bot.chat.core.event.Error;
 import bot.chat.core.event.*;
@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.*;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.CompletionStage;
@@ -34,7 +35,8 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
     private Subscription subscription = Subscription.NONE;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Duration timeout = Duration.ofSeconds(30);
 
     private final EventHandler eventHandler = new EventHandler();
@@ -50,7 +52,7 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
         this.chat = chat;
         this.messageConverter = messageConverter;
         this.matcher = matcher;
-        final BlockingDeque<RequestPostData<?,M>> postDataQueue = new LinkedBlockingDeque<>();
+        final BlockingDeque<RequestPostData<?, M>> postDataQueue = new LinkedBlockingDeque<>();
         this.sender = new Sender<>(chat, listeners, postDataQueue);
         this.receiver = new Receiver<>(matcher::shouldPerformMatching, postDataQueue);
     }
@@ -103,7 +105,7 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
     }
 
     private void warnListeners(@NonNull AdvancedChatEvent<M> event) {
-        listeners.warnListeners(AdvancedChatListener::onChatEvent,event);
+        listeners.warnListeners(AdvancedChatListener::onChatEvent, event);
     }
 
 
@@ -126,20 +128,22 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
 
         @Override
-        public void visit(@NonNull PostedMessage event) {}
+        public void visit(@NonNull PostedMessage event) {
+        }
 
         @Override
-        public void visit(@NonNull ReceivedMessage event) {
-            final ImmutableList<M> messages = Stream.of(event.message().split("\\R"))
+        public void visit(@NonNull bot.chat.core.event.ReceivedMessage event) {
+            final Instant receptionTime = event.receptionTime();
+            Stream.of(event.message().split("\\R"))
                   .map(messageConverter::convert)
                   .flatMap(Optional::stream)
-                  .collect(ImmutableList.toImmutableList());
+                  .map(m -> new ReceivedMessage<>(receptionTime, m))
+                  .forEach(this::dispatchReceivedMessage);
+        }
 
-            if (!messages.isEmpty()) {
-                final ReceivedMessages<M> receivedMessages = new ReceivedMessages<>(event.receptionTime(), messages);
-                listeners.warnListeners(AdvancedChatListener::onChatEvent, receivedMessages);
-                receiver.onMessageReception(receivedMessages);
-            }
+        private void dispatchReceivedMessage(@NonNull ReceivedMessage<M> receivedMessage) {
+            listeners.warnListeners(AdvancedChatListener::onChatEvent, receivedMessage);
+            receiver.onMessageReception(receivedMessage);
         }
 
 

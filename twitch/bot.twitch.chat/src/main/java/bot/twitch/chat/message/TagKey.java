@@ -1,5 +1,6 @@
 package bot.twitch.chat.message;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -19,5 +20,6 @@ public enum  TagKey {
     SUBS_ONLY("subs-only");
 
     @NonNull
+    @Getter
     private final String keyName;
 }

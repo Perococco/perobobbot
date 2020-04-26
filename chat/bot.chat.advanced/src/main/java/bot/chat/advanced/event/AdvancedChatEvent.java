@@ -8,6 +8,7 @@ import lombok.NonNull;
  */
 public interface AdvancedChatEvent<M> {
 
-    void accept(@NonNull AdvancedChatEventVisitor<M> visitor);
+    @NonNull
+    <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor);
 
 }

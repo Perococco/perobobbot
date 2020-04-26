@@ -1,6 +1,6 @@
 package perococco.bot.chat.advanced;
 
-import bot.chat.advanced.event.ReceivedMessages;
+import bot.chat.advanced.event.ReceivedMessage;
 import bot.common.lang.Looper;
 import bot.common.lang.fp.Consumer1;
 import bot.common.lang.fp.Consumer2;
@@ -29,20 +29,20 @@ public class Receiver<M> extends Looper {
     private final BlockingDeque<RequestPostData<?,M>> requestPostData;
 
     @NonNull
-    private final BlockingDeque<ReceivedMessages<M>> incomingMessages = new LinkedBlockingDeque<>();
+    private final BlockingDeque<ReceivedMessage<M>> incomingMessages = new LinkedBlockingDeque<>();
 
     @NonNull
     private final List<RequestPostData<?,M>> pending = new LinkedList<>();
 
     @Override
     protected @NonNull IterationCommand performOneIteration() throws Exception {
-        final ReceivedMessages<M> reception = incomingMessages.takeFirst();
-        final Consumer1<M> performRendezVous = Consumer2.of(this::performRendezvousWithRequests)
-                                                        .f2(reception.receptionTime());
-        reception.messages()
-                 .stream()
-                 .filter(shouldPerformMatching)
-                 .forEach(performRendezVous);
+        final ReceivedMessage<M> reception = incomingMessages.takeFirst();
+
+        final M message = reception.message();
+        if (shouldPerformMatching.test(message)) {
+            performRendezvousWithRequests(message,reception.receptionTime());
+        }
+
         return IterationCommand.CONTINUE;
     }
 
@@ -61,7 +61,7 @@ public class Receiver<M> extends Looper {
         pending.removeIf(RequestPostData::isCompleted);
     }
 
-    public void onMessageReception(@NonNull ReceivedMessages<M> message) {
+    public void onMessageReception(@NonNull ReceivedMessage<M> message) {
         incomingMessages.add(message);
     }
 

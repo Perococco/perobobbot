@@ -2,6 +2,7 @@ package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
 import bot.common.irc.Prefix;
+import bot.common.lang.fp.Function1;
 import bot.twitch.chat.Capability;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.message.IRCCommand;
@@ -50,13 +51,13 @@ public class AnswerBuilderHelper {
     }
 
     @NonNull
-    public Channel channelFormParameterAt(int parameterIndex) {
+    public Channel channelFromParameterAt(int parameterIndex) {
         return mapParameter(parameterIndex,Channel::create);
     }
 
     @NonNull
-    public Optional<String> optionalTagValue(@NonNull TagKey key) {
-        return ircParsing.tagValue(key.name());
+    public <T> T tagValue(@NonNull TagKey key, @NonNull Function1<? super String, ? extends T> mapper) {
+        return mapper.f(tagValue(key));
     }
 
     @NonNull
@@ -65,13 +66,9 @@ public class AnswerBuilderHelper {
                 .orElseThrow(() -> buildException("Could not find tag with name '"+key.name()+"'"));
     }
 
-    public boolean tagBooleanValue(@NonNull TagKey key, boolean defaultValue) {
-        final String value = optionalTagValue(key).orElse(null);
-        return value == null?defaultValue:value.equals("1");
-    }
-
-    public boolean tagBooleanValue(@NonNull TagKey key) {
-        return tagBooleanValue(key,false);
+    @NonNull
+    public Optional<String> optionalTagValue(@NonNull TagKey key) {
+        return ircParsing.tagValue(key.keyName());
     }
 
     @NonNull
@@ -81,19 +78,23 @@ public class AnswerBuilderHelper {
     }
 
     @NonNull
-    public <T> Optional<T> optionalIntTagValue(@NonNull TagKey key, @NonNull IntFunction<? extends T> mapper) {
-        return optionalTagValue(key,s -> mapper.apply(Integer.parseInt(s)));
-    }
-
-    @NonNull
-    public int intTagValue(@NonNull TagKey key, int defaultValue) {
-        return optionalTagValue(key, Integer::parseInt).orElse(defaultValue);
-    }
-
-    @NonNull
     public <T> Optional<T> optionalTagValue(@NonNull TagKey key, @NonNull Function<? super String, ? extends T> mapper) {
         return optionalTagValue(key)
                 .map(mapper);
+    }
+
+    public boolean tagValueAsBoolean(@NonNull TagKey key, boolean defaultValue) {
+        final String value = optionalTagValue(key).orElse(null);
+        return value == null?defaultValue:value.equals("1");
+    }
+
+    public int tagValueAsInt(@NonNull TagKey key, int defaultValue) {
+        return optionalTagValueAsInt(key).orElse(defaultValue);
+    }
+
+    @NonNull
+    public Optional<Integer> optionalTagValueAsInt(@NonNull TagKey key) {
+        return optionalTagValue(key, Integer::parseInt);
     }
 
 

@@ -1,18 +1,19 @@
 package perococco.bot.twitch.chat;
 
 import bot.chat.advanced.*;
-import bot.chat.advanced.event.*;
+import bot.chat.advanced.event.AdvancedChatEvent;
 import bot.chat.core.Chat;
 import bot.chat.core.ChatFactory;
 import bot.common.lang.ThrowableTool;
-import bot.common.lang.fp.Consumer1;
 import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.*;
+import bot.twitch.chat.event.TwitchChatEvent;
 import bot.twitch.chat.message.from.GlobalUserState;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.to.Cap;
 import bot.twitch.chat.message.to.Nick;
 import bot.twitch.chat.message.to.Pass;
+import bot.twitch.chat.message.to.Pong;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
@@ -41,15 +42,21 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
     @NonNull
     private final TwitchChatOptions options;
 
-    @NonNull
-    private final Consumer1<MessageFromTwitch> stateUpdater;
+    private final EventBridge eventBridge;
 
     public PerococcoTwitchChat(@NonNull URI chatAddress, @NonNull TwitchChatOptions options) {
         final Chat chat = ChatFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
         final Chat throttled = new ThrottledChat(chat);
         this.chatManager = AdvancedChatFactory.getInstance().createBasedOn(throttled, new TwitchMatcher(connectionIdentity), new TwitchMessageConverter());
         this.options = options;
-        this.stateUpdater = new StateUpdater(connectionIdentity).toConsumer();
+        this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));
+    }
+
+    private void onTwitchChatEvent(@NonNull TwitchChatEvent event) {
+        if (event.isPing()) {
+            connectionIdentity.executeWithIO(io -> io.sendToChat(Pong.create()));
+        }
+        this.warnListeners(event);
     }
 
     @Override
@@ -70,6 +77,7 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
             return CompletableFuture.failedFuture(e);
         }
     }
+
 
     @Override
     @Synchronized
@@ -125,13 +133,7 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
 
     @Override
     public void onChatEvent(@NonNull AdvancedChatEvent<MessageFromTwitch> chatEvent) {
-        updateState(chatEvent);
-        dispatchToTwitchListeners(chatEvent);
-    }
-
-
-    private void updateState(@NonNull AdvancedChatEvent<MessageFromTwitch> chatEvent) {
-        //TODO
+        chatEvent.accept(eventBridge);
     }
 
     @NonNull

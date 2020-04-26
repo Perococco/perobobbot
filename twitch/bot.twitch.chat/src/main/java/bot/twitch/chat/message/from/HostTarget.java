@@ -43,8 +43,8 @@ public abstract class HostTarget extends KnownMessageFromTwitch {
         }
 
         @Override
-        public void accept(@NonNull MessageFromTwitchVisitor visitor) {
-            visitor.visit(this);
+        public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
+            return visitor.visit(this);
         }
 
     }
@@ -60,8 +60,8 @@ public abstract class HostTarget extends KnownMessageFromTwitch {
         }
 
         @Override
-        public void accept(@NonNull MessageFromTwitchVisitor visitor) {
-            visitor.visit(this);
+        public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
+            return visitor.visit(this);
         }
     }
 

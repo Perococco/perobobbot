@@ -31,7 +31,7 @@ public enum IRCCommand {
     PRIVMSG(PrivMsgFromTwitch::build),
     RECONNECT(),
     ROOMSTATE(RoomState::build),
-    RPL_WELCOME("001"),
+    RPL_WELCOME("001", Welcome::build),
     RPL_YOURHOST("002"),
     RPL_CREATED("003"),
     RPL_MYINFO("004"),

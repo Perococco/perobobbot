@@ -2,6 +2,7 @@ package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
 import bot.twitch.chat.Channel;
+import bot.twitch.chat.ChannelSpecific;
 import bot.twitch.chat.message.IRCCommand;
 import bot.twitch.chat.message.TagKey;
 import lombok.*;
@@ -13,7 +14,7 @@ import lombok.*;
 @Getter
 @Builder
 @ToString(exclude = "ircParsing")
-public class RoomState extends KnownMessageFromTwitch {
+public class RoomState extends KnownMessageFromTwitch implements ChannelSpecific {
 
     @NonNull
     private final IRCParsing ircParsing;
@@ -22,7 +23,8 @@ public class RoomState extends KnownMessageFromTwitch {
 
     private final boolean emoteOnly;
 
-    private final boolean followersOnly;
+    @NonNull
+    private final FollowMode followMode;
 
     private final boolean r9kMode;
 
@@ -36,20 +38,20 @@ public class RoomState extends KnownMessageFromTwitch {
     }
 
     @Override
-    public void accept(@NonNull MessageFromTwitchVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @NonNull
     public static RoomState build(@NonNull AnswerBuilderHelper helper) {
         return RoomState.builder()
                         .ircParsing(helper.ircParsing())
-                        .channel(helper.channelFormParameterAt(0))
-                        .emoteOnly(helper.tagBooleanValue(TagKey.EMOTE_ONLY))
-                        .followersOnly(helper.tagBooleanValue(TagKey.FOLLOWERS_ONLY))
-                        .r9kMode(helper.tagBooleanValue(TagKey.R9K))
-                        .slow(helper.intTagValue(TagKey.SLOW,0))
-                        .subsOnly(helper.tagBooleanValue(TagKey.SUBS_ONLY))
+                        .channel(helper.channelFromParameterAt(0))
+                        .emoteOnly(helper.tagValueAsBoolean(TagKey.EMOTE_ONLY,false))
+                        .followMode(FollowMode.create(helper.tagValueAsInt(TagKey.FOLLOWERS_ONLY, -1)))
+                        .r9kMode(helper.tagValueAsBoolean(TagKey.R9K,false))
+                        .slow(helper.tagValueAsInt(TagKey.SLOW, 0))
+                        .subsOnly(helper.tagValueAsBoolean(TagKey.SUBS_ONLY,false))
                         .build();
     }
 }
