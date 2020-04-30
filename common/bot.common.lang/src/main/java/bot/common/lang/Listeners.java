@@ -1,5 +1,7 @@
 package bot.common.lang;
 
+import bot.common.lang.fp.Consumer1;
+import bot.common.lang.fp.Consumer2;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.Synchronized;
@@ -17,11 +19,11 @@ public class Listeners<L> {
     private ImmutableList<L> listeners = ImmutableList.of();
 
 
-    public <P> void warnListeners(@NonNull BiConsumer<L,P> action, @NonNull P parameter) {
+    public <P> void warnListeners(@NonNull Consumer2<? super L, ? super P> action, @NonNull P parameter) {
         warnListeners(l -> action.accept(l,parameter));
     }
 
-    public void warnListeners(@NonNull Consumer<L> action) {
+    public void warnListeners(@NonNull Consumer1<? super L> action) {
         listeners.forEach(l -> {
             try {
                 action.accept(l);

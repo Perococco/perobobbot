@@ -1,6 +1,7 @@
 package perococco.bot.common.lang;
 
 import bot.common.lang.*;
+import bot.common.lang.fp.Function1;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 
@@ -21,33 +22,44 @@ public class PerococcoIdentity<S> implements Identity<S> {
         return new PerococcoIdentityFactory();
     }
 
-    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool(
-            new ThreadFactoryBuilder()
-                    .setDaemon(true)
-                    .setNameFormat("Identity Thread %d")
-                    .build()
-    );
+
+    @NonNull
+    private volatile S value;
+
+    @NonNull
+    private final Updater<S> updater;
 
     private final Listeners<IdentityListener<S>> listeners = new Listeners<>();
 
-    @NonNull
-    private S value;
-
-    private Future<?> action = null;
-
-    @NonNull
-    private final AtomicReference<Consumer<IdentityAction<S,?>>> actionConsumer = new AtomicReference<>(IdentityAction::notRunning);
+    public PerococcoIdentity(@NonNull S initialValue, @NonNull Updater<S> updater) {
+        this.value = initialValue;
+        this.updater = updater;
+    }
 
     public PerococcoIdentity(@NonNull S initialValue) {
-        this.value = initialValue;
+        this(initialValue,new DefaultUpdater<>());
     }
 
     void start() {
-        action = EXECUTOR_SERVICE.submit(new Runner());
+        updater.start();
     }
+
     void stop() {
-        action.cancel(true);
-        action = null;
+        updater.stop();
+    }
+
+    @NonNull
+    @Override
+    public S getRootState() {
+        return value;
+    }
+
+    private void setRootState(@NonNull S value) {
+        final S oldValue = this.value;
+        this.value = value;
+        if (oldValue != value) {
+            listeners.warnListeners(l -> l.onValueChange(oldValue, value));
+        }
     }
 
     @Override
@@ -56,81 +68,24 @@ public class PerococcoIdentity<S> implements Identity<S> {
     }
 
     @Override
-    public @NonNull CompletionStage<S> mutate(@NonNull Function<? super S,? extends S> mutation) {
-        return addAction(IdentityAction.mutation(mutation));
+    public @NonNull Subscription addWeakListener(@NonNull IdentityListener<S> listener) {
+        final WeakIdentityListener<S> weakIdentityListener = new WeakIdentityListener<>(this,listener);
+        return weakIdentityListener.subscription();
     }
 
     @Override
-    public @NonNull CompletionStage<Nil> run(@NonNull Consumer<? super S> action) {
-        return addAction(IdentityAction.run(action));
-    }
-
-    @Override
-    public @NonNull <R> CompletionStage<R> apply(@NonNull Function<? super S,? extends R> function) {
-        return addAction(IdentityAction.apply(function));
-    }
-
-    @Override
-    public void runAndWait(@NonNull Consumer<? super S> action) throws InterruptedException, ExecutionException {
-        addActionAndWait(IdentityAction.run(action));
-    }
-
-    @Override
-    public <R> @NonNull R applyAndWait(@NonNull Function<? super S,? extends R> function) throws InterruptedException, ExecutionException {
-        return addActionAndWait(IdentityAction.apply(function));
+    public @NonNull <T> CompletionStage<MutationResult<S, T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
+        return updater.<T>offerUpdatingOperation(
+                mutation,
+                this::getRootState,
+                this::setRootState,
+                getter
+        ).thenApply(this::createMutation);
     }
 
     @NonNull
-    private <R> CompletionStage<R> addAction(@NonNull IdentityAction<S,R> identityAction) {
-        actionConsumer.get().accept(identityAction);
-        return identityAction.completionStage();
+    private <T> MutationResult<S,T> createMutation(UpdateResult<S, T> updateResult) {
+        return new MutationResult<>(this,updateResult.result());
     }
 
-    @NonNull
-    private <R> R addActionAndWait(@NonNull IdentityAction<S,R> identityAction) throws ExecutionException, InterruptedException {
-        actionConsumer.get().accept(identityAction);
-        return identityAction.get();
-    }
-
-    private class Runner implements Runnable {
-
-        @NonNull
-        private final BlockingDeque<IdentityAction<S,?>> actionQueue = new LinkedBlockingDeque<>();
-
-        @Override
-        public void run() {
-            actionConsumer.set(actionQueue::addLast);
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    final IdentityAction<S,?> action = actionQueue.take();
-                    performAction(action);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
-            this.switchActionConsumerToStopped();
-            this.warnAllRemainingThatWeStopped();
-        }
-
-        private void switchActionConsumerToStopped() {
-            actionConsumer.set(IdentityAction::stopped);
-        }
-
-        private void warnAllRemainingThatWeStopped() {
-            final List<IdentityAction<S,?>> remaining = new ArrayList<>(actionQueue.size()+10);
-            actionQueue.drainTo(remaining);
-            remaining.forEach(IdentityAction::stopped);
-        }
-
-        private void performAction(IdentityAction<S,?> action) {
-            final S oldValue = value;
-            final S newValue = action.execute(oldValue);
-            if (newValue == oldValue) {
-                return;
-            }
-            listeners.warnListeners(l -> l.onValueChange(newValue,oldValue));
-            value = newValue;
-        }
-    }
 }

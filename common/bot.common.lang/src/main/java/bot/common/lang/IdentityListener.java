@@ -7,5 +7,5 @@ import lombok.NonNull;
  **/
 public interface IdentityListener<S> {
 
-    void onValueChange(@NonNull S newValue, @NonNull S oldValue);
+    void onValueChange(@NonNull S oldValue, @NonNull S newValue);
 }

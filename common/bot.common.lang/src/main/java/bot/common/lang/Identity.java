@@ -1,8 +1,10 @@
 package bot.common.lang;
 
+import bot.common.lang.fp.Function1;
 import lombok.NonNull;
 
 import java.util.concurrent.CompletionStage;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -16,9 +18,11 @@ public interface Identity<S> extends ReadOnlyIdentity<S> {
     }
 
     @NonNull
-    CompletionStage<S> mutate(@NonNull Function<? super S, ? extends S> mutation);
+    <T> CompletionStage<MutationResult<S,T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter);
 
     @NonNull
-    Subscription addListener(@NonNull IdentityListener<S> listener);
+    default CompletionStage<MutationResult<S,S>> mutate(@NonNull Mutation<S> mutation) {
+        return mutateAndGet(mutation, s -> s);
+    }
 
 }

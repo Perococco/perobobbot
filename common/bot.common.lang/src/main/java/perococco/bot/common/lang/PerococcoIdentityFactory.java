@@ -1,9 +1,6 @@
 package perococco.bot.common.lang;
 
-import bot.common.lang.Disposer;
-import bot.common.lang.Identity;
-import bot.common.lang.IdentityFactory;
-import bot.common.lang.Priority;
+import bot.common.lang.*;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,9 +16,15 @@ public class PerococcoIdentityFactory extends IdentityFactory {
 
     @Override
     public @NonNull <S> Identity<S> create(@NonNull S initialValue) {
-        final PerococcoIdentity<S> identity = new PerococcoIdentity<>(initialValue);
-        identity.start();
-        return Holder.DISPOSER.add(identity, PerococcoIdentity::stop);
+        final ProxyIdentity<S> weakIdentity;
+        {
+            final PerococcoIdentity<S> identity = new PerococcoIdentity<>(initialValue);
+            identity.start();
+            weakIdentity = new ProxyIdentity<>(identity);
+            Holder.DISPOSER.add(weakIdentity, identity::stop);
+        }
+        return weakIdentity;
+
     }
 
     private static class Holder {

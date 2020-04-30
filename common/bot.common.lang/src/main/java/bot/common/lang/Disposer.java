@@ -15,7 +15,6 @@ import java.util.function.Consumer;
  **/
 public class Disposer  {
 
-
     @NonNull
     private final IdentityHashMap<Reference<?>,Runnable> referenceMap = new IdentityHashMap<>();
 
@@ -26,17 +25,10 @@ public class Disposer  {
     }
 
     @NonNull
-    public <T> T add(@NonNull T value, @NonNull Consumer<? super T> actionOnGC) {
-        final WeakReference<T> reference = new WeakReference<>(value,referenceQueue);
-        referenceMap.put(reference,new SoftAction<>(reference,actionOnGC));
-        return value;
-    }
-
-    @NonNull
-    public <T> T add(@NonNull T value, @NonNull Runnable actionOnGC) {
-        final PhantomReference<T> reference = new PhantomReference<>(value, referenceQueue);
+    public <T> WeakReference<T> add(@NonNull T value, @NonNull Runnable actionOnGC) {
+        final WeakReference<T> reference = new WeakReference<>(value, referenceQueue);
         referenceMap.put(reference,actionOnGC);
-        return value;
+        return reference;
     }
 
     @NonNull
@@ -47,21 +39,6 @@ public class Disposer  {
             runnable.run();
         }
         return Looper.IterationCommand.CONTINUE;
-    }
-
-    @RequiredArgsConstructor
-    private static class SoftAction<T> implements Runnable {
-
-        @NonNull
-        private final WeakReference<T> reference;
-
-        @NonNull
-        private final Consumer<? super T> action;
-
-        @Override
-        public void run() {
-            action.accept(reference.get());
-        }
     }
 
 }
