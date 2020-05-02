@@ -12,18 +12,16 @@ import java.time.Instant;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Getter
 public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatEvent {
 
     @NonNull
-    @Getter
     private final TwitchChatState state;
 
     @NonNull
-    @Getter
     private final Instant receptionTime;
 
     @NonNull
-    @Getter
     private final M message;
 
     @Override
@@ -31,14 +29,6 @@ public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatE
         return "ReceivedMessages{" +
                "message=" + message +
                '}';
-    }
-
-    @NonNull
-    public <U extends MessageFromTwitch> Optional<ReceivedMessage<U>> castMessageTo(@NonNull Class<U> messageType) {
-        if (messageType.isInstance(message)) {
-            return Optional.of(new ReceivedMessage<>(state,receptionTime,messageType.cast(messageType)));
-        }
-        return Optional.empty();
     }
 
     @Override
