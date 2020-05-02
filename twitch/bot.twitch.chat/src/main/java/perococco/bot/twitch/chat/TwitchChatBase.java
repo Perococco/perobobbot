@@ -30,7 +30,6 @@ public abstract class TwitchChatBase implements TwitchChat {
     @Getter(AccessLevel.PROTECTED)
     private final Listeners<TwitchChatListener> listeners = new Listeners<>();
 
-    private final ReceivedMessageExtractor extractor = ReceivedMessageExtractor.create();
 
     protected void warnListeners(@NonNull TwitchChatEvent event) {
         listeners.warnListeners(TwitchChatListener::onTwitchChatEvent, event);
@@ -42,24 +41,5 @@ public abstract class TwitchChatBase implements TwitchChat {
         return listeners.addListener(listener);
     }
 
-    @Override
-    public @NonNull Subscription addPrivateMessageListener(@NonNull PrivMsgFromTwitchListener listener) {
-        return addTwitchChatListener(
-                e -> e.accept(extractor)
-                      .flatMap(this::castToPrivateMessage)
-                      .ifPresent(listener::onPrivateMessage)
-        );
-    }
-
-    @NonNull
-    private Optional<ReceivedMessage<PrivMsgFromTwitch>> castToPrivateMessage(@NonNull ReceivedMessage<?> receivedMessage) {
-        if (receivedMessage.message() instanceof PrivMsgFromTwitch) {
-            final TwitchChatState twitchChatState = receivedMessage.state();
-            final Instant receptionTime = receivedMessage.receptionTime();
-            final PrivMsgFromTwitch message = (PrivMsgFromTwitch) receivedMessage.message();
-            return Optional.of(new ReceivedMessage<>(twitchChatState,receptionTime,message));
-        }
-        return Optional.empty();
-    }
 
 }

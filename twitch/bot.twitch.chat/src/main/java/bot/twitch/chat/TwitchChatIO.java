@@ -36,7 +36,11 @@ public interface TwitchChatIO {
     Subscription addTwitchChatListener(@NonNull TwitchChatListener listener);
 
     @NonNull
-    Subscription addPrivateMessageListener(@NonNull PrivMsgFromTwitchListener listener);
+    default Subscription addPrivateMessageListener(@NonNull PrivMsgFromTwitchListener listener) {
+        return this.addTwitchChatListener(listener.toTwitchChatListener());
+    }
+
+
 
     /**
      * @return true if this TwitchChat is running
