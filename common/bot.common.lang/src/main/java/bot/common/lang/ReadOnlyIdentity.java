@@ -13,7 +13,6 @@ public interface ReadOnlyIdentity<S> {
     @NonNull
     Subscription addListener(@NonNull IdentityListener<S> listener);
 
-    @NonNull
-    Subscription addWeakListener(@NonNull IdentityListener<S> listener);
+    void addWeakListener(@NonNull IdentityListener<S> listener);
 
 }

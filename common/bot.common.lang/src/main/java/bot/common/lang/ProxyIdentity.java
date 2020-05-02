@@ -44,8 +44,7 @@ public class ProxyIdentity<S> implements Identity<S> {
     }
 
     @Override
-    @NonNull
-    public Subscription addWeakListener(@NonNull IdentityListener<S> listener) {
-        return delegate.addWeakListener(listener);
+    public void addWeakListener(@NonNull IdentityListener<S> listener) {
+        delegate.addWeakListener(listener);
     }
 }

@@ -68,9 +68,8 @@ public class PerococcoIdentity<S> implements Identity<S> {
     }
 
     @Override
-    public @NonNull Subscription addWeakListener(@NonNull IdentityListener<S> listener) {
+    public void addWeakListener(@NonNull IdentityListener<S> listener) {
         final WeakIdentityListener<S> weakIdentityListener = new WeakIdentityListener<>(this,listener);
-        return weakIdentityListener.subscription();
     }
 
     @Override
