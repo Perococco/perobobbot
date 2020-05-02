@@ -12,9 +12,9 @@ public class Disconnection<M> implements AdvancedChatEvent<M> {
 
     private static final Disconnection<?> DISCONNECTION = new Disconnection<>();
 
+    @SuppressWarnings("unchecked")
     @NonNull
     public static <M> Disconnection<M> create() {
-        //noinspection unchecked
         return (Disconnection<M>)DISCONNECTION;
     }
 

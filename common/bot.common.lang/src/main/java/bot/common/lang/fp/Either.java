@@ -88,20 +88,20 @@ public final class Either<L, R> {
     }
 
     @NonNull
+    @SuppressWarnings("unchecked")
     public <M> Either<M,R> mapLeft(@NonNull Function1<? super L, ? extends M> mapper) {
         if (left != null) {
             return Either.left(mapper.f(left));
         }
-        //noinspection unchecked
         return (Either<M,R>)this;
     }
 
     @NonNull
+    @SuppressWarnings("unchecked")
     public <S> Either<L,S> mapRight(@NonNull Function1<? super R, ? extends S> mapper) {
         if (right != null) {
             return Either.right(mapper.f(right));
         }
-        //noinspection unchecked
         return (Either<L,S>)this;
     }
 

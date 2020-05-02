@@ -11,8 +11,8 @@ public class Connection<M> implements AdvancedChatEvent<M> {
     private static final Connection<?> CONNECTION = new Connection<>();
 
     @NonNull
+    @SuppressWarnings("unchecked")
     public static <M> Connection<M> create() {
-        //noinspection unchecked
         return (Connection<M>)CONNECTION;
     }
 
