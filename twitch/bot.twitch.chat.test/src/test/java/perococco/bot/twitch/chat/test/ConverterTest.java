@@ -30,7 +30,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @MethodSource("chatSample")
-    public void parseMessage(@NonNull String messageAsString) {
+    public void shouldParseMessageWithoutError(@NonNull String messageAsString) {
         final Optional<MessageFromTwitch> answer = CONVERTER.convert(messageAsString);
         Assertions.assertTrue(answer.isPresent());
     }
