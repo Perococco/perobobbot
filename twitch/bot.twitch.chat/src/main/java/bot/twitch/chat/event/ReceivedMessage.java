@@ -15,12 +15,21 @@ import java.util.Optional;
 @Getter
 public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatEvent {
 
+    /**
+     * The state of the Twitch chat when the message was received
+     */
     @NonNull
     private final TwitchChatState state;
 
+    /**
+     * The time when the message was received
+     */
     @NonNull
     private final Instant receptionTime;
 
+    /**
+     * The received message
+     */
     @NonNull
     private final M message;
 
