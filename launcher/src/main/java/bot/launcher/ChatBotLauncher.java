@@ -22,8 +22,9 @@ public class ChatBotLauncher implements ApplicationRunner {
 
 
     private void launchBot(@NonNull TwitchChatIO chat) {
-        final ChatProgramManager manager = new ChatProgramManager(chat, new PingProgram(), new EchoProgram());
-
+        final ChatProgramManager manager = ChatProgramManager.create(chat);
+        manager.registerChatProgram(new PingProgram())
+                .registerChatProgram(new EchoProgram());
         manager.start();
     }
 

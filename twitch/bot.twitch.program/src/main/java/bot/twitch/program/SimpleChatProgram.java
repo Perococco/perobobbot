@@ -1,19 +1,21 @@
 package bot.twitch.program;
 
 import com.google.common.collect.ImmutableSet;
+import lombok.Getter;
 import lombok.NonNull;
 
-public abstract class SimpleChatProgram extends ChatProgramBase{
+public abstract class SimpleChatProgram extends ChatProgramBase {
 
     @NonNull
-    private final ImmutableSet<String> myCommands;
+    @Getter
+    private final ImmutableSet<String> commands;
 
     public SimpleChatProgram(@NonNull String myCommand) {
-        this.myCommands = ImmutableSet.of(myCommand);
+        this.commands = ImmutableSet.of(myCommand);
     }
 
     @Override
     protected boolean isOneOfMyCommand(@NonNull ProgramCommand command) {
-        return myCommands.contains(command.name());
+        return commands.contains(command.commandName());
     }
 }

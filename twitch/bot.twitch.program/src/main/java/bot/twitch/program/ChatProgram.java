@@ -1,11 +1,16 @@
 package bot.twitch.program;
 
 import bot.twitch.chat.TwitchChatIO;
-import bot.twitch.chat.event.ReceivedMessage;
-import bot.twitch.chat.message.from.PrivMsgFromTwitch;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 
 public interface ChatProgram {
+
+    @NonNull
+    String name();
+
+    @NonNull
+    ImmutableSet<String> commands();
 
     /**
      * @param twitchChatIO the Twitch Chat IO to send a message
@@ -14,8 +19,6 @@ public interface ChatProgram {
      */
     boolean handleCommand(
             @NonNull TwitchChatIO twitchChatIO,
-
-            @NonNull ReceivedMessage<PrivMsgFromTwitch> reception,
             @NonNull ProgramCommand command
     );
 }

@@ -1,5 +1,6 @@
-package bot.twitch.program;
+package perococco.bot.twitch.program;
 
+import bot.twitch.program.ProgramCommand;
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -12,12 +13,12 @@ import java.util.Optional;
 public class CommandExtractor {
 
     @NonNull
-    public static Optional<ProgramCommand> extract(@NonNull String message) {
+    public static Optional<CommandExtraction> extract(@NonNull String message) {
         return extract("!", message);
     }
 
     @NonNull
-    public static Optional<ProgramCommand> extract(@NonNull String commandPrefix, @NonNull String message) {
+    public static Optional<CommandExtraction> extract(@NonNull String commandPrefix, @NonNull String message) {
         return new CommandExtractor(commandPrefix, message).extractCommand();
     }
 
@@ -29,7 +30,7 @@ public class CommandExtractor {
 
     private String[] tokens;
 
-    private Optional<ProgramCommand> extractCommand() {
+    private Optional<CommandExtraction> extractCommand() {
         if (messageDoesNoStartWithPrefix()) {
             return Optional.empty();
         }
@@ -41,7 +42,10 @@ public class CommandExtractor {
         final String commandName = tokens[0];
         final ImmutableList<String> parameters = Arrays.stream(tokens,1,tokens.length).collect(ImmutableList.toImmutableList());
 
-        return Optional.ofNullable(ProgramCommand.builder().name(commandName).parameters(parameters).build());
+        return Optional.ofNullable(CommandExtraction.builder()
+                                                 .name(commandName)
+                                                 .parameters(parameters)
+                                                 .build());
     }
 
     private void splitMessageIntoTokens() {
