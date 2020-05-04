@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.twitch.chat.message.IRCCommand;
 import lombok.NonNull;
 
@@ -19,7 +20,7 @@ public class Pong extends CommandToTwitch {
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "PONG :tmi.twitch.tv";
     }
 

@@ -1,10 +1,8 @@
 package bot.twitch.chat.message.to;
 
-import bot.common.lang.fp.TryResult;
+import bot.chat.advanced.DispatchContext;
 import bot.twitch.chat.TwitchChatState;
 import bot.twitch.chat.message.IRCCommand;
-import bot.twitch.chat.message.from.MessageFromTwitch;
-import bot.twitch.chat.message.from.PingFromTwitch;
 import bot.twitch.chat.message.from.PongFromTwitch;
 import lombok.NonNull;
 
@@ -22,7 +20,7 @@ public class Ping extends SimpleRequestToTwitch<PongFromTwitch> {
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "PING :tmi.twitch.tv";
     }
 

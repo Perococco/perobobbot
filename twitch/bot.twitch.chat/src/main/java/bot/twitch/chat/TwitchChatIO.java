@@ -1,6 +1,8 @@
 package bot.twitch.chat;
 
+import bot.chat.advanced.DispatchContext;
 import bot.common.lang.Subscription;
+import bot.common.lang.fp.Function1;
 import bot.twitch.chat.message.from.Join;
 import bot.twitch.chat.message.from.MessageFromTwitch;
 import bot.twitch.chat.message.from.Part;
@@ -25,7 +27,12 @@ public interface TwitchChatIO {
      * @return a completion stage that completes when the message has been sent
      */
     @NonNull
-    CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message);
+    default CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message) {
+        return message(channel,d -> message);
+    }
+
+    @NonNull
+    CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
     /**
      * Add a listener of event that occurs on the Twitch chat

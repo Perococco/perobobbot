@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.TwitchChatState;
 import bot.twitch.chat.message.IRCCommand;
@@ -24,7 +25,7 @@ public class Part extends SimpleRequestToTwitch<bot.twitch.chat.message.from.Par
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "PART #"+channel.name();
     }
 

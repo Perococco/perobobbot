@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.ChannelSpecific;
@@ -26,7 +27,7 @@ public class Join extends RequestToTwitch<UserState> {
 
     @Override
     @NonNull
-    public String payload() {
+    public String payload(@NonNull DispatchContext dispatchContext) {
         return "JOIN #"+channel.name();
     }
 

@@ -1,5 +1,7 @@
 package perococco.bot.twitch.chat.actions;
 
+import bot.chat.advanced.DispatchContext;
+import bot.common.lang.fp.Function1;
 import bot.twitch.chat.Channel;
 import bot.twitch.chat.message.to.PrivMsg;
 import lombok.NonNull;
@@ -15,7 +17,7 @@ public class SendPrivMsg implements IOAction<IO.DispatchSlip> {
     private final PrivMsg privMsg;
 
 
-    public SendPrivMsg(@NonNull Channel channel, @NonNull String message) {
+    public SendPrivMsg(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> message) {
         this(new PrivMsg(channel,message));
     }
 

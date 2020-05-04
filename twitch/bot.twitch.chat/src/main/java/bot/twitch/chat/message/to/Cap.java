@@ -1,6 +1,6 @@
 package bot.twitch.chat.message.to;
 
-import bot.common.lang.fp.TryResult;
+import bot.chat.advanced.DispatchContext;
 import bot.twitch.chat.Capability;
 import bot.twitch.chat.TwitchChatState;
 import bot.twitch.chat.message.IRCCommand;
@@ -29,7 +29,7 @@ public final class Cap extends SimpleRequestToTwitch<CapAck> {
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "CAP REQ :" + capabilities.stream()
                                          .map(Capability::ircValue)
                                          .collect(Collectors.joining(" "));

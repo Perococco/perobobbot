@@ -8,5 +8,5 @@ import lombok.NonNull;
 public interface Message {
 
     @NonNull
-    String payload();
+    String payload(@NonNull DispatchContext dispatchContext);
 }

@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.common.lang.CastTool;
 import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.TwitchChatAuthenticationFailure;
@@ -27,7 +28,7 @@ public class Nick extends RequestToTwitch<GlobalUserState> {
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "NICK " + nickname;
     }
 

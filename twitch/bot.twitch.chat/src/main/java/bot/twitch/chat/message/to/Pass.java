@@ -1,5 +1,6 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.common.lang.Secret;
 import bot.twitch.chat.message.IRCCommand;
 import lombok.NonNull;
@@ -18,7 +19,7 @@ public class Pass extends CommandToTwitch {
     }
 
     @Override
-    public @NonNull String payload() {
+    public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "PASS oauth:" + oauthValue.value();
     }
 

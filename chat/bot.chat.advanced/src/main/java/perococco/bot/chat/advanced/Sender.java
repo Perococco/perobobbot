@@ -1,6 +1,7 @@
 package perococco.bot.chat.advanced;
 
 import bot.chat.advanced.AdvancedChatListener;
+import bot.chat.advanced.DispatchContext;
 import bot.chat.advanced.event.Error;
 import bot.chat.advanced.event.PostedMessage;
 import bot.chat.core.ChatIO;
@@ -92,7 +93,8 @@ public class Sender<M> extends Looper {
     }
 
     private void postMessageToChat(@NonNull PostData<?,M> postData) {
-        chat.postMessage(postData.messagePayload());
+        final DispatchContext dispatchContext = new DispatchContext(Instant.now());
+        chat.postMessage(postData.messagePayload(dispatchContext));
     }
 
     private void performActionsAfterSuccessfulPost(@NonNull PostData<?,M> postData, @NonNull Instant dispatchingTime) {

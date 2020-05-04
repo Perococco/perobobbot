@@ -1,5 +1,6 @@
 package bot.chat.advanced.event;
 
+import bot.chat.advanced.DispatchContext;
 import bot.chat.advanced.Message;
 import lombok.Getter;
 import lombok.NonNull;
@@ -30,7 +31,7 @@ public class PostedMessage<M> implements AdvancedChatEvent<M> {
 
     @Override
     public String toString() {
-        final String payload = postedMessage.payload();
+        final String payload = postedMessage.payload(DispatchContext.NIL);
         final int idx = payload.indexOf("PASS");
         final String value;
         if (idx >= 0) {

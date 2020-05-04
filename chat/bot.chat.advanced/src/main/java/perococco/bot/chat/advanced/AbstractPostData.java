@@ -1,5 +1,6 @@
 package perococco.bot.chat.advanced;
 
+import bot.chat.advanced.DispatchContext;
 import bot.chat.advanced.Message;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,8 @@ public abstract class AbstractPostData<A,S extends Message, M> implements PostDa
     }
 
     @Override
-    public @NonNull String messagePayload() {
-        return message.payload();
+    public @NonNull String messagePayload(@NonNull DispatchContext dispatchContext) {
+        return message.payload(dispatchContext);
     }
 
     public boolean isCompleted() {

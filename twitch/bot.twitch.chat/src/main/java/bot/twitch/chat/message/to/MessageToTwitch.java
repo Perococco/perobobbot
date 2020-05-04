@@ -1,10 +1,9 @@
 package bot.twitch.chat.message.to;
 
+import bot.chat.advanced.DispatchContext;
 import bot.chat.advanced.Message;
-import bot.twitch.chat.message.IRCCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 /**
  * @author perococco
@@ -19,6 +18,6 @@ public abstract class MessageToTwitch implements Message {
         if (commandInPayload().equalsIgnoreCase("PASS")) {
             return "MessageToTwitch{PASS *****}";
         }
-        return "MessageToTwitch{"+payload()+"}";
+        return "MessageToTwitch{" + payload(DispatchContext.NIL) + "}";
     }
 }

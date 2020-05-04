@@ -1,12 +1,16 @@
 module bot.launcher {
     requires static lombok;
+
     requires java.desktop;
     requires spring.context;
     requires spring.boot;
-    requires bot.twitch.chat;
-    requires bot.common.lang;
     requires spring.boot.autoconfigure;
 
+    requires com.google.common;
+
+    requires bot.twitch.chat;
+    requires bot.common.lang;
+    requires bot.chat.advanced;
 
     opens bot.launcher to spring.core;
 

@@ -1,5 +1,6 @@
 package perococco.bot.chat.advanced;
 
+import bot.chat.advanced.DispatchContext;
 import bot.chat.advanced.Message;
 import lombok.NonNull;
 
@@ -26,6 +27,6 @@ public interface PostData<A,M> {
     void onMessagePostFailure(@NonNull Throwable t);
 
     @NonNull
-    String messagePayload();
+    String messagePayload(@NonNull DispatchContext dispatchContext);
 
 }

@@ -5,6 +5,7 @@ import bot.chat.advanced.event.AdvancedChatEvent;
 import bot.chat.core.Chat;
 import bot.chat.core.ChatFactory;
 import bot.common.lang.ThrowableTool;
+import bot.common.lang.fp.Function1;
 import bot.common.lang.fp.TryResult;
 import bot.twitch.chat.*;
 import bot.twitch.chat.event.TwitchChatEvent;
@@ -93,8 +94,8 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
     }
 
     @Override
-    public @NonNull CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message) {
-        final SendPrivMsg sendPrivMsg = new SendPrivMsg(channel, message);
+    public @NonNull CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+        final SendPrivMsg sendPrivMsg = new SendPrivMsg(channel, messageBuilder);
         return connectionIdentity.executeWithIO(sendPrivMsg)
                                  .thenApply(this::convertSlip);
     }
