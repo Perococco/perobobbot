@@ -1,4 +1,4 @@
-package bot.launcher.program;
+package bot.twitch.program;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
@@ -13,7 +13,7 @@ public abstract class SimpleChatProgram extends ChatProgramBase{
     }
 
     @Override
-    protected boolean isOneOfMyCommand(@NonNull Command command) {
+    protected boolean isOneOfMyCommand(@NonNull ProgramCommand command) {
         return myCommands.contains(command.name());
     }
 }

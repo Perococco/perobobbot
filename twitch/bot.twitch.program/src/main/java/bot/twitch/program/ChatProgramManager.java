@@ -1,16 +1,15 @@
-package bot.launcher.program;
+package bot.twitch.program;
 
 
 import bot.common.lang.Subscription;
-import bot.launcher.program.ChatProgram;
-import bot.launcher.program.Command;
-import bot.launcher.program.CommandExtractor;
 import bot.twitch.chat.PrivMsgFromTwitchListener;
 import bot.twitch.chat.TwitchChatIO;
 import bot.twitch.chat.event.ReceivedMessage;
 import bot.twitch.chat.message.from.PrivMsgFromTwitch;
 import com.google.common.collect.ImmutableList;
-import lombok.*;
+import lombok.NonNull;
+import lombok.Singular;
+import lombok.Synchronized;
 
 public class ChatProgramManager {
 
@@ -23,7 +22,8 @@ public class ChatProgramManager {
 
     private Subscription subscription = Subscription.NONE;
 
-    public ChatProgramManager(@NonNull TwitchChatIO twitchChatIO, @NonNull ChatProgram... programs) {
+    public ChatProgramManager(
+            @NonNull TwitchChatIO twitchChatIO, @NonNull ChatProgram... programs) {
         this(twitchChatIO,ImmutableList.copyOf(programs));
     }
 
@@ -48,11 +48,11 @@ public class ChatProgramManager {
 
         @Override
         public void onPrivateMessage(@NonNull ReceivedMessage<PrivMsgFromTwitch> reception) {
-            CommandExtractor.extract(reception.message().message())
+            CommandExtractor.extract(reception.message().payload())
                             .ifPresent(command -> handleCommand(reception,command));
         }
 
-        private void handleCommand(@NonNull ReceivedMessage<PrivMsgFromTwitch> reception,@NonNull Command command) {
+        private void handleCommand(@NonNull ReceivedMessage<PrivMsgFromTwitch> reception,@NonNull ProgramCommand command) {
             for (ChatProgram program : programs) {
                 if (program.handleCommand(twitchChatIO,reception,command)) {
                     return;

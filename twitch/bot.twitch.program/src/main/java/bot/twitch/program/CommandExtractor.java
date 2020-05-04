@@ -1,4 +1,4 @@
-package bot.launcher.program;
+package bot.twitch.program;
 
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
@@ -12,12 +12,12 @@ import java.util.Optional;
 public class CommandExtractor {
 
     @NonNull
-    public static Optional<Command> extract(@NonNull String message) {
+    public static Optional<ProgramCommand> extract(@NonNull String message) {
         return extract("!", message);
     }
 
     @NonNull
-    public static Optional<Command> extract(@NonNull String commandPrefix, @NonNull String message) {
+    public static Optional<ProgramCommand> extract(@NonNull String commandPrefix, @NonNull String message) {
         return new CommandExtractor(commandPrefix, message).extractCommand();
     }
 
@@ -29,7 +29,7 @@ public class CommandExtractor {
 
     private String[] tokens;
 
-    private Optional<Command> extractCommand() {
+    private Optional<ProgramCommand> extractCommand() {
         if (messageDoesNoStartWithPrefix()) {
             return Optional.empty();
         }
@@ -41,7 +41,7 @@ public class CommandExtractor {
         final String commandName = tokens[0];
         final ImmutableList<String> parameters = Arrays.stream(tokens,1,tokens.length).collect(ImmutableList.toImmutableList());
 
-        return Optional.ofNullable(Command.builder().name(commandName).parameters(parameters).build());
+        return Optional.ofNullable(ProgramCommand.builder().name(commandName).parameters(parameters).build());
     }
 
     private void splitMessageIntoTokens() {

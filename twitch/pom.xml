@@ -23,6 +23,7 @@
 
     <modules>
         <module>bot.twitch.chat</module>
+        <module>bot.twitch.program</module>
         <module>bot.twitch.chat.test</module>
     </modules>
 

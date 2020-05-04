@@ -25,7 +25,7 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
     private final Channel channel;
 
     @NonNull
-    private final String message;
+    private final String payload;
 
     @Override
     public @NonNull IRCCommand command() {
@@ -43,7 +43,7 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
                                 .ircParsing(helper.ircParsing())
                                 .user(helper.userFromPrefix())
                                 .channel(helper.channelFromParameterAt(0))
-                                .message(helper.lastParameter())
+                                .payload(helper.lastParameter())
                                 .build();
     }
 }

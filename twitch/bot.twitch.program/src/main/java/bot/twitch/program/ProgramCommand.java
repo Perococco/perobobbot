@@ -1,7 +1,5 @@
-package bot.launcher.program;
+package bot.twitch.program;
 
-import bot.twitch.chat.event.ReceivedMessage;
-import bot.twitch.chat.message.from.PrivMsgFromTwitch;
 import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 @Builder
-public class Command {
+public class ProgramCommand {
 
     @NonNull
     private final String name;

@@ -33,6 +33,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-chat-advanced</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-twitch-program</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>

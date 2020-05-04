@@ -1,4 +1,4 @@
-package bot.launcher.program;
+package bot.twitch.program;
 
 import bot.twitch.chat.TwitchChatIO;
 import bot.twitch.chat.event.ReceivedMessage;
@@ -12,5 +12,10 @@ public interface ChatProgram {
      * @param command the command received from Twitch
      * @return true if the command should not be processed by other program
      */
-    boolean handleCommand(@NonNull TwitchChatIO twitchChatIO, @NonNull ReceivedMessage<PrivMsgFromTwitch> reception, @NonNull Command command);
+    boolean handleCommand(
+            @NonNull TwitchChatIO twitchChatIO,
+
+            @NonNull ReceivedMessage<PrivMsgFromTwitch> reception,
+            @NonNull ProgramCommand command
+    );
 }
