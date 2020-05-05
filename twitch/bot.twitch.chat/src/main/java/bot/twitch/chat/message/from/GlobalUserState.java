@@ -4,14 +4,14 @@ import bot.common.irc.IRCParsing;
 import bot.twitch.chat.message.IRCCommand;
 import lombok.*;
 
-@Builder
-@RequiredArgsConstructor
 @Getter
 @ToString
 public class GlobalUserState extends KnownMessageFromTwitch {
 
-    @NonNull
-    private final IRCParsing ircParsing;
+    @Builder
+    public GlobalUserState(@NonNull IRCParsing ircParsing) {
+        super(ircParsing);
+    }
 
     @Override
     public @NonNull IRCCommand command() {

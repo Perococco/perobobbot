@@ -10,8 +10,6 @@ import lombok.*;
  * @author perococco
  **/
 @Getter
-@RequiredArgsConstructor
-@Builder
 @ToString
 public class UserState extends KnownMessageFromTwitch implements ChannelSpecific {
 
@@ -19,8 +17,11 @@ public class UserState extends KnownMessageFromTwitch implements ChannelSpecific
     @NonNull
     private final Channel channel;
 
-    @NonNull
-    private final IRCParsing ircParsing;
+    @Builder
+    public UserState(@NonNull IRCParsing ircParsing, @NonNull Channel channel) {
+        super(ircParsing);
+        this.channel = channel;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

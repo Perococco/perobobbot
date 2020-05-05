@@ -8,17 +8,17 @@ import lombok.*;
  * @author perococco
  **/
 @ToString
-@RequiredArgsConstructor
-@Builder
 public class Welcome extends KnownMessageFromTwitch {
 
     @NonNull
     @Getter
-    private final IRCParsing ircParsing;
-
-    @NonNull
-    @Getter
     private final String userName;
+
+    @Builder
+    public Welcome(@NonNull IRCParsing ircParsing, @NonNull String userName) {
+        super(ircParsing);
+        this.userName = userName;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

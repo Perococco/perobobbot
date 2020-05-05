@@ -12,19 +12,21 @@ import lombok.ToString;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
 @Getter
-@ToString(exclude = "ircParsing")
+@ToString
 public class UserNotice extends KnownMessageFromTwitch implements ChannelSpecific {
-
-    @NonNull
-    public IRCParsing ircParsing;
 
     @NonNull
     private final Channel channel;
 
     @NonNull
     private final String message;
+
+    public UserNotice(@NonNull IRCParsing ircParsing, @NonNull Channel channel, @NonNull String message) {
+        super(ircParsing);
+        this.channel = channel;
+        this.message = message;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

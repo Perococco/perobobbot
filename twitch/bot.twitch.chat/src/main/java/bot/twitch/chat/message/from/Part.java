@@ -12,19 +12,21 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
-@Builder
 @Getter
 public class Part extends KnownMessageFromTwitch implements ChannelSpecific {
-
-    @NonNull
-    private final IRCParsing ircParsing;
 
     @NonNull
     private final String user;
 
     @NonNull
     private final Channel channel;
+
+    @Builder
+    public Part(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel) {
+        super(ircParsing);
+        this.user = user;
+        this.channel = channel;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

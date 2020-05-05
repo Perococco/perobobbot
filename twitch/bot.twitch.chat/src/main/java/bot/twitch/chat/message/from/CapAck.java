@@ -12,18 +12,18 @@ import lombok.ToString;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
 @Getter
-@ToString(exclude = "ircParsing")
+@ToString
 public class CapAck extends KnownMessageFromTwitch {
 
-    @NonNull
-    private final IRCParsing ircParsing;
 
     @NonNull
     private final ImmutableSet<Capability> capabilities;
 
-
+    public CapAck(@NonNull IRCParsing ircParsing, @NonNull ImmutableSet<Capability> capabilities) {
+        super(ircParsing);
+        this.capabilities = capabilities;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

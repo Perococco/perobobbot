@@ -40,7 +40,7 @@ public class TwitchExecutionContext implements ExecutionContext {
     public TwitchExecutionContext(@NonNull TwitchChatIO twitchChatIO, @NonNull ReceivedMessage<PrivMsgFromTwitch> reception) {
         this.twitchChatIO = twitchChatIO;
         this.reception = reception;
-        this.executingUser = new TwichUser(reception.message().user());
+        this.executingUser = TwichUser.createFromPrivateMessage(reception.message());
     }
 
     @Override

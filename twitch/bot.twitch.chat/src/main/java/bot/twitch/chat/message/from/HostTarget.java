@@ -11,14 +11,16 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
 @Getter
 public abstract class HostTarget extends KnownMessageFromTwitch {
 
-    @NonNull
-    private final IRCParsing ircParsing;
 
     private final int numberOfViewers;
+
+    public HostTarget(@NonNull IRCParsing ircParsing, int numberOfViewers) {
+        super(ircParsing);
+        this.numberOfViewers = numberOfViewers;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

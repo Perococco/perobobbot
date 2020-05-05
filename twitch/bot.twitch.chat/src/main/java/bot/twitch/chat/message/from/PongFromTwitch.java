@@ -9,12 +9,11 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
 public class PongFromTwitch extends KnownMessageFromTwitch {
 
-    @NonNull
-    @Getter
-    private final IRCParsing ircParsing;
+    public PongFromTwitch(@NonNull IRCParsing ircParsing) {
+        super(ircParsing);
+    }
 
     @Override
     public @NonNull IRCCommand command() {

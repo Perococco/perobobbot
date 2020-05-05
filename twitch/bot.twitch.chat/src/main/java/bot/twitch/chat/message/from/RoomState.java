@@ -10,14 +10,9 @@ import lombok.*;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
 @Getter
-@Builder
-@ToString(exclude = "ircParsing")
+@ToString
 public class RoomState extends KnownMessageFromTwitch implements ChannelSpecific {
-
-    @NonNull
-    private final IRCParsing ircParsing;
 
     private final Channel channel;
 
@@ -31,6 +26,17 @@ public class RoomState extends KnownMessageFromTwitch implements ChannelSpecific
     private final int slow;
 
     private final boolean subsOnly;
+
+    @Builder
+    public RoomState(@NonNull IRCParsing ircParsing, Channel channel, boolean emoteOnly, @NonNull FollowMode followMode, boolean r9kMode, int slow, boolean subsOnly) {
+        super(ircParsing);
+        this.channel = channel;
+        this.emoteOnly = emoteOnly;
+        this.followMode = followMode;
+        this.r9kMode = r9kMode;
+        this.slow = slow;
+        this.subsOnly = subsOnly;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

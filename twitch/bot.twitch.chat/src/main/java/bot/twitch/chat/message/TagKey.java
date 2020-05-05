@@ -17,7 +17,8 @@ public enum  TagKey {
     FOLLOWERS_ONLY("followers-only"),
     R9K("r9k"),
     SLOW("slow"),
-    SUBS_ONLY("subs-only");
+    SUBS_ONLY("subs-only"),
+    DISPLAY_NAME("display-name");
 
     @NonNull
     @Getter

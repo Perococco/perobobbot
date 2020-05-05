@@ -17,7 +17,6 @@ import java.util.Optional;
  * @author perococco
  **/
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific {
 
     @NonNull
@@ -31,9 +30,6 @@ public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific
     }
 
     @NonNull
-    private final IRCParsing ircParsing;
-
-    @NonNull
     private final String user;
 
     @NonNull
@@ -41,6 +37,13 @@ public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific
 
     @Getter(AccessLevel.NONE)
     private final Duration banDuration;
+
+    public ClearChat(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel, Duration banDuration) {
+        super(ircParsing);
+        this.user = user;
+        this.channel = channel;
+        this.banDuration = banDuration;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

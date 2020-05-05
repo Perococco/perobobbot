@@ -9,20 +9,23 @@ import lombok.*;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
-@Builder
 @Getter
-@ToString(exclude = "ircParsing")
+@ToString
 public class Join extends KnownMessageFromTwitch implements ChannelSpecific {
 
-    @NonNull
-    private final IRCParsing ircParsing;
 
     @NonNull
     private final String user;
 
     @NonNull
     private final Channel channel;
+
+    @Builder
+    public Join(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel) {
+        super(ircParsing);
+        this.user = user;
+        this.channel = channel;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

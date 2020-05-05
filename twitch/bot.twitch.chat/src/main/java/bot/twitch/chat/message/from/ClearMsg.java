@@ -10,14 +10,10 @@ import lombok.*;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
-@Builder
 @Getter
-@ToString(exclude = "ircParsing")
+@ToString
 public class ClearMsg extends KnownMessageFromTwitch implements ChannelSpecific {
 
-    @NonNull
-    private final IRCParsing ircParsing;
 
     @NonNull
     private final String login;
@@ -31,6 +27,14 @@ public class ClearMsg extends KnownMessageFromTwitch implements ChannelSpecific 
     @NonNull
     private final Channel channel;
 
+    @Builder
+    public ClearMsg(@NonNull IRCParsing ircParsing, @NonNull String login, @NonNull String clearedMessage, @NonNull String targetMsgId, @NonNull Channel channel) {
+        super(ircParsing);
+        this.login = login;
+        this.clearedMessage = clearedMessage;
+        this.targetMsgId = targetMsgId;
+        this.channel = channel;
+    }
 
     @Override
     public @NonNull IRCCommand command() {

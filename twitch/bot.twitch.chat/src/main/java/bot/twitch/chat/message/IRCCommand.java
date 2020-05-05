@@ -58,7 +58,7 @@ public enum IRCCommand {
 
     IRCCommand(@NonNull String numericAlias) {
         this.numericAlias = numericAlias;
-        this.builder = h -> new GenericKnownMessageFromTwitch(this,h.ircParsing());
+        this.builder = h -> new GenericKnownMessageFromTwitch(h.ircParsing(), this);
     }
 
     IRCCommand(@NonNull Function<? super AnswerBuilderHelper, ? extends MessageFromTwitch> builder) {

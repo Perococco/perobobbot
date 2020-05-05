@@ -12,13 +12,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author perococco
  **/
-@RequiredArgsConstructor
-@Builder
 @Getter
 public class Mode extends KnownMessageFromTwitch implements ChannelSpecific {
-
-    @NonNull
-    private final IRCParsing ircParsing;
 
     @NonNull
     private final Channel channel;
@@ -27,6 +22,14 @@ public class Mode extends KnownMessageFromTwitch implements ChannelSpecific {
     private final String user;
 
     private final boolean gainedModeration;
+
+    @Builder
+    public Mode(@NonNull IRCParsing ircParsing, @NonNull Channel channel, @NonNull String user, boolean gainedModeration) {
+        super(ircParsing);
+        this.channel = channel;
+        this.user = user;
+        this.gainedModeration = gainedModeration;
+    }
 
     @Override
     public @NonNull IRCCommand command() {
