@@ -1,0 +1,18 @@
+= Program : BlackJack
+
+Allow viewer to play a round of BlackJack
+
+== Instructions
+
+=== Management
+* launch : launch a new round of blackjack
+* stop : stop the current round
+
+=== Player
+* bet <amount> : executed by a user to enter the round with a specific bet
+* hit
+* stand
+* double
+* split
+
+
