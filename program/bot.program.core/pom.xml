@@ -4,26 +4,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>bot-maven</artifactId>
-        <relativePath>../maven/pom.xml</relativePath>
+        <artifactId>bot-program</artifactId>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot-twitch</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>bot-program-core</artifactId>
 
-    <name>${application.name} - ${module.name}</name>
+    <name>${application.name} - ${module.name} : ${submodule.name}</name>
 
     <properties>
-        <module.name>Twitch</module.name>
+        <submodule.name>Core</submodule.name>
     </properties>
 
-    <modules>
-        <module>bot.twitch.chat</module>
-        <module>bot.twitch.chat.test</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-chat-advanced</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

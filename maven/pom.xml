@@ -104,13 +104,15 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-twitch-chat</artifactId>
+                <artifactId>bot-program-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
+
+
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-twitch-program</artifactId>
+                <artifactId>bot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

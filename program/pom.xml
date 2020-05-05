@@ -13,6 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bot-program</artifactId>
+    <packaging>pom</packaging>
 
     <name>${application.name} - ${module.name}</name>
 
@@ -20,11 +21,8 @@
         <module.name>Program</module.name>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-advanced</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>bot.program.core</module>
+    </modules>
 
 </project>
