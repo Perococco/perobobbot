@@ -11,5 +11,5 @@ public class DispatchContext {
     public static final DispatchContext NIL = new DispatchContext(Instant.MIN);
 
     @NonNull
-    private final Instant time;
+    private final Instant dispatchingTime;
 }

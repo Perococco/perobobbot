@@ -44,7 +44,7 @@ public class ManagerState {
         if (programs == newPrograms) {
             return this;
         }
-        return this.toBuilder().programs(programs).build();
+        return this.toBuilder().programs(newPrograms).build();
     }
 
     public void cleanUp() {

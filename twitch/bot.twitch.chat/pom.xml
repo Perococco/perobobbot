@@ -46,6 +46,10 @@
             <artifactId>bot-chat-websocket</artifactId>
         </dependency>
         <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

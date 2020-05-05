@@ -35,7 +35,11 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-twitch-program</artifactId>
+            <artifactId>bot-program-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-sample</artifactId>
         </dependency>
 
         <dependency>

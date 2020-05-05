@@ -48,6 +48,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
         this.prefixForPrograms = prefixForPrograms;
         this.managerProgram = new ProgramWithPolicyHandling(
                 Program.create(managerIdentity)
+                       .name("ProgramManager")
                        .addInstruction(StartProgram::new)
                        .addInstruction(StopProgram::new)
                        .addInstruction(ListPrograms::new)
@@ -84,11 +85,11 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
         return commandExtraction.isPresent();
     }
 
-    private void handleProgramCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
+    private void handleManagerCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
         executeProgram(managerProgram, executionContext, instructionExtraction);
     }
 
-    private void handleManagerCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
+    private void handleProgramCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
         for (@NonNull Program enabledProgram : managerIdentity.enabledPrograms()) {
             if (!enabledProgram.hasInstruction(instructionExtraction.instructionName())) {
                 break;
@@ -104,7 +105,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
             program.execute(executionContext, instructionExtraction.instructionName(), instructionExtraction.parameters());
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.warn(PROGRAM, "Error while executing program '{}'", program.name(), t);
+            LOG.warn(PROGRAM, "Error while executing program '{}' : {}", program.name(), t.getMessage());
         }
 
     }

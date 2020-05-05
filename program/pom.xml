@@ -23,6 +23,7 @@
 
     <modules>
         <module>bot.program.core</module>
+        <module>bot.program.sample</module>
     </modules>
 
 </project>

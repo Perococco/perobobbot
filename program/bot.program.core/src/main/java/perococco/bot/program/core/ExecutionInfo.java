@@ -50,7 +50,7 @@ public class ExecutionInfo {
     private boolean userCoolDownPolicyFailed(@NonNull String userId, @NonNull Instant now) {
         final Instant lastExecutionTime = getLastExecutionTime(userId);
         if (lastExecutionTime == null) {
-            return true;
+            return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
         return durationSinceLastExecution.compareTo(policy.userCoolDown()) < 0;

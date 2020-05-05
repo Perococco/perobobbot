@@ -11,7 +11,8 @@ module bot.launcher {
     requires bot.twitch.chat;
     requires bot.common.lang;
     requires bot.chat.advanced;
-    requires bot.twitch.program;
+    requires bot.program.core;
+    requires bot.program.sample;
 
     opens bot.launcher to spring.core;
 

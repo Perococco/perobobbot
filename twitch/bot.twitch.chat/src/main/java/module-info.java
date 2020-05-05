@@ -8,6 +8,7 @@ module bot.twitch.chat {
     requires bot.chat.core;
     requires bot.chat.websocket;
     requires bot.chat.advanced;
+    requires transitive bot.program.core;
     requires transitive bot.common.irc;
 
     requires io.github.bucket4j.core;

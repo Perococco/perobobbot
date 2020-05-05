@@ -1,13 +1,10 @@
 package bot.launcher;
 
 import bot.common.lang.Secret;
-import bot.launcher.program.EchoProgram;
-import bot.launcher.program.PingProgram;
-import bot.twitch.chat.Channel;
-import bot.twitch.chat.TwitchChat;
-import bot.twitch.chat.TwitchChatIO;
-import bot.twitch.chat.TwitchChatOptions;
-import bot.twitch.program.ChatProgramManager;
+import bot.common.lang.fp.Function1;
+import bot.program.core.ProgramExecutor;
+import bot.program.sample.Samples;
+import bot.twitch.chat.*;
 import lombok.NonNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -22,10 +19,12 @@ public class ChatBotLauncher implements ApplicationRunner {
 
 
     private void launchBot(@NonNull TwitchChatIO chat) {
-        final ChatProgramManager manager = ChatProgramManager.create(chat);
-        manager.registerChatProgram(new PingProgram())
-                .registerChatProgram(new EchoProgram());
-        manager.start();
+
+        final ProgramExecutor programExecutor = ProgramExecutor.create();
+        programExecutor.registerProgram(Samples.ECHO);
+        programExecutor.registerProgram(Samples.PING);
+
+        chat.addPrivateMessageListener(TwitchExecutionContext.toListener(chat,programExecutor::handleMessage));
     }
 
 
