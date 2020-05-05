@@ -92,7 +92,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
     private void handleProgramCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
         for (@NonNull Program enabledProgram : managerIdentity.enabledPrograms()) {
             if (!enabledProgram.hasInstruction(instructionExtraction.instructionName())) {
-                break;
+                continue;
             }
             if (enabledProgram.execute(executionContext, instructionExtraction.instructionName(), instructionExtraction.parameters())) {
                 break;

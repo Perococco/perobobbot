@@ -5,7 +5,7 @@ import bot.twitch.chat.Badge;
 import bot.twitch.chat.Badges;
 import lombok.Getter;
 import lombok.NonNull;
-import perococco.bot.twitch.chat.BadgeParser;
+import perococco.bot.twitch.chat.BadgesParser;
 
 import java.util.Optional;
 
@@ -20,7 +20,9 @@ public abstract class MessageFromTwitchBase implements MessageFromTwitch {
 
     public MessageFromTwitchBase(@NonNull IRCParsing ircParsing) {
         this.ircParsing = ircParsing;
-        this.badges = ircParsing.tagValue("badges").map(BadgeParser::parse).orElse(EMPTY);
+        this.badges = ircParsing.tagValue("badges")
+                .<Badges>map(BadgesParser::parse)
+                .orElse(EMPTY);
     }
 
     @Override

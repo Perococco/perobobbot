@@ -4,7 +4,6 @@ import bot.chat.advanced.DispatchContext;
 import bot.common.lang.User;
 import bot.common.lang.fp.Consumer1;
 import bot.common.lang.fp.Function1;
-import bot.common.lang.fp.Function2;
 import bot.program.core.ExecutionContext;
 import bot.twitch.chat.event.ReceivedMessage;
 import bot.twitch.chat.message.from.PrivMsgFromTwitch;
@@ -12,7 +11,6 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.Instant;
-import java.util.function.Consumer;
 
 public class TwitchExecutionContext implements ExecutionContext {
 
@@ -40,7 +38,7 @@ public class TwitchExecutionContext implements ExecutionContext {
     public TwitchExecutionContext(@NonNull TwitchChatIO twitchChatIO, @NonNull ReceivedMessage<PrivMsgFromTwitch> reception) {
         this.twitchChatIO = twitchChatIO;
         this.reception = reception;
-        this.executingUser = TwichUser.createFromPrivateMessage(reception.message());
+        this.executingUser = TwitchUser.createFromPrivateMessage(reception.message());
     }
 
     @Override

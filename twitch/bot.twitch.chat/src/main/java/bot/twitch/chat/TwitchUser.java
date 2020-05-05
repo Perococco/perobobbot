@@ -9,7 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class TwichUser implements User {
+public class TwitchUser implements User {
 
 
     @NonNull
@@ -20,16 +20,27 @@ public class TwichUser implements User {
     @Getter
     private final String userName;
 
+    @NonNull
+    private final Badges badges;
+
     @Override
     public boolean canActAs(@NonNull UserRole userRole) {
-        //TODO retrieve broadcaster and subscriber information from badges
-        return true;
+        if (userRole == UserRole.ANY_USER) {
+            return true;
+        } else if (badges.hasBadge(BadgeName.BROADCASTER)) {
+            return true;
+        } else if (badges.hasBadge(BadgeName.MODERATOR)) {
+            return userRole != UserRole.THE_BOSS;
+        } else if (badges.hasBadge(BadgeName.SUBSCRIBER)) {
+            return userRole == UserRole.TRUSTED_USER;
+        }
+        return false;
     }
 
     public static User createFromPrivateMessage(@NonNull PrivMsgFromTwitch message) {
         final String userId = message.user();
         final String userName = message.getTag(TagKey.DISPLAY_NAME, userId);
-        return new TwichUser(userId,userName);
+        return new TwitchUser(userId, userName, message);
     }
 
 

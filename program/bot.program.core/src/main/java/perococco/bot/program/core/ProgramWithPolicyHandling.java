@@ -54,6 +54,7 @@ public class ProgramWithPolicyHandling implements Program {
         if (executionInfo.canExecute(executionContext.executingUser(), Instant.now())) {
             return delegate.execute(executionContext,instructionName,parameters);
         } else {
+            LOG.info("Execution of {}:{} denied for user '{}'",name(),instructionName,executionContext.executingUser().userId());
             return false;
         }
     }

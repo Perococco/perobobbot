@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class BadgeParser {
+public class BadgesParser {
 
     @NonNull
-    public static Badges parse(@NonNull String badgeListFromTag) {
-        return new BadgeParser(badgeListFromTag).parse();
+    public static MapBasedBadges parse(@NonNull String badgeListFromTag) {
+        return new BadgesParser(badgeListFromTag.trim()).parse();
     }
 
 
@@ -23,7 +23,11 @@ public class BadgeParser {
     private final String badgeListFromTag;
 
     @NonNull
-    private Badges parse() {
+    private MapBasedBadges parse() {
+        if (badgeListFromTag.isEmpty()) {
+            return new MapBasedBadges(ImmutableMap.of());
+        }
+
         final ImmutableMap<String, Badge> badgesByName = Arrays.stream(badgeListFromTag.split(","))
                                                                .map(this::parseSingleBadge)
                                                                .collect(MapTool.collector(Badge::name));

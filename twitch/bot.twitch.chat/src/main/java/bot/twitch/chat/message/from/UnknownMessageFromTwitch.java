@@ -1,15 +1,8 @@
 package bot.twitch.chat.message.from;
 
 import bot.common.irc.IRCParsing;
-import bot.twitch.chat.Badge;
-import bot.twitch.chat.Badges;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
-import perococco.bot.twitch.chat.BadgeParser;
-
-import java.util.Optional;
 
 /**
  * @author perococco

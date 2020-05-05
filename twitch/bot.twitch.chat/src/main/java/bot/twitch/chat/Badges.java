@@ -9,9 +9,11 @@ public interface Badges {
     @NonNull
     Optional<Badge> findBadge(@NonNull String badgeName);
 
+    default boolean hasBadge(@NonNull String badgeName) {
+        return findBadge(badgeName).isPresent();
+    }
 
     @NonNull
     Badges EMPTY = badgeName -> Optional.empty();
-
 
 }

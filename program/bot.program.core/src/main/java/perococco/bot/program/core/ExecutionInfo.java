@@ -3,6 +3,7 @@ package perococco.bot.program.core;
 import bot.common.lang.User;
 import bot.program.core.ExecutionPolicy;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
