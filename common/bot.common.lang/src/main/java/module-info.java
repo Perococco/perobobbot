@@ -1,6 +1,6 @@
 import bot.common.lang.FactoryProvider;
-import bot.common.lang.IdentityFactory;
-import perococco.bot.common.lang.PerococcoIdentity;
+import bot.common.lang.AsyncIdentityFactory;
+import perococco.bot.common.lang.PerococcoAsyncIdentity;
 
 /**
  * @author perococco
@@ -15,8 +15,8 @@ module bot.common.lang {
     exports bot.common.lang;
     exports bot.common.lang.fp;
 
-    uses IdentityFactory;
+    uses AsyncIdentityFactory;
     uses FactoryProvider.WithLifeCycle;
     uses FactoryProvider.Basic;
-    provides IdentityFactory with PerococcoIdentity;
+    provides AsyncIdentityFactory with PerococcoAsyncIdentity;
 }

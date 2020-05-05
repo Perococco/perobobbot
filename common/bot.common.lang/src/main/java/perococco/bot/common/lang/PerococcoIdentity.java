@@ -2,15 +2,10 @@ package perococco.bot.common.lang;
 
 import bot.common.lang.*;
 import bot.common.lang.fp.Function1;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
+import lombok.Synchronized;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.concurrent.CompletionStage;
 
 /**
  * @author perococco
@@ -18,43 +13,21 @@ import java.util.function.Function;
 public class PerococcoIdentity<S> implements Identity<S> {
 
     @NonNull
-    public static IdentityFactory provider() {
-        return new PerococcoIdentityFactory();
-    }
-
-
-    @NonNull
     private volatile S value;
-
-    @NonNull
-    private final Updater<S> updater;
 
     private final Listeners<IdentityListener<S>> listeners = new Listeners<>();
 
-    public PerococcoIdentity(@NonNull S initialValue, @NonNull Updater<S> updater) {
-        this.value = initialValue;
-        this.updater = updater;
-    }
-
     public PerococcoIdentity(@NonNull S initialValue) {
-        this(initialValue,new DefaultUpdater<>());
-    }
-
-    void start() {
-        updater.start();
-    }
-
-    void stop() {
-        updater.stop();
+        this.value = initialValue;
     }
 
     @NonNull
     @Override
-    public S getRootState() {
+    public S getState() {
         return value;
     }
 
-    private void setRootState(@NonNull S value) {
+    private void setState(@NonNull S value) {
         final S oldValue = this.value;
         this.value = value;
         if (oldValue != value) {
@@ -69,22 +42,15 @@ public class PerococcoIdentity<S> implements Identity<S> {
 
     @Override
     public void addWeakListener(@NonNull IdentityListener<S> listener) {
-        final WeakIdentityListener<S> weakIdentityListener = new WeakIdentityListener<>(this,listener);
+        new WeakIdentityListener<>(this::addListener,listener);
     }
 
     @Override
-    public @NonNull <T> CompletionStage<MutationResult<S, T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
-        return updater.<T>offerUpdatingOperation(
-                mutation,
-                this::getRootState,
-                this::setRootState,
-                getter
-        ).thenApply(this::createMutation);
-    }
-
-    @NonNull
-    private <T> MutationResult<S,T> createMutation(UpdateResult<S, T> updateResult) {
-        return new MutationResult<>(this,updateResult.result());
+    @Synchronized
+    public @NonNull <T> T mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
+        final S newState = mutation.mutate(this.getState());
+        this.setState(newState);
+        return getter.apply(newState);
     }
 
 }

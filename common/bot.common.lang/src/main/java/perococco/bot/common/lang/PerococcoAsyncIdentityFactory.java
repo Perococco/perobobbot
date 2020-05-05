@@ -9,18 +9,18 @@ import lombok.extern.log4j.Log4j2;
  **/
 @Log4j2
 @Priority(Integer.MIN_VALUE)
-public class PerococcoIdentityFactory extends IdentityFactory {
+public class PerococcoAsyncIdentityFactory extends AsyncIdentityFactory {
 
-    PerococcoIdentityFactory() {
+    PerococcoAsyncIdentityFactory() {
     }
 
     @Override
-    public @NonNull <S> Identity<S> create(@NonNull S initialValue) {
-        final ProxyIdentity<S> weakIdentity;
+    public @NonNull <S> AsyncIdentity<S> create(@NonNull S initialValue) {
+        final ProxyAsyncIdentity<S> weakIdentity;
         {
-            final PerococcoIdentity<S> identity = new PerococcoIdentity<>(initialValue);
+            final PerococcoAsyncIdentity<S> identity = new PerococcoAsyncIdentity<>(initialValue);
             identity.start();
-            weakIdentity = new ProxyIdentity<>(identity);
+            weakIdentity = new ProxyAsyncIdentity<>(identity);
             Holder.DISPOSER.add(weakIdentity, identity::stop);
         }
         return weakIdentity;

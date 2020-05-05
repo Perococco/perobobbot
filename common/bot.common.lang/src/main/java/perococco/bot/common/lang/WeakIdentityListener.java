@@ -2,8 +2,9 @@ package perococco.bot.common.lang;
 
 import bot.common.lang.Disposer;
 import bot.common.lang.IdentityListener;
-import bot.common.lang.ReadOnlyIdentity;
+import bot.common.lang.ReadOnlyAsyncIdentity;
 import bot.common.lang.Subscription;
+import bot.common.lang.fp.Function1;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -20,9 +21,9 @@ public class WeakIdentityListener<R> implements IdentityListener<R> {
     @Getter
     private final Subscription subscription;
 
-    public WeakIdentityListener(@NonNull ReadOnlyIdentity<R> identity,
+    public WeakIdentityListener(@NonNull Function1<? super IdentityListener<R>, ? extends Subscription> listenerAdder,
                                 @NonNull IdentityListener<R> delegate) {
-        this.subscription = identity.addListener(this);
+        this.subscription = listenerAdder.f(this);
         this.delegate = DISPOSER.add(delegate,subscription::unsubscribe);
     }
 

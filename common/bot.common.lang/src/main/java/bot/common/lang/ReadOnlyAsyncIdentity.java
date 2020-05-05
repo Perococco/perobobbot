@@ -5,10 +5,10 @@ import lombok.NonNull;
 /**
  * @author perococco
  **/
-public interface ReadOnlyIdentity<S> {
+public interface ReadOnlyAsyncIdentity<S> {
 
     @NonNull
-    S getState();
+    S getRootState();
 
     @NonNull
     Subscription addListener(@NonNull IdentityListener<S> listener);
