@@ -1,9 +1,0 @@
-== ProgramManager :
-
- * [x] @list : list all programs registered to the manager
- * [x] @start <name> : activate the program with the provided name
- * [x] @stop <name> : de-activate the program with the provided name
- * [x] @help [name] : provides information about the program if its name is provided,
-otherwise information about the manager
- * [x] @startAll : start all programs
- * [x] @stopAll : stop all programs

@@ -5,24 +5,25 @@
     <parent>
         <groupId>perococco.bot</groupId>
         <artifactId>bot-maven</artifactId>
-        <relativePath>../maven/pom.xml</relativePath>
+        <relativePath>../../maven/pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot-blackjack</artifactId>
+    <artifactId>bot-twitch</artifactId>
     <packaging>pom</packaging>
 
     <name>${application.name} - ${module.name}</name>
 
     <properties>
-        <module.name>Black Jack</module.name>
+        <module.name>Twitch</module.name>
     </properties>
 
     <modules>
-        <module>engine</module>
+        <module>bot.twitch.chat</module>
+        <module>bot.twitch.chat.test</module>
     </modules>
 
 </project>

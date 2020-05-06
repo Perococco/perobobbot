@@ -20,10 +20,10 @@
     <modules>
         <module>maven</module>
         <module>common</module>
-        <module>chat</module>
-        <module>program</module>
-        <module>blackjack</module>
-        <module>twitch</module>
+        <module>games/blackjack</module>
+        <module>engine/chat</module>
+        <module>engine/program</module>
+        <module>engine/twitch</module>
         <module>launcher</module>
     </modules>
 </project>

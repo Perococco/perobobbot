@@ -5,4 +5,5 @@ open module bot.twitch.chat.test {
     requires org.junit.jupiter.params;
     requires bot.chat.core;
     requires com.google.common;
+
 }
