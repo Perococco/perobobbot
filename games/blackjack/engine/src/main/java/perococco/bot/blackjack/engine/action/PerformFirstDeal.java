@@ -1,6 +1,6 @@
 package perococco.bot.blackjack.engine.action;
 
-import bot.blackjack.engine.BlackjackTable;
+import bot.blackjack.engine.Table;
 import bot.blackjack.engine.Card;
 import bot.blackjack.engine.Deck;
 import com.google.common.collect.ImmutableList;
@@ -9,22 +9,22 @@ import lombok.NonNull;
 public class PerformFirstDeal extends BlackjackAction {
 
     @NonNull
-    public static BlackjackTable performFirstDeal(@NonNull BlackjackTable blackjackTable) {
-        return new PerformFirstDeal(blackjackTable).mutate();
+    public static Table performFirstDeal(@NonNull Table table) {
+        return new PerformFirstDeal(table).mutate();
     }
 
     private Deck newDeck;
 
     private ImmutableList<Card> pickedCards;
 
-    private BlackjackTable newTable;
+    private Table newTable;
 
-    private PerformFirstDeal(@NonNull BlackjackTable currentTable) {
+    private PerformFirstDeal(@NonNull Table currentTable) {
         super(currentTable);
     }
 
     @NonNull
-    private BlackjackTable mutate() {
+    private Table mutate() {
         this.checkThatTheGameHasNotStartedYet("Perform first deal");
 
         this.pickAllCardsForFirstRound();

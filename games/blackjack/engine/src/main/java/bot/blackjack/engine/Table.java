@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.NonNull;
 
 @Builder(toBuilder = true)
-public class BlackjackTable {
+public class Table {
 
     @NonNull
-    public static BlackjackTable create(int numberOf52CardPackets) {
-        return new BlackjackTable(Deck.factoryOrder(numberOf52CardPackets), Hand.EMPTY, ImmutableMap.of());
+    public static Table create(int numberOf52CardPackets) {
+        return new Table(Deck.factoryOrder(numberOf52CardPackets), Hand.EMPTY, ImmutableMap.of());
     }
 
 

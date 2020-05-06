@@ -11,7 +11,7 @@ public class BlackjackAction {
 
     @NonNull
     @Getter(AccessLevel.PROTECTED)
-    private final BlackjackTable currentTable;
+    private final Table currentTable;
 
     protected void checkPlayerIsNotAlreadyAtTheTable(@NonNull Player player) {
         if (currentTable.hasPlayer(player.name())) {

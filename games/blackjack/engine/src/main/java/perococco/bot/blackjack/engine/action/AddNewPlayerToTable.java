@@ -1,6 +1,6 @@
 package perococco.bot.blackjack.engine.action;
 
-import bot.blackjack.engine.BlackjackTable;
+import bot.blackjack.engine.Table;
 import bot.blackjack.engine.Player;
 import bot.common.lang.MapTool;
 import com.google.common.collect.ImmutableMap;
@@ -9,24 +9,24 @@ import lombok.NonNull;
 public class AddNewPlayerToTable extends BlackjackAction {
 
     @NonNull
-    public static BlackjackTable addPlayer(@NonNull BlackjackTable currentTable, @NonNull Player player) {
+    public static Table addPlayer(@NonNull Table currentTable, @NonNull Player player) {
         return new AddNewPlayerToTable(currentTable,player).mutate();
     }
 
     @NonNull
     private final Player player;
 
-    private AddNewPlayerToTable(@NonNull BlackjackTable currentTable, @NonNull Player player) {
+    private AddNewPlayerToTable(@NonNull Table currentTable, @NonNull Player player) {
         super(currentTable);
         this.player = player;
     }
 
     private ImmutableMap<String,Player> newPlayerMap;
 
-    private BlackjackTable newTable;
+    private Table newTable;
 
     @NonNull
-    private BlackjackTable mutate() {
+    private Table mutate() {
         this.checkPlayerIsNotAlreadyAtTheTable(player);
         this.checkThatTheGameHasNotStartedYet("Add a player");
 
