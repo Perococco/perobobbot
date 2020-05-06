@@ -1,18 +1,16 @@
 package bot.blackjack.engine;
 
-import bot.common.lang.MapTool;
 import com.google.common.collect.ImmutableMap;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import perococco.bot.blackjack.engine.AddNewPlayerToTable;
 
 @Builder(toBuilder = true)
 public class BlackjackTable {
 
     @NonNull
     public static BlackjackTable create(int numberOf52CardPackets) {
-        return new BlackjackTable(Deck.create(numberOf52CardPackets), Hand.EMPTY, ImmutableMap.of());
+        return new BlackjackTable(Deck.factoryOrder(numberOf52CardPackets), Hand.EMPTY, ImmutableMap.of());
     }
 
 

@@ -14,11 +14,22 @@ import java.util.stream.Collector;
  **/
 public class MapTool {
 
+    /**
+     * @param keyGetter the method used to get the key associated with a value
+     * @param <K> the type of the key
+     * @param <V> the type of the value
+     * @return a collector that collect a stream of value to a map with keys obtained directly from the values
+     */
     @NonNull
     public static <K,V> Collector<V,?,ImmutableMap<K,V>> collector(@NonNull Function<? super V, ? extends K> keyGetter) {
         return ImmutableMap.toImmutableMap(keyGetter, v->v);
     }
 
+    /**
+     * @param <K> the type of the key
+     * @param <V> the type of the value
+     * @return a collector that collect entry to a map
+     */
     @NonNull
     public static <K,V> Collector<Map.Entry<K,V>,?,ImmutableMap<K,V>> entryCollector() {
         return ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue);

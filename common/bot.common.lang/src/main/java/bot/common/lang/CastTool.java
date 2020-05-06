@@ -22,6 +22,12 @@ public class CastTool {
         return o -> cast(type,o);
     }
 
+    /**
+     * @param type class of the type to cast the object to
+     * @param object the object to cast
+     * @param <A> the type to cast the object to
+     * @return an optional containing the casted object if it could be casted, an empty optional otherwise
+     */
     @NonNull
     public static <A> Optional<A> cast(@NonNull Class<A> type, @NonNull Object object) {
         if (type.isInstance(object)) {
@@ -30,6 +36,11 @@ public class CastTool {
         return Optional.empty();
     }
 
+    /**
+     * Try to convert a string to an integer
+     * @param string the string to convert
+     * @return an optional contain the conversion result, an empty optional if the conversion could not be done
+     */
     @NonNull
     public static OptionalInt castToInt(@NonNull String string) {
         try {

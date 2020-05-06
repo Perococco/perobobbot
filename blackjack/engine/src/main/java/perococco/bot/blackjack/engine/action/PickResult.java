@@ -1,5 +1,7 @@
-package bot.blackjack.engine;
+package perococco.bot.blackjack.engine.action;
 
+import bot.blackjack.engine.Card;
+import bot.blackjack.engine.Deck;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
