@@ -12,6 +12,10 @@ public class Deck {
     public static final int MAXIMUM_NUMBER_OF_PACKETS = 8;
     public static final int MINIMUM_NUMBER_OF_PACKETS = 1;
 
+    public static Deck with(@NonNull Card... cards) {
+        return new Deck(ImmutableList.copyOf(cards));
+    }
+
     @NonNull
     public static Deck factoryOrder(int numberOf52CardPackets) {
         return DeckFactory.factoryOrder(numberOf52CardPackets);
@@ -31,4 +35,7 @@ public class Deck {
     }
 
 
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
 }

@@ -67,18 +67,14 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     @Override
-    public @NonNull <T> CompletionStage<MutationResult<S, T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
+    public @NonNull <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
         return updater.<T>offerUpdatingOperation(
                 mutation,
                 this::getRootState,
                 this::setRootState,
                 getter
-        ).thenApply(this::createMutation);
+        ).thenApply(UpdateResult::result);
     }
 
-    @NonNull
-    private <T> MutationResult<S,T> createMutation(UpdateResult<S, T> updateResult) {
-        return new MutationResult<>(this,updateResult.result());
-    }
 
 }

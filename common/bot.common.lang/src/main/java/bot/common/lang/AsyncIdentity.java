@@ -16,10 +16,10 @@ public interface AsyncIdentity<S> extends ReadOnlyAsyncIdentity<S> {
     }
 
     @NonNull
-    <T> CompletionStage<MutationResult<S,T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter);
+    <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter);
 
     @NonNull
-    default CompletionStage<MutationResult<S,S>> mutate(@NonNull Mutation<S> mutation) {
+    default CompletionStage<S> mutate(@NonNull Mutation<S> mutation) {
         return mutateAndGet(mutation, s -> s);
     }
 

@@ -19,17 +19,8 @@ public class ProxyAsyncIdentity<S> implements AsyncIdentity<S> {
 
     @Override
     @NonNull
-    public <T> CompletionStage<MutationResult<S, T>> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
-        return delegate.mutateAndGet(mutation, getter)
-                       .thenApply(r -> new MutationResult<>(this,r.result()));
-    }
-
-    @Override
-    @NonNull
-    public CompletionStage<MutationResult<S, S>> mutate(@NonNull Mutation<S> mutation) {
-        return delegate.mutate(mutation)
-                       .thenApply(r -> new MutationResult<>(this,r.result()));
-
+    public <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
+        return delegate.mutateAndGet(mutation, getter);
     }
 
     @Override

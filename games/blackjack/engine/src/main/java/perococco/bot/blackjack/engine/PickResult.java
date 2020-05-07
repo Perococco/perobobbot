@@ -1,4 +1,4 @@
-package perococco.bot.blackjack.engine.action;
+package perococco.bot.blackjack.engine;
 
 import bot.blackjack.engine.Card;
 import bot.blackjack.engine.Deck;
@@ -15,5 +15,6 @@ public class PickResult {
     private final Deck deck;
 
     @NonNull
-    private final ImmutableList<Card> pickedCards;
+    private final Card pickedCard;
+
 }

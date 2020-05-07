@@ -14,6 +14,11 @@ import java.util.stream.IntStream;
 public class DeckFactory {
 
     @NonNull
+    public static Deck custom(@NonNull Card...cards) {
+        return new Deck(ImmutableList.copyOf(cards));
+    }
+
+    @NonNull
     public static Deck factoryOrder(int numberOfPackets) {
         final ImmutableList<Card> cards = IntStream.range(0, numberOfPackets)
                                                    .mapToObj(i -> Card.allCards())

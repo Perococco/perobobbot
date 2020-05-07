@@ -1,4 +1,4 @@
-package perococco.bot.blackjack.engine.action;
+package perococco.bot.blackjack.engine;
 
 import bot.blackjack.engine.*;
 import com.google.common.collect.ImmutableList;
