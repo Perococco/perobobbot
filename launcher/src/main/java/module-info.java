@@ -13,6 +13,7 @@ module bot.launcher {
     requires bot.chat.advanced;
     requires bot.program.core;
     requires bot.program.sample;
+    requires bot.blackjack.engine;
 
     opens bot.launcher to spring.core;
 

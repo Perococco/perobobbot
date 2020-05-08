@@ -20,26 +20,17 @@ public class Deck {
     }
 
     @NonNull
-    public static Deck shuffled(int numberOf52CardPackets) {
-        return DeckFactory.shuffled(numberOf52CardPackets);
+    public static Deck shuffled(int deckSize) {
+        return DeckFactory.shuffled(deckSize);
     }
 
     @NonNull
     @Getter
     private final ImmutableList<Card> cards;
 
-    public int size() {
-        return cards.size();
-    }
-
-
-    public boolean isEmpty() {
-        return cards.isEmpty();
-    }
-
     @NonNull
     public OnePickResult pickOneCard() {
-        if (isEmpty()) {
+        if (cards.isEmpty()) {
             throw new EmptyDeck();
         }
         return new OnePickResult(tail(), firstCard());

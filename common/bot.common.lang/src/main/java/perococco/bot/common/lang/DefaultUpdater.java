@@ -147,6 +147,7 @@ public class DefaultUpdater<R> implements Updater<R> {
                 final UpdateResult<R, S> result = updater.performMutation();
                 completableFuture.complete(result);
             } catch (Throwable t) {
+                t.printStackTrace();
                 ThrowableTool.interruptThreadIfCausedByInterruption(t);
                 completeExceptionally(t);
             }

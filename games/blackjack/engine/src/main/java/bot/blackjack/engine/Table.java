@@ -4,11 +4,15 @@ import bot.blackjack.engine.exception.InvalidTableState;
 import bot.blackjack.engine.exception.UnknownPlayer;
 import bot.common.lang.IndexedValue;
 import bot.common.lang.ListTool;
+import bot.common.lang.Printer;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class Table {
 
@@ -56,6 +60,9 @@ public class Table {
         return players.stream().anyMatch(p -> p.name().equals(playerName));
     }
 
+    public boolean isFull() {
+        return players.size() >= tableSize;
+    }
 
     @NonNull
     public Table with(@NonNull Deck deck, @NonNull ImmutableList<Player> players) {
@@ -69,7 +76,7 @@ public class Table {
 
     @NonNull
     public Table withNewPlayer(@NonNull Player newPlayer) {
-        return with(deck, ListTool.addFirst(players, newPlayer));
+        return with(deck, ListTool.addLast(players, newPlayer));
     }
 
     @NonNull
@@ -126,13 +133,52 @@ public class Table {
     public OnePickResult pickOneCard() {
         return deck.pickOneCard();
     }
+
     @NonNull
     public TwoPicksResult pickTwoCards() {
         return deck.pickTwoCards();
     }
 
     public Table withStoppedGame() {
-        return new Table(TableState.GAME_OVER,deck,tableSize,dealerHand,players);
+        return new Table(TableState.GAME_OVER, deck, tableSize, dealerHand, players);
     }
 
+    public static final String EMPTY_PLAYER = "Empty";
+
+    public void dump(@NonNull Printer ps) {
+        ps.println(state)
+          .println();
+
+        final int maxPlayerNameLength = players.stream().mapToInt(p -> p.name().length()).max().orElse(EMPTY_PLAYER.length());
+        final int maxNumberOfCards = players.stream().map(Player::hands)
+                                            .flatMap(Collection::stream)
+                                            .mapToInt(Hand::numberOfCards)
+                                            .max().orElse(0);
+
+        final int maxLength;
+        if (state == TableState.OPEN_TO_NEW_PLAYER) {
+            maxLength = Math.max(EMPTY_PLAYER.length(), maxPlayerNameLength);
+        } else {
+            maxLength = maxPlayerNameLength;
+        }
+
+        final String playerFormat = String.format("%%2d. %%-%ds : ", maxLength);
+        final String secondHeader = " ".repeat(2) + "  " + " ".repeat(maxLength) + " : ";
+
+        for (int i = 0; i < tableSize; i++) {
+            if (i < players.size()) {
+                final Player player = players.get(i);
+                final String firstHeader = String.format(playerFormat, i, player.name());
+                final Printer printer = ps.withHeader(firstHeader, secondHeader);
+                for (Hand hand : player.hands()) {
+                    printer.println(String.format("(%2$3d) %1$s",hand.cardsAsString(),hand.betAmount()));
+                }
+            } else {
+                ps.println(String.format(playerFormat, i, EMPTY_PLAYER));
+            }
+        }
+        ps.println("────────────────");
+        ps.withHead(" Dealer : ").println(dealerHand);
+
+    }
 }

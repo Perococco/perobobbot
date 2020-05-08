@@ -2,6 +2,7 @@ package bot.blackjack.engine;
 
 import bot.common.lang.IndexedValue;
 import bot.common.lang.ListTool;
+import bot.common.lang.Printer;
 import bot.common.lang.fp.Couple;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
@@ -76,4 +77,5 @@ public class Player {
     public boolean waitingForDeal() {
         return hands.size() == 1 && hands.get(0).hasLessThanTwoCards();
     }
+
 }

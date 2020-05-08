@@ -8,4 +8,5 @@ module bot.blackjack.engine {
 
     exports bot.blackjack.engine;
     exports bot.blackjack.engine.exception;
+    exports perococco.bot.blackjack.engine.action;
 }

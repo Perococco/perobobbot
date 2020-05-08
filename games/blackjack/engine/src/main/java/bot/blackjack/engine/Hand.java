@@ -1,12 +1,12 @@
 package bot.blackjack.engine;
 
 import bot.common.lang.ListTool;
-import bot.common.lang.fp.Couple;
+import bot.common.lang.Printer;
 import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perococco.bot.blackjack.engine.HandValueComputer;
 
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ToString
 public class Hand {
@@ -37,7 +37,7 @@ public class Hand {
         this.fromASplit = fromASplit;
         this.value = HandValueComputer.compute(cards);
         final boolean twoCardFromASplitOfAce = fromASplit && cards.size() == 2 && cards.get(0).isAnAce();
-        final boolean dealerWithMoreThan16 = betAmount<=0 && value>=17;
+        final boolean dealerWithMoreThan16 = betAmount <= 0 && value >= 17;
         this.done = done || value >= 21 || twoCardFromASplitOfAce || dealerWithMoreThan16;
     }
 
@@ -103,28 +103,7 @@ public class Hand {
      * @return true if this hand has less than 2 cards
      */
     public boolean hasLessThanTwoCards() {
-        return cards.size()<2;
-    }
-
-    /**
-     * split this hand
-     * @return an optional containing the list
-     */
-    @NonNull
-    public Optional<Couple<Hand>> split() {
-        if (done || dealer()) {
-            return Optional.empty();
-        }
-        if (cards.size() == 2) {
-            final Card first = cards.get(0);
-            final Card second = cards.get(1);
-            if (first.figure() == second.figure()) {
-                final Hand firstHand = toBuilder().clearCards().card(first).fromASplit(true).build();
-                final Hand secondHand = toBuilder().clearCards().card(second).fromASplit(true).build();
-                return Optional.of(Couple.of(firstHand, secondHand));
-            }
-        }
-        return Optional.empty();
+        return cards.size() < 2;
     }
 
     @NonNull
@@ -137,34 +116,27 @@ public class Hand {
 
     @NonNull
     public Hand addCard(@NonNull Card card) {
-        return toBuilder().cards(ListTool.addLast(cards,card))
-                          .build();
+        final Hand hand = toBuilder()
+                .card(card)
+                .build();
+        return hand;
     }
 
     @NonNull
-    public Optional<Hand> hitWith(@NonNull Card newCard) {
-        if (done) {
-            return Optional.empty();
+    public String cardsAsString() {
+        return cards.stream()
+                    .map(Card::symbol)
+                    .collect(Collectors.joining(" "));
+    }
+
+    @Override
+    public String toString() {
+        final String suffix;
+        if (dealer()) {
+            suffix = "";
+        } else {
+            suffix = "(" + betAmount + ")";
         }
-        final ImmutableList<Card> newCards = ListTool.addLast(cards, newCard);
-        final Hand newHand = toBuilder().cards(newCards).build();
-        return Optional.of(newHand);
+        return cardsAsString() + suffix;
     }
-
-    @NonNull
-    public Hand stand() {
-        return withSetDone();
-    }
-
-    @NonNull
-    public Optional<Hand> doubleWith(@NonNull Card newCard) {
-        if (done || dealer() || cards.size() != 2) {
-            return Optional.empty();
-        }
-        return Optional.of(toBuilder().cards(ListTool.addLast(cards, newCard))
-                                      .betAmount(betAmount * 2)
-                                      .done(true).build());
-    }
-
-
 }

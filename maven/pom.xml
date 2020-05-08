@@ -101,6 +101,11 @@
                 <artifactId>bot-chat-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-blackjack-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>

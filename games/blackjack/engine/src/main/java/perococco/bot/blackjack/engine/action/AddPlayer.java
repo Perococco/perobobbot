@@ -11,9 +11,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AddPlayer implements Mutation<Table> {
 
+    @NonNull
+    public static AddPlayer with(String playerName, int betAmount) {
+        return new AddPlayer(playerName,betAmount);
+    }
+
     private final String playerName;
 
     private final int betAmount;
+
 
     @Override
     public @NonNull Table mutate(@NonNull Table table) {
