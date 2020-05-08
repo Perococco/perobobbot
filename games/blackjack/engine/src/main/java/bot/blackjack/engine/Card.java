@@ -1,11 +1,13 @@
 package bot.blackjack.engine;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.stream.IntStream;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Unicode symbol of cards https://en.wikipedia.org/wiki/Standard_52-card_deck#Unicode
@@ -90,9 +92,19 @@ public enum Card {
         return figure.isAnAce();
     }
 
+    @NonNull
+    public ImmutableSet<Card> cardWithFigure(@NonNull Figure figure) {
+        return Holder.CARD_SAME_FIGURE.get(figure);
+    }
 
     private static class Holder {
         private static final ImmutableList<Card> ALL_CARDS = ImmutableList.copyOf(values());
+
+        private static final Map<Figure, ImmutableSet<Card>> CARD_SAME_FIGURE = ALL_CARDS.stream()
+                                                                                .collect(
+                                                                                        Collectors.groupingBy(c -> c.figure, ImmutableSet.toImmutableSet())
+                                                                                );
+
     }
 
 }

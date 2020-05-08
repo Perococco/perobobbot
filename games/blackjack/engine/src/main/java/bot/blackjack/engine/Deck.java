@@ -1,5 +1,6 @@
 package bot.blackjack.engine;
 
+import bot.blackjack.engine.exception.EmptyDeck;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,16 +10,13 @@ import perococco.bot.blackjack.engine.DeckFactory;
 @RequiredArgsConstructor
 public class Deck {
 
-    public static final int MAXIMUM_NUMBER_OF_PACKETS = 8;
-    public static final int MINIMUM_NUMBER_OF_PACKETS = 1;
-
     public static Deck with(@NonNull Card... cards) {
         return new Deck(ImmutableList.copyOf(cards));
     }
 
     @NonNull
-    public static Deck factoryOrder(int numberOf52CardPackets) {
-        return DeckFactory.factoryOrder(numberOf52CardPackets);
+    public static Deck factoryOrder(int deckSize) {
+        return DeckFactory.factoryOrder(deckSize);
     }
 
     @NonNull
@@ -37,5 +35,26 @@ public class Deck {
 
     public boolean isEmpty() {
         return cards.isEmpty();
+    }
+
+    @NonNull
+    public OnePickResult pickOneCard() {
+        if (isEmpty()) {
+            throw new EmptyDeck();
+        }
+        return new OnePickResult(tail(), firstCard());
+    }
+
+    @NonNull
+    public TwoPicksResult pickTwoCards() {
+        return pickOneCard().thenPickAgain();
+    }
+
+    private Deck tail() {
+        return new Deck(cards.subList(1, cards.size()));
+    }
+
+    private Card firstCard() {
+        return cards.get(0);
     }
 }

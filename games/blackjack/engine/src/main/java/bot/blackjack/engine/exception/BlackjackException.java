@@ -1,4 +1,4 @@
-package bot.blackjack.engine;
+package bot.blackjack.engine.exception;
 
 public class BlackjackException extends RuntimeException {
 

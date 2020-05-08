@@ -7,5 +7,5 @@ module bot.blackjack.engine {
     requires com.google.common;
 
     exports bot.blackjack.engine;
-    exports bot.blackjack.engine.action;
+    exports bot.blackjack.engine.exception;
 }

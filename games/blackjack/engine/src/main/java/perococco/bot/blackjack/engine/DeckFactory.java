@@ -19,8 +19,8 @@ public class DeckFactory {
     }
 
     @NonNull
-    public static Deck factoryOrder(int numberOfPackets) {
-        final ImmutableList<Card> cards = IntStream.range(0, numberOfPackets)
+    public static Deck factoryOrder(int deckSize) {
+        final ImmutableList<Card> cards = IntStream.range(0, deckSize)
                                                    .mapToObj(i -> Card.allCards())
                                                    .flatMap(Collection::stream)
                                                    .collect(ImmutableList.toImmutableList());
@@ -28,8 +28,8 @@ public class DeckFactory {
     }
 
     @NonNull
-    public static Deck shuffled(int numberOfPackets) {
-        final List<Card> cards = IntStream.range(0, numberOfPackets)
+    public static Deck shuffled(int deckSize) {
+        final List<Card> cards = IntStream.range(0, deckSize)
                                           .mapToObj(i -> Card.allCards())
                                           .flatMap(Collection::stream)
                                           .collect(Collectors.toList());

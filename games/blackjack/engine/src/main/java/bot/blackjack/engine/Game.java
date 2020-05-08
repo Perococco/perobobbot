@@ -2,35 +2,37 @@ package bot.blackjack.engine;
 
 import bot.common.lang.AsyncIdentity;
 import bot.common.lang.IdentityListener;
-import bot.common.lang.Mutation;
 import bot.common.lang.Subscription;
-import bot.common.lang.fp.Function2;
+import lombok.Builder;
 import lombok.NonNull;
-
-import java.util.concurrent.CompletionStage;
+import perococco.bot.blackjack.engine.DeckFactory;
 
 public class Game {
 
-    @NonNull
-    private final AsyncIdentity<Table> tableIdentity = AsyncIdentity.create(Table.create(8));
+    public static final int DEFAULT_TABLE_SIZE = 5;
+    public static final int DEFAULT_DECK_SIZE = 8;
 
 
     @NonNull
-    public CompletionStage<Table> performAction(@NonNull Mutation<Table> action) {
-        return tableIdentity.mutate(action);
+    private final AsyncIdentity<Table> tableIdentity;
+
+    @Builder
+    private Game(int deckSize, int tableSize) {
+        final Deck deck = DeckFactory.shuffled(deckSize);
+        tableIdentity = AsyncIdentity.create(Table.create(deck, tableSize));
     }
 
-    @NonNull
-    public <A> CompletionStage<Table> performAction(@NonNull Function2<Table, A,Table> action, @NonNull A a) {
-        return performAction(table -> action.apply(table,a));
-    }
-
-    @NonNull
-    public Subscription addListener(@NonNull IdentityListener<Table> listener) {
+    public @NonNull Subscription addListener(@NonNull IdentityListener<Table> listener) {
         return tableIdentity.addListener(listener);
     }
 
     public void addWeakListener(@NonNull IdentityListener<Table> listener) {
         tableIdentity.addWeakListener(listener);
+    }
+
+    @NonNull
+    public static GameBuilder builder() {
+        return new GameBuilder().deckSize(DEFAULT_DECK_SIZE)
+                                .tableSize(DEFAULT_TABLE_SIZE);
     }
 }

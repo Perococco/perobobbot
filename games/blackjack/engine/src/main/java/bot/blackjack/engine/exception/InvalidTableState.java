@@ -1,5 +1,6 @@
-package bot.blackjack.engine;
+package bot.blackjack.engine.exception;
 
+import bot.blackjack.engine.TableState;
 import lombok.Getter;
 import lombok.NonNull;
 

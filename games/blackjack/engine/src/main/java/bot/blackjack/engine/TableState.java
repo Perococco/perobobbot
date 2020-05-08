@@ -2,7 +2,9 @@ package bot.blackjack.engine;
 
 public enum TableState {
     OPEN_TO_NEW_PLAYER,
-    GAME_IN_PROGRESS,
+    DEALING,
+    PLAYER_PHASE,
+    DEALER_PHASE,
     GAME_OVER,
     ;
 }

@@ -1,4 +1,4 @@
-package bot.blackjack.engine;
+package bot.blackjack.engine.exception;
 
 import lombok.Getter;
 

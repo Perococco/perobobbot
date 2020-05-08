@@ -1,17 +1,19 @@
 package bot.blackjack.engine;
 
+import bot.common.lang.IndexedValue;
+import bot.common.lang.ListTool;
+import bot.common.lang.fp.Couple;
 import com.google.common.collect.ImmutableList;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Singular;
 
-@Builder(toBuilder = true)
+import java.util.Optional;
+
 public class Player {
 
     @NonNull
-    public static Player create(@NonNull String name, int betAmount) {
-        return new Player(name,betAmount,ImmutableList.of());
+    public static Player create(@NonNull String name, int initialBetAmount) {
+        return new Player(name, initialBetAmount, ImmutableList.of(Hand.forPlayer(initialBetAmount)));
     }
 
     @NonNull
@@ -19,41 +21,59 @@ public class Player {
     private final String name;
 
     @Getter
-    private final int betAmount;
+    private final int initialBetAmount;
 
     @NonNull
-    @Singular
     @Getter
     private final ImmutableList<Hand> hands;
 
-    public boolean hasNoCard() {
-        return hands.stream().allMatch(Hand::isEmpty);
+    @Getter
+    private final boolean done;
+
+    public Player(@NonNull String name, int initialBetAmount, @NonNull ImmutableList<Hand> hands) {
+        this.name = name;
+        this.hands = hands;
+        this.initialBetAmount = initialBetAmount;
+        this.done = hands.stream().allMatch(Hand::done);
+    }
+
+    public boolean notDone() {
+        return !done;
     }
 
     @NonNull
-    public Player withNewHands(@NonNull ImmutableList<Hand> hands) {
-        return toBuilder().hands(hands).build();
+    public Optional<IndexedValue<Hand>> findFirstHandNotDone() {
+        return ListTool.findFirst(hands, h -> !h.done());
     }
 
     @NonNull
-    public Player withDoubleBetAmount() {
-        return toBuilder().betAmount(betAmount*2).build();
+    public Player withNewHand(@NonNull IndexedValue<Hand> newHand) {
+        return withNewHands(newHand.insertInto(hands));
     }
 
     @NonNull
-    public Hand handAt(int index) {
-        return hands.get(index);
+    public Player withNewHands(@NonNull IndexedValue<Couple<Hand>> newHands) {
+        return withNewHands(ListTool.multiReplace(hands,newHands));
     }
 
-    public boolean hasTwoCardsInOneHand() {
-        return hands.size() == 1 && hands.get(0).numberOfCards() == 2;
-    }
-
-    public int numberOfHands() {
-        return hands.size();
+    @NonNull
+    private Player withNewHands(@NonNull ImmutableList<Hand> newHands) {
+        return new Player(name,initialBetAmount,newHands);
     }
 
     public boolean hasName(String name) {
         return name.equals(this.name);
+    }
+
+    @NonNull
+    public IndexedValue<Hand> handToDeal() {
+        if (waitingForDeal()) {
+            return IndexedValue.create(0,hands.get(0));
+        }
+        throw new IllegalStateException("Not hand waiting for a deal");
+    }
+
+    public boolean waitingForDeal() {
+        return hands.size() == 1 && hands.get(0).hasLessThanTwoCards();
     }
 }
