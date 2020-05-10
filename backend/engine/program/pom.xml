@@ -5,26 +5,25 @@
     <parent>
         <groupId>perococco.bot</groupId>
         <artifactId>bot-maven</artifactId>
-        <relativePath>maven/pom.xml</relativePath>
+        <relativePath>../../../maven/pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot</artifactId>
+    <artifactId>bot-program</artifactId>
     <packaging>pom</packaging>
 
-    <name>${application.name}</name>
+    <name>${application.name} - ${module.name}</name>
+
+    <properties>
+        <module.name>Program</module.name>
+    </properties>
 
     <modules>
-        <module>maven</module>
-        <module>frontend</module>
-        <module>backend/common</module>
-        <module>backend/games/blackjack</module>
-        <module>backend/engine/chat</module>
-        <module>backend/engine/program</module>
-        <module>backend/engine/twitch</module>
-        <module>backend/launcher</module>
+        <module>bot.program.core</module>
+        <module>bot.program.sample</module>
     </modules>
+
 </project>
