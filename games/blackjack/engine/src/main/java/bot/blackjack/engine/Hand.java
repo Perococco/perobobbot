@@ -7,6 +7,7 @@ import lombok.*;
 import perococco.bot.blackjack.engine.HandValueComputer;
 
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ToString
 public class Hand {
@@ -38,7 +39,7 @@ public class Hand {
         this.value = HandValueComputer.compute(cards);
         final boolean twoCardFromASplitOfAce = fromASplit && cards.size() == 2 && cards.get(0).isAnAce();
         final boolean dealerWithMoreThan16 = betAmount <= 0 && value >= 17;
-        this.done = done || value >= 21 || twoCardFromASplitOfAce || dealerWithMoreThan16;
+        this.done = done || value > 21 || twoCardFromASplitOfAce || dealerWithMoreThan16;
     }
 
     /**
@@ -116,10 +117,9 @@ public class Hand {
 
     @NonNull
     public Hand addCard(@NonNull Card card) {
-        final Hand hand = toBuilder()
+        return toBuilder()
                 .card(card)
                 .build();
-        return hand;
     }
 
     @NonNull
@@ -138,5 +138,30 @@ public class Hand {
             suffix = "(" + betAmount + ")";
         }
         return cardsAsString() + suffix;
+    }
+
+    @NonNull
+    public String displayOnlyFirst() {
+        if (cards.isEmpty()) {
+            return "";
+        }
+        return IntStream.range(0, cards.size())
+                 .mapToObj(i -> (i == 0) ? cards.get(i).symbol() : "\uD83C\uDCA0")
+                 .collect(Collectors.joining(" "));
+    }
+
+    @NonNull
+    public String getStatus(Hand dealerHand) {
+        if (isBusted()) {
+            return "*";
+        } else if (isBlackJack() && !dealerHand.isBlackJack()) {
+            return "\uD83D\uDC4C";
+        } else if (value > dealerHand.value) {
+            return "\uD83D\uDC4D";
+        } else if (value == dealerHand.value) {
+            return "=";
+        } else {
+            return "\uD83D\uDC4E";
+        }
     }
 }

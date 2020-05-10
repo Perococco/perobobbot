@@ -9,7 +9,14 @@ import lombok.NonNull;
 
 public class Split extends DoOnPlayer {
 
-    public Split(@NonNull String playerName) {
+
+    @NonNull
+    public static Split with(@NonNull String playerName) {
+        return new Split(playerName);
+    }
+
+
+    private Split(@NonNull String playerName) {
         super(playerName);
     }
 
@@ -39,7 +46,7 @@ public class Split extends DoOnPlayer {
     }
 
     private Hand buildSplitHand(@NonNull Hand reference, @NonNull Card firstCard, @NonNull Card secondCard) {
-        return reference.toBuilder().cards(ImmutableList.of(firstCard, secondCard)).fromASplit(true).build();
+        return reference.toBuilder().clearCards().cards(ImmutableList.of(firstCard, secondCard)).fromASplit(true).build();
     }
 
     @Override

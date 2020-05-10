@@ -4,13 +4,22 @@ import bot.blackjack.engine.*;
 import bot.blackjack.engine.exception.BlackjackException;
 import bot.blackjack.engine.exception.InvalidHandForADouble;
 import bot.common.lang.ListTool;
+import bot.common.lang.Mutation;
 import lombok.NonNull;
 
 public class Double extends DoOnPlayer {
 
-    public Double(@NonNull String playerName) {
+
+    @NonNull
+    public static Double with(String playerName) {
+        return new Double(playerName);
+    }
+
+
+    private Double(@NonNull String playerName) {
         super(playerName);
     }
+
 
     @Override
     protected @NonNull Table performAction(@NonNull Table table, @NonNull SingleHandInfo handInfo) {
@@ -28,7 +37,7 @@ public class Double extends DoOnPlayer {
         }
 
         return hand.toBuilder()
-                   .cards(ListTool.addLast(hand.cards(), pickResult.pickedCard()))
+                   .card(pickResult.pickedCard())
                    .done(true)
                    .betAmount(hand.betAmount() * 2)
                    .build();

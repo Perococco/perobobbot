@@ -6,11 +6,18 @@ import bot.blackjack.engine.SingleHandInfo;
 import bot.blackjack.engine.Table;
 import bot.blackjack.engine.exception.BlackjackException;
 import bot.blackjack.engine.exception.InvalidHandForAHit;
+import bot.common.lang.Mutation;
 import lombok.NonNull;
 
 public class HitPlayer extends DoOnPlayer {
 
-    public HitPlayer(@NonNull String playerName) {
+    @NonNull
+    public static HitPlayer with(@NonNull String playerName) {
+        return new HitPlayer(playerName);
+    }
+
+
+    private HitPlayer(@NonNull String playerName) {
         super(playerName);
     }
 

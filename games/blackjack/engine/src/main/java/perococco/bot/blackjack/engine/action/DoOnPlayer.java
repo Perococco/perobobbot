@@ -35,5 +35,10 @@ public abstract class DoOnPlayer implements Mutation<Table> {
 
     protected abstract BlackjackException createException(@NonNull Player player);
 
-
+    @Override
+    public String toString() {
+        return getClass().getSimpleName()+"{" +
+               "playerName='" + playerName + '\'' +
+               '}';
+    }
 }

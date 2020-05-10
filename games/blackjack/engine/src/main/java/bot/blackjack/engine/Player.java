@@ -78,4 +78,12 @@ public class Player {
         return hands.size() == 1 && hands.get(0).hasLessThanTwoCards();
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+               "name='" + name + '\'' +
+               ", hands=" + hands +
+               ", done=" + done +
+               '}';
+    }
 }

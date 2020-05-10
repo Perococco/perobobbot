@@ -8,11 +8,9 @@ import bot.common.lang.Printer;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
+import perococco.bot.blackjack.engine.TablePrinter;
 
-import java.io.PrintStream;
-import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class Table {
 
@@ -143,42 +141,12 @@ public class Table {
         return new Table(TableState.GAME_OVER, deck, tableSize, dealerHand, players);
     }
 
-    public static final String EMPTY_PLAYER = "Empty";
-
     public void dump(@NonNull Printer ps) {
-        ps.println(state)
-          .println();
-
-        final int maxPlayerNameLength = players.stream().mapToInt(p -> p.name().length()).max().orElse(EMPTY_PLAYER.length());
-        final int maxNumberOfCards = players.stream().map(Player::hands)
-                                            .flatMap(Collection::stream)
-                                            .mapToInt(Hand::numberOfCards)
-                                            .max().orElse(0);
-
-        final int maxLength;
-        if (state == TableState.OPEN_TO_NEW_PLAYER) {
-            maxLength = Math.max(EMPTY_PLAYER.length(), maxPlayerNameLength);
-        } else {
-            maxLength = maxPlayerNameLength;
-        }
-
-        final String playerFormat = String.format("%%2d. %%-%ds : ", maxLength);
-        final String secondHeader = " ".repeat(2) + "  " + " ".repeat(maxLength) + " : ";
-
-        for (int i = 0; i < tableSize; i++) {
-            if (i < players.size()) {
-                final Player player = players.get(i);
-                final String firstHeader = String.format(playerFormat, i, player.name());
-                final Printer printer = ps.withHeader(firstHeader, secondHeader);
-                for (Hand hand : player.hands()) {
-                    printer.println(String.format("(%2$3d) %1$s",hand.cardsAsString(),hand.betAmount()));
-                }
-            } else {
-                ps.println(String.format(playerFormat, i, EMPTY_PLAYER));
-            }
-        }
-        ps.println("────────────────");
-        ps.withHead(" Dealer : ").println(dealerHand);
-
+        TablePrinter.print(this,ps);
     }
+
+    public int size() {
+        return tableSize;
+    }
+
 }

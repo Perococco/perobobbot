@@ -6,16 +6,32 @@ import bot.blackjack.engine.SingleHandInfo;
 import bot.blackjack.engine.Table;
 import bot.blackjack.engine.exception.BlackjackException;
 import bot.blackjack.engine.exception.InvalidHandForAStand;
+import bot.common.lang.Mutation;
+import lombok.AccessLevel;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-public class Stand extends DoOnPlayer {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class Stand implements Mutation<Table> {
 
-    public Stand(@NonNull String playerName) {
-        super(playerName);
+    @NonNull
+    public static Stand with(String playerName) {
+        return new Stand(playerName);
     }
 
+    @NonNull
+    private final String playerName;
+
+    @NonNull
     @Override
-    protected @NonNull Table performAction(@NonNull Table table, @NonNull SingleHandInfo handInfo) {
+    public Table mutate(@NonNull Table table) {
+        return table.findFirstHandNotDoneOnTable()
+                    .filter(h -> h.playerHasName(playerName))
+                    .map(h -> performAction(table, h))
+                    .orElse(table);
+    }
+
+    private @NonNull Table performAction(@NonNull Table table, @NonNull SingleHandInfo handInfo) {
         if (handInfo.hand().done()) {
             return table;
         }
@@ -25,8 +41,4 @@ public class Stand extends DoOnPlayer {
         );
     }
 
-    @Override
-    protected BlackjackException createException(@NonNull Player player) {
-        return new InvalidHandForAStand(player);
-    }
 }
