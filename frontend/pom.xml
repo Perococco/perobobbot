@@ -12,10 +12,9 @@
         <relativePath>../maven/pom.xml</relativePath>
     </parent>
 
-    <name>Perococco Bot ${root.name} - ${module.name}</name>
+    <name>Perococco Bot Frontend</name>
 
     <properties>
-        <root.name>Frontend</root.name>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
