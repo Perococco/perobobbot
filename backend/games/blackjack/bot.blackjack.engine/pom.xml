@@ -14,7 +14,7 @@
 
     <artifactId>bot-blackjack-engine</artifactId>
 
-    <name>${application.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
     <properties>
         <submodule.name>Engine</submodule.name>
@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-lang</artifactId>
+            <artifactId>bot-backend-common-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

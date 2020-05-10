@@ -20,11 +20,6 @@
     <modules>
         <module>maven</module>
         <module>frontend</module>
-        <module>backend/common</module>
-        <module>backend/games/blackjack</module>
-        <module>backend/engine/chat</module>
-        <module>backend/engine/program</module>
-        <module>backend/engine/twitch</module>
-        <module>backend/launcher</module>
+        <module>backend</module>
     </modules>
 </project>

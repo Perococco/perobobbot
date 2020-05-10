@@ -14,7 +14,7 @@
 
     <artifactId>bot-twitch-chat</artifactId>
 
-    <name>${application.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
     <properties>
         <submodule.name>Chat</submodule.name>
@@ -27,11 +27,11 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-lang</artifactId>
+            <artifactId>bot-backend-common-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-irc</artifactId>
+            <artifactId>bot-backend-common-irc</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

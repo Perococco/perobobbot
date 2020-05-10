@@ -14,7 +14,7 @@
 
     <artifactId>bot-twitch-chat-test</artifactId>
 
-    <name>${application.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
     <properties>
         <submodule.name>Chat [TEST]</submodule.name>

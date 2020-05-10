@@ -14,7 +14,7 @@
 
     <artifactId>bot-program-sample</artifactId>
 
-    <name>${application.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
     <properties>
         <submodule.name>Sample</submodule.name>

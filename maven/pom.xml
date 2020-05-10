@@ -15,11 +15,10 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>${application.name} - ${module.name}</name>
+    <name>Perococco Bot Parent</name>
 
     <properties>
         <application.name>Perococco Bot</application.name>
-        <module.name>POM Parent</module.name>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>14</java.version>
@@ -76,13 +75,13 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-lang</artifactId>
+                <artifactId>bot-backend-common-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-irc</artifactId>
+                <artifactId>bot-backend-common-irc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

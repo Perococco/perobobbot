@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>perococco.bot</groupId>
+        <artifactId>bot-maven</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../maven/pom.xml</relativePath>
+    </parent>
+
+    <name>${root.name}</name>
+
+    <artifactId>bot-backend</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <root.name>Perococco Bot Backend</root.name>
+    </properties>
+
+    <modules>
+        <module>common/bot.common.lang</module>
+        <module>common/bot.common.irc</module>
+        <module>games/blackjack</module>
+        <module>engine/chat</module>
+        <module>engine/program</module>
+        <module>engine/twitch</module>
+        <module>launcher</module>
+    </modules>
+
+</project>
