@@ -16,8 +16,10 @@ public class Table {
 
     @NonNull
     public static Table create(@NonNull Deck deck, int tableSize) {
-        return new Table(TableState.OPEN_TO_NEW_PLAYER, deck, tableSize, Hand.forDealer(), ImmutableList.of());
+        return new Table(1,TableState.OPEN_TO_NEW_PLAYER, deck, tableSize, Hand.forDealer(), ImmutableList.of());
     }
+
+    private final long id;
 
     @Getter
     @NonNull
@@ -38,7 +40,8 @@ public class Table {
     private final ImmutableList<Player> players;
 
 
-    private Table(@NonNull TableState state, @NonNull Deck deck, int tableSize, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
+    private Table(long id, @NonNull TableState state,  @NonNull Deck deck, int tableSize, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
+        this.id = id;
         this.state = state;
         this.deck = deck;
         this.tableSize = tableSize;
@@ -100,7 +103,7 @@ public class Table {
             case GAME_OVER -> TableState.GAME_OVER;
         };
 
-        return new Table(state, deck, tableSize, dealerHand, players);
+        return new Table(id+1,state, deck, tableSize, dealerHand, players);
     }
 
     @NonNull
@@ -138,7 +141,7 @@ public class Table {
     }
 
     public Table withStoppedGame() {
-        return new Table(TableState.GAME_OVER, deck, tableSize, dealerHand, players);
+        return new Table(id+1,TableState.GAME_OVER, deck, tableSize, dealerHand, players);
     }
 
     public void dump(@NonNull Printer ps) {
