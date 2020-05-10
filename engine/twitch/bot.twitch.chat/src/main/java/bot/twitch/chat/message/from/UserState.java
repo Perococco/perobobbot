@@ -24,7 +24,7 @@ public class UserState extends KnownMessageFromTwitch implements ChannelSpecific
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.USERSTATE;
     }
 
@@ -35,7 +35,7 @@ public class UserState extends KnownMessageFromTwitch implements ChannelSpecific
 
     public static UserState build(@NonNull AnswerBuilderHelper helper) {
         return UserState.builder()
-                        .ircParsing(helper.ircParsing())
+                        .ircParsing(helper.getIrcParsing())
                         .channel(helper.channelFromParameterAt(0))
                         .build();
     }

@@ -18,7 +18,7 @@ public class PerococcoProgram implements Program {
     private final ImmutableMap<String, Instruction> instructions;
 
     @Override
-    public @NonNull ImmutableSet<String> instructionNames() {
+    public @NonNull ImmutableSet<String> getInstructionNames() {
         return instructions.keySet();
     }
 
@@ -29,14 +29,14 @@ public class PerococcoProgram implements Program {
 
     @Override
     public @NonNull ExecutionPolicy getExecutionPolicy(@NonNull String instructionName) {
-        return getInstruction(instructionName).executionPolicy();
+        return getInstruction(instructionName).getExecutionPolicy();
     }
 
     @NonNull
     private Instruction getInstruction(@NonNull String instructionName) {
         final Instruction instruction = instructions.get(instructionName);
         if (instruction == null) {
-            throw new UnknownInstruction(name(), instructionName);
+            throw new UnknownInstruction(this.getName(), instructionName);
         }
         return instruction;
     }

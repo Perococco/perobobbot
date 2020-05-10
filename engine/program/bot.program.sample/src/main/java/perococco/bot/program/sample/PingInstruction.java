@@ -14,7 +14,7 @@ import java.time.Instant;
 public class PingInstruction implements Instruction {
 
     @Override
-    public @NonNull String name() {
+    public @NonNull String getName() {
         return "myping";
     }
 
@@ -23,18 +23,18 @@ public class PingInstruction implements Instruction {
 
     @Override
     public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        executionContext.print(d -> pongMessage(d,executionContext.receptionTime()));
+        executionContext.print(d -> pongMessage(d,executionContext.getReceptionTime()));
         return true;
     }
 
     private String pongMessage(@NonNull DispatchContext dispatchContext, @NonNull Instant receptionTime) {
-        final Duration duration = Duration.between(receptionTime,dispatchContext.dispatchingTime());
+        final Duration duration = Duration.between(receptionTime,dispatchContext.getDispatchingTime());
         return "mypong ("+duration.toMillis()+")";
     }
 
 
     @Override
-    public @NonNull ExecutionPolicy executionPolicy() {
+    public @NonNull ExecutionPolicy getExecutionPolicy() {
         return new ExecutionPolicy(UserRole.ANY_USER,Duration.ofSeconds(10),Duration.ZERO);
     }
 }

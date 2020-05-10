@@ -1,6 +1,5 @@
 package perococco.bot.twitch.chat;
 
-import bot.twitch.chat.MessageFromTwitchListener;
 import bot.twitch.chat.PrivMsgFromTwitchListener;
 import bot.twitch.chat.TwitchChatListener;
 import bot.twitch.chat.TwitchChatState;
@@ -31,10 +30,10 @@ public class PrivMsgFromTwitchListenerWrapper implements TwitchChatListener {
 
     @NonNull
     private Optional<ReceivedMessage<PrivMsgFromTwitch>> castToPrivateMessage(@NonNull ReceivedMessage<?> receivedMessage) {
-        if (receivedMessage.message() instanceof PrivMsgFromTwitch) {
-            final TwitchChatState twitchChatState = receivedMessage.state();
-            final Instant receptionTime = receivedMessage.receptionTime();
-            final PrivMsgFromTwitch message = (PrivMsgFromTwitch) receivedMessage.message();
+        if (receivedMessage.getMessage() instanceof PrivMsgFromTwitch) {
+            final TwitchChatState twitchChatState = receivedMessage.getState();
+            final Instant receptionTime = receivedMessage.getReceptionTime();
+            final PrivMsgFromTwitch message = (PrivMsgFromTwitch) receivedMessage.getMessage();
             return Optional.of(new ReceivedMessage<>(twitchChatState,receptionTime,message));
         }
         return Optional.empty();

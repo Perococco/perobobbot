@@ -46,7 +46,7 @@ public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.CLEARCHAT;
     }
 
@@ -70,8 +70,8 @@ public class ClearChat extends KnownMessageFromTwitch implements ChannelSpecific
         final Optional<Duration> banDuration = helper.optionalTagValueAsInt(TagKey.BAN_DURATION)
                                                      .map(Duration::ofSeconds);
 
-        return banDuration.map(d -> ClearChat.temporaryBan(helper.ircParsing(), user, channel, d))
-                          .orElseGet(() -> ClearChat.permanentBan(helper.ircParsing(), user, channel));
+        return banDuration.map(d -> ClearChat.temporaryBan(helper.getIrcParsing(), user, channel, d))
+                          .orElseGet(() -> ClearChat.permanentBan(helper.getIrcParsing(), user, channel));
     }
 
 }

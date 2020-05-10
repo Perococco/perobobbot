@@ -8,5 +8,5 @@ import lombok.NonNull;
 public interface Request<A> extends Message {
 
     @NonNull
-    Class<A> answerType();
+    Class<A> getAnswerType();
 }

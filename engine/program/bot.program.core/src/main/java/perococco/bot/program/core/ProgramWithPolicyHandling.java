@@ -23,10 +23,10 @@ public class ProgramWithPolicyHandling implements Program {
 
     public ProgramWithPolicyHandling(@NonNull Program delegate) {
         this.delegate = delegate;
-        this.executionInfoByInstruction = delegate.instructionNames()
+        this.executionInfoByInstruction = delegate.getInstructionNames()
                                                   .stream()
                                                   .map(n -> new ExecutionInfo(n, delegate.getExecutionPolicy(n)))
-                                                  .collect(MapTool.collector(ExecutionInfo::instructionName));
+                                                  .collect(MapTool.collector(ExecutionInfo::getInstructionName));
     }
 
     public void cleanup() {
@@ -34,13 +34,13 @@ public class ProgramWithPolicyHandling implements Program {
     }
 
     @Override
-    public @NonNull String name() {
-        return delegate.name();
+    public @NonNull String getName() {
+        return delegate.getName();
     }
 
     @Override
-    public @NonNull ImmutableSet<String> instructionNames() {
-        return delegate.instructionNames();
+    public @NonNull ImmutableSet<String> getInstructionNames() {
+        return delegate.getInstructionNames();
     }
 
     @Override
@@ -51,10 +51,10 @@ public class ProgramWithPolicyHandling implements Program {
     @Override
     public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
         final ExecutionInfo executionInfo = getExecutionInfo(instructionName);
-        if (executionInfo.canExecute(executionContext.executingUser(), Instant.now())) {
+        if (executionInfo.canExecute(executionContext.getExecutingUser(), Instant.now())) {
             return delegate.execute(executionContext,instructionName,parameters);
         } else {
-            LOG.info("Execution of {}:{} denied for user '{}'",name(),instructionName,executionContext.executingUser().userId());
+            LOG.info("Execution of {}:{} denied for user '{}'", getName(), instructionName, executionContext.getExecutingUser().getUserId());
             return false;
         }
     }
@@ -63,7 +63,7 @@ public class ProgramWithPolicyHandling implements Program {
     private ExecutionInfo getExecutionInfo(@NonNull String instructionName) {
         final ExecutionInfo executionInfo = executionInfoByInstruction.get(instructionName);
         if (executionInfo == null) {
-            throw new UnknownInstruction(name(), instructionName);
+            throw new UnknownInstruction(getName(), instructionName);
         }
         return executionInfo;
     }

@@ -32,7 +32,7 @@ public class Mode extends KnownMessageFromTwitch implements ChannelSpecific {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.MODE;
     }
 
@@ -47,7 +47,7 @@ public class Mode extends KnownMessageFromTwitch implements ChannelSpecific {
 
     public static @NonNull Mode build(@NonNull AnswerBuilderHelper helper) {
         return Mode.builder()
-                   .ircParsing(helper.ircParsing())
+                   .ircParsing(helper.getIrcParsing())
                    .channel(helper.channelFromParameterAt(0))
                    .gainedModeration(helper.mapParameter(1, s->s.startsWith("+")))
                    .user(helper.parameterAt(2))

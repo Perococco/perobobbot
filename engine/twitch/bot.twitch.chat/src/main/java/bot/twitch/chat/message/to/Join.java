@@ -28,7 +28,7 @@ public class Join extends RequestToTwitch<UserState> {
     @Override
     @NonNull
     public String payload(@NonNull DispatchContext dispatchContext) {
-        return "JOIN #"+channel.name();
+        return "JOIN #"+channel.getName();
     }
 
     @Override
@@ -49,15 +49,15 @@ public class Join extends RequestToTwitch<UserState> {
     private boolean appliesToMyChannel(MessageFromTwitch messageFromTwitch) {
         if (messageFromTwitch instanceof ChannelSpecific) {
             final ChannelSpecific channelSpecific = ((ChannelSpecific) messageFromTwitch);
-            return channelSpecific.channel().equals(channel);
+            return channelSpecific.getChannel().equals(channel);
         }
         return false;
     }
 
     @NonNull
     private Optional<TryResult<Throwable, UserState>> checkNotice(@NonNull Notice notice) {
-        if (notice.msgId() == NoticeId.MSG_CHANNEL_SUSPENDED) {
-            return Optional.of(TryResult.failure(new JoinFailure(notice.msgId(), notice.message())));
+        if (notice.getMsgId() == NoticeId.MSG_CHANNEL_SUSPENDED) {
+            return Optional.of(TryResult.failure(new JoinFailure(notice.getMsgId(), notice.getMessage())));
         }
         return Optional.empty();
     }

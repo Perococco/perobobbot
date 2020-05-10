@@ -27,7 +27,7 @@ public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
     @Override
     public @NonNull ProgramBuilder<S> addInstruction(@NonNull Function1<? super S, ? extends Instruction> instructionFactory) {
         final Instruction instruction = instructionFactory.apply(state);
-        this.instructionBuilder.put(instruction.name(),instruction);
+        this.instructionBuilder.put(instruction.getName(), instruction);
         return this;
     }
 

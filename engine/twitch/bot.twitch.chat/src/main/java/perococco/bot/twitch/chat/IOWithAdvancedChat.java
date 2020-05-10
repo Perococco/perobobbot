@@ -21,7 +21,7 @@ public class IOWithAdvancedChat implements IO {
         return advancedChat.sendCommand(command)
                            .thenApply(d -> IO.DispatchSlip.builder()
                                                           .io(this)
-                                                          .dispatchingTime(d.dispatchingTime())
+                                                          .dispatchingTime(d.getDispatchingTime())
                                                           .sentCommand(command)
                                                           .build());
     }
@@ -31,16 +31,16 @@ public class IOWithAdvancedChat implements IO {
         return advancedChat.sendRequest(request)
                            .thenApply(d -> IO.ReceiptSlip.<A>builder()
                                    .io(this)
-                                   .dispatchingTime(d.dispatchingTime())
-                                   .receptionTime(d.receptionTime())
+                                   .dispatchingTime(d.getDispatchingTime())
+                                   .receptionTime(d.getReceptionTime())
                                    .sentRequest(request)
-                                   .answer(d.answer())
+                                   .answer(d.getAnswer())
                                    .build()
                            );
     }
 
     @Override
     public void timeout(Duration duration) {
-        advancedChat.timeout(duration);
+        advancedChat.setTimeout(duration);
     }
 }

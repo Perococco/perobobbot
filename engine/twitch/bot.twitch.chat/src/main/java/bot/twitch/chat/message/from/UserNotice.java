@@ -29,7 +29,7 @@ public class UserNotice extends KnownMessageFromTwitch implements ChannelSpecifi
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.USERNOTICE;
     }
 
@@ -41,7 +41,7 @@ public class UserNotice extends KnownMessageFromTwitch implements ChannelSpecifi
     @NonNull
     public static UserNotice build(@NonNull AnswerBuilderHelper helper) {
         return new UserNotice(
-                helper.ircParsing(),
+                helper.getIrcParsing(),
                 helper.channelFromParameterAt(0),
                 helper.lastParameter()
         );

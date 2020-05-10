@@ -34,7 +34,7 @@ public class Notice extends KnownMessageFromTwitch implements ChannelSpecific {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.NOTICE;
     }
 
@@ -46,7 +46,7 @@ public class Notice extends KnownMessageFromTwitch implements ChannelSpecific {
 
     public static @NonNull Notice build(@NonNull AnswerBuilderHelper helper) {
         return Notice.builder()
-                     .ircParsing(helper.ircParsing())
+                     .ircParsing(helper.getIrcParsing())
                      .channel(helper.channelFromParameterAt(0))
                      .message(helper.lastParameter())
                      .msgId(helper.tagValue(TagKey.MSG_ID, NoticeId::getNoticeId))

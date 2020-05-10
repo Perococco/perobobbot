@@ -35,7 +35,7 @@ public class Player {
         this.name = name;
         this.hands = hands;
         this.initialBetAmount = initialBetAmount;
-        this.done = hands.stream().allMatch(Hand::done);
+        this.done = hands.stream().allMatch(Hand::isDone);
     }
 
     public boolean notDone() {
@@ -44,7 +44,7 @@ public class Player {
 
     @NonNull
     public Optional<IndexedValue<Hand>> findFirstHandNotDone() {
-        return ListTool.findFirst(hands, h -> !h.done());
+        return ListTool.findFirst(hands, h -> !h.isDone());
     }
 
     @NonNull

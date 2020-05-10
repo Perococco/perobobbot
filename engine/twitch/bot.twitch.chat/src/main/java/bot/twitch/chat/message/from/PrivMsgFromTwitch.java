@@ -32,7 +32,7 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.PRIVMSG;
     }
 
@@ -44,7 +44,7 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
     @NonNull
     public static PrivMsgFromTwitch build(@NonNull AnswerBuilderHelper helper) {
         return PrivMsgFromTwitch.builder()
-                                .ircParsing(helper.ircParsing())
+                                .ircParsing(helper.getIrcParsing())
                                 .user(helper.userFromPrefix())
                                 .channel(helper.channelFromParameterAt(0))
                                 .payload(helper.lastParameter())

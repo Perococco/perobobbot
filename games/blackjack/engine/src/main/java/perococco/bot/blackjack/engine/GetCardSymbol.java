@@ -26,7 +26,7 @@ public class GetCardSymbol {
 
     @NonNull
     private String getSymbol() {
-        final int figurePart = figure.rank()+(figure.rank()>11?1:0);
+        final int figurePart = figure.getRank()+(figure.getRank()>11?1:0);
         final int suitPart = switch (suit) {
             case SPADES -> 0xA0;
             case HEARTS -> 0xB0;

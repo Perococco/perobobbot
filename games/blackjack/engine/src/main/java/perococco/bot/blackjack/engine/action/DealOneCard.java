@@ -27,15 +27,15 @@ public class DealOneCard implements Mutation<Table> {
         final OnePickResult pickResult = table.pickOneCard();
 
         return table.withReplacedHand(
-                pickResult.deck(), handInfo.changeHand(h -> h.addCard(pickResult.pickedCard()))
+                pickResult.getDeck(), handInfo.changeHand(h -> h.addCard(pickResult.getPickedCard()))
         );
     }
 
     @NonNull
     private Table dealCardToDealer(@NonNull Table table) {
         final OnePickResult pickResult = table.pickOneCard();
-        final Hand dealerHand = table.dealerHand().addCard(pickResult.pickedCard());
-        return table.with(pickResult.deck(), dealerHand);
+        final Hand dealerHand = table.getDealerHand().addCard(pickResult.getPickedCard());
+        return table.with(pickResult.getDeck(), dealerHand);
     }
 
 

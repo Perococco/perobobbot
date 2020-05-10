@@ -26,7 +26,7 @@ public class CapAck extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.CAP;
     }
 
@@ -37,7 +37,7 @@ public class CapAck extends KnownMessageFromTwitch {
 
     @NonNull
     public static CapAck build(@NonNull AnswerBuilderHelper helper) {
-        return new CapAck(helper.ircParsing(), helper.capabilities());
+        return new CapAck(helper.getIrcParsing(), helper.capabilities());
     }
 
 

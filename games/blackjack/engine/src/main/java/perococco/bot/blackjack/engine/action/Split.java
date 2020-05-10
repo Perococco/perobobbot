@@ -25,23 +25,24 @@ public class Split extends DoOnPlayer {
         final Player player = handInfo.player();
         final TwoPicksResult picksResult = table.pickTwoCards();
         return table.withReplacedHand(
-                picksResult.deck(), handInfo.changeHands(hand -> this.splitHand(player, hand, picksResult))
+                picksResult.getDeck(),
+                handInfo.changeHands(hand -> this.splitHand(player, hand, picksResult))
         );
     }
 
     @NonNull
     private Couple<Hand> splitHand(@NonNull Player player, @NonNull Hand hand, @NonNull TwoPicksResult picksResult) {
-        if (hand.done() || hand.dealer() || hand.numberOfCards() != 2) {
+        if (hand.isDone() || hand.isDealerHand() || hand.numberOfCards() != 2) {
             throw createException(player);
         }
         final Card firstCard = hand.cardAt(0);
         final Card secondCard = hand.cardAt(1);
-        if (firstCard.figure() != secondCard.figure()) {
+        if (firstCard.getFigure() != secondCard.getFigure()) {
             throw createException(player);
         }
 
-        final Hand firstHand = buildSplitHand(hand, firstCard, picksResult.firstCard());
-        final Hand secondHand = buildSplitHand(hand, secondCard, picksResult.secondCard());
+        final Hand firstHand = buildSplitHand(hand, firstCard, picksResult.getFirstCard());
+        final Hand secondHand = buildSplitHand(hand, secondCard, picksResult.getSecondCard());
         return Couple.of(firstHand, secondHand);
     }
 

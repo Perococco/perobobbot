@@ -23,7 +23,7 @@ public abstract class HostTarget extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.HOSTTARGET;
     }
 
@@ -72,8 +72,8 @@ public abstract class HostTarget extends KnownMessageFromTwitch {
         final String[] parameters = helper.lastParameter().split(" ");
         final int nbViewers = parameters.length<2? -1: CastTool.castToInt(parameters[1], -1);
         if (parameters[0].equals("-")) {
-            return new HostTarget.Stop(helper.ircParsing(), nbViewers);
+            return new HostTarget.Stop(helper.getIrcParsing(), nbViewers);
         }
-        return new HostTarget.Start(helper.ircParsing(), nbViewers, Channel.create(parameters[0]));
+        return new HostTarget.Start(helper.getIrcParsing(), nbViewers, Channel.create(parameters[0]));
     }
 }

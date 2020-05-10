@@ -38,26 +38,26 @@ public class TwitchExecutionContext implements ExecutionContext {
     public TwitchExecutionContext(@NonNull TwitchChatIO twitchChatIO, @NonNull ReceivedMessage<PrivMsgFromTwitch> reception) {
         this.twitchChatIO = twitchChatIO;
         this.reception = reception;
-        this.executingUser = TwitchUser.createFromPrivateMessage(reception.message());
+        this.executingUser = TwitchUser.createFromPrivateMessage(reception.getMessage());
     }
 
     @Override
-    public @NonNull Instant receptionTime() {
-        return reception.receptionTime();
+    public @NonNull Instant getReceptionTime() {
+        return reception.getReceptionTime();
     }
 
     @Override
-    public @NonNull String rawPayload() {
-        return reception.message().ircParsing().rawMessage();
+    public @NonNull String getRawPayload() {
+        return reception.getRawMessage();
     }
 
     @Override
-    public @NonNull String message() {
-        return reception.message().payload();
+    public @NonNull String getMessage() {
+        return reception.getMessage().getPayload();
     }
 
     @Override
     public void print(@NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        twitchChatIO.message(reception.message().channel(), messageBuilder);
+        twitchChatIO.message(reception.getMessage().getChannel(), messageBuilder);
     }
 }

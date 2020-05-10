@@ -68,7 +68,7 @@ public class Game {
     public CompletionStage<Table> dealAllHands() {
         return dealOneCard()
                 .thenCompose(t -> {
-                    if (t.state() == TableState.PLAYER_PHASE) {
+                    if (t.getState() == TableState.PLAYER_PHASE) {
                         return CompletableFuture.completedFuture(t);
                     } else {
                         return dealAllHands();

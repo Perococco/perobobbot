@@ -72,7 +72,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     @Override
     public boolean handleMessage(@NonNull ExecutionContext executionContext) {
-        final String message = executionContext.message();
+        final String message = executionContext.getMessage();
         if (handle(prefixForManager, message, c -> this.handleManagerCommand(executionContext, c))) {
             return true;
         }
@@ -91,10 +91,10 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     private void handleProgramCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
         for (@NonNull Program enabledProgram : managerIdentity.enabledPrograms()) {
-            if (!enabledProgram.hasInstruction(instructionExtraction.instructionName())) {
+            if (!enabledProgram.hasInstruction(instructionExtraction.getInstructionName())) {
                 continue;
             }
-            if (enabledProgram.execute(executionContext, instructionExtraction.instructionName(), instructionExtraction.parameters())) {
+            if (enabledProgram.execute(executionContext, instructionExtraction.getInstructionName(), instructionExtraction.getParameters())) {
                 break;
             }
         }
@@ -102,10 +102,12 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     private void executeProgram(@NonNull Program program, @NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
         try {
-            program.execute(executionContext, instructionExtraction.instructionName(), instructionExtraction.parameters());
+            program.execute(executionContext,
+                            instructionExtraction.getInstructionName(),
+                            instructionExtraction.getParameters());
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.warn(PROGRAM, "Error while executing program '{}' : {}", program.name(), t.getMessage());
+            LOG.warn(PROGRAM, "Error while executing program '{}' : {}", program.getName(), t.getMessage());
         }
 
     }

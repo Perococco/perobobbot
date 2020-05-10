@@ -21,6 +21,6 @@ public class UnknownMessageFromTwitch extends MessageFromTwitchBase implements M
 
     @Override
     public String toString() {
-        return "UnknownMessageFromTwitch{"+payload()+"}";
+        return "UnknownMessageFromTwitch{" + getPayload() + "}";
     }
 }

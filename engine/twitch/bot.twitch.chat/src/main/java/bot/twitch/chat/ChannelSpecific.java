@@ -5,5 +5,5 @@ import lombok.NonNull;
 public interface ChannelSpecific {
 
     @NonNull
-    Channel channel();
+    Channel getChannel();
 }

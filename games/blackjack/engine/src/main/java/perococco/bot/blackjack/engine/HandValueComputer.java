@@ -24,7 +24,7 @@ public class HandValueComputer {
             if (card.isAnAce()) {
                 nbAces++;
             }
-            baseValue += Math.min(10,card.figure().rank());
+            baseValue += Math.min(10,card.getFigure().getRank());
         }
         final int k = MathTool.clamp(Math.floorDiv(21 - baseValue, 10),0,nbAces);
 

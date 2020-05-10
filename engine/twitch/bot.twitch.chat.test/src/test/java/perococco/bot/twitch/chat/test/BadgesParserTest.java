@@ -40,7 +40,7 @@ public class BadgesParserTest {
     @MethodSource("singleBadgeSample")
     public void shouldParseTheExactNumberOfBadges(@NonNull String badgesFromTag, @NonNull List<Badge> expectedBadges) {
         final MapBasedBadges parsedBadges = BadgesParser.parse(badgesFromTag);
-        Assertions.assertEquals(expectedBadges.size(), parsedBadges.badgesByName().size());
+        Assertions.assertEquals(expectedBadges.size(), parsedBadges.getBadgesByName().size());
     }
 
     @ParameterizedTest(name = "input={0}")
@@ -49,7 +49,7 @@ public class BadgesParserTest {
         final MapBasedBadges parsedBadges = BadgesParser.parse(badgesFromTag);
 
         for (Badge expectedBadge : expectedBadges) {
-            Assertions.assertTrue(parsedBadges.findBadge(expectedBadge.name()).isPresent(),"Should containt badge with name '"+expectedBadge.name()+"'");
+            Assertions.assertTrue(parsedBadges.findBadge(expectedBadge.getName()).isPresent(),"Should contains badge with name '"+expectedBadge.getName()+"'");
         }
     }
 

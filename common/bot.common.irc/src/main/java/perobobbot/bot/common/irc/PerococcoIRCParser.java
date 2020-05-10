@@ -67,8 +67,8 @@ public class PerococcoIRCParser implements IRCParser {
             tags = Stream.of(tagsAsString.split(";"))
                          .map(tagParser::parse)
                          .flatMap(Optional::stream)
-                         .filter(t -> !t.value().isEmpty())
-                         .collect(MapTool.collector(Tag::keyName));
+                         .filter(t -> !t.getValue().isEmpty())
+                         .collect(MapTool.collector(Tag::getKeyName));
         }
 
         private void parsePrefix(@NonNull String prefixAsString) {

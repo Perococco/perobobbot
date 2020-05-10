@@ -39,7 +39,7 @@ public class RoomState extends KnownMessageFromTwitch implements ChannelSpecific
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.ROOMSTATE;
     }
 
@@ -51,7 +51,7 @@ public class RoomState extends KnownMessageFromTwitch implements ChannelSpecific
     @NonNull
     public static RoomState build(@NonNull AnswerBuilderHelper helper) {
         return RoomState.builder()
-                        .ircParsing(helper.ircParsing())
+                        .ircParsing(helper.getIrcParsing())
                         .channel(helper.channelFromParameterAt(0))
                         .emoteOnly(helper.tagValueAsBoolean(TagKey.EMOTE_ONLY,false))
                         .followMode(FollowMode.create(helper.tagValueAsInt(TagKey.FOLLOWERS_ONLY, -1)))

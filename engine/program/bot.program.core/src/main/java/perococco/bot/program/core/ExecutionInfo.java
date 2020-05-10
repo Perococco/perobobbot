@@ -3,7 +3,6 @@ package perococco.bot.program.core;
 import bot.common.lang.User;
 import bot.program.core.ExecutionPolicy;
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -31,21 +30,21 @@ public class ExecutionInfo {
         if (globalCoolDownPolicyFailed(now)) {
             return false;
         }
-        if (userCoolDownPolicyFailed(executor.userId(),now)) {
+        if (userCoolDownPolicyFailed(executor.getUserId(), now)) {
             return false;
         }
         lastExecutionTime = now;
-        setLastExecutionTime(executor.userId(),now);
+        setLastExecutionTime(executor.getUserId(), now);
         return true;
     }
 
     private boolean userPolicyFailed(@NonNull User executor) {
-       return !executor.canActAs(policy.requiredRole());
+       return !executor.canActAs(policy.getRequiredRole());
     }
 
     private boolean globalCoolDownPolicyFailed(@NonNull Instant now) {
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        return durationSinceLastExecution.compareTo(policy.globalCoolDown()) < 0;
+        return durationSinceLastExecution.compareTo(policy.getGlobalCoolDown()) < 0;
     }
 
     private boolean userCoolDownPolicyFailed(@NonNull String userId, @NonNull Instant now) {
@@ -54,7 +53,7 @@ public class ExecutionInfo {
             return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        return durationSinceLastExecution.compareTo(policy.userCoolDown()) < 0;
+        return durationSinceLastExecution.compareTo(policy.getUserCoolDown()) < 0;
     }
 
 
@@ -70,7 +69,7 @@ public class ExecutionInfo {
 
     @Synchronized
     public void cleanup() {
-        final Instant nowMinusCooldown = Instant.now().minus(policy.userCoolDown());
+        final Instant nowMinusCooldown = Instant.now().minus(policy.getUserCoolDown());
         lastExecutionTimePerUserId.values().removeIf(nowMinusCooldown::isAfter);
     }
 }

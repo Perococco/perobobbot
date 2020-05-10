@@ -8,7 +8,7 @@ public interface Instruction {
      * @return the name of the instruction
      */
     @NonNull
-    String name();
+    String getName();
 
     /**
      * @param executionContext the context the instruction is executing in
@@ -17,5 +17,5 @@ public interface Instruction {
     boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters);
 
     @NonNull
-    ExecutionPolicy executionPolicy();
+    ExecutionPolicy getExecutionPolicy();
 }

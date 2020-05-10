@@ -59,7 +59,7 @@ public class Table {
     }
 
     public boolean hasPlayer(String playerName) {
-        return players.stream().anyMatch(p -> p.name().equals(playerName));
+        return players.stream().anyMatch(p -> p.hasName(playerName));
     }
 
     public boolean isFull() {
@@ -93,8 +93,8 @@ public class Table {
 
     @NonNull
     public Table with(@NonNull Deck deck, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
-        final boolean allPlayerDone = players.stream().allMatch(Player::done);
-        final boolean dealerDone = dealerHand().done();
+        final boolean allPlayerDone = players.stream().allMatch(Player::isDone);
+        final boolean dealerDone = getDealerHand().isDone();
 
         final TableState state = switch (this.state) {
             case OPEN_TO_NEW_PLAYER -> players.size() >= tableSize ? TableState.DEALING : TableState.OPEN_TO_NEW_PLAYER;
@@ -111,7 +111,7 @@ public class Table {
     public Optional<SingleHandInfo> findFirstHandNotDoneOnTable() {
         return ListTool.findFirst(players, Player::notDone)
                        .flatMap(
-                               ip -> ip.value()
+                               ip -> ip.getValue()
                                        .findFirstHandNotDone()
                                        .map(h -> new SingleHandInfo(ip, h))
                        );
@@ -120,15 +120,15 @@ public class Table {
     @NonNull
     public Optional<SingleHandInfo> findFirstPlayerHandToDealTo() {
         return ListTool.findFirst(players, Player::waitingForDeal)
-                       .map(ip -> new SingleHandInfo(ip, ip.value().handToDeal()));
+                       .map(ip -> new SingleHandInfo(ip, ip.getValue().handToDeal()));
 
     }
 
     public void validateTableInState(@NonNull TableState expectedTableState) {
-        if (state() == expectedTableState) {
+        if (getState() == expectedTableState) {
             return;
         }
-        throw new InvalidTableState(expectedTableState, state());
+        throw new InvalidTableState(expectedTableState, getState());
     }
 
     @NonNull

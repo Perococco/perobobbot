@@ -17,7 +17,7 @@ public class PingFromTwitch extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.PING;
     }
 
@@ -27,6 +27,6 @@ public class PingFromTwitch extends KnownMessageFromTwitch {
     }
 
     public static  @NonNull MessageFromTwitch build(@NonNull AnswerBuilderHelper helper) {
-        return new PingFromTwitch(helper.ircParsing());
+        return new PingFromTwitch(helper.getIrcParsing());
     }
 }

@@ -1,7 +1,5 @@
 package bot.blackjack.engine;
 
-import bot.common.lang.ListTool;
-import bot.common.lang.Printer;
 import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perococco.bot.blackjack.engine.HandValueComputer;
@@ -9,7 +7,6 @@ import perococco.bot.blackjack.engine.HandValueComputer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@ToString
 public class Hand {
 
     /**
@@ -96,7 +93,7 @@ public class Hand {
     /**
      * @return true if this hand is the hand of the dealer
      */
-    public boolean dealer() {
+    public boolean isDealerHand() {
         return betAmount < 0;
     }
 
@@ -125,14 +122,14 @@ public class Hand {
     @NonNull
     public String cardsAsString() {
         return cards.stream()
-                    .map(Card::symbol)
+                    .map(Card::getSymbol)
                     .collect(Collectors.joining(" "));
     }
 
     @Override
     public String toString() {
         final String suffix;
-        if (dealer()) {
+        if (isDealerHand()) {
             suffix = "";
         } else {
             suffix = "(" + betAmount + ")";
@@ -146,7 +143,7 @@ public class Hand {
             return "";
         }
         return IntStream.range(0, cards.size())
-                 .mapToObj(i -> (i == 0) ? cards.get(i).symbol() : "\uD83C\uDCA0")
+                 .mapToObj(i -> (i == 0) ? cards.get(i).getSymbol() : "\uD83C\uDCA0")
                  .collect(Collectors.joining(" "));
     }
 

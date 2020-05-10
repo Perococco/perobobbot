@@ -28,7 +28,7 @@ public class Join extends KnownMessageFromTwitch implements ChannelSpecific {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.JOIN;
     }
 
@@ -39,7 +39,7 @@ public class Join extends KnownMessageFromTwitch implements ChannelSpecific {
 
     public static @NonNull Join build(@NonNull AnswerBuilderHelper helper) {
         return Join.builder()
-                   .ircParsing(helper.ircParsing())
+                   .ircParsing(helper.getIrcParsing())
                    .user(helper.userFromPrefix())
                    .channel(helper.channelFromParameterAt(0))
                    .build();

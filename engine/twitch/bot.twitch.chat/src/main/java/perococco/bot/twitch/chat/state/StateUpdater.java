@@ -19,7 +19,7 @@ public class StateUpdater {
 
     public @NonNull TwitchChatState updateWith(@NonNull AdvancedChatEvent<MessageFromTwitch> event) {
         final IdentityMutator mutator = event.accept(extractor)
-                                             .map(r -> r.message().accept(mutatorVisitor))
+                                             .map(r -> r.getMessage().accept(mutatorVisitor))
                                              .orElse(IdentityMutator.IDENTITY);
         return identity.mutate(mutator);
     }

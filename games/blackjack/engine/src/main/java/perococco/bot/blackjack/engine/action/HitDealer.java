@@ -17,16 +17,16 @@ public class HitDealer implements Mutation<Table> {
     public Table mutate(@NonNull Table table) {
         table.validateTableInState(TableState.DEALER_PHASE);
 
-        final Hand dealerHand = table.dealerHand();
-        if (dealerHand.done()) {
+        final Hand dealerHand = table.getDealerHand();
+        if (dealerHand.isDone()) {
             throw new IllegalStateException("[BUG] If deal hand is done, Table must be in GAME_OVER state.");
         }
 
         final OnePickResult pickResult = table.pickOneCard();
 
-        final Hand newDealerHand = dealerHand.addCard(pickResult.pickedCard());
+        final Hand newDealerHand = dealerHand.addCard(pickResult.getPickedCard());
 
-        return table.with(pickResult.deck(),newDealerHand);
+        return table.with(pickResult.getDeck(),newDealerHand);
     }
 
 }

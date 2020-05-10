@@ -49,4 +49,9 @@ public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatE
     public boolean isPing() {
         return message instanceof PingFromTwitch;
     }
+
+    @NonNull
+    public String getRawMessage() {
+        return message.getIrcParsing().getRawMessage();
+    }
 }

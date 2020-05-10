@@ -42,7 +42,7 @@ public class TagParserTest {
     @MethodSource("validTags")
     public void hasRightClientPrefix(@NonNull TagParsingParameter parameter) {
         final Tag tag = parseTag(parameter);
-        Assertions.assertEquals(parameter.expectedTag.client(), tag.client());
+        Assertions.assertEquals(parameter.expectedTag.isClient(), tag.isClient());
     }
 
     @ParameterizedTest
@@ -56,14 +56,14 @@ public class TagParserTest {
     @MethodSource("validTags")
     public void hasRightKeyName(@NonNull TagParsingParameter parameter) {
         final Tag tag = parseTag(parameter);
-        Assertions.assertEquals(parameter.expectedTag.keyName(),tag.keyName());
+        Assertions.assertEquals(parameter.expectedTag.getKeyName(),tag.getKeyName());
     }
 
     @ParameterizedTest
     @MethodSource("validTags")
     public void hasRightValue(@NonNull TagParsingParameter parameter) {
         final Tag tag = parseTag(parameter);
-        Assertions.assertEquals(parameter.expectedTag.value(),tag.value());
+        Assertions.assertEquals(parameter.expectedTag.getValue(),tag.getValue());
     }
 
 
@@ -76,7 +76,7 @@ public class TagParserTest {
 
     @NonNull
     private Tag parseTag(@NonNull TagParsingParameter parameter) {
-        final String tagAsString = parameter.tagAsString();
+        final String tagAsString = parameter.getTagAsString();
         final Tag tag = tagParser.parse(tagAsString).orElse(null);
         Assertions.assertNotNull(tag);
         return tag;

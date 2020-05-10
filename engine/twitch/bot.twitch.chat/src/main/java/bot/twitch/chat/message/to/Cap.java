@@ -31,7 +31,7 @@ public final class Cap extends SimpleRequestToTwitch<CapAck> {
     @Override
     public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         return "CAP REQ :" + capabilities.stream()
-                                         .map(Capability::ircValue)
+                                         .map(Capability::getIrcValue)
                                          .collect(Collectors.joining(" "));
     }
 

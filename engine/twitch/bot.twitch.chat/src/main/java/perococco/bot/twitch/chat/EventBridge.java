@@ -44,20 +44,20 @@ public class EventBridge implements AdvancedChatEventVisitor<MessageFromTwitch,N
     @Override
     public @NonNull Nil visit(@NonNull PostedMessage<MessageFromTwitch> event) {
         return handle(event, (s,e) -> {
-            final Optional<MessageToTwitch> message = CastTool.cast(MessageToTwitch.class, event.postedMessage());
-            return message.map(m -> new bot.twitch.chat.event.PostedMessage(s,event.dispatchingTime(),m))
+            final Optional<MessageToTwitch> message = CastTool.cast(MessageToTwitch.class, event.getPostedMessage());
+            return message.map(m -> new bot.twitch.chat.event.PostedMessage(s,event.getDispatchingTime(),m))
                     .orElse(null);
         });
     }
 
     @Override
     public @NonNull Nil visit(@NonNull ReceivedMessage<MessageFromTwitch> event) {
-        return handle(event, (s,e) -> new bot.twitch.chat.event.ReceivedMessage<>(s,e.receptionTime(),e.message()));
+        return handle(event, (s,e) -> new bot.twitch.chat.event.ReceivedMessage<>(s,e.getReceptionTime(),e.getMessage()));
     }
 
     @Override
     public @NonNull Nil visit(@NonNull Error<MessageFromTwitch> event) {
-        return handle(event,(s,e) -> new bot.twitch.chat.event.Error(s,e.error()));
+        return handle(event,(s,e) -> new bot.twitch.chat.event.Error(s,e.getError()));
     }
 
     private <E extends AdvancedChatEvent<MessageFromTwitch>> Nil handle(@NonNull E event,

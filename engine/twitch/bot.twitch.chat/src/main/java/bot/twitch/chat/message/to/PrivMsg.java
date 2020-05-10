@@ -29,6 +29,6 @@ public class PrivMsg extends CommandToTwitch {
     public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
         final String message = messageBuilder.apply(dispatchContext);
         PrivMsgValidator.validate(message);
-        return "PRIVMSG #"+channel.name()+" :"+message;
+        return "PRIVMSG #"+channel.getName()+" :"+message;
     }
 }

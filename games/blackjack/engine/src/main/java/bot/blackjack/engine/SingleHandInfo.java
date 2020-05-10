@@ -18,7 +18,7 @@ public class SingleHandInfo implements HandInfo {
 
     @Override
     public boolean playerHasName(@NonNull String playerName) {
-        return player.value().hasName(playerName);
+        return player.getValue().hasName(playerName);
     }
 
     @NonNull
@@ -30,11 +30,11 @@ public class SingleHandInfo implements HandInfo {
 
     @Override
     public @NonNull Player player() {
-        return player.value();
+        return player.getValue();
     }
 
     public @NonNull Hand hand() {
-        return hand.value();
+        return hand.getValue();
     }
 
     @NonNull

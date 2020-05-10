@@ -16,7 +16,7 @@ public class PongFromTwitch extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.PONG;
     }
 
@@ -27,6 +27,6 @@ public class PongFromTwitch extends KnownMessageFromTwitch {
 
 
     public static @NonNull MessageFromTwitch build(@NonNull AnswerBuilderHelper helper) {
-        return new PongFromTwitch(helper.ircParsing());
+        return new PongFromTwitch(helper.getIrcParsing());
     }
 }

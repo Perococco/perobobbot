@@ -18,6 +18,6 @@ public class ManagerIdentity extends ProxyIdentity<ManagerState> {
 
     @NonNull
     public ImmutableList<Program> enabledPrograms() {
-        return getState().enabledPrograms();
+        return getState().getEnabledPrograms();
     }
 }

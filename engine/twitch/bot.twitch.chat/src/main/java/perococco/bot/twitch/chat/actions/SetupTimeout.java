@@ -30,7 +30,7 @@ public class SetupTimeout implements IOAction<Void> {
     }
 
     private Duration evaluateTimeout(@NonNull IO.ReceiptSlip<?> receiptSlip) {
-        final Duration dialogDuration = Duration.between(receiptSlip.dispatchingTime(), receiptSlip.receptionTime());
+        final Duration dialogDuration = Duration.between(receiptSlip.getDispatchingTime(), receiptSlip.getReceptionTime());
         return dialogDuration.multipliedBy(2).plus(Duration.ofSeconds(10));
     }
 

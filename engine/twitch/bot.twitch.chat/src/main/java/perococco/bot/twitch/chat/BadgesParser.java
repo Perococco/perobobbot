@@ -30,7 +30,7 @@ public class BadgesParser {
 
         final ImmutableMap<String, Badge> badgesByName = Arrays.stream(badgeListFromTag.split(","))
                                                                .map(this::parseSingleBadge)
-                                                               .collect(MapTool.collector(Badge::name));
+                                                               .collect(MapTool.collector(Badge::getName));
         return new MapBasedBadges(badgesByName);
     }
 

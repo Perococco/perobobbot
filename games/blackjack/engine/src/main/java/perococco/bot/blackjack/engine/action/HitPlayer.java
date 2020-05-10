@@ -27,8 +27,8 @@ public class HitPlayer extends DoOnPlayer {
         final OnePickResult pickResult = table.pickOneCard();
 
         return table.withReplacedHand(
-                pickResult.deck(),
-                handInfo.changeHand(h -> h.addCard(pickResult.pickedCard()))
+                pickResult.getDeck(),
+                handInfo.changeHand(h -> h.addCard(pickResult.getPickedCard()))
         );
     }
 

@@ -21,7 +21,7 @@ public class Welcome extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.RPL_WELCOME;
     }
 
@@ -33,7 +33,7 @@ public class Welcome extends KnownMessageFromTwitch {
     @NonNull
     public static Welcome build(@NonNull AnswerBuilderHelper helper) {
         return Welcome.builder()
-                .ircParsing(helper.ircParsing())
+                .ircParsing(helper.getIrcParsing())
                 .userName(helper.parameterAt(0))
                 .build();
     }

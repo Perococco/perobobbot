@@ -47,7 +47,7 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
 
     @NonNull
     private <A> Optional<TryResult<Throwable, A>> handleInvalidAnswerType(RequestToTwitch<A> request, InvalidIRCCommand answer) {
-        final String unknownCommand = answer.requestedCommand();
+        final String unknownCommand = answer.getRequestedCommand();
         if (unknownCommand.equalsIgnoreCase(request.commandInPayload())) {
             return Optional.of(TryResult.failure(new UnknownIRCCommand(request.commandInPayload())));
         }
@@ -58,7 +58,7 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
     public boolean shouldPerformMatching(@NonNull MessageFromTwitch message) {
         if (message instanceof KnownMessageFromTwitch) {
             final KnownMessageFromTwitch messageFromTwitch = (KnownMessageFromTwitch) message;
-            return messageFromTwitch.command() != IRCCommand.PRIVMSG;
+            return messageFromTwitch.getCommand() != IRCCommand.PRIVMSG;
         }
         return false;
     }

@@ -123,7 +123,7 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
         @Override
         public void visit(@NonNull Error event) {
-            warnListeners(bot.chat.advanced.event.Error.with(event.error()));
+            warnListeners(bot.chat.advanced.event.Error.with(event.getError()));
         }
 
 
@@ -133,8 +133,8 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
         @Override
         public void visit(@NonNull bot.chat.core.event.ReceivedMessage event) {
-            final Instant receptionTime = event.receptionTime();
-            Stream.of(event.message().split("\\R"))
+            final Instant receptionTime = event.getReceptionTime();
+            Stream.of(event.getMessage().split("\\R"))
                   .map(messageConverter::convert)
                   .flatMap(Optional::stream)
                   .map(m -> new ReceivedMessage<>(receptionTime, m))

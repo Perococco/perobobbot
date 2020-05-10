@@ -26,14 +26,14 @@ public class Part extends SimpleRequestToTwitch<bot.twitch.chat.message.from.Par
 
     @Override
     public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
-        return "PART #"+channel.name();
+        return "PART #"+channel.getName();
     }
 
     @Override
     @NonNull
     protected Optional<bot.twitch.chat.message.from.Part> doIsMyAnswer(@NonNull bot.twitch.chat.message.from.Part twitchAnswer,
             @NonNull TwitchChatState state) {
-        if (twitchAnswer.channel().equals(channel) && twitchAnswer.user().equals(state.userName())) {
+        if (twitchAnswer.getChannel().equals(channel) && twitchAnswer.getUser().equals(state.userName())) {
             return Optional.of(twitchAnswer);
         }
         return Optional.empty();

@@ -49,7 +49,7 @@ public interface Tags {
     static Tags mapBased(@NonNull ImmutableMap<String,Tag> tags) {
         return tagKey -> {
             final Tag tag = tags.get(tagKey.name());
-            return tag == null?Optional.empty():Optional.of(tag.value());
+            return tag == null?Optional.empty():Optional.of(tag.getValue());
         };
     }
 

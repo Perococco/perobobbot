@@ -49,8 +49,8 @@ public class Nick extends RequestToTwitch<GlobalUserState> {
     private Optional<TryResult<Throwable,GlobalUserState>> checkNotice(@NonNull Notice notice) {
         if (Stream.of("Login authentication failed",
                       "Improperly formatted auth")
-                  .anyMatch(m -> notice.message().equals(m))) {
-            return Optional.of(TryResult.failure(new TwitchChatAuthenticationFailure(notice.message())));
+                  .anyMatch(m -> notice.getMessage().equals(m))) {
+            return Optional.of(TryResult.failure(new TwitchChatAuthenticationFailure(notice.getMessage())));
         }
         return Optional.empty();
     }

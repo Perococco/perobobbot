@@ -10,20 +10,20 @@ public interface Program {
      * @return the name of the program
      */
     @NonNull
-    String name();
+    String getName();
 
     /**
      * @return the set of all instructions of this program
      */
     @NonNull
-    ImmutableSet<String> instructionNames();
+    ImmutableSet<String> getInstructionNames();
 
     /**
      * @param name a name of an instruction
      * @return true if this program has an instruction with the provided name, false otherwise
      */
     default boolean hasInstruction(@NonNull String name) {
-        return instructionNames().contains(name);
+        return getInstructionNames().contains(name);
     }
 
     /**

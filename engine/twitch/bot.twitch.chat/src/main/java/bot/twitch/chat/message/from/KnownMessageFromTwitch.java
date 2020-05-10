@@ -14,10 +14,10 @@ public abstract class KnownMessageFromTwitch extends MessageFromTwitchBase imple
     }
 
     @NonNull
-    public abstract IRCCommand command();
+    public abstract IRCCommand getCommand();
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+"{"+payload()+"}";
+        return getClass().getSimpleName() + "{" + getPayload() + "}";
     }
 }

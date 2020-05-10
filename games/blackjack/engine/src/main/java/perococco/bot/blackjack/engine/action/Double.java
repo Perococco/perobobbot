@@ -3,8 +3,6 @@ package perococco.bot.blackjack.engine.action;
 import bot.blackjack.engine.*;
 import bot.blackjack.engine.exception.BlackjackException;
 import bot.blackjack.engine.exception.InvalidHandForADouble;
-import bot.common.lang.ListTool;
-import bot.common.lang.Mutation;
 import lombok.NonNull;
 
 public class Double extends DoOnPlayer {
@@ -26,20 +24,20 @@ public class Double extends DoOnPlayer {
         final Player player = handInfo.player();
         final OnePickResult pickResult = table.pickOneCard();
         return table.withReplacedHand(
-                pickResult.deck(), handInfo.changeHand(hand -> doubleHand(player, hand, pickResult))
+                pickResult.getDeck(), handInfo.changeHand(hand -> doubleHand(player, hand, pickResult))
         );
     }
 
     @NonNull
     private Hand doubleHand(@NonNull Player player, @NonNull Hand hand, @NonNull OnePickResult pickResult) {
-        if (hand.done() || hand.dealer() || hand.numberOfCards() != 2) {
+        if (hand.isDone() || hand.isDealerHand() || hand.numberOfCards() != 2) {
             throw createException(player);
         }
 
         return hand.toBuilder()
-                   .card(pickResult.pickedCard())
+                   .card(pickResult.getPickedCard())
                    .done(true)
-                   .betAmount(hand.betAmount() * 2)
+                   .betAmount(hand.getBetAmount() * 2)
                    .build();
     }
 

@@ -20,7 +20,7 @@ public class Pass extends CommandToTwitch {
 
     @Override
     public @NonNull String payload(@NonNull DispatchContext dispatchContext) {
-        return "PASS oauth:" + oauthValue.value();
+        return "PASS oauth:" + oauthValue.getValue();
     }
 
 }

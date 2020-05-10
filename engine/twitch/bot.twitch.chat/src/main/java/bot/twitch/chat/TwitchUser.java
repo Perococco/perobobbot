@@ -38,7 +38,7 @@ public class TwitchUser implements User {
     }
 
     public static User createFromPrivateMessage(@NonNull PrivMsgFromTwitch message) {
-        final String userId = message.user();
+        final String userId = message.getUser();
         final String userName = message.getTag(TagKey.DISPLAY_NAME, userId);
         return new TwitchUser(userId, userName, message);
     }

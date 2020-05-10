@@ -10,7 +10,7 @@ public interface TwitchChatEvent {
      * a moderator to a channel, that will be reflected in the returned state).
      */
     @NonNull
-    TwitchChatState state();
+    TwitchChatState getState();
 
     @NonNull
     <T> T accept(@NonNull TwitchChatEventVisitor<T> visitor);

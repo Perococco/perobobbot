@@ -72,7 +72,7 @@ public class ConnectionValue implements TwitchChatState {
 
     @NonNull
     public ConnectionValue withAddedJoinedChannel(@NonNull UserState userState) {
-        return withJoinedChannelMutation(MapTool.adder(userState.channel(),userState));
+        return withJoinedChannelMutation(MapTool.adder(userState.getChannel(), userState));
     }
 
     @NonNull

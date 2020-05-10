@@ -37,7 +37,7 @@ public class ClearMsg extends KnownMessageFromTwitch implements ChannelSpecific 
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.CLEARMSG;
     }
 
@@ -48,7 +48,7 @@ public class ClearMsg extends KnownMessageFromTwitch implements ChannelSpecific 
 
     public static @NonNull ClearMsg build(@NonNull AnswerBuilderHelper helper) {
         return ClearMsg.builder()
-                       .ircParsing(helper.ircParsing())
+                       .ircParsing(helper.getIrcParsing())
                        .channel(helper.channelFromParameterAt(0))
                        .clearedMessage(helper.lastParameter())
                        .login(helper.tagValue(TagKey.LOGIN))

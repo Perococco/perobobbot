@@ -39,13 +39,13 @@ public class PrefixParserTest {
     @MethodSource("validPrefixes")
     public void hasRightNickOrPrefix(@NonNull PrefixParserArgument argument) {
         final Prefix prefix = parse(argument);
-        Assertions.assertEquals(argument.prefix().nickOrServerName(),prefix.nickOrServerName());
+        Assertions.assertEquals(argument.getPrefix().getNickOrServerName(),prefix.getNickOrServerName());
     }
 
 
 
     private Prefix parse(@NonNull PrefixParserArgument argument) {
-        final Prefix prefix = prefixParser.parse(argument.prefixAsString()).orElse(null);
+        final Prefix prefix = prefixParser.parse(argument.getPrefixAsString()).orElse(null);
         Assertions.assertNotNull(prefix);
         return prefix;
     }

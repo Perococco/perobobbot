@@ -28,7 +28,7 @@ public class AnswerBuilderHelper {
 
     @NonNull
     public Optional<IRCCommand> command() {
-        return IRCCommand.findFromString(ircParsing.command());
+        return IRCCommand.findFromString(ircParsing.getCommand());
     }
 
     @NonNull
@@ -47,7 +47,7 @@ public class AnswerBuilderHelper {
 
     @NonNull
     public <T> T mapParameter(int parameterIndex, @NonNull Function<? super String, ? extends T> mapper) {
-        return mapper.apply(ircParsing.params().parameterAt(parameterIndex));
+        return mapper.apply(ircParsing.getParams().parameterAt(parameterIndex));
     }
 
     @NonNull
@@ -68,7 +68,7 @@ public class AnswerBuilderHelper {
 
     @NonNull
     public Optional<String> optionalTagValue(@NonNull TagKey key) {
-        return ircParsing.tagValue(key.keyName());
+        return ircParsing.tagValue(key.getKeyName());
     }
 
     @NonNull
@@ -100,7 +100,7 @@ public class AnswerBuilderHelper {
 
     @NonNull
     public String userFromPrefix() {
-        return prefix().nickOrServerName();
+        return prefix().getNickOrServerName();
     }
 
     @NonNull
@@ -111,11 +111,11 @@ public class AnswerBuilderHelper {
 
     @NonNull
     private IllegalArgumentException buildException(@NonNull String message) {
-        return new IllegalArgumentException(message+". Raw Message:'"+ircParsing.rawMessage()+"'");
+        return new IllegalArgumentException(message+". Raw Message:'"+ircParsing.getRawMessage()+"'");
     }
 
     @NonNull
     public String parameterAt(int parameterIndex) {
-        return ircParsing.params().parameterAt(parameterIndex);
+        return ircParsing.getParams().parameterAt(parameterIndex);
     }
 }

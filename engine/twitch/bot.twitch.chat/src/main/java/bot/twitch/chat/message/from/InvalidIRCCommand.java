@@ -23,7 +23,7 @@ public class InvalidIRCCommand extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.ERR_UNKNOWNCOMMAND;
     }
 
@@ -35,7 +35,7 @@ public class InvalidIRCCommand extends KnownMessageFromTwitch {
     @NonNull
     public static InvalidIRCCommand build(@NonNull AnswerBuilderHelper helper) {
         return InvalidIRCCommand.builder()
-                .ircParsing(helper.ircParsing())
+                .ircParsing(helper.getIrcParsing())
                 .user(helper.parameterAt(0))
                 .requestedCommand(helper.parameterAt(1))
                 .build();

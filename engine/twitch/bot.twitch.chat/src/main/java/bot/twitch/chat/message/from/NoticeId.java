@@ -175,7 +175,7 @@ public enum NoticeId {
 
         static {
             NOTICE_ID_MAP = Stream.of(values())
-                                  .collect(MapTool.collector(NoticeId::twitchId));
+                                  .collect(MapTool.collector(NoticeId::getTwitchId));
         }
 
     }

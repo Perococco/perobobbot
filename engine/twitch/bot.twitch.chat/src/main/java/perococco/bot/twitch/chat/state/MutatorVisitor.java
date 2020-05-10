@@ -23,12 +23,12 @@ public class MutatorVisitor extends MessageFromTwitchAdapter<IdentityMutator> {
     @NonNull
     @Override
     public IdentityMutator visit(@NonNull Part part) {
-        return new ChanelRemover(part.channel());
+        return new ChanelRemover(part.getChannel());
     }
 
     @NonNull
     @Override
     public IdentityMutator visit(@NonNull Welcome welcome) {
-        return new UsernameSetter(welcome.userName());
+        return new UsernameSetter(welcome.getUserName());
     }
 }

@@ -69,6 +69,6 @@ public class IRCParsing {
 
     @NonNull
     public Optional<String> tagValue(@NonNull String tagName) {
-        return Optional.ofNullable(tags.get(tagName)).map(Tag::value);
+        return Optional.ofNullable(tags.get(tagName)).map(Tag::getValue);
     }
 }

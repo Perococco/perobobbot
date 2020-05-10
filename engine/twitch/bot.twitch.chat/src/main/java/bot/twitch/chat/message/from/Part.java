@@ -29,7 +29,7 @@ public class Part extends KnownMessageFromTwitch implements ChannelSpecific {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.PART;
     }
 
@@ -40,7 +40,7 @@ public class Part extends KnownMessageFromTwitch implements ChannelSpecific {
 
     public static @NonNull Part build(@NonNull AnswerBuilderHelper helper) {
         return Part.builder()
-                   .ircParsing(helper.ircParsing())
+                   .ircParsing(helper.getIrcParsing())
                    .channel(helper.channelFromParameterAt(0))
                    .user(helper.userFromPrefix())
                    .build();

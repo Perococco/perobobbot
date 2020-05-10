@@ -61,7 +61,7 @@ public class ConnectionIdentity {
 
     public void setToConnecting(@NonNull Subscription subscription) {
         this.mutate(v -> {
-            if (v.state() != State.DISCONNECTED) {
+            if (v.getState() != State.DISCONNECTED) {
                 throw new TwitchChatAlreadyConnected();
             }
             return v.toBuilder()
@@ -73,14 +73,14 @@ public class ConnectionIdentity {
 
     public void setToDisconnected() {
         this.mutate(v -> {
-            v.subscription().unsubscribe();
+            v.getSubscription().unsubscribe();
             return ConnectionValue.disconnected();
         });
     }
 
     public void setToConnected(@NonNull AdvancedChat<MessageFromTwitch> advancedChat) {
         this.mutate(v -> {
-            if (v.state() != State.CONNECTING) {
+            if (v.getState() != State.CONNECTING) {
                 throw new IllegalStateException("Can not switch to CONNECTED from CONNECTING state");
             }
             return v.toBuilder()

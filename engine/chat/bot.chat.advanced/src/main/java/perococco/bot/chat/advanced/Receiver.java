@@ -38,9 +38,9 @@ public class Receiver<M> extends Looper {
     protected @NonNull IterationCommand performOneIteration() throws Exception {
         final ReceivedMessage<M> reception = incomingMessages.takeFirst();
 
-        final M message = reception.message();
+        final M message = reception.getMessage();
         if (shouldPerformMatching.test(message)) {
-            performRendezvousWithRequests(message,reception.receptionTime());
+            performRendezvousWithRequests(message,reception.getReceptionTime());
         }
 
         return IterationCommand.CONTINUE;

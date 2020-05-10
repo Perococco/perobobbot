@@ -14,7 +14,7 @@ public class GlobalUserState extends KnownMessageFromTwitch {
     }
 
     @Override
-    public @NonNull IRCCommand command() {
+    public @NonNull IRCCommand getCommand() {
         return IRCCommand.GLOBALUSERSTATE;
     }
 
@@ -25,7 +25,7 @@ public class GlobalUserState extends KnownMessageFromTwitch {
 
     public static GlobalUserState build(@NonNull AnswerBuilderHelper helper) {
         return GlobalUserState.builder()
-                              .ircParsing(helper.ircParsing())
+                              .ircParsing(helper.getIrcParsing())
                               .build();
     }
 

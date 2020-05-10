@@ -27,7 +27,7 @@ public class TwitchMessageConverter implements MessageConverter<MessageFromTwitc
     public @NonNull Optional<MessageFromTwitch> convert(@NonNull String messageAsString) {
         try {
             final IRCParsing ircParsing = ircParser.parse(messageAsString);
-            final Optional<IRCCommand> command = IRCCommand.findFromString(ircParsing.command());
+            final Optional<IRCCommand> command = IRCCommand.findFromString(ircParsing.getCommand());
 
             final MessageFromTwitch messageFromTwitch =  command.map(cmd -> buildKnownAnswer(cmd,ircParsing))
                                                       .orElseGet(() -> buildUnknownAnswer(ircParsing));
@@ -48,7 +48,7 @@ public class TwitchMessageConverter implements MessageConverter<MessageFromTwitc
 
     @NonNull
     private MessageFromTwitch buildUnknownAnswer(@NonNull IRCParsing ircParsing) {
-        LOG.warn(TwitchMarkers.TWITCH_CHAT,"Unknown command : '{}' for message '{}'", ircParsing.command(),ircParsing.rawMessage());
+        LOG.warn(TwitchMarkers.TWITCH_CHAT,"Unknown command : '{}' for message '{}'", ircParsing.getCommand(),ircParsing.getRawMessage());
         return new UnknownMessageFromTwitch(ircParsing);
     }
 

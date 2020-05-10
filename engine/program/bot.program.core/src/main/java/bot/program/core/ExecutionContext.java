@@ -12,24 +12,24 @@ public interface ExecutionContext extends ProgramIO {
      * @return the user that initiate the execution
      */
     @NonNull
-    User executingUser();
+    User getExecutingUser();
 
     /**
      * @return the instant of reception du message
      */
     @NonNull
-    Instant receptionTime();
+    Instant getReceptionTime();
 
     /**
      * @return the raw payload received from the chat (for Twitch this might include badges)
      */
     @NonNull
-    String rawPayload();
+    String getRawPayload();
 
     /**
      * @return the content of the private message
      */
     @NonNull
-    String message();
+    String getMessage();
 
 }

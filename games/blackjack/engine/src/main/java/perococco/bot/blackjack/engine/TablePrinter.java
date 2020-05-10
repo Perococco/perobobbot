@@ -38,9 +38,9 @@ public class TablePrinter {
     public TablePrinter(@NonNull Table table, Printer ps) {
         this.table = table;
         this.ps = ps;
-        this.tableState = table.state();
-        this.players = table.players();
-        this.dealerHand = table.dealerHand();
+        this.tableState = table.getState();
+        this.players = table.getPlayers();
+        this.dealerHand = table.getDealerHand();
     }
 
     public void print() {
@@ -57,7 +57,7 @@ public class TablePrinter {
 
 
     private void printHeader() {
-        ps.println(table.state()+" ["+table.generation()+"]");
+        ps.println(table.getState()+" ["+table.getGeneration()+"]");
     }
 
 
@@ -72,7 +72,7 @@ public class TablePrinter {
         for (int i = 0; i < nbToList; i++) {
             if (i < players.size()) {
                 final Player player = players.get(i);
-                final String firstHeader = String.format(firstHeadFormat, player.name());
+                final String firstHeader = String.format(firstHeadFormat, player.getName());
                 final Printer printer = ps.withHeader(firstHeader, secondHeader);
                 printPlayerHands(player,printer);
             } else {
@@ -82,9 +82,9 @@ public class TablePrinter {
     }
 
     private void printPlayerHands(@NonNull Player player, @NonNull Printer printer) {
-        for (Hand hand : player.hands()) {
+        for (Hand hand : player.getHands()) {
             String flag = getHandFlag(hand);
-            printer.println(String.format("(%3d) %1s %s", hand.betAmount(), flag, hand.cardsAsString()));
+            printer.println(String.format("(%3d) %1s %s", hand.getBetAmount(), flag, hand.cardsAsString()));
         }
     }
 
@@ -94,7 +94,7 @@ public class TablePrinter {
             flag = hand.getStatus(dealerHand);
         } else if (tableState != TableState.PLAYER_PHASE) {
             flag = " ";
-        } else if (hand.done()) {
+        } else if (hand.isDone()) {
             flag = "-";
         } else if (notDoneFound) {
             flag = " ";
@@ -107,14 +107,14 @@ public class TablePrinter {
     }
 
     private int computeMaxPlayerNameLength() {
-        int maxPlayerNameLength = table.players()
+        int maxPlayerNameLength = table.getPlayers()
                                        .stream()
                                        .mapToInt(this::playerNameLength)
                                        .max()
                                        .orElse(EMPTY_PLAYER.length());
 
         final int maxLength;
-        if (table.state() == TableState.OPEN_TO_NEW_PLAYER) {
+        if (table.getState() == TableState.OPEN_TO_NEW_PLAYER) {
             maxLength = Math.max(EMPTY_PLAYER.length(), maxPlayerNameLength);
         } else {
             maxLength = maxPlayerNameLength;
@@ -124,7 +124,7 @@ public class TablePrinter {
     }
 
     private int playerNameLength(@NonNull Player player) {
-        return player.name().length();
+        return player.getName().length();
     }
 
     private void printDealerHand() {

@@ -91,8 +91,8 @@ public class ListTool {
     public static <A> ImmutableList<A> multiReplace(@NonNull ImmutableList<A> source, @NonNull IndexedValue<? extends Iterable<? extends A>> indexedValue) {
         final ImmutableList.Builder<A> builder = ImmutableList.builder();
         for (int i = 0; i < source.size(); i++) {
-            if (i == indexedValue.index()) {
-                builder.addAll(indexedValue.value());
+            if (i == indexedValue.getIndex()) {
+                builder.addAll(indexedValue.getValue());
             } else {
                 builder.add(source.get(i));
             }

@@ -13,7 +13,7 @@ public class StartAllPrograms extends ManagerInstruction {
 
     @Override
     public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        identity().mutate(ManagerState::startAll);
+        getIdentity().mutate(ManagerState::startAll);
         return true;
     }
 }

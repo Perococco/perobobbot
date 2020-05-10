@@ -73,7 +73,7 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
                 this::getRootState,
                 this::setRootState,
                 getter
-        ).thenApply(UpdateResult::result);
+        ).thenApply(UpdateResult::getResult);
     }
 
 

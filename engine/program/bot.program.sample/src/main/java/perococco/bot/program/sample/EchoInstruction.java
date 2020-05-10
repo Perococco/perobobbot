@@ -18,13 +18,13 @@ public class EchoInstruction implements Instruction {
     public EchoInstruction(Nil nil) {}
 
     @Override
-    public @NonNull String name() {
+    public @NonNull String getName() {
         return "echo";
     }
 
     @Override
     public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        executionContext.print(executionContext.executingUser().userName()+" said "+parameters);
+        executionContext.print(executionContext.getExecutingUser().getUserName() + " said " + parameters);
         return true;
     }
 }

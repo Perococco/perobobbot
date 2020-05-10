@@ -32,11 +32,11 @@ public class Stand implements Mutation<Table> {
     }
 
     private @NonNull Table performAction(@NonNull Table table, @NonNull SingleHandInfo handInfo) {
-        if (handInfo.hand().done()) {
+        if (handInfo.hand().isDone()) {
             return table;
         }
         return table.withReplacedHand(
-                table.deck(),
+                table.getDeck(),
                 handInfo.changeHand(Hand::withSetDone)
         );
     }

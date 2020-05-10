@@ -29,7 +29,7 @@ public class TestGetCardSymbol {
     @ParameterizedTest
     @MethodSource("symbolSample")
     public void shouldBeExpectedSymbol(@NonNull Card card, @NonNull String expected) {
-        final String actual = GetCardSymbol.get(card.figure(),card.suit());
+        final String actual = GetCardSymbol.get(card.getFigure(),card.getSuit());
         final byte[] actualBytes = actual.getBytes(StandardCharsets.UTF_16);
         final byte[] expectedBytes = expected.getBytes(StandardCharsets.UTF_16);
         Assertions.assertArrayEquals(expectedBytes,actualBytes);

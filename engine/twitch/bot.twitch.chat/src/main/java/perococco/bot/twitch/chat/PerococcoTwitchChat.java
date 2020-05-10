@@ -118,15 +118,15 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
 
     @NonNull
     private <T> CompletionStage<T> joinChannels(@NonNull T passThrough) {
-        return connectionIdentity.executeWithIO(new JoinChannels(options.channels()))
+        return connectionIdentity.executeWithIO(new JoinChannels(options.getChannels()))
                                  .thenApply(v -> passThrough);
     }
 
     @NonNull
     private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO) {
         final Cap cap = new Cap(Capability.AllCapabilities());
-        final Pass pass = new Pass(options.secret());
-        final Nick nick = new Nick(options.nick());
+        final Pass pass = new Pass(options.getSecret());
+        final Nick nick = new Nick(options.getNick());
         advancedChatIO.sendRequest(cap);
         return advancedChatIO.sendCommand(pass)
                              .thenCompose(r -> advancedChatIO.sendRequest(nick));
@@ -139,17 +139,17 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
 
     @NonNull
     private TwitchDispatchSlip convertSlip(@NonNull IO.DispatchSlip slip) {
-        return new TwitchDispatchSlip(this, slip.sentCommand(), slip.dispatchingTime());
+        return new TwitchDispatchSlip(this, slip.getSentCommand(), slip.getDispatchingTime());
     }
 
     @NonNull
     private <A> TwitchReceiptSlip<A> convertSlip(@NonNull IO.ReceiptSlip<A> slip) {
         return TwitchReceiptSlip.<A>builder()
                 .twitchChatIO(this)
-                .dispatchingTime(slip.dispatchingTime())
-                .receptionTime(slip.receptionTime())
-                .sentRequest(slip.sentRequest())
-                .answer(slip.answer())
+                .dispatchingTime(slip.getDispatchingTime())
+                .receptionTime(slip.getReceptionTime())
+                .sentRequest(slip.getSentRequest())
+                .answer(slip.getAnswer())
                 .build();
     }
 

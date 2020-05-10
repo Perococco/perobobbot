@@ -15,23 +15,23 @@ public interface ReceiptSlip<A> {
      * @return the instant when the request was sent
      */
     @NonNull
-    Instant dispatchingTime();
+    Instant getDispatchingTime();
 
     /**
      * @return the instant when the answer of the request was received
      */
     @NonNull
-    Instant receptionTime();
+    Instant getReceptionTime();
 
     /**
      * @return the sent request
      */
     @NonNull
-    Request<A> sentRequest();
+    Request<A> getSentRequest();
 
     /**
      * @return the received answer
      */
     @NonNull
-    A answer();
+    A getAnswer();
 }

@@ -16,6 +16,6 @@ public class ChanelAdder implements ChannelMutator {
 
     @Override
     public @NonNull ImmutableMap<Channel, UserState> mutate(@NonNull ImmutableMap<Channel, UserState> currentValue) {
-        return MapTool.add(currentValue,userState.channel(),userState);
+        return MapTool.add(currentValue, userState.getChannel(), userState);
     }
 }

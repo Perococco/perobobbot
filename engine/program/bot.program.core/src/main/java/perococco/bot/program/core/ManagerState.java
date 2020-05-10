@@ -40,7 +40,7 @@ public class ManagerState {
 
     @NonNull
     public ManagerState addProgram(@NonNull ProgramWithPolicyHandling program) {
-        final ImmutableMap<String, ProgramWithPolicyHandling> newPrograms = MapTool.add(programs, program.name(), program);
+        final ImmutableMap<String, ProgramWithPolicyHandling> newPrograms = MapTool.add(programs, program.getName(), program);
         if (programs == newPrograms) {
             return this;
         }
