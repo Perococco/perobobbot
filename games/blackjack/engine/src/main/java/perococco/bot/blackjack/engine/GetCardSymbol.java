@@ -35,12 +35,11 @@ public class GetCardSymbol {
     }
 
     private int getSuitPart() {
-        switch (suit) {
-            case SPADES: return 0xA0;
-            case HEARTS: return 0xB0;
-            case DIAMONDS: return 0xC0;
-            case CLUBS: return 0xD0;
-        }
-        throw new IllegalArgumentException("Unknown suit : " +suit);
+        return switch (suit) {
+            case SPADES -> 0xA0;
+            case HEARTS ->  0xB0;
+            case DIAMONDS ->  0xC0;
+            case CLUBS ->  0xD0;
+        };
     }
 }

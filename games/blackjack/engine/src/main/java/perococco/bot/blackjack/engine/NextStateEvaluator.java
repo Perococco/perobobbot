@@ -39,13 +39,12 @@ public class NextStateEvaluator {
         final boolean allPlayerDone = nextPlayers.stream().allMatch(Player::isDone);
         final boolean dealerDone = nextDealerHand.isDone();
 
-        switch (this.currentState) {
-            case OPEN_TO_NEW_PLAYER: return nextPlayers.size() >= tableSize ? TableState.DEALING : TableState.OPEN_TO_NEW_PLAYER;
-            case DEALING: return nextDealerHand.hasLessThanTwoCards() ? TableState.DEALING : TableState.PLAYER_PHASE;
-            case PLAYER_PHASE: return allPlayerDone ? (dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE) : TableState.PLAYER_PHASE;
-            case DEALER_PHASE: return dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE;
-            default:
-                return currentState;
-        }
+        return switch (this.currentState) {
+            case OPEN_TO_NEW_PLAYER -> nextPlayers.size() >= tableSize ? TableState.DEALING : TableState.OPEN_TO_NEW_PLAYER;
+            case DEALING -> nextDealerHand.hasLessThanTwoCards() ? TableState.DEALING : TableState.PLAYER_PHASE;
+            case PLAYER_PHASE -> allPlayerDone ? (dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE) : TableState.PLAYER_PHASE;
+            case DEALER_PHASE -> dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE;
+            default -> currentState;
+        };
     }
 }
