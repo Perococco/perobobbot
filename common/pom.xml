@@ -23,7 +23,6 @@
 
     <modules>
         <module>bot.common.irc</module>
-        <module>bot.common.irc.test</module>
         <module>bot.common.lang</module>
     </modules>
 

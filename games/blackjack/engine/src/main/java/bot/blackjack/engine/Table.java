@@ -8,6 +8,7 @@ import bot.common.lang.Printer;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
+import perococco.bot.blackjack.engine.NextStateEvaluator;
 import perococco.bot.blackjack.engine.TablePrinter;
 
 import java.util.Optional;
@@ -93,17 +94,7 @@ public class Table {
 
     @NonNull
     public Table with(@NonNull Deck deck, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
-        final boolean allPlayerDone = players.stream().allMatch(Player::isDone);
-        final boolean dealerDone = getDealerHand().isDone();
-
-        final TableState state = switch (this.state) {
-            case OPEN_TO_NEW_PLAYER -> players.size() >= tableSize ? TableState.DEALING : TableState.OPEN_TO_NEW_PLAYER;
-            case DEALING -> dealerHand.hasLessThanTwoCards() ? TableState.DEALING : TableState.PLAYER_PHASE;
-            case PLAYER_PHASE -> allPlayerDone ? (dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE) : TableState.PLAYER_PHASE;
-            case DEALER_PHASE -> dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE;
-            case GAME_OVER -> TableState.GAME_OVER;
-        };
-
+        final TableState state = NextStateEvaluator.evaluate(this.state,this.tableSize,players,dealerHand);
         return new Table(generation + 1, state, deck, tableSize, dealerHand, players);
     }
 

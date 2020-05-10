@@ -31,7 +31,7 @@ public class PrefixParserTest {
     private PrefixParser prefixParser;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         this.prefixParser = new PrefixParser();
     }
 

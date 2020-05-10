@@ -14,7 +14,7 @@ public class IRCParserTest {
     private IRCParsing ircParsing;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         ircParsing = new PerococcoIRCParser().parse(":perococco!perococco@perococco.tmi.twitch.tv JOIN #joueur_du_grenier");
     }
 

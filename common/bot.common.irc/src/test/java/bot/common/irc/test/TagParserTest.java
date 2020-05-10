@@ -34,7 +34,7 @@ public class TagParserTest {
     private TagParser tagParser;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         tagParser = new TagParser();
     }
 

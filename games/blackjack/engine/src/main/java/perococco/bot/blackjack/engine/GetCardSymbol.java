@@ -27,15 +27,20 @@ public class GetCardSymbol {
     @NonNull
     private String getSymbol() {
         final int figurePart = figure.getRank()+(figure.getRank()>11?1:0);
-        final int suitPart = switch (suit) {
-            case SPADES -> 0xA0;
-            case HEARTS -> 0xB0;
-            case DIAMONDS -> 0xC0;
-            case CLUBS -> 0xD0;
-        };
+        final int suitPart = getSuitPart();
 
         final byte[] bytes = BASE.clone();
         bytes[5] = (byte)(figurePart|suitPart);
         return new String(bytes, StandardCharsets.UTF_16);
+    }
+
+    private int getSuitPart() {
+        switch (suit) {
+            case SPADES: return 0xA0;
+            case HEARTS: return 0xB0;
+            case DIAMONDS: return 0xC0;
+            case CLUBS: return 0xD0;
+        }
+        throw new IllegalArgumentException("Unknown suit : " +suit);
     }
 }
