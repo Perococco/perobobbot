@@ -19,7 +19,7 @@ public class Table {
         return new Table(1,TableState.OPEN_TO_NEW_PLAYER, deck, tableSize, Hand.forDealer(), ImmutableList.of());
     }
 
-    private final long id;
+    private final long generation;
 
     @Getter
     @NonNull
@@ -40,8 +40,8 @@ public class Table {
     private final ImmutableList<Player> players;
 
 
-    private Table(long id, @NonNull TableState state,  @NonNull Deck deck, int tableSize, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
-        this.id = id;
+    private Table(long generation, @NonNull TableState state, @NonNull Deck deck, int tableSize, @NonNull Hand dealerHand, @NonNull ImmutableList<Player> players) {
+        this.generation = generation;
         this.state = state;
         this.deck = deck;
         this.tableSize = tableSize;
@@ -103,7 +103,7 @@ public class Table {
             case GAME_OVER -> TableState.GAME_OVER;
         };
 
-        return new Table(id+1,state, deck, tableSize, dealerHand, players);
+        return new Table(generation + 1, state, deck, tableSize, dealerHand, players);
     }
 
     @NonNull
@@ -141,7 +141,7 @@ public class Table {
     }
 
     public Table withStoppedGame() {
-        return new Table(id+1,TableState.GAME_OVER, deck, tableSize, dealerHand, players);
+        return new Table(generation + 1, TableState.GAME_OVER, deck, tableSize, dealerHand, players);
     }
 
     public void dump(@NonNull Printer ps) {
