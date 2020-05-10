@@ -19,6 +19,7 @@ public class Table {
         return new Table(1,TableState.OPEN_TO_NEW_PLAYER, deck, tableSize, Hand.forDealer(), ImmutableList.of());
     }
 
+    @Getter
     private final long generation;
 
     @Getter

@@ -57,7 +57,7 @@ public class TablePrinter {
 
 
     private void printHeader() {
-        ps.println(table.state());
+        ps.println(table.state()+" ["+table.generation()+"]");
     }
 
 
