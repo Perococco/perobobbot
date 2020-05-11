@@ -22,8 +22,8 @@
     </properties>
 
     <modules>
-        <module>bot.program.core</module>
-        <module>bot.program.sample</module>
+        <module>perobobbot.program.core</module>
+        <module>perobobbot.program.sample</module>
     </modules>
 
 </project>

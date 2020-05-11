@@ -22,7 +22,7 @@
     </properties>
 
     <modules>
-        <module>bot.blackjack.engine</module>
+        <module>perobobbot.blackjack.engine</module>
     </modules>
 
 </project>

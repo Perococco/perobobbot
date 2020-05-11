@@ -22,8 +22,8 @@
     </properties>
 
     <modules>
-        <module>bot.twitch.chat</module>
-<!--        <module>bot.twitch.chat.test</module>-->
+        <module>perobobbot.twitch.chat</module>
+<!--        <module>perobobbot.twitch.chat.test</module>-->
     </modules>
 
 </project>

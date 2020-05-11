@@ -22,9 +22,9 @@
     </properties>
 
     <modules>
-        <module>bot.chat.core</module>
-        <module>bot.chat.websocket</module>
-        <module>bot.chat.advanced</module>
+        <module>perobobbot.chat.core</module>
+        <module>perobobbot.chat.websocket</module>
+        <module>perobobbot.chat.advanced</module>
     </modules>
 
 </project>
