@@ -4,11 +4,11 @@ import bot.chat.websocket.WebSocketChatFactory;
 /**
  * @author perococco
  **/
-module bot.chat.websocket {
+module perobobbot.chat.websocket {
     requires static lombok;
     requires java.desktop;
 
-    requires transitive bot.chat.core;
+    requires transitive perobobbot.chat.core;
 
     requires javax.websocket.client.api;
 

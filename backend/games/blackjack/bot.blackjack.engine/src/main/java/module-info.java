@@ -1,8 +1,8 @@
-module bot.blackjack.engine {
+module perobobbot.blackjack.engine {
     requires static lombok;
     requires java.desktop;
 
-    requires bot.common.lang;
+    requires perobobbot.common.lang;
 
     requires com.google.common;
 

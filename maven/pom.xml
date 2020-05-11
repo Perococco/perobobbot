@@ -29,8 +29,11 @@
         <byte-buddy.version>1.10.6</byte-buddy.version>
         <lombok.version>1.18.12</lombok.version>
         <bucket4j.version>4.10.0</bucket4j.version>
-
         <junit-jupiter.version>5.6.1</junit-jupiter.version>
+
+        <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
+
+        <vuejs.resource-directory>${project.basedir}/../frontend/vuejs/target/dist</vuejs.resource-directory>
     </properties>
 
     <dependencies>
@@ -124,6 +127,22 @@
                 <artifactId>bot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-frontend-vuejs</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -236,6 +255,11 @@
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>${frontend-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

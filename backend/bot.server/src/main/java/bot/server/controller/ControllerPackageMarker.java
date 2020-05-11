@@ -1,4 +1,4 @@
-package bot.launcher.controller;
+package bot.server.controller;
 
 public @interface ControllerPackageMarker {
 }

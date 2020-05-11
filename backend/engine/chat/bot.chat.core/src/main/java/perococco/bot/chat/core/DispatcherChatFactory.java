@@ -23,11 +23,15 @@ public class DispatcherChatFactory extends ChatFactory {
 
     public DispatcherChatFactory() {
         this.factories = ServiceLoaderHelper.getServices(ServiceLoader.load(ChatFactory.class));
+        if (factories.isEmpty()) {
+            System.out.println("NO CHAT FACTORY FOUND");
+        }
     }
 
     @Override
     public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
         return factories.stream()
+                        .peek(f -> System.out.println("Chat Factory : "+f))
                         .filter(f -> f.canHandle(address,reconnectionPolicy))
                         .findFirst()
                         .orElseThrow(() -> buildCannotHandleException(address,reconnectionPolicy))

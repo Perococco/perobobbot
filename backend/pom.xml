@@ -25,7 +25,7 @@
         <module>engine/chat</module>
         <module>engine/program</module>
         <module>engine/twitch</module>
-        <module>launcher</module>
+        <module>bot.server</module>
     </modules>
 
 </project>

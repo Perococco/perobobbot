@@ -4,14 +4,14 @@ import perobobbot.bot.common.irc.PerococcoIRCParserFactory;
 /**
  * @author perococco
  **/
-module bot.common.irc {
+module perobobbot.common.irc {
     requires static lombok;
     requires java.desktop;
     requires com.google.common;
 
     requires org.apache.logging.log4j;
 
-    requires bot.common.lang;
+    requires perobobbot.common.lang;
 
     exports bot.common.irc;
     exports perobobbot.bot.common.irc;

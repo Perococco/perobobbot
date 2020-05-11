@@ -1,7 +1,7 @@
-package bot.launcher;
+package bot.server;
 
 import bot.common.lang.Secret;
-import bot.common.lang.fp.Function1;
+import bot.common.lang.ThrowableTool;
 import bot.program.core.ProgramExecutor;
 import bot.program.sample.Samples;
 import bot.twitch.chat.*;
@@ -30,13 +30,17 @@ public class ChatBotLauncher implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final Channel perococco = Channel.create("perococco");
-        final TwitchChatOptions options = createTwitchChatOptions(perococco);
-        final TwitchChat twitchChat = TwitchChat.create(options);
+        try {
+            final Channel perococco = Channel.create("perococco");
+            final TwitchChatOptions options = createTwitchChatOptions(perococco);
+            final TwitchChat twitchChat = TwitchChat.create(options);
 
-        twitchChat.start()
-        .thenAccept(this::launchBot);
-
+            twitchChat.start()
+                      .thenAccept(this::launchBot);
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            t.printStackTrace();
+        }
     }
 
 

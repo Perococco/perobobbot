@@ -1,4 +1,4 @@
-package bot.launcher;
+package bot.server;
 
 import bot.blackjack.engine.Card;
 import bot.blackjack.engine.Deck;

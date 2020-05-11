@@ -5,7 +5,7 @@ import perococco.bot.common.lang.PerococcoAsyncIdentity;
 /**
  * @author perococco
  **/
-module bot.common.lang {
+module perobobbot.common.lang {
     requires static lombok;
     requires java.desktop;
 

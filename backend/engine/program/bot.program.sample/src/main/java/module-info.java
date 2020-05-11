@@ -1,9 +1,9 @@
-module bot.program.sample {
+module perobobbot.program.sample {
     requires static lombok;
     requires java.desktop;
-    requires bot.program.core;
-    requires bot.common.lang;
-    requires bot.chat.advanced;
+    requires perobobbot.program.core;
+    requires perobobbot.common.lang;
+    requires perobobbot.chat.advanced;
 
 
     exports bot.program.sample;

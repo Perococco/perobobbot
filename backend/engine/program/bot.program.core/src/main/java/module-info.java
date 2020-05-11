@@ -1,10 +1,10 @@
-module bot.program.core {
+module perobobbot.program.core {
     requires static lombok;
     requires java.desktop;
 
     requires com.google.common;
-    requires bot.common.lang;
-    requires bot.chat.advanced;
+    requires perobobbot.common.lang;
+    requires perobobbot.chat.advanced;
     requires org.apache.logging.log4j;
 
 

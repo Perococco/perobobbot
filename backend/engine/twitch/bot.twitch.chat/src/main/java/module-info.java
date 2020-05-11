@@ -1,15 +1,15 @@
 /**
  * @author perococco
  **/
-module bot.twitch.chat {
+module perobobbot.twitch.chat {
     requires static lombok;
     requires java.desktop;
 
-    requires bot.chat.core;
-    requires bot.chat.websocket;
-    requires bot.chat.advanced;
-    requires transitive bot.program.core;
-    requires transitive bot.common.irc;
+    requires perobobbot.chat.core;
+    requires perobobbot.chat.websocket;
+    requires perobobbot.chat.advanced;
+    requires transitive perobobbot.program.core;
+    requires transitive perobobbot.common.irc;
 
     requires io.github.bucket4j.core;
 
