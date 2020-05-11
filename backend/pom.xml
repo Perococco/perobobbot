@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>bot-maven</artifactId>
+        <artifactId>maven</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../maven/pom.xml</relativePath>
     </parent>
@@ -26,6 +26,7 @@
         <module>engine/program</module>
         <module>engine/twitch</module>
         <module>perobobbot.server</module>
+        <module>packaging</module>
     </modules>
 
 </project>

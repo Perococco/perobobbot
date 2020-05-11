@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot-server</artifactId>
+    <artifactId>backend-server</artifactId>
 
     <name>${root.name} - ${module.name}</name>
 
@@ -26,19 +26,19 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-twitch-chat</artifactId>
+            <artifactId>backend-twitch-chat</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-advanced</artifactId>
+            <artifactId>backend-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-core</artifactId>
+            <artifactId>backend-program-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-sample</artifactId>
+            <artifactId>backend-program-sample</artifactId>
         </dependency>
 
 
@@ -68,7 +68,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-blackjack-engine</artifactId>
+            <artifactId>backend-blackjack-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -85,7 +85,7 @@
         <!-- Dependency used to force fontend vuejs compilation before this-->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-frontend-vuejs</artifactId>
+            <artifactId>frontend-vuejs</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
             <scope>provided</scope>
@@ -94,7 +94,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-websocket</artifactId>
+            <artifactId>backend-chat-websocket</artifactId>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
@@ -115,28 +115,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                </configuration>
-            </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <version>2.2.7.RELEASE</version>-->
-<!--                <configuration>-->
-<!--                    <layout>NONE</layout>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>

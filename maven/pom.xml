@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>perococco.bot</groupId>
-    <artifactId>bot-maven</artifactId>
+    <artifactId>maven</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -78,67 +78,67 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-backend-common-lang</artifactId>
+                <artifactId>backend-common-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-backend-common-irc</artifactId>
+                <artifactId>backend-common-irc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-core</artifactId>
+                <artifactId>backend-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-advanced</artifactId>
+                <artifactId>backend-chat-advanced</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-websocket</artifactId>
+                <artifactId>backend-chat-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-blackjack-engine</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-sample</artifactId>
+                <artifactId>backend-blackjack-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-twitch-chat</artifactId>
+                <artifactId>backend-program-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>backend-program-sample</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
+
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-server</artifactId>
+                <artifactId>backend-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-frontend-vuejs</artifactId>
+                <artifactId>backend-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>frontend-vuejs</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
