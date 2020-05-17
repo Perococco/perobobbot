@@ -45,6 +45,7 @@ module perobobbot.server {
     requires net.bytebuddy;
     requires spring.beans;
     requires spring.orm;
+    requires spring.data.commons;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;
