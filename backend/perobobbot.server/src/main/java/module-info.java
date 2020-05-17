@@ -1,4 +1,4 @@
-open module perobobbot.server {
+module perobobbot.server {
     uses perobobbot.common.lang.Packages;
     requires static lombok;
 
@@ -36,10 +36,11 @@ open module perobobbot.server {
     requires jjwt;
     requires org.flywaydb.core;
 
-//    opens perobobbot.server to spring.core,spring.beans,spring.context;
-//    opens perobobbot.server.controller to spring.core,spring.beans,spring.context;
-//    opens perobobbot.server.config.security to spring.core,spring.beans,spring.context;
-//    opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context;
+    opens db.migration;
+    opens perobobbot.server to spring.core,spring.beans,spring.context;
+    opens perobobbot.server.controller to spring.core,spring.beans,spring.context;
+    opens perobobbot.server.config.security to spring.core,spring.beans,spring.context;
+    opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context;
 
     requires net.bytebuddy;
     requires spring.beans;

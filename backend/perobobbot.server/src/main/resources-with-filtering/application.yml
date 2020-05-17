@@ -13,7 +13,7 @@ application:
 
 spring:
   flyway:
-    locations: classpath:db/migrations
+    locations: classpath:db/migration
   datasource:
     url: jdbc:h2:~/db/perobobbot;AUTO_SERVER=true
     username: botserver
