@@ -6,8 +6,7 @@ import lombok.NonNull;
 import perobobbot.common.lang.fp.Function1;
 
 /**
- * @author Bastien Aracil
- * @version 19/04/2019
+ * @author Perococco
  */
 public interface Transformer<I,O> extends Function1<I,O> {
 

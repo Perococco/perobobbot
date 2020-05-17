@@ -5,8 +5,7 @@ import java.time.Instant;
 import java.util.Random;
 
 /**
- * @author Bastien Aracil
- * @version 15/04/2019
+ * @author Perococco
  */
 public class RandomString {
 

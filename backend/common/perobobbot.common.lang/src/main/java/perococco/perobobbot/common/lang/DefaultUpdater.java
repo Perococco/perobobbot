@@ -19,8 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
- * @author Bastien Aracil
- * @version 03/07/2018
+ * @author Perococco
  */
 @RequiredArgsConstructor
 public class DefaultUpdater<R> implements Updater<R> {

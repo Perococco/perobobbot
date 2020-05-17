@@ -9,5 +9,8 @@ module perobobbot.data.domain {
     requires perobobbot.common.lang;
     requires perobobbot.data.com;
 
+    opens perobobbot.data.domain to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
+
     exports perobobbot.data.domain;
+    exports perobobbot.data.domain.transformers;
 }

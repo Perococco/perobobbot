@@ -8,8 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 /**
- * @author Bastien Aracil
- * @version 15/04/2019
+ * @author Perococco
  */
 @Entity
 @Getter

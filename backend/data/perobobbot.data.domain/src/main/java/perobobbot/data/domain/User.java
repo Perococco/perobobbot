@@ -5,6 +5,7 @@ import lombok.*;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.RandomString;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.data.com.CreateUserParameters;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,15 +13,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
- * @author Bastien Aracil
- * @version 14/04/2019
+ * @author Perococco
  */
 @Entity
 @Table(name = "USER", uniqueConstraints = {
-        @UniqueConstraint(name = "UK__USER__EMAIL", columnNames = {"EMAIL"})
+        @UniqueConstraint(name = "UK__USER__LOGIN", columnNames = {"LOGIN"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -29,7 +28,7 @@ public class User extends SimplePersistentObject {
 
     @NonNull
     @NotBlank
-    @Column(name="LOGIN",unique = true)
+    @Column(name="LOGIN")
     @Size(max = 255)
     private String login = "";
 
@@ -51,6 +50,10 @@ public class User extends SimplePersistentObject {
         this.login = login;
         this.password = password;
         this.jwtClaim = RandomString.generate(16);
+    }
+
+    public static User create(CreateUserParameters parameters) {
+        return new User(parameters.getLogin(),parameters.getPassword());
     }
 
     public void regenerateJwtClaim() {

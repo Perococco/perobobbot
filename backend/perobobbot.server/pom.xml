@@ -19,6 +19,9 @@
     <properties>
         <project.root>${project.basedir}/../..</project.root>
         <module.name>Bot Server</module.name>
+
+        <db.url>jdbc:h2:~/perobobbot;auto_server=true</db.url>
+
     </properties>
 
 
@@ -56,6 +59,18 @@
             <artifactId>perobobbot-data-service</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjrt</artifactId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -82,6 +97,17 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+
+
+        <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-blackjack-engine</artifactId>
             <version>${project.version}</version>
@@ -95,6 +121,23 @@
                     <artifactId>jsr305</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
         </dependency>
 
         <!-- Dependency used to force fontend vuejs compilation before this-->
@@ -132,6 +175,12 @@
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                </configuration>
                 <executions>
                     <execution>
                         <id>copy Vue.js frontend content</id>

@@ -5,14 +5,14 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @author Bastien Aracil
- * @version 15/04/2019
+ * @author Perococco
  */
 @Entity
-@Table(name = "ROLE")
+@Table(name = "ROLE", uniqueConstraints = {@UniqueConstraint(name = "UK_ROLE__NAME",columnNames = {"NAME"})})
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @EqualsAndHashCode(callSuper = false,of = "name")
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 public class Role extends SimplePersistentObject {
 
     @NonNull
-    @Column(name = "NAME",unique = true)
+    @Column(name = "NAME")
     @NotBlank
     String name = "";
 

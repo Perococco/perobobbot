@@ -9,8 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author Bastien Aracil
- * @version 04/07/2018
+ * @author Perococco
  */
 @RequiredArgsConstructor
 public class Update<R,S> {

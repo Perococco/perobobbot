@@ -30,6 +30,7 @@
         <lombok.version>1.18.12</lombok.version>
         <bucket4j.version>4.10.0</bucket4j.version>
         <junit-jupiter.version>5.6.1</junit-jupiter.version>
+        <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
 
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
 
@@ -139,6 +140,11 @@
                 <artifactId>perobobbot-data-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
@@ -192,6 +198,17 @@
                 <artifactId>bucket4j-core</artifactId>
                 <version>${bucket4j.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jsonwebtoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>1.10.10</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

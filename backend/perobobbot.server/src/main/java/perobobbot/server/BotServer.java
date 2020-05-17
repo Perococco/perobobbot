@@ -1,16 +1,27 @@
 package perobobbot.server;
 
-import org.springframework.boot.Banner;
-import org.springframework.boot.SpringApplication;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContextInitializer;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @SpringBootApplication
-//@ComponentScan(basePackageClasses = {Launcher.class, ControllerPackageMarker.class})
+@Log4j2
 public class BotServer {
 
+
     public static void main(String[] args) {
-        final SpringApplication application = new SpringApplication(BotServer.class);
-        application.setBannerMode(Banner.Mode.OFF);
-        application.run(args);
+        final SpringLauncher launcher = new SpringLauncher(
+                Arrays.asList(args),
+                BotServer.class,
+                new ApplicationContextInitializer[0],
+                Optional::of
+        );
+
+        launcher.launch();
     }
+
+
 }

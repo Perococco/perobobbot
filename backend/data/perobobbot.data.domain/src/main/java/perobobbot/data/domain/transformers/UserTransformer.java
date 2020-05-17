@@ -7,6 +7,13 @@ import perobobbot.data.domain.User;
 
 public class UserTransformer implements Transformer<User, UserDTO> {
 
+    private static final UserTransformer INSTANCE = new UserTransformer();
+
+    @NonNull
+    public static UserTransformer create() {
+        return INSTANCE;
+    }
+
     @NonNull
     @Override
     public UserDTO transform(@NonNull User input) {

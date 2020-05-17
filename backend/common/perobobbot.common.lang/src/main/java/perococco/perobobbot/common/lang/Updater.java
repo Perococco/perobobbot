@@ -9,8 +9,7 @@ import lombok.NonNull;
 import java.util.concurrent.CompletionStage;
 
 /**
- * @author Bastien Aracil
- * @version 04/07/2018
+ * @author Perococco
  */
 public interface Updater<R> {
 
