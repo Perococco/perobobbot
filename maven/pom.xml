@@ -124,6 +124,24 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-com</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>

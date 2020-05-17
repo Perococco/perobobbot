@@ -3,10 +3,12 @@ package perobobbot.common.lang;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function1;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.IntStream;
 
 /**
@@ -83,6 +85,11 @@ public class ListTool {
     }
 
     @NonNull
+    public static <A,B> ImmutableList<B> map(@NonNull ImmutableCollection<A> input, @NonNull Function1<? super A, ? extends B> mapper) {
+        return input.stream().map(mapper).collect(collector());
+    }
+
+    @NonNull
     public static <A> ImmutableList<A> replace(@NonNull ImmutableList<A> source, @NonNull IndexedValue<? extends A> indexedValue) {
         return multiReplace(source, indexedValue.map(Arrays::asList));
     }
@@ -98,5 +105,10 @@ public class ListTool {
             }
         }
         return builder.build();
+    }
+
+    @NonNull
+    public static <T> Collector<T,?,ImmutableList<T>> collector() {
+        return ImmutableList.toImmutableList();
     }
 }

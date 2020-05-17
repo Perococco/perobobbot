@@ -21,6 +21,9 @@
     <modules>
         <module>common/perobobbot.common.lang</module>
         <module>common/perobobbot.common.irc</module>
+        <module>data/perobobbot.data.com</module>
+        <module>data/perobobbot.data.domain</module>
+        <module>data/perobobbot.data.service</module>
         <module>games/blackjack</module>
         <module>engine/chat</module>
         <module>engine/program</module>

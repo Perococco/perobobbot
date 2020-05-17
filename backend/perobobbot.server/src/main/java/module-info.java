@@ -11,6 +11,8 @@ module perobobbot.server {
     requires perobobbot.twitch.chat;
     requires perobobbot.common.lang;
     requires perobobbot.chat.advanced;
+    requires perobobbot.data.domain;
+    requires perobobbot.data.com;
     requires perobobbot.program.core;
     requires perobobbot.program.sample;
     requires perobobbot.blackjack.engine;

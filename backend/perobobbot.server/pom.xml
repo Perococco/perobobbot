@@ -41,6 +41,21 @@
             <artifactId>perobobbot-program-sample</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-data-com</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-data-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-data-service</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

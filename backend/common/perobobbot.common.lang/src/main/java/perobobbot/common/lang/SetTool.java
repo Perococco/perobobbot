@@ -9,12 +9,18 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 
 /**
  * @author perococco
  **/
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SetTool {
+
+    @NonNull
+    public static <T> Collector<T,?, ImmutableSet<T>> collector() {
+        return ImmutableSet.toImmutableSet();
+    }
 
     @NonNull
     public static <S> UnaryOperator<ImmutableSet<S>> adder(@NonNull S elementToAdd) {
