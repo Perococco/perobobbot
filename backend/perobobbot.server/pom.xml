@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>backend-server</artifactId>
+    <artifactId>perobobbot-server</artifactId>
 
     <name>${root.name} - ${module.name}</name>
 
@@ -26,19 +26,19 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-twitch-chat</artifactId>
+            <artifactId>perobobbot-twitch-chat</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-chat-advanced</artifactId>
+            <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-program-core</artifactId>
+            <artifactId>perobobbot-program-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-program-sample</artifactId>
+            <artifactId>perobobbot-program-sample</artifactId>
         </dependency>
 
 
@@ -68,7 +68,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-blackjack-engine</artifactId>
+            <artifactId>perobobbot-blackjack-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -94,7 +94,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>backend-chat-websocket</artifactId>
+            <artifactId>perobobbot-chat-websocket</artifactId>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
