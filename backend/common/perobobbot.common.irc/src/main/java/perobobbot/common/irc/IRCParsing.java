@@ -16,35 +16,31 @@ public class IRCParsing {
     /**
      * The original message used by the parser
      */
-    @NonNull
-    private final String rawMessage;
+    @NonNull String rawMessage;
 
     /**
      * A map of tags
      */
-    @NonNull
-    private final ImmutableMap<String,Tag> tags;
+    @NonNull ImmutableMap<String,Tag> tags;
 
     /**
      * The optional prefix of the IRC message
      */
     @Getter(AccessLevel.NONE)
-    private final Prefix prefix;
+    Prefix prefix;
 
     /**
      * The command of the IRC message
      */
-    @NonNull
-    private final String command;
+    @NonNull String command;
 
     /**
      * The parametres of the IRC message
      */
-    @NonNull
-    private final Params params;
+    @NonNull Params params;
 
     @NonNull
-    public Optional<Prefix> prefix() {
+    public Optional<Prefix> getPrefix() {
         return Optional.ofNullable(prefix);
     }
 

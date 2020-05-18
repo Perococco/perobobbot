@@ -20,32 +20,32 @@ public class IRCParserTest {
 
     @Test
     public void shouldHaveAPrefix() {
-        Assertions.assertTrue(ircParsing.prefix().isPresent());
+        Assertions.assertTrue(ircParsing.getPrefix().isPresent());
     }
 
     @Test
     public void shouldHaveUserPrefix() {
-        Assertions.assertTrue(ircParsing.prefix().get().user().isPresent());
+        Assertions.assertTrue(ircParsing.getPrefix().get().user().isPresent());
     }
 
     @Test
     public void shouldHaveHostPrefix() {
-        Assertions.assertTrue(ircParsing.prefix().get().host().isPresent());
+        Assertions.assertTrue(ircParsing.getPrefix().get().host().isPresent());
     }
 
     @Test
     public void shouldHaveNickPerococco() {
-        Assertions.assertEquals("perococco",ircParsing.prefix().get().getNickOrServerName());
+        Assertions.assertEquals("perococco",ircParsing.getPrefix().get().getNickOrServerName());
     }
 
     @Test
     public void shouldHaveUserPerococco() {
-        Assertions.assertEquals("perococco",ircParsing.prefix().get().user().get());
+        Assertions.assertEquals("perococco",ircParsing.getPrefix().get().user().get());
     }
 
     @Test
     public void shouldHaveHostPerococcoTmiTwitchTv() {
-        Assertions.assertEquals("perococco.tmi.twitch.tv",ircParsing.prefix().get().host().get());
+        Assertions.assertEquals("perococco.tmi.twitch.tv",ircParsing.getPrefix().get().host().get());
     }
 
 

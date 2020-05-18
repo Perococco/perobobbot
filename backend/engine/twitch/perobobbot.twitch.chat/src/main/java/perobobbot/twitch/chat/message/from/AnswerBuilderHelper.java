@@ -104,7 +104,7 @@ public class AnswerBuilderHelper {
 
     @NonNull
     private Prefix prefix() {
-        return ircParsing.prefix()
+        return ircParsing.getPrefix()
                          .orElseThrow(() -> buildException("No prefix defined"));
     }
 
