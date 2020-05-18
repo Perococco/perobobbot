@@ -1,0 +1,76 @@
+= Perobobbot
+Perococco Bot
+
+
+== Setup project
+
+Some properties must be setup before launching the application.
+They can be set directly in the `application.properties` found
+in the resource directory of the `perobobbot.server` module.
+But, it is preferable to create an external file `application.properties`
+and launch the application with the following option
+
+----
+-Dspring.config.additional-location=<path-to-directory-containing-external-config>
+----
+
+See https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config[Spring Externalized Configuration] for
+more information.
+
+The external configuration file must contain at least the following properties.
+
+
+|===
+|Name | Description
+
+|perobot.jwtconfig.key
+|The key used to sign the JSON Web Token
+
+|perobot.db.url
+|The URL of the H2 database
+
+|perobot.db.username
+|The username to use to connect to the database
+
+|perobot.db.password
+|the password to use to connect to the database
+
+|perobot.ssl.key-store
+|the URL to the keystore used for TSL certification
+
+|perobot.ssl.key-store-password
+|the password of the keystore
+
+|perobot.ssl.key-alias
+|the alias in the keystore to use
+
+|perobot.ssl.key-type
+|the type of the keystore
+
+|===
+
+Below an example file using PKCS12 keystore and very weak password :
+
+[source,properties]
+----
+#The key used to sign the JSON Web Token
+perobot.jwtconfig.key=123456
+
+#The address of the H2 database
+perobot.db.url=jdbc:h2:/home/perobobbot/.perobobbot/db/data;AUTO_SERVER=true
+perobot.db.username=perobot
+perobot.db.password=123456
+
+perobot.ssl.key-store=file:/home/perobobbot/.perobobbot/config/keystore.p12
+perobot.ssl.key-store-password=123456
+perobot.ssl.key-alias=perobobbot
+perobot.ssl.key-type=PKCS12
+----
+
+If this file is in directory `/home/perobobbot/.perobobbot/config/`, then the application
+must be launched with the option
+
+----
+#the / at the end is important
+-Dpring.config.additional-location=/home/perobobbot/.perobobbot/config/
+----
