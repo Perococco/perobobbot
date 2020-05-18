@@ -1,6 +1,7 @@
 package perobobbot.server.config.security.jwt;
 
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import java.io.IOException;
 /**
  * @author Perococco
  */
+@Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
@@ -40,12 +42,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final Authentication authentication = this.extractAuthenticationFromJWTToken(header);
-            if (logger.isDebugEnabled()) {
-                logger.debug("JWT Token accepted for user "+authentication.getName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("JWT Token accepted for user {}",authentication.getName());
             }
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (AuthenticationException e) {
-            this.logger.warn("Authentication with JWT Token failed ",e);
+            LOG.warn("Authentication with JWT Token failed ",e);
             SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(request,response);
