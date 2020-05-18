@@ -1,2 +1,0 @@
-# perobobbot
-Perococco Bot
