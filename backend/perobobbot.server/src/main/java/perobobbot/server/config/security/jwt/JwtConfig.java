@@ -13,16 +13,13 @@ import java.util.Base64;
 @Configuration
 public class JwtConfig {
 
-    private static final String KEY = Base64.getEncoder().encodeToString("totoaotireirieaoeraer".getBytes());
-
     private static final String ISSUER = "PEROBOBBOT";
 
     private final UserRepository userRepository;
 
-//    @Value("${application.jwt.key:ABSrusdfkalAKSDFHJA}")
     private final String key;
 
-    public JwtConfig(@NonNull UserRepository userRepository, @Value("${application.jwt.key:ABSrusdfkalAKSDFHJA}") String key) {
+    public JwtConfig(@NonNull UserRepository userRepository, @Value("${perobot.jwtconfig.key:shouldBeSetThroughtProperty}") String key) {
         this.userRepository = userRepository;
         this.key = key;
     }
