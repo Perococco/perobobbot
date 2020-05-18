@@ -46,6 +46,7 @@ module perobobbot.server {
     requires spring.beans;
     requires spring.orm;
     requires spring.data.commons;
+    requires java.servlet;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

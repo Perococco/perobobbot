@@ -14,9 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.server.EndPoints;
+import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 import perobobbot.server.config.security.jwt.JwtTokenManager;
 
 @Configuration
@@ -54,10 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable().csrf().disable();
 
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenManager), BasicAuthenticationFilter.class);
+        http.cors();
+
         http.authorizeRequests()
             .antMatchers(HttpMethod.POST, EndPoints.LOGIN).permitAll()
             .antMatchers(HttpMethod.POST,EndPoints.SIGN_UP).permitAll()
-//            .antMatchers("/user").permitAll()
             .anyRequest()
             .authenticated()
             .and()
