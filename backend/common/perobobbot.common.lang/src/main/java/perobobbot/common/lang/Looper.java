@@ -9,6 +9,16 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 
 /**
+ * Basically a thread but with start, stop methods.
+ * Extends this class and implement the method {@link #performOneIteration()} with the operation
+ * that needs to be done in an iteration.
+ *
+ * The method returns either {@link IterationCommand#CONTINUE} or {@link IterationCommand#STOP} to continue
+ * or stop the loop.
+ *
+ * If an exception occurs in the {@link #performOneIteration()} method, the exception will be logged and
+ * the loop will be stopped only if the exception is du to a thread interruption (like {@link InterruptedException}).
+ *
  * @author perococco
  **/
 @Log4j2
@@ -52,6 +62,16 @@ public abstract class Looper {
         this.executorService = executorService;
     }
 
+
+    /**
+     * Perform on iteration of the loop
+     * @return the command for the next iteration
+     * @throws Exception if an error occurred
+     */
+    @NonNull
+    protected abstract IterationCommand performOneIteration() throws Exception;
+
+
     public boolean isRunning() {
         return lock.get(this::currentIsRunning);
     }
@@ -94,9 +114,6 @@ public abstract class Looper {
     }
 
     protected void beforeLooping() {};
-
-    @NonNull
-    protected abstract IterationCommand performOneIteration() throws Exception;
 
     protected void afterLooping() {};
 
