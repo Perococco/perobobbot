@@ -1,6 +1,6 @@
 = Program : BlackJack
 
-Allow viewer to play a round of BlackJack
+Allow viewers to play a round of BlackJack
 
 == Instructions
 

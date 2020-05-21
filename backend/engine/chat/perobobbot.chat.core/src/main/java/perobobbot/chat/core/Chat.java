@@ -6,7 +6,7 @@ package perobobbot.chat.core;
 public interface Chat extends ChatIO {
 
     /**
-     * Start the chat. Should return
+     * Start the chat. must return
      * when the chat is actually started and
      * message can be sent without error
      */

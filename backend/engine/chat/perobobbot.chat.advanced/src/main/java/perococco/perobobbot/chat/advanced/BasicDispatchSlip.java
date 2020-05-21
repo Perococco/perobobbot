@@ -10,10 +10,8 @@ import java.time.Instant;
 @Value
 public class BasicDispatchSlip implements DispatchSlip {
 
-    @NonNull
-    private final Instant dispatchingTime;
+    @NonNull Instant dispatchingTime;
 
-    @NonNull
-    private final Command sentCommand;
+    @NonNull Command sentCommand;
 
 }

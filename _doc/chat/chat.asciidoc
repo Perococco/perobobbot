@@ -1,0 +1,70 @@
+= Chat
+
+The project contains 3 modules that deal with Chats :
+
+`perobobbot.chat.core`::
+Define a chat API at its simplest form
+
+`perobobbot.chat.advanced`::
+Define a more advanced Chat API base on the core API
+
+`perobobbot.chat.websocket`::
+Provides an implementation of the core API using websocket
+
+== Core API
+The core API defines 2 main interfaces `ChatIO` and `Chat`.
+The `ChatIO` interface offers method to send and to listen to incoming messages:
+
+.ChatIO Interface
+[source,java]
+----
+public interface ChatIO {
+
+    /**
+     * Send a message to the chat
+     * @param message the message to send
+     */
+    void postMessage(@NonNull String message);
+
+    /**
+     * Add a listener that will be called every time an event occurs
+     * (error, connection, message received...).
+     * @param listener the listener to add to the chat listener list
+     * @return a subscription that can be used to remove the listener
+     */
+    @NonNull
+    Subscription addChatListener(@NonNull ChatListener listener);
+
+    /**
+     * @return true if the chat is active
+     */
+    boolean isRunning();
+}
+----
+
+
+The `Chat` interface
+extends the `ChatIO` interface by offering the 2 methods `start` and `requestStop`
+to manage the lifecycle of the chat :
+
+.Chat Interface
+[source,java]
+----
+public interface Chat extends ChatIO {
+
+    /**
+     * Start the chat. must return
+     * when the chat is actually started and
+     * message can be sent without error
+     */
+    void start();
+
+    /**
+     * Request the chat to stop.
+     * should return immediately
+     */
+    void requestStop();
+
+}
+----
+
