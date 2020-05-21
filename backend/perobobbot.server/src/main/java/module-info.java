@@ -37,16 +37,23 @@ module perobobbot.server {
     requires org.flywaydb.core;
 
     opens db.migration;
-    opens perobobbot.server to spring.core,spring.beans,spring.context;
-    opens perobobbot.server.controller to spring.core,spring.beans,spring.context;
-    opens perobobbot.server.config.security to spring.core,spring.beans,spring.context;
-    opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context;
+    opens perobobbot.server.transfert to com.fasterxml.jackson.databind, org.hibernate.validator;
+    opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
 
     requires net.bytebuddy;
     requires spring.beans;
     requires spring.orm;
     requires spring.data.commons;
     requires java.servlet;
+    requires java.validation;
+    requires spring.webmvc;
+    requires java.xml.bind;
+    requires jakarta.activation;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

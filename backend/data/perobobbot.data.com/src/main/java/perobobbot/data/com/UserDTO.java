@@ -1,6 +1,7 @@
 package perobobbot.data.com;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 import java.util.UUID;
@@ -9,5 +10,6 @@ import java.util.UUID;
 @Builder
 public class UserDTO {
 
+    @NonNull
     String login;
 }

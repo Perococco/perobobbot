@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, {RouteConfig} from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -19,9 +19,6 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
 ];
-
-const { BASE_URL } = process.env;
-console.log(BASE_URL);
 
 const router = new VueRouter({
   mode: 'history',
