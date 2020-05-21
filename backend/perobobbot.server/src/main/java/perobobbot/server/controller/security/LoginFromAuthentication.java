@@ -7,8 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.common.lang.Lazy;
 
 /**
- * @author Bastien Aracil
- * @version 19/04/2019
+ * @author Perococco
  */
 @RequiredArgsConstructor
 public class LoginFromAuthentication implements CharSequence {

@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @author Bastien Aracil
+ * @author Perococco
  * @version 15/04/2019
  */
 @Value

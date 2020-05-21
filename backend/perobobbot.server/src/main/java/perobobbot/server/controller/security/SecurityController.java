@@ -15,8 +15,7 @@ import perobobbot.server.transfert.Credentials;
 
 import javax.validation.Valid;
 /**
- * @author Bastien Aracil
- * @version 14/04/2019
+ * @author Perococco
  */
 @RestController
 @RequestMapping("/api")

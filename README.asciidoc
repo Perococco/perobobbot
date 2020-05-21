@@ -2,7 +2,7 @@
 Perococco Bot
 
 
-== Setup project
+== Project Setup
 
 Some properties must be setup before launching the application.
 They can be set directly in the `application.properties` found
