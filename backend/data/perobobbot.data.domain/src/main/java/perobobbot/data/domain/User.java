@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.RandomString;
+import perobobbot.common.lang.UserRole;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.data.com.CreateUserParameters;
 
@@ -12,7 +13,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * @author Perococco
@@ -39,10 +43,15 @@ public class User extends SimplePersistentObject {
     @Column(name = "JWT_CLAIM", nullable = false)
     private String jwtClaim = "";
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy ="user")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "USER_ID", foreignKey = @ForeignKey(name=("FK_USER_ROLE__USER")))},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", foreignKey = @ForeignKey(name=("FK_USER_ROLE__ROLE")))}
+    )
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    private List<UserRole> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     public User(
             @NonNull @Email String login,
@@ -61,27 +70,31 @@ public class User extends SimplePersistentObject {
     }
 
     @NonNull
-    public <T> ImmutableList<T> transformedUserRoles(Function1<? super UserRole, ? extends T> transformer) {
+    public <T> ImmutableList<T> transformedUserRoles(Function1<? super Role, ? extends T> transformer) {
         return roles.stream().map(transformer).collect(ListTool.collector());
+    }
+
+    @NonNull
+    public Stream<Role> roleStream() {
+        return roles.stream();
     }
 
     @NonNull
     public User addRole(@NonNull Role role) {
         if (!hasRole(role)) {
-            final UserRole userRole = new UserRole(this, role);
-            this.roles.add(userRole);
+            this.roles.add(role);
         }
         return this;
     }
 
     @NonNull
     public User removeRole(@NonNull Role role) {
-        this.roles.removeIf(u -> u.getRole().equals(role));
+        this.roles.remove(role);
         return this;
     }
 
     private boolean hasRole(Role role) {
-        return roles.stream().anyMatch(ur -> ur.getRole().equals(role));
+        return roles.contains(role);
     }
 
 }

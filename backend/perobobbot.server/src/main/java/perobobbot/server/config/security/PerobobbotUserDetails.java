@@ -1,6 +1,5 @@
 package perobobbot.server.config.security;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class PerobobbotUserDetails extends User {
 
     public PerobobbotUserDetails(perobobbot.data.domain.User user) {
-        super(user.getLogin(), user.getPassword(), user.transformedUserRoles(u -> new SimpleGrantedAuthority(u.getRoleName())));
+        super(user.getLogin(), user.getPassword(), ExtractorOfGrantedAuthorities.extract(user));
     }
 
     public static UserDetails with(perobobbot.data.domain.User user) {

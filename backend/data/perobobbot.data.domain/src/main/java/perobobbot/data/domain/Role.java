@@ -1,12 +1,17 @@
 package perobobbot.data.domain;
 
+import com.google.common.collect.ImmutableList;
 import lombok.*;
+import perobobbot.common.lang.ListTool;
+import perobobbot.common.lang.fp.Function1;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * @author Perococco
@@ -24,8 +29,43 @@ public class Role extends SimplePersistentObject {
     @NotBlank
     String name = "";
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "ROLE_OPERATION",
+            joinColumns = {@JoinColumn(name = "ROLE_ID", foreignKey = @ForeignKey(name=("FK_ROLE_OPERATION__ROLE")))},
+            inverseJoinColumns = {@JoinColumn(name = "OPERATION_ID", foreignKey = @ForeignKey(name=("FK_ROLE_OPERATION__OPERATION")))}
+    )
+    private final Set<Operation> allowedOperations = new HashSet<>();
+
     public Role(@NonNull String name) {
         this.name = name;
+    }
+
+
+    @NonNull
+    public <T> ImmutableList<T> transformedAllowedOperations(Function1<? super Operation, ? extends T> transformer) {
+        return allowedOperations.stream().map(transformer).collect(ListTool.collector());
+    }
+
+    @NonNull
+    public Stream<Operation> allowedOperationStream() {
+        return allowedOperations.stream();
+    }
+
+    @NonNull
+    public Role allowOperation(@NonNull Operation operation) {
+        this.allowedOperations.add(operation);
+        return this;
+    }
+
+    @NonNull
+    public Role forbidOperation(@NonNull Operation operation) {
+        this.allowedOperations.remove(operation);
+        return this;
+    }
+
+    private boolean isAllowed(@NonNull Operation operation) {
+        return allowedOperations.contains(operation);
     }
 
 }

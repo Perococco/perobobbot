@@ -71,20 +71,20 @@ public class JwtTokenManager implements JwtTokenGenerator {
         return authentication;
     }
 
-    public void checkIssuer(Claims claims) {
+    private void checkIssuer(Claims claims) {
         if (!claims.getIssuer().equals(issuer)) {
             throw new InvalidJWTIssuer("Invalid issuer : "+claims.getIssuer());
         }
     }
 
-    public void checkExpirationDate(Claims claims) {
+    private void checkExpirationDate(Claims claims) {
         final Date now = Date.from(Instant.now());
         if (claims.getExpiration().before(now)) {
             throw new CredentialsExpiredException("JWT token has expired");
         }
     }
 
-    public User checkUser(Claims claims) {
+    private User checkUser(Claims claims) {
         final String login = claims.getSubject();
         final User user = userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User with login '" + login + "' does not exists"));
 

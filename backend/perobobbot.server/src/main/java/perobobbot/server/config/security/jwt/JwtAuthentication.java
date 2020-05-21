@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.data.domain.User;
+import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
+
+import java.util.Set;
 
 /**
  * @author Perococco
@@ -14,9 +17,7 @@ import perobobbot.data.domain.User;
 public class JwtAuthentication extends AbstractAuthenticationToken {
 
     public static JwtAuthentication create(@NonNull User user) {
-        final ImmutableList<GrantedAuthority> authorities;
-        authorities = user.transformedUserRoles(r -> new SimpleGrantedAuthority(r.getRoleName()));
-
+        final ImmutableList<GrantedAuthority> authorities = ExtractorOfGrantedAuthorities.extract(user);
         final UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
         return new JwtAuthentication(userDetails);
     }
