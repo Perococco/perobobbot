@@ -19,6 +19,12 @@ import java.util.concurrent.locks.Condition;
  * If an exception occurs in the {@link #performOneIteration()} method, the exception will be logged and
  * the loop will be stopped only if the exception is du to a thread interruption (like {@link InterruptedException}).
  *
+ * The methods {@link #beforeLooping()} and {@link #afterLooping()} are called
+ * before and after the loop and in the same thread than the loop.
+ *
+ * If the method {@link #beforeLooping()} throws an exception, the loop is cancelled
+ * and the exception will be bubble up to the {@link #start()} method.
+ *
  * @author perococco
  **/
 @Log4j2
@@ -76,6 +82,12 @@ public abstract class Looper {
         return lock.get(this::currentIsRunning);
     }
 
+    /**
+     * Starts the loop, return only when the loop has been started.
+     * If an exception occurred while calling {@link #beforeLooping()}, the loop
+     * will not be started, and this method will throw the exception thrown
+     * by {@link #beforeLooping()}.
+     */
     public void start() {
         final CompletableFuture<Nil> starting = new CompletableFuture<>();
         lock.runLocked(() -> {
