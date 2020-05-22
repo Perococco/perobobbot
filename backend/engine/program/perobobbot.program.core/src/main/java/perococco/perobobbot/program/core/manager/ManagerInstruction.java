@@ -3,7 +3,7 @@ package perococco.perobobbot.program.core.manager;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.UserRole;
+import perobobbot.common.lang.Role;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Instruction;
@@ -25,7 +25,7 @@ public abstract class ManagerInstruction implements Instruction {
 
     public ManagerInstruction(@NonNull ManagerIdentity identity,
                               @NonNull String name) {
-        this(identity,name,ExecutionPolicy.builder().requiredRole(UserRole.TRUSTED_USER).build());
+        this(identity,name,ExecutionPolicy.builder().requiredRole(Role.TRUSTED_USER).build());
     }
 
     public ManagerInstruction(@NonNull ManagerIdentity identity,

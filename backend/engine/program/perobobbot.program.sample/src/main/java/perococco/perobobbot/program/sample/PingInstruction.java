@@ -3,7 +3,7 @@ package perococco.perobobbot.program.sample;
 import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.Nil;
-import perobobbot.common.lang.UserRole;
+import perobobbot.common.lang.Role;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Instruction;
@@ -35,7 +35,7 @@ public class PingInstruction implements Instruction {
     @Override
     public @NonNull ExecutionPolicy getExecutionPolicy() {
         return ExecutionPolicy.builder()
-                              .requiredRole(UserRole.ANY_USER)
+                              .requiredRole(Role.ANY_USER)
                               .globalCoolDown(Duration.ofSeconds(10))
                               .build();
     }

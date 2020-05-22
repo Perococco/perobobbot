@@ -17,5 +17,5 @@ public interface User {
     @NonNull
     String getUserName();
 
-    boolean canActAs(@NonNull UserRole userRole);
+    boolean canActAs(@NonNull Role role);
 }

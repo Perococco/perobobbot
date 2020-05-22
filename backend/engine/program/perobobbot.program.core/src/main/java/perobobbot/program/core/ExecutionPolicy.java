@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
-import perobobbot.common.lang.UserRole;
+import perobobbot.common.lang.Role;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -14,21 +14,21 @@ import java.util.Optional;
 @Builder
 public class ExecutionPolicy {
 
-    public static final ExecutionPolicy NONE = new ExecutionPolicy(UserRole.ANY_USER,Duration.ZERO,ImmutableMap.of());
+    public static final ExecutionPolicy NONE = new ExecutionPolicy(Role.ANY_USER, Duration.ZERO, ImmutableMap.of());
 
     @NonNull
-    private UserRole requiredRole;
+    private Role requiredRole;
 
     @NonNull
     private Duration globalCoolDown;
 
     @NonNull
     @Singular
-    private ImmutableMap<UserRole,Duration> coolDowns;
+    private ImmutableMap<Role,Duration> coolDowns;
 
     public static ExecutionPolicyBuilder builder() {
         return new ExecutionPolicyBuilder()
-                .requiredRole(UserRole.ANY_USER)
+                .requiredRole(Role.ANY_USER)
                 .globalCoolDown(Duration.ZERO)
                 ;
     }
