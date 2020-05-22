@@ -1,0 +1,21 @@
+= EndPoints
+
+
+|===
+|Method | EndPoint | Payload | Description
+
+|GET
+|/api/user
+|
+|Return calling user if authenticated, status 403 otherwise
+
+|POST
+|/api/login
+| {login:, password:}
+| return a JWT if *login* & *password* are correct, status 403 otherwise
+
+|===
+
+
+== JWT
+In header : `Authorization` : `bearer <JWT>`

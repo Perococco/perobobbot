@@ -1,6 +1,8 @@
 package perobobbot.common.lang.fp;
 
 import lombok.NonNull;
+import perobobbot.common.lang.Factory;
+import perobobbot.common.lang.Nil;
 
 public interface Consumer0 extends Runnable {
 
@@ -14,5 +16,13 @@ public interface Consumer0 extends Runnable {
     @Override
     default void run() {
         f();
+    }
+
+    @NonNull
+    default Function0<Nil> asFunction() {
+        return () -> {
+            this.f();
+            return Nil.NIL;
+        };
     }
 }
