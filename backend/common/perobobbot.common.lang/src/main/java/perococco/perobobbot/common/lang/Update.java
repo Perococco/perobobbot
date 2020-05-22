@@ -1,12 +1,12 @@
 package perococco.perobobbot.common.lang;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.Mutation;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function0;
 import perobobbot.common.lang.fp.Function1;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 /**
  * @author Perococco

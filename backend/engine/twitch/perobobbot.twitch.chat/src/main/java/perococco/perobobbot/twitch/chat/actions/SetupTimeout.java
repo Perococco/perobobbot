@@ -1,7 +1,7 @@
 package perococco.perobobbot.twitch.chat.actions;
 
-import perobobbot.twitch.chat.message.to.Ping;
 import lombok.NonNull;
+import perobobbot.twitch.chat.message.to.Ping;
 import perococco.perobobbot.twitch.chat.IO;
 
 import java.time.Duration;

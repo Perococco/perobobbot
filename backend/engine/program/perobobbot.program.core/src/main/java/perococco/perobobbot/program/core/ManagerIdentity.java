@@ -1,10 +1,10 @@
 package perococco.perobobbot.program.core;
 
+import com.google.common.collect.ImmutableList;
+import lombok.NonNull;
 import perobobbot.common.lang.Identity;
 import perobobbot.common.lang.ProxyIdentity;
 import perobobbot.program.core.Program;
-import com.google.common.collect.ImmutableList;
-import lombok.NonNull;
 
 public class ManagerIdentity extends ProxyIdentity<ManagerState> {
 

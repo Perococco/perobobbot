@@ -1,11 +1,11 @@
 package perobobbot.twitch.chat.message.to;
 
+import lombok.Getter;
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.IRCCommand;
-import lombok.Getter;
-import lombok.NonNull;
 
 import java.util.Optional;
 

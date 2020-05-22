@@ -1,15 +1,15 @@
 package perobobbot.twitch.chat.message.to;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.CastTool;
 import perobobbot.common.lang.fp.TryResult;
 import perobobbot.twitch.chat.TwitchChatAuthenticationFailure;
-import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.TwitchChatState;
+import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.message.from.GlobalUserState;
-import perobobbot.twitch.chat.message.from.Notice;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
-import lombok.NonNull;
+import perobobbot.twitch.chat.message.from.Notice;
 
 import java.util.Optional;
 import java.util.stream.Stream;

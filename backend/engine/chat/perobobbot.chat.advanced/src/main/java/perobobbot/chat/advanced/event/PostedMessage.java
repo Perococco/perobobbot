@@ -1,10 +1,10 @@
 package perobobbot.chat.advanced.event;
 
-import perobobbot.chat.advanced.DispatchContext;
-import perobobbot.chat.advanced.Message;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.chat.advanced.Message;
 
 import java.time.Instant;
 

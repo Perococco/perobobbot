@@ -3,10 +3,9 @@ package perobobbot.common.lang.fp;
 import lombok.NonNull;
 
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 public interface Function1<A,R> extends Function<A,R> {
-    
+
     @NonNull
     static <A,R> Function1<A,R> toFunction1(@NonNull Function<A,R> function) {
         if (function instanceof Function1) {

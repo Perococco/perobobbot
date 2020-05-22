@@ -1,14 +1,14 @@
 package perococco.perobobbot.program.core;
 
-import perobobbot.common.lang.MapTool;
-import perobobbot.common.lang.SetTool;
-import perobobbot.program.core.Program;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.common.lang.MapTool;
+import perobobbot.common.lang.SetTool;
+import perobobbot.program.core.Program;
 
 import java.util.Map;
 import java.util.Optional;

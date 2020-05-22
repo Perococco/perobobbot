@@ -1,6 +1,9 @@
 package perobobbot.twitch.chat;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 /**
  * @author perococco

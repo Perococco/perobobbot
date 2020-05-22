@@ -1,7 +1,7 @@
 package perococco.perobobbot.program.core.manager;
 
-import perobobbot.program.core.ExecutionContext;
 import lombok.NonNull;
+import perobobbot.program.core.ExecutionContext;
 import perococco.perobobbot.program.core.ManagerIdentity;
 
 public class StartProgram extends ManagerInstruction {

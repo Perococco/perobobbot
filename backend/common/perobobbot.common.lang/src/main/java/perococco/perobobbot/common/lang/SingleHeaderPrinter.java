@@ -1,8 +1,8 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.Printer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.Printer;
 
 @RequiredArgsConstructor
 public class SingleHeaderPrinter implements Printer {

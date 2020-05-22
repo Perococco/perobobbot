@@ -1,5 +1,5 @@
-import perobobbot.common.lang.FactoryProvider;
 import perobobbot.common.lang.AsyncIdentityFactory;
+import perobobbot.common.lang.FactoryProvider;
 import perococco.perobobbot.common.lang.PerococcoAsyncIdentity;
 
 /**

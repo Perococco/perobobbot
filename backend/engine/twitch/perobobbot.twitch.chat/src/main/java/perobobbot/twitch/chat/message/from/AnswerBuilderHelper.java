@@ -1,16 +1,16 @@
 package perobobbot.twitch.chat.message.from;
 
-import perobobbot.common.irc.IRCParsing;
-import perobobbot.common.irc.Prefix;
-import perobobbot.twitch.chat.Capability;
-import perobobbot.twitch.chat.Channel;
-import perobobbot.twitch.chat.message.IRCCommand;
-import perobobbot.twitch.chat.message.TagKey;
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.irc.IRCParsing;
+import perobobbot.common.irc.Prefix;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.twitch.chat.Capability;
+import perobobbot.twitch.chat.Channel;
+import perobobbot.twitch.chat.message.IRCCommand;
+import perobobbot.twitch.chat.message.TagKey;
 
 import java.util.Optional;
 import java.util.function.Function;

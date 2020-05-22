@@ -1,5 +1,9 @@
 package perococco.perobobbot.chat.advanced;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import perobobbot.chat.advanced.AdvancedChatListener;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.chat.advanced.event.Error;
@@ -8,10 +12,6 @@ import perobobbot.chat.core.ChatIO;
 import perobobbot.chat.core.ChatNotConnected;
 import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Looper;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.time.Duration;
 import java.time.Instant;

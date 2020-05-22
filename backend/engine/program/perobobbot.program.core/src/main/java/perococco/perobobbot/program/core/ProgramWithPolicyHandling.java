@@ -1,14 +1,14 @@
 package perococco.perobobbot.program.core;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.MapTool;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.UnknownInstruction;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
 
 import java.time.Instant;
 

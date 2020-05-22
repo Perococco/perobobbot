@@ -1,11 +1,11 @@
 package perococco.perobobbot.blackjack.engine;
 
-import perbobbot.blackjack.engine.Card;
-import perobobbot.common.lang.MathTool;
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perbobbot.blackjack.engine.Card;
+import perobobbot.common.lang.MathTool;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class HandValueComputer {

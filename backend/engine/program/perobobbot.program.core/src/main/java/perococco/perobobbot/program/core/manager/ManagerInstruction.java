@@ -1,15 +1,13 @@
 package perococco.perobobbot.program.core.manager;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 import perobobbot.common.lang.UserRole;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Instruction;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
 import perococco.perobobbot.program.core.ManagerIdentity;
-
-import java.time.Duration;
 
 public abstract class ManagerInstruction implements Instruction {
 

@@ -1,12 +1,12 @@
 package perococco.perobobbot.common.irc;
 
-import perobobbot.common.irc.*;
-import perobobbot.common.lang.MapTool;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import perobobbot.common.irc.*;
+import perobobbot.common.lang.MapTool;
 
 import java.util.Optional;
 import java.util.stream.Stream;

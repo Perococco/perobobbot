@@ -1,8 +1,8 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.*;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.common.lang.*;
 
 /**
  * @author perococco

@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat.event;
 
-import perobobbot.twitch.chat.TwitchChatState;
 import lombok.NonNull;
+import perobobbot.twitch.chat.TwitchChatState;
 
 public interface TwitchChatEvent {
 

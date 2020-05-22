@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat.message.to;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.twitch.chat.message.IRCCommand;
-import lombok.NonNull;
 
 public class Pong extends CommandToTwitch {
 

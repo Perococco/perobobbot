@@ -1,9 +1,9 @@
 package perococco.perobobbot.common.irc;
 
+import lombok.NonNull;
 import perobobbot.common.irc.IRCParser;
 import perobobbot.common.irc.IRCParserFactory;
 import perobobbot.common.lang.Priority;
-import lombok.NonNull;
 
 /**
  * @author perococco

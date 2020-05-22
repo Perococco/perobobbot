@@ -1,5 +1,7 @@
 package perococco.perobobbot.twitch.chat;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.twitch.chat.PrivMsgFromTwitchListener;
 import perobobbot.twitch.chat.TwitchChatListener;
 import perobobbot.twitch.chat.TwitchChatState;
@@ -7,8 +9,6 @@ import perobobbot.twitch.chat.event.ReceivedMessage;
 import perobobbot.twitch.chat.event.ReceivedMessageExtractor;
 import perobobbot.twitch.chat.event.TwitchChatEvent;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.Optional;

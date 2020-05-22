@@ -1,9 +1,9 @@
 package perbobbot.blackjack.engine;
 
-import perobobbot.common.lang.IndexedValue;
-import perobobbot.common.lang.fp.Couple;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.IndexedValue;
+import perobobbot.common.lang.fp.Couple;
 
 @RequiredArgsConstructor
 public class MultiHandInfo implements HandInfo {

@@ -1,7 +1,7 @@
 package perococco.perobobbot.common.irc;
 
-import perobobbot.common.irc.Prefix;
 import lombok.NonNull;
+import perobobbot.common.irc.Prefix;
 
 import java.util.Optional;
 

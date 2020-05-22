@@ -1,9 +1,9 @@
 package perococco.perobobbot.twitch.chat.state;
 
-import perobobbot.twitch.chat.Channel;
-import perobobbot.twitch.chat.message.from.UserState;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
+import perobobbot.twitch.chat.Channel;
+import perobobbot.twitch.chat.message.from.UserState;
 
 public interface ChannelMutator extends IdentityMutator {
 

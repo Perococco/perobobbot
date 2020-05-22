@@ -1,5 +1,7 @@
 package perobobbot.twitch.chat;
 
+import lombok.Getter;
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.User;
 import perobobbot.common.lang.fp.Consumer1;
@@ -7,8 +9,6 @@ import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.twitch.chat.event.ReceivedMessage;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
-import lombok.Getter;
-import lombok.NonNull;
 
 import java.time.Instant;
 

@@ -1,7 +1,7 @@
 package perobobbot.program.core;
 
-import perobobbot.common.lang.fp.Function1;
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function1;
 
 public interface ProgramBuilder<S> {
 

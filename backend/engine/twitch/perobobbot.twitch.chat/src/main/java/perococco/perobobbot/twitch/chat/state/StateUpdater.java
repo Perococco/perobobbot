@@ -1,11 +1,11 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
 import perobobbot.chat.advanced.event.ReceivedMessageExtractor;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class StateUpdater {

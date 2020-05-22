@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat.message.from;
 
-import perobobbot.common.irc.IRCParsing;
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.common.irc.IRCParsing;
 
 /**
  * @author perococco

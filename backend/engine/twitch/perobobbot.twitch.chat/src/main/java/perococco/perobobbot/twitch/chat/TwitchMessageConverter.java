@@ -1,5 +1,7 @@
 package perococco.perobobbot.twitch.chat;
 
+import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.MessageConverter;
 import perobobbot.common.irc.IRCParser;
 import perobobbot.common.irc.IRCParsing;
@@ -9,8 +11,6 @@ import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.message.from.AnswerBuilderHelper;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.from.UnknownMessageFromTwitch;
-import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.Optional;
 

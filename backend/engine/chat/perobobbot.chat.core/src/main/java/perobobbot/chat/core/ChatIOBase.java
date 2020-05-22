@@ -1,9 +1,9 @@
 package perobobbot.chat.core;
 
+import lombok.NonNull;
 import perobobbot.chat.core.event.ChatEvent;
 import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Subscription;
-import lombok.NonNull;
 
 /**
  * Chat implementing the listener part of the Chat interface.

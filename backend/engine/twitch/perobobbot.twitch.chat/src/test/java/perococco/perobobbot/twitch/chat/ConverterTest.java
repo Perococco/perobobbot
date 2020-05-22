@@ -4,14 +4,13 @@ import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Optional;
-
-import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 
 /**
  * @author perococco

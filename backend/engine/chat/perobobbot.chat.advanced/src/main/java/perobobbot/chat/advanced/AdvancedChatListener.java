@@ -1,7 +1,7 @@
 package perobobbot.chat.advanced;
 
-import perobobbot.chat.advanced.event.AdvancedChatEvent;
 import lombok.NonNull;
+import perobobbot.chat.advanced.event.AdvancedChatEvent;
 
 /**
  * @author Perococco

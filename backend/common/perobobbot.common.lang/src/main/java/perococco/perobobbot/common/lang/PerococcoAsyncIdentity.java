@@ -1,10 +1,10 @@
 package perococco.perobobbot.common.lang;
 
+import lombok.NonNull;
 import perobobbot.common.lang.*;
 import perobobbot.common.lang.fp.Function1;
-import lombok.NonNull;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletionStage;
 
 /**
  * @author perococco

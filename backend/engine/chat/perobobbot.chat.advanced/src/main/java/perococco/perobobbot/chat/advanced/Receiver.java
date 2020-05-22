@@ -1,10 +1,10 @@
 package perococco.perobobbot.chat.advanced;
 
-import perobobbot.chat.advanced.event.ReceivedMessage;
-import perobobbot.common.lang.Looper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.chat.advanced.event.ReceivedMessage;
+import perobobbot.common.lang.Looper;
 
 import java.time.Instant;
 import java.util.LinkedList;

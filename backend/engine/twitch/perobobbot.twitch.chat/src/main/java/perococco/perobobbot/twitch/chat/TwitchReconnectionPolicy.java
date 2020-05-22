@@ -1,7 +1,7 @@
 package perococco.perobobbot.twitch.chat;
 
-import perobobbot.chat.core.ReconnectionPolicy;
 import lombok.NonNull;
+import perobobbot.chat.core.ReconnectionPolicy;
 
 import java.time.Duration;
 

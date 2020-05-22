@@ -1,9 +1,9 @@
 package perococco.perobobbot.common.irc;
 
-import perobobbot.common.irc.Tag;
-import perobobbot.common.lang.ThrowableTool;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.common.irc.Tag;
+import perobobbot.common.lang.ThrowableTool;
 
 import java.util.Optional;
 

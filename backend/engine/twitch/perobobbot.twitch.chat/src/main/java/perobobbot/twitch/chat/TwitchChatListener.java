@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat;
 
-import perobobbot.twitch.chat.event.TwitchChatEvent;
 import lombok.NonNull;
+import perobobbot.twitch.chat.event.TwitchChatEvent;
 
 /**
  * @author perococco

@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat;
 
+import lombok.NonNull;
 import perobobbot.twitch.chat.event.ReceivedMessage;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
-import lombok.NonNull;
 
 public interface MessageFromTwitchListener<M extends MessageFromTwitch> {
 

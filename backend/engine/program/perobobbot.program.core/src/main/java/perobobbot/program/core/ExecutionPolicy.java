@@ -2,13 +2,12 @@ package perobobbot.program.core;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.Builder;
-import lombok.Singular;
-import perobobbot.common.lang.UserRole;
 import lombok.NonNull;
+import lombok.Singular;
 import lombok.Value;
+import perobobbot.common.lang.UserRole;
 
 import java.time.Duration;
-import java.util.Map;
 import java.util.Optional;
 
 @Value

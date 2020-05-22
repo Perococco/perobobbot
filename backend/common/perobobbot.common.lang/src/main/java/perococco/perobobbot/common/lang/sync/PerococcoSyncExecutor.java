@@ -1,6 +1,5 @@
 package perococco.perobobbot.common.lang.sync;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.SyncExecutor;
@@ -8,7 +7,10 @@ import perobobbot.common.lang.ThreadFactories;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Function0;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
 public class PerococcoSyncExecutor<I> implements SyncExecutor<I> {

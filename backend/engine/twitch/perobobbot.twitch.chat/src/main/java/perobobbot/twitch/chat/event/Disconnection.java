@@ -1,9 +1,9 @@
 package perobobbot.twitch.chat.event;
 
-import perobobbot.twitch.chat.TwitchChatState;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.twitch.chat.TwitchChatState;
 
 @RequiredArgsConstructor
 public class Disconnection implements TwitchChatEvent {

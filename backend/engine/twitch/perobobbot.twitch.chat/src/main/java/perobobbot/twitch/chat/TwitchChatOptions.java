@@ -1,11 +1,11 @@
 package perobobbot.twitch.chat;
 
-import perobobbot.common.lang.Secret;
 import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
+import perobobbot.common.lang.Secret;
 
 @Value
 @Builder

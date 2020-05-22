@@ -1,11 +1,11 @@
 package perobobbot.twitch.chat.message.to;
 
-import perobobbot.common.lang.fp.Either;
-import perobobbot.twitch.chat.message.from.GlobalUserState;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import perobobbot.common.lang.fp.Either;
+import perobobbot.twitch.chat.message.from.GlobalUserState;
 
 /**
  * @author perococco

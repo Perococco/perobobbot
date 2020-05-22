@@ -1,12 +1,12 @@
 package perococco.perobobbot.twitch.chat;
 
-import perobobbot.twitch.chat.message.to.CommandToTwitch;
-import perobobbot.twitch.chat.message.to.RequestToTwitch;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
+import perobobbot.twitch.chat.message.to.CommandToTwitch;
+import perobobbot.twitch.chat.message.to.RequestToTwitch;
 import perococco.perobobbot.twitch.chat.actions.IOAction;
 
 import java.time.Duration;

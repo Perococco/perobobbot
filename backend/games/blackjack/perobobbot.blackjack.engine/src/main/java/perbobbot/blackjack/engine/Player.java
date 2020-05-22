@@ -1,11 +1,11 @@
 package perbobbot.blackjack.engine;
 
-import perobobbot.common.lang.IndexedValue;
-import perobobbot.common.lang.ListTool;
-import perobobbot.common.lang.fp.Couple;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.common.lang.IndexedValue;
+import perobobbot.common.lang.ListTool;
+import perobobbot.common.lang.fp.Couple;
 
 import java.util.Optional;
 

@@ -1,12 +1,12 @@
 package perobobbot.common.irc.test;
 
-import perobobbot.common.irc.Tag;
 import lombok.NonNull;
 import lombok.Value;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import perobobbot.common.irc.Tag;
 import perococco.perobobbot.common.irc.TagParser;
 
 import java.util.stream.Stream;

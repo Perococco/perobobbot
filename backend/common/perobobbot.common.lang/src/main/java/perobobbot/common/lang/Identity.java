@@ -1,7 +1,7 @@
 package perobobbot.common.lang;
 
-import perobobbot.common.lang.fp.Function1;
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function1;
 import perococco.perobobbot.common.lang.PerococcoIdentity;
 
 

@@ -12,7 +12,7 @@ import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramExecutor;
-import perococco.perobobbot.program.core.manager.*;
+import perococco.perobobbot.program.core.manager.ManagerProgram;
 
 import java.util.Optional;
 import java.util.concurrent.Executors;

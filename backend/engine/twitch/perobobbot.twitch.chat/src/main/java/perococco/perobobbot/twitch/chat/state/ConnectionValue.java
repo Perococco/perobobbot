@@ -1,14 +1,14 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import com.google.common.collect.ImmutableMap;
+import lombok.Builder;
+import lombok.NonNull;
 import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.Subscription;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwicthChatNotConnected;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.from.UserState;
-import com.google.common.collect.ImmutableMap;
-import lombok.Builder;
-import lombok.NonNull;
 import perococco.perobobbot.twitch.chat.IO;
 import perococco.perobobbot.twitch.chat.actions.IOAction;
 

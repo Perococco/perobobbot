@@ -1,5 +1,5 @@
-import perococco.perobobbot.common.irc.PerococcoIRCParserFactory;
 import perobobbot.common.irc.IRCParserFactory;
+import perococco.perobobbot.common.irc.PerococcoIRCParserFactory;
 
 /**
  * @author perococco

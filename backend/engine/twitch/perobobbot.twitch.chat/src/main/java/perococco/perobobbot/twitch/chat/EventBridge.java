@@ -1,7 +1,9 @@
 package perococco.perobobbot.twitch.chat;
 
-import perobobbot.chat.advanced.event.*;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.chat.advanced.event.Error;
+import perobobbot.chat.advanced.event.*;
 import perobobbot.common.lang.CastTool;
 import perobobbot.common.lang.Nil;
 import perobobbot.common.lang.fp.Consumer1;
@@ -9,8 +11,6 @@ import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.event.TwitchChatEvent;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.to.MessageToTwitch;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import perococco.perobobbot.twitch.chat.state.StateUpdater;
 
 import java.util.Optional;

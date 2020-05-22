@@ -1,5 +1,8 @@
 package perococco.perobobbot.twitch.chat;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.Request;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
 import perobobbot.common.lang.ThrowableTool;
@@ -11,9 +14,6 @@ import perobobbot.twitch.chat.message.from.InvalidIRCCommand;
 import perobobbot.twitch.chat.message.from.KnownMessageFromTwitch;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.to.RequestToTwitch;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import perococco.perobobbot.twitch.chat.state.ConnectionIdentity;
 
 import java.util.Optional;

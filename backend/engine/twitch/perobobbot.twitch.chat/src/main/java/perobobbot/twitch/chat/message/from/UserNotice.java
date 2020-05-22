@@ -1,12 +1,12 @@
 package perobobbot.twitch.chat.message.from;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 import perobobbot.common.irc.IRCParsing;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.ChannelSpecific;
 import perobobbot.twitch.chat.message.IRCCommand;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * @author perococco

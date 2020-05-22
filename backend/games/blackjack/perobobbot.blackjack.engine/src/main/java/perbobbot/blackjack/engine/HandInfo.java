@@ -1,7 +1,7 @@
 package perbobbot.blackjack.engine;
 
-import perobobbot.common.lang.IndexedValue;
 import lombok.NonNull;
+import perobobbot.common.lang.IndexedValue;
 
 public interface HandInfo {
 

@@ -1,13 +1,13 @@
 package perococco.perobobbot.twitch.chat;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Subscription;
 import perobobbot.twitch.chat.TwitchChat;
 import perobobbot.twitch.chat.TwitchChatListener;
 import perobobbot.twitch.chat.event.TwitchChatEvent;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
 
 /**
  * Implements basic operations with listeners

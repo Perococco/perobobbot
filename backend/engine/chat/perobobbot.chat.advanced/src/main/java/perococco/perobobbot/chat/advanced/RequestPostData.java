@@ -1,10 +1,10 @@
 package perococco.perobobbot.chat.advanced;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.ReceiptSlip;
 import perobobbot.chat.advanced.Request;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
 import perobobbot.common.lang.fp.TryResult;
-import lombok.NonNull;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -1,11 +1,11 @@
 package perobobbot.twitch.chat.message.to;
 
-import perobobbot.chat.advanced.Command;
-import perobobbot.twitch.chat.message.IRCCommand;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.chat.advanced.Command;
+import perobobbot.twitch.chat.message.IRCCommand;
 
 /**
  * @author perococco

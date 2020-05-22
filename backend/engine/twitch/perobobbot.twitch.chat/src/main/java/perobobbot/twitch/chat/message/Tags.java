@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat.message;
 
-import perobobbot.common.irc.Tag;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
+import perobobbot.common.irc.Tag;
 
 import java.util.Optional;
 import java.util.function.Function;

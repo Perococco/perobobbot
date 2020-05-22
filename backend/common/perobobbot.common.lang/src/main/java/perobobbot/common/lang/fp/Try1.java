@@ -1,7 +1,7 @@
 package perobobbot.common.lang.fp;
 
-import perobobbot.common.lang.ThrowableTool;
 import lombok.NonNull;
+import perobobbot.common.lang.ThrowableTool;
 
 public interface Try1<A,R,X extends Throwable> {
 

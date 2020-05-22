@@ -4,12 +4,9 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.data.domain.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
-
-import java.util.Set;
 
 /**
  * @author Perococco

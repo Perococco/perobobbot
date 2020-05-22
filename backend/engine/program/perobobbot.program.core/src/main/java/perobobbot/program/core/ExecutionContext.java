@@ -1,7 +1,7 @@
 package perobobbot.program.core;
 
-import perobobbot.common.lang.User;
 import lombok.NonNull;
+import perobobbot.common.lang.User;
 
 import java.time.Instant;
 

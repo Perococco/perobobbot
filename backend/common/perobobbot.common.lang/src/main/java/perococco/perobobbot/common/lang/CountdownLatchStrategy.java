@@ -1,7 +1,7 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.WaitStrategy;
 import lombok.NonNull;
+import perobobbot.common.lang.WaitStrategy;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;

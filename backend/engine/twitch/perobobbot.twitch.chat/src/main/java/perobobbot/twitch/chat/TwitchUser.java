@@ -1,12 +1,12 @@
 package perobobbot.twitch.chat;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.User;
 import perobobbot.common.lang.UserRole;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class TwitchUser implements User {

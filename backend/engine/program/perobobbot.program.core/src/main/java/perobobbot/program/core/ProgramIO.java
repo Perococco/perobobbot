@@ -1,8 +1,8 @@
 package perobobbot.program.core;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.fp.Function1;
-import lombok.NonNull;
 
 public interface ProgramIO {
 

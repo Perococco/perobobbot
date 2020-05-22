@@ -1,12 +1,11 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.Disposer;
-import perobobbot.common.lang.IdentityListener;
-import perobobbot.common.lang.ReadOnlyAsyncIdentity;
-import perobobbot.common.lang.Subscription;
-import perobobbot.common.lang.fp.Function1;
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.common.lang.Disposer;
+import perobobbot.common.lang.IdentityListener;
+import perobobbot.common.lang.Subscription;
+import perobobbot.common.lang.fp.Function1;
 
 import java.lang.ref.Reference;
 

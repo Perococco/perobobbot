@@ -1,14 +1,14 @@
 package perococco.perobobbot.chat.advanced;
 
+import lombok.*;
 import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
 import perobobbot.chat.advanced.event.ReceivedMessage;
 import perobobbot.chat.core.Chat;
-import perobobbot.chat.core.event.*;
 import perobobbot.chat.core.event.Error;
+import perobobbot.chat.core.event.*;
 import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Subscription;
-import lombok.*;
 
 import java.time.Duration;
 import java.time.Instant;

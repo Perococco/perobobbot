@@ -2,9 +2,9 @@ package perobobbot.data.domain;
 
 import lombok.NonNull;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.util.UUID;
-import java.util.function.Function;
 
 /**
  * @author Perococco

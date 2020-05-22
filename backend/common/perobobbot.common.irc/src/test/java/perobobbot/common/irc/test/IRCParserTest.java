@@ -1,9 +1,9 @@
 package perobobbot.common.irc.test;
 
-import perobobbot.common.irc.IRCParsing;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import perobobbot.common.irc.IRCParsing;
 import perococco.perobobbot.common.irc.PerococcoIRCParser;
 
 /**

@@ -1,7 +1,6 @@
 package perobobbot.common.lang.fp;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Factory;
 import perobobbot.common.lang.Nil;
 
 public interface Consumer0 extends Runnable {

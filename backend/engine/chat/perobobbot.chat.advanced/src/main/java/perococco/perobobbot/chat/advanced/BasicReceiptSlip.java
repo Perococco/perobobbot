@@ -1,9 +1,9 @@
 package perococco.perobobbot.chat.advanced;
 
-import perobobbot.chat.advanced.ReceiptSlip;
-import perobobbot.chat.advanced.Request;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.chat.advanced.ReceiptSlip;
+import perobobbot.chat.advanced.Request;
 
 import java.time.Instant;
 

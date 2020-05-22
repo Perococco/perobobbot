@@ -1,5 +1,8 @@
 package perobobbot.chat.websocket;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.*;
 import perobobbot.chat.core.event.Connection;
 import perobobbot.chat.core.event.Disconnection;
@@ -9,9 +12,6 @@ import perobobbot.common.lang.Looper;
 import perobobbot.common.lang.SmartLock;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.WaitStrategy;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 import javax.websocket.*;
 import java.io.IOException;

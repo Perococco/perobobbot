@@ -1,9 +1,9 @@
 package perobobbot.twitch.chat;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.Subscription;
 import perobobbot.common.lang.fp.Function1;
-import lombok.NonNull;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;

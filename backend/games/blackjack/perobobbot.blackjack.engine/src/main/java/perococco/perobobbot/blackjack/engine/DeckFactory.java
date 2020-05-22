@@ -1,9 +1,9 @@
 package perococco.perobobbot.blackjack.engine;
 
-import perbobbot.blackjack.engine.Card;
-import perbobbot.blackjack.engine.Deck;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
+import perbobbot.blackjack.engine.Card;
+import perbobbot.blackjack.engine.Deck;
 
 import java.util.Collection;
 import java.util.Collections;

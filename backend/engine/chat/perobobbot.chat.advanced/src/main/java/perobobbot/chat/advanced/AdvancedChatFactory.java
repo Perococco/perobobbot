@@ -1,8 +1,8 @@
 package perobobbot.chat.advanced;
 
+import lombok.NonNull;
 import perobobbot.chat.core.Chat;
 import perobobbot.common.lang.ServiceLoaderHelper;
-import lombok.NonNull;
 
 import java.util.ServiceLoader;
 

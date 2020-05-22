@@ -1,8 +1,8 @@
 package perbobbot.blackjack.engine.exception;
 
-import perbobbot.blackjack.engine.TableState;
 import lombok.Getter;
 import lombok.NonNull;
+import perbobbot.blackjack.engine.TableState;
 
 public class InvalidTableState extends BlackjackException {
 

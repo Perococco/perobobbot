@@ -1,11 +1,11 @@
 package perbobbot.blackjack.engine;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.IndexedValue;
 import perobobbot.common.lang.fp.Couple;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.common.lang.fp.UnaryOperator1;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class SingleHandInfo implements HandInfo {

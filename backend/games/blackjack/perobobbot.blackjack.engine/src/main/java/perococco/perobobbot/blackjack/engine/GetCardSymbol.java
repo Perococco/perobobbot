@@ -1,10 +1,10 @@
 package perococco.perobobbot.blackjack.engine;
 
-import perbobbot.blackjack.engine.Figure;
-import perbobbot.blackjack.engine.Suit;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perbobbot.blackjack.engine.Figure;
+import perbobbot.blackjack.engine.Suit;
 
 import java.nio.charset.StandardCharsets;
 

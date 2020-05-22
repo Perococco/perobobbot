@@ -1,12 +1,12 @@
 package perococco.perobobbot.program.sample;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.Nil;
 import perobobbot.common.lang.UserRole;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Instruction;
-import lombok.NonNull;
 
 import java.time.Duration;
 import java.time.Instant;

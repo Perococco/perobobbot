@@ -1,10 +1,10 @@
 package perbobbot.blackjack.engine;
 
-import perbobbot.blackjack.engine.exception.EmptyDeck;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perbobbot.blackjack.engine.exception.EmptyDeck;
 import perococco.perobobbot.blackjack.engine.DeckFactory;
 
 @RequiredArgsConstructor

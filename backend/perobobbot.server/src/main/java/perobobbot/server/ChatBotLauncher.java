@@ -1,13 +1,13 @@
 package perobobbot.server;
 
-import perobobbot.common.lang.Secret;
-import perobobbot.common.lang.ThrowableTool;
-import perobobbot.program.core.ProgramExecutor;
-import perobobbot.program.sample.Samples;
 import lombok.NonNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import perobobbot.common.lang.Secret;
+import perobobbot.common.lang.ThrowableTool;
+import perobobbot.program.core.ProgramExecutor;
+import perobobbot.program.sample.Samples;
 import perobobbot.twitch.chat.*;
 
 import java.io.IOException;

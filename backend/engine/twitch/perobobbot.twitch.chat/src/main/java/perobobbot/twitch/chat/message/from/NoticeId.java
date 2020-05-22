@@ -1,10 +1,10 @@
 package perobobbot.twitch.chat.message.from;
 
-import perobobbot.common.lang.MapTool;
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.MapTool;
 
 import java.util.stream.Stream;
 

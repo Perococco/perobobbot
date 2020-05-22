@@ -1,11 +1,11 @@
 package perobobbot.common.lang;
 
-import perobobbot.common.lang.fp.Function1;
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.fp.Function1;
 
 import java.util.Optional;
 

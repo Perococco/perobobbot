@@ -1,7 +1,7 @@
 package perobobbot.chat.advanced;
 
-import perobobbot.common.lang.Subscription;
 import lombok.NonNull;
+import perobobbot.common.lang.Subscription;
 
 import java.util.concurrent.CompletionStage;
 

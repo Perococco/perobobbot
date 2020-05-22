@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.data.jpa.repository.UserRepository;
-
-import java.util.Base64;
 /**
  * @author Perococco
  */

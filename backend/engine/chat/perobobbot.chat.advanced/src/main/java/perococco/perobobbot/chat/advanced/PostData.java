@@ -1,8 +1,8 @@
 package perococco.perobobbot.chat.advanced;
 
+import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.chat.advanced.Message;
-import lombok.NonNull;
 
 import java.time.Instant;
 import java.util.Optional;

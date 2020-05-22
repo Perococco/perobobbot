@@ -1,11 +1,11 @@
 package perococco.perobobbot.twitch.chat;
 
-import perobobbot.common.lang.MapTool;
-import perobobbot.twitch.chat.Badge;
 import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.MapTool;
+import perobobbot.twitch.chat.Badge;
 
 import java.util.Arrays;
 

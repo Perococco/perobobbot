@@ -1,10 +1,10 @@
 package perobobbot.twitch.chat.event;
 
-import perobobbot.twitch.chat.TwitchChatState;
-import perobobbot.twitch.chat.message.to.MessageToTwitch;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.twitch.chat.TwitchChatState;
+import perobobbot.twitch.chat.message.to.MessageToTwitch;
 
 import java.time.Instant;
 

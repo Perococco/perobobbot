@@ -1,7 +1,7 @@
 package perobobbot.chat.core;
 
-import perobobbot.common.lang.Subscription;
 import lombok.NonNull;
+import perobobbot.common.lang.Subscription;
 
 /**
  * The I/O part of the chat (sending and receiving message)

@@ -1,13 +1,13 @@
 package perbobbot.blackjack.engine;
 
+import com.google.common.collect.ImmutableList;
+import lombok.Getter;
+import lombok.NonNull;
 import perbobbot.blackjack.engine.exception.InvalidTableState;
 import perbobbot.blackjack.engine.exception.UnknownPlayer;
 import perobobbot.common.lang.IndexedValue;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.Printer;
-import com.google.common.collect.ImmutableList;
-import lombok.Getter;
-import lombok.NonNull;
 import perococco.perobobbot.blackjack.engine.NextStateEvaluator;
 import perococco.perobobbot.blackjack.engine.TablePrinter;
 

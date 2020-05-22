@@ -1,12 +1,12 @@
 package perococco.perobobbot.chat.advanced;
 
-import perobobbot.chat.core.Chat;
+import lombok.NonNull;
 import perobobbot.chat.advanced.AdvancedChat;
 import perobobbot.chat.advanced.AdvancedChatFactory;
 import perobobbot.chat.advanced.MessageConverter;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
+import perobobbot.chat.core.Chat;
 import perobobbot.common.lang.Priority;
-import lombok.NonNull;
 
 /**
  * @author perococco

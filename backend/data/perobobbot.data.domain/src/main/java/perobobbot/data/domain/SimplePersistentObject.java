@@ -3,7 +3,6 @@ package perobobbot.data.domain;
 import lombok.NonNull;
 
 import javax.persistence.*;
-import java.util.UUID;
 import java.util.function.Function;
 
 /**

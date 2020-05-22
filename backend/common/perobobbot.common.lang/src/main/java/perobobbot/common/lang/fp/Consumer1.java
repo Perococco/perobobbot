@@ -1,7 +1,7 @@
 package perobobbot.common.lang.fp;
 
-import perobobbot.common.lang.Nil;
 import lombok.NonNull;
+import perobobbot.common.lang.Nil;
 
 import java.util.function.Consumer;
 

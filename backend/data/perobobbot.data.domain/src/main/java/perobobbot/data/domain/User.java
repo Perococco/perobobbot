@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.RandomString;
-import perobobbot.common.lang.UserRole;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.data.com.CreateUserParameters;
 
@@ -12,9 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 

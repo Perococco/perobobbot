@@ -1,14 +1,14 @@
 package perococco.perobobbot.twitch.chat;
 
-import perobobbot.chat.core.ChatListener;
-import perobobbot.chat.core.Chat;
-import perobobbot.chat.core.MessagePostingFailure;
-import perobobbot.common.lang.Subscription;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.chat.core.Chat;
+import perobobbot.chat.core.ChatListener;
+import perobobbot.chat.core.MessagePostingFailure;
+import perobobbot.common.lang.Subscription;
 
 import java.util.concurrent.atomic.AtomicReference;
 

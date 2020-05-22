@@ -1,14 +1,11 @@
 package perobobbot.common.lang;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
-import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.IdentityHashMap;
-import java.util.function.Consumer;
 
 /**
  * @author perococco

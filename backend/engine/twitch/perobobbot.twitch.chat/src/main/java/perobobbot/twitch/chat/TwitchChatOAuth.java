@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat;
 
-import perobobbot.common.lang.Secret;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.common.lang.Secret;
 
 /**
  * @author perococco

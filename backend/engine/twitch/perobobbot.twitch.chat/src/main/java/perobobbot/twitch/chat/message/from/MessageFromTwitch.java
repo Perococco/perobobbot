@@ -1,10 +1,10 @@
 package perobobbot.twitch.chat.message.from;
 
+import lombok.NonNull;
 import perobobbot.common.irc.IRCParsing;
 import perobobbot.twitch.chat.Badges;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.Tags;
-import lombok.NonNull;
 
 import java.util.Optional;
 

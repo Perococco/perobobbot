@@ -1,8 +1,8 @@
 package perbobbot.blackjack.engine.exception;
 
-import perbobbot.blackjack.engine.Player;
 import lombok.Getter;
 import lombok.NonNull;
+import perbobbot.blackjack.engine.Player;
 
 public class InvalidHandForAStand extends BlackjackException {
 

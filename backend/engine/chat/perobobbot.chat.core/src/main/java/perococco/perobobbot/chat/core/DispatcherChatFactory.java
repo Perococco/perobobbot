@@ -1,11 +1,11 @@
 package perococco.perobobbot.chat.core;
 
+import com.google.common.collect.ImmutableList;
+import lombok.NonNull;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.chat.core.ReconnectionPolicy;
 import perobobbot.common.lang.ServiceLoaderHelper;
-import com.google.common.collect.ImmutableList;
-import lombok.NonNull;
 
 import java.net.URI;
 import java.util.ServiceLoader;

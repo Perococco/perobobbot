@@ -1,11 +1,11 @@
 package perococco.bot.blackjack;
 
-import perbobbot.blackjack.engine.Card;
 import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import perbobbot.blackjack.engine.Card;
 import perococco.perobobbot.blackjack.engine.GetCardSymbol;
 
 import java.nio.charset.StandardCharsets;

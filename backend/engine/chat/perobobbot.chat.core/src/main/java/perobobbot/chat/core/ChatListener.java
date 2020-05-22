@@ -1,7 +1,7 @@
 package perobobbot.chat.core;
 
-import perobobbot.chat.core.event.ChatEvent;
 import lombok.NonNull;
+import perobobbot.chat.core.event.ChatEvent;
 
 /**
  * @author perococco

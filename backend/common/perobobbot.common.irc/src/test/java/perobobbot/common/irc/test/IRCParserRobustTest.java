@@ -1,11 +1,11 @@
 package perobobbot.common.irc.test;
 
-import perobobbot.common.irc.IRCParser;
-import perobobbot.common.irc.IRCParsing;
 import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import perobobbot.common.irc.IRCParser;
+import perobobbot.common.irc.IRCParsing;
 
 import java.io.BufferedReader;
 import java.io.IOException;

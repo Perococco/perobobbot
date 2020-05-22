@@ -1,13 +1,13 @@
 package perobobbot.twitch.chat.message.from;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 import perobobbot.common.irc.IRCParsing;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.ChannelSpecific;
 import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.message.TagKey;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
 
 import java.time.Duration;
 import java.util.Optional;

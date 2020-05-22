@@ -1,5 +1,10 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import com.google.common.collect.ImmutableMap;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.AdvancedChat;
 import perobobbot.common.lang.Subscription;
 import perobobbot.common.lang.fp.Consumer1;
@@ -7,11 +12,6 @@ import perobobbot.common.lang.fp.Function1;
 import perobobbot.twitch.chat.TwitchChatAlreadyConnected;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
-import com.google.common.collect.ImmutableMap;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
-import lombok.extern.log4j.Log4j2;
 import perococco.perobobbot.twitch.chat.IO;
 import perococco.perobobbot.twitch.chat.IOWithAdvancedChat;
 import perococco.perobobbot.twitch.chat.actions.IOAction;

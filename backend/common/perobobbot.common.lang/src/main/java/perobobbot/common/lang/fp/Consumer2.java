@@ -1,10 +1,8 @@
 package perobobbot.common.lang.fp;
 
 import lombok.NonNull;
-import lombok.experimental.ExtensionMethod;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public interface Consumer2<A,B> extends BiConsumer<A,B> {
 

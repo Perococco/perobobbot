@@ -1,9 +1,9 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.*;
-import perobobbot.common.lang.fp.Function1;
 import lombok.NonNull;
 import lombok.Synchronized;
+import perobobbot.common.lang.*;
+import perobobbot.common.lang.fp.Function1;
 
 /**
  * @author perococco

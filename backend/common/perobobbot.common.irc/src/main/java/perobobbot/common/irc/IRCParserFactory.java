@@ -1,7 +1,7 @@
 package perobobbot.common.irc;
 
-import perobobbot.common.lang.ServiceLoaderHelper;
 import lombok.NonNull;
+import perobobbot.common.lang.ServiceLoaderHelper;
 
 import java.util.ServiceLoader;
 

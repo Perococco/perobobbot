@@ -1,7 +1,7 @@
 package perococco.perobobbot.common.lang;
 
-import perobobbot.common.lang.Printer;
 import lombok.NonNull;
+import perobobbot.common.lang.Printer;
 
 import java.io.IOException;
 import java.io.PrintStream;

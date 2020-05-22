@@ -1,10 +1,10 @@
 package perococco.perobobbot.blackjack.engine;
 
+import com.google.common.collect.ImmutableList;
+import lombok.NonNull;
 import perbobbot.blackjack.engine.Hand;
 import perbobbot.blackjack.engine.Player;
 import perbobbot.blackjack.engine.TableState;
-import com.google.common.collect.ImmutableList;
-import lombok.NonNull;
 
 public class NextStateEvaluator {
 
