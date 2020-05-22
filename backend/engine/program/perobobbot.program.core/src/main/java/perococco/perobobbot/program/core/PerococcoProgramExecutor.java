@@ -1,13 +1,14 @@
 package perococco.perobobbot.program.core;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import perobobbot.common.lang.SyncExecutor;
+import perobobbot.common.lang.ThreadFactories;
 import perobobbot.common.lang.ThrowableTool;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramExecutor;
@@ -24,12 +25,10 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     private static final Marker PROGRAM = MarkerManager.getMarker("PROGRAM");
 
-    private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newScheduledThreadPool(2,
-                                                                                                      new ThreadFactoryBuilder()
-                                                                                                              .setNameFormat("ProgramExecutor Cleaner %d")
-                                                                                                              .setDaemon(true)
-                                                                                                              .build()
-    );
+    private static final ScheduledExecutorService CLEANER_EXECUTOR = Executors.newSingleThreadScheduledExecutor(
+            ThreadFactories.daemon("ProgramExecutor Cleaner %d"));
+
+    private final SyncExecutor<String> programExecutor = SyncExecutor.create("Program executor");
 
     @NonNull
     private final ManagerIdentity managerIdentity;
@@ -47,17 +46,10 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
         this.prefixForManager = prefixForManager;
         this.prefixForPrograms = prefixForPrograms;
         this.managerProgram = new ProgramWithPolicyHandling(
-                Program.create(managerIdentity)
-                       .name("ProgramManager")
-                       .addInstruction(StartProgram::new)
-                       .addInstruction(StopProgram::new)
-                       .addInstruction(ListPrograms::new)
-                       .addInstruction(StartAllPrograms::new)
-                       .addInstruction(StopAllPrograms::new)
-                       .build()
+                new ManagerProgram(managerIdentity)
         );
 
-        EXECUTOR_SERVICE.scheduleAtFixedRate(this::cleanUp, 10, 10, TimeUnit.SECONDS);
+        CLEANER_EXECUTOR.scheduleAtFixedRate(this::cleanUp, 1, 1, TimeUnit.MINUTES);
     }
 
     private void cleanUp() {
@@ -72,42 +64,43 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     @Override
     public boolean handleMessage(@NonNull ExecutionContext executionContext) {
-        final String message = executionContext.getMessage();
-        if (handle(prefixForManager, message, c -> this.handleManagerCommand(executionContext, c))) {
-            return true;
-        }
-        return handle(prefixForPrograms, message, c -> this.handleProgramCommand(executionContext, c));
+        final Optional<ProgramExecutionInfo> launcher =
+                findProgramFromMessage(prefixForManager, executionContext, i -> Optional.of(managerProgram))
+                        .or(() -> findProgramFromMessage(prefixForPrograms, executionContext, this::findEnableProgram));
+
+        launcher.ifPresent(this::executeProgram);
+        return launcher.isPresent();
     }
 
-    private boolean handle(@NonNull String prefix, @NonNull String message, Consumer1<? super InstructionExtraction> action) {
-        final Optional<InstructionExtraction> commandExtraction = CommandExtractor.extract(prefix, message);
-        commandExtraction.ifPresent(action);
-        return commandExtraction.isPresent();
+    @NonNull
+    private Optional<ProgramExecutionInfo> findProgramFromMessage(
+            @NonNull String prefix,
+            @NonNull ExecutionContext executionContext,
+            Function1<? super String, ? extends Optional<Program>> programFromInstrumentNameFinder) {
+
+        final Function1<InstructionExtraction, Optional<ProgramExecutionInfo>> finder =
+                ie -> programFromInstrumentNameFinder.f(ie.getInstructionName())
+                                                     .map(p -> new ProgramExecutionInfo(executionContext, ie, p));
+
+        return CommandExtractor.extract(prefix, executionContext.getMessage())
+                               .flatMap(finder);
     }
 
-    private void handleManagerCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
-        executeProgram(managerProgram, executionContext, instructionExtraction);
+
+    @NonNull
+    private Optional<Program> findEnableProgram(@NonNull String instructionName) {
+        return managerIdentity.enabledPrograms()
+                              .stream()
+                              .filter(p -> p.hasInstruction(instructionName))
+                              .findFirst();
     }
 
-    private void handleProgramCommand(@NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
-        for (@NonNull Program enabledProgram : managerIdentity.enabledPrograms()) {
-            if (!enabledProgram.hasInstruction(instructionExtraction.getInstructionName())) {
-                continue;
-            }
-            if (enabledProgram.execute(executionContext, instructionExtraction.getInstructionName(), instructionExtraction.getParameters())) {
-                break;
-            }
-        }
-    }
-
-    private void executeProgram(@NonNull Program program, @NonNull ExecutionContext executionContext, @NonNull InstructionExtraction instructionExtraction) {
+    private void executeProgram(@NonNull ProgramExecutionInfo programExecutionInfo) {
         try {
-            program.execute(executionContext,
-                            instructionExtraction.getInstructionName(),
-                            instructionExtraction.getParameters());
+            programExecutor.submit(programExecutionInfo.getProgramName(), programExecutionInfo::launch);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.warn(PROGRAM, "Error while executing program '{}' : {}", program.getName(), t.getMessage());
+            LOG.warn(PROGRAM, "Error while executing program '{}' : {}", programExecutionInfo.getProgramName(), t.getMessage());
         }
 
     }

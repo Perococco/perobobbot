@@ -23,8 +23,8 @@ public class PerococcoProgram implements Program {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
-        return getInstruction(instructionName).execute(executionContext,parameters);
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
+        getInstruction(instructionName).execute(executionContext,parameters);
     }
 
     @Override

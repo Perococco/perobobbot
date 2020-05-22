@@ -13,7 +13,7 @@ import java.time.Duration;
 public class EchoInstruction implements Instruction {
 
     @Getter
-    private final ExecutionPolicy executionPolicy = new ExecutionPolicy(UserRole.ANY_USER, Duration.ofSeconds(10), Duration.ZERO);
+    private final ExecutionPolicy executionPolicy = ExecutionPolicy.builder().globalCoolDown(Duration.ofSeconds(10)).build();
 
     public EchoInstruction(Nil nil) {}
 
@@ -23,8 +23,7 @@ public class EchoInstruction implements Instruction {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
         executionContext.print(executionContext.getExecutingUser().getUserName() + " said " + parameters);
-        return true;
     }
 }

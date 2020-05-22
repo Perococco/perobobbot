@@ -22,9 +22,8 @@ public class PingInstruction implements Instruction {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
         executionContext.print(d -> pongMessage(d,executionContext.getReceptionTime()));
-        return true;
     }
 
     private String pongMessage(@NonNull DispatchContext dispatchContext, @NonNull Instant receptionTime) {
@@ -35,6 +34,9 @@ public class PingInstruction implements Instruction {
 
     @Override
     public @NonNull ExecutionPolicy getExecutionPolicy() {
-        return new ExecutionPolicy(UserRole.ANY_USER,Duration.ofSeconds(10),Duration.ZERO);
+        return ExecutionPolicy.builder()
+                              .requiredRole(UserRole.ANY_USER)
+                              .globalCoolDown(Duration.ofSeconds(10))
+                              .build();
     }
 }

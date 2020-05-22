@@ -49,13 +49,12 @@ public class ProgramWithPolicyHandling implements Program {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
         final ExecutionInfo executionInfo = getExecutionInfo(instructionName);
         if (executionInfo.canExecute(executionContext.getExecutingUser(), Instant.now())) {
-            return delegate.execute(executionContext,instructionName,parameters);
+            delegate.execute(executionContext,instructionName,parameters);
         } else {
             LOG.info("Execution of {}:{} denied for user '{}'", getName(), instructionName, executionContext.getExecutingUser().getUserId());
-            return false;
         }
     }
 

@@ -1,8 +1,11 @@
 package perococco.perobobbot.program.core;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import perobobbot.common.lang.User;
 import perobobbot.program.core.ExecutionPolicy;
-import lombok.*;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -23,6 +26,15 @@ public class ExecutionInfo {
 
     private final Map<String, Instant> lastExecutionTimePerUserId = new HashMap<>();
 
+    private final Duration maxUserCoolDown;
+
+    public ExecutionInfo(@NonNull String instructionName, @NonNull ExecutionPolicy policy) {
+        this.instructionName = instructionName;
+        this.policy = policy;
+        this.lastExecutionTime = lastExecutionTime;
+        this.maxUserCoolDown = policy.maxUserCoolDown().orElse(Duration.ZERO);
+    }
+
     public boolean canExecute(@NonNull User executor, @NonNull Instant now) {
         if (userPolicyFailed(executor)) {
             return false;
@@ -30,7 +42,7 @@ public class ExecutionInfo {
         if (globalCoolDownPolicyFailed(now)) {
             return false;
         }
-        if (userCoolDownPolicyFailed(executor.getUserId(), now)) {
+        if (userCoolDownPolicyFailed(executor, now)) {
             return false;
         }
         lastExecutionTime = now;
@@ -38,8 +50,18 @@ public class ExecutionInfo {
         return true;
     }
 
+    private Duration findCoolDown(@NonNull User executor) {
+        return policy.getCoolDowns()
+                     .entrySet()
+                     .stream()
+                     .filter(e -> executor.canActAs(e.getKey()))
+                     .map(e -> e.getValue())
+                     .min(Duration::compareTo)
+                     .orElse(Duration.ofSeconds(15));
+    }
+
     private boolean userPolicyFailed(@NonNull User executor) {
-       return !executor.canActAs(policy.getRequiredRole());
+        return !executor.canActAs(policy.getRequiredRole());
     }
 
     private boolean globalCoolDownPolicyFailed(@NonNull Instant now) {
@@ -47,13 +69,14 @@ public class ExecutionInfo {
         return durationSinceLastExecution.compareTo(policy.getGlobalCoolDown()) < 0;
     }
 
-    private boolean userCoolDownPolicyFailed(@NonNull String userId, @NonNull Instant now) {
-        final Instant lastExecutionTime = getLastExecutionTime(userId);
+    private boolean userCoolDownPolicyFailed(@NonNull User executor, @NonNull Instant now) {
+        final Instant lastExecutionTime = getLastExecutionTime(executor.getUserId());
         if (lastExecutionTime == null) {
             return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        return durationSinceLastExecution.compareTo(policy.getUserCoolDown()) < 0;
+        final Duration userCoolDown = findCoolDown(executor);
+        return durationSinceLastExecution.compareTo(userCoolDown) < 0;
     }
 
 
@@ -64,12 +87,12 @@ public class ExecutionInfo {
 
     @Synchronized
     private void setLastExecutionTime(@NonNull String userId, @NonNull Instant time) {
-        lastExecutionTimePerUserId.put(userId,time);
+        lastExecutionTimePerUserId.put(userId, time);
     }
 
     @Synchronized
     public void cleanup() {
-        final Instant nowMinusCooldown = Instant.now().minus(policy.getUserCoolDown());
-        lastExecutionTimePerUserId.values().removeIf(nowMinusCooldown::isAfter);
+        final Instant nowMinusCoolDown = Instant.now().minus(maxUserCoolDown);
+        lastExecutionTimePerUserId.values().removeIf(nowMinusCoolDown::isAfter);
     }
 }

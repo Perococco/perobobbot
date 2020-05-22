@@ -40,7 +40,7 @@ public interface Program {
      * @param parameters the parameters of the instruction
      * @return true if the execution should be stop, i.e. no other program should run after this one
      */
-    boolean execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
+    void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
 
     @NonNull
     static <S> ProgramBuilder<S> create(@NonNull S state) {

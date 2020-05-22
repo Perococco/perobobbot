@@ -14,7 +14,7 @@ public interface Instruction {
      * @param executionContext the context the instruction is executing in
      * @param parameters the part of the message after the instruction name
      */
-    boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters);
+    void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters);
 
     @NonNull
     ExecutionPolicy getExecutionPolicy();

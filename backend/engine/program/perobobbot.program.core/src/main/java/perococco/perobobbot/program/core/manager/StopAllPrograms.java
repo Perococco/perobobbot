@@ -12,8 +12,7 @@ public class StopAllPrograms extends ManagerInstruction {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
         getIdentity().mutate(ManagerState::stopAll);
-        return true;
     }
 }

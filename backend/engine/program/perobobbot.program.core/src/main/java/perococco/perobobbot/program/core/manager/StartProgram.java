@@ -13,13 +13,12 @@ public class StartProgram extends ManagerInstruction {
     }
 
     @Override
-    public boolean execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
+    public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
         if (!getIdentity().getState().isKnownProgram(parameters)) {
             warnForUnknownProgram(executionContext,parameters);
         } else {
             getIdentity().mutate(s -> s.enableProgram(parameters));
         }
-        return true;
     }
 
 }

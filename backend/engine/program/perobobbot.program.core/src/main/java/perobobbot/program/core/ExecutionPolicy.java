@@ -1,24 +1,42 @@
 package perobobbot.program.core;
 
+import com.google.common.collect.ImmutableMap;
+import lombok.Builder;
+import lombok.Singular;
 import perobobbot.common.lang.UserRole;
 import lombok.NonNull;
 import lombok.Value;
 
 import java.time.Duration;
+import java.util.Map;
+import java.util.Optional;
 
 @Value
+@Builder
 public class ExecutionPolicy {
 
-    public static final ExecutionPolicy NONE = new ExecutionPolicy(UserRole.ANY_USER,Duration.ZERO,Duration.ZERO);
+    public static final ExecutionPolicy NONE = new ExecutionPolicy(UserRole.ANY_USER,Duration.ZERO,ImmutableMap.of());
 
     @NonNull
-    private final UserRole requiredRole;
+    private UserRole requiredRole;
 
     @NonNull
-    private final Duration globalCoolDown;
+    private Duration globalCoolDown;
 
     @NonNull
-    private final Duration userCoolDown;
+    @Singular
+    private ImmutableMap<UserRole,Duration> coolDowns;
 
+    public static ExecutionPolicyBuilder builder() {
+        return new ExecutionPolicyBuilder()
+                .requiredRole(UserRole.ANY_USER)
+                .globalCoolDown(Duration.ZERO)
+                ;
+    }
+
+    @NonNull
+    public Optional<Duration> maxUserCoolDown() {
+        return coolDowns.values().stream().max(Duration::compareTo);
+    }
 }
 

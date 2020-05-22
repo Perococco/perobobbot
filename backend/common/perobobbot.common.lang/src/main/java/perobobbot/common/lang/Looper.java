@@ -47,10 +47,7 @@ public abstract class Looper {
     }
 
     private static final ExecutorService DEFAULT_EXECUTOR_SERVICE = Executors.newCachedThreadPool(
-            new ThreadFactoryBuilder()
-                    .setDaemon(true)
-                    .setNameFormat("Looper %d")
-                    .build()
+            ThreadFactories.daemon("Looper %d")
     );
 
     private final ExecutorService executorService;

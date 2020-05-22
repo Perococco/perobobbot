@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.SyncExecutor;
+import perobobbot.common.lang.ThreadFactories;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Function0;
 
@@ -15,10 +16,7 @@ public class PerococcoSyncExecutor<I> implements SyncExecutor<I> {
     private final SynExecutorLooper<I> looper;
 
     public PerococcoSyncExecutor(@NonNull String name) {
-        this(Executors.newCachedThreadPool(new ThreadFactoryBuilder()
-                                                   .setDaemon(true)
-                                                   .setNameFormat(name+" %d")
-                                                   .build()));
+        this(Executors.newCachedThreadPool(ThreadFactories.daemon(name+" %d")));
     }
 
     public PerococcoSyncExecutor(@NonNull Executor executor) {
