@@ -1,5 +1,6 @@
 package perobobbot.twitch.chat;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,8 @@ import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 
 @RequiredArgsConstructor
+@EqualsAndHashCode(of = {"userId"})
 public class TwitchUser implements User {
-
 
     @NonNull
     @Getter

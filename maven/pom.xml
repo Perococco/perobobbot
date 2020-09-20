@@ -151,6 +151,11 @@
                 <artifactId>perobobbot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-twitch-chat-program</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>

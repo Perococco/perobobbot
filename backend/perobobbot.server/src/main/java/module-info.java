@@ -54,6 +54,7 @@ module perobobbot.server {
     requires spring.webmvc;
     requires java.xml.bind;
     requires jakarta.activation;
+    requires perobobbot.twitch.chat.program;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

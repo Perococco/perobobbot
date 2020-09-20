@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 public class InstructionExtraction {
 
     @NonNull
+    private final String prefix;
+
+    @NonNull
     private final String instructionName;
 
     @NonNull

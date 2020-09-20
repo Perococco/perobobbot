@@ -26,6 +26,6 @@ public interface ProgramExecutor {
      * is used to determine the right program to call
      * as well as the parameters to pass to this program
      */
-    boolean handleMessage(@NonNull ExecutionContext executionContext);
+    void handleMessage(@NonNull ExecutionContext executionContext);
 
 }

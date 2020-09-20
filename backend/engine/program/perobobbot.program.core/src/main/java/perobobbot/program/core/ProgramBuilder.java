@@ -21,6 +21,9 @@ public interface ProgramBuilder<S> {
     @NonNull
     ProgramBuilder<S> addInstruction(@NonNull Instruction.Factory<? super S> factory);
 
+    @NonNull
+    ProgramBuilder<S> setMessageHandler(@NonNull MessageHandler.Factory<? super S> factory);
+
     /**
      * built the program and return it
      * @return the built program

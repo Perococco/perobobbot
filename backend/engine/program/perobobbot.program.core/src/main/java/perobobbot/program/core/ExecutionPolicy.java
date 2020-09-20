@@ -44,6 +44,11 @@ public class ExecutionPolicy {
                 ;
     }
 
+    public static ExecutionPolicy withGlobalCooldown(@NonNull Duration duration) {
+        return ExecutionPolicy.builder().globalCoolDown(duration).build();
+    }
+
+
     @NonNull
     public Optional<Duration> findCoolDown(@NonNull Role role) {
         return Optional.ofNullable(coolDowns.get(role));

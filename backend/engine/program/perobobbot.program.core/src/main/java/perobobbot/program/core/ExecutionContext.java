@@ -1,18 +1,23 @@
 package perobobbot.program.core;
 
 import lombok.NonNull;
-import perobobbot.chat.advanced.AdvancedChatIO;
 import perobobbot.common.lang.User;
+import perococco.perobobbot.program.core.ConsumedExecutionContext;
 
 import java.time.Instant;
 
-public interface ExecutionContext extends ProgramIO {
+public interface ExecutionContext extends ExecutionIO {
 
     /**
      * @return the user that initiate the execution
      */
     @NonNull
     User getExecutingUser();
+
+    @NonNull
+    default String getExecutingUserId() {
+        return getExecutingUser().getUserId();
+    }
 
     /**
      * @return the instant of reception of the message
@@ -32,4 +37,12 @@ public interface ExecutionContext extends ProgramIO {
     @NonNull
     String getMessage();
 
+    default boolean isConsumed() {
+        return false;
+    }
+
+    @NonNull
+    default ExecutionContext consumed() {
+        return new ConsumedExecutionContext(this);
+    }
 }

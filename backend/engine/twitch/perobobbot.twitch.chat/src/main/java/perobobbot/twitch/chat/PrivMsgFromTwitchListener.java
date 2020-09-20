@@ -1,7 +1,6 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Subscription;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.twitch.chat.event.ReceivedMessage;

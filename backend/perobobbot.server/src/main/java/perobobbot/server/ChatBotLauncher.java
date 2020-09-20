@@ -7,13 +7,10 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import perobobbot.common.lang.Secret;
 import perobobbot.common.lang.ThrowableTool;
-import perobobbot.common.lang.fp.Function1;
-import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ProgramExecutor;
 import perobobbot.program.sample.Samples;
 import perobobbot.twitch.chat.*;
-import perobobbot.twitch.chat.event.ReceivedMessage;
-import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
+import perobobbot.twitch.chat.program.TwitchExecutionContext;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,11 +24,12 @@ public class ChatBotLauncher implements ApplicationRunner {
     private void launchBot(@NonNull TwitchChatIO chat) {
 
         final ProgramExecutor programExecutor = ProgramExecutor.create();
+        programExecutor.registerProgram(Samples.SAY_HELLO);
         programExecutor.registerProgram(Samples.ECHO);
         programExecutor.registerProgram(Samples.PING);
 
         final PrivMsgFromTwitchListener listener = PrivMsgFromTwitchListener.with(
-                msg -> new TwitchExecutionContext(chat,msg),
+                msg -> new TwitchExecutionContext(chat, msg),
                 programExecutor::handleMessage
         );
 

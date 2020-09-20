@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-twitch-chat</artifactId>
+            <artifactId>perobobbot-twitch-chat-program</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

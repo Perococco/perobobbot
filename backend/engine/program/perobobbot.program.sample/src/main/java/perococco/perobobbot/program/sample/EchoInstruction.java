@@ -12,7 +12,7 @@ import java.time.Duration;
 public class EchoInstruction implements Instruction {
 
     @Getter
-    private final ExecutionPolicy executionPolicy = ExecutionPolicy.builder().globalCoolDown(Duration.ofSeconds(10)).build();
+    private final ExecutionPolicy executionPolicy = ExecutionPolicy.withGlobalCooldown(Duration.ofSeconds(10));
 
     public EchoInstruction(Nil nil) {}
 

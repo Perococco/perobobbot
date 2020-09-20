@@ -35,6 +35,7 @@ public class CommandExtractor {
         final String parameters = tokens.length == 1?"":tokens[1].trim();
 
         return Optional.ofNullable(InstructionExtraction.builder()
+                                                        .prefix(commandPrefix)
                                                         .instructionName(commandName)
                                                         .parameters(parameters)
                                                         .build());

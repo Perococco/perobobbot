@@ -6,13 +6,10 @@ module perobobbot.twitch.chat {
     requires java.desktop;
 
     requires perobobbot.chat.core;
-    requires perobobbot.chat.websocket;
     requires perobobbot.chat.advanced;
-    requires transitive perobobbot.program.core;
     requires transitive perobobbot.common.irc;
 
     requires io.github.bucket4j.core;
-
     requires org.apache.logging.log4j;
 
     requires com.google.common;

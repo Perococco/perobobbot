@@ -12,6 +12,10 @@ import java.util.Set;
  **/
 public class IdentityHashSet<E> implements Set<E> {
 
+    public static <S> IdentityHashSet<S> empty() {
+        return new IdentityHashSet<>();
+    }
+
     @NonNull
     private final IdentityHashMap<E,E> backupMap = new IdentityHashMap<>();
 

@@ -6,7 +6,7 @@ import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.Program;
 
 @RequiredArgsConstructor
-public class ProgramExecutionInfo {
+public class ProgramExecutionInfo implements NamedExecution {
 
     @NonNull
     private final ExecutionContext executionContext;
@@ -17,12 +17,14 @@ public class ProgramExecutionInfo {
     @NonNull
     private final Program program;
 
+    @Override
     public void launch() {
         program.execute(executionContext,instructionExtraction.getInstructionName(),instructionExtraction.getParameters());
     }
 
     @NonNull
-    public String getProgramName() {
+    @Override
+    public String getName() {
         return program.getName();
     }
 }

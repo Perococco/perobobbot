@@ -1,5 +1,6 @@
 package perococco.perobobbot.program.sample;
 
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.Nil;
@@ -18,6 +19,10 @@ public class PingInstruction implements Instruction {
         return "myping";
     }
 
+    @NonNull
+    @Getter
+    private final ExecutionPolicy executionPolicy = ExecutionPolicy.withGlobalCooldown(Duration.ofSeconds(10));
+
     public PingInstruction(Nil nil) {
     }
 
@@ -26,17 +31,10 @@ public class PingInstruction implements Instruction {
         executionContext.print(d -> pongMessage(d,executionContext.getReceptionTime()));
     }
 
+    @NonNull
     private String pongMessage(@NonNull DispatchContext dispatchContext, @NonNull Instant receptionTime) {
         final Duration duration = Duration.between(receptionTime,dispatchContext.getDispatchingTime());
         return "mypong ("+duration.toMillis()+")";
     }
 
-
-    @Override
-    public @NonNull ExecutionPolicy getExecutionPolicy() {
-        return ExecutionPolicy.builder()
-                              .requiredRole(Role.ANY_USER)
-                              .globalCoolDown(Duration.ofSeconds(10))
-                              .build();
-    }
 }

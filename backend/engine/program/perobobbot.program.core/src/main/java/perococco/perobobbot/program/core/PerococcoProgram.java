@@ -17,6 +17,9 @@ public class PerococcoProgram implements Program {
     @NonNull
     private final ImmutableMap<String, Instruction> instructions;
 
+    @NonNull
+    private final MessageHandler messageHandler;
+
     @Override
     public @NonNull ImmutableSet<String> getInstructionNames() {
         return instructions.keySet();
@@ -39,5 +42,10 @@ public class PerococcoProgram implements Program {
             throw new UnknownInstruction(this.getName(), instructionName);
         }
         return instruction;
+    }
+
+    @Override
+    public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext executionContext) {
+        return messageHandler.handleMessage(executionContext);
     }
 }

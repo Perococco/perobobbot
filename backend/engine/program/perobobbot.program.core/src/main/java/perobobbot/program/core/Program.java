@@ -42,6 +42,14 @@ public interface Program {
     void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
 
     /**
+     * Called only if the execution context has not been used by any instruction of any registered programs
+     * @param executionContext the current execution context
+     * @return the execution context to pass to this method of the next program.
+     */
+    @NonNull
+    ExecutionContext handleMessage(@NonNull ExecutionContext executionContext);
+
+    /**
      * Create a builder of a program
      * @param programState the state of the program. Pass to {@link Instruction.Factory#create(Object)}
      *                      when added to this builder

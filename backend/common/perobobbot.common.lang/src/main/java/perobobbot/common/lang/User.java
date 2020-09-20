@@ -8,14 +8,14 @@ import java.util.Optional;
 public interface User {
 
     /**
-     * @return an identifier of the user (for Twitch is can by its login)
+     * @return an identifier of the user (for Twitch it can be his login)
      */
     @NonNull
     String getUserId();
 
     /**
-     * @return the name of the user (for Twitch it can ben the display name of the user which
-     * might be different that its login).
+     * @return the name of the user (for Twitch it can be the displayed name of the user which
+     * might be different that his login).
      */
     @NonNull
     String getUserName();

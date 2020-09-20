@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.program.core.Instruction;
+import perobobbot.program.core.MessageHandler;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramBuilder;
 
@@ -20,6 +21,8 @@ public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
 
     private final ImmutableMap.Builder<String,Instruction> instructionBuilder = ImmutableMap.builder();
 
+    private MessageHandler messageHandler = e -> e;
+
     @Override
     public @NonNull ProgramBuilder<S> name(@NonNull String name) {
         this.name = name;
@@ -34,7 +37,14 @@ public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
     }
 
     @Override
+    @NonNull
+    public ProgramBuilder<S> setMessageHandler(MessageHandler.@NonNull Factory<? super S> factory) {
+        messageHandler = factory.create(state);
+        return this;
+    }
+
+    @Override
     public @NonNull Program build() {
-        return new PerococcoProgram(name,instructionBuilder.build());
+        return new PerococcoProgram(name,instructionBuilder.build(),messageHandler);
     }
 }

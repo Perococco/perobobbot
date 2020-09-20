@@ -67,4 +67,8 @@ public class ProgramWithPolicyHandling implements Program {
         return executionInfo;
     }
 
+    @Override
+    public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext executionContext) {
+        return delegate.handleMessage(executionContext);
+    }
 }
