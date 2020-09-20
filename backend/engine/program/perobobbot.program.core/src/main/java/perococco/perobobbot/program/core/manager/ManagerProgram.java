@@ -9,7 +9,7 @@ public class ManagerProgram extends ProxyProgram  {
 
     public ManagerProgram(@NonNull ManagerIdentity managerIdentity) {
         super(
-                Program.create(managerIdentity)
+                Program.builder(managerIdentity)
                        .name("ProgramManager")
                        .addInstruction(StartProgram::new)
                        .addInstruction(StopProgram::new)

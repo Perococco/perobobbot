@@ -15,13 +15,13 @@ import java.time.Instant;
 public class TwitchExecutionContext implements ExecutionContext {
 
     @NonNull
-    public static Function1<ReceivedMessage<PrivMsgFromTwitch>, ExecutionContext> createConverter(@NonNull TwitchChatIO twitchChatIO) {
+    public static Function1<ReceivedMessage<PrivMsgFromTwitch>, ExecutionContext> factoryFromPrivateMessage(@NonNull TwitchChatIO twitchChatIO) {
         return r -> new TwitchExecutionContext(twitchChatIO,r);
     }
 
     @NonNull
     public static PrivMsgFromTwitchListener toListener(@NonNull TwitchChatIO twitchChatIO, @NonNull Consumer1<ExecutionContext> consumer) {
-        final Function1<ReceivedMessage<PrivMsgFromTwitch>, ExecutionContext> converter = createConverter(twitchChatIO);
+        final Function1<ReceivedMessage<PrivMsgFromTwitch>, ExecutionContext> converter = factoryFromPrivateMessage(twitchChatIO);
         return reception -> consumer.accept(converter.f(reception));
     }
 

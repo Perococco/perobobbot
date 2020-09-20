@@ -7,12 +7,12 @@ import perococco.perobobbot.program.sample.PingInstruction;
 
 public class Samples {
 
-    public static final Program PING = Program.create(Nil.NIL)
+    public static final Program PING = Program.builder(Nil.NIL)
                                               .name("Ping")
                                               .addInstruction(PingInstruction::new)
                                               .build();
 
-    public static final Program ECHO = Program.create(Nil.NIL)
+    public static final Program ECHO = Program.builder(Nil.NIL)
                                               .name("Echo")
                                               .addInstruction(EchoInstruction::new)
                                               .build();

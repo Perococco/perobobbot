@@ -3,6 +3,7 @@ package perobobbot.chat.core;
 import lombok.NonNull;
 
 /**
+ * Exception thrown when a error occurred during the chat connection
  * @author perococco
  **/
 public class ChatConnectionFailure extends ChatException {

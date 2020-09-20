@@ -4,14 +4,25 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.program.core.ExecutionPolicy;
 
+import java.security.Policy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import static perobobbot.program.core.ExecutionPolicy.DEFAULT_COOLDOWN;
+
+/**
+ * Information regarding an instruction.
+ * It contains the policy of this instruction as well as information
+ * needed to apply it (like the last time the instruction has been executed
+ * and by whom...)
+ */
 @RequiredArgsConstructor
 public class ExecutionInfo {
 
@@ -22,19 +33,33 @@ public class ExecutionInfo {
     @NonNull
     private final ExecutionPolicy policy;
 
+    /**
+     * The instant of the last execution (whoever executed it)
+     */
     private Instant lastExecutionTime = Instant.MIN;
 
+    /**
+     * The last execution per user
+     */
     private final Map<String, Instant> lastExecutionTimePerUserId = new HashMap<>();
 
+    /**
+     * The maximal cooldown amongst all the user's cooldown, or ZERO if no user
+     * has a cooldown
+     */
     private final Duration maxUserCoolDown;
 
     public ExecutionInfo(@NonNull String instructionName, @NonNull ExecutionPolicy policy) {
         this.instructionName = instructionName;
         this.policy = policy;
-        this.lastExecutionTime = lastExecutionTime;
-        this.maxUserCoolDown = policy.maxUserCoolDown().orElse(Duration.ZERO);
+        this.maxUserCoolDown = policy.maxPerRoleCooldown().orElse(Duration.ZERO);
     }
 
+    /**
+     * @param executor the use executing the instruction
+     * @param now      the instant of the execution
+     * @return true if all execution policy passed, false otherwise
+     */
     public boolean canExecute(@NonNull User executor, @NonNull Instant now) {
         if (userPolicyFailed(executor)) {
             return false;
@@ -50,14 +75,14 @@ public class ExecutionInfo {
         return true;
     }
 
-    private Duration findCoolDown(@NonNull User executor) {
-        return policy.getCoolDowns()
-                     .entrySet()
-                     .stream()
-                     .filter(e -> executor.canActAs(e.getKey()))
-                     .map(e -> e.getValue())
-                     .min(Duration::compareTo)
-                     .orElse(Duration.ofSeconds(15));
+    @NonNull
+    private Optional<Duration> findCoolDownFor(@NonNull User executor) {
+        return Role.rolesFromHighestToLowest()
+                   .stream()
+                   .filter(executor::canActAs)
+                   .map(policy::findCoolDown)
+                   .flatMap(Optional::stream)
+                   .findFirst();
     }
 
     private boolean userPolicyFailed(@NonNull User executor) {
@@ -75,7 +100,8 @@ public class ExecutionInfo {
             return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        final Duration userCoolDown = findCoolDown(executor);
+        final Duration userCoolDown = findCoolDownFor(executor).orElse(DEFAULT_COOLDOWN);
+
         return durationSinceLastExecution.compareTo(userCoolDown) < 0;
     }
 

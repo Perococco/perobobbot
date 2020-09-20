@@ -3,7 +3,6 @@ package perococco.perobobbot.program.core;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.Instruction;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramBuilder;
@@ -11,12 +10,15 @@ import perobobbot.program.core.ProgramBuilder;
 @RequiredArgsConstructor
 public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
 
+    /**
+     * the state of the program, used
+     */
     @NonNull
     private final S state;
 
     private String name = null;
 
-    private ImmutableMap.Builder<String,Instruction> instructionBuilder = ImmutableMap.builder();
+    private final ImmutableMap.Builder<String,Instruction> instructionBuilder = ImmutableMap.builder();
 
     @Override
     public @NonNull ProgramBuilder<S> name(@NonNull String name) {
@@ -25,8 +27,8 @@ public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
     }
 
     @Override
-    public @NonNull ProgramBuilder<S> addInstruction(@NonNull Function1<? super S, ? extends Instruction> instructionFactory) {
-        final Instruction instruction = instructionFactory.apply(state);
+    public @NonNull ProgramBuilder<S> addInstruction(@NonNull Instruction.Factory<? super S> factory) {
+        final Instruction instruction = factory.create(state);
         this.instructionBuilder.put(instruction.getName(), instruction);
         return this;
     }

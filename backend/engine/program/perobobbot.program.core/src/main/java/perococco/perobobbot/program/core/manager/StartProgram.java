@@ -14,10 +14,10 @@ public class StartProgram extends ManagerInstruction {
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        if (!getIdentity().getState().isKnownProgram(parameters)) {
+        if (!getState().isKnownProgram(parameters)) {
             warnForUnknownProgram(executionContext,parameters);
         } else {
-            getIdentity().mutate(s -> s.enableProgram(parameters));
+            mutate(s -> s.enableProgram(parameters));
         }
     }
 

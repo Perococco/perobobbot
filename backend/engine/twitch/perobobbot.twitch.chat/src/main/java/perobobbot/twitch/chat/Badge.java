@@ -11,8 +11,7 @@ public class Badge {
         return new Badge(name, version);
     }
 
-    @NonNull
-    private final String name;
+    @NonNull String name;
 
-    private final int version;
+    int version;
 }

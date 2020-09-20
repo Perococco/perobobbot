@@ -8,6 +8,13 @@ import perbobbot.blackjack.engine.TableState;
 
 public class NextStateEvaluator {
 
+    /**
+     * @param currentState the current state of the table
+     * @param tableSize the size of the table (number of maximal player)
+     * @param nextPlayers
+     * @param nextDealerHand
+     * @return
+     */
     @NonNull
     public static TableState evaluate(@NonNull TableState currentState,
                                       int tableSize,
@@ -42,9 +49,9 @@ public class NextStateEvaluator {
         return switch (this.currentState) {
             case OPEN_TO_NEW_PLAYER -> nextPlayers.size() >= tableSize ? TableState.DEALING : TableState.OPEN_TO_NEW_PLAYER;
             case DEALING -> nextDealerHand.hasLessThanTwoCards() ? TableState.DEALING : TableState.PLAYER_PHASE;
-            case PLAYER_PHASE -> allPlayerDone ? (dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE) : TableState.PLAYER_PHASE;
+            case PLAYER_PHASE -> allPlayerDone ? TableState.DEALER_PHASE : TableState.PLAYER_PHASE;
             case DEALER_PHASE -> dealerDone ? TableState.GAME_OVER : TableState.DEALER_PHASE;
-            default -> currentState;
+            case GAME_OVER -> TableState.GAME_OVER;
         };
     }
 }

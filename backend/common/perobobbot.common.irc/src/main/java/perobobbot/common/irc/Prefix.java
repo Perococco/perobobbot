@@ -14,16 +14,18 @@ import java.util.Optional;
 public class Prefix {
 
     @NonNull
-    private final String nickOrServerName;
+    String nickOrServerName;
 
-    private final String user;
+    String user;
 
-    private final String host;
+    String host;
 
+    @NonNull
     public Optional<String> user() {
         return Optional.ofNullable(user);
     }
 
+    @NonNull
     public Optional<String> host() {
         return Optional.ofNullable(host);
     }

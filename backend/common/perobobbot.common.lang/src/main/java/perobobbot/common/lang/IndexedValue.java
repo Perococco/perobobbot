@@ -34,7 +34,7 @@ public class IndexedValue<T> {
     }
 
     @NonNull
-    public ImmutableList<T> insertInto(@NonNull ImmutableList<T> source) {
+    public ImmutableList<T> replaceIn(@NonNull ImmutableList<T> source) {
         return ListTool.replace(source,this);
     }
 }

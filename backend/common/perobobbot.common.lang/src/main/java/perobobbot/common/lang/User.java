@@ -1,6 +1,9 @@
 package perobobbot.common.lang;
 
+import com.google.common.collect.ImmutableCollection;
 import lombok.NonNull;
+
+import java.util.Optional;
 
 public interface User {
 
@@ -18,4 +21,11 @@ public interface User {
     String getUserName();
 
     boolean canActAs(@NonNull Role role);
+
+    @NonNull
+    default Optional<Role> findHighestRole(@NonNull ImmutableCollection<Role> roles) {
+        return roles.stream()
+                    .filter(this::canActAs)
+                    .max(Role.HIGHER_LEVEL_ROLE);
+    }
 }

@@ -11,16 +11,14 @@ import java.util.Optional;
 @Builder(builderClassName = "Builder")
 public class Tag {
 
-    private final boolean client;
+    boolean client;
 
     @Getter(AccessLevel.NONE)
-    private final String vendor;
+    String vendor;
 
-    @NonNull
-    private final String keyName;
+    @NonNull String keyName;
 
-    @NonNull
-    private final String value;
+    @NonNull String value;
 
 
     @NonNull

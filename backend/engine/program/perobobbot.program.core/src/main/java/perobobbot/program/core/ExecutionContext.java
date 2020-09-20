@@ -1,6 +1,7 @@
 package perobobbot.program.core;
 
 import lombok.NonNull;
+import perobobbot.chat.advanced.AdvancedChatIO;
 import perobobbot.common.lang.User;
 
 import java.time.Instant;
@@ -14,7 +15,7 @@ public interface ExecutionContext extends ProgramIO {
     User getExecutingUser();
 
     /**
-     * @return the instant of reception du message
+     * @return the instant of reception of the message
      */
     @NonNull
     Instant getReceptionTime();

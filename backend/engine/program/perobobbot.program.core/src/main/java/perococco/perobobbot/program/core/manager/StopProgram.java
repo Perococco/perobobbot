@@ -14,10 +14,10 @@ public class StopProgram extends ManagerInstruction {
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext, @NonNull String programName) {
-        if (!getIdentity().getState().isKnownProgram(programName)) {
+        if (!getState().isKnownProgram(programName)) {
             warnForUnknownProgram(executionContext,programName);
         } else {
-            getIdentity().mutate(s -> s.disableProgram(programName));
+            mutate(s -> s.disableProgram(programName));
         }
     }
 

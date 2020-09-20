@@ -2,6 +2,7 @@ package perobobbot.common.lang.fp;
 
 import lombok.NonNull;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface Function1<A,R> extends Function<A,R> {
@@ -46,6 +47,11 @@ public interface Function1<A,R> extends Function<A,R> {
 
     @NonNull
     default <S> Function1<A,S> then(@NonNull Function1<? super R, ? extends S> after) {
+        return a -> after.f(this.f(a));
+    }
+
+    @NonNull
+    default <S> Consumer1<A> thenAccept(@NonNull Consumer1<? super R> after) {
         return a -> after.f(this.f(a));
     }
 

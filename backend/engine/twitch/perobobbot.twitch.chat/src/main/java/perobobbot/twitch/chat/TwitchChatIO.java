@@ -3,7 +3,10 @@ package perobobbot.twitch.chat;
 import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.Subscription;
+import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.twitch.chat.event.ReceivedMessage;
+import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
@@ -41,8 +44,6 @@ public interface TwitchChatIO {
     default Subscription addPrivateMessageListener(@NonNull PrivMsgFromTwitchListener listener) {
         return this.addTwitchChatListener(listener.toTwitchChatListener());
     }
-
-
 
     /**
      * @return true if this TwitchChat is running

@@ -66,7 +66,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
     public boolean handleMessage(@NonNull ExecutionContext executionContext) {
         final Optional<ProgramExecutionInfo> launcher =
                 findProgramFromMessage(prefixForManager, executionContext, i -> Optional.of(managerProgram))
-                        .or(() -> findProgramFromMessage(prefixForPrograms, executionContext, this::findEnableProgram));
+                        .or(() -> findProgramFromMessage(prefixForPrograms, executionContext, this::findEnabledProgramFromInstructionName));
 
         launcher.ifPresent(this::executeProgram);
         return launcher.isPresent();
@@ -76,7 +76,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
     private Optional<ProgramExecutionInfo> findProgramFromMessage(
             @NonNull String prefix,
             @NonNull ExecutionContext executionContext,
-            Function1<? super String, ? extends Optional<Program>> programFromInstrumentNameFinder) {
+            @NonNull Function1<? super String, ? extends Optional<Program>> programFromInstrumentNameFinder) {
 
         final Function1<InstructionExtraction, Optional<ProgramExecutionInfo>> finder =
                 ie -> programFromInstrumentNameFinder.f(ie.getInstructionName())
@@ -88,7 +88,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
 
     @NonNull
-    private Optional<Program> findEnableProgram(@NonNull String instructionName) {
+    private Optional<Program> findEnabledProgramFromInstructionName(@NonNull String instructionName) {
         return managerIdentity.enabledPrograms()
                               .stream()
                               .filter(p -> p.hasInstruction(instructionName))

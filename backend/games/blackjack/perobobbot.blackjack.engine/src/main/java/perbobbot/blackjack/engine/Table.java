@@ -89,7 +89,7 @@ public class Table {
 
     @NonNull
     public Table withReplacedPlayer(@NonNull Deck deck, @NonNull IndexedValue<Player> indexedPlayer) {
-        return with(deck, indexedPlayer.insertInto(players));
+        return with(deck, indexedPlayer.replaceIn(players));
     }
 
     @NonNull

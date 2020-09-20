@@ -41,6 +41,9 @@ public class Player {
         return !done;
     }
 
+    /**
+     * @return the first hand of the player that is not done
+     */
     @NonNull
     public Optional<IndexedValue<Hand>> findFirstHandNotDone() {
         return ListTool.findFirst(hands, h -> !h.isDone());
@@ -48,7 +51,7 @@ public class Player {
 
     @NonNull
     public Player withNewHand(@NonNull IndexedValue<Hand> newHand) {
-        return withNewHands(newHand.insertInto(hands));
+        return withNewHands(newHand.replaceIn(hands));
     }
 
     @NonNull

@@ -12,8 +12,7 @@ import lombok.Value;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Channel {
 
-    @NonNull
-    private final String name;
+    @NonNull String name;
 
 
     @NonNull

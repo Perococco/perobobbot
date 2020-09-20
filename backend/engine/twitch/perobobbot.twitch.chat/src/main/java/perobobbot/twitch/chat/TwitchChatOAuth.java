@@ -14,10 +14,8 @@ public class TwitchChatOAuth {
         return new TwitchChatOAuth(nick, new Secret(secret));
     }
 
-    @NonNull
-    private final String nick;
+    @NonNull String nick;
 
-    @NonNull
-    private final Secret secret;
+    @NonNull Secret secret;
 
 }

@@ -17,16 +17,15 @@ public class TablePrinter {
     }
 
 
-    @NonNull
-    private final Table table;
+    private final @NonNull Table table;
 
-    private final Printer ps;
+    private final @NonNull Printer ps;
 
-    private final TableState tableState;
+    private final @NonNull TableState tableState;
 
-    private final ImmutableList<Player> players;
+    private final @NonNull ImmutableList<Player> players;
 
-    private final Hand dealerHand;
+    private final @NonNull Hand dealerHand;
 
     String firstHeadFormat;
 
@@ -35,7 +34,7 @@ public class TablePrinter {
     boolean notDoneFound = false;
 
 
-    public TablePrinter(@NonNull Table table, Printer ps) {
+    public TablePrinter(@NonNull Table table,@NonNull Printer ps) {
         this.table = table;
         this.ps = ps;
         this.tableState = table.getState();

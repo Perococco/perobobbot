@@ -38,13 +38,19 @@ public interface Program {
      * @param executionContext the execution context containing information like the user executing the action
      * @param instructionName the name of the instruction to execute
      * @param parameters the parameters of the instruction
-     * @return true if the execution should be stop, i.e. no other program should run after this one
      */
     void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
 
+    /**
+     * Create a builder of a program
+     * @param programState the state of the program. Pass to {@link Instruction.Factory#create(Object)}
+     *                      when added to this builder
+     * @param <I> the type of the state of the program
+     * @return a program builder
+     */
     @NonNull
-    static <S> ProgramBuilder<S> create(@NonNull S state) {
-        return new PerococcoProgramBuilder<>(state);
+    static <I> ProgramBuilder<I> builder(@NonNull I programState) {
+        return new PerococcoProgramBuilder<>(programState);
     }
 
 

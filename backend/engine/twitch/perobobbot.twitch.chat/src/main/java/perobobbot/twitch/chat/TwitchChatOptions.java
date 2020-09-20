@@ -11,13 +11,11 @@ import perobobbot.common.lang.Secret;
 @Builder
 public class TwitchChatOptions {
 
-    @NonNull
-    private final String nick;
+    @NonNull String nick;
 
-    @NonNull
-    private final Secret secret;
+    @NonNull Secret secret;
 
     @NonNull
     @Singular
-    private final ImmutableSet<Channel> channels;
+    ImmutableSet<Channel> channels;
 }

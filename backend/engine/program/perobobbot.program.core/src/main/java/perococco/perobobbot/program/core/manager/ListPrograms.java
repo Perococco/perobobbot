@@ -14,8 +14,9 @@ public class ListPrograms extends ManagerInstruction {
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        final String message = getIdentity().getState().programNames().stream()
-                .collect(Collectors.joining(", ","Available programs: ","."));
+        final String message = getState().programNames()
+                                         .stream()
+                                         .collect(Collectors.joining(", ", "Available programs: ", "."));
         executionContext.print(message);
     }
 }

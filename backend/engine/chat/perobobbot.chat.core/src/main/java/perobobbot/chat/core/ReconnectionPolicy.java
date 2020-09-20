@@ -24,7 +24,6 @@ public interface ReconnectionPolicy {
     @NonNull
     Duration delayBeforeNextAttempt(int nexAttemptIndex);
 
-
     @NonNull
     ReconnectionPolicy NO_RECONNECTION = with(i -> false, i -> Duration.ZERO);
 

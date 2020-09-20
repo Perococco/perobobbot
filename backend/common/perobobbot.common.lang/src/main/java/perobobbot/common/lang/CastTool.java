@@ -61,7 +61,7 @@ public class CastTool {
     }
 
     @NonNull
-    public static <T,R> Optional<R> castAndCheck(@NonNull Object object, @NonNull Class<T> type,  @NonNull Function<? super T, ? extends Optional<R>> mapper) {
+    public static <T,R> Optional<R> castAndCall(@NonNull Object object, @NonNull Class<T> type, @NonNull Function<? super T, ? extends Optional<R>> mapper) {
         return cast(type,object).flatMap(mapper);
     }
 }

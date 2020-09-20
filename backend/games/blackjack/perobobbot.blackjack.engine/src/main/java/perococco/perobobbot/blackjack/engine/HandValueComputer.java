@@ -18,16 +18,23 @@ public class HandValueComputer {
     private final ImmutableList<Card> cards;
 
     public int computeValue() {
-        int nbAces = 0;
+        int nbAcesInHand = 0;
         int baseValue = 0;
+
+        //uses 1 for Ace.
         for (Card card : cards) {
             if (card.isAnAce()) {
-                nbAces++;
+                nbAcesInHand++;
             }
             baseValue += Math.min(10,card.getFigure().getRank());
         }
-        final int k = MathTool.clamp(Math.floorDiv(21 - baseValue, 10),0,nbAces);
 
-        return baseValue+10*k;
+        final int leftToReach21 = 21-baseValue;
+        if (leftToReach21<=0) {
+            return baseValue;
+        }
+        final int nbAcesToFillTheMargin = Math.min(leftToReach21/10,nbAcesInHand);
+
+        return baseValue+10*nbAcesToFillTheMargin;
     }
 }

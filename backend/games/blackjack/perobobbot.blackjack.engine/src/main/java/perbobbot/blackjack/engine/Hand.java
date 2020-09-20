@@ -31,17 +31,6 @@ public class Hand {
         return new Hand(ImmutableList.of(), betAmount, false, false);
     }
 
-    @Builder(toBuilder = true)
-    private Hand(@NonNull @Singular ImmutableList<Card> cards, int betAmount, boolean fromASplit, boolean done) {
-        this.cards = cards;
-        this.betAmount = betAmount;
-        this.fromASplit = fromASplit;
-        this.value = HandValueComputer.compute(cards);
-        final boolean twoCardFromASplitOfAce = fromASplit && cards.size() == 2 && cards.get(0).isAnAce();
-        final boolean dealerWithMoreThan16 = betAmount <= 0 && value >= 17;
-        this.done = done || value > 21 || twoCardFromASplitOfAce || dealerWithMoreThan16;
-    }
-
     /**
      * The cards composing this hand
      */
@@ -71,6 +60,18 @@ public class Hand {
      */
     @Getter
     private final int value;
+
+    @Builder(toBuilder = true)
+    private Hand(@NonNull @Singular ImmutableList<Card> cards, int betAmount, boolean fromASplit, boolean done) {
+        this.cards = cards;
+        this.betAmount = betAmount;
+        this.fromASplit = fromASplit;
+        this.value = HandValueComputer.compute(cards);
+        final boolean twoCardFromASplitOfAce = fromASplit && cards.size() == 2 && cards.get(0).isAnAce();
+        final boolean dealerWithMoreThan16 = betAmount <= 0 && value >= 17;
+        this.done = done || value > 21 || twoCardFromASplitOfAce || dealerWithMoreThan16;
+    }
+
 
     public int numberOfCards() {
         return cards.size();

@@ -6,6 +6,7 @@ import perobobbot.common.lang.CastTool;
 import perobobbot.common.lang.fp.TryResult;
 import perobobbot.twitch.chat.TwitchChatAuthenticationFailure;
 import perobobbot.twitch.chat.TwitchChatState;
+import perobobbot.twitch.chat.TwitchConstants;
 import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.message.from.GlobalUserState;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
@@ -33,22 +34,24 @@ public class Nick extends RequestToTwitch<GlobalUserState> {
     }
 
     @Override
-    public @NonNull Optional<TryResult<Throwable,GlobalUserState>> isMyAnswer(
+    public @NonNull Optional<TryResult<Throwable, GlobalUserState>> isMyAnswer(
             @NonNull MessageFromTwitch messageFromTwitch,
             @NonNull TwitchChatState state) {
-        return CastTool.castAndCheck(messageFromTwitch, GlobalUserState.class, this::checkGlobalUserState)
-                       .or(() -> CastTool.castAndCheck(messageFromTwitch, Notice.class, this::checkNotice));
+        return CastTool.castAndCall(messageFromTwitch,
+                                    GlobalUserState.class,
+                                    this::checkGlobalUserState)
+                       .or(() -> CastTool.castAndCall(messageFromTwitch, Notice.class, this::checkNotice));
     }
 
     @NonNull
-    private Optional<TryResult<Throwable,GlobalUserState>> checkGlobalUserState(@NonNull GlobalUserState globalUserState) {
+    private Optional<TryResult<Throwable, GlobalUserState>> checkGlobalUserState(@NonNull GlobalUserState globalUserState) {
         return Optional.of(TryResult.success(globalUserState));
     }
 
     @NonNull
-    private Optional<TryResult<Throwable,GlobalUserState>> checkNotice(@NonNull Notice notice) {
-        if (Stream.of("Login authentication failed",
-                      "Improperly formatted auth")
+    private Optional<TryResult<Throwable, GlobalUserState>> checkNotice(@NonNull Notice notice) {
+        if (Stream.of(TwitchConstants.CHAT_LOGIN_AUTHENTICATION_FAILED,
+                      TwitchConstants.CHAT_IMPROPERLY_FORMATTED_AUTH)
                   .anyMatch(m -> notice.getMessage().equals(m))) {
             return Optional.of(TryResult.failure(new TwitchChatAuthenticationFailure(notice.getMessage())));
         }

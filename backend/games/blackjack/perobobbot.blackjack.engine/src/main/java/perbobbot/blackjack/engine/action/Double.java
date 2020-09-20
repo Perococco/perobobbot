@@ -23,9 +23,8 @@ public class Double extends DoOnPlayer {
     protected @NonNull Table performAction(@NonNull Table table, @NonNull SingleHandInfo handInfo) {
         final Player player = handInfo.player();
         final OnePickResult pickResult = table.pickOneCard();
-        return table.withReplacedHand(
-                pickResult.getDeck(), handInfo.changeHand(hand -> doubleHand(player, hand, pickResult))
-        );
+        final HandInfo newHand = handInfo.changeHand(h -> doubleHand(player,h,pickResult));
+        return table.withReplacedHand(pickResult.getDeck(), newHand);
     }
 
     @NonNull

@@ -4,6 +4,11 @@ import lombok.NonNull;
 
 public interface Instruction {
 
+    interface Factory<S> {
+        @NonNull
+        Instruction create(@NonNull S programState);
+    }
+
     /**
      * @return the name of the instruction
      */
