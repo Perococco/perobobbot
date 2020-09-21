@@ -1,5 +1,7 @@
 package perobobbot.program.sample;
 
+import com.google.common.collect.ImmutableSet;
+import perobobbot.common.lang.Identity;
 import perobobbot.common.lang.IdentityHashSet;
 import perobobbot.common.lang.Nil;
 import perobobbot.program.core.Program;
@@ -19,7 +21,8 @@ public class Samples {
                                               .addInstruction(EchoInstruction::new)
                                               .build();
 
-    public static final Program SAY_HELLO = Program.builder(IdentityHashSet.<String>empty())
+    public static final Program SAY_HELLO = Program.<Identity<ImmutableSet<String>>>builder(Identity.create(ImmutableSet.of()))
+                                                   .name("Say Hello")
                                                    .setMessageHandler(HelloMessageHandler::new)
                                                    .build();
 }

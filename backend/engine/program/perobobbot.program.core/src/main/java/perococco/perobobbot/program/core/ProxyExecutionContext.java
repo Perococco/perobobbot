@@ -16,6 +16,11 @@ public class ProxyExecutionContext implements ExecutionContext {
     private final ExecutionContext delegate;
 
     @Override
+    public boolean executingUserIsMe() {
+        return delegate.executingUserIsMe();
+    }
+
+    @Override
     public @NonNull User getExecutingUser() {
         return delegate.getExecutingUser();
     }

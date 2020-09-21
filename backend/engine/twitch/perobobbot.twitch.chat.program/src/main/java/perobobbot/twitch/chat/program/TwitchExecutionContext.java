@@ -31,6 +31,11 @@ public class TwitchExecutionContext implements ExecutionContext {
     }
 
     @Override
+    public boolean executingUserIsMe() {
+        return reception.getState().userName().equals(executingUser.getUserId());
+    }
+
+    @Override
     public @NonNull Instant getReceptionTime() {
         return reception.getReceptionTime();
     }

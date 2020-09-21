@@ -2,8 +2,12 @@ package perobobbot.server;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.Aware;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import perobobbot.common.lang.Secret;
 import perobobbot.common.lang.ThrowableTool;
@@ -15,15 +19,16 @@ import perobobbot.twitch.chat.program.TwitchExecutionContext;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 @Component
 @Log4j2
-public class ChatBotLauncher implements ApplicationRunner {
+public class ChatBotLauncher implements ApplicationRunner, DisposableBean {
 
+    private ProgramExecutor programExecutor;
 
     private void launchBot(@NonNull TwitchChatIO chat) {
-
-        final ProgramExecutor programExecutor = ProgramExecutor.create();
+        programExecutor = ProgramExecutor.create();
         programExecutor.registerProgram(Samples.SAY_HELLO);
         programExecutor.registerProgram(Samples.ECHO);
         programExecutor.registerProgram(Samples.PING);
@@ -36,6 +41,10 @@ public class ChatBotLauncher implements ApplicationRunner {
         chat.addPrivateMessageListener(listener);
     }
 
+    @Override
+    public void destroy() throws Exception {
+        Optional.ofNullable(programExecutor).ifPresent(ProgramExecutor::stop);
+    }
 
     @Override
     public void run(ApplicationArguments args) {
@@ -45,10 +54,16 @@ public class ChatBotLauncher implements ApplicationRunner {
             final TwitchChat twitchChat = TwitchChat.create(options);
 
             twitchChat.start()
-                      .thenAccept(this::launchBot);
+                      .thenAccept(this::launchBot)
+                      .whenComplete((v, t) -> {
+                          if (t != null) {
+                              t.printStackTrace();
+                              LOG.error("Fail to launch ChatBot", t);
+                          }
+                      });
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.error("Fail to launch ChatBot",t);
+            LOG.error("Fail to launch ChatBot", t);
         }
     }
 

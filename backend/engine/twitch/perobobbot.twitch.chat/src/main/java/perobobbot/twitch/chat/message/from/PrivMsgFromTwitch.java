@@ -27,7 +27,7 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
     private final String payload;
 
     @Builder
-    public PrivMsgFromTwitch(@NonNull IRCParsing ircParsing, @NonNull String user, @NonNull Channel channel, @NonNull String payload) {
+    public PrivMsgFromTwitch(@NonNull IRCParsing ircParsing, @NonNull String user, boolean thisIsMe, @NonNull Channel channel, @NonNull String payload) {
         super(ircParsing);
         this.user = user;
         this.channel = channel;

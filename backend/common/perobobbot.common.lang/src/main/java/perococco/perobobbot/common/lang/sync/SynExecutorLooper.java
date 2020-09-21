@@ -38,7 +38,7 @@ public class SynExecutorLooper<I> extends Looper {
     }
 
     private boolean isRunning(@NonNull I id) {
-        return runnableById.containsKey(id);
+        return runningId.contains(id);
     }
 
     public void ifPossibleExecuteForId(@NonNull I id) {
@@ -55,7 +55,7 @@ public class SynExecutorLooper<I> extends Looper {
                 runnable.run();
             } finally {
                 actionQueue.addLast(() -> {
-                    runnableById.remove(id);
+                    runningId.remove(id);
                     ifPossibleExecuteForId(id);
                 });
             }

@@ -39,6 +39,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-program-core</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.sun.activation</groupId>-->
+<!--            <artifactId>jakarta.activation</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-program-sample</artifactId>
@@ -68,7 +72,6 @@
                     <artifactId>aspectjrt</artifactId>
                 </exclusion>
             </exclusions>
-
         </dependency>
 
 
@@ -104,8 +107,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>perococco.bot</groupId>

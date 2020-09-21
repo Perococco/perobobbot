@@ -53,6 +53,7 @@ module perobobbot.server {
     requires java.validation;
     requires spring.webmvc;
     requires java.xml.bind;
+    requires java.persistence;
     requires jakarta.activation;
     requires perobobbot.twitch.chat.program;
 

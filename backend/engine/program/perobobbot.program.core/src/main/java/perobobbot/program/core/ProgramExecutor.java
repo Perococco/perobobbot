@@ -12,7 +12,7 @@ public interface ProgramExecutor {
 
     @NonNull
     static ProgramExecutor create() {
-        return new PerococcoProgramExecutor("@","!");
+        return new PerococcoProgramExecutor("#","!");
     }
 
     /**
@@ -28,4 +28,7 @@ public interface ProgramExecutor {
      */
     void handleMessage(@NonNull ExecutionContext executionContext);
 
+    void stop();
+
+    void start();
 }

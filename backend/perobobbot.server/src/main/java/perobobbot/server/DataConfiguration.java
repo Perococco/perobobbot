@@ -9,13 +9,12 @@ import perobobbot.data.domain.DataDomainPackageMarker;
 import perobobbot.data.jpa.repository.DataRepositoryMarker;
 
 @Configuration
+@EntityScan(basePackageClasses = {DataDomainPackageMarker.class})
 @EnableJpaRepositories(
         basePackageClasses = {DataRepositoryMarker.class}
-        )
+)
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-@EntityScan(basePackageClasses = {DataDomainPackageMarker.class})
 public class DataConfiguration {
-
 
 }

@@ -1,14 +1,18 @@
 package perococco.perobobbot.program.sample;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.Identity;
 import perobobbot.common.lang.IdentityHashSet;
 import perobobbot.common.lang.ImmutableEntry;
+import perobobbot.common.lang.SetTool;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.MessageHandler;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
@@ -29,11 +33,11 @@ public class HelloMessageHandler implements MessageHandler {
     private static final String i = "[iі]";
     private static final String r = "r";
 
-    private static final Pattern SALUT_PATTERN = Pattern.compile(s + a + l + u + t);
-    private static final Pattern HELLO_PATTERN = Pattern.compile(h + e + l + l + o);
-    private static final Pattern BONJOUR_PATTERN = Pattern.compile(b + o + n + j + o + u + r);
-    private static final Pattern BONSOIR_PATTERN = Pattern.compile(b + o + n + s + o + i + r);
-    private static final Pattern COUCOU_PATTERN = Pattern.compile(c + o + u + c + o + u);
+    private static final Pattern SALUT_PATTERN = Pattern.compile(s + a + l + u + t, Pattern.CASE_INSENSITIVE);
+    private static final Pattern HELLO_PATTERN = Pattern.compile(h + e + l + l + o, Pattern.CASE_INSENSITIVE);
+    private static final Pattern BONJOUR_PATTERN = Pattern.compile(b + o + n + j + o + u + r, Pattern.CASE_INSENSITIVE);
+    private static final Pattern BONSOIR_PATTERN = Pattern.compile(b + o + n + s + o + i + r, Pattern.CASE_INSENSITIVE);
+    private static final Pattern COUCOU_PATTERN = Pattern.compile(c + o + u + c + o + u, Pattern.CASE_INSENSITIVE);
 
     private static final ImmutableList<Pattern> FRENCH_PATTERNS = ImmutableList.of(
             SALUT_PATTERN,
@@ -44,12 +48,13 @@ public class HelloMessageHandler implements MessageHandler {
     );
 
     @NonNull
-    private final IdentityHashSet<String> alreadyGreeted;
+    private final Identity<ImmutableSet<String>> alreadyGreeted;
 
     @Override
     public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext context) {
-        if (!alreadyGreeted.contains(context.getExecutingUserId())) {
+        if (!alreadyGreeted.getState().contains(context.getExecutingUserId())) {
             if (containsHello(context.getMessage())) {
+                alreadyGreeted.mutate(s -> SetTool.add(s,context.getExecutingUserId()));
                 context.print("Salut @" + context.getExecutingUser().getUserName());
             }
         }
@@ -57,7 +62,7 @@ public class HelloMessageHandler implements MessageHandler {
     }
 
     private boolean containsHello(@NonNull String message) {
-        return Arrays.stream(message.split("\s"))
+        return Arrays.stream(message.split("\\s"))
                      .anyMatch(this::isHelloWorld);
     }
 

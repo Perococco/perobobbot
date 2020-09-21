@@ -8,6 +8,8 @@ import java.time.Instant;
 
 public interface ExecutionContext extends ExecutionIO {
 
+    boolean executingUserIsMe();
+
     /**
      * @return the user that initiate the execution
      */

@@ -118,6 +118,16 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     }
 
+    @Override
+    public void stop() {
+        programExecutor.requestStop();
+    }
+
+    @Override
+    public void start() {
+        programExecutor.start();
+    }
+
     @RequiredArgsConstructor
     private static class Prefix {
 
