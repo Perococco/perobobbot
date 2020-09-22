@@ -9,7 +9,7 @@ import perobobbot.program.core.*;
 public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
 
     /**
-     * the state of the program, used
+     * the state of the program
      */
     @NonNull
     private final S state;

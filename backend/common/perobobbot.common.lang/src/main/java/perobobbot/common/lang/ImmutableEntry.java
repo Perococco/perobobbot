@@ -2,6 +2,7 @@ package perobobbot.common.lang;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.fp.Function1;
 
 import java.util.Map;
 
@@ -35,5 +36,10 @@ public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
     @Deprecated
     public V setValue(V value) {
         throw new UnsupportedOperationException();
+    }
+
+    @NonNull
+    public <S> ImmutableEntry<K,S> map(@NonNull Function1<? super V,? extends S> mapper) {
+        return ImmutableEntry.of(key,mapper.apply(value));
     }
 }
