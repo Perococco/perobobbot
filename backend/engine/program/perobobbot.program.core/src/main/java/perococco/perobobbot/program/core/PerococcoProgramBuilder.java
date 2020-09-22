@@ -50,24 +50,6 @@ public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
 
     @Override
     public @NonNull Program build() {
-        final BackgroundTask effective;
-        if (BackgroundTask.NOP != this.backgroundTask) {
-            effective = new BackgroundTask() {
-                @Override
-                public void start() {
-                    System.out.println("Start background task for "+name);
-                    backgroundTask.start();
-                }
-
-                @Override
-                public void stop() {
-                    System.out.println("Stop background task for "+name);
-                    backgroundTask.stop();
-                }
-            };
-        } else {
-            effective = backgroundTask;
-        }
-        return new PerococcoProgram(name, instructionBuilder.build(), effective, messageHandler);
+        return new PerococcoProgram(name, instructionBuilder.build(), backgroundTask, messageHandler);
     }
 }

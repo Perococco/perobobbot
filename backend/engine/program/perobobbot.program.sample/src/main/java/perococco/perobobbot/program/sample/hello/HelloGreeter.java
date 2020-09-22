@@ -50,7 +50,6 @@ public class HelloGreeter implements BackgroundTask {
         }
     }
 
-
     private void performGreetings() {
         try {
             final ImmutableSet<GreetingIssuer> issuers;
