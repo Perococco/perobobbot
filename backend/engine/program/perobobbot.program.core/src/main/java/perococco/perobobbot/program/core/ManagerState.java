@@ -25,6 +25,7 @@ public class ManagerState {
     private final ImmutableMap<String, ProgramWithPolicyHandling> programByName;
 
     @NonNull
+    @Getter
     private final ImmutableSet<String> namesOfEnabledPrograms;
 
     @NonNull
@@ -39,15 +40,6 @@ public class ManagerState {
         this.enabledPrograms = programs.stream()
                                        .filter(p -> namesOfEnabledPrograms.contains(p.getName()))
                                        .collect(ImmutableList.toImmutableList());
-    }
-
-    @NonNull
-    public ManagerState addProgram(@NonNull ProgramWithPolicyHandling program) {
-        final ImmutableList<ProgramWithPolicyHandling> newPrograms = ListTool.addLast(programs, program);
-        if (programs == newPrograms) {
-            return this;
-        }
-        return this.toBuilder().programs(newPrograms).build();
     }
 
     public void cleanUp() {
@@ -68,37 +60,27 @@ public class ManagerState {
     }
 
     @NonNull
-    public ManagerState enableProgram(@NonNull String programName) {
-        if (!programByName.containsKey(programName) || namesOfEnabledPrograms.contains(programName)) {
-            return this;
-        }
-        return this.toBuilder()
-                   .namesOfEnabledPrograms(SetTool.add(namesOfEnabledPrograms, programName))
-                   .build();
+    public ImmutableList<Program> getDisabledPrograms() {
+        return programByName.keySet()
+                            .stream()
+                            .filter(n -> !enabledPrograms.contains(n))
+                            .map(programByName::get)
+                            .collect(ImmutableList.toImmutableList());
     }
 
     @NonNull
-    public ManagerState disableProgram(@NonNull String programName) {
-        if (!programByName.containsKey(programName) || !namesOfEnabledPrograms.contains(programName)) {
+    public ManagerState addProgram(@NonNull ProgramWithPolicyHandling program) {
+        final ImmutableList<ProgramWithPolicyHandling> newPrograms = ListTool.addLast(programs, program);
+        if (programs == newPrograms) {
             return this;
         }
-        return this.toBuilder()
-                   .namesOfEnabledPrograms(SetTool.remove(namesOfEnabledPrograms, programName))
-                   .build();
+        return this.toBuilder().programs(newPrograms).build();
     }
+
 
     @NonNull
     public ImmutableSet<String> programNames() {
         return programByName.keySet();
     }
 
-    @NonNull
-    public ManagerState startAll() {
-        return toBuilder().namesOfEnabledPrograms(programByName.keySet()).build();
-    }
-
-    @NonNull
-    public ManagerState stopAll() {
-        return toBuilder().namesOfEnabledPrograms(ImmutableSet.of()).build();
-    }
 }

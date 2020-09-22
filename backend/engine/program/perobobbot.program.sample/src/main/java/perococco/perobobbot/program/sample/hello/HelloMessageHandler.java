@@ -1,18 +1,14 @@
-package perococco.perobobbot.program.sample;
+package perococco.perobobbot.program.sample.hello;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.Identity;
-import perobobbot.common.lang.IdentityHashSet;
-import perobobbot.common.lang.ImmutableEntry;
-import perobobbot.common.lang.SetTool;
+import perobobbot.common.lang.AsyncIdentity;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.MessageHandler;
+import perococco.perobobbot.program.sample.hello.mutation.AddGreetingUser;
 
 import java.util.Arrays;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
@@ -48,15 +44,12 @@ public class HelloMessageHandler implements MessageHandler {
     );
 
     @NonNull
-    private final Identity<ImmutableSet<String>> alreadyGreeted;
+    private final AsyncIdentity<HelloState> alreadyGreeted;
 
     @Override
     public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext context) {
-        if (!alreadyGreeted.getState().contains(context.getExecutingUserId())) {
-            if (containsHello(context.getMessage())) {
-                alreadyGreeted.mutate(s -> SetTool.add(s,context.getExecutingUserId()));
-                context.print("Salut @" + context.getExecutingUser().getUserName());
-            }
+        if (containsHello(context.getMessage())) {
+            alreadyGreeted.mutate(AddGreetingUser.with(context));
         }
         return context;
     }

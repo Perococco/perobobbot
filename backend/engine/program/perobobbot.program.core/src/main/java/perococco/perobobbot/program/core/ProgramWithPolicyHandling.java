@@ -3,6 +3,7 @@ package perococco.perobobbot.program.core;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.MapTool;
 import perobobbot.program.core.ExecutionContext;
@@ -29,6 +30,16 @@ public class ProgramWithPolicyHandling implements Program {
                                                   .collect(MapTool.collector(ExecutionInfo::getInstructionName));
     }
 
+    @Override
+    public void start() {
+        delegate.start();
+    }
+
+    @Override
+    public void stop() {
+        delegate.stop();
+    }
+
     public void cleanup() {
         executionInfoByInstruction.values().forEach(ExecutionInfo::cleanup);
     }
@@ -50,8 +61,9 @@ public class ProgramWithPolicyHandling implements Program {
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
+        final Instant now = Instant.now();
         final ExecutionInfo executionInfo = getExecutionInfo(instructionName);
-        if (executionInfo.canExecute(executionContext.getExecutingUser(), Instant.now())) {
+        if (executionInfo.canExecute(executionContext.getExecutingUser(), now)) {
             delegate.execute(executionContext,instructionName,parameters);
         } else {
             LOG.info("Execution of {}:{} denied for user '{}'", getName(), instructionName, executionContext.getExecutingUser().getUserId());
@@ -70,5 +82,12 @@ public class ProgramWithPolicyHandling implements Program {
     @Override
     public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext executionContext) {
         return delegate.handleMessage(executionContext);
+    }
+
+    @Override
+    public String toString() {
+        return "ProgramWithPolicyHandling{" +
+               delegate.getName() +
+               '}';
     }
 }

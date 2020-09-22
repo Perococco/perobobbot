@@ -3,6 +3,7 @@ package perococco.perobobbot.program.core.manager;
 import lombok.NonNull;
 import perobobbot.program.core.ExecutionContext;
 import perococco.perobobbot.program.core.ManagerIdentity;
+import perococco.perobobbot.program.core.manager.mutation.StopProgramMutation;
 
 public class StopProgram extends ManagerInstruction {
 
@@ -17,7 +18,7 @@ public class StopProgram extends ManagerInstruction {
         if (!getState().isKnownProgram(programName)) {
             warnForUnknownProgram(executionContext,programName);
         } else {
-            mutate(s -> s.disableProgram(programName));
+            mutate(new StopProgramMutation(programName));
         }
     }
 

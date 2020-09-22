@@ -51,6 +51,11 @@ public class TwitchExecutionContext implements ExecutionContext {
     }
 
     @Override
+    public @NonNull String getChannelId() {
+        return "TWITCH - "+reception.getMessage().getChannel().getName();
+    }
+
+    @Override
     public void print(@NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
         twitchChatIO.message(reception.getMessage().getChannel(), messageBuilder);
     }

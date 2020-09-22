@@ -2,7 +2,6 @@ package perococco.perobobbot.common.lang;
 
 import lombok.NonNull;
 import perobobbot.common.lang.*;
-import perobobbot.common.lang.fp.Function1;
 
 import java.util.concurrent.CompletionStage;
 
@@ -67,12 +66,12 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     @Override
-    public @NonNull <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull Function1<? super S, ? extends T> getter) {
+    public @NonNull <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull MutatedStateGetter<? super S, ? extends T> mutatedStateGetter) {
         return updater.<T>offerUpdatingOperation(
                 mutation,
                 this::getRootState,
                 this::setRootState,
-                getter
+                mutatedStateGetter
         ).thenApply(UpdateResult::getResult);
     }
 

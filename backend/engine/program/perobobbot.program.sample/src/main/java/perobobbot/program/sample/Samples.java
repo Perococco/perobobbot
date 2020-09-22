@@ -1,13 +1,13 @@
 package perobobbot.program.sample;
 
-import com.google.common.collect.ImmutableSet;
-import perobobbot.common.lang.Identity;
-import perobobbot.common.lang.IdentityHashSet;
+import perobobbot.common.lang.AsyncIdentity;
 import perobobbot.common.lang.Nil;
 import perobobbot.program.core.Program;
-import perococco.perobobbot.program.sample.EchoInstruction;
-import perococco.perobobbot.program.sample.HelloMessageHandler;
-import perococco.perobobbot.program.sample.PingInstruction;
+import perococco.perobobbot.program.sample.hello.HelloGreeter;
+import perococco.perobobbot.program.sample.echo.EchoInstruction;
+import perococco.perobobbot.program.sample.hello.HelloMessageHandler;
+import perococco.perobobbot.program.sample.hello.HelloState;
+import perococco.perobobbot.program.sample.ping.PingInstruction;
 
 public class Samples {
 
@@ -21,8 +21,9 @@ public class Samples {
                                               .addInstruction(EchoInstruction::new)
                                               .build();
 
-    public static final Program SAY_HELLO = Program.<Identity<ImmutableSet<String>>>builder(Identity.create(ImmutableSet.of()))
+    public static final Program SAY_HELLO = Program.<AsyncIdentity<HelloState>>builder(AsyncIdentity.create(HelloState.empty()))
                                                    .name("Say Hello")
+                                                   .addBackgroundExecution(HelloGreeter::new)
                                                    .setMessageHandler(HelloMessageHandler::new)
                                                    .build();
 }

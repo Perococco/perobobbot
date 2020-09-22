@@ -18,6 +18,9 @@ public class PerococcoProgram implements Program {
     private final ImmutableMap<String, Instruction> instructions;
 
     @NonNull
+    private final BackgroundTask backgroundTask;
+
+    @NonNull
     private final MessageHandler messageHandler;
 
     @Override
@@ -47,5 +50,20 @@ public class PerococcoProgram implements Program {
     @Override
     public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext executionContext) {
         return messageHandler.handleMessage(executionContext);
+    }
+
+    @Override
+    public void start() {
+        backgroundTask.start();
+    }
+
+    @Override
+    public void stop() {
+        backgroundTask.stop();
+    }
+
+    @Override
+    public String toString() {
+        return "PerococcoProgram{" + name  + '}';
     }
 }

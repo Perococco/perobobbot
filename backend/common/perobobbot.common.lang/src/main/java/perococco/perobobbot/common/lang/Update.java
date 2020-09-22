@@ -3,6 +3,7 @@ package perococco.perobobbot.common.lang;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.MutatedStateGetter;
 import perobobbot.common.lang.Mutation;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function0;
@@ -25,7 +26,7 @@ public class Update<R,S> {
     private final Mutation<R> mutation;
 
     @NonNull
-    private final Function1<? super R, ? extends S> getter;
+    private final MutatedStateGetter<? super R, ? extends S> getter;
 
     @NonNull
     public UpdateResult<R,S> performMutation() {
@@ -35,7 +36,7 @@ public class Update<R,S> {
         final UpdateResult<R,S> result = UpdateResult.<R,S>builder()
                 .oldRoot(currentState)
                 .newRoot(newState)
-                .result(getter.apply(newState))
+                .result(getter.getValue(currentState,newState))
                 .build();
 
         newRootStateConsumer.accept(newState);

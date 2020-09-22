@@ -4,6 +4,7 @@ import lombok.NonNull;
 import perobobbot.program.core.ExecutionContext;
 import perococco.perobobbot.program.core.ManagerIdentity;
 import perococco.perobobbot.program.core.ManagerState;
+import perococco.perobobbot.program.core.manager.mutation.StartAllProgramMutation;
 
 public class StartAllPrograms extends ManagerInstruction {
 
@@ -13,6 +14,6 @@ public class StartAllPrograms extends ManagerInstruction {
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters) {
-        mutate(ManagerState::startAll);
+        mutate(new StartAllProgramMutation());
     }
 }

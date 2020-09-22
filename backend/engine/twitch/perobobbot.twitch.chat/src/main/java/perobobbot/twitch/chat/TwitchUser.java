@@ -25,6 +25,11 @@ public class TwitchUser implements User {
     private final Badges badges;
 
     @Override
+    public @NonNull String getHighlightedUserName() {
+        return "@"+userName;
+    }
+
+    @Override
     public boolean canActAs(@NonNull Role role) {
         if (role == Role.ANY_USER) {
             return true;

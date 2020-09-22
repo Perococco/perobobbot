@@ -5,6 +5,8 @@ module perobobbot.program.sample {
     requires perobobbot.common.lang;
     requires perobobbot.chat.advanced;
 
+    requires org.apache.logging.log4j;
+
     requires com.google.common;
 
     exports perobobbot.program.sample;

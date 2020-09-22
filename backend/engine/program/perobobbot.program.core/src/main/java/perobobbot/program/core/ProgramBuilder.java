@@ -22,6 +22,9 @@ public interface ProgramBuilder<S> {
     ProgramBuilder<S> addInstruction(@NonNull Instruction.Factory<? super S> factory);
 
     @NonNull
+    ProgramBuilder<S> addBackgroundExecution(@NonNull BackgroundTask.Factory<? super S> factory);
+
+    @NonNull
     ProgramBuilder<S> setMessageHandler(@NonNull MessageHandler.Factory<? super S> factory);
 
     /**

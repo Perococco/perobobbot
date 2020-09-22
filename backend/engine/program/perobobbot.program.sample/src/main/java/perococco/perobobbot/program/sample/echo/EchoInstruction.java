@@ -1,4 +1,4 @@
-package perococco.perobobbot.program.sample;
+package perococco.perobobbot.program.sample.echo;
 
 import lombok.Getter;
 import lombok.NonNull;

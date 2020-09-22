@@ -3,6 +3,8 @@ package perococco.perobobbot.program.core.manager;
 import lombok.NonNull;
 import perobobbot.program.core.ExecutionContext;
 import perococco.perobobbot.program.core.ManagerIdentity;
+import perococco.perobobbot.program.core.manager.mutation.StartAllProgramMutation;
+import perococco.perobobbot.program.core.manager.mutation.StartProgramMutation;
 
 public class StartProgram extends ManagerInstruction {
 
@@ -17,7 +19,7 @@ public class StartProgram extends ManagerInstruction {
         if (!getState().isKnownProgram(parameters)) {
             warnForUnknownProgram(executionContext,parameters);
         } else {
-            mutate(s -> s.enableProgram(parameters));
+            mutate(new StartProgramMutation(parameters));
         }
     }
 

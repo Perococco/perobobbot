@@ -43,6 +43,11 @@ public class ProxyExecutionContext implements ExecutionContext {
     }
 
     @Override
+    public @NonNull String getChannelId() {
+        return delegate.getChannelId();
+    }
+
+    @Override
     public boolean isConsumed() {
         return delegate.isConsumed();
     }

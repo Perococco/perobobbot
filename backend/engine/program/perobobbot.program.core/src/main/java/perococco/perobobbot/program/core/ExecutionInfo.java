@@ -100,7 +100,7 @@ public class ExecutionInfo {
             return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        final Duration userCoolDown = findCoolDownFor(executor).orElse(DEFAULT_COOLDOWN);
+        final Duration userCoolDown = findCoolDownFor(executor).orElse(policy.getGlobalCoolDown());
 
         return durationSinceLastExecution.compareTo(userCoolDown) < 0;
     }

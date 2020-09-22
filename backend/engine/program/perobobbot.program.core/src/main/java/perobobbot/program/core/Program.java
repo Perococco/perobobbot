@@ -12,6 +12,10 @@ public interface Program {
     @NonNull
     String getName();
 
+    void start();
+
+    void stop();
+
     /**
      * @return the set of all instructions of this program
      */

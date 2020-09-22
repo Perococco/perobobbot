@@ -10,4 +10,9 @@ public class ProxyProgram implements Program {
     @NonNull
     @Delegate
     private final Program delegate;
+
+    @Override
+    public String toString() {
+        return "ProxyProgram{" + delegate.getName() + '}';
+    }
 }

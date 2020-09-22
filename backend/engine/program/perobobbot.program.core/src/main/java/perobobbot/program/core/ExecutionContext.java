@@ -39,6 +39,9 @@ public interface ExecutionContext extends ExecutionIO {
     @NonNull
     String getMessage();
 
+    @NonNull
+    String getChannelId();
+
     default boolean isConsumed() {
         return false;
     }

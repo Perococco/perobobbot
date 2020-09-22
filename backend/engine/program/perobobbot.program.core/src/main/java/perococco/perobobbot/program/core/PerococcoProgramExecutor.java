@@ -63,6 +63,7 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
 
     @Override
     public void handleMessage(@NonNull ExecutionContext executionContext) {
+        System.out.println("Receive message "+executionContext.getMessage());
         final NamedExecution namedExecution = prefixes.stream()
                                                       .map(p -> p.parse(executionContext))
                                                       .flatMap(Optional::stream)

@@ -27,7 +27,9 @@ public abstract class ManagerInstruction implements Instruction {
 
     public ManagerInstruction(@NonNull ManagerIdentity identity,
                               @NonNull String name) {
-        this(identity,name,ExecutionPolicy.builder().requiredRole(Role.TRUSTED_USER).build());
+        this(identity,name,ExecutionPolicy.builder()
+                                          .requiredRole(Role.TRUSTED_USER)
+                                          .build());
     }
 
     public ManagerInstruction(@NonNull ManagerIdentity identity,

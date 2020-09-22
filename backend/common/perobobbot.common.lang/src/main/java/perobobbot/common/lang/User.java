@@ -20,6 +20,9 @@ public interface User {
     @NonNull
     String getUserName();
 
+    @NonNull
+    String getHighlightedUserName();
+
     boolean canActAs(@NonNull Role role);
 
     @NonNull
