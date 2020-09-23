@@ -1,18 +1,23 @@
 package perococco.perobobbot.program.sample.hello;
 
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.AsyncIdentity;
-import perobobbot.common.lang.ImmutableEntry;
-import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.ThrowableTool;
+import perobobbot.common.lang.User;
+import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.BackgroundTask;
+import perobobbot.program.core.ChannelInfo;
 import perobobbot.program.core.ExecutionIO;
 import perococco.perobobbot.program.sample.hello.mutation.ClearGreetingIssuers;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -53,12 +58,12 @@ public class HelloGreeter implements BackgroundTask {
 
     private void performGreetings() {
         try {
-            final ImmutableSet<GreetingIssuer> issuers;
-            issuers = state.mutateAndGet(ClearGreetingIssuers.create(), (o, n) -> o.getGreetingIssuers())
-                           .toCompletableFuture()
-                           .get();
+            final ImmutableMap<ChannelInfo, ChannelGreetings> greeters;
+            greeters = state.mutateAndGetFromOldState(ClearGreetingIssuers.create(), HelloState::getGreetingsPerChannel)
+                            .toCompletableFuture()
+                            .get();
 
-            Greeter.execute(issuers);
+            greeters.forEach(Greeter::execute);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             LOG.warn("Error while greeting", t);
@@ -68,97 +73,71 @@ public class HelloGreeter implements BackgroundTask {
     @RequiredArgsConstructor
     private static class Greeter {
 
-        public static void execute(@NonNull ImmutableSet<GreetingIssuer> issuers) {
-            if (issuers.isEmpty()) {
+        public static void execute(@NonNull ChannelInfo channelInfo, ChannelGreetings channelGreetings) {
+            if (channelGreetings.hasNoGreeters()) {
                 return;
             }
-            new Greeter(issuers).execute();
+            new Greeter(channelInfo, channelGreetings.getIo(), channelGreetings.getGreeters()).execute();
         }
 
+        @NonNull
+        private final ChannelInfo channelInfo;
 
         @NonNull
-        private final ImmutableSet<GreetingIssuer> issuers;
+        private final ExecutionIO io;
 
-        private Map<String, Set<GreetingIssuer>> issuersByChannelId;
-
-        private Map<String, ExecutionIO> ioByChannelId;
+        @NonNull
+        private final ImmutableSet<User> greeters;
 
         private void execute() {
-            this.groupIssuersByChannelId();
-            this.getExecutionIOByChannelId();
-            this.warnOnAllChannels();
-        }
-
-        private void groupIssuersByChannelId() {
-            this.issuersByChannelId = this.issuers.stream()
-                                                  .collect(Collectors.groupingBy(
-                                                          GreetingIssuer::getChannelId,
-                                                          Collectors.toSet()
-                                                           )
-                                                  );
-        }
-
-        private void getExecutionIOByChannelId() {
-            ioByChannelId = issuersByChannelId.entrySet()
-                                              .stream()
-                                              .map(this::selectFirst)
-                                              .flatMap(Optional::stream)
-                                              .collect(MapTool.entryCollector());
+            formGreetings().forEach(io::print);
         }
 
         @NonNull
-        private Optional<Map.Entry<String, ExecutionIO>> selectFirst(@NonNull Map.Entry<String, Set<GreetingIssuer>> entry) {
-            return entry.getValue()
-                        .stream()
-                        .findFirst()
-                        .map(GreetingIssuer::getExecutionIO)
-                        .map(io -> new ImmutableEntry<>(entry.getKey(), io));
-        }
+        private ImmutableList<String> formGreetings() {
+            final ImmutableList.Builder<String> messageBuilder = ImmutableList.builder();
 
+            final Set<User> toProcess = new HashSet<>(greeters);
 
-        @NonNull
-        private String getUserList(String channelId) {
-            return issuersByChannelId.get(channelId)
-                                     .stream()
-                                     .map(GreetingIssuer::getHighlightedUserName)
-                                     .collect(Collectors.joining(","));
-        }
-
-        private void warnOnAllChannels() {
-            for (Map.Entry<String, ExecutionIO> entry : ioByChannelId.entrySet()) {
-                final String channelId = entry.getKey();
-                final ExecutionIO io = entry.getValue();
-                final String userList = getUserList(channelId);
-
-                formMessage(userList).ifPresent(io::print);
+            {
+                //special messages
+                for (User greeter : greeters) {
+                    formSpecialMessage(greeter)
+                            .ifPresent(msg -> {
+                                messageBuilder.add(msg);
+                                toProcess.remove(greeter);
+                            });
+                }
             }
+
+            if (!toProcess.isEmpty()) {
+                //generic message
+                final String genericMessage = toProcess.stream()
+                                                       .map(User::getHighlightedUserName)
+                                                       .collect(Collectors.joining(", ", "Hello ", " !"));
+                messageBuilder.add(genericMessage);
+            }
+
+            return messageBuilder.build();
         }
 
-        private Optional<String> formMessage(String userList) {
-            if (userList.isBlank()) {
-                return Optional.empty();
+        //TODO put that in a specific class
+        private Optional<String> formSpecialMessage(@NonNull User user) {
+            final String userId = user.getUserId();
+            if (channelInfo.isOwnedBy(user)) {
+                return Optional.of("Salut Chef !!!");
             }
-            return Optional.of("Salut %s !".formatted(userList));
+            return Optional.ofNullable(Holder.SPECIAL_MESSAGES.get(userId))
+                           .map(f -> f.f(user));
         }
     }
 
+    private static class Holder {
 
-    private void greets(@NonNull ImmutableSet<GreetingIssuer> issuers) {
-        final Map<String, Set<GreetingIssuer>> issuersByChannel = issuers.stream()
-                                                                         .collect(Collectors.groupingBy(
-                                                                                 GreetingIssuer::getChannelId,
-                                                                                 Collectors.toSet()
-                                                                         ));
-
-        issuersByChannel.forEach((c, g) -> {
-            g.stream().findFirst().map(GreetingIssuer::getExecutionIO)
-             .ifPresent(io -> {
-                 final String userList = g.stream().map(GreetingIssuer::getHighlightedUserName).collect(Collectors.joining(", "));
-                 io.print("Salut " + userList + ".");
-             });
-        });
-
+        private static final ImmutableMap<String, Function1<? super User, String>> SPECIAL_MESSAGES =
+                ImmutableMap.<String, Function1<? super User, String>>builder()
+                        .put("ghostcatfr", u -> "Bonjour " + u.getHighlightedUserName() + " ! Est-ce que tu as passé une bonne journée ?")
+                        .build();
     }
-
 
 }

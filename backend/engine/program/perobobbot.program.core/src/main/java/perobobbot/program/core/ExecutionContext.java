@@ -40,7 +40,7 @@ public interface ExecutionContext extends ExecutionIO {
     String getMessage();
 
     @NonNull
-    String getChannelId();
+    ChannelInfo getChannelInfo();
 
     default boolean isConsumed() {
         return false;

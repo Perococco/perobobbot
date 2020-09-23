@@ -5,6 +5,7 @@ import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.User;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.program.core.ChannelInfo;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.twitch.chat.TwitchChatIO;
 import perobobbot.twitch.chat.TwitchUser;
@@ -22,12 +23,18 @@ public class TwitchExecutionContext implements ExecutionContext {
     private final ReceivedMessage<PrivMsgFromTwitch> reception;
 
     @Getter
+    @NonNull
     private final User executingUser;
+
+    @Getter
+    @NonNull
+    private final ChannelInfo channelInfo;
 
     public TwitchExecutionContext(@NonNull TwitchChatIO twitchChatIO, @NonNull ReceivedMessage<PrivMsgFromTwitch> reception) {
         this.twitchChatIO = twitchChatIO;
         this.reception = reception;
         this.executingUser = TwitchUser.createFromPrivateMessage(reception.getMessage());
+        this.channelInfo = new ChannelInfo("TWITCH",reception.getMessage().getChannel().getName());
     }
 
     @Override
@@ -48,11 +55,6 @@ public class TwitchExecutionContext implements ExecutionContext {
     @Override
     public @NonNull String getMessage() {
         return reception.getMessage().getPayload();
-    }
-
-    @Override
-    public @NonNull String getChannelId() {
-        return "TWITCH - "+reception.getMessage().getChannel().getName();
     }
 
     @Override

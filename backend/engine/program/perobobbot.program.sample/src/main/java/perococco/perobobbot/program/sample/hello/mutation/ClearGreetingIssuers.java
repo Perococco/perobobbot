@@ -1,5 +1,6 @@
 package perococco.perobobbot.program.sample.hello.mutation;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.common.lang.Mutation;
@@ -13,9 +14,9 @@ public class ClearGreetingIssuers implements Mutation<HelloState> {
 
     @Override
     public @NonNull HelloState mutate(@NonNull HelloState state) {
-        if (state.getGreetingIssuers().isEmpty()) {
+        if (state.getGreetingsPerChannel().isEmpty()) {
             return state;
         }
-        return new HelloState(state.getAlreadyGreeted(), ImmutableSet.of());
+        return new HelloState(state.getAlreadyGreeted(), ImmutableMap.of());
     }
 }

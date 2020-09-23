@@ -3,12 +3,12 @@ package perococco.perobobbot.common.lang;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.common.lang.MutatedStateGetter;
+import perobobbot.common.lang.GetterOnOldState;
+import perobobbot.common.lang.GetterOnStates;
 import perobobbot.common.lang.Mutation;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function0;
-import perobobbot.common.lang.fp.Function1;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.CompletableFuture;
@@ -80,8 +80,8 @@ public class DefaultUpdater<R> implements Updater<R> {
             @NonNull Mutation<R> mutation,
             @NonNull Function0<? extends R> rootStateGetter,
             @NonNull Consumer1<? super R> newRootStateConsumer,
-            @NonNull MutatedStateGetter<? super R, ? extends S> subStateGetter) {
-        final Update<R, S> update = new Update<>(rootStateGetter, newRootStateConsumer, mutation, subStateGetter);
+            @NonNull GetterOnStates<? super R, ? extends S> getterOnStates) {
+        final Update<R, S> update = new Update<>(rootStateGetter, newRootStateConsumer, mutation, getterOnStates);
         final UpdateInformation<R,S> updateInformation = new UpdateInformation<>(update, new CompletableFuture<>());
         runLocked(() -> {
             if (isRunning()) {

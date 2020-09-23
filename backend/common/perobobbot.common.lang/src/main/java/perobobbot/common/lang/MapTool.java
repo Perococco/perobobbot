@@ -3,6 +3,8 @@ package perobobbot.common.lang;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function0;
+import perobobbot.common.lang.fp.UnaryOperator1;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -56,34 +58,39 @@ public class MapTool {
               .collect(entryCollector());
     }
 
-
     @NonNull
-    public static <K,V> ImmutableMap<K,V> add(@NonNull ImmutableMap<K,V> source, @NonNull K keyToAdd, @NonNull V valueToAdd) {
+    public static <K,V> ImmutableMap<K,V> add(@NonNull ImmutableMap<K,V> source,
+                                              @NonNull K keyToAdd,
+                                              @NonNull Function0<? extends V> valueSupplier,
+                                              @NonNull UnaryOperator1<V> valueMutator) {
         if (source.isEmpty()) {
-            return ImmutableMap.of(keyToAdd,valueToAdd);
+            return ImmutableMap.of(keyToAdd,valueSupplier.f());
         }
         final V existingValue = source.get(keyToAdd);
-
         if (existingValue == null) {
             return ImmutableMap.<K,V>builder()
                     .putAll(source)
-                    .put(keyToAdd,valueToAdd)
+                    .put(keyToAdd,valueSupplier.f())
                     .build();
         }
-        else if (valueToAdd.equals(existingValue)) {
+        final V newValue = valueMutator.f(existingValue);
+        if (newValue == existingValue) {
             return source;
         }
         else {
             final ImmutableMap.Builder<K,V> builder = ImmutableMap.builder();
             for (Map.Entry<K, V> entry : source.entrySet()) {
                 final K key = entry.getKey();
-                final V value = key.equals(keyToAdd)?valueToAdd:entry.getValue();
-
+                final V value = key.equals(keyToAdd)?newValue:entry.getValue();
                 builder.put(key,value);
             }
-
             return builder.build();
         }
+    }
+
+    @NonNull
+    public static <K,V> ImmutableMap<K,V> add(@NonNull ImmutableMap<K,V> source, @NonNull K keyToAdd, @NonNull V valueToAdd) {
+        return add(source,keyToAdd,() -> valueToAdd, v -> valueToAdd);
     }
 
     @NonNull

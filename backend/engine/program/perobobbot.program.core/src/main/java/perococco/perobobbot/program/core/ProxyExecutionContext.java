@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.User;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.program.core.ChannelInfo;
 import perobobbot.program.core.ExecutionContext;
 
 import java.time.Instant;
@@ -43,8 +44,8 @@ public class ProxyExecutionContext implements ExecutionContext {
     }
 
     @Override
-    public @NonNull String getChannelId() {
-        return delegate.getChannelId();
+    public @NonNull ChannelInfo getChannelInfo() {
+        return delegate.getChannelInfo();
     }
 
     @Override
