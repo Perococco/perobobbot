@@ -12,8 +12,16 @@ public interface Program {
     @NonNull
     String getName();
 
+    /**
+     * start the program.
+     * launch the background task associated with it
+     */
     void start();
 
+    /**
+     * stop the program.
+     * stop the background task associated with it
+     */
     void stop();
 
     /**
@@ -40,13 +48,14 @@ public interface Program {
 
     /**
      * @param executionContext the execution context containing information like the user executing the action
-     * @param instructionName the name of the instruction to execute
-     * @param parameters the parameters of the instruction
+     * @param instructionName  the name of the instruction to execute
+     * @param parameters       the parameters of the instruction
      */
     void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
 
     /**
      * Called only if the execution context has not been used by any instruction of any registered programs
+     *
      * @param executionContext the current execution context
      * @return the execution context to pass to this method of the next program.
      */
@@ -55,9 +64,11 @@ public interface Program {
 
     /**
      * Create a builder of a program
-     * @param programState the state of the program. Pass to {@link Instruction.Factory#create(Object)}
-     *                      when added to this builder
-     * @param <I> the type of the state of the program
+     *
+     * @param programState the state of the program. Passed to {@link Instruction.Factory#create(Object)}
+     *                     and {@link BackgroundTask.Factory#create(Object)}
+     *                     when added to this builder
+     * @param <I>          the type of the state of the program
      * @return a program builder
      */
     @NonNull

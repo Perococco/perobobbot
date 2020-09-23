@@ -13,7 +13,7 @@ Provides an implementation of the core API using websocket
 
 == Core API
 The core API defines 2 main interfaces `ChatIO` and `Chat`.
-The `ChatIO` interface offers method to send and to listen to incoming messages:
+The `ChatIO` interface offers methods to send and to listen to incoming messages:
 
 .ChatIO Interface
 [source,java]
@@ -68,3 +68,4 @@ public interface Chat extends ChatIO {
 }
 ----
 
+== Advanced API

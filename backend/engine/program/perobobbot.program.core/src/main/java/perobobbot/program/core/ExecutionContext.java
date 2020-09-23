@@ -6,16 +6,27 @@ import perococco.perobobbot.program.core.ConsumedExecutionContext;
 
 import java.time.Instant;
 
+/**
+ * Information about the context the execution
+ * is performed in
+ */
 public interface ExecutionContext extends ExecutionIO {
 
+    /**
+     * @return true if the executing user is at the origin of
+     * this execution.
+     */
     boolean executingUserIsMe();
 
     /**
-     * @return the user that initiate the execution
+     * @return the user that initiated the execution
      */
     @NonNull
     User getExecutingUser();
 
+    /**
+     * @return the id of the user that initiated the execution
+     */
     @NonNull
     default String getExecutingUserId() {
         return getExecutingUser().getUserId();
@@ -39,9 +50,15 @@ public interface ExecutionContext extends ExecutionIO {
     @NonNull
     String getMessage();
 
+    /**
+     * @return information regarding the channel the execution has been initiated from
+     */
     @NonNull
     ChannelInfo getChannelInfo();
 
+    /**
+     * @return true if the execution has been consumed and should be ignored afterward
+     */
     default boolean isConsumed() {
         return false;
     }

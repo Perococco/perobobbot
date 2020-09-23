@@ -8,14 +8,11 @@ import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.program.core.ExecutionPolicy;
 
-import java.security.Policy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static perobobbot.program.core.ExecutionPolicy.DEFAULT_COOLDOWN;
 
 /**
  * Information regarding an instruction.
@@ -52,7 +49,7 @@ public class ExecutionInfo {
     public ExecutionInfo(@NonNull String instructionName, @NonNull ExecutionPolicy policy) {
         this.instructionName = instructionName;
         this.policy = policy;
-        this.maxUserCoolDown = policy.maxPerRoleCooldown().orElse(Duration.ZERO);
+        this.maxUserCoolDown = policy.maxCooldownForRole().orElse(Duration.ZERO);
     }
 
     /**
@@ -75,16 +72,6 @@ public class ExecutionInfo {
         return true;
     }
 
-    @NonNull
-    private Optional<Duration> findCoolDownFor(@NonNull User executor) {
-        return Role.rolesFromHighestToLowest()
-                   .stream()
-                   .filter(executor::canActAs)
-                   .map(policy::findCoolDown)
-                   .flatMap(Optional::stream)
-                   .findFirst();
-    }
-
     private boolean userPolicyFailed(@NonNull User executor) {
         return !executor.canActAs(policy.getRequiredRole());
     }
@@ -100,7 +87,7 @@ public class ExecutionInfo {
             return false;
         }
         final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-        final Duration userCoolDown = findCoolDownFor(executor).orElse(policy.getGlobalCoolDown());
+        final Duration userCoolDown = policy.findForUserOrGlobalCoolDown(executor);
 
         return durationSinceLastExecution.compareTo(userCoolDown) < 0;
     }

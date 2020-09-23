@@ -5,7 +5,7 @@ import lombok.NonNull;
 import java.time.Duration;
 
 /**
- * an {@link AdvancedChatIO} with method to control the state of the chat (started/stopped)
+ * an {@link AdvancedChatIO} with methods to control the state of the chat (started/stopped)
  * @param <M>
  */
 public interface AdvancedChat<M> extends AdvancedChatIO<M> {

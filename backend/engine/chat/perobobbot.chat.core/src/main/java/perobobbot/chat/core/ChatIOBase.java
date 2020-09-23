@@ -6,7 +6,7 @@ import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Subscription;
 
 /**
- * Chat implementing the listener part of the Chat interface.
+ * Chat implementing the listener part of the {@link ChatIO} interface.
  * It provides a method to warn the listener that can be
  * used by class extending <code>this</code> :
  *

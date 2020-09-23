@@ -2,6 +2,9 @@ package perobobbot.program.core;
 
 import lombok.NonNull;
 
+/**
+ * A single instruction.
+ */
 public interface Instruction {
 
     interface Factory<S> {
@@ -21,6 +24,9 @@ public interface Instruction {
      */
     void execute(@NonNull ExecutionContext executionContext, @NonNull String parameters);
 
+    /**
+     * @return the execution policy of this instruction (who can executed this instruction, how often...)
+     */
     @NonNull
     ExecutionPolicy getExecutionPolicy();
 }

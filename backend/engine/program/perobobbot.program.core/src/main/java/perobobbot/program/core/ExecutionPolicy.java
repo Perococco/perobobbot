@@ -7,8 +7,10 @@ import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
 import perobobbot.common.lang.Role;
+import perobobbot.common.lang.User;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.Optional;
 
 @Value
@@ -48,15 +50,30 @@ public class ExecutionPolicy {
         return ExecutionPolicy.builder().globalCoolDown(duration).build();
     }
 
-
     @NonNull
-    public Optional<Duration> findCoolDown(@NonNull Role role) {
-        return Optional.ofNullable(coolDowns.get(role));
-    }
-
-    @NonNull
-    public Optional<Duration> maxPerRoleCooldown() {
+    public Optional<Duration> maxCooldownForRole() {
         return coolDowns.values().stream().max(Duration::compareTo);
     }
+
+    @NonNull
+    public Optional<Duration> findCoolDownFor(@NonNull User executor) {
+        return Role.rolesFromHighestToLowest()
+                   .stream()
+                   .filter(executor::canActAs)
+                   .map(coolDowns::get)
+                   .filter(Objects::nonNull)
+                   .findFirst();
+    }
+
+    /**
+     * @param user the user to retrieve the cooldown from
+     * @return the cooldown for the provided user according to his role or the global cooldown if none is sets
+     */
+    @NonNull
+    public Duration findForUserOrGlobalCoolDown(@NonNull User user) {
+        return findCoolDownFor(user).orElse(globalCoolDown);
+    }
+
+
 }
 

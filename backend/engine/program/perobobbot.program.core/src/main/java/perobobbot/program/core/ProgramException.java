@@ -3,6 +3,9 @@ package perobobbot.program.core;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * Exception thrown when an error occurred in a program
+ */
 public class ProgramException extends RuntimeException {
 
     @NonNull

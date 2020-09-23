@@ -22,7 +22,7 @@ public interface AdvancedChatIO<M> {
      * Send a request
      * @param request the request to send
      * @return a {@link CompletionStage} that completes when the answer to the request
-     * is received
+     * is received or the request timed out
      */
     @NonNull
     <A> CompletionStage<ReceiptSlip<A>> sendRequest(@NonNull Request<A> request);

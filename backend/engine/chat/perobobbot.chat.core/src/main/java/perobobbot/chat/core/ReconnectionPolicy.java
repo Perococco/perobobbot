@@ -18,11 +18,11 @@ public interface ReconnectionPolicy {
     boolean shouldReconnect(int nbAttemptsSoFar);
 
     /**
-     * @param nexAttemptIndex the next attempts index (starts from 1 during a reconnection process)
+     * @param nextAttemptIndex the next attempts index (starts from 1 during a reconnection process)
      * @return the delay before trying a connection
      */
     @NonNull
-    Duration delayBeforeNextAttempt(int nexAttemptIndex);
+    Duration delayBeforeNextAttempt(int nextAttemptIndex);
 
     @NonNull
     ReconnectionPolicy NO_RECONNECTION = with(i -> false, i -> Duration.ZERO);
@@ -36,8 +36,8 @@ public interface ReconnectionPolicy {
             }
 
             @Override
-            public @NonNull Duration delayBeforeNextAttempt(int nexAttemptIndex) {
-                return durationProvider.apply(nexAttemptIndex);
+            public @NonNull Duration delayBeforeNextAttempt(int nextAttemptIndex) {
+                return durationProvider.apply(nextAttemptIndex);
             }
         };
     }

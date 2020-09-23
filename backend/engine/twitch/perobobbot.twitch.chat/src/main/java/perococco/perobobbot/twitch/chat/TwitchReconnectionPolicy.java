@@ -13,10 +13,10 @@ public class TwitchReconnectionPolicy implements ReconnectionPolicy {
     }
 
     @Override
-    public @NonNull Duration delayBeforeNextAttempt(int nexAttemptIndex) {
-        if (nexAttemptIndex <= 1) {
+    public @NonNull Duration delayBeforeNextAttempt(int nextAttemptIndex) {
+        if (nextAttemptIndex <= 1) {
             return Duration.ZERO;
         }
-        return Duration.ofSeconds(1<<(Math.min(30,nexAttemptIndex-2)));
+        return Duration.ofSeconds(1<<(Math.min(30, nextAttemptIndex - 2)));
     }
 }

@@ -4,6 +4,13 @@ import lombok.NonNull;
 import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.common.lang.fp.Function1;
 
+/**
+ * The I/O of the execution that can be used to send message back to the channel
+ * from which the execution has been initiated.
+ *
+ * For instance, if the execution is the result of a command on a chat, this I/O
+ * can be used to send a message on the chat the command has been written in
+ */
 public interface ExecutionIO {
 
     /**
