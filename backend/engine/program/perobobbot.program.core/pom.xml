@@ -25,6 +25,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-service-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

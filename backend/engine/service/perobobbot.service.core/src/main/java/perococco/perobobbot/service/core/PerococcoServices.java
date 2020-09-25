@@ -1,7 +1,6 @@
 package perococco.perobobbot.service.core;
 
 import com.google.common.collect.ImmutableMap;
-import jdk.jfr.Registered;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.service.core.Services;

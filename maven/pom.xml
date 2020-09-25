@@ -96,6 +96,11 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-service-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
