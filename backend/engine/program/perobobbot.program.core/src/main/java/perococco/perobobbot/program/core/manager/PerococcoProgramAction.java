@@ -8,6 +8,7 @@ import perobobbot.common.lang.IO;
 import perobobbot.program.core.ProgramAction;
 import perococco.perobobbot.program.core.ManagerIdentity;
 import perococco.perobobbot.program.core.manager.mutation.StartAllProgramMutation;
+import perococco.perobobbot.program.core.manager.mutation.StartProgramMutation;
 import perococco.perobobbot.program.core.manager.mutation.StopAllProgramMutation;
 import perococco.perobobbot.program.core.manager.mutation.StopProgramMutation;
 
@@ -24,7 +25,7 @@ public class PerococcoProgramAction implements ProgramAction {
 
     @Override
     public void startProgram(@NonNull String programName) {
-        managerIdentity.mutate(new StartAllProgramMutation());
+        managerIdentity.mutate(new StartProgramMutation(programName));
     }
 
     @Override
