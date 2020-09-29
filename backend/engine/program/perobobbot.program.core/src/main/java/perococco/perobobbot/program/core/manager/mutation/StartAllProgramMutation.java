@@ -13,7 +13,7 @@ public class StartAllProgramMutation implements Mutation<ManagerState> {
         final ImmutableList<Program> disabledPrograms = state.getDisabledPrograms();
         try {
             disabledPrograms.forEach(Program::start);
-            return state.toBuilder().namesOfEnabledPrograms(state.programNames()).build();
+            return state.toBuilder().namesOfEnabledPrograms(state.getProgramNames()).build();
         } catch (Throwable t) {
             disabledPrograms.forEach(Program::stop);
             throw t;

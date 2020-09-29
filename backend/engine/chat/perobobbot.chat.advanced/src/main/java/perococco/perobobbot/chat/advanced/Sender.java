@@ -5,11 +5,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import perobobbot.chat.advanced.AdvancedChatListener;
-import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.chat.advanced.AdvancedDispatchContext;
 import perobobbot.chat.advanced.event.Error;
 import perobobbot.chat.advanced.event.PostedMessage;
 import perobobbot.chat.core.ChatIO;
 import perobobbot.chat.core.ChatNotConnected;
+import perobobbot.common.lang.DispatchContext;
 import perobobbot.common.lang.Listeners;
 import perobobbot.common.lang.Looper;
 
@@ -93,7 +94,7 @@ public class Sender<M> extends Looper {
     }
 
     private void postMessageToChat(@NonNull PostData<?,M> postData) {
-        final DispatchContext dispatchContext = new DispatchContext(Instant.now());
+        final DispatchContext dispatchContext = new AdvancedDispatchContext(Instant.now());
         chat.postMessage(postData.messagePayload(dispatchContext));
     }
 

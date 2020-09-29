@@ -3,5 +3,7 @@ module perobobbot.service.core {
     requires java.desktop;
     requires com.google.common;
 
+    requires perobobbot.common.lang;
+
     exports perobobbot.service.core;
 }

@@ -3,7 +3,7 @@ package perobobbot.chat.advanced.event;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.chat.advanced.AdvancedDispatchContext;
 import perobobbot.chat.advanced.Message;
 
 import java.time.Instant;
@@ -31,7 +31,7 @@ public class PostedMessage<M> implements AdvancedChatEvent<M> {
 
     @Override
     public String toString() {
-        final String payload = postedMessage.payload(DispatchContext.NIL);
+        final String payload = postedMessage.payload(AdvancedDispatchContext.NIL);
         final int idx = payload.indexOf("PASS");
         final String value;
         if (idx >= 0) {

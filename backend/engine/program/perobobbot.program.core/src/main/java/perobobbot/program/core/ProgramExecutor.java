@@ -1,32 +1,22 @@
 package perobobbot.program.core;
 
 import lombok.NonNull;
+import perobobbot.common.lang.MessageContext;
+import perobobbot.service.core.Services;
 import perococco.perobobbot.program.core.PerococcoProgramExecutor;
 
-public interface ProgramExecutor {
+public interface ProgramExecutor extends ProgramAction {
 
-    @NonNull
-    static ProgramExecutor create(@NonNull String prefixForManager, @NonNull String prefixForPrograms) {
-        return new PerococcoProgramExecutor(prefixForManager,prefixForPrograms);
+    static ProgramExecutor create(@NonNull Services services) {
+        return PerococcoProgramExecutor.create(services);
     }
-
-    @NonNull
-    static ProgramExecutor create() {
-        return new PerococcoProgramExecutor("#","!");
-    }
-
-    /**
-     * Register a program to this executor
-     * @param program the program to register
-     */
-    void registerProgram(@NonNull Program program);
 
     /**
      * call this program executor. The provided context
      * is used to determine the right program to call
      * as well as the parameters to pass to this program
      */
-    void handleMessage(@NonNull ExecutionContext executionContext);
+    void handleMessage(@NonNull MessageContext messageContext);
 
     void stop();
 

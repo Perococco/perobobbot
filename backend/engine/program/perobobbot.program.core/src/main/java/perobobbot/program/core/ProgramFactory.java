@@ -7,11 +7,23 @@ import perobobbot.service.core.Services;
 public interface ProgramFactory {
 
     @NonNull
-    ImmutableSet<Class<? extends Object>> requiredServices();
+    String programName();
 
     @NonNull
-    ImmutableSet<Class<? extends Object>> optionalServices();
-
     Program create(@NonNull Services services);
+
+    default boolean isAutoStart() {
+        return false;
+    }
+
+    @NonNull
+    default ImmutableSet<Class<?>> requiredServices() {
+        return ImmutableSet.of();
+    }
+
+    @NonNull
+    default ImmutableSet<Class<?>> optionalServices() {
+        return ImmutableSet.of();
+    }
 
 }

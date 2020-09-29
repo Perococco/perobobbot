@@ -7,6 +7,7 @@ module perobobbot.server {
     requires spring.web;
     requires spring.security.core;
     requires spring.security.config;
+    requires spring.messaging;
     requires spring.boot;
     requires spring.boot.autoconfigure;
 
@@ -41,7 +42,7 @@ module perobobbot.server {
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
 
@@ -56,6 +57,8 @@ module perobobbot.server {
 //    requires java.persistence;
     requires jakarta.activation;
     requires perobobbot.twitch.chat.program;
+    requires spring.integration.core;
+    requires perobobbot.service.core;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

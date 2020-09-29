@@ -2,8 +2,8 @@ package perobobbot.twitch.chat.message.to;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.chat.advanced.Message;
+import perobobbot.common.lang.DispatchContext;
 
 /**
  * @author perococco

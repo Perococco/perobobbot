@@ -7,6 +7,7 @@ import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.ChatFactory;
+import perobobbot.common.lang.DispatchContext;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.common.lang.fp.TryResult;

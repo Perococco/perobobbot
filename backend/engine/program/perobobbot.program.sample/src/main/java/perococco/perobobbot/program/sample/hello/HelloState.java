@@ -2,10 +2,11 @@ package perococco.perobobbot.program.sample.hello;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import lombok.*;
-import perobobbot.program.core.ChannelInfo;
-
-import java.util.Optional;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.ChannelInfo;
+import perobobbot.common.lang.User;
 
 @RequiredArgsConstructor
 public class HelloState {
@@ -16,7 +17,13 @@ public class HelloState {
 
     @NonNull
     @Getter
-    private final ImmutableMap<ChannelInfo,ChannelGreetings> greetingsPerChannel;
+    private final ImmutableMap<ChannelInfo,ImmutableSet<User>> greetersPerChannel;
+
+    @NonNull
+    public ImmutableSet<User> getGreetersOnChannel(@NonNull ChannelInfo channelInfo) {
+        return greetersPerChannel.getOrDefault(channelInfo, ImmutableSet.of());
+    }
+
 
     @NonNull
     public static HelloState empty() {
@@ -25,9 +32,5 @@ public class HelloState {
 
     private static final HelloState EMPTY = new HelloState(ImmutableSet.of(),ImmutableMap.of());
 
-    @NonNull
-    public Optional<ChannelGreetings> greetingOnChannel(@NonNull ChannelInfo channelInfo) {
-        return Optional.ofNullable(greetingsPerChannel.get(channelInfo));
-    }
 
 }

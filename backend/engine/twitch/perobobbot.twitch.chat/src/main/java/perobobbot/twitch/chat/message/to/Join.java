@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat.message.to;
 
 import lombok.NonNull;
-import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.common.lang.DispatchContext;
 import perobobbot.common.lang.fp.TryResult;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.ChannelSpecific;

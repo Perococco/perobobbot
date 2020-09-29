@@ -1,8 +1,11 @@
 package perobobbot.program.core;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function1;
+import perobobbot.service.core.Services;
 import perococco.perobobbot.program.core.PerococcoProgramBuilder;
+
+import java.util.Optional;
 
 public interface Program {
 
@@ -25,56 +28,26 @@ public interface Program {
     void stop();
 
     /**
-     * @return the set of all instructions of this program
+     * method call periodically to perform
+     * maintenance clean up
      */
-    @NonNull
-    ImmutableSet<String> getInstructionNames();
+    void cleanUp();
 
     /**
-     * @param name a name of an instruction
-     * @return true if this program has an instruction with the provided name, false otherwise
+     * Find the chat command with the specific name
+     * @param commandName the name of the chat command to find
+     * @return an optional containing the chat command with the provided name if any, an empty optional otherwise
      */
-    default boolean hasInstruction(@NonNull String name) {
-        return getInstructionNames().contains(name);
+    Optional<ChatCommand> findChatCommand(@NonNull String commandName);
+
+    @NonNull
+    MessageHandler getMessageHandler();
+
+    static <P> ProgramBuilder<P> builder(@NonNull Function1<? super Services, ? extends P> parameterFactory) {
+        return new PerococcoProgramBuilder<>(parameterFactory);
     }
 
-    /**
-     * @param instructionName the name of an instruction
-     * @return the {@link ExecutionPolicy} of the instruction with the given name
-     * @throws UnknownInstruction if no instruction with the provided name exists for this program
-     */
-    @NonNull
-    ExecutionPolicy getExecutionPolicy(@NonNull String instructionName);
-
-    /**
-     * @param executionContext the execution context containing information like the user executing the action
-     * @param instructionName  the name of the instruction to execute
-     * @param parameters       the parameters of the instruction
-     */
-    void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters);
-
-    /**
-     * Called only if the execution context has not been used by any instruction of any registered programs
-     *
-     * @param executionContext the current execution context
-     * @return the execution context to pass to this method of the next program.
-     */
-    @NonNull
-    ExecutionContext handleMessage(@NonNull ExecutionContext executionContext);
-
-    /**
-     * Create a builder of a program
-     *
-     * @param programState the state of the program. Passed to {@link Instruction.Factory#create(Object)}
-     *                     and {@link BackgroundTask.Factory#create(Object)}
-     *                     when added to this builder
-     * @param <I>          the type of the state of the program
-     * @return a program builder
-     */
-    @NonNull
-    static <I> ProgramBuilder<I> builder(@NonNull I programState) {
-        return new PerococcoProgramBuilder<>(programState);
+    static <P> ProgramBuilder<P> builder(@NonNull P parameter) {
+        return builder(s -> parameter);
     }
-
-
 }

@@ -2,7 +2,7 @@ package perobobbot.twitch.chat.message.to;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.common.lang.DispatchContext;
 import perobobbot.twitch.chat.Capability;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.IRCCommand;

@@ -1,70 +1,69 @@
 package perobobbot.program.core;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.ChannelInfo;
+import perobobbot.common.lang.MessageContext;
 import perobobbot.common.lang.User;
-import perococco.perobobbot.program.core.ConsumedExecutionContext;
 
 import java.time.Instant;
+import java.util.Optional;
 
 /**
  * Information about the context the execution
  * is performed in
  */
-public interface ExecutionContext extends ExecutionIO {
+@RequiredArgsConstructor
+public class ExecutionContext {
 
-    /**
-     * @return true if the executing user is at the origin of
-     * this execution.
-     */
-    boolean executingUserIsMe();
-
-    /**
-     * @return the user that initiated the execution
-     */
     @NonNull
-    User getExecutingUser();
-
-    /**
-     * @return the id of the user that initiated the execution
-     */
-    @NonNull
-    default String getExecutingUserId() {
-        return getExecutingUser().getUserId();
+    public static Optional<ExecutionContext> from(@NonNull MessageContext messageContext) {
+        final String[] content = messageContext.getContent().split(" ",2);
+        if (content.length == 0) {
+            return Optional.empty();
+        }
+        final String parameters = content.length>1?content[1]:"";
+        return Optional.of(new ExecutionContext(messageContext, content[0], parameters));
     }
 
-    /**
-     * @return the instant of reception of the message
-     */
-    @NonNull
-    Instant getReceptionTime();
+    @Getter
+    private final @NonNull MessageContext messageContext;
 
     /**
-     * @return the raw payload received from the chat (for Twitch this might include badges)
+     * @return the name of the command
      */
-    @NonNull
-    String getRawPayload();
+    @Getter
+    private final @NonNull String commandName;
 
     /**
-     * @return the content of the private message
+     * @return the rest of the content after the command name
      */
-    @NonNull
-    String getMessage();
+    @Getter
+    private final @NonNull String parameters;
 
-    /**
-     * @return information regarding the channel the execution has been initiated from
-     */
     @NonNull
-    ChannelInfo getChannelInfo();
-
-    /**
-     * @return true if the execution has been consumed and should be ignored afterward
-     */
-    default boolean isConsumed() {
-        return false;
+    public ChannelInfo getChannelInfo() {
+        return messageContext.getChannelInfo();
     }
 
     @NonNull
-    default ExecutionContext consumed() {
-        return new ConsumedExecutionContext(this);
+    public User getMessageOwner() {
+        return messageContext.getMessageOwner();
+    }
+
+    @NonNull
+    public String getMessageOwnerId() {
+        return getMessageOwner().getUserId();
+    }
+
+    @NonNull
+    public String getMessageContent() {
+        return messageContext.getContent();
+    }
+
+    @NonNull
+    public Instant getReceptionTime() {
+        return messageContext.getReceptionTime();
     }
 }

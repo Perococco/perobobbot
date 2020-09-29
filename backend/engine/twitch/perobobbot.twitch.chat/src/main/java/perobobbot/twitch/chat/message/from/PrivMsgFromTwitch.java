@@ -39,6 +39,10 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
         return IRCCommand.PRIVMSG;
     }
 
+    public @NonNull String getChannelName() {
+        return channel.getName();
+    }
+
     @Override
     public <T> T accept(@NonNull MessageFromTwitchVisitor<T> visitor) {
         return visitor.visit(this);
@@ -53,4 +57,5 @@ public class PrivMsgFromTwitch extends KnownMessageFromTwitch implements Channel
                                 .payload(helper.lastParameter())
                                 .build();
     }
+
 }

@@ -12,6 +12,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
 
+    public static <K,V> ImmutableEntry<K,V> of(@NonNull Map.Entry<K,V> entry) {
+        return of(entry.getKey(), entry.getValue());
+    }
+
     public static <K,V> ImmutableEntry<K,V> of(@NonNull K key, @NonNull V value) {
         return new ImmutableEntry<>(key,value);
     }

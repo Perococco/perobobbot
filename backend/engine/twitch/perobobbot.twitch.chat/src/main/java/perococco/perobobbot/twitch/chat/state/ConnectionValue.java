@@ -33,18 +33,15 @@ public class ConnectionValue implements TwitchChatState {
     );
 
 
-    @NonNull
-    private final ConnectionIdentity.State state;
+    @NonNull ConnectionIdentity.State state;
 
-    private final IO io;
+    IO io;
 
-    private final String userName;
+    String userName;
 
-    @NonNull
-    private final ImmutableMap<Channel, UserState> joinedChannels;
+    @NonNull ImmutableMap<Channel, UserState> joinedChannels;
 
-    @NonNull
-    private final Subscription subscription;
+    @NonNull Subscription subscription;
 
 
     @NonNull

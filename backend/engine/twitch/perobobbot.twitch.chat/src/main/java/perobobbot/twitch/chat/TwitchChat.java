@@ -5,6 +5,7 @@ import perococco.perobobbot.twitch.chat.PerococcoTwitchChat;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 
 public interface TwitchChat extends TwitchChatIO {
 
@@ -20,6 +21,10 @@ public interface TwitchChat extends TwitchChatIO {
 
     @NonNull
     CompletionStage<TwitchChatIO> start();
+
+    default TwitchChatIO startAndWait() throws ExecutionException, InterruptedException {
+        return start().toCompletableFuture().get();
+    }
 
     void requestStop();
 }

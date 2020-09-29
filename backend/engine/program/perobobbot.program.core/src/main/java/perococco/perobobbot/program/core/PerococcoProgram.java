@@ -1,11 +1,15 @@
 package perococco.perobobbot.program.core;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.program.core.*;
+import perobobbot.program.core.BackgroundTask;
+import perobobbot.program.core.ChatCommand;
+import perobobbot.program.core.MessageHandler;
+import perobobbot.program.core.Program;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PerococcoProgram implements Program {
@@ -15,41 +19,16 @@ public class PerococcoProgram implements Program {
     private final String name;
 
     @NonNull
-    private final ImmutableMap<String, Instruction> instructions;
+    private final BackgroundTask backgroundTask;
 
     @NonNull
-    private final BackgroundTask backgroundTask;
+    private final ImmutableMap<String, CommandWithPolicyHandling> chatCommands;
 
     @NonNull
     private final MessageHandler messageHandler;
 
-    @Override
-    public @NonNull ImmutableSet<String> getInstructionNames() {
-        return instructions.keySet();
-    }
-
-    @Override
-    public void execute(@NonNull ExecutionContext executionContext, @NonNull String instructionName, @NonNull String parameters) {
-        getInstruction(instructionName).execute(executionContext,parameters);
-    }
-
-    @Override
-    public @NonNull ExecutionPolicy getExecutionPolicy(@NonNull String instructionName) {
-        return getInstruction(instructionName).getExecutionPolicy();
-    }
-
-    @NonNull
-    private Instruction getInstruction(@NonNull String instructionName) {
-        final Instruction instruction = instructions.get(instructionName);
-        if (instruction == null) {
-            throw new UnknownInstruction(this.getName(), instructionName);
-        }
-        return instruction;
-    }
-
-    @Override
-    public @NonNull ExecutionContext handleMessage(@NonNull ExecutionContext executionContext) {
-        return messageHandler.handleMessage(executionContext);
+    public void cleanUp() {
+        chatCommands.values().forEach(CommandWithPolicyHandling::cleanup);
     }
 
     @Override
@@ -60,6 +39,16 @@ public class PerococcoProgram implements Program {
     @Override
     public void stop() {
         backgroundTask.stop();
+    }
+
+    @Override
+    public Optional<ChatCommand> findChatCommand(@NonNull String commandName) {
+        return Optional.ofNullable(chatCommands.get(commandName));
+    }
+
+    @Override
+    public @NonNull MessageHandler getMessageHandler() {
+        return messageHandler;
     }
 
     @Override

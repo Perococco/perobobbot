@@ -1,11 +1,10 @@
 package perobobbot.program.core;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.common.lang.ThreadFactories;
+import perobobbot.service.core.Services;
 import perococco.perobobbot.program.core.MultiBackground;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -18,9 +17,9 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public interface BackgroundTask {
 
-    interface Factory<S> {
+    interface Factory<P> {
         @NonNull
-        BackgroundTask create(@NonNull S programState);
+        BackgroundTask create(@NonNull Services services, @NonNull P programState);
     }
 
     /**

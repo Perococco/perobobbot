@@ -3,53 +3,81 @@ package perococco.perobobbot.program.core;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.ImmutableEntry;
+import perobobbot.common.lang.MapTool;
+import perobobbot.common.lang.fp.Function1;
 import perobobbot.program.core.*;
+import perobobbot.service.core.Services;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
-public class PerococcoProgramBuilder<S> implements ProgramBuilder<S> {
+public class PerococcoProgramBuilder<P> implements ProgramBuilder<P> {
 
-    /**
-     * the state of the program
-     */
-    @NonNull
-    private final S state;
+    private final @NonNull Function1<? super Services, ? extends P> parameterFactory;
 
-    private String name = null;
+    private String name;
 
-    private BackgroundTask backgroundTask = BackgroundTask.NOP;
+    private Services services;
 
-    private final ImmutableMap.Builder<String,Instruction> instructionBuilder = ImmutableMap.builder();
+    private BackgroundTask.@NonNull Factory<P> backgroundTaskFactory = (services, programState) -> BackgroundTask.NOP;
 
-    private MessageHandler messageHandler = e -> e;
+    private final Map<String, ChatCommand.Factory<? super P>> chatCommandFactories = new HashMap<>();
+
+    private MessageHandler.Factory<P> messageHandler = p -> e -> false;
 
     @Override
-    public @NonNull ProgramBuilder<S> name(@NonNull String name) {
+    public @NonNull Program build() {
+        Objects.requireNonNull(name, "Name must not be null");
+        Objects.requireNonNull(services, "Services must not be null");
+        Objects.requireNonNull(parameterFactory, "parameterFactory must not be null");
+
+        final P parameter = parameterFactory.f(services);
+        final ImmutableMap<String, CommandWithPolicyHandling> chatCommands = chatCommandFactories.entrySet()
+                                                                                   .stream()
+                                                                                   .map(ImmutableEntry::of)
+                                                                                   .map(e -> e.map(f -> f.create(e.getKey(),parameter)))
+                                                                                   .map(e -> e.map(CommandWithPolicyHandling::new))
+                                                                                   .collect(MapTool.entryCollector());
+        return new PerococcoProgram(
+                name,
+                backgroundTaskFactory.create(services, parameter),
+                chatCommands,
+                messageHandler.create(parameter)
+        );
+    }
+
+
+    @Override
+    public @NonNull ProgramBuilder<P> setName(@NonNull String name) {
         this.name = name;
         return this;
     }
 
     @Override
-    public @NonNull ProgramBuilder<S> addBackgroundExecution(BackgroundTask.@NonNull Factory<? super S> factory) {
-        backgroundTask = factory.create(state);
+    public @NonNull ProgramBuilder<P> setServices(@NonNull Services services) {
+        this.services = services;
         return this;
     }
 
     @Override
-    public @NonNull ProgramBuilder<S> addInstruction(@NonNull Instruction.Factory<? super S> factory) {
-        final Instruction instruction = factory.create(state);
-        this.instructionBuilder.put(instruction.getName(), instruction);
+    public @NonNull ProgramBuilder<P> setBackgroundTask(BackgroundTask.@NonNull Factory<P> factory) {
+        this.backgroundTaskFactory = factory;
+        return this;
+    }
+
+
+    @Override
+    public @NonNull ProgramBuilder<P> attachChatCommand(@NonNull String commandName, ChatCommand.@NonNull Factory<P> factory) {
+        this.chatCommandFactories.put(commandName, factory);
         return this;
     }
 
     @Override
-    @NonNull
-    public ProgramBuilder<S> setMessageHandler(MessageHandler.@NonNull Factory<? super S> factory) {
-        messageHandler = factory.create(state);
+    public @NonNull ProgramBuilder<P> setMessageHandler(MessageHandler.@NonNull Factory<P> factory) {
+        this.messageHandler = factory;
         return this;
-    }
-
-    @Override
-    public @NonNull Program build() {
-        return new PerococcoProgram(name, instructionBuilder.build(), backgroundTask, messageHandler);
     }
 }

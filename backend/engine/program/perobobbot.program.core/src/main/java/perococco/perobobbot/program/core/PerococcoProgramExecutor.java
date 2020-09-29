@@ -1,30 +1,53 @@
 package perococco.perobobbot.program.core;
 
 import com.google.common.collect.ImmutableList;
-import lombok.Getter;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import perobobbot.common.lang.SyncExecutor;
-import perobobbot.common.lang.ThreadFactories;
-import perobobbot.common.lang.ThrowableTool;
-import perobobbot.common.lang.fp.Function1;
-import perobobbot.program.core.ExecutionContext;
-import perobobbot.program.core.Program;
-import perobobbot.program.core.ProgramExecutor;
-import perococco.perobobbot.program.core.manager.ManagerProgram;
+import perobobbot.common.lang.*;
+import perobobbot.program.core.*;
+import perobobbot.service.core.Services;
+import perobobbot.service.core.ServicesFilter;
+import perobobbot.service.core.UnknownService;
+import perococco.perobobbot.program.core.manager.PerococcoProgramAction;
+import perococco.perobobbot.program.core.manager.command.*;
 
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Log4j2
 public class PerococcoProgramExecutor implements ProgramExecutor {
+
+    @NonNull
+    public static ProgramExecutor create(@NonNull Services services) {
+        final ImmutableSet.Builder<String> programToStart = ImmutableSet.builder();
+        final ImmutableList.Builder<Program> programs = ImmutableList.builder();
+        for (ProgramFactory programFactory : ServiceLoader.load(ProgramFactory.class)) {
+            try {
+                final Services filteredServices = ServicesFilter.filter(services,
+                                                                        programFactory.requiredServices(),
+                                                                        programFactory.optionalServices()
+                );
+                programs.add(programFactory.create(filteredServices));
+                if (programFactory.isAutoStart()) {
+                    programToStart.add(programFactory.programName());
+                }
+            } catch (UnknownService unknownService) {
+                LOG.error("Could not create program '{}'. Missing required service : '{}'", programFactory.programName(), unknownService.getServiceType());
+            }
+        }
+        return new PerococcoProgramExecutor(services, programs.build(), programToStart.build());
+    }
 
     private static final Marker PROGRAM = MarkerManager.getMarker("PROGRAM");
 
@@ -37,76 +60,81 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
     private final ManagerIdentity managerIdentity;
 
     @NonNull
-    private final ImmutableList<Prefix> prefixes;
+    @Delegate
+    private final ProgramAction programAction;
 
-    private final ProgramWithPolicyHandling managerProgram;
+    @NonNull
+    private final Program programManager;
 
-    public PerococcoProgramExecutor(@NonNull String prefixForManager, @NonNull String prefixForPrograms) {
-        this.managerIdentity = new ManagerIdentity(ManagerState.EMPTY);
-        this.managerProgram = new ProgramWithPolicyHandling(new ManagerProgram(managerIdentity));
 
-        this.prefixes = ImmutableList.of(new Prefix(prefixForManager, i -> Optional.of(managerProgram)),
-                                         new Prefix(prefixForPrograms, this::findEnabledProgramFromInstructionName));
+    public PerococcoProgramExecutor(@NonNull Services services,
+                                    @NonNull ImmutableList<Program> programs,
+                                    @NonNull ImmutableSet<String> programsToStart) {
+        this.managerIdentity = new ManagerIdentity(ManagerState.noneStarted(programs));
+        this.programAction = new PerococcoProgramAction(services.getService(IO.class), managerIdentity);
+        this.programManager = Program.builder(programAction)
+                                     .setName("Program Manager")
+                                     .setServices(services)
+                                     .attachChatCommand("#list", ListPrograms::new)
+                                     .attachChatCommand("#start-all", StartAllPrograms::new)
+                                     .attachChatCommand("#stop-all", StopAllPrograms::new)
+                                     .attachChatCommand("#stop", StopProgram::new)
+                                     .attachChatCommand("#start", StartProgram::new)
+                                     .build();
+
+        programsToStart.forEach(programAction::startProgram);
 
         CLEANER_EXECUTOR.scheduleAtFixedRate(this::cleanUp, 1, 1, TimeUnit.MINUTES);
     }
 
     private void cleanUp() {
-        managerProgram.cleanup();
+        programManager.cleanUp();
         managerIdentity.getState().cleanUp();
     }
 
     @Override
-    public void registerProgram(@NonNull Program program) {
-        managerIdentity.mutate(s -> s.addProgram(new ProgramWithPolicyHandling(program)));
-    }
+    public void handleMessage(@NonNull MessageContext messageContext) {
+        final NamedExecution action = ExecutionContext.from(messageContext)
+                                                      .flatMap(this::findCommandExecution)
+                                                      .orElseGet(() -> formWatchers(messageContext));
 
-    @Override
-    public void handleMessage(@NonNull ExecutionContext executionContext) {
-        System.out.println("Receive message "+executionContext.getMessage());
-        final NamedExecution namedExecution = prefixes.stream()
-                                                      .map(p -> p.parse(executionContext))
-                                                      .flatMap(Optional::stream)
-                                                      .findAny()
-                                                      .orElseGet(() -> formWatchers(executionContext));
-        execute(namedExecution);
+        execute(action);
     }
 
     @NonNull
-    private Optional<Program> findEnabledProgramFromInstructionName(@NonNull String instructionName) {
-        return managerIdentity.enabledPrograms()
-                              .stream()
-                              .filter(p -> p.hasInstruction(instructionName))
-                              .findFirst();
+    private Optional<NamedExecution> findCommandExecution(@NonNull ExecutionContext executionContext) {
+        return Stream.concat(
+                Stream.of(programManager),
+                managerIdentity.getEnabledPrograms().stream()
+        )
+                     .map(p -> findProgramCommand(p, executionContext))
+                     .flatMap(Optional::stream)
+                     .findFirst();
     }
 
-    private final AtomicLong COUNTER = new AtomicLong(0);
+    @NonNull
+    private Optional<NamedExecution> findProgramCommand(@NonNull Program program, @NonNull ExecutionContext executionContext) {
+        return program.findChatCommand(executionContext.getCommandName())
+                      .map(c -> new NamedExecution(program.getName(), () -> c.execute(executionContext)));
+    }
+
+    private static final AtomicLong COUNTER = new AtomicLong(0);
 
     @NonNull
-    private NamedExecution formWatchers(@NonNull ExecutionContext executionContext) {
-        final ImmutableList<Program> programs = managerIdentity.enabledPrograms();
-        final String name = "watchers"+COUNTER.getAndIncrement();
-        return new NamedExecution() {
-
-            @Override
-            public @NonNull String getName() {
-                return name;
-            }
-
-            @Override
-            public void launch() {
-                ExecutionContext ctx = executionContext;
-                for (Program program : programs) {
-                    ctx = program.handleMessage(ctx);
-                    if (ctx.isConsumed()) {
-                        return;
-                    }
+    private NamedExecution formWatchers(@NonNull MessageContext messageContext) {
+        final ImmutableList<Program> programs = managerIdentity.getEnabledPrograms();
+        final Runnable action = () -> {
+            for (Program program : programs) {
+                if (Thread.currentThread().isInterrupted()) {
+                    break;
+                }
+                if (program.getMessageHandler().handleMessage(messageContext)) {
+                    break;
                 }
             }
         };
+        return new NamedExecution("Watchers " + COUNTER.incrementAndGet(), action);
     }
-
-
 
 
     private void execute(@NonNull NamedExecution namedExecution) {
@@ -129,29 +157,4 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
         programExecutor.start();
     }
 
-    @RequiredArgsConstructor
-    private static class Prefix {
-
-        @NonNull
-        @Getter
-        private final String value;
-
-        @NonNull
-        private final Function1<? super String, ? extends Optional<Program>> programFinder;
-
-        @NonNull
-        public Optional<Program> findEnabledProgramFromInstructionName(@NonNull String instructionName) {
-            return programFinder.f(instructionName);
-        }
-
-        @NonNull
-        public Optional<NamedExecution> parse(@NonNull ExecutionContext context) {
-            final InstructionExtraction instructionExtraction = CommandExtractor.extract(value, context.getMessage()).orElse(null);
-            if (instructionExtraction == null) {
-                return Optional.empty();
-            }
-            return programFinder.f(instructionExtraction.getInstructionName())
-                                .map(p -> new ProgramExecutionInfo(context, instructionExtraction, p));
-        }
-    }
 }

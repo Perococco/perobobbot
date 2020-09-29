@@ -1,12 +1,10 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.chat.advanced.DispatchContext;
+import perobobbot.common.lang.DispatchContext;
+import perobobbot.common.lang.PlatformIO;
 import perobobbot.common.lang.Subscription;
-import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function1;
-import perobobbot.twitch.chat.event.ReceivedMessage;
-import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
@@ -14,7 +12,7 @@ import java.util.concurrent.CompletionStage;
 /**
  * @author perococco
  **/
-public interface TwitchChatIO {
+public interface TwitchChatIO extends PlatformIO {
 
     URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
 
@@ -50,5 +48,8 @@ public interface TwitchChatIO {
      */
     boolean isRunning();
 
-
+    @Override
+    default void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+        message(Channel.create(channel),messageBuilder);
+    }
 }

@@ -29,13 +29,13 @@ public class TwitchMessageConverter implements MessageConverter<MessageFromTwitc
             final IRCParsing ircParsing = ircParser.parse(messageAsString);
             final Optional<IRCCommand> command = IRCCommand.findFromString(ircParsing.getCommand());
 
-            final MessageFromTwitch messageFromTwitch =  command.map(cmd -> buildKnownAnswer(cmd,ircParsing))
-                                                      .orElseGet(() -> buildUnknownAnswer(ircParsing));
+            final MessageFromTwitch messageFromTwitch = command.map(cmd -> buildKnownAnswer(cmd, ircParsing))
+                                                               .orElseGet(() -> buildUnknownAnswer(ircParsing));
 
             return Optional.of(messageFromTwitch);
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn(TwitchMarkers.TWITCH_CHAT,"Fail to convert message '"+messageAsString+"'",e);
+            LOG.warn(TwitchMarkers.TWITCH_CHAT, "Fail to convert message '" + messageAsString + "'", e);
             return Optional.empty();
         }
     }
@@ -48,7 +48,7 @@ public class TwitchMessageConverter implements MessageConverter<MessageFromTwitc
 
     @NonNull
     private MessageFromTwitch buildUnknownAnswer(@NonNull IRCParsing ircParsing) {
-        LOG.warn(TwitchMarkers.TWITCH_CHAT,"Unknown command : '{}' for message '{}'", ircParsing.getCommand(),ircParsing.getRawMessage());
+        LOG.warn(TwitchMarkers.TWITCH_CHAT, "Unknown command : '{}' for message '{}'", ircParsing.getCommand(), ircParsing.getRawMessage());
         return new UnknownMessageFromTwitch(ircParsing);
     }
 

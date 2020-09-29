@@ -3,11 +3,15 @@ package perobobbot.twitch.chat.event;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.*;
 import perobobbot.twitch.chat.TwitchChatState;
+import perobobbot.twitch.chat.TwitchUser;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.from.PingFromTwitch;
+import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Getter
@@ -52,4 +56,26 @@ public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatE
     public String getRawMessage() {
         return message.getIrcParsing().getRawMessage();
     }
+
+    @NonNull
+    public Optional<MessageContext> toMessage() {
+        if (message instanceof PrivMsgFromTwitch) {
+            final PrivMsgFromTwitch privateMsg = (PrivMsgFromTwitch) this.message;
+            final User owner = TwitchUser.createFromPrivateMessage(privateMsg);
+            final boolean messageFromMe = state.userName().equals(owner.getUserId());
+            final ChannelInfo channelInfo = new ChannelInfo(Platform.TWITCH,privateMsg.getChannelName());
+            return Optional.ofNullable(MessageContext.builder()
+                                                     .content(message.getPayload())
+                                                     .messageFromMe(messageFromMe)
+                                                     .messageOwner(owner)
+                                                     .rawPayload(message.getIrcParsing().getRawMessage())
+                                                     .receptionTime(receptionTime)
+                                                     .channelInfo(channelInfo)
+                                                     .build());
+        }
+        return Optional.empty();
+    }
+
+
+
 }

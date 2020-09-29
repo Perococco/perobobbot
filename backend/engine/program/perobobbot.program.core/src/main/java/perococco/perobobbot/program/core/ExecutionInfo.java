@@ -1,10 +1,8 @@
 package perococco.perobobbot.program.core;
 
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.program.core.ExecutionPolicy;
 
@@ -12,7 +10,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Information regarding an instruction.
@@ -22,10 +19,6 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 public class ExecutionInfo {
-
-    @NonNull
-    @Getter
-    private final String instructionName;
 
     @NonNull
     private final ExecutionPolicy policy;
@@ -46,8 +39,7 @@ public class ExecutionInfo {
      */
     private final Duration maxUserCoolDown;
 
-    public ExecutionInfo(@NonNull String instructionName, @NonNull ExecutionPolicy policy) {
-        this.instructionName = instructionName;
+    public ExecutionInfo(@NonNull ExecutionPolicy policy) {
         this.policy = policy;
         this.maxUserCoolDown = policy.maxCooldownForRole().orElse(Duration.ZERO);
     }

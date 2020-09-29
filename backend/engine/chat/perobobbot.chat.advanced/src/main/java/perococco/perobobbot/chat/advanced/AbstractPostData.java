@@ -2,8 +2,8 @@ package perococco.perobobbot.chat.advanced;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.chat.advanced.DispatchContext;
 import perobobbot.chat.advanced.Message;
+import perobobbot.common.lang.DispatchContext;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;

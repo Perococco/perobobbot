@@ -1,6 +1,7 @@
 package perococco.perobobbot.program.core;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.common.lang.Identity;
 import perobobbot.common.lang.ProxyIdentity;
@@ -17,7 +18,23 @@ public class ManagerIdentity extends ProxyIdentity<ManagerState> {
     }
 
     @NonNull
-    public ImmutableList<Program> enabledPrograms() {
+    public ImmutableList<Program> getEnabledPrograms() {
         return getState().getEnabledPrograms();
+    }
+
+    @NonNull
+    public boolean isEnabled(@NonNull String programName) {
+        return getState().isEnabled(programName);
+    }
+
+    @NonNull
+    public ImmutableSet<String> getNamesOfEnabledPrograms() {
+        return getState().getNamesOfEnabledPrograms();
+    }
+
+
+    @NonNull
+    public ImmutableSet<String> getProgramNames() {
+        return getState().getProgramNames();
     }
 }

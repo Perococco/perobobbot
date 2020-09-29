@@ -1,17 +1,24 @@
 package perococco.perobobbot.program.core;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Value;
 import perobobbot.common.lang.fp.Consumer0;
 
-public interface NamedExecution extends Consumer0 {
+@Value
+public class NamedExecution implements Consumer0 {
 
-    @NonNull
-    String getName();
+    @Getter
+    @NonNull String name;
 
-    void launch();
+    @NonNull Runnable action;
+
+    public void launch() {
+        action.run();
+    }
 
     @Override
-    default void f() {
-        launch();
+    public void f() {
+        this.launch();
     }
 }

@@ -6,23 +6,22 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.ListTool;
-import perobobbot.common.lang.MapTool;
-import perobobbot.common.lang.SetTool;
 import perobobbot.program.core.Program;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class ManagerState {
 
-    public static final ManagerState EMPTY = new ManagerState(ImmutableList.of(), ImmutableSet.of());
+    @NonNull
+    public static ManagerState noneStarted(@NonNull ImmutableList<Program> programs)  {
+        return new ManagerState(programs, ImmutableSet.of());
+    }
 
     @NonNull
-    private final ImmutableList<ProgramWithPolicyHandling> programs;
+    private final ImmutableList<Program> programs;
 
     @NonNull
-    private final ImmutableMap<String, ProgramWithPolicyHandling> programByName;
+    private final ImmutableMap<String, Program> programByName;
 
     @NonNull
     @Getter
@@ -33,9 +32,9 @@ public class ManagerState {
     private final ImmutableList<Program> enabledPrograms;
 
     @Builder(toBuilder = true)
-    public ManagerState(@NonNull ImmutableList<ProgramWithPolicyHandling> programs, @NonNull ImmutableSet<String> namesOfEnabledPrograms) {
+    public ManagerState(@NonNull ImmutableList<Program> programs, @NonNull ImmutableSet<String> namesOfEnabledPrograms) {
         this.programs = programs;
-        this.programByName = programs.stream().collect(ImmutableMap.toImmutableMap(ProgramWithPolicyHandling::getName, p -> p));
+        this.programByName = programs.stream().collect(ImmutableMap.toImmutableMap(Program::getName, p -> p));
         this.namesOfEnabledPrograms = namesOfEnabledPrograms;
         this.enabledPrograms = programs.stream()
                                        .filter(p -> namesOfEnabledPrograms.contains(p.getName()))
@@ -43,7 +42,7 @@ public class ManagerState {
     }
 
     public void cleanUp() {
-        programs.forEach(ProgramWithPolicyHandling::cleanup);
+        programs.forEach(Program::cleanUp);
     }
 
     public boolean isKnownProgram(@NonNull String programName) {
@@ -55,7 +54,7 @@ public class ManagerState {
     }
 
     @NonNull
-    public Optional<ProgramWithPolicyHandling> findProgram(@NonNull String programName) {
+    public Optional<Program> findProgram(@NonNull String programName) {
         return Optional.ofNullable(programByName.get(programName));
     }
 
@@ -68,18 +67,9 @@ public class ManagerState {
                             .collect(ImmutableList.toImmutableList());
     }
 
-    @NonNull
-    public ManagerState addProgram(@NonNull ProgramWithPolicyHandling program) {
-        final ImmutableList<ProgramWithPolicyHandling> newPrograms = ListTool.addLast(programs, program);
-        if (programs == newPrograms) {
-            return this;
-        }
-        return this.toBuilder().programs(newPrograms).build();
-    }
-
 
     @NonNull
-    public ImmutableSet<String> programNames() {
+    public ImmutableSet<String> getProgramNames() {
         return programByName.keySet();
     }
 
