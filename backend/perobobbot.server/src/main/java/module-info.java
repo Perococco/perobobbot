@@ -13,7 +13,6 @@ module perobobbot.server {
 
     requires com.google.common;
 
-    requires perobobbot.twitch.chat;
     requires perobobbot.common.lang;
     requires perobobbot.chat.advanced;
     requires perobobbot.data.domain;
@@ -54,11 +53,10 @@ module perobobbot.server {
     requires java.validation;
     requires spring.webmvc;
     requires java.xml.bind;
-//    requires java.persistence;
     requires jakarta.activation;
-    requires perobobbot.twitch.chat.program;
     requires spring.integration.core;
     requires perobobbot.service.core;
+    requires perobobbot.twitch.chat;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

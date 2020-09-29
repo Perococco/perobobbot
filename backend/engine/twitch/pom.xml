@@ -23,8 +23,6 @@
 
     <modules>
         <module>perobobbot.twitch.chat</module>
-        <module>perobobbot.twitch.chat.program</module>
-<!--        <module>perobobbot.twitch.chat.test</module>-->
     </modules>
 
 </project>

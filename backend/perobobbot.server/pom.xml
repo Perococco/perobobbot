@@ -29,10 +29,6 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-twitch-chat-program</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
@@ -74,6 +70,10 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-twitch-chat</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,6 +88,11 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -31,7 +31,6 @@ public class IOConfiguration {
 
     @Bean
     public TwitchChatIO createTwitchIO(@NonNull ChatGateway chatGateway) throws Exception {
-        System.out.println(chatGateway);
         final Channel perococco = Channel.create("perococco");
         final TwitchChatOptions options = createTwitchChatOptions(perococco);
         final TwitchChat twitchChat = TwitchChat.create(options);
