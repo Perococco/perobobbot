@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-twitch-chat</artifactId>
+    <artifactId>bot-twitch-chat</artifactId>
 
     <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
@@ -27,23 +27,23 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-lang</artifactId>
+            <artifactId>bot-common-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-irc</artifactId>
+            <artifactId>bot-common-irc</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-core</artifactId>
+            <artifactId>bot-chat-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-advanced</artifactId>
+            <artifactId>bot-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-websocket</artifactId>
+            <artifactId>bot-chat-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-chat-websocket</artifactId>
+    <artifactId>bot-chat-websocket</artifactId>
 
     <name>${root.name} - ${module.name} : ${submodule.name}</name>
 
@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-core</artifactId>
+            <artifactId>bot-chat-core</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.websocket</groupId>

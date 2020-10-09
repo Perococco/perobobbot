@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-server</artifactId>
+    <artifactId>bot-server</artifactId>
 
     <name>${root.name} - ${module.name}</name>
 
@@ -29,11 +29,11 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-advanced</artifactId>
+            <artifactId>bot-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-core</artifactId>
+            <artifactId>bot-program-core</artifactId>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.sun.activation</groupId>-->
@@ -41,27 +41,27 @@
 <!--        </dependency>-->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-sample</artifactId>
+            <artifactId>bot-program-sample</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-com</artifactId>
+            <artifactId>bot-data-com</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-domain</artifactId>
+            <artifactId>bot-data-domain</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-service</artifactId>
+            <artifactId>bot-data-service</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-jpa</artifactId>
+            <artifactId>bot-data-jpa</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.aspectj</groupId>
@@ -72,7 +72,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-twitch-chat</artifactId>
+            <artifactId>bot-twitch-chat</artifactId>
         </dependency>
 
         <dependency>
@@ -120,7 +120,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-blackjack-engine</artifactId>
+            <artifactId>bot-blackjack-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -163,7 +163,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-websocket</artifactId>
+            <artifactId>bot-chat-websocket</artifactId>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>

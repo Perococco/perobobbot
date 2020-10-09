@@ -91,93 +91,93 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-common-lang</artifactId>
+                <artifactId>bot-common-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-common-irc</artifactId>
+                <artifactId>bot-common-irc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-service-core</artifactId>
+                <artifactId>bot-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-chat-core</artifactId>
+                <artifactId>bot-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-chat-advanced</artifactId>
+                <artifactId>bot-chat-advanced</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-chat-websocket</artifactId>
+                <artifactId>bot-chat-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-blackjack-engine</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-program-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-program-sample</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-data-com</artifactId>
+                <artifactId>bot-blackjack-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-data-domain</artifactId>
+                <artifactId>bot-program-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-program-sample</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-data-com</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-data-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-data-jpa</artifactId>
+                <artifactId>bot-data-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-twitch-chat</artifactId>
+                <artifactId>bot-data-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-twitch-chat-program</artifactId>
+                <artifactId>bot-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-twitch-chat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-twitch-chat-program</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-server</artifactId>
+                <artifactId>bot-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

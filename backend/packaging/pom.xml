@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-server</artifactId>
+            <artifactId>bot-server</artifactId>
         </dependency>
 
     </dependencies>
