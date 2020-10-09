@@ -72,5 +72,5 @@ must be launched with the option
 
 ----
 #the / at the end is important
--Dpring.config.additional-location=/home/perobobbot/.perobobbot/config/
+-Dspring.config.additional-location=/home/perobobbot/.perobobbot/config/
 ----
