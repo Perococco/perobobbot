@@ -59,19 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
 
         http.authorizeRequests()
+            .antMatchers("/actuator/**").permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.LOGIN)).permitAll()
-            .antMatchers(HttpMethod.POST,EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()
+            .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()
             .antMatchers(EndPoints.fullPath("/**"))
             .authenticated()
             .and()
             .exceptionHandling()
             .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
-
     }
-
-
-
-
 
 
 }

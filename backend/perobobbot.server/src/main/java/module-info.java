@@ -58,6 +58,8 @@ module perobobbot.server {
     requires perobobbot.service.core;
     requires perobobbot.twitch.chat;
 
+    requires spring.boot.actuator;
+
     exports perobobbot.server;
     exports perobobbot.server.controller;
 }
