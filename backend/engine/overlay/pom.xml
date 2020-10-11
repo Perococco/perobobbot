@@ -27,8 +27,8 @@
         </dependency>
 
         <dependency>
-            <groupId></groupId>
-            <artifactId>bot-</artifactId>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-common-lang</artifactId>
         </dependency>
     </dependencies>
 </project>

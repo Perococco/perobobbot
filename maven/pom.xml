@@ -137,6 +137,11 @@
                 <artifactId>bot-program-sample</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-ndi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
 

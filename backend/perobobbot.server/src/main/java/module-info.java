@@ -42,6 +42,7 @@ module perobobbot.server {
     opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.config.overlay to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
 
@@ -59,6 +60,7 @@ module perobobbot.server {
     requires perobobbot.twitch.chat;
 
     requires spring.boot.actuator;
+    requires bot.overlay;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

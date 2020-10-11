@@ -31,7 +31,7 @@
         <module>engine/chat</module>
         <module>engine/program</module>
         <module>engine/twitch</module>
-        <module>engine/ndi</module>
+        <module>engine/overlay</module>
         <module>perobobbot.server</module>
         <module>packaging</module>
     </modules>

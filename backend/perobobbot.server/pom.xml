@@ -35,6 +35,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-program-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-ndi</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.sun.activation</groupId>-->
 <!--            <artifactId>jakarta.activation</artifactId>-->
