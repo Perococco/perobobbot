@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.Looper;
 import perobobbot.common.lang.Subscription;
+import perobobbot.common.lang.ThrowableTool;
 import perobobbot.overlay.*;
 
 import java.nio.ByteBuffer;
@@ -146,7 +147,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
             this.sender = sender;
             this.frame = frame;
             this.ndiData = ndiData;
-            this.fpsCounter = FPSCounter.create(LOG);
+            this.fpsCounter = FPSCounter.toLogger(LOG);
         }
 
         @Override
@@ -206,8 +207,19 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         @NonNull
         private final OverlayClient drawer;
 
+        private boolean skipped = false;
+
         public void render(@NonNull OverlayIteration iteration) {
-            drawer.render(iteration);
+            try {
+                if (skipped) {
+                    return;
+                }
+                drawer.render(iteration);
+            } catch (Exception e) {
+                ThrowableTool.interruptThreadIfCausedByInterruption(e);
+                skipped = true;
+                e.printStackTrace();
+            }
         }
 
         public void dispose(@NonNull Overlay overlay) {

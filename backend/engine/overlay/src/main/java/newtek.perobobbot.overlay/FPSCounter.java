@@ -5,14 +5,17 @@ import org.apache.logging.log4j.Logger;
 
 public interface FPSCounter {
 
-    @NonNull
-    static FPSCounter create(@NonNull Logger logger) {
+    static FPSCounter toLogger(@NonNull Logger logger) {
         if (logger.isDebugEnabled()) {
-            return new LogFPSCounter(logger);
-        } else {
-            return NOP;
+            return new SimpleFPSCounter(logger::debug);
         }
+        return NOP;
     }
+
+    static FPSCounter toStdOut() {
+        return new SimpleFPSCounter(System.out::println);
+    }
+
 
     void start();
 

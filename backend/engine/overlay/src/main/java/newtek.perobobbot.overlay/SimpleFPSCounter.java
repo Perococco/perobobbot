@@ -2,15 +2,15 @@ package newtek.perobobbot.overlay;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.Logger;
+import perobobbot.common.lang.fp.Consumer1;
 
 @RequiredArgsConstructor
-public class LogFPSCounter implements FPSCounter {
+public class SimpleFPSCounter implements FPSCounter {
 
     private long current;
 
     @NonNull
-    private final Logger logger;
+    private final Consumer1<String> logger;
 
     public void start() {
         current = System.nanoTime();
@@ -20,6 +20,6 @@ public class LogFPSCounter implements FPSCounter {
         final long last = current;
         current = System.nanoTime();
         long timeSpent = current - last;
-        logger.debug(String.format("Average FPS: %5.1f%n",3e10f / (timeSpent)));
+        logger.accept(String.format("Average FPS: %5.1f",3e10f / (timeSpent)));
     }
 }

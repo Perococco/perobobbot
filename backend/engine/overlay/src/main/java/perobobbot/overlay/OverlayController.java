@@ -1,8 +1,8 @@
 package perobobbot.overlay;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Subscription;
 import newtek.perobobbot.overlay.PerococcoOverlayController;
+import perobobbot.common.lang.Subscription;
 
 public interface OverlayController {
 
@@ -21,4 +21,5 @@ public interface OverlayController {
 
     @NonNull
     Subscription addClient(@NonNull OverlayClient drawer);
+
 }
