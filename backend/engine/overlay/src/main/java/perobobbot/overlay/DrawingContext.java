@@ -17,4 +17,9 @@ public interface DrawingContext extends AutoCloseable {
 
     void clearDrawing();
 
+    @NonNull
+    default Graphics2D createGraphics2D() {
+        return (Graphics2D)getGraphics2D().create();
+    }
+
 }

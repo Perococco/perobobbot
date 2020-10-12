@@ -8,4 +8,5 @@ module bot.overlay {
     requires org.apache.logging.log4j;
 
     exports perobobbot.overlay;
+    exports perobobbot.overlay.sample;
 }

@@ -330,13 +330,13 @@
     </build>
 
     <repositories>
-<!--        <repository>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
-<!--            <id>bintray-walkerknapp-devolay</id>-->
-<!--            <name>bintray</name>-->
-<!--            <url>https://dl.bintray.com/walkerknapp/devolay</url>-->
-<!--        </repository>-->
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-walkerknapp-devolay</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/walkerknapp/devolay</url>
+        </repository>
     </repositories>
 </project>

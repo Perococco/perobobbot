@@ -32,7 +32,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
 
     private final boolean auto;
 
-    private ImmutableList<DrawerInfo> drawers = ImmutableList.of();
+    private ImmutableList<OverlayClient> drawers = ImmutableList.of();
 
     private final String ndiName;
 
@@ -111,8 +111,8 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
             return IterationCommand.CONTINUE;
         }
 
-        private void renderDrawer(@NonNull DrawerInfo drawerInfo, @NonNull OverlayIteration iteration) {
-            drawerInfo.render(iteration);
+        private void renderDrawer(@NonNull OverlayClient client, @NonNull OverlayIteration iteration) {
+            client.render(iteration);
         }
 
         private OverlayIteration createOverlayIteration() {
@@ -147,7 +147,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
             this.sender = sender;
             this.frame = frame;
             this.ndiData = ndiData;
-            this.fpsCounter = FPSCounter.toLogger(LOG);
+            this.fpsCounter = FPSCounter.toStdOut();//toLogger(LOG);
         }
 
         @Override
@@ -180,50 +180,23 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
 
     @Override
     @Synchronized
-    public @NonNull Subscription addClient(@NonNull OverlayClient drawer) {
-        final DrawerInfo drawerInfo = new DrawerInfo(drawer);
-        drawer.initialize(this);
-        this.drawers = ListTool.addFirst(drawers, drawerInfo);
+    public @NonNull Subscription addClient(@NonNull OverlayClient client) {
+        final OverlayClient safeClient = new SafeOverlayClient(client);
+        client.initialize(this);
+        this.drawers = ListTool.addFirst(drawers, safeClient);
         if (auto) {
             this.start();
         }
-        return () -> removeDrawer(drawerInfo);
+        return () -> removeDrawer(safeClient);
     }
 
     @Synchronized
-    private void removeDrawer(@NonNull DrawerInfo drawerInfo) {
-        this.drawers = ListTool.removeFirst(drawers, drawerInfo);
-        drawerInfo.dispose(this);
+    private void removeDrawer(@NonNull OverlayClient client) {
+        this.drawers = ListTool.removeFirst(drawers, client);
+        client.dispose(this);
         if (this.drawers.isEmpty() && auto) {
             this.stop();
         }
     }
 
-    @NonNull
-    @RequiredArgsConstructor
-    private static class DrawerInfo {
-
-        @Getter
-        @NonNull
-        private final OverlayClient drawer;
-
-        private boolean skipped = false;
-
-        public void render(@NonNull OverlayIteration iteration) {
-            try {
-                if (skipped) {
-                    return;
-                }
-                drawer.render(iteration);
-            } catch (Exception e) {
-                ThrowableTool.interruptThreadIfCausedByInterruption(e);
-                skipped = true;
-                e.printStackTrace();
-            }
-        }
-
-        public void dispose(@NonNull Overlay overlay) {
-            this.drawer.dispose(overlay);
-        }
-    }
 }
