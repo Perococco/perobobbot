@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.ThrowableTool;
-import perobobbot.common.lang.fp.Function1;
-import perobobbot.common.lang.fp.Function2;
 import perobobbot.common.lang.fp.Try2;
 import perobobbot.common.sound.Sound;
 import perobobbot.common.sound.SoundManager;

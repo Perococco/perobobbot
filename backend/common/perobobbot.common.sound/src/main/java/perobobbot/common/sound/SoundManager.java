@@ -2,6 +2,7 @@ package perobobbot.common.sound;
 
 import lombok.NonNull;
 
+import javax.sound.sampled.AudioFormat;
 import java.net.URL;
 import java.util.Optional;
 import java.util.UUID;

@@ -15,15 +15,8 @@ public class InMemorySoundResource implements SoundResource {
 
     @NonNull
     public static SoundResource create(@NonNull URL url, @NonNull AudioFormat audioFormat) throws IOException, UnsupportedAudioFileException {
-            final AudioFileFormat f = AudioSystem.getAudioFileFormat(url);
-            final AudioInputStream input = AudioSystem.getAudioInputStream(url);
-            final AudioFormat fi = input.getFormat();
-            final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFormat,input);
-            final byte[] in = IOUtils.readAllBytes(AudioSystem.getAudioInputStream(url));
+            final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFormat,AudioSystem.getAudioInputStream(url));
             final byte[] data = IOUtils.readAllBytes(stream);
-            System.out.println(data.length);
-            System.out.println(in.length+ " " +f);
-            System.out.println(stream.getFormat());
             return new InMemorySoundResource(data);
     }
 
