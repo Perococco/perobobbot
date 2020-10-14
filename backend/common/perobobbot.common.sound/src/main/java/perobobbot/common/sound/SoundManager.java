@@ -9,9 +9,9 @@ import java.util.UUID;
 public interface SoundManager {
 
     @NonNull
-    UUID registerSound(@NonNull URL soundPath);
+    UUID registerSoundResource(@NonNull URL soundPath);
 
-    void unregisterSound(@NonNull UUID uuid);
+    void unregisterSoundResource(@NonNull UUID uuid);
 
     @NonNull
     Optional<Sound> createSound(@NonNull UUID uuid);

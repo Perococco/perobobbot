@@ -5,10 +5,15 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.MapTool;
+import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.common.lang.fp.Function2;
+import perobobbot.common.lang.fp.Try2;
 import perobobbot.common.sound.Sound;
 import perobobbot.common.sound.SoundManager;
+import perobobbot.common.sound.SoundRegistrationFailure;
 
+import javax.sound.sampled.AudioFormat;
 import java.net.URL;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,21 +29,29 @@ public class PerococcoSoundManager implements SoundManager {
     private ImmutableMap<UUID, SoundResource> soundResources = ImmutableMap.of();
 
     @NonNull
-    private final Function1<? super URL, ? extends SoundResource> soundResourceFactory;
+    private final AudioFormat targetFormat;
+
+    @NonNull
+    private final Try2<? super URL, @NonNull ? super AudioFormat, ? extends SoundResource, Throwable> soundResourceFactory;
 
     @Override
     @Synchronized
-    public @NonNull UUID registerSound(@NonNull URL soundPath) {
-        final SoundResource soundResource = soundResourceFactory.f(soundPath);
-        final UUID uuid = UUID.randomUUID();
-        this.soundResources = MapTool.add(soundResources,uuid,soundResource);
-        return uuid;
+    public @NonNull UUID registerSoundResource(@NonNull URL soundPath) {
+        try {
+            final SoundResource soundResource = soundResourceFactory.f(soundPath, targetFormat);
+            final UUID uuid = UUID.randomUUID();
+            this.soundResources = MapTool.add(soundResources, uuid, soundResource);
+            return uuid;
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            throw new SoundRegistrationFailure(soundPath,t);
+        }
     }
 
 
     @Override
     @Synchronized
-    public void unregisterSound(@NonNull UUID uuid) {
+    public void unregisterSoundResource(@NonNull UUID uuid) {
         this.soundResources = MapTool.remove(soundResources,uuid);
     }
 

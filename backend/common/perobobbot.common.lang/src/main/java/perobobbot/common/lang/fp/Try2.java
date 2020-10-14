@@ -3,15 +3,15 @@ package perobobbot.common.lang.fp;
 import lombok.NonNull;
 import perobobbot.common.lang.ThrowableTool;
 
-public interface Try1<A,R,X extends Throwable> {
+public interface Try2<A,B,R,X extends Throwable> {
 
     @NonNull
-    R f(@NonNull A a) throws X;
+    R f(@NonNull A a,B b) throws X;
 
     @NonNull
-    default TryResult<Throwable,R> fSafe(@NonNull A a) {
+    default TryResult<Throwable,R> fSafe(@NonNull A a, @NonNull B b) {
         try {
-            return TryResult.success(f(a));
+            return TryResult.success(f(a,b));
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             return TryResult.failure(t);
@@ -19,7 +19,7 @@ public interface Try1<A,R,X extends Throwable> {
     }
 
     @NonNull
-    default Function1<A,TryResult<Throwable,R>> safe() {
+    default Function2<A,B,TryResult<Throwable,R>> safe() {
         return this::fSafe;
     }
 
