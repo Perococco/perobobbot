@@ -20,7 +20,21 @@ import java.util.stream.IntStream;
 public class SendAudioExample {
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, InterruptedException {
-        launchTest();
+        conversion();
+    }
+
+    public static void conversion() throws IOException, UnsupportedAudioFileException {
+        final Path audioFile = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
+        final AudioFileFormat fileFormat = AudioSystem.getAudioFileFormat(audioFile.toFile());
+        final AudioInputStream stream1 = AudioSystem.getAudioInputStream(audioFile.toFile());
+        System.out.println(stream1.getFormat());
+//        final AudioFormat target = new AudioFormat(
+//                AudioFormat.Encoding.PCM_FLOAT,
+//                48000.f,
+//                32,
+//                2,
+//                )
+
     }
 
     public static void compare() throws IOException, UnsupportedAudioFileException {
