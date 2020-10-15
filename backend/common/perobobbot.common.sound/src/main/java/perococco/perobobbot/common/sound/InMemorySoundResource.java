@@ -3,7 +3,7 @@ package perococco.perobobbot.common.sound;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.IOUtils;
+import perobobbot.common.lang.AudioStreamUtils;
 import perobobbot.common.sound.Sound;
 
 import javax.sound.sampled.*;
@@ -16,7 +16,7 @@ public class InMemorySoundResource implements SoundResource {
     @NonNull
     public static SoundResource create(@NonNull URL url, @NonNull AudioFormat audioFormat) throws IOException, UnsupportedAudioFileException {
             final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFormat,AudioSystem.getAudioInputStream(url));
-            final byte[] data = IOUtils.readAllBytes(stream);
+            final byte[] data = AudioStreamUtils.readAllBytes(stream);
             return new InMemorySoundResource(data);
     }
 
