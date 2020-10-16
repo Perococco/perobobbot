@@ -61,6 +61,7 @@ module perobobbot.server {
 
     requires spring.boot.actuator;
     requires bot.overlay;
+    requires perobobbot.common.sound;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

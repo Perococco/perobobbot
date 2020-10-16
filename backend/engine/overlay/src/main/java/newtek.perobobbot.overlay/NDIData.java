@@ -13,17 +13,17 @@ public class NDIData {
     private final NDIImage image;
 
     @NonNull
-    private final BlockingDeque<ByteBuffer> freeBuffers;
+    private final BlockingDeque<NDIBuffers> freeBuffers;
 
     @NonNull
-    private final BlockingDeque<ByteBuffer> pendingBuffers;
+    private final BlockingDeque<NDIBuffers> pendingBuffers;
 
     public NDIData(@NonNull NDIConfig config, int bufferingSize) {
         this.image = config.createImage();
         this.freeBuffers = new LinkedBlockingDeque<>(bufferingSize);
         this.pendingBuffers = new LinkedBlockingDeque<>(bufferingSize);
         for (int i = 0; i < bufferingSize; i++) {
-            this.freeBuffers.addLast(config.createByteBuffer());
+            this.freeBuffers.addLast(config.createBuffer());
         }
     }
 
@@ -36,17 +36,17 @@ public class NDIData {
     }
 
     @NonNull
-    public ByteBuffer takePendingBuffer() throws InterruptedException {
+    public NDIBuffers takePendingBuffer() throws InterruptedException {
         return pendingBuffers.takeFirst();
     }
 
-    public void releaseBuffer(@NonNull ByteBuffer byteBuffer) {
-        this.freeBuffers.push(byteBuffer);
+    public void releaseBuffer(@NonNull NDIBuffers buffer) {
+        this.freeBuffers.push(buffer);
     }
 
     public void copyImageToFreeBuffer() throws InterruptedException {
-        final ByteBuffer buffer = freeBuffers.take();
-        image.copyTo(buffer);
+        final NDIBuffers buffer = freeBuffers.take();
+        image.copyTo(buffer.video);
         this.pendingBuffers.putLast(buffer);
     }
 }

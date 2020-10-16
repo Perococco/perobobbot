@@ -2,6 +2,7 @@ package perobobbot.overlay;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import perobobbot.common.lang.Ratio;
 
 @RequiredArgsConstructor
 public enum FrameRate {
@@ -13,12 +14,21 @@ public enum FrameRate {
     ;
 
     @Getter
-    private final int numerator;
+    private final Ratio ratio;
 
-    @Getter
-    private final int denominator;
+    FrameRate(int numerator, int denominator) {
+        this.ratio = Ratio.create(numerator,denominator);
+    }
 
     public double getDeltaT() {
-        return ((double)denominator)/numerator;
+        return 1./ratio.doubleValue();
+    }
+
+    public int getNumerator() {
+        return ratio.getNumerator();
+    }
+
+    public int getDenominator() {
+        return ratio.getDenominator();
     }
 }

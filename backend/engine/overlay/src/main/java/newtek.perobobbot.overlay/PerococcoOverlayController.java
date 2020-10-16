@@ -13,9 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.Looper;
 import perobobbot.common.lang.Subscription;
+import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.*;
-
-import java.nio.ByteBuffer;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -45,13 +44,17 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
     @Getter
     private final FrameRate frameRate;
 
-    public PerococcoOverlayController(String ndiName, int width, int height, @NonNull FrameRate frameRate) {
+    @NonNull
+    private final SoundManager soundManager;
+
+    public PerococcoOverlayController(String ndiName, int width, int height, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
         this.auto = false;
         this.width = width;
         this.height = height;
         this.frameRate = frameRate;
         this.ndiName = ndiName;
-        final NDIConfig ndiConfig = new NDIConfig(width, height, DevolayFrameFourCCType.RGBA, frameRate);
+        this.soundManager = soundManager;
+        final NDIConfig ndiConfig = new NDIConfig(width, height, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
         final NDIData ndiData = new NDIData(ndiConfig, 3);
 
         this.drawer = new Drawer(ndiData, frameRate.getDeltaT());
@@ -147,7 +150,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
             this.sender = sender;
             this.frame = frame;
             this.ndiData = ndiData;
-            this.fpsCounter = FPSCounter.toStdOut();//toLogger(LOG);
+            this.fpsCounter = FPSCounter.toLogger(LOG);//toStdOut();
         }
 
         @Override
@@ -165,8 +168,8 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
 
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
-            final ByteBuffer data = ndiData.takePendingBuffer();
-            frame.setData(data);
+            final NDIBuffers data = ndiData.takePendingBuffer();
+            frame.setData(data.video);
             sender.sendVideoFrame(frame);
             ndiData.releaseBuffer(data);
             frameCount++;
