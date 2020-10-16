@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import perobobbot.common.sound.AudioFormats;
+import perobobbot.common.sound.NDIAudioFormat;
 import perobobbot.common.sound.SoundManager;
 
 import javax.sound.sampled.AudioFormat;
@@ -32,7 +33,7 @@ public class TestConversion {
     @ParameterizedTest
     @MethodSource("soundResources")
     public void name(@NonNull String resourceName) throws IOException, UnsupportedAudioFileException, URISyntaxException {
-        final AudioFormat audioFormat = AudioFormats.stereo32Float(44100f);
+        final NDIAudioFormat audioFormat = new NDIAudioFormat(44100f);
         final SoundManager soundManager = new PerococcoSoundManager(audioFormat, InMemorySoundResource::create);
         final URL sound = TestConversion.class.getResource(resourceName);
         final UUID id = soundManager.registerSoundResource(sound);

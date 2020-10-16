@@ -7,6 +7,7 @@ import lombok.Synchronized;
 import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.ThrowableTool;
 import perobobbot.common.lang.fp.Try2;
+import perobobbot.common.sound.NDIAudioFormat;
 import perobobbot.common.sound.Sound;
 import perobobbot.common.sound.SoundManager;
 import perobobbot.common.sound.SoundRegistrationFailure;
@@ -27,10 +28,15 @@ public class PerococcoSoundManager implements SoundManager {
     private ImmutableMap<UUID, SoundResource> soundResources = ImmutableMap.of();
 
     @NonNull
-    private final AudioFormat targetFormat;
+    private final NDIAudioFormat targetFormat;
 
     @NonNull
-    private final Try2<? super URL, @NonNull ? super AudioFormat, ? extends SoundResource, Throwable> soundResourceFactory;
+    private final Try2<? super URL, @NonNull ? super NDIAudioFormat, ? extends SoundResource, Throwable> soundResourceFactory;
+
+    public PerococcoSoundManager(float sampleRate, @NonNull Try2<? super URL, @NonNull ? super NDIAudioFormat, ? extends SoundResource, Throwable> soundResourceFactory) {
+        this(new NDIAudioFormat(sampleRate),soundResourceFactory);
+    }
+
 
     @Override
     @Synchronized
