@@ -1,5 +1,6 @@
 package newtek.perobobbot.overlay;
 
+import com.walker.devolay.DevolayAudioFrame;
 import com.walker.devolay.DevolayFrameFourCCType;
 import com.walker.devolay.DevolayVideoFrame;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NonNull;
 import perobobbot.overlay.FrameRate;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 
 public class NDIConfig {
@@ -49,14 +51,32 @@ public class NDIConfig {
         return videoFrame;
     }
 
+    private int maxAudioSampleCounts() {
+        return frameRate.getRatio().invert().multiply(audioSampleRate).ceil();
+    }
+
+    @NonNull
+    public AudioFrame createNDIAudioFrame() {
+        final int sampleCount = maxAudioSampleCounts();
+        final int channelSize=  sampleCount*Float.BYTES;
+        final ByteBuffer data = ByteBuffer.allocateDirect(channelSize*nbChannels)
+                                          .order(ByteOrder.LITTLE_ENDIAN);
+        final DevolayAudioFrame audioFrame = new DevolayAudioFrame();
+        audioFrame.setSampleRate(this.audioSampleRate);
+        audioFrame.setChannels(nbChannels);
+        audioFrame.setSamples(sampleCount);
+        audioFrame.setData(data);
+        audioFrame.setChannelStride(channelSize);
+        return new AudioFrame(data,audioFrame);
+    }
+
     @NonNull
     public NDIImage createImage() {
         return NDIImage.create(width,height,ccType);
     }
 
     public NDIBuffers createBuffer() {
-        final int maxAudioSize = frameRate.getRatio().invert().multiply(audioSampleRate).ceil();
-        return new NDIBuffers(new float[nbChannels][maxAudioSize], createVideoBuffer());
+        return new NDIBuffers(new float[nbChannels][maxAudioSampleCounts()], createVideoBuffer());
     }
 
     @NonNull

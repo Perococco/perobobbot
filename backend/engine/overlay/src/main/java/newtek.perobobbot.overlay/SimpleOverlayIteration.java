@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.overlay.OverlayIteration;
+import perobobbot.overlay.SoundContext;
 import perobobbot.overlay.SoundExecution;
 
 import java.awt.*;
@@ -27,7 +28,7 @@ public class SimpleOverlayIteration implements OverlayIteration {
     private final SimpleDrawingContext drawingContext;
 
     @NonNull
-    private final SimpleSoundContext soundContext;
+    private final SoundContext soundContext;
 
     @Override
     @NonNull

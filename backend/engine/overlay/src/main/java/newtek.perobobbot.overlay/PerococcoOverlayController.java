@@ -1,20 +1,22 @@
 package newtek.perobobbot.overlay;
 
 import com.google.common.collect.ImmutableList;
-import com.walker.devolay.Devolay;
-import com.walker.devolay.DevolayFrameFourCCType;
-import com.walker.devolay.DevolaySender;
-import com.walker.devolay.DevolayVideoFrame;
+import com.walker.devolay.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.Looper;
 import perobobbot.common.lang.Subscription;
 import perobobbot.common.sound.SoundManager;
+import perobobbot.common.sound.SoundRegistry;
 import perobobbot.overlay.*;
+
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -44,7 +46,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
     @Getter
     private final FrameRate frameRate;
 
-    @NonNull
+    @Delegate(types = {SoundRegistry.class})
     private final SoundManager soundManager;
 
     public PerococcoOverlayController(String ndiName, int width, int height, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
@@ -55,11 +57,13 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         this.ndiName = ndiName;
         this.soundManager = soundManager;
         final NDIConfig ndiConfig = new NDIConfig(width, height, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
-        final NDIData ndiData = new NDIData(ndiConfig, 3);
+        final NDIData ndiData = new NDIData(ndiConfig, soundManager,3);
 
         this.drawer = new Drawer(ndiData, frameRate.getDeltaT());
-        this.sender = new Sender(new DevolaySender(ndiName), ndiConfig.createNDIFrame(), ndiData);
+        this.sender = new Sender(new DevolaySender(ndiName,null,true,false), ndiConfig.createNDIFrame(),ndiConfig.createNDIAudioFrame(), ndiData);
     }
+
+
 
     @Override
     @Synchronized
@@ -98,6 +102,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         @Override
         protected void afterLooping() {
             super.afterLooping();
+            ndiData.release();
             LOG.info("Stop  overlay controller '{}'", ndiName);
         }
 
@@ -108,7 +113,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
             try (OverlayIteration iteration = this.createOverlayIteration()) {
                 iteration.clearDrawing();
                 drawers.forEach(d -> renderDrawer(d, iteration));
-                ndiData.copyImageToFreeBuffer();
+                ndiData.copyDataToFreeBuffers(iteration.getIterationCount());
             }
             return IterationCommand.CONTINUE;
         }
@@ -122,7 +127,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
                                          .deltaTime(dt)
                                          .iterationCount(iterationCount)
                                          .time(time)
-                                         .soundContext(new SimpleSoundContext())
+                                         .soundContext(ndiData.getSoundContext())
                                          .drawingContext(ndiData.createDrawingContext())
                                          .build();
         }
@@ -135,7 +140,13 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         private final DevolaySender sender;
 
         @NonNull
-        private final DevolayVideoFrame frame;
+        private final DevolayVideoFrame videoFrame;
+
+        @NonNull
+        private final DevolayAudioFrame audioFrame;
+
+        @NonNull
+        private final ByteBuffer audioBuffer;
 
         @NonNull
         private final NDIData ndiData;
@@ -145,12 +156,15 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         private int frameCount = 0;
 
         public Sender(@NonNull DevolaySender sender,
-                      @NonNull DevolayVideoFrame frame,
+                      @NonNull DevolayVideoFrame videoFrame,
+                      @NonNull AudioFrame audioFrame,
                       @NonNull NDIData ndiData) {
             this.sender = sender;
-            this.frame = frame;
+            this.videoFrame = videoFrame;
+            this.audioFrame = audioFrame.getFrame();
+            this.audioBuffer = audioFrame.getData();
             this.ndiData = ndiData;
-            this.fpsCounter = FPSCounter.toLogger(LOG);//toStdOut();
+            this.fpsCounter = FPSCounter.toLogger(LOG);
         }
 
         @Override
@@ -163,20 +177,36 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         protected void afterLooping() {
             super.afterLooping();
             this.sender.close();
-            this.frame.close();
+            this.videoFrame.close();
         }
 
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
             final NDIBuffers data = ndiData.takePendingBuffer();
-            frame.setData(data.video);
-            sender.sendVideoFrame(frame);
+
+            audioFrame.setSamples(data.nbAudioSamples);
+            copyAudioData(data.audio,audioBuffer);
+            videoFrame.setData(data.video);
+
+            sender.sendAudioFrame(audioFrame);
+            sender.sendVideoFrame(videoFrame);
+
             ndiData.releaseBuffer(data);
+
             frameCount++;
             if (frameCount % 30 == 0) {
                 fpsCounter.display(30);
             }
             return IterationCommand.CONTINUE;
+        }
+
+        private void copyAudioData(float[][] audio, @NonNull ByteBuffer audioBuffer) {
+            final FloatBuffer floatBuffer = audioBuffer.asFloatBuffer();
+            floatBuffer.position(0);
+            for (float[] floats : audio) {
+                floatBuffer.put(floats);
+            }
+            floatBuffer.flip();
         }
     }
 

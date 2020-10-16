@@ -3,21 +3,15 @@ package perobobbot.common.sound;
 import lombok.NonNull;
 import perococco.perobobbot.common.sound.PerococcoSoundManager;
 
-import java.net.URL;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.UUID;
 
-public interface SoundManager {
+public interface SoundManager extends SoundRegistry {
 
     int getSampleRate();
 
     int getNbChannels();
-
-    @NonNull
-    UUID registerSoundResource(@NonNull URL soundPath);
-
-    void unregisterSoundResource(@NonNull UUID uuid);
 
     @NonNull
     Optional<Sound> createSound(@NonNull UUID uuid);

@@ -135,7 +135,7 @@ public class SendAudioExample {
                 final ByteBuffer data = frame.data;
                 data.position(0);
                 if (sound != null) {
-                    sound.copy(data, sampleCount);
+                    sound.copyTo(data, sampleCount);
                     if (sound.isCompleted()) {
                         sound.close();
                         System.out.println("STOP");

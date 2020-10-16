@@ -10,8 +10,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Path;
+import java.util.UUID;
 
 public class LogoDVD implements OverlayClient {
+
+    private static final Path AUDIO_FILE = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
+
 
     private BufferedImage logo = null;
 
@@ -27,25 +32,30 @@ public class LogoDVD implements OverlayClient {
     private final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
     private int idx = 0;
 
+    private UUID soundId = null;
+
     @Override
     public void initialize(@NonNull Overlay overlay) {
         try {
             logo = ImageIO.read(LogoDVD.class.getResourceAsStream("dvdlogo.png"));
+            this.soundId = overlay.registerSoundResource(AUDIO_FILE.toUri().toURL());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
         this.logoWidth = logo.getWidth() + widthMargin * 2;
         this.logoHeight = logo.getHeight() + heightMargin * 2;
-        this.x = 200;
-        this.y = 200;
+        this.x = 700;
+        this.y = 70;
         this.vx = -200;
-        this.vy = -200;
+        this.vy = 200;
         this.idx = 0;
     }
 
     @Override
     public void dispose(@NonNull Overlay overlay) {
         logo = null;
+        overlay.unregisterSoundResource(soundId);
+        soundId = null;
     }
 
     @Override
@@ -77,6 +87,7 @@ public class LogoDVD implements OverlayClient {
 
         if (bumped) {
             idx = (idx + 1) % (colors.length);
+            iteration.playSound(soundId);
         }
         final Graphics2D g2 = iteration.createGraphics2D();
         try {
