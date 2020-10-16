@@ -94,6 +94,11 @@
                 <artifactId>bot-common-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-common-sound</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>

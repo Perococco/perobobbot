@@ -7,7 +7,9 @@ import perobobbot.common.lang.AudioStreamUtils;
 import perobobbot.common.sound.NDIAudioFormat;
 import perobobbot.common.sound.Sound;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -22,24 +24,26 @@ public class InMemorySoundResource implements SoundResource {
                                        @NonNull NDIAudioFormat audioFormat) throws IOException, UnsupportedAudioFileException {
         final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFormat, AudioSystem.getAudioInputStream(url));
         final byte[] bytes = AudioStreamUtils.readAllBytes(stream);
-        final int nbSamples = audioFormat.computeOneChannelSize(bytes.length);
-        final float[][] data = new float[2][nbSamples];
+        final int nbChannels = audioFormat.getChannels();
+        final int nbBytesPerChannel = bytes.length / (nbChannels*Float.BYTES);
+        final float[][] data = new float[nbChannels][nbBytesPerChannel];
 
         final FloatBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer();
 
-        for (int idx = 0; idx < nbSamples; idx++) {
-            for (int channelIdx = 0; channelIdx < 2; channelIdx++) {
-                data[channelIdx][idx] = buffer.get();
-            }
+        int tgtPos = 0;
+        while (buffer.hasRemaining()) {
+            data[0][tgtPos]=buffer.get();
+            data[1][tgtPos]=buffer.get();
+            tgtPos++;
         }
-
         return new InMemorySoundResource(data);
+
     }
 
     private final float[][] data;
 
     @Override
     public @NonNull Sound createSound() {
-        throw new RuntimeException("Not Yet Implemented");
+        return new InMemorySound(data);
     }
 }

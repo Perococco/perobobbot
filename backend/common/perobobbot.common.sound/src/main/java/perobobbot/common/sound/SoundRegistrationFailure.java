@@ -1,5 +1,6 @@
 package perobobbot.common.sound;
 
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.common.lang.PerobobbotException;
 
@@ -8,6 +9,7 @@ import java.net.URL;
 public class SoundRegistrationFailure extends PerobobbotException {
 
     @NonNull
+    @Getter
     private final URL soundResourceUrl;
 
     public SoundRegistrationFailure(@NonNull URL soundResourceUrl, @NonNull Throwable cause) {

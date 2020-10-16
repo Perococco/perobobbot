@@ -1,6 +1,7 @@
 package perococco.perobobbot.common.sound;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -12,7 +13,6 @@ import perobobbot.common.sound.Sound;
 import perobobbot.common.sound.SoundManager;
 import perobobbot.common.sound.SoundRegistrationFailure;
 
-import javax.sound.sampled.AudioFormat;
 import java.net.URL;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,8 +21,8 @@ import java.util.UUID;
 public class PerococcoSoundManager implements SoundManager {
 
     @NonNull
-    public static PerococcoSoundManager provider() {
-        return null;
+    public static SoundManager create(int sampleRate) {
+        return new PerococcoSoundManager(sampleRate,InMemorySoundResource::create);
     }
 
     private ImmutableMap<UUID, SoundResource> soundResources = ImmutableMap.of();
@@ -30,13 +30,20 @@ public class PerococcoSoundManager implements SoundManager {
     @NonNull
     private final NDIAudioFormat targetFormat;
 
+    @Getter
+    private final int sampleRate;
+
+    @Override
+    public int getNbChannels() {
+        return 2;
+    }
+
     @NonNull
     private final Try2<? super URL, @NonNull ? super NDIAudioFormat, ? extends SoundResource, Throwable> soundResourceFactory;
 
-    public PerococcoSoundManager(float sampleRate, @NonNull Try2<? super URL, @NonNull ? super NDIAudioFormat, ? extends SoundResource, Throwable> soundResourceFactory) {
-        this(new NDIAudioFormat(sampleRate),soundResourceFactory);
+    public PerococcoSoundManager(int sampleRate, @NonNull Try2<? super URL, @NonNull ? super NDIAudioFormat, ? extends SoundResource, Throwable> soundResourceFactory) {
+        this(new NDIAudioFormat(sampleRate),sampleRate,soundResourceFactory);
     }
-
 
     @Override
     @Synchronized

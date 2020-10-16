@@ -13,7 +13,6 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.ListTool;
 import perobobbot.common.lang.Looper;
 import perobobbot.common.lang.Subscription;
-import perobobbot.common.lang.ThrowableTool;
 import perobobbot.overlay.*;
 
 import java.nio.ByteBuffer;
@@ -87,7 +86,7 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
 
         @Override
         protected void beforeLooping() {
-            LOG.info("Start overlay controller '{}'",ndiName);
+            LOG.info("Start overlay controller '{}'", ndiName);
             super.beforeLooping();
             this.time = 0;
             this.iterationCount = 0;
@@ -96,16 +95,16 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
         @Override
         protected void afterLooping() {
             super.afterLooping();
-            LOG.info("Stop  overlay controller '{}'",ndiName);
+            LOG.info("Stop  overlay controller '{}'", ndiName);
         }
 
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
-            this.time+=dt;
+            this.time += dt;
             this.iterationCount++;
             try (OverlayIteration iteration = this.createOverlayIteration()) {
                 iteration.clearDrawing();
-                drawers.forEach(d -> renderDrawer(d,iteration));
+                drawers.forEach(d -> renderDrawer(d, iteration));
                 ndiData.copyImageToFreeBuffer();
             }
             return IterationCommand.CONTINUE;
@@ -117,11 +116,12 @@ public class PerococcoOverlayController implements OverlayController, Overlay {
 
         private OverlayIteration createOverlayIteration() {
             return SimpleOverlayIteration.builder()
-                    .deltaTime(dt)
-                    .iterationCount(iterationCount)
-                    .time(time)
-                    .drawingContext(ndiData.createDrawingContext())
-                    .build();
+                                         .deltaTime(dt)
+                                         .iterationCount(iterationCount)
+                                         .time(time)
+                                         .soundContext(new SimpleSoundContext())
+                                         .drawingContext(ndiData.createDrawingContext())
+                                         .build();
         }
     }
 

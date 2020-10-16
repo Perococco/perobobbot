@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.overlay.OverlayIteration;
+import perobobbot.overlay.SoundExecution;
 
 import java.awt.*;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Builder
@@ -23,6 +25,9 @@ public class SimpleOverlayIteration implements OverlayIteration {
 
     @NonNull
     private final SimpleDrawingContext drawingContext;
+
+    @NonNull
+    private final SimpleSoundContext soundContext;
 
     @Override
     @NonNull
@@ -46,5 +51,10 @@ public class SimpleOverlayIteration implements OverlayIteration {
     @Override
     public void clearDrawing() {
         drawingContext.clear();
+    }
+
+    @Override
+    public @NonNull SoundExecution playSound(@NonNull UUID soundId) {
+        return soundContext.playSound(soundId);
     }
 }

@@ -29,16 +29,6 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-common-lang</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.googlecode.soundlibs</groupId>
-            <artifactId>mp3spi</artifactId>
-            <version>1.9.5-1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.mpatric</groupId>
-            <artifactId>mp3agic</artifactId>
-            <version>0.9.1</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -30,5 +30,9 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-common-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-common-sound</artifactId>
+        </dependency>
     </dependencies>
 </project>

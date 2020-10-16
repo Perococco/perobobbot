@@ -1,14 +1,20 @@
 package perobobbot.overlay;
 
 import com.walker.devolay.Devolay;
-import com.walker.devolay.DevolayAudioFrameInterleaved32s;
+import com.walker.devolay.DevolayAudioFrame;
 import com.walker.devolay.DevolaySender;
+import lombok.NonNull;
+import perobobbot.common.sound.Sound;
+import perobobbot.common.sound.SoundManager;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,53 +26,57 @@ import java.util.stream.IntStream;
 public class SendAudioExample {
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException, InterruptedException {
-        conversion();
+        launchTest();
     }
 
-    public static void conversion() throws IOException, UnsupportedAudioFileException {
-        final Path audioFile = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
-        final AudioFileFormat fileFormat = AudioSystem.getAudioFileFormat(audioFile.toFile());
-        final AudioInputStream stream1 = AudioSystem.getAudioInputStream(audioFile.toFile());
-        System.out.println(stream1.getFormat());
+//    public static void conversion() throws IOException, UnsupportedAudioFileException {
+//        final Path audioFile = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
+//        final AudioFileFormat fileFormat = AudioSystem.getAudioFileFormat(audioFile.toFile());
+//        final AudioInputStream stream1 = AudioSystem.getAudioInputStream(audioFile.toFile());
+//        System.out.println(stream1.getFormat());
 //        final AudioFormat target = new AudioFormat(
 //                AudioFormat.Encoding.PCM_FLOAT,
 //                48000.f,
 //                32,
 //                2,
 //                )
-
-    }
-
-    public static void compare() throws IOException, UnsupportedAudioFileException {
-        final Path audioFile32 = Path.of("/home/perococco/Documents/foghorn-daniel_simon_32.wav");
-        final Path audioFile24 = Path.of("/home/perococco/Documents/foghorn-daniel_simon_24.wav");
-        final AudioInputStream stream32 = AudioSystem.getAudioInputStream(audioFile32.toFile());
-        final AudioInputStream stream24 = AudioSystem.getAudioInputStream(audioFile24.toFile());
-
-        byte[] b32 = new byte[4];
-        byte[] b24 = new byte[4];
-
-        int nb = b32.length / 4;
-        for (int i = 0; i < nb; i++) {
-            stream32.read(b32);
-            stream24.read(b24, 1, 3);
-            if (i == 2729) {
-                displayBytes("32 - ", 4, u -> b32[u]);
-                displayBytes("24 - ", 4, u -> b24[u]);
-            }
-            for (int j = 0; j < 4; j++) {
-                if (b32[j] != b24[j]) {
-                    throw new RuntimeException(String.format("dif at %08x - %08x - ", i * 4 + 0x2d, i * 3 + 0x2d));
-                }
-            }
-        }
-
-    }
+//
+//    }
+//
+//    public static void compare() throws IOException, UnsupportedAudioFileException {
+//        final Path audioFile32 = Path.of("/home/perococco/Documents/foghorn-daniel_simon_32.wav");
+//        final Path audioFile24 = Path.of("/home/perococco/Documents/foghorn-daniel_simon_24.wav");
+//        final AudioInputStream stream32 = AudioSystem.getAudioInputStream(audioFile32.toFile());
+//        final AudioInputStream stream24 = AudioSystem.getAudioInputStream(audioFile24.toFile());
+//
+//        byte[] b32 = new byte[4];
+//        byte[] b24 = new byte[4];
+//
+//        int nb = b32.length / 4;
+//        for (int i = 0; i < nb; i++) {
+//            stream32.read(b32);
+//            stream24.read(b24, 1, 3);
+//            if (i == 2729) {
+//                displayBytes("32 - ", 4, u -> b32[u]);
+//                displayBytes("24 - ", 4, u -> b24[u]);
+//            }
+//            for (int j = 0; j < 4; j++) {
+//                if (b32[j] != b24[j]) {
+//                    throw new RuntimeException(String.format("dif at %08x - %08x - ", i * 4 + 0x2d, i * 3 + 0x2d));
+//                }
+//            }
+//        }
+//
+//    }
 
     private static void launchTest() throws IOException, UnsupportedAudioFileException, InterruptedException {
-        final SoundPlayer run = new SoundPlayer();
+        final SoundManager soundManager = SoundManager.create(44100);
+        final SoundPlayer run = new SoundPlayer(soundManager);
         final Thread t = new Thread(run);
         t.start();
+
+        final Path audioFile = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
+        final UUID soundId = soundManager.registerSoundResource(audioFile.toUri().toURL());
 
         final Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -76,7 +86,7 @@ public class SendAudioExample {
                 t.interrupt();
                 break;
             } else if (line.equals("play")) {
-                run.playSound = true;
+                run.playSound = soundId;
             }
         }
         t.join();
@@ -93,162 +103,82 @@ public class SendAudioExample {
 
     private static class SoundPlayer implements Runnable {
 
+        private final SoundManager soundManager;
+
+        final int sampleCount = 1024;
+
         private final DevolaySender sender;
-        private final ByteBuffer data;
-        private final int sampleRate = 48000;
-        private final int channelCount = 2;
-        private final int frameCount = 1200;
-        private final byte[] sound;
-        private final DevolayAudioFrameInterleaved32s audioFrame;
-        private final AudioFormat format;
+        private final Frame[] frames;
+        private int idx = 0;
 
-        public SoundPlayer() throws IOException, UnsupportedAudioFileException {
-            final Path audioFile = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
-            final AudioFileFormat fileFormat = AudioSystem.getAudioFileFormat(audioFile.toFile());
-            final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFile.toFile());
-            this.format = stream.getFormat();
-            this.sound = new byte[fileFormat.getByteLength()];
-            stream.read(sound);
-
+        public SoundPlayer(@NonNull SoundManager soundManager) throws IOException, UnsupportedAudioFileException {
             Devolay.loadLibraries();
+            this.soundManager = soundManager;
             this.sender = new DevolaySender("Overlay", null, false, true);
 
-            this.data = ByteBuffer.allocateDirect(frameCount * 8);
-
-            this.audioFrame = new DevolayAudioFrameInterleaved32s();
-            audioFrame.setSampleRate(sampleRate);
-            audioFrame.setChannels(channelCount);
-            audioFrame.setSamples(frameCount);
-            audioFrame.setData(data);
-
-            System.out.println(format);
+            frames = new Frame[]{
+                    new Frame(soundManager.getSampleRate(),sampleCount),
+                    new Frame(soundManager.getSampleRate(),sampleCount)};
         }
 
-        public boolean playSound = false;
-        public int offset = 0;
+        public UUID playSound = null;
+        public Sound sound = null;
 
         public void run() {
-            boolean display;
             while (!Thread.currentThread().isInterrupted()) {
-                display = false;
+                if (playSound != null && sound == null) {
+                    sound = soundManager.createSound(playSound).orElse(null);
+                    playSound = null;
+                }
+
+                final Frame frame = frames[idx];
+                final ByteBuffer data = frame.data;
                 data.position(0);
-                if (playSound) {
-                    if (offset == frameCount * format.getFrameSize() * 100) {
-                        display = true;
-                        System.out.println("PLAY");
-                    }
-                    if (format.getFrameSize() == 8) {
-                        if (display) {
-                            displayBytes("IN ", 32, i -> sound[i + offset]);
-                        }
-                        copySoundData8();
-                    } else if (format.getFrameSize() == 6) {
-                        if (display) {
-                            displayBytes("IN ", 24, i -> sound[i + offset]);
-                        }
-                        copySoundData6();
-                    } else {
+                if (sound != null) {
+                    sound.copy(data, sampleCount);
+                    if (sound.isCompleted()) {
+                        sound.close();
                         System.out.println("STOP");
-                        offset = 0;
-                        playSound = false;
-                        clearData();
+                        sound = null;
                     }
                 } else {
-                    clearData();
+                    clearData(data);
                 }
                 data.flip();
-                if (display) {
-                    displayBytes("OUT", 32, data::get);
-                }
-                sender.sendAudioFrameInterleaved32s(audioFrame);
+                sender.sendAudioFrame(frame.audioFrame);
+                idx = 1-idx;
             }
-
-            audioFrame.close();
+            Arrays.stream(frames).forEach(f -> f.audioFrame.close());
             sender.close();
         }
 
-        private void clearData() {
-            for (int i = 0; i < frameCount; i++) {
-                data.putInt(0);
-                data.putInt(0);
-            }
-        }
-
-        public void copySoundData6() {
-            int nbFrameToCopy = Math.min(frameCount, (sound.length - offset) / 6);
-            for (int i = 0; i < nbFrameToCopy; i++) {
-                for (int j = 0; j < 2; j++) {
-                    data.put((byte) 0);
-                    data.put(sound[offset]);
-                    data.put(sound[offset + 1]);
-                    data.put(sound[offset + 2]);
-                    offset += 3;
-                }
-            }
-            if (nbFrameToCopy <= 0) {
-                playSound = false;
-                offset = 0;
-            }
-            for (int k = 0; k < (frameCount - nbFrameToCopy); k++) {
-                data.putInt(0);
-                data.putInt(0);
-            }
-        }
-
-        private int getValue() {
-            final int lsb = (((int) sound[offset + 0]) & 0xff);
-            final int msb = (((int) sound[offset + 1]) & 0xff) << 8;
-            final int hsb = (((int) sound[offset + 2]) & 0xff) << 16;
-
-            int value = hsb | msb | lsb;
-            if ((hsb & 0x00800000) != 0) {
-                value = -(0x01_000000 - value);
-            }
-            System.out.println(value);
-            return value;
-        }
-
-        public void copySoundData8() {
-            int nbFrameToCopy = Math.min(frameCount, (sound.length - offset) / 8);
-            if (nbFrameToCopy > 0) {
-                data.put(sound, offset, nbFrameToCopy * 8);
-                offset += nbFrameToCopy * 8;
-            } else {
-                playSound = false;
-                offset = 0;
-            }
-            for (int k = 0; k < (frameCount - nbFrameToCopy); k++) {
-                data.putInt(0);
-                data.putInt(0);
+        private void clearData(ByteBuffer data) {
+            for (int i = 0; i < sampleCount; i++) {
+                data.putFloat(0f);
+                data.putFloat(0f);
             }
         }
 
     }
 
+    private static class Frame {
 
-    private static void putOneFrame(ByteBuffer data, byte[] sound, int offset) {
-        data.putInt(getValue(sound[offset], sound[offset + 1], sound[offset + 2]));
-//        data.put((byte)0);
-//        data.put(sound,offset+2,1);
-//        data.put(sound,offset+1,1);
-//        data.put(sound,offset,1);
-//        if ((sound[offset+2]&0x80) != 0) {
-//            data.put((byte)0xff);
-//        } else {
-//        data.put((byte)0);
-//        }
-    }
+        private final ByteBuffer data;
 
-    public static int getValue(byte b1, byte b2, byte b3) {
-        int r = 0;
-        r |= (b3 << 24) & 0XFF000000;
-        r |= ((b2 & 0xff) << 16);
-        r |= ((b1 & 0xff) << 8);
-        return r;
-    }
+        private final DevolayAudioFrame audioFrame;
 
-    public static double freq(int note, int octave) {
-        return 440 * Math.pow(2, octave + (note - 10) / 12.);
+        public Frame(int sampleRate, int sampleCount) {
+            this.data = ByteBuffer.allocateDirect(sampleCount * Float.BYTES * 2)
+                                  .order(ByteOrder.LITTLE_ENDIAN);
+
+            audioFrame = new DevolayAudioFrame();
+            audioFrame.setSampleRate(sampleRate);
+            audioFrame.setChannels(2);
+            audioFrame.setSamples(sampleCount);
+            audioFrame.setData(data);
+            audioFrame.setChannelStride(sampleCount * Float.BYTES);
+
+        }
     }
 
 

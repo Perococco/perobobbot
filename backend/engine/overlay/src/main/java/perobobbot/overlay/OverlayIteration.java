@@ -1,6 +1,6 @@
 package perobobbot.overlay;
 
-public interface OverlayIteration extends DrawingContext {
+public interface OverlayIteration extends DrawingContext, SoundContext {
 
     /**
      * @return the iteration count

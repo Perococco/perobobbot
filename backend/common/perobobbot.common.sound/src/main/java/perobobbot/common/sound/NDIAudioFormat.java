@@ -3,7 +3,7 @@ package perobobbot.common.sound;
 import javax.sound.sampled.AudioFormat;
 
 public class NDIAudioFormat extends AudioFormat {
-    public NDIAudioFormat(float sampleRate) {
+    public NDIAudioFormat(int sampleRate) {
         super(AudioFormat.Encoding.PCM_FLOAT,
                 sampleRate,
                 Float.SIZE,
