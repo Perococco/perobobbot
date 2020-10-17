@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-ndi</artifactId>
+            <artifactId>bot-overlay</artifactId>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.sun.activation</groupId>-->

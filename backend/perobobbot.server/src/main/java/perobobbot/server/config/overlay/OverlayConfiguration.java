@@ -25,11 +25,12 @@ public class OverlayConfiguration {
 
     @NonNull
     private OverlayController overlayController() {
-        return OverlayController.create("Overlay",
-                                        AudioVideoConfig.OVERLAY_WIDTH,
-                                        AudioVideoConfig.OVERLAY_HEIGHT,
-                                        AudioVideoConfig.OVERLAY_FRAME_RATE,
-                                        soundManager);
+        final var controller = OverlayController.create("Overlay",
+                                                        AudioVideoConfig.OVERLAY_WIDTH,
+                                                        AudioVideoConfig.OVERLAY_HEIGHT,
+                                                        AudioVideoConfig.OVERLAY_FRAME_RATE,
+                                                        soundManager);
+        controller.start();
+        return controller;
     }
-
 }

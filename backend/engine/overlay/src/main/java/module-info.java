@@ -1,4 +1,4 @@
-module bot.overlay {
+module perobobbot.overlay {
     requires static lombok;
     requires java.desktop;
     requires perobobbot.common.lang;
@@ -10,5 +10,4 @@ module bot.overlay {
     requires org.apache.logging.log4j;
 
     exports perobobbot.overlay;
-    exports perobobbot.overlay.sample;
 }

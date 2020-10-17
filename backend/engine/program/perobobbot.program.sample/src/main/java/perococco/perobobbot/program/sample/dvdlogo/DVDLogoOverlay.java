@@ -1,4 +1,4 @@
-package perobobbot.overlay.sample;
+package perococco.perobobbot.program.sample.dvdlogo;
 
 import lombok.NonNull;
 import perobobbot.overlay.Overlay;
@@ -10,13 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Path;
-import java.util.UUID;
 
-public class LogoDVD implements OverlayClient {
-
-    private static final Path AUDIO_FILE = Path.of("/home/perococco/Documents/foghorn-daniel_simon.wav");
-
+public class DVDLogoOverlay implements OverlayClient {
 
     private BufferedImage logo = null;
 
@@ -32,13 +27,10 @@ public class LogoDVD implements OverlayClient {
     private final Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
     private int idx = 0;
 
-    private UUID soundId = null;
-
     @Override
     public void initialize(@NonNull Overlay overlay) {
         try {
-            logo = ImageIO.read(LogoDVD.class.getResourceAsStream("dvdlogo.png"));
-            this.soundId = overlay.registerSoundResource(AUDIO_FILE.toUri().toURL());
+            logo = ImageIO.read(DVDLogoOverlay.class.getResourceAsStream("dvdlogo.png"));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -54,8 +46,6 @@ public class LogoDVD implements OverlayClient {
     @Override
     public void dispose(@NonNull Overlay overlay) {
         logo = null;
-        overlay.unregisterSoundResource(soundId);
-        soundId = null;
     }
 
     @Override
@@ -87,7 +77,6 @@ public class LogoDVD implements OverlayClient {
 
         if (bumped) {
             idx = (idx + 1) % (colors.length);
-            iteration.playSound(soundId);
         }
         final Graphics2D g2 = iteration.createGraphics2D();
         try {

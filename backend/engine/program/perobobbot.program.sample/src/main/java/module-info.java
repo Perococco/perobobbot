@@ -1,4 +1,5 @@
 import perobobbot.program.core.ProgramFactory;
+import perobobbot.program.sample.DVDLogoFactory;
 import perobobbot.program.sample.EchoFactory;
 import perobobbot.program.sample.HelloFactory;
 import perobobbot.program.sample.PingFactory;
@@ -9,6 +10,7 @@ module perobobbot.program.sample {
     requires perobobbot.program.core;
     requires perobobbot.common.lang;
     requires perobobbot.chat.advanced;
+    requires perobobbot.overlay;
 
     requires org.apache.logging.log4j;
 
@@ -17,5 +19,5 @@ module perobobbot.program.sample {
 
     exports perobobbot.program.sample;
 
-    provides ProgramFactory with HelloFactory,PingFactory,EchoFactory;
+    provides ProgramFactory with HelloFactory,PingFactory,EchoFactory, DVDLogoFactory;
 }

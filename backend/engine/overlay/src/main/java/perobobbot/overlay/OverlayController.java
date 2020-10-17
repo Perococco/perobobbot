@@ -2,10 +2,10 @@ package perobobbot.overlay;
 
 import lombok.NonNull;
 import newtek.perobobbot.overlay.PerococcoOverlayController;
-import perobobbot.common.lang.Subscription;
 import perobobbot.common.sound.SoundManager;
 
-public interface OverlayController {
+
+public interface OverlayController extends Overlay {
 
     @NonNull
     static OverlayController create(@NonNull String name, int width, int height, @NonNull SoundManager soundManager) {
@@ -16,18 +16,8 @@ public interface OverlayController {
         return new PerococcoOverlayController(name, width, height, frameRate, soundManager);
     }
 
-    int getWidth();
-
-    int getHeight();
-
-    @NonNull
-    FrameRate getFrameRate();
-
     void start();
 
     void stop();
-
-    @NonNull
-    Subscription addClient(@NonNull OverlayClient drawer);
 
 }

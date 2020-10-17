@@ -33,6 +33,10 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-overlay</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -58,10 +58,10 @@ module perobobbot.server {
     requires spring.integration.core;
     requires perobobbot.service.core;
     requires perobobbot.twitch.chat;
+    requires perobobbot.overlay;
+    requires perobobbot.common.sound;
 
     requires spring.boot.actuator;
-    requires bot.overlay;
-    requires perobobbot.common.sound;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

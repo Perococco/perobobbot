@@ -144,7 +144,7 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-ndi</artifactId>
+                <artifactId>bot-overlay</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
