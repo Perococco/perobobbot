@@ -4,6 +4,7 @@
 
 #maven
 target/
+build/
 
 # Compiled class file
 *.class
