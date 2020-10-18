@@ -1,0 +1,3 @@
+-Dfile.encoding=UTF-8
+-p ./lib
+-m  perobobbot.server/perobobbot.server.BotServer

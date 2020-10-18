@@ -19,7 +19,11 @@
 
     <properties>
         <project.root>${project.basedir}/../..</project.root>
-        <module.name>Perobobbot Server</module.name>
+        <module.name>Packaging</module.name>
+        <versioned-application.name>${application.name}_${project.version}</versioned-application.name>
+        <packaging.directory>${project.build.directory}/packaging</packaging.directory>
+        <build.directory>${packaging.directory}/${versioned-application.name}</build.directory>
+        <archive.name>${packaging.directory}/${versioned-application.name}.tgz</archive.name>
     </properties>
 
 
@@ -33,7 +37,38 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>resources</directory>
+                <targetPath>${packaging.directory}/resources</targetPath>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.root}/build</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -44,11 +79,78 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>${packaging.directory}/dependencies</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>Copy Executable</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <copy toDir="${build.directory}">
+                                    <fileset dir="${packaging.directory}/resources"/>
+                                </copy>
+                                <copy toDir="${build.directory}/lib">
+                                    <fileset dir="${packaging.directory}/dependencies"/>
+                                </copy>
+                                <chmod file="${build.directory}/launcher.sh" perm="u+rx"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>archive directory</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <tar destfile="${archive.name}" compression="gzip">
+                                    <tarfileset dir="${build.directory}" filemode="700" prefix="${versioned-application.name}">
+                                        <include name="launcher.sh"/>
+                                    </tarfileset>
+                                    <tarfileset dir="${build.directory}/lib" prefix="${versioned-application.name}/lib"/>
+                                    <tarfileset dir="${build.directory}/options" prefix="${versioned-application.name}/options"/>
+                                </tar>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>Copy Zips</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <copy file="${archive.name}" toDir="${project.root}/build"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+
         </plugins>
     </build>
 </project>
