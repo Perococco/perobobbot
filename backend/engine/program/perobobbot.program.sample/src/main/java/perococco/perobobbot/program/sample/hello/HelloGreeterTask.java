@@ -28,13 +28,13 @@ public class HelloGreeterTask implements BackgroundTask {
     private final IO io;
 
     @NonNull
-    private final AsyncIdentity<HelloState> state;
+    private final HelloIdentity identity;
 
     private ScheduledFuture<?> future;
 
     public HelloGreeterTask(@NonNull Services services, @NonNull HelloIdentity helloIdentity) {
         this.io = services.getService(IO.class);
-        this.state = helloIdentity.getState();
+        this.identity = helloIdentity;
     }
 
     @Override
@@ -64,9 +64,9 @@ public class HelloGreeterTask implements BackgroundTask {
         try {
             final ImmutableMap<ChannelInfo, ImmutableSet<User>> greeters;
 
-            greeters = state.mutateAndGetFromOldState(ClearGreetingIssuers.create(), HelloState::getGreetersPerChannel)
-                            .toCompletableFuture()
-                            .get();
+            greeters = identity.mutateAndGetFromOldState(ClearGreetingIssuers.create(), HelloState::getGreetersPerChannel)
+                               .toCompletableFuture()
+                               .get();
 
             greeters.entrySet()
                     .stream()

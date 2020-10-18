@@ -41,4 +41,9 @@ public class MessageContext {
      */
     @NonNull ChannelInfo channelInfo;
 
+    @NonNull
+    public String getMessageOwnerId() {
+        return getMessageOwner().getUserId();
+    }
+
 }

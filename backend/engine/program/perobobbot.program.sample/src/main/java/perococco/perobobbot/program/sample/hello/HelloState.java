@@ -24,6 +24,9 @@ public class HelloState {
         return greetersPerChannel.getOrDefault(channelInfo, ImmutableSet.of());
     }
 
+    public boolean hasBeenGreeted(@NonNull UserOnChannel userOnChannel) {
+        return alreadyGreeted.contains(userOnChannel);
+    }
 
     @NonNull
     public static HelloState empty() {

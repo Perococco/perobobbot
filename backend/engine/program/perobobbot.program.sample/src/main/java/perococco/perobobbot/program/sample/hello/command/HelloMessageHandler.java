@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.MessageContext;
 import perobobbot.program.core.MessageHandler;
 import perococco.perobobbot.program.sample.hello.HelloIdentity;
+import perococco.perobobbot.program.sample.hello.UserOnChannel;
 
 import java.util.Arrays;
 
@@ -21,8 +22,10 @@ public class HelloMessageHandler implements MessageHandler {
 
     @Override
     public boolean handleMessage(@NonNull MessageContext context) {
+        if (hello.getRootState().hasBeenGreeted(UserOnChannel.from(context))) {
+            return false;
+        }
         if (containsHello(context.getContent())) {
-
             hello.greetUser(context.getChannelInfo(),context.getMessageOwner());
         }
         return false;
