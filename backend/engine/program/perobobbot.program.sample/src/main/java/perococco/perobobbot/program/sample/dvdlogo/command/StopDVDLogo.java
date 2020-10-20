@@ -7,7 +7,7 @@ import perobobbot.common.lang.Role;
 import perobobbot.program.core.ChatCommand;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
-import perococco.perobobbot.program.sample.dvdlogo.DVDLogoAction;
+import perococco.perobobbot.program.sample.dvdlogo.DVDLogoExecutor;
 
 @RequiredArgsConstructor
 public class StopDVDLogo implements ChatCommand {
@@ -21,12 +21,12 @@ public class StopDVDLogo implements ChatCommand {
     private final @NonNull String name;
 
     @NonNull
-    private final DVDLogoAction dvdLogoAction;
+    private final DVDLogoExecutor dvdLogoExecutor;
 
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext) {
-        dvdLogoAction.stopOverlay();
+        dvdLogoExecutor.stopOverlay();
     }
 
 }

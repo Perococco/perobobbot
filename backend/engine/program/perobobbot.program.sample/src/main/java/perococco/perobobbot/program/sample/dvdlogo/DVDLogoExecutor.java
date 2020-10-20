@@ -6,10 +6,10 @@ import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.overlay.Overlay;
 import perobobbot.service.core.Services;
 
-public class DVDLogoAction {
+public class DVDLogoExecutor {
 
-    public static DVDLogoAction create(@NonNull Services services) {
-        return new DVDLogoAction(services.getService(Overlay.class));
+    public static DVDLogoExecutor create(@NonNull Services services) {
+        return new DVDLogoExecutor(services.getService(Overlay.class));
     }
 
     @NonNull
@@ -17,7 +17,7 @@ public class DVDLogoAction {
 
     private final SubscriptionHolder subscription = new SubscriptionHolder();
 
-    private DVDLogoAction(Overlay overlay) {
+    private DVDLogoExecutor(Overlay overlay) {
         this.overlay = overlay;
     }
 

@@ -6,7 +6,7 @@ import perobobbot.overlay.Overlay;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactory;
 import perobobbot.service.core.Services;
-import perococco.perobobbot.program.sample.dvdlogo.DVDLogoAction;
+import perococco.perobobbot.program.sample.dvdlogo.DVDLogoExecutor;
 import perococco.perobobbot.program.sample.dvdlogo.command.StartDVDLogo;
 import perococco.perobobbot.program.sample.dvdlogo.command.StopDVDLogo;
 
@@ -31,12 +31,11 @@ public class DVDLogoFactory implements ProgramFactory {
 
     @Override
     public @NonNull Program create(@NonNull Services services) {
-        final Overlay overlay = services.getService(Overlay.class);
-        return Program.builder(DVDLogoAction::create)
+        return Program.builder(DVDLogoExecutor::create)
                       .setName(NAME)
                       .setServices(services)
-                      .attachChatCommand("!dlstart", StartDVDLogo::new)
-                      .attachChatCommand("!dlstop", StopDVDLogo::new)
+                      .attachChatCommand("!dl start", StartDVDLogo::new)
+                      .attachChatCommand("!dl stop", StopDVDLogo::new)
                       .build();
     }
 }
