@@ -27,6 +27,14 @@ public enum Role {
     @NonNull
     public static final Comparator<Role> HIGHER_LEVEL_ROLE = Comparator.comparingInt(Role::getLevel);
 
+    public boolean isBetterThan(@NonNull Role other) {
+        return other.level < this.level;
+    }
+
+    public boolean isNotBetterThan(@NonNull Role other) {
+        return this.level <= other.level;
+    }
+
 
     private static final class Holder {
 

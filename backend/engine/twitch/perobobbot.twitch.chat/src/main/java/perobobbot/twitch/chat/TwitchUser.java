@@ -31,14 +31,12 @@ public class TwitchUser implements User {
 
     @Override
     public boolean canActAs(@NonNull Role role) {
-        if (role == Role.ANY_USER) {
-            return true;
-        } else if (badges.hasBadge(BadgeName.BROADCASTER)) {
+        if (role == Role.ANY_USER || badges.hasBadge(BadgeName.BROADCASTER)) {
             return true;
         } else if (badges.hasBadge(BadgeName.MODERATOR)) {
-            return role != Role.THE_BOSS;
+            return role.isNotBetterThan(Role.TRUSTED_USER);
         } else if (badges.hasBadge(BadgeName.SUBSCRIBER)) {
-            return role == Role.TRUSTED_USER;
+            return role.isNotBetterThan(Role.STANDARD_USER);
         }
         return false;
     }
