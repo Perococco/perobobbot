@@ -1,3 +1,9 @@
 -Dfile.encoding=UTF-8
+-XX:TieredStopAtLevel=1
+-Dspring.output.ansi.enabled=always
+-Dcom.sun.management.jmxremote
+-Dspring.jmx.enabled=false
+-Dspring.liveBeansView.mbeanDomain
+-Dspring.application.admin.enabled=false
 -p ./lib
 -m  perobobbot.server/perobobbot.server.BotServer
