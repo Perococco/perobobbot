@@ -38,7 +38,7 @@ public interface Program {
      * @param commandName the name of the chat command to find
      * @return an optional containing the chat command with the provided name if any, an empty optional otherwise
      */
-    Optional<ChatCommand> findChatCommand(@NonNull String commandName);
+    Optional<Execution> findChatCommand(@NonNull String commandName);
 
     @NonNull
     MessageHandler getMessageHandler();

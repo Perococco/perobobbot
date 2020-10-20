@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.program.core.BackgroundTask;
-import perobobbot.program.core.ChatCommand;
+import perobobbot.program.core.Execution;
 import perobobbot.program.core.MessageHandler;
 import perobobbot.program.core.Program;
 
@@ -22,13 +22,13 @@ public class PerococcoProgram implements Program {
     private final BackgroundTask backgroundTask;
 
     @NonNull
-    private final ImmutableMap<String, CommandWithPolicyHandling> chatCommands;
+    private final ImmutableMap<String, ChatCommandWithPolicyHandling> chatCommands;
 
     @NonNull
     private final MessageHandler messageHandler;
 
     public void cleanUp() {
-        chatCommands.values().forEach(CommandWithPolicyHandling::cleanup);
+        chatCommands.values().forEach(ChatCommandWithPolicyHandling::cleanup);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PerococcoProgram implements Program {
     }
 
     @Override
-    public Optional<ChatCommand> findChatCommand(@NonNull String commandName) {
+    public Optional<Execution> findChatCommand(@NonNull String commandName) {
         return Optional.ofNullable(chatCommands.get(commandName));
     }
 

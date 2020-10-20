@@ -1,17 +1,19 @@
 package perococco.perobobbot.program.core.manager.command;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.program.core.Execution;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ProgramAction;
 
-public class StopAllPrograms extends ManagerChatCommand {
+@RequiredArgsConstructor
+public class StopAllPrograms implements Execution {
 
-    public StopAllPrograms(@NonNull String name, @NonNull ProgramAction programAction) {
-        super(name, programAction);
-    }
+    @NonNull
+    private final ProgramAction programAction;
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext) {
-        getProgramAction().stopAllPrograms();
+        programAction.stopAllPrograms();
     }
 }

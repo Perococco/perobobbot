@@ -3,11 +3,14 @@ package perobobbot.program.sample;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.common.lang.IO;
+import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactory;
 import perobobbot.service.core.Services;
 import perococco.perobobbot.program.sample.echo.EchoAction;
 import perococco.perobobbot.program.sample.echo.command.EchoCommand;
+
+import java.time.Duration;
 
 public class EchoFactory implements ProgramFactory {
 
@@ -23,7 +26,7 @@ public class EchoFactory implements ProgramFactory {
         return Program.builder(EchoAction::create)
                       .setName(NAME)
                       .setServices(services)
-                      .attachChatCommand("!echo", EchoCommand::new)
+                      .attachChatCommand("!echo", EchoCommand::new, ExecutionPolicy.withGlobalCooldown(Duration.ofSeconds(10)))
                       .build();
     }
 

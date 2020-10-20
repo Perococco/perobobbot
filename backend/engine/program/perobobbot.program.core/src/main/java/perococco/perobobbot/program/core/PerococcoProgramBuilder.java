@@ -3,9 +3,10 @@ package perococco.perobobbot.program.core;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ImmutableEntry;
 import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.fp.Function1;
+import perobobbot.common.lang.fp.Value2;
+import perobobbot.common.lang.fp.Value3;
 import perobobbot.program.core.*;
 import perobobbot.service.core.Services;
 
@@ -24,7 +25,7 @@ public class PerococcoProgramBuilder<P> implements ProgramBuilder<P> {
 
     private BackgroundTask.@NonNull Factory<P> backgroundTaskFactory = (services, programState) -> BackgroundTask.NOP;
 
-    private final Map<String, ChatCommand.Factory<? super P>> chatCommandFactories = new HashMap<>();
+    private final Map<String, Value2<Execution.Factory<? super P>, ExecutionPolicy>> chatCommandFactories = new HashMap<>();
 
     private MessageHandler.Factory<P> messageHandler = p -> e -> false;
 
@@ -35,12 +36,14 @@ public class PerococcoProgramBuilder<P> implements ProgramBuilder<P> {
         Objects.requireNonNull(parameterFactory, "parameterFactory must not be null");
 
         final P parameter = parameterFactory.f(services);
-        final ImmutableMap<String, CommandWithPolicyHandling> chatCommands = chatCommandFactories.entrySet()
-                                                                                   .stream()
-                                                                                   .map(ImmutableEntry::of)
-                                                                                   .map(e -> e.map(f -> f.create(e.getKey(),parameter)))
-                                                                                   .map(e -> e.map(CommandWithPolicyHandling::new))
-                                                                                   .collect(MapTool.entryCollector());
+        final ImmutableMap<String, ChatCommandWithPolicyHandling> chatCommands = chatCommandFactories.entrySet()
+                                                                                                     .stream()
+                                                                                                     .map(Value2::of)
+                                                                                                     .map(Value3::flatten)
+                                                                                                     .map(v -> v.mapB(d -> d.create(parameter)))
+                                                                                                     .map(v -> v.use(ChatCommandWithPolicyHandling::new))
+                                                                                                     .collect(MapTool.collector(ChatCommandWithPolicyHandling::getName));
+
         return new PerococcoProgram(
                 name,
                 backgroundTaskFactory.create(services, parameter),
@@ -70,8 +73,10 @@ public class PerococcoProgramBuilder<P> implements ProgramBuilder<P> {
 
 
     @Override
-    public @NonNull ProgramBuilder<P> attachChatCommand(@NonNull String commandName, ChatCommand.@NonNull Factory<P> factory) {
-        this.chatCommandFactories.put(commandName, factory);
+    public @NonNull ProgramBuilder<P> attachChatCommand(@NonNull String commandName,
+                                                        @NonNull Execution.@NonNull Factory<P> factory,
+                                                        @NonNull ExecutionPolicy policy) {
+        this.chatCommandFactories.put(commandName, Value2.of(factory,policy));
         return this;
     }
 

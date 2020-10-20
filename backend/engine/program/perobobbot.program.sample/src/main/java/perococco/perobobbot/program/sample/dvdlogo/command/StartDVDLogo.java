@@ -1,24 +1,13 @@
 package perococco.perobobbot.program.sample.dvdlogo.command;
 
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.Role;
-import perobobbot.program.core.ChatCommand;
+import perobobbot.program.core.Execution;
 import perobobbot.program.core.ExecutionContext;
-import perobobbot.program.core.ExecutionPolicy;
 import perococco.perobobbot.program.sample.dvdlogo.DVDLogoExecutor;
 
 @RequiredArgsConstructor
-public class StartDVDLogo implements ChatCommand {
-
-    @Getter
-    private final ExecutionPolicy executionPolicy = ExecutionPolicy.builder()
-                                                                   .requiredRole(Role.ADMINISTRATOR)
-                                                                   .build();
-
-    @Getter
-    private final @NonNull String name;
+public class StartDVDLogo implements Execution {
 
     @NonNull
     private final DVDLogoExecutor dvdLogoExecutor;

@@ -3,6 +3,7 @@ package perobobbot.program.sample;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.overlay.Overlay;
+import perobobbot.program.core.ExecutionPolicy;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactory;
 import perobobbot.service.core.Services;
@@ -34,8 +35,8 @@ public class DVDLogoFactory implements ProgramFactory {
         return Program.builder(DVDLogoExecutor::create)
                       .setName(NAME)
                       .setServices(services)
-                      .attachChatCommand("!dl start", StartDVDLogo::new)
-                      .attachChatCommand("!dl stop", StopDVDLogo::new)
+                      .attachChatCommand("!dlstart", StartDVDLogo::new, ExecutionPolicy.ADMINISTRATOR_NO_COOLDOWN)
+                      .attachChatCommand("!dlstop", StopDVDLogo::new, ExecutionPolicy.ADMINISTRATOR_NO_COOLDOWN)
                       .build();
     }
 }

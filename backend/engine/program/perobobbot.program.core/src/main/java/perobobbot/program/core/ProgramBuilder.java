@@ -18,7 +18,7 @@ public interface ProgramBuilder<P> {
     ProgramBuilder<P> setBackgroundTask(@NonNull BackgroundTask.Factory<P> factory);
 
     @NonNull
-    ProgramBuilder<P> attachChatCommand(@NonNull String commandName, @NonNull ChatCommand.Factory<P> factory);
+    ProgramBuilder<P> attachChatCommand(@NonNull String commandName, @NonNull Execution.Factory<P> factory, @NonNull ExecutionPolicy policy);
 
     @NonNull
     ProgramBuilder<P> setMessageHandler(@NonNull MessageHandler.Factory<P> factory);

@@ -16,6 +16,9 @@ import java.util.Optional;
 @Builder
 public class ExecutionPolicy {
 
+    public static final ExecutionPolicy ANY_WITH_10s_GLOBAL_COOLDOWN = new ExecutionPolicy(Role.ANY_USER, Duration.ofSeconds(10), ImmutableMap.of());
+    public static final ExecutionPolicy ADMINISTRATOR_NO_COOLDOWN = new ExecutionPolicy(Role.ADMINISTRATOR, Duration.ofSeconds(0), ImmutableMap.of());
+
     public static final ExecutionPolicy NONE = new ExecutionPolicy(Role.ANY_USER, Duration.ZERO, ImmutableMap.of());
 
     public static final Duration DEFAULT_COOLDOWN = Duration.ofMinutes(1);

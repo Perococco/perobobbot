@@ -28,6 +28,10 @@ import java.util.stream.Stream;
 @Log4j2
 public class PerococcoProgramExecutor implements ProgramExecutor {
 
+    private static final ExecutionPolicy EXECUTION_POLICY = ExecutionPolicy.builder()
+                                                                           .requiredRole(Role.TRUSTED_USER)
+                                                                           .build();
+
     @NonNull
     public static ProgramExecutor create(@NonNull Services services) {
         final ImmutableSet.Builder<String> programToStart = ImmutableSet.builder();
@@ -75,11 +79,11 @@ public class PerococcoProgramExecutor implements ProgramExecutor {
         this.programManager = Program.builder(programAction)
                                      .setName("Program Manager")
                                      .setServices(services)
-                                     .attachChatCommand("#list", ListPrograms::new)
-                                     .attachChatCommand("#start-all", StartAllPrograms::new)
-                                     .attachChatCommand("#stop-all", StopAllPrograms::new)
-                                     .attachChatCommand("#stop", StopProgram::new)
-                                     .attachChatCommand("#start", StartProgram::new)
+                                     .attachChatCommand("#list", ListPrograms::new,EXECUTION_POLICY)
+                                     .attachChatCommand("#start-all", StartAllPrograms::new,EXECUTION_POLICY)
+                                     .attachChatCommand("#stop-all", StopAllPrograms::new,EXECUTION_POLICY)
+                                     .attachChatCommand("#stop", StopProgram::new,EXECUTION_POLICY)
+                                     .attachChatCommand("#start", StartProgram::new,EXECUTION_POLICY)
                                      .build();
 
         programsToStart.forEach(programAction::startProgram);

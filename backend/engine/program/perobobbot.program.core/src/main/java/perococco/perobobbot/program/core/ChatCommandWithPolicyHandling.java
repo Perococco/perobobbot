@@ -1,32 +1,44 @@
 package perococco.perobobbot.program.core;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.program.core.ChatCommand;
+import perobobbot.program.core.Execution;
 import perobobbot.program.core.ExecutionContext;
 import perobobbot.program.core.ExecutionPolicy;
 
 import java.time.Instant;
 
 @Log4j2
-public class CommandWithPolicyHandling implements ChatCommand {
+public class ChatCommandWithPolicyHandling implements ChatCommand {
 
     @NonNull
-    private final ChatCommand delegate;
+    @Getter
+    private final String name;
+
+    @NonNull
+    private final Execution execution;
+
+    @NonNull
+    @Getter
+    private final ExecutionPolicy executionPolicy;
 
     @NonNull
     private final ExecutionInfo executionInfo;
 
-    public CommandWithPolicyHandling(@NonNull ChatCommand delegate) {
-        this.delegate = delegate;
-        this.executionInfo = new ExecutionInfo(delegate.getExecutionPolicy());
+    public ChatCommandWithPolicyHandling(@NonNull String name, @NonNull Execution execution, @NonNull ExecutionPolicy executionPolicy) {
+        this.name = name;
+        this.execution = execution;
+        this.executionPolicy = executionPolicy;
+        this.executionInfo = new ExecutionInfo(executionPolicy);
     }
 
     @Override
     public void execute(@NonNull ExecutionContext executionContext) {
         final Instant now = Instant.now();
         if (executionInfo.canExecute(executionContext.getMessageOwner(), now)) {
-            delegate.execute(executionContext);
+            execution.execute(executionContext);
         } else {
             LOG.info("Execution of {} denied for user '{}'", getName(), executionContext.getMessageOwner().getUserId());
         }
@@ -37,20 +49,9 @@ public class CommandWithPolicyHandling implements ChatCommand {
     }
 
     @Override
-    public @NonNull String getName() {
-        return delegate.getName();
-    }
-
-
-    @Override
-    public @NonNull ExecutionPolicy getExecutionPolicy() {
-        return delegate.getExecutionPolicy();
-    }
-
-    @Override
     public String toString() {
         return "ChatCommandWithPolicyHandling{" +
-               delegate.getName() +
+               name +
                '}';
     }
 }

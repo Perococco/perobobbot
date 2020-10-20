@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.common.lang.fp.Function0;
 import perobobbot.common.lang.fp.UnaryOperator1;
+import perobobbot.common.lang.fp.Value2;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -35,6 +36,11 @@ public class MapTool {
     @NonNull
     public static <K,V> Collector<Map.Entry<K,V>,?,ImmutableMap<K,V>> entryCollector() {
         return ImmutableMap.toImmutableMap(Map.Entry::getKey, Map.Entry::getValue);
+    }
+
+    @NonNull
+    public static <K,V> Collector<Value2<K,V>,?,ImmutableMap<K,V>> value2Collector() {
+        return ImmutableMap.toImmutableMap(Value2::getA,Value2::getB);
     }
 
     @NonNull
