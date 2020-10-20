@@ -10,6 +10,10 @@ import java.util.Optional;
 
 public interface Services {
 
+    /**
+     * @param serviceType the type of the requested service
+     * @return an optional containing the service with the requested type, an empty optional if no such service exists
+     */
     @NonNull <T> Optional<T> findService(@NonNull Class<T> serviceType);
 
     default boolean hasService(@NonNull Class<?> serviceType) {
