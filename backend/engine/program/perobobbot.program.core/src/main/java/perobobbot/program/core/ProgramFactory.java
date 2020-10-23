@@ -40,7 +40,7 @@ public interface ProgramFactory {
      * @return true if the program created by this factory should be started automatically
      */
     default boolean isAutoStart() {
-        return false;
+        return true;
     }
 
 }

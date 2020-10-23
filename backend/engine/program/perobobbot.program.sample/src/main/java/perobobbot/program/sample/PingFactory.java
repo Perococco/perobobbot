@@ -31,11 +31,6 @@ public class PingFactory implements ProgramFactory {
     }
 
     @Override
-    public boolean isAutoStart() {
-        return true;
-    }
-
-    @Override
     public @NonNull ImmutableSet<Class<?>> requiredServices() {
         return ImmutableSet.of(IO.class);
     }

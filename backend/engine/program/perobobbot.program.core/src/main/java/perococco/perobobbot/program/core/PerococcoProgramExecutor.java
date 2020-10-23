@@ -11,7 +11,7 @@ import org.apache.logging.log4j.MarkerManager;
 import perobobbot.common.lang.*;
 import perobobbot.program.core.*;
 import perobobbot.service.core.Services;
-import perobobbot.service.core.ServicesFilter;
+import perococco.perobobbot.service.core.ServicesFilter;
 import perobobbot.service.core.UnknownService;
 import perococco.perobobbot.program.core.manager.PerococcoProgramAction;
 import perococco.perobobbot.program.core.manager.command.*;

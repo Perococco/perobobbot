@@ -6,4 +6,5 @@ module perobobbot.service.core {
     requires perobobbot.common.lang;
 
     exports perobobbot.service.core;
+    exports perococco.perobobbot.service.core to perobobbot.program.core;
 }
