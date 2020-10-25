@@ -7,28 +7,26 @@ import perococco.perobobbot.common.lang.PerococcoIOBuilder;
 public interface IO {
 
     /**
-     * Print a message to the IO that received the message that trigger the program
+     * Print a message to the provided channel
      * @param channelInfo the channel information to find the platform and the channel to send the message to
-     * @param messageBuilder the builder that can use the {@link DispatchContext} to create the message
+     * @param messageBuilder abuilder that can use the {@link DispatchContext} to create the message to send
      */
     void print(@NonNull ChannelInfo channelInfo, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
     /**
      * @param channelInfo the channel information to find the platform and the channel to send the message to
-     * @param message print the message to the IO that received the message that trigger the program
+     * @param message print the message to the provided channel
      */
     default void print(@NonNull ChannelInfo channelInfo , @NonNull String message) {
         print(channelInfo, d -> message);
     }
 
     @NonNull
-    default PlatformIO forPlatform(@NonNull Platform platform) {
-        return (channel, messageBuilder) -> IO.this.print(new ChannelInfo(platform, channel), messageBuilder);
-    }
+    PlatformIO forPlatform(@NonNull Platform platform);
 
     @NonNull
     default ChannelIO forChannelInfo(@NonNull ChannelInfo channelInfo) {
-        return messageBuilder -> IO.this.print(channelInfo,messageBuilder);
+        return forPlatform(channelInfo.getPlatform()).forChannel(channelInfo.getChannelName());
     }
 
     static IOBuilder builder() {

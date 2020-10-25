@@ -1,6 +1,7 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
+import perobobbot.common.lang.Platform;
 import perococco.perobobbot.twitch.chat.PerococcoTwitchChat;
 
 import java.net.URI;

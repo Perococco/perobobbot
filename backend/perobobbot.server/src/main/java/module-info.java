@@ -20,8 +20,13 @@ module perobobbot.server {
     requires perobobbot.data.jpa;
     requires perobobbot.data.service;
     requires perobobbot.program.core;
-    requires perobobbot.program.sample;
+    requires perobobbot.program.echo;
+    requires perobobbot.program.greeter;
     requires perobobbot.blackjack.engine;
+    requires perobobbot.service.core;
+    requires perobobbot.twitch.chat;
+    requires perobobbot.overlay;
+    requires perobobbot.common.sound;
 
 
     requires org.apache.logging.log4j;
@@ -56,12 +61,10 @@ module perobobbot.server {
     requires java.xml.bind;
     requires jakarta.activation;
     requires spring.integration.core;
-    requires perobobbot.service.core;
-    requires perobobbot.twitch.chat;
-    requires perobobbot.overlay;
-    requires perobobbot.common.sound;
 
     requires spring.boot.actuator;
+    requires perobobbot.chat.core;
+    requires perobobbot.access.core;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

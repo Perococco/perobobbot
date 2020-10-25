@@ -21,14 +21,14 @@ public class PerococcoSyncExecutor<I> implements SyncExecutor<I> {
 
     private static final Marker MARKER = MarkerManager.getMarker("EXECUTOR");
 
-    private final SynExecutorLooper<I> looper;
+    private final SyncExecutorLooper<I> looper;
 
     public PerococcoSyncExecutor(@NonNull String name) {
         this(Executors.newCachedThreadPool(ThreadFactories.daemon(name+" %d")));
     }
 
     public PerococcoSyncExecutor(@NonNull Executor executor) {
-        this.looper = new SynExecutorLooper<>(executor);
+        this.looper = new SyncExecutorLooper<>(executor);
         this.looper.start();
     }
 

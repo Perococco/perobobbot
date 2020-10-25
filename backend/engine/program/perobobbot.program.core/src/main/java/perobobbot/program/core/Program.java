@@ -1,13 +1,14 @@
 package perobobbot.program.core;
 
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Function1;
-import perobobbot.service.core.Services;
-import perococco.perobobbot.program.core.PerococcoProgramBuilder;
+import perobobbot.common.lang.ThreadFactories;
 
-import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public interface Program {
+
+    ScheduledExecutorService TASK_EXECUTOR = Executors.newScheduledThreadPool(4, ThreadFactories.daemon("background-tasks-%d"));
 
     /**
      * @return the name of the program
@@ -17,37 +18,21 @@ public interface Program {
 
     /**
      * start the program.
-     * launch the background task associated with it
      */
     void start();
 
     /**
      * stop the program.
-     * stop the background task associated with it
      */
-    void stop();
+    void requestStop();
 
     /**
-     * method call periodically to perform
-     * maintenance clean up
+     * @return true if the program is running
      */
-    void cleanUp();
-
-    /**
-     * Find the chat command with the specific name
-     * @param commandName the name of the chat command to find
-     * @return an optional containing the chat command with the provided name if any, an empty optional otherwise
-     */
-    Optional<Execution> findChatCommand(@NonNull String commandName);
+    boolean isRunning();
 
     @NonNull
-    MessageHandler getMessageHandler();
-
-    static <P> ProgramBuilder<P> builder(@NonNull Function1<? super Services, ? extends P> parameterFactory) {
-        return new PerococcoProgramBuilder<>(parameterFactory);
-    }
-
-    static <P> ProgramBuilder<P> builder(@NonNull P parameter) {
-        return builder(s -> parameter);
+    default ProgramInfo getInfo() {
+        return new ProgramInfo(getName(),isRunning());
     }
 }

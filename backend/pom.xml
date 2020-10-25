@@ -28,6 +28,7 @@
         <module>data/perobobbot.data.jpa</module>
         <module>data/perobobbot.data.schema</module>
         <module>games/blackjack</module>
+        <module>engine/access</module>
         <module>engine/service</module>
         <module>engine/chat</module>
         <module>engine/program</module>

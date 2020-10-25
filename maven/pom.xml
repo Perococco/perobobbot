@@ -113,6 +113,11 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>bot-access-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>bot-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -139,7 +144,17 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-sample</artifactId>
+                <artifactId>bot-program-greeter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-program-echo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-program-echo</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

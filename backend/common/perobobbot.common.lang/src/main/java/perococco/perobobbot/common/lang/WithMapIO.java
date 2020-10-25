@@ -21,8 +21,16 @@ public class WithMapIO implements IO {
         if (platformIO != null) {
             platformIO.print(channelInfo.getChannelName(), messageBuilder);
         } else {
-            LOG.warn("No IO for platform {}",channelInfo.getPlatform());
+            LOG.warn("No IO for platform {}", channelInfo.getPlatform());
         }
     }
 
- }
+    @Override
+    public @NonNull PlatformIO forPlatform(@NonNull Platform platform) {
+        final PlatformIO platformIO = ioByPlatform.get(platform);
+        if (platformIO != null) {
+            return platformIO;
+        }
+        return (channel, messageBuilder) -> LOG.warn("No IO for platform {}", platform);
+    }
+}

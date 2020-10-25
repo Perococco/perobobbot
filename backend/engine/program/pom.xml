@@ -23,7 +23,9 @@
 
     <modules>
         <module>perobobbot.program.core</module>
-        <module>perobobbot.program.sample</module>
+        <module>perobobbot.program.greeter</module>
+        <module>perobobbot.program.echo</module>
+<!--        <module>perobobbot.program.sample</module>-->
     </modules>
 
 </project>

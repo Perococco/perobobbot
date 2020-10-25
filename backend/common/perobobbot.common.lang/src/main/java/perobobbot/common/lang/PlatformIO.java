@@ -6,7 +6,7 @@ import perobobbot.common.lang.fp.Function1;
 public interface PlatformIO {
 
     /**
-     * Print a message to the IO that received the message that trigger the program
+     * Print a message to the a given channel
      * @param channel the channel to send the message to
      * @param messageBuilder the builder that can use the {@link DispatchContext} to create the message
      */
@@ -20,8 +20,13 @@ public interface PlatformIO {
         print(channel, d -> message);
     }
 
+    /**
+     * @param channel the channel the returned {@link ChannelIO} is linked to
+     * @return a {@link ChannelIO} linked to the provided channel
+     */
+    @NonNull
     default ChannelIO forChannel(@NonNull String channel) {
-        return m -> PlatformIO.this.print(channel,m);
+        return messageBuilder -> PlatformIO.this.print(channel, messageBuilder);
     }
 
 }

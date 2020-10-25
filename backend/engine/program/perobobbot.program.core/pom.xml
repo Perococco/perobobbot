@@ -23,11 +23,15 @@
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-advanced</artifactId>
+            <artifactId>bot-chat-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-service-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-access-core</artifactId>
         </dependency>
     </dependencies>
 
