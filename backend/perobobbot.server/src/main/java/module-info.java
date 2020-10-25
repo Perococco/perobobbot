@@ -20,9 +20,6 @@ module perobobbot.server {
     requires perobobbot.data.jpa;
     requires perobobbot.data.service;
     requires perobobbot.program.core;
-    requires perobobbot.program.echo;
-    requires perobobbot.program.greeter;
-    requires perobobbot.program.dvdlogo;
     requires perobobbot.blackjack.engine;
     requires perobobbot.service.core;
     requires perobobbot.twitch.chat;
