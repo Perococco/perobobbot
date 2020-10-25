@@ -42,14 +42,17 @@
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-program-greeter</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-program-dvdlogo</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-overlay</artifactId>
+            <scope>runtime</scope>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.sun.activation</groupId>-->
