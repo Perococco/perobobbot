@@ -33,6 +33,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-chat-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-overlay</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

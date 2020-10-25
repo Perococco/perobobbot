@@ -20,6 +20,7 @@ public class OverlayConfiguration {
     @Bean("default")
     @Service
     public Overlay defaultOverlay() {
+        System.out.println("TOTO");
         return new OverlayComponent(overlayController());
     }
 
