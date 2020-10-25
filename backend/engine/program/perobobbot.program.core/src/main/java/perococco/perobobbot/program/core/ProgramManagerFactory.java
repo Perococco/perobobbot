@@ -39,7 +39,8 @@ public class ProgramManagerFactory {
 
     @NonNull
     public static ProgramManager create(@NonNull Services services, @NonNull PolicyManager policyManager) {
-        return new ProgramManagerFactory(services.filter(REQUIREMENTS), policyManager).create();
+        services.filter(REQUIREMENTS);
+        return new ProgramManagerFactory(services, policyManager).create();
     }
 
     @NonNull
@@ -94,7 +95,6 @@ public class ProgramManagerFactory {
             if (programFactory.isAutoStart()) {
                 program.start();
             }
-            LOG.info("Add program : '{}'",program.getName());
             return Optional.of(program);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);

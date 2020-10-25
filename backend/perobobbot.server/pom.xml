@@ -45,6 +45,10 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-dvdlogo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>bot-overlay</artifactId>
         </dependency>
 <!--        <dependency>-->
