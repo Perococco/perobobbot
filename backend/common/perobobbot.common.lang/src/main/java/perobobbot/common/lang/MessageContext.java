@@ -43,7 +43,14 @@ public class MessageContext {
 
     @NonNull
     public String getMessageOwnerId() {
-        return getMessageOwner().getUserId();
+        return messageOwner.getUserId();
     }
 
+    public Platform getPlatform() {
+        return channelInfo.getPlatform();
+    }
+
+    public boolean doesContentStartWith(char prefix) {
+        return !content.isEmpty() && content.charAt(0) == prefix;
+    }
 }

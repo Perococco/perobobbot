@@ -52,4 +52,6 @@ public interface TwitchChatIO extends PlatformIO {
     default void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
         message(Channel.create(channel),messageBuilder);
     }
+
+
 }

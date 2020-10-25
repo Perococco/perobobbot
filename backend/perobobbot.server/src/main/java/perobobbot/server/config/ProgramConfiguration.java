@@ -4,7 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.program.core.ProgramExecutor;
+import perobobbot.access.core.PolicyManager;
+import perobobbot.program.core.ProgramManager;
 import perobobbot.service.core.Services;
 
 @Configuration
@@ -14,9 +15,12 @@ public class ProgramConfiguration {
     @NonNull
     private final Services services;
 
-    @Bean(destroyMethod = "stop")
-    public ProgramExecutor programExecutor() {
-        return new MsgProgramExecutor(ProgramExecutor.create(services));
+    @NonNull
+    private final PolicyManager policyManager;
+
+    @Bean(destroyMethod = "stopAll")
+    public ProgramManager programExecutor() {
+        return ProgramManager.create(services,policyManager);
     }
 
 }

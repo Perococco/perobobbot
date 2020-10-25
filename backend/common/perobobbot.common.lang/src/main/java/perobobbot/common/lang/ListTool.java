@@ -13,7 +13,7 @@ import java.util.stream.Collector;
 /**
  * @author perococco
  **/
-public class ListTool {
+public class ListTool extends CollectionTool {
 
     /**
      * @return a list made by concatenating <code>element</code> and <code>source</code>

@@ -37,16 +37,24 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-echo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-greeter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>bot-overlay</artifactId>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.sun.activation</groupId>-->
 <!--            <artifactId>jakarta.activation</artifactId>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-sample</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>bot-program-sample</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>perococco.bot</groupId>
@@ -182,8 +190,12 @@
             <version>9.4.27.v20200227</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-service-core</artifactId>
+        </dependency>
 
-<!--        <dependency>-->
+        <!--        <dependency>-->
 <!--            <groupId>javax.xml.bind</groupId>-->
 <!--            <artifactId>jaxb-api</artifactId>-->
 <!--            <exclusions>-->

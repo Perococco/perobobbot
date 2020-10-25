@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Duration;
 import java.util.Comparator;
 
 @RequiredArgsConstructor
@@ -35,6 +36,15 @@ public enum Role {
         return this.level <= other.level;
     }
 
+    @NonNull
+    public RoleCooldown cooldown(@NonNull Duration duration) {
+        return new RoleCooldown(this,duration);
+    }
+
+    @NonNull
+    public RoleCooldown noCooldown() {
+        return cooldown(Duration.ZERO);
+    }
 
     private static final class Holder {
 
