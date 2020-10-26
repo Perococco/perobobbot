@@ -159,11 +159,6 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-echo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
                 <artifactId>bot-overlay</artifactId>
                 <version>${project.version}</version>
             </dependency>
