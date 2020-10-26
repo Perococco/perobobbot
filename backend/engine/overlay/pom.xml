@@ -17,7 +17,7 @@
     <name>${root.name} - ${module.name}</name>
 
     <properties>
-        <module.name>NDI</module.name>
+        <module.name>Overlay</module.name>
     </properties>
 
     <dependencies>

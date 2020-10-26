@@ -33,12 +33,23 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>bot-overlay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>bot-program-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-program-echo</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>bot-common-sound</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-program-greeter</artifactId>
@@ -49,19 +60,6 @@
             <artifactId>bot-program-dvdlogo</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-overlay</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.sun.activation</groupId>-->
-<!--            <artifactId>jakarta.activation</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>bot-program-sample</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>perococco.bot</groupId>
@@ -201,17 +199,6 @@
             <groupId>perococco.bot</groupId>
             <artifactId>bot-service-core</artifactId>
         </dependency>
-
-        <!--        <dependency>-->
-<!--            <groupId>javax.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-api</artifactId>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>javax.activation</groupId>-->
-<!--                    <artifactId>javax.activation-api</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
 
     </dependencies>
 
