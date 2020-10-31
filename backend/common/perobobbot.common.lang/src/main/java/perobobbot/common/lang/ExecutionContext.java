@@ -3,8 +3,8 @@ package perobobbot.common.lang;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 
-import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -13,6 +13,22 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 public class ExecutionContext {
+
+    @Getter
+    @Delegate
+    private final @NonNull MessageContext messageContext;
+
+    /**
+     * @return the name of the command
+     */
+    @Getter
+    private final @NonNull String commandName;
+
+    /**
+     * @return the rest of the content after the command name
+     */
+    @Getter
+    private final @NonNull String parameters;
 
     @NonNull
     public static Optional<ExecutionContext> from(char prefix, @NonNull MessageContext messageContext) {
@@ -29,49 +45,5 @@ public class ExecutionContext {
         }
 
         return Optional.of(new ExecutionContext(messageContext, command, parameters));
-    }
-
-    @Getter
-    private final @NonNull MessageContext messageContext;
-
-    /**
-     * @return the name of the command
-     */
-    @Getter
-    private final @NonNull String commandName;
-
-    /**
-     * @return the rest of the content after the command name
-     */
-    @Getter
-    private final @NonNull String parameters;
-
-    @NonNull
-    public ChannelInfo getChannelInfo() {
-        return messageContext.getChannelInfo();
-    }
-
-    @NonNull
-    public User getMessageOwner() {
-        return messageContext.getMessageOwner();
-    }
-
-    @NonNull
-    public String getMessageOwnerId() {
-        return getMessageOwner().getUserId();
-    }
-
-    @NonNull
-    public String getMessageContent() {
-        return messageContext.getContent();
-    }
-
-    @NonNull
-    public Instant getReceptionTime() {
-        return messageContext.getReceptionTime();
-    }
-
-    public boolean isMessageFromMe() {
-        return messageContext.isMessageFromMe();
     }
 }
