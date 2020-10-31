@@ -14,17 +14,17 @@ public abstract class ProgramWithLoop implements Program {
     private final Looper looper = Looper.basic(this::performOneIteration);
 
     @Override
-    public void start() {
+    public void enable() {
         looper.start();
     }
 
     @Override
-    public void requestStop() {
+    public void disable() {
         looper.requestStop();
     }
 
     @Override
-    public boolean isRunning() {
+    public boolean isEnabled() {
         return looper.isRunning();
     }
 

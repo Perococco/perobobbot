@@ -17,7 +17,7 @@ public class PerococcoChatController implements ChatController {
     @NonNull
     private final ImmutableMap<Platform, Character> prefixes;
 
-    private ImmutableMap<String,  Executor<ExecutionContext>> commands = ImmutableMap.of();
+    private ImmutableMap<String,  Executor<? super ExecutionContext>> commands = ImmutableMap.of();
 
     private ImmutableList<MessageHandler> listeners = ImmutableList.of();
 
@@ -43,7 +43,7 @@ public class PerococcoChatController implements ChatController {
 
     @Override
     @Synchronized
-    public @NonNull Subscription addCommand(@NonNull String commandName, @NonNull  Executor<ExecutionContext> handler) {
+    public @NonNull Subscription addCommand(@NonNull String commandName, @NonNull  Executor<? super ExecutionContext> handler) {
         if (commands.containsKey(commandName)) {
             throw new IllegalArgumentException("Duplicate command '" + commandName + "'");
         }

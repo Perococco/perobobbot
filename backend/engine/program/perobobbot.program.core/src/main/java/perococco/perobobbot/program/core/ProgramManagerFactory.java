@@ -93,7 +93,7 @@ public class ProgramManagerFactory {
             final var filtered = services.filter(programFactory.getRequirements());
             final var program = programFactory.create(filtered,policyManager);
             if (programFactory.isAutoStart()) {
-                program.start();
+                program.enable();
             }
             return Optional.of(program);
         } catch (Throwable t) {

@@ -45,7 +45,7 @@ public class GreeterProgram implements Program {
 
     @Override
     @Synchronized
-    public void start() {
+    public void enable() {
         if (future != null) {
             return;
         }
@@ -55,12 +55,12 @@ public class GreeterProgram implements Program {
                 5,
                 TimeUnit.SECONDS
         );
-        subscriptionHolder.replace(chatController.addListener(new HelloMessageHandler(identity)));
+        subscriptionHolder.replaceWith(chatController.addListener(new HelloMessageHandler(identity)));
     }
 
     @Override
     @Synchronized
-    public void requestStop() {
+    public void disable() {
         if (future != null) {
             subscriptionHolder.unsubscribe();
             future.cancel(true);
@@ -70,7 +70,7 @@ public class GreeterProgram implements Program {
 
     @Override
     @Synchronized
-    public boolean isRunning() {
+    public boolean isEnabled() {
         return future != null;
     }
 

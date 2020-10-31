@@ -19,22 +19,22 @@ public class PerococcoProgramManager implements ProgramManager {
 
     @Override
     public void startProgram(@NonNull String programName) {
-        getProgram(programName).start();
+        getProgram(programName).enable();
     }
 
     @Override
     public void stopProgram(@NonNull String programName) {
-        getProgram(programName).requestStop();
+        getProgram(programName).disable();
     }
 
     @Override
     public void stopAll() {
-        programs.values().forEach(Program::requestStop);
+        programs.values().forEach(Program::disable);
     }
 
     @Override
     public void startAll() {
-        programs.values().forEach(Program::start);
+        programs.values().forEach(Program::enable);
     }
 
     @NonNull

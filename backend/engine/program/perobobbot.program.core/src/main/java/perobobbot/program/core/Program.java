@@ -19,20 +19,20 @@ public interface Program {
     /**
      * start the program.
      */
-    void start();
+    void enable();
 
     /**
      * stop the program.
      */
-    void requestStop();
+    void disable();
 
     /**
      * @return true if the program is running
      */
-    boolean isRunning();
+    boolean isEnabled();
 
     @NonNull
     default ProgramInfo getInfo() {
-        return new ProgramInfo(getName(),isRunning());
+        return new ProgramInfo(getName(), isEnabled());
     }
 }

@@ -6,9 +6,14 @@ public class SubscriptionHolder {
 
     private Subscription subscription = null;
 
-    public void replace(@NonNull Subscription subscription) {
+    public void replaceWith(@NonNull Subscription subscription) {
         unsubscribe();
         this.subscription = subscription;
+    }
+
+    public void replaceWith(@NonNull Subscription... subscriptions) {
+        unsubscribe();
+        this.subscription = Subscription.join(subscriptions);
     }
 
     public boolean hasSubscription() {
