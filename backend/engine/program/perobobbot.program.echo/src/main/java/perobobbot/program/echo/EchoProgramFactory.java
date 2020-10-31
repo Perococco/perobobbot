@@ -1,12 +1,15 @@
 package perobobbot.program.echo;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
 import perobobbot.access.core.PolicyManager;
 import perobobbot.common.lang.IO;
 import perobobbot.common.lang.Role;
+import perobobbot.common.messaging.ChatCommand;
 import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.CommandBundleFactory;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactoryBase;
 import perobobbot.service.core.Requirement;
@@ -32,6 +35,14 @@ public class EchoProgramFactory extends ProgramFactoryBase {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10)));
         final ChatController chatController = services.getService(ChatController.class);
 
-        return new EchoProgram(PROGRAM_NAME,io,chatController,policy);
+        final CommandBundleFactory<EchoProgram> bundleFactory = CommandBundleFactory.with(
+                chatController,
+                p -> ImmutableList.of(
+                        ChatCommand.simple("echo", policy.createAccessPoint(p::performEcho))
+                )
+        );
+
+        return new EchoProgram(PROGRAM_NAME, bundleFactory, io);
+
     }
 }

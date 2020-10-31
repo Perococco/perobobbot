@@ -31,13 +31,25 @@ public class ExecutionContext {
     private final @NonNull String parameters;
 
     @NonNull
+    public Optional<ExecutionContext> withSubCommands() {
+        return splitCommandParameters(messageContext, parameters);
+    }
+
+
+    @NonNull
     public static Optional<ExecutionContext> from(char prefix, @NonNull MessageContext messageContext) {
         if (!messageContext.doesContentStartWith(prefix)) {
             return Optional.empty();
         }
-        final String[] content = messageContext.getContent().split(" ",2);
+        return splitCommandParameters(messageContext, messageContext.getContent().substring(1));
+    }
 
-        final String command = content.length>0?content[0].substring(1):"";
+
+    @NonNull
+    private static Optional<ExecutionContext> splitCommandParameters(@NonNull MessageContext messageContext, String source) {
+        final String[] content = source.split(" ",2);
+
+        final String command = content.length>0?content[0]:"";
         final String parameters = content.length>1?content[1]:"";
 
         if (command.isEmpty()) {
@@ -46,4 +58,5 @@ public class ExecutionContext {
 
         return Optional.of(new ExecutionContext(messageContext, command, parameters));
     }
+
 }

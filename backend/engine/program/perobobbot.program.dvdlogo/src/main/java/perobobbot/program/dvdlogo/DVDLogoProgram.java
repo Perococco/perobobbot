@@ -1,49 +1,32 @@
 package perobobbot.program.dvdlogo;
 
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.access.core.Policy;
 import perobobbot.common.lang.SubscriptionHolder;
-import perobobbot.common.messaging.ChatCommand;
-import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.CommandBundleFactory;
 import perobobbot.overlay.Overlay;
-import perobobbot.program.core.Program;
+import perobobbot.program.core.ProgramWithCommandBundle;
 
-@RequiredArgsConstructor
-public class DVDLogoProgram implements Program {
-
-    @Getter
-    private final @NonNull String name;
+public class DVDLogoProgram extends ProgramWithCommandBundle<DVDLogoProgram> {
 
     private final @NonNull Overlay overlay;
 
-    private final @NonNull ChatController chatController;
-
-    private final @NonNull Policy policy;
-
-    private final SubscriptionHolder commandSubscription = new SubscriptionHolder();
-
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
+    public DVDLogoProgram(@NonNull String name, CommandBundleFactory<DVDLogoProgram> commandBundleFactory, @NonNull Overlay overlay) {
+        super(name,commandBundleFactory);
+        this.overlay = overlay;
+    }
+
     @Override
-    public void enable() {
-        commandSubscription.replaceWith(
-                chatController.addCommand(ChatCommand.simple("dl-start", policy.createAccessPoint(ctx -> this.startOverlay()))),
-                chatController.addCommand(ChatCommand.simple("dl-stop", policy.createAccessPoint(ctx -> this.stopOverlay())))
-        );
+    protected DVDLogoProgram getThis() {
+        return this;
     }
 
     @Override
     public void disable() {
-        commandSubscription.unsubscribe();
+        super.disable();
         stopOverlay();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return commandSubscription.hasSubscription();
     }
 
     @Synchronized
@@ -51,7 +34,7 @@ public class DVDLogoProgram implements Program {
         if (overlaySubscription.hasSubscription()) {
             return;
         }
-        this.overlaySubscription.replaceWith(overlay.addClient(new DVDLogoOverlay()));
+        this.overlaySubscription.replaceWith(() -> overlay.addClient(new DVDLogoOverlay()));
     }
 
     @Synchronized

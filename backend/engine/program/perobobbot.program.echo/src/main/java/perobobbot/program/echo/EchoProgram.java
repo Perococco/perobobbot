@@ -1,48 +1,30 @@
 package perobobbot.program.echo;
 
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
-import perobobbot.access.core.Policy;
-import perobobbot.common.lang.*;
-import perobobbot.common.messaging.ChatCommand;
-import perobobbot.common.messaging.ChatController;
-import perobobbot.program.core.Program;
+import perobobbot.common.lang.ExecutionContext;
+import perobobbot.common.lang.IO;
+import perobobbot.common.lang.SubscriptionHolder;
+import perobobbot.common.lang.User;
+import perobobbot.common.messaging.CommandBundleFactory;
+import perobobbot.program.core.ProgramWithCommandBundle;
 
-@RequiredArgsConstructor
-public class EchoProgram implements Program {
+public class EchoProgram extends ProgramWithCommandBundle<EchoProgram> {
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
-    @Getter
-    private final @NonNull String name;
-
     private final @NonNull IO io;
 
-    private final @NonNull ChatController chatController;
-
-    private final @NonNull Policy policy;
-
-    @Override
-    @Synchronized
-    public void enable() {
-        final Subscription subscription = chatController.addCommand(ChatCommand.simple("echo", policy.createAccessPoint(this::performEcho)));
-        subscriptionHolder.replaceWith(subscription);
+    public EchoProgram(@NonNull String name, @NonNull CommandBundleFactory<EchoProgram> bundleFactory, @NonNull IO io) {
+        super(name, bundleFactory);
+        this.io = io;
     }
 
     @Override
-    @Synchronized
-    public void disable() {
-        subscriptionHolder.unsubscribe();
+    protected EchoProgram getThis() {
+        return this;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return subscriptionHolder.hasSubscription();
-    }
-
-    private void performEcho(@NonNull ExecutionContext context) {
+    public void performEcho(@NonNull ExecutionContext context) {
         if (context.isMessageFromMe()) {
             return;
         }

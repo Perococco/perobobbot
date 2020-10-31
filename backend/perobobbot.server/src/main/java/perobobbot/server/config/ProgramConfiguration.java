@@ -18,7 +18,7 @@ public class ProgramConfiguration {
     @NonNull
     private final PolicyManager policyManager;
 
-    @Bean(destroyMethod = "stopAll")
+    @Bean(destroyMethod = "disable",initMethod = "enable")
     public ProgramManager programExecutor() {
         return ProgramManager.create(services,policyManager);
     }

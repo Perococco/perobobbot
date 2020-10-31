@@ -1,19 +1,15 @@
 package perobobbot.common.lang;
 
 import lombok.NonNull;
+import perobobbot.common.lang.fp.Function0;
 
 public class SubscriptionHolder {
 
     private Subscription subscription = null;
 
-    public void replaceWith(@NonNull Subscription subscription) {
+    public void replaceWith(@NonNull Function0<? extends Subscription> subscription) {
         unsubscribe();
-        this.subscription = subscription;
-    }
-
-    public void replaceWith(@NonNull Subscription... subscriptions) {
-        unsubscribe();
-        this.subscription = Subscription.join(subscriptions);
+        this.subscription = subscription.f();
     }
 
     public boolean hasSubscription() {

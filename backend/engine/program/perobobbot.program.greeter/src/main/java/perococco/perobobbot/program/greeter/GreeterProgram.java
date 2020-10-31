@@ -55,7 +55,7 @@ public class GreeterProgram implements Program {
                 5,
                 TimeUnit.SECONDS
         );
-        subscriptionHolder.replaceWith(chatController.addListener(new HelloMessageHandler(identity)));
+        subscriptionHolder.replaceWith(() -> chatController.addListener(new HelloMessageHandler(identity)));
     }
 
     @Override

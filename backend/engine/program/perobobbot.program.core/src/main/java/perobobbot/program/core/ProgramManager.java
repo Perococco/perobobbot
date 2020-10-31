@@ -13,6 +13,10 @@ public interface ProgramManager {
         return ProgramManagerFactory.create(services, policyManager);
     }
 
+    void enable();
+
+    void disable();
+
     void startProgram(@NonNull String programName);
 
     void stopProgram(@NonNull String programName);

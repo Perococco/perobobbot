@@ -1,11 +1,13 @@
 package perobobbot.program.dvdlogo;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
 import perobobbot.access.core.PolicyManager;
 import perobobbot.common.lang.Role;
 import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.CommandBundleFactory;
 import perobobbot.overlay.Overlay;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactoryBase;
@@ -14,13 +16,16 @@ import perobobbot.service.core.Services;
 
 import java.time.Duration;
 
+import static perobobbot.common.messaging.ChatCommand.complex;
+import static perobobbot.common.messaging.ChatCommand.simple;
+
 public class DVDLogoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "dvdlogo";
     public static final Requirement REQUIREMENT = Requirement.allOf(Overlay.class, ChatController.class);
 
     public DVDLogoProgramFactory() {
-        super(PROGRAM_NAME,REQUIREMENT);
+        super(PROGRAM_NAME, REQUIREMENT);
     }
 
     @Override
@@ -29,7 +34,17 @@ public class DVDLogoProgramFactory extends ProgramFactoryBase {
         final Overlay overlay = services.getService(Overlay.class);
         final ChatController chatController = services.getService(ChatController.class);
 
-        return new DVDLogoProgram(PROGRAM_NAME, overlay,chatController,policy);
+        final CommandBundleFactory<DVDLogoProgram> bundlerFactory = CommandBundleFactory.with(
+                chatController,
+                p -> ImmutableList.of(
+                        complex("dl",
+                                simple("start", policy.createAccessPoint(ctx -> p.startOverlay())),
+                                simple("stop", policy.createAccessPoint(ctx -> p.stopOverlay()))
+                        )
+                )
+        );
+
+        return new DVDLogoProgram(PROGRAM_NAME, bundlerFactory, overlay);
     }
 
     @Override
