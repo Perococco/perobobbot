@@ -9,7 +9,7 @@ import perococco.perobobbot.service.core.AtLeastOneOf;
 public interface Requirement {
 
     @NonNull
-    static Requirement required(@NonNull Class<?>...services) {
+    static Requirement allOf(@NonNull Class<?>...services) {
         return new AllOf(ImmutableSet.copyOf(services));
     }
 
@@ -19,7 +19,7 @@ public interface Requirement {
     }
 
     @NonNull
-    static Requirement anyOf(@NonNull Class<?>...services) {
+    static Requirement optionallyAnyOf(@NonNull Class<?>...services) {
         return new AnyOf(ImmutableSet.copyOf(services));
     }
 

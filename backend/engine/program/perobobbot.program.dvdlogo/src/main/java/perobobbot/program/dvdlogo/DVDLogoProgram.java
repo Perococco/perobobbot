@@ -1,9 +1,11 @@
 package perobobbot.program.dvdlogo;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import perobobbot.access.core.Policy;
 import perobobbot.chat.core.ChatController;
-import perobobbot.common.lang.Subscription;
 import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.overlay.Overlay;
 import perobobbot.program.core.Program;

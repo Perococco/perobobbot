@@ -14,7 +14,7 @@ import perococco.perobobbot.program.greeter.GreeterProgram;
 public class GreeterProgramFactory extends ProgramFactoryBase {
 
     private static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.required(IO.class, ChatController.class)
+            Requirement.allOf(IO.class, ChatController.class)
     );
 
     public static final String PROGRAM_NAME = "greeter";

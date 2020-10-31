@@ -19,7 +19,7 @@ public class EchoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "echo";
     public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.required(IO.class, ChatController.class)
+            Requirement.allOf(IO.class, ChatController.class)
     );
 
     public EchoProgramFactory() {
