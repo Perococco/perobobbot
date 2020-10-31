@@ -1,6 +1,5 @@
 package perobobbot.program.echo;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
@@ -18,12 +17,13 @@ import java.time.Duration;
 public class EchoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "echo";
-    public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.allOf(IO.class, ChatController.class)
+    public static final Requirement REQUIREMENT = Requirement.allOf(
+            Requirement.allOf(IO.class),
+            Requirement.atLeastOneOf(ChatController.class)
     );
 
     public EchoProgramFactory() {
-        super(PROGRAM_NAME,REQUIREMENTS);
+        super(PROGRAM_NAME, REQUIREMENT);
     }
 
     @Override

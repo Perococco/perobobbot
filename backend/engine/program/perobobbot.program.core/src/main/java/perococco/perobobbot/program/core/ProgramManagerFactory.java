@@ -1,7 +1,6 @@
 package perococco.perobobbot.program.core;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -32,14 +31,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProgramManagerFactory {
 
-    public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
+    public static final Requirement REQUIREMENT = Requirement.allOf(
             Requirement.allOf(IO.class),
             Requirement.optionallyAnyOf(ChatController.class)
     );
 
     @NonNull
     public static ProgramManager create(@NonNull Services services, @NonNull PolicyManager policyManager) {
-        services.filter(REQUIREMENTS);
+        services.filter(REQUIREMENT);
         return new ProgramManagerFactory(services, policyManager).create();
     }
 
@@ -90,7 +89,7 @@ public class ProgramManagerFactory {
     @NonNull
     private Optional<Program> createProgram(@NonNull ProgramFactory programFactory) {
         try {
-            final var filtered = services.filter(programFactory.getRequirements());
+            final var filtered = services.filter(programFactory.getRequirement());
             final var program = programFactory.create(filtered,policyManager);
             if (programFactory.isAutoStart()) {
                 program.enable();

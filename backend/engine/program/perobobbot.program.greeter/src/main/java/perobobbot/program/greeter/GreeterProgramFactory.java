@@ -1,6 +1,5 @@
 package perobobbot.program.greeter;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.access.core.PolicyManager;
 import perobobbot.chat.core.ChatController;
@@ -13,14 +12,15 @@ import perococco.perobobbot.program.greeter.GreeterProgram;
 
 public class GreeterProgramFactory extends ProgramFactoryBase {
 
-    private static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.allOf(IO.class, ChatController.class)
+    public static final Requirement REQUIREMENT = Requirement.allOf(
+            Requirement.allOf(IO.class),
+            Requirement.atLeastOneOf(ChatController.class)
     );
 
     public static final String PROGRAM_NAME = "greeter";
 
     public GreeterProgramFactory() {
-        super(PROGRAM_NAME, REQUIREMENTS);
+        super(PROGRAM_NAME, REQUIREMENT);
     }
 
     @Override

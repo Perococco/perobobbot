@@ -1,6 +1,5 @@
 package perobobbot.program.core;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.access.core.PolicyManager;
 import perobobbot.service.core.Requirement;
@@ -12,7 +11,7 @@ public interface ProgramFactory {
     String getProgramName();
 
     @NonNull
-    ImmutableSet<Requirement> getRequirements();
+    Requirement getRequirement();
 
     @NonNull
     Program create(@NonNull Services services, @NonNull PolicyManager policyManager);

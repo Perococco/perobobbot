@@ -3,10 +3,15 @@ package perobobbot.service.core;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perococco.perobobbot.service.core.AllOf;
+import perococco.perobobbot.service.core.AllRequirements;
 import perococco.perobobbot.service.core.AnyOf;
 import perococco.perobobbot.service.core.AtLeastOneOf;
 
 public interface Requirement {
+
+    static Requirement allOf(@NonNull Requirement... requirements) {
+        return new AllRequirements(requirements);
+    }
 
     @NonNull
     static Requirement allOf(@NonNull Class<?>...services) {

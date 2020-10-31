@@ -1,6 +1,5 @@
 package perobobbot.program.dvdlogo;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
@@ -18,12 +17,10 @@ import java.time.Duration;
 public class DVDLogoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "dvdlogo";
-    public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.allOf(Overlay.class, ChatController.class)
-    );
+    public static final Requirement REQUIREMENT = Requirement.allOf(Overlay.class, ChatController.class);
 
     public DVDLogoProgramFactory() {
-        super(PROGRAM_NAME,REQUIREMENTS);
+        super(PROGRAM_NAME,REQUIREMENT);
     }
 
     @Override

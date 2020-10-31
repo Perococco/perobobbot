@@ -6,7 +6,6 @@ import perococco.perobobbot.service.core.CachedServices;
 import perococco.perobobbot.service.core.PerococcoServices;
 import perococco.perobobbot.service.core.PerococcoServicesBuilder;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface Services {
@@ -27,14 +26,8 @@ public interface Services {
     }
 
     @NonNull
-    default Services filter(@NonNull ImmutableSet<Requirement> requirements) {
-        return create(
-                requirements.stream()
-                            .map(r -> r.extractServices(this))
-                            .flatMap(Collection::stream)
-                            .distinct()
-                            .collect(ImmutableSet.toImmutableSet())
-        );
+    default Services filter(@NonNull Requirement requirements) {
+        return create(requirements.extractServices(this));
     }
 
     @NonNull
