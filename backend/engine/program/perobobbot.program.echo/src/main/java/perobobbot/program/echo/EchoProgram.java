@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.access.core.Policy;
 import perobobbot.common.lang.*;
+import perobobbot.common.messaging.ChatCommand;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.program.core.Program;
 
@@ -26,7 +27,7 @@ public class EchoProgram implements Program {
     @Override
     @Synchronized
     public void enable() {
-        final Subscription subscription = chatController.addCommand("echo", policy.createAccessPoint(this::performEcho));
+        final Subscription subscription = chatController.addCommand(ChatCommand.simple("echo", policy.createAccessPoint(this::performEcho)));
         subscriptionHolder.replaceWith(subscription);
     }
 

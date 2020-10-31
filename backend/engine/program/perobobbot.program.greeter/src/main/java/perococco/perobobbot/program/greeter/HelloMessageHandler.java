@@ -19,12 +19,12 @@ public class HelloMessageHandler implements MessageHandler {
     private final HelloIdentity hello;
 
     @Override
-    public boolean handleMessage(@NonNull MessageContext context) {
-        if (hello.getRootState().hasBeenGreeted(UserOnChannel.from(context))) {
+    public boolean handleMessage(@NonNull MessageContext messageContext) {
+        if (hello.getRootState().hasBeenGreeted(UserOnChannel.from(messageContext))) {
             return false;
         }
-        if (containsHello(context.getContent())) {
-            hello.greetUser(context.getChannelInfo(),context.getMessageOwner());
+        if (containsHello(messageContext.getContent())) {
+            hello.greetUser(messageContext.getChannelInfo(), messageContext.getMessageOwner());
         }
         return false;
     }

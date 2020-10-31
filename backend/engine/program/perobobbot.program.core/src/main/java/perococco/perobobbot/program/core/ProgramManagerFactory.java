@@ -13,6 +13,7 @@ import perobobbot.common.lang.ExecutionContext;
 import perobobbot.common.lang.IO;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.ThrowableTool;
+import perobobbot.common.messaging.ChatCommand;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactory;
@@ -119,11 +120,11 @@ public class ProgramManagerFactory {
         final AccessPoint<ExecutionContext> startAllPrograms = policy.createAccessPoint(ctx -> programManager.startAll());
         final AccessPoint<ExecutionContext> stopAllPrograms = policy.createAccessPoint(ctx -> programManager.stopAll());
 
-        chatController.addCommand("pm-list", listProgram);
-        chatController.addCommand("pm-start", startProgram);
-        chatController.addCommand("pm-stop", stopProgram);
-        chatController.addCommand("pm-start-all", startAllPrograms);
-        chatController.addCommand("pm-stop-all", stopAllPrograms);
+        chatController.addCommand(ChatCommand.simple("pm-list", listProgram));
+        chatController.addCommand(ChatCommand.simple("pm-start", startProgram));
+        chatController.addCommand(ChatCommand.simple("pm-stop", stopProgram));
+        chatController.addCommand(ChatCommand.simple("pm-start-all", startAllPrograms));
+        chatController.addCommand(ChatCommand.simple("pm-stop-all", stopAllPrograms));
 
     }
 

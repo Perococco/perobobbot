@@ -6,18 +6,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.*;
+import perobobbot.common.messaging.ChatCommand;
 import perobobbot.common.messaging.ChatController;
 
 @RequiredArgsConstructor
 public class PerococcoChatController implements ChatController {
 
-    private static final  Executor<ExecutionContext> NOP = ctx -> {
-    };
-
     @NonNull
     private final ImmutableMap<Platform, Character> prefixes;
 
-    private ImmutableMap<String,  Executor<? super ExecutionContext>> commands = ImmutableMap.of();
+    private ImmutableMap<String,  ChatCommand> commands = ImmutableMap.of();
 
     private ImmutableList<MessageHandler> listeners = ImmutableList.of();
 
@@ -37,18 +35,20 @@ public class PerococcoChatController implements ChatController {
     }
 
     private void executeCommand(@NonNull ExecutionContext executionContext) {
-        commands.getOrDefault(executionContext.getCommandName(), NOP)
-                .execute(executionContext);
+        final ChatCommand chatCommand = commands.get(executionContext.getCommandName());
+        if (chatCommand != null) {
+            chatCommand.execute(executionContext);
+        }
     }
 
     @Override
     @Synchronized
-    public @NonNull Subscription addCommand(@NonNull String commandName, @NonNull  Executor<? super ExecutionContext> handler) {
-        if (commands.containsKey(commandName)) {
-            throw new IllegalArgumentException("Duplicate command '" + commandName + "'");
+    public @NonNull Subscription addCommand(@NonNull ChatCommand chatCommand) {
+        if (commands.containsKey(chatCommand.name())) {
+            throw new IllegalArgumentException("Duplicate command '" + chatCommand.name() + "'");
         }
-        this.commands = MapTool.add(this.commands, commandName, handler);
-        return () -> removeCommand(commandName);
+        this.commands = MapTool.add(this.commands, chatCommand.name(), chatCommand);
+        return () -> removeCommand(chatCommand.name());
     }
 
     @Override

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.access.core.Policy;
 import perobobbot.common.lang.SubscriptionHolder;
+import perobobbot.common.messaging.ChatCommand;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.overlay.Overlay;
 import perobobbot.program.core.Program;
@@ -29,8 +30,8 @@ public class DVDLogoProgram implements Program {
     @Override
     public void enable() {
         commandSubscription.replaceWith(
-                chatController.addCommand("dl-start", policy.createAccessPoint(ctx -> this.startOverlay())),
-                chatController.addCommand("dl-stop", policy.createAccessPoint(ctx -> this.stopOverlay()))
+                chatController.addCommand(ChatCommand.simple("dl-start", policy.createAccessPoint(ctx -> this.startOverlay()))),
+                chatController.addCommand(ChatCommand.simple("dl-stop", policy.createAccessPoint(ctx -> this.stopOverlay())))
         );
     }
 
