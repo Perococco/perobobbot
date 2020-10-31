@@ -108,6 +108,11 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>bot-common-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>bot-service-core</artifactId>
                 <version>${project.version}</version>
             </dependency>

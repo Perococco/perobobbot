@@ -10,6 +10,7 @@ module perobobbot.program.echo {
     requires perobobbot.service.core;
     requires perobobbot.access.core;
     requires com.google.common;
+    requires perobobbot.common.messaging;
 
     exports perobobbot.program.echo;
 

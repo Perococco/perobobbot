@@ -5,8 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.access.core.Policy;
-import perobobbot.chat.core.ChatController;
 import perobobbot.common.lang.SubscriptionHolder;
+import perobobbot.common.messaging.ChatController;
 import perobobbot.overlay.Overlay;
 import perobobbot.program.core.Program;
 

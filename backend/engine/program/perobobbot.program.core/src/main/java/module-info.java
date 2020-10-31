@@ -12,6 +12,7 @@ module perobobbot.program.core {
     requires com.google.common;
     requires org.apache.logging.log4j;
     requires perobobbot.access.core;
+    requires perobobbot.common.messaging;
 
     exports perobobbot.program.core;
 

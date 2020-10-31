@@ -1,4 +1,4 @@
-package perobobbot.chat.core;
+package perobobbot.common.messaging;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

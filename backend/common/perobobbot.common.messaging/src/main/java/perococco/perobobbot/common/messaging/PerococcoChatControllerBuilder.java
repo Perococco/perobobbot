@@ -1,10 +1,10 @@
-package perococco.perobobbot.chat.core;
+package perococco.perobobbot.common.messaging;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
-import perobobbot.chat.core.ChatController;
-import perobobbot.chat.core.ChatControllerBuilder;
 import perobobbot.common.lang.Platform;
+import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.ChatControllerBuilder;
 
 import java.util.Arrays;
 import java.util.HashMap;

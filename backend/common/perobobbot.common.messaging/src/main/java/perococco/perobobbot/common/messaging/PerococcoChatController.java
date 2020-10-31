@@ -1,12 +1,12 @@
-package perococco.perobobbot.chat.core;
+package perococco.perobobbot.common.messaging;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.chat.core.ChatController;
 import perobobbot.common.lang.*;
+import perobobbot.common.messaging.ChatController;
 
 @RequiredArgsConstructor
 public class PerococcoChatController implements ChatController {

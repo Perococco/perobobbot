@@ -47,6 +47,10 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>bot-common-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>bot-common-sound</artifactId>
         </dependency>
 

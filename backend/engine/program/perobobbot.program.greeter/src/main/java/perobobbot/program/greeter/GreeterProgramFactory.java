@@ -2,8 +2,8 @@ package perobobbot.program.greeter;
 
 import lombok.NonNull;
 import perobobbot.access.core.PolicyManager;
-import perobobbot.chat.core.ChatController;
 import perobobbot.common.lang.IO;
+import perobobbot.common.messaging.ChatController;
 import perobobbot.program.core.Program;
 import perobobbot.program.core.ProgramFactoryBase;
 import perobobbot.service.core.Requirement;

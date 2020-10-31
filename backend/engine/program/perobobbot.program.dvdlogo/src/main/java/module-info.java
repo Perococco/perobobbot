@@ -12,6 +12,7 @@ module perobobbot.program.dvdlogo {
 
     requires java.desktop;
     requires com.google.common;
+    requires perobobbot.common.messaging;
 
     exports perobobbot.program.dvdlogo;
 

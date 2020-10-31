@@ -13,7 +13,7 @@ module perobobbot.server {
 
     requires com.google.common;
 
-    requires perobobbot.common.lang;
+    requires transitive perobobbot.common.lang;
     requires perobobbot.chat.advanced;
     requires perobobbot.data.domain;
     requires perobobbot.data.com;
@@ -63,6 +63,7 @@ module perobobbot.server {
     requires spring.boot.actuator;
     requires perobobbot.chat.core;
     requires perobobbot.access.core;
+    requires perobobbot.common.messaging;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

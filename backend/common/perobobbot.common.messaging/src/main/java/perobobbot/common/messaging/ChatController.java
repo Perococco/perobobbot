@@ -1,8 +1,8 @@
-package perobobbot.chat.core;
+package perobobbot.common.messaging;
 
 import lombok.NonNull;
 import perobobbot.common.lang.*;
-import perococco.perobobbot.chat.core.PerococcoChatControllerBuilder;
+import perococco.perobobbot.common.messaging.PerococcoChatControllerBuilder;
 
 public interface ChatController {
 

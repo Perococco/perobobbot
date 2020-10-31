@@ -4,9 +4,9 @@ package perobobbot.server.config;
 import lombok.NonNull;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
-import perobobbot.chat.core.ChatController;
-import perobobbot.chat.core.ProxyChatController;
 import perobobbot.common.lang.MessageContext;
+import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.ProxyChatController;
 
 @Component
 @Service

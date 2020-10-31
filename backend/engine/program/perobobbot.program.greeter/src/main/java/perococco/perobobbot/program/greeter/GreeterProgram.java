@@ -7,8 +7,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.ChatController;
 import perobobbot.common.lang.*;
+import perobobbot.common.messaging.ChatController;
 import perobobbot.program.core.Program;
 import perococco.perobobbot.program.greeter.mutation.ClearGreetingIssuers;
 

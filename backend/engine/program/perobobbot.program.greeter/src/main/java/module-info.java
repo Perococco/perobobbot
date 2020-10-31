@@ -12,6 +12,7 @@ module perobobbot.program.greeter {
     requires perobobbot.access.core;
     requires perobobbot.service.core;
     requires perobobbot.chat.core;
+    requires perobobbot.common.messaging;
 
 
     exports perobobbot.program.greeter;
