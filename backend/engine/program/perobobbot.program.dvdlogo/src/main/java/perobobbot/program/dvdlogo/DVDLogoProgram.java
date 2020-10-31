@@ -25,21 +25,21 @@ public class DVDLogoProgram implements Program {
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
     @Override
-    public void start() {
-        commandSubscription.replace(Subscription.join(
+    public void enable() {
+        commandSubscription.replaceWith(
                 chatController.addCommand("dl-start", policy.createAccessPoint(ctx -> this.startOverlay())),
                 chatController.addCommand("dl-stop", policy.createAccessPoint(ctx -> this.stopOverlay()))
-        ));
+        );
     }
 
     @Override
-    public void requestStop() {
+    public void disable() {
         commandSubscription.unsubscribe();
-        overlaySubscription.unsubscribe();
+        stopOverlay();
     }
 
     @Override
-    public boolean isRunning() {
+    public boolean isEnabled() {
         return commandSubscription.hasSubscription();
     }
 
@@ -48,7 +48,7 @@ public class DVDLogoProgram implements Program {
         if (overlaySubscription.hasSubscription()) {
             return;
         }
-        this.overlaySubscription.replace(overlay.addClient(new DVDLogoOverlay()));
+        this.overlaySubscription.replaceWith(overlay.addClient(new DVDLogoOverlay()));
     }
 
     @Synchronized

@@ -25,19 +25,19 @@ public class EchoProgram implements Program {
 
     @Override
     @Synchronized
-    public void start() {
+    public void enable() {
         final Subscription subscription = chatController.addCommand("echo", policy.createAccessPoint(this::performEcho));
-        subscriptionHolder.replace(subscription);
+        subscriptionHolder.replaceWith(subscription);
     }
 
     @Override
     @Synchronized
-    public void requestStop() {
+    public void disable() {
         subscriptionHolder.unsubscribe();
     }
 
     @Override
-    public boolean isRunning() {
+    public boolean isEnabled() {
         return subscriptionHolder.hasSubscription();
     }
 
