@@ -33,8 +33,8 @@ public class PerococcoPolicy implements Policy {
         return new PerococcoAccessPoint<P>(UUID.randomUUID(),this,action,accessInfoExtractor);
     }
 
-    public void run(@NonNull User executor, @NonNull Instant executionTime, @NonNull Runnable runIfAllowed) {
-        policyManager.run(id,executor,executionTime,runIfAllowed);
+    public void run(@NonNull User executor, @NonNull Instant executionTime, @NonNull Runnable toRunIfAllowed) {
+        policyManager.run(id,executor,executionTime,toRunIfAllowed);
     }
 
 }

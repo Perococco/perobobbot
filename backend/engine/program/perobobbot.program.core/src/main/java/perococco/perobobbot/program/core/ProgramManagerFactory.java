@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 public class ProgramManagerFactory {
 
     public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.required(IO.class),
-            Requirement.anyOf(ChatController.class)
+            Requirement.allOf(IO.class),
+            Requirement.optionallyAnyOf(ChatController.class)
     );
 
     @NonNull

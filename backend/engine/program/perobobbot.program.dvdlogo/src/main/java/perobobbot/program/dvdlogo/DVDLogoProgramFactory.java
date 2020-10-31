@@ -19,7 +19,7 @@ public class DVDLogoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "dvdlogo";
     public static final ImmutableSet<Requirement> REQUIREMENTS = ImmutableSet.of(
-            Requirement.required(Overlay.class, ChatController.class)
+            Requirement.allOf(Overlay.class, ChatController.class)
     );
 
     public DVDLogoProgramFactory() {
