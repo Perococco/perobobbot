@@ -13,7 +13,14 @@ public class DVDLogoProgram extends ProgramWithCommandBundle<DVDLogoProgram> {
 
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
-    public DVDLogoProgram(@NonNull String name, CommandBundleFactory<DVDLogoProgram> commandBundleFactory, @NonNull Overlay overlay) {
+    /**
+     * @param name the name of the program
+     * @param overlay the overlay to use to draw the logo
+     * @param commandBundleFactory the factory of command bundle
+     */
+    public DVDLogoProgram(@NonNull String name,
+                          @NonNull Overlay overlay,
+                          @NonNull CommandBundleFactory<DVDLogoProgram> commandBundleFactory) {
         super(name,commandBundleFactory);
         this.overlay = overlay;
     }

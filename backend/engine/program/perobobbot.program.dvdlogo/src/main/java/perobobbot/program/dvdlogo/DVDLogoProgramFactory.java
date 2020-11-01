@@ -1,6 +1,5 @@
 package perobobbot.program.dvdlogo;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
@@ -16,6 +15,7 @@ import perobobbot.service.core.Services;
 
 import java.time.Duration;
 
+import static com.google.common.collect.ImmutableList.of;
 import static perobobbot.common.messaging.ChatCommand.complex;
 import static perobobbot.common.messaging.ChatCommand.simple;
 
@@ -36,7 +36,7 @@ public class DVDLogoProgramFactory extends ProgramFactoryBase {
 
         final CommandBundleFactory<DVDLogoProgram> bundlerFactory = CommandBundleFactory.with(
                 chatController,
-                p -> ImmutableList.of(
+                p -> of(
                         complex("dl",
                                 simple("start", policy.createAccessPoint(ctx -> p.startOverlay())),
                                 simple("stop", policy.createAccessPoint(ctx -> p.stopOverlay()))
@@ -44,7 +44,7 @@ public class DVDLogoProgramFactory extends ProgramFactoryBase {
                 )
         );
 
-        return new DVDLogoProgram(PROGRAM_NAME, bundlerFactory, overlay);
+        return new DVDLogoProgram(PROGRAM_NAME, overlay, bundlerFactory);
     }
 
     @Override

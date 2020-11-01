@@ -17,6 +17,7 @@ public interface OverlayClient {
     default void dispose(@NonNull Overlay overlay) {};
 
     /**
+     * Call when this client must render
      * @param iteration the iteration information
      */
     void render(@NonNull OverlayIteration iteration);
