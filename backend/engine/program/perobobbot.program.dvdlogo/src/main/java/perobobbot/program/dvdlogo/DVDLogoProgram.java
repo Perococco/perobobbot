@@ -1,38 +1,26 @@
 package perobobbot.program.dvdlogo;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.SubscriptionHolder;
-import perobobbot.common.messaging.CommandBundleFactory;
 import perobobbot.overlay.Overlay;
-import perobobbot.program.core.ProgramWithCommandBundle;
+import perobobbot.program.core.ProgramBase;
 
-public class DVDLogoProgram extends ProgramWithCommandBundle<DVDLogoProgram> {
+@RequiredArgsConstructor
+public class DVDLogoProgram extends ProgramBase {
+
+    @Getter
+    private final @NonNull String name;
 
     private final @NonNull Overlay overlay;
 
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
-    /**
-     * @param name the name of the program
-     * @param overlay the overlay to use to draw the logo
-     * @param commandBundleFactory the factory of command bundle
-     */
-    public DVDLogoProgram(@NonNull String name,
-                          @NonNull Overlay overlay,
-                          @NonNull CommandBundleFactory<DVDLogoProgram> commandBundleFactory) {
-        super(name,commandBundleFactory);
-        this.overlay = overlay;
-    }
-
     @Override
-    protected DVDLogoProgram getThis() {
-        return this;
-    }
-
-    @Override
-    public void disable() {
-        super.disable();
+    protected void onDisabled() {
+        super.onDisabled();
         stopOverlay();
     }
 

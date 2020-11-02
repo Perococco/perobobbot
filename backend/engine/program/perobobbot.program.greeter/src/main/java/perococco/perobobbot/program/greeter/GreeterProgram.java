@@ -61,8 +61,8 @@ public class GreeterProgram implements Program {
     @Override
     @Synchronized
     public void disable() {
+        subscriptionHolder.unsubscribe();
         if (future != null) {
-            subscriptionHolder.unsubscribe();
             future.cancel(true);
             future = null;
         }

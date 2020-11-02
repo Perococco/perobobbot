@@ -5,46 +5,41 @@ import perobobbot.access.core.AccessRule;
 import perobobbot.access.core.Policy;
 import perobobbot.access.core.PolicyManager;
 import perobobbot.common.lang.Role;
-import perobobbot.common.messaging.ChatController;
-import perobobbot.common.messaging.CommandBundleFactory;
+import perobobbot.common.messaging.Command;
 import perobobbot.overlay.Overlay;
-import perobobbot.program.core.Program;
+import perobobbot.program.core.ProgramExecutor;
+import perobobbot.program.core.ProgramFactory;
 import perobobbot.program.core.ProgramFactoryBase;
 import perobobbot.service.core.Requirement;
 import perobobbot.service.core.Services;
 
 import java.time.Duration;
 
-import static com.google.common.collect.ImmutableList.of;
-import static perobobbot.common.messaging.ChatCommand.complex;
-import static perobobbot.common.messaging.ChatCommand.simple;
+import static perobobbot.common.messaging.Command.complex;
+import static perobobbot.common.messaging.Command.simple;
 
 public class DVDLogoProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "dvdlogo";
-    public static final Requirement REQUIREMENT = Requirement.allOf(Overlay.class, ChatController.class);
+    public static final Requirement REQUIREMENT = Requirement.allOf(Overlay.class);
 
     public DVDLogoProgramFactory() {
         super(PROGRAM_NAME, REQUIREMENT);
     }
 
     @Override
-    public @NonNull Program create(@NonNull Services services, @NonNull PolicyManager policyManager) {
+    public @NonNull ProgramFactory.Result create(@NonNull Services services, @NonNull PolicyManager policyManager) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
         final Overlay overlay = services.getService(Overlay.class);
-        final ChatController chatController = services.getService(ChatController.class);
 
-        final CommandBundleFactory<DVDLogoProgram> bundlerFactory = CommandBundleFactory.with(
-                chatController,
-                p -> of(
-                        complex("dl",
-                                simple("start", policy.createAccessPoint(ctx -> p.startOverlay())),
-                                simple("stop", policy.createAccessPoint(ctx -> p.stopOverlay()))
-                        )
-                )
+        final DVDLogoProgram program = new DVDLogoProgram(PROGRAM_NAME, overlay);
+
+        final Command command = complex("dl",
+                                        simple("start", policy.createAccessPoint(ProgramExecutor.with(program, DVDLogoProgram::startOverlay))),
+                                        simple("stop", policy.createAccessPoint(ProgramExecutor.with(program, DVDLogoProgram::stopOverlay)))
         );
 
-        return new DVDLogoProgram(PROGRAM_NAME, overlay, bundlerFactory);
+        return Result.withOneCommand(program, command);
     }
 
     @Override

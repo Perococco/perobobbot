@@ -4,8 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.Subscription;
-import perobobbot.common.lang.SubscriptionHolder;
-import perobobbot.common.messaging.ChatCommand;
+import perobobbot.common.messaging.Command;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.common.messaging.CommandBundle;
 
@@ -17,7 +16,7 @@ public class PerococcoCommandBundle implements CommandBundle {
     private final ChatController chatController;
 
     @NonNull
-    private final ImmutableList<? extends ChatCommand> commands;
+    private final ImmutableList<? extends Command> commands;
 
     @Override
     public Subscription attachCommandsToChat() {

@@ -149,6 +149,11 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>bot-program-manager</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>bot-program-greeter</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -6,30 +6,30 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.ExecutionContext;
 import perobobbot.common.lang.MapTool;
 import perobobbot.common.lang.fp.Consumer1;
-import perobobbot.common.messaging.ChatCommand;
+import perobobbot.common.messaging.Command;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class ComplexChatCommand implements ChatCommand {
+public class ComplexCommand implements Command {
 
-    public static ComplexChatCommand create(@NonNull String name, @NonNull ChatCommand... subCommands) {
+    public static ComplexCommand create(@NonNull String name, @NonNull Command... subCommands) {
         return create(name, ctx -> {
         }, subCommands);
     }
 
-    public static ComplexChatCommand create(@NonNull String name, @NonNull Consumer1<? super ExecutionContext> fallback, @NonNull ChatCommand... subCommands) {
-        return new ComplexChatCommand(
-                ChatCommand.simple(name, fallback),
-                Arrays.stream(subCommands).collect(MapTool.collector(ChatCommand::name))
+    public static ComplexCommand create(@NonNull String name, @NonNull Consumer1<? super ExecutionContext> fallback, @NonNull Command... subCommands) {
+        return new ComplexCommand(
+                Command.simple(name, fallback),
+                Arrays.stream(subCommands).collect(MapTool.collector(Command::name))
         );
     }
 
-    private final ChatCommand fallback;
+    private final Command fallback;
 
     @NonNull
-    private final ImmutableMap<String, ChatCommand> subCommands;
+    private final ImmutableMap<String, Command> subCommands;
 
     @Override
     public @NonNull String name() {

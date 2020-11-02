@@ -4,10 +4,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.ExecutionContext;
 import perobobbot.common.lang.fp.Consumer1;
-import perobobbot.common.messaging.ChatCommand;
+import perobobbot.common.messaging.Command;
 
 @RequiredArgsConstructor
-public class SimpleChatCommand implements ChatCommand {
+public class SimpleCommand implements Command {
 
     @NonNull
     private final String name;

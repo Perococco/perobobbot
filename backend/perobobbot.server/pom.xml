@@ -41,6 +41,10 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>bot-program-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>bot-program-echo</artifactId>
         </dependency>
 

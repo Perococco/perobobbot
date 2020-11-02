@@ -22,11 +22,11 @@ public interface ChatController {
 
     /**
      * add a chat command that could be executed on incoming message
-     * @param chatCommand the command
+     * @param command the command
      * @return a subscription that can be used to remove the command from this chat controller
      */
     @NonNull
-    Subscription addCommand(@NonNull ChatCommand chatCommand);
+    Subscription addCommand(@NonNull Command command);
 
     /**
      * @param handler a listener that is called with all incoming from the chats

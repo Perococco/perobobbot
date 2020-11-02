@@ -1,39 +1,33 @@
 package perobobbot.program.echo;
 
+import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.ExecutionContext;
+import perobobbot.common.lang.ChannelInfo;
 import perobobbot.common.lang.IO;
-import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.common.lang.User;
-import perobobbot.common.messaging.CommandBundleFactory;
-import perobobbot.program.core.ProgramWithCommandBundle;
+import perobobbot.program.core.ProgramBase;
 
-public class EchoProgram extends ProgramWithCommandBundle<EchoProgram> {
+public class EchoProgram extends ProgramBase {
 
-    private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
+    @Getter
+    private final @NonNull String name;
 
     private final @NonNull IO io;
 
-    public EchoProgram(@NonNull String name, @NonNull CommandBundleFactory<EchoProgram> bundleFactory, @NonNull IO io) {
-        super(name, bundleFactory);
+    public EchoProgram(@NonNull String name, @NonNull IO io) {
+        this.name = name;
         this.io = io;
     }
 
-    @Override
-    protected EchoProgram getThis() {
-        return this;
+    public void performEcho(@NonNull ChannelInfo channelInfo, @NonNull User messageOwner, @NonNull String contentToEcho) {
+        final String answer = createEchoMessage(messageOwner,contentToEcho);
+        io.print(channelInfo,answer);
     }
 
-    public void performEcho(@NonNull ExecutionContext context) {
-        if (context.isMessageFromMe()) {
-            return;
-        }
-        final User user = context.getMessageOwner();
-        final String contentToEcho = context.getParameters();
-        final String answer = String.format("%s said '%s'",
-                                            user.getHighlightedUserName(),
-                                            contentToEcho);
-        io.print(context.getChannelInfo(),answer);
+    private String createEchoMessage(@NonNull User messageOwner, @NonNull String contentToEcho) {
+        return String.format("%s said '%s'",
+                             messageOwner.getHighlightedUserName(),
+                             contentToEcho);
     }
 
 

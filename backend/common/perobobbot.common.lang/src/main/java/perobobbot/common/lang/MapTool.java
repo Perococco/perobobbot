@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.common.lang.fp.Function0;
+import perobobbot.common.lang.fp.Function1;
 import perobobbot.common.lang.fp.UnaryOperator1;
 import perobobbot.common.lang.fp.Value2;
 
@@ -107,4 +108,11 @@ public class MapTool {
         return source.stream().filter(e -> !e.equals(elementToRemove)).collect(ImmutableSet.toImmutableSet());
     }
 
+    @NonNull
+    public static <K,U,V> ImmutableMap<K,V> mapValues(@NonNull ImmutableMap<K,U> map, @NonNull Function1<? super U, ? extends V> wrapper) {
+        return map.entrySet()
+                  .stream()
+                  .map(e -> ImmutableEntry.<K,V>of(e.getKey(),wrapper.apply(e.getValue())))
+                  .collect(entryCollector());
+    }
 }

@@ -11,7 +11,7 @@ public interface CommandBundleFactory<P> {
     CommandBundle create(@NonNull P parameter);
 
     @NonNull
-    static <P> CommandBundleFactory<P> with(@NonNull ChatController chatController, @NonNull Function1<? super P, ImmutableList<? extends ChatCommand>> commands) {
+    static <P> CommandBundleFactory<P> with(@NonNull ChatController chatController, @NonNull Function1<? super P, ImmutableList<? extends Command>> commands) {
         return new PerococcoCommandFactory<>(chatController, commands);
     }
 

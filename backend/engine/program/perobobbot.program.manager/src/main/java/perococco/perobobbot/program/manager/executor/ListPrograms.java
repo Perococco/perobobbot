@@ -1,17 +1,17 @@
-package perococco.perobobbot.program.core;
+package perococco.perobobbot.program.manager.executor;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.ExecutionContext;
+import perobobbot.common.lang.Executor;
 import perobobbot.common.lang.IO;
-import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.program.core.ProgramInfo;
-import perobobbot.program.core.ProgramManager;
+import perobobbot.program.manager.ProgramManager;
 
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class ListPrograms implements Consumer1<ExecutionContext> {
+public class ListPrograms implements Executor<ExecutionContext> {
 
     @NonNull
     private final ProgramManager programManager;
@@ -19,14 +19,16 @@ public class ListPrograms implements Consumer1<ExecutionContext> {
     @NonNull
     private final IO io;
 
+
     @Override
-    public void f(@NonNull ExecutionContext executionContext) {
+    public void execute(@NonNull ExecutionContext context) {
         final String message = programManager.programInfo()
                       .stream()
                       .sorted()
                       .map(this::format)
                       .collect(Collectors.joining(", "));
-        io.print(executionContext.getChannelInfo(),message);
+
+        io.print(context.getChannelInfo(),message);
     }
 
     @NonNull
