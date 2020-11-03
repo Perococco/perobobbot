@@ -5,6 +5,8 @@ import perobobbot.common.lang.fp.Function1;
 
 public interface PlatformIO {
 
+    @NonNull Platform getPlatform();
+
     /**
      * Print a message to the a given channel
      * @param channel the channel to send the message to

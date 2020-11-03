@@ -2,6 +2,7 @@ package perobobbot.twitch.chat;
 
 import lombok.NonNull;
 import perobobbot.common.lang.DispatchContext;
+import perobobbot.common.lang.Platform;
 import perobobbot.common.lang.PlatformIO;
 import perobobbot.common.lang.Subscription;
 import perobobbot.common.lang.fp.Function1;
@@ -15,6 +16,11 @@ import java.util.concurrent.CompletionStage;
 public interface TwitchChatIO extends PlatformIO {
 
     URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
+
+    @Override
+    default @NonNull Platform getPlatform() {
+        return Platform.TWITCH;
+    }
 
     /**
      * Send a message on the provided channel

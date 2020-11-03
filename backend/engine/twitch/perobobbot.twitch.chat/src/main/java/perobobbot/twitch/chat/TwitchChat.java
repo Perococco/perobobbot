@@ -23,7 +23,7 @@ public interface TwitchChat extends TwitchChatIO {
     @NonNull
     CompletionStage<TwitchChatIO> start();
 
-    default TwitchChatIO startAndWait() throws ExecutionException, InterruptedException {
+    default @NonNull TwitchChatIO startAndWait() throws ExecutionException, InterruptedException {
         return start().toCompletableFuture().get();
     }
 
