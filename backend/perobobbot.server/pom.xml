@@ -98,6 +98,7 @@
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>bot-twitch-chat</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

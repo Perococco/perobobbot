@@ -173,8 +173,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>bot-data-com</artifactId>
@@ -201,11 +199,6 @@
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>bot-twitch-chat</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-twitch-chat-program</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

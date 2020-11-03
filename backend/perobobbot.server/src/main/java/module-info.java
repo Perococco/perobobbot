@@ -22,7 +22,7 @@ module perobobbot.server {
     requires perobobbot.program.core;
     requires perobobbot.blackjack.engine;
     requires perobobbot.service.core;
-    requires perobobbot.twitch.chat;
+//    requires perobobbot.twitch.chat;
     requires perobobbot.overlay;
     requires perobobbot.common.sound;
 
