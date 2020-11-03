@@ -1,4 +1,4 @@
-package perobobbot.server.config.io;
+package perobobbot.twitch.chat.spring;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.common.lang.Secret;
-import perobobbot.server.config.MessageGateway;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChat;
 import perobobbot.twitch.chat.TwitchChatIO;
@@ -29,17 +28,10 @@ public class TwitchChatIOConfiguration {
     @Value("${perobot.io.twitch.keyfile}")
     private final String keyPath;
 
-    @NonNull
-    private final MessageGateway messageGateway;
-
     @Bean
     public TwitchChatIO twitchChatIO() throws Exception {
         final TwitchChat twitchChat = createTwitchChat();
-        final TwitchChatIO twitchChatIO = twitchChat.startAndWait();
-
-        twitchChatIO.addPrivateMessageListener(message -> message.toMessage().ifPresent(messageGateway::sendMessage));
-
-        return twitchChatIO;
+        return twitchChat.startAndWait();
     }
 
     private @NonNull TwitchChat createTwitchChat() throws IOException {

@@ -14,6 +14,8 @@ public interface PlatformIO {
      */
     void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
+    @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
+
     /**
      * @param channel the channel to send the message to
      * @param message print the message to the IO that received the message that trigger the program

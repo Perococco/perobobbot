@@ -18,11 +18,11 @@ public class BotServer {
         final SpringLauncher launcher = new SpringLauncher(
                 Arrays.asList(args),
                 BotServer.class,
-                new ApplicationContextInitializer[0],
+                new ApplicationContextInitializer[]{},
                 Optional::of
         );
 
         launcher.launch();
     }
-    
+
 }

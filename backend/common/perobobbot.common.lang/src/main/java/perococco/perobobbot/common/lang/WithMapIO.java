@@ -38,6 +38,11 @@ public class WithMapIO implements IO {
             }
 
             @Override
+            public @NonNull Subscription addMessageListener(@NonNull MessageListener listener) {
+                return Subscription.NONE;
+            }
+
+            @Override
             public void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
                 LOG.warn("No IO for platform {}", platform);
             }

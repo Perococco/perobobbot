@@ -1,10 +1,7 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.common.lang.DispatchContext;
-import perobobbot.common.lang.Platform;
-import perobobbot.common.lang.PlatformIO;
-import perobobbot.common.lang.Subscription;
+import perobobbot.common.lang.*;
 import perobobbot.common.lang.fp.Function1;
 
 import java.net.URI;
@@ -35,6 +32,12 @@ public interface TwitchChatIO extends PlatformIO {
 
     @NonNull
     CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
+
+    @Override
+    @NonNull
+    default Subscription addMessageListener(@NonNull MessageListener listener) {
+        return addPrivateMessageListener(message -> message.toMessage().ifPresent(listener::onMessage));
+    }
 
     /**
      * Add a listener of event that occurs on the Twitch chat

@@ -69,6 +69,7 @@ public class SpringLauncher {
                                                .map(packageProcessor)
                                                .flatMap(Optional::stream)
                                                .flatMap(Packages::stream)
+                                               .peek(p -> LOG.info("Extra Package : {}",p))
                                                .toArray(String[]::new);
         }
 
