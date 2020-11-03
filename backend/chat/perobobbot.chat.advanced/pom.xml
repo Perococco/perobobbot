@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>bot-chat</artifactId>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>bot-backend</artifactId>
+        <relativePath>../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
@@ -14,10 +14,10 @@
 
     <artifactId>bot-chat-advanced</artifactId>
 
-    <name>${root.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name}</name>
 
     <properties>
-        <submodule.name>Advanced</submodule.name>
+        <submodule.name>Chat : Advanced</submodule.name>
     </properties>
 
     <dependencies>

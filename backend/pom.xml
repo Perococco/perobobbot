@@ -30,8 +30,11 @@
         <module>data/perobobbot.data.schema</module>
         <module>games/blackjack</module>
         <module>engine/access</module>
+        <module>engine/console</module>
         <module>engine/service</module>
-        <module>engine/chat</module>
+        <module>chat/perobobbot.chat.core</module>
+        <module>chat/perobobbot.chat.advanced</module>
+        <module>chat/perobobbot.chat.websocket</module>
         <module>engine/program</module>
         <module>engine/twitch</module>
         <module>engine/overlay</module>

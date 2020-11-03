@@ -58,6 +58,9 @@ public class SpringLauncher {
 
         private void createSpringApplication() {
             application = new SpringApplication(applicationClass);
+            application.addInitializers(app -> {
+                app.getBeanFactory().registerSingleton("__closer", createCloser(app));
+            });
             application.addInitializers(initializers);
             application.setBannerMode(Banner.Mode.OFF);
         }
@@ -90,7 +93,15 @@ public class SpringLauncher {
 
         private void launchTheApplicationAndConstructTheCloser() {
             final ApplicationContext app = application.run(arguments.toArray(String[]::new));
-            closer = () -> SpringApplication.exit(app);
+            this.closer = createCloser(app);
+        }
+
+        private ApplicationCloser createCloser(@NonNull ApplicationContext context) {
+            return () -> {
+                final int exitCode = SpringApplication.exit(context);
+                System.exit(exitCode);
+            };
+
         }
 
     }

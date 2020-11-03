@@ -5,6 +5,6 @@ package perobobbot.common.lang;
  */
 public interface ApplicationCloser {
 
-    int execute();
+    void execute();
 
 }

@@ -1,6 +1,7 @@
 package perococco.perobobbot.program.manager;
 
 import com.google.common.collect.ImmutableSet;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,8 +12,17 @@ import perobobbot.program.manager.ProgramManager;
 import perobobbot.program.manager.ProgramRepository;
 
 @Log4j2
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PeroProgramManager extends ProgramBase implements ProgramManager {
+
+    public static PeroProgramManager create(@NonNull ProgramRepository programRepository) {
+        programRepository.forEachProgramData(pd -> {
+            if (pd.isAutoStart()) {
+                pd.getProgram().enable();
+            }
+        });
+        return new PeroProgramManager(programRepository);
+    }
 
     @NonNull
     private final ProgramRepository programRepository;

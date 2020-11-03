@@ -24,6 +24,7 @@ public class ChannelInfo {
     public boolean isOwnedBy(User user) {
         return switch (platform) {
             case TWITCH -> channelName.equals(user.getUserId());
+            case CONSOLE -> true;
         };
     }
 }

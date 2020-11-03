@@ -63,7 +63,7 @@ public class ProgramManagerFactory {
     }
 
     private void createProgramManager() {
-        this.programManager = new PeroProgramManager(programRepository);
+        this.programManager = PeroProgramManager.create(programRepository);
     }
 
 

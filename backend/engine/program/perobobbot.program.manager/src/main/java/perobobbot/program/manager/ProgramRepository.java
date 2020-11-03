@@ -48,4 +48,6 @@ public interface ProgramRepository {
     default void forEachProgram(@NonNull Consumer1<? super Program> consumer) {
         programStream().forEach(consumer);
     }
+
+    void forEachProgramData(@NonNull Consumer1<? super ProgramData> consumer);
 }

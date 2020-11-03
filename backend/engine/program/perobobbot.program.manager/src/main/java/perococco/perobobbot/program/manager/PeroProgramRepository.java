@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.common.lang.MapTool;
+import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Function1;
 import perobobbot.common.lang.fp.UnaryOperator1;
 import perobobbot.common.messaging.Command;
@@ -68,4 +69,8 @@ public class PeroProgramRepository implements ProgramRepository {
                              .map(ProgramData::getProgram);
     }
 
+    @Override
+    public void forEachProgramData(@NonNull Consumer1<? super ProgramData> consumer) {
+        programDataMap.values().forEach(consumer);
+    }
 }

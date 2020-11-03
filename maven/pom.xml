@@ -201,6 +201,11 @@
                 <artifactId>bot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>bot-console</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>
