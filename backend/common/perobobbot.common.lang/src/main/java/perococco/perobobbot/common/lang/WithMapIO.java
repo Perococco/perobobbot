@@ -31,6 +31,16 @@ public class WithMapIO implements IO {
         if (platformIO != null) {
             return platformIO;
         }
-        return (channel, messageBuilder) -> LOG.warn("No IO for platform {}", platform);
+        return new PlatformIO() {
+            @Override
+            public @NonNull Platform getPlatform() {
+                return platform;
+            }
+
+            @Override
+            public void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+                LOG.warn("No IO for platform {}", platform);
+            }
+        };
     }
 }
