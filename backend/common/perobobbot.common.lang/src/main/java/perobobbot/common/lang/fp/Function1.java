@@ -2,7 +2,6 @@ package perobobbot.common.lang.fp;
 
 import lombok.NonNull;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface Function1<A,R> extends Function<A,R> {

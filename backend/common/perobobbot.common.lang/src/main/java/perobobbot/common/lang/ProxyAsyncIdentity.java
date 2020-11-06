@@ -2,7 +2,6 @@ package perobobbot.common.lang;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.fp.Function1;
 
 import java.util.concurrent.CompletionStage;
 

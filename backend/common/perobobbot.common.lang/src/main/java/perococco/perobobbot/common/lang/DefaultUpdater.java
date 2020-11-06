@@ -3,7 +3,6 @@ package perococco.perobobbot.common.lang;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.common.lang.GetterOnOldState;
 import perobobbot.common.lang.GetterOnStates;
 import perobobbot.common.lang.Mutation;
 import perobobbot.common.lang.ThrowableTool;

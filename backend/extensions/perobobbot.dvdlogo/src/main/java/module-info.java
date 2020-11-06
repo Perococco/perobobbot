@@ -1,5 +1,5 @@
-import perobobbot.program.core.ProgramFactory;
 import perobobbot.dvdlogo.DVDLogoProgramFactory;
+import perobobbot.program.core.ProgramFactory;
 
 module perobobbot.dvdlogo {
     requires static lombok;

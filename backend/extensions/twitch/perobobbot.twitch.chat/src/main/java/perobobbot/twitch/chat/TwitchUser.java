@@ -4,8 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.User;
 import perobobbot.common.lang.Role;
+import perobobbot.common.lang.User;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 

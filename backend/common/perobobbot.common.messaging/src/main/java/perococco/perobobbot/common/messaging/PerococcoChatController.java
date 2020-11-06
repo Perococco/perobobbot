@@ -6,8 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.*;
-import perobobbot.common.messaging.Command;
 import perobobbot.common.messaging.ChatController;
+import perobobbot.common.messaging.Command;
 
 @RequiredArgsConstructor
 public class PerococcoChatController implements ChatController {
