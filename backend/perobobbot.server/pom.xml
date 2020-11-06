@@ -150,11 +150,6 @@
         </dependency>
 
         <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-blackjack-engine</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <exclusions>
