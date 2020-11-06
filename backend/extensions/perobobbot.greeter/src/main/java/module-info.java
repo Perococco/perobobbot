@@ -1,5 +1,5 @@
 import perobobbot.program.core.ProgramFactory;
-import perobobbot.greeter.GreeterProgramFactory;
+import perobobbot.greeter.GreeterFactory;
 
 module perobobbot.greeter {
     requires static lombok;
@@ -17,5 +17,5 @@ module perobobbot.greeter {
 
     exports perobobbot.greeter;
 
-    provides ProgramFactory with GreeterProgramFactory;
+    provides ProgramFactory with GreeterFactory;
 }

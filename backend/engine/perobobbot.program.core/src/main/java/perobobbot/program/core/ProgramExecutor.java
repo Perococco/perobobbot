@@ -22,19 +22,23 @@ public abstract class ProgramExecutor<P extends Program> implements Executor<Exe
     protected abstract void doExecute(P program, ExecutionContext context);
 
 
-
-    public static <P extends Program> @NonNull ProgramExecutor<P> with(@NonNull P program, @NonNull Consumer1<? super P> action) {
-        return with(program,(p,ctx) -> action.accept(p));
+    public static <P extends Program> @NonNull ProgramExecutorBuilder<P> with(@NonNull P program) {
+        return new ProgramExecutorBuilder<>(program);
     }
 
-    public static <P extends Program> @NonNull ProgramExecutor<P> with(@NonNull P program, @NonNull Consumer2<? super P, ? super ExecutionContext> action) {
-        return new ProgramExecutor<P>(program) {
-            @Override
-            protected void doExecute(P program, ExecutionContext context) {
-                action.accept(program,context);
-            }
-        };
-    }
+    @RequiredArgsConstructor
+    public static class ProgramExecutorBuilder<P extends Program> {
 
+        private final P program;
+
+        public ProgramExecutor<P> execute(@NonNull Consumer1<? super P> action) {
+            return new BasicProgramExecutor<>(program,action);
+        }
+
+        public ProgramExecutor<P> execute(@NonNull Consumer2<? super P, ? super ExecutionContext> action) {
+            return new BasicProgramExecutor<>(program,action);
+        }
+
+    }
 
 }

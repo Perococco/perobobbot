@@ -10,7 +10,7 @@ import perobobbot.services.Requirement;
 import perobobbot.services.Services;
 import perococco.perobobbot.greeter.GreeterProgram;
 
-public class GreeterProgramFactory extends ProgramFactoryBase {
+public class GreeterFactory extends ProgramFactoryBase {
 
     public static final Requirement REQUIREMENT = Requirement.allOf(
             Requirement.allOf(IO.class,ChatController.class)
@@ -18,7 +18,7 @@ public class GreeterProgramFactory extends ProgramFactoryBase {
 
     public static final String PROGRAM_NAME = "greeter";
 
-    public GreeterProgramFactory() {
+    public GreeterFactory() {
         super(PROGRAM_NAME, REQUIREMENT);
     }
 
