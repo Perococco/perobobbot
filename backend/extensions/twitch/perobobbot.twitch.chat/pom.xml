@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>bot-backend</artifactId>
+        <artifactId>perobobbot-backend</artifactId>
         <relativePath>../../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot-ext-twitch-chat</artifactId>
+    <artifactId>perobobbot-ext-twitch-chat</artifactId>
 
     <name>${root.name} - Twitch : ${submodule.name}</name>
 
@@ -27,23 +27,23 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-lang</artifactId>
+            <artifactId>perobobbot-common-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-irc</artifactId>
+            <artifactId>perobobbot-common-irc</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-core</artifactId>
+            <artifactId>perobobbot-chat-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-advanced</artifactId>
+            <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-websocket</artifactId>
+            <artifactId>perobobbot-chat-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

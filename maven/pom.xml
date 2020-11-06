@@ -91,126 +91,126 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-lang</artifactId>
+                <artifactId>perobobbot-common-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-sound</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-irc</artifactId>
+                <artifactId>perobobbot-common-sound</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-common-messaging</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-services</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-access</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-advanced</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-chat-websocket</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-blackjack-engine</artifactId>
+                <artifactId>perobobbot-common-irc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-core</artifactId>
+                <artifactId>perobobbot-common-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-manager</artifactId>
+                <artifactId>perobobbot-services</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-ext-greeter</artifactId>
+                <artifactId>perobobbot-access</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-ext-dvdlogo</artifactId>
+                <artifactId>perobobbot-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-program-echo</artifactId>
+                <artifactId>perobobbot-chat-advanced</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-overlay</artifactId>
+                <artifactId>perobobbot-chat-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-data-com</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>bot-data-domain</artifactId>
+                <artifactId>perobobbot-blackjack-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-data-service</artifactId>
+                <artifactId>perobobbot-program-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-data-jpa</artifactId>
+                <artifactId>perobobbot-program-manager</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-greeter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-dvdlogo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-program-echo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-overlay</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-ext-twitch-chat</artifactId>
+                <artifactId>perobobbot-data-com</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-data-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-ext-consoleio</artifactId>
+                <artifactId>perobobbot-data-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-twitch-chat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-consoleio</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>bot-server</artifactId>
+                <artifactId>perobobbot-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

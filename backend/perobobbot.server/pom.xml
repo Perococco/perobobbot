@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>bot-backend</artifactId>
+        <artifactId>perobobbot-backend</artifactId>
         <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bot-server</artifactId>
+    <artifactId>perobobbot-server</artifactId>
 
     <name>${root.name} - ${module.name}</name>
 
@@ -29,64 +29,64 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-advanced</artifactId>
+            <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-overlay</artifactId>
+            <artifactId>perobobbot-overlay</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-core</artifactId>
+            <artifactId>perobobbot-program-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-manager</artifactId>
+            <artifactId>perobobbot-program-manager</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-echo</artifactId>
+            <artifactId>perobobbot-program-echo</artifactId>
         </dependency>
 
-
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-messaging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>bot-common-sound</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-ext-greeter</artifactId>
+            <artifactId>perobobbot-common-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-sound</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-greeter</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-ext-dvdlogo</artifactId>
+            <artifactId>perobobbot-ext-dvdlogo</artifactId>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-data-com</artifactId>
+            <artifactId>perobobbot-data-com</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-data-domain</artifactId>
+            <artifactId>perobobbot-data-domain</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-data-service</artifactId>
+            <artifactId>perobobbot-data-service</artifactId>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-data-jpa</artifactId>
+            <artifactId>perobobbot-data-jpa</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.aspectj</groupId>
@@ -97,12 +97,12 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-ext-twitch-chat</artifactId>
+            <artifactId>perobobbot-ext-twitch-chat</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-ext-consoleio</artifactId>
+            <artifactId>perobobbot-ext-consoleio</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -189,7 +189,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-chat-websocket</artifactId>
+            <artifactId>perobobbot-chat-websocket</artifactId>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
@@ -206,7 +206,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-services</artifactId>
+            <artifactId>perobobbot-services</artifactId>
         </dependency>
 
     </dependencies>

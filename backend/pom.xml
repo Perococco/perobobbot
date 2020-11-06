@@ -11,7 +11,7 @@
 
     <name>${root.name}</name>
 
-    <artifactId>bot-backend</artifactId>
+    <artifactId>perobobbot-backend</artifactId>
     <packaging>pom</packaging>
 
     <properties>
