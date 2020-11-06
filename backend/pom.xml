@@ -34,12 +34,16 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>engine/access</module>
-        <module>engine/console</module>
-        <module>engine/service</module>
-        <module>engine/program</module>
-        <module>engine/twitch</module>
-        <module>engine/overlay</module>
+        <module>engine/perobobbot.access</module>
+        <module>engine/perobobbot.services</module>
+        <module>engine/perobobbot.overlay</module>
+        <module>engine/perobobbot.program.core</module>
+        <module>engine/perobobbot.program.manager</module>
+        <module>extensions/perobobbot.consoleio</module>
+        <module>extensions/perobobbot.dvdlogo</module>
+        <module>extensions/perobobbot.greeter</module>
+        <module>extensions/perobobbot.echo</module>
+        <module>extensions/twitch/perobobbot.twitch.chat</module>
 
         <module>perobobbot.server</module>
         <module>packaging</module>

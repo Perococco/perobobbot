@@ -4,12 +4,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.access.core.PolicyManager;
+import perobobbot.access.PolicyManager;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.program.manager.ProgramData;
 import perobobbot.program.manager.ProgramManager;
 import perobobbot.program.manager.ProgramRepository;
-import perobobbot.service.core.Services;
+import perobobbot.services.Services;
 
 @Configuration
 @RequiredArgsConstructor

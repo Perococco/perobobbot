@@ -60,12 +60,12 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-greeter</artifactId>
+            <artifactId>bot-ext-greeter</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-program-dvdlogo</artifactId>
+            <artifactId>bot-ext-dvdlogo</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -97,12 +97,12 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-twitch-chat</artifactId>
+            <artifactId>bot-ext-twitch-chat</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-console</artifactId>
+            <artifactId>bot-ext-consoleio</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -206,7 +206,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>bot-service-core</artifactId>
+            <artifactId>bot-services</artifactId>
         </dependency>
 
     </dependencies>

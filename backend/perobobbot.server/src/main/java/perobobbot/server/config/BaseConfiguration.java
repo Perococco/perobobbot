@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import perobobbot.common.sound.SoundManager;
-import perobobbot.service.core.Services;
+import perobobbot.services.Services;
 
 import java.util.Map;
 

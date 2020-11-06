@@ -2,8 +2,8 @@ package perobobbot.server.config;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import perobobbot.access.core.PolicyManager;
-import perobobbot.access.core.ProxyPolicyManager;
+import perobobbot.access.PolicyManager;
+import perobobbot.access.ProxyPolicyManager;
 
 @Component
 public class SpringPolicyManager extends ProxyPolicyManager {

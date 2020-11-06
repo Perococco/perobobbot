@@ -20,7 +20,7 @@ module perobobbot.server {
     requires perobobbot.data.jpa;
     requires perobobbot.data.service;
     requires perobobbot.program.core;
-    requires perobobbot.service.core;
+    requires perobobbot.services;
 //    requires perobobbot.twitch.chat;
     requires perobobbot.overlay;
     requires perobobbot.common.sound;
@@ -63,7 +63,7 @@ module perobobbot.server {
 
     requires spring.boot.actuator;
     requires perobobbot.chat.core;
-    requires perobobbot.access.core;
+    requires perobobbot.access;
     requires perobobbot.common.messaging;
     requires perobobbot.program.manager;
 
