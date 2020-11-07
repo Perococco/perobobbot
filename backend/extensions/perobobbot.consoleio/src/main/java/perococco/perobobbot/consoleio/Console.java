@@ -101,7 +101,6 @@ public class Console implements ConsoleIO {
             while (true) {
                 final String line = scanner.nextLine();
                 if (!line.isBlank()) {
-                    System.out.println("LINE : '"+line+"'");
                     return line;
                 }
             }
