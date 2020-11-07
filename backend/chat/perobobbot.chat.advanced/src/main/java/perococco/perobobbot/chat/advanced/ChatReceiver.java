@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  **/
 @Log4j2
 @RequiredArgsConstructor
-public class Receiver<M> extends Looper {
+public class ChatReceiver<M> extends Looper {
 
     @NonNull
     private final Predicate<? super M> shouldPerformMatching;

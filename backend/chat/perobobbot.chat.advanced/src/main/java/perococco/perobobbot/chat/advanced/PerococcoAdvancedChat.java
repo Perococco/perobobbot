@@ -40,9 +40,9 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
     private final EventHandler eventHandler = new EventHandler();
 
-    private final Sender<M> sender;
+    private final ChatSender<M> chatSender;
 
-    private final Receiver<M> receiver;
+    private final ChatReceiver<M> chatReceiver;
 
     public PerococcoAdvancedChat(
             @NonNull Chat chat,
@@ -52,8 +52,8 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
         this.messageConverter = messageConverter;
         this.matcher = matcher;
         final BlockingDeque<RequestPostData<?, M>> postDataQueue = new LinkedBlockingDeque<>();
-        this.sender = new Sender<>(chat, listeners, postDataQueue);
-        this.receiver = new Receiver<>(matcher::shouldPerformMatching, postDataQueue);
+        this.chatSender = new ChatSender<>(chat, listeners, postDataQueue);
+        this.chatReceiver = new ChatReceiver<>(matcher::shouldPerformMatching, postDataQueue);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
         subscription.unsubscribe();
         subscription = chat.addChatListener(this::onChatEvent);
         chat.start();
-        sender.start();
-        receiver.start();
+        chatSender.start();
+        chatReceiver.start();
     }
 
     @Override
@@ -77,8 +77,8 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
     public void requestStop() {
         subscription.unsubscribe();
         subscription = Subscription.NONE;
-        sender.requestStop();
-        receiver.requestStop();
+        chatSender.requestStop();
+        chatReceiver.requestStop();
         chat.requestStop();
     }
 
@@ -95,12 +95,12 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
     @Override
     public @NonNull CompletionStage<DispatchSlip> sendCommand(@NonNull Command command) {
-        return sender.send(new CommandPostData<>(command));
+        return chatSender.send(new CommandPostData<>(command));
     }
 
     @Override
     public @NonNull <A> CompletionStage<ReceiptSlip<A>> sendRequest(@NonNull Request<A> request) {
-        return sender.send(new RequestPostData<>(request, matcher));
+        return chatSender.send(new RequestPostData<>(request, matcher));
     }
 
     private void warnListeners(@NonNull AdvancedChatEvent<M> event) {
@@ -142,7 +142,7 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
 
         private void dispatchReceivedMessage(@NonNull ReceivedMessage<M> receivedMessage) {
             listeners.warnListeners(AdvancedChatListener::onChatEvent, receivedMessage);
-            receiver.onMessageReception(receivedMessage);
+            chatReceiver.onMessageReception(receivedMessage);
         }
 
 

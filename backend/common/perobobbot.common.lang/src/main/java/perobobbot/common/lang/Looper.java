@@ -134,7 +134,7 @@ public abstract class Looper {
         @Override
         public void run() {
             try {
-                Thread.currentThread().setName("Loop : "+Looper.this.getClass().getSimpleName());
+                Thread.currentThread().setName("➰ "+Looper.this.getClass().getSimpleName());
                 beforeLooping();
                 starting.complete(Nil.NIL);
             } catch (RuntimeException e) {
@@ -152,7 +152,7 @@ public abstract class Looper {
                     } catch (Exception e) {
                         final boolean isCausedByInterruption = ThrowableTool.isCausedByAnInterruption(e);
                         if (ThrowableTool.isCausedByAnInterruption(e)) {
-                            LOG.warn("Iteration interrupted");
+                            LOG.warn("Loop interrupted");
                             Thread.currentThread().interrupt();
                         } else {
                             LOG.warn("Iteration failed : ", e);

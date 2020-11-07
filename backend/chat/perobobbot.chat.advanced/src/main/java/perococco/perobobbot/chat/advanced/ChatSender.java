@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class Sender<M> extends Looper {
+public class ChatSender<M> extends Looper {
 
     @NonNull
     private final ChatIO chat;
