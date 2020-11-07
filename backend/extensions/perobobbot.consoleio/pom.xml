@@ -17,7 +17,7 @@
     <name>${root.name} - ${module.name}</name>
 
     <properties>
-        <module.name>Overlay</module.name>
+        <module.name>Console IO</module.name>
     </properties>
 
     <dependencies>
