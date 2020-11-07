@@ -17,7 +17,7 @@
     <name>${root.name} - ${module.name}</name>
 
     <properties>
-        <submodule.name>Chat : Websocket</submodule.name>
+        <module.name>Chat : Websocket</module.name>
     </properties>
 
     <dependencies>

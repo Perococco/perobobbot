@@ -14,10 +14,10 @@
 
     <artifactId>perobobbot-program-echo</artifactId>
 
-    <name>${root.name} - ${module.name} : ${submodule.name}</name>
+    <name>${root.name} - ${module.name}</name>
 
     <properties>
-        <submodule.name>Echo</submodule.name>
+        <module.name>Echo</module.name>
     </properties>
 
     <dependencies>
