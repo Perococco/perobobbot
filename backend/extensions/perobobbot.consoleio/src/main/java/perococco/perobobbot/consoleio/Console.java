@@ -8,6 +8,7 @@ import perobobbot.consoleio.ConsoleIO;
 
 import java.time.Instant;
 import java.util.Scanner;
+
 @RequiredArgsConstructor
 public class Console implements ConsoleIO {
 
@@ -52,6 +53,7 @@ public class Console implements ConsoleIO {
         return listeners.addListener(listener);
     }
 
+
     private class InputReader extends Looper {
 
         private Scanner scanner;
@@ -65,25 +67,44 @@ public class Console implements ConsoleIO {
         @Override
         protected void afterLooping() {
             super.afterLooping();
-            applicationCloser.execute();
+            new Thread(this::exitAfterLooperIsDone).start();
+        }
+
+        private void exitAfterLooperIsDone() {
+            try {
+                waitForCompletion();
+                applicationCloser.execute();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
 
         @Override
-        protected @NonNull IterationCommand performOneIteration() throws Exception {
-            final String line = scanner.nextLine();
-            if (line.equals("stop")) {
+        protected @NonNull IterationCommand performOneIteration() {
+            final String line = getNextNotBlankLine();
+            if (line.equals("exit")) {
                 return IterationCommand.STOP;
             }
             final MessageContext ctx = MessageContext.builder()
-                                                 .messageFromMe(false)
-                                                 .content(line)
-                                                 .rawPayload(line)
-                                                 .messageOwner(CONSOLE_USER)
-                                                 .receptionTime(Instant.now())
-                                                 .channelInfo(CHANNEL_INFO)
-                                                 .build();
+                                                     .messageFromMe(false)
+                                                     .content(line)
+                                                     .rawPayload(line)
+                                                     .messageOwner(CONSOLE_USER)
+                                                     .receptionTime(Instant.now())
+                                                     .channelInfo(CHANNEL_INFO)
+                                                     .build();
             listeners.warnListeners(l -> l.onMessage(ctx));
             return IterationCommand.CONTINUE;
+        }
+
+        public String getNextNotBlankLine() {
+            while (true) {
+                final String line = scanner.nextLine();
+                if (!line.isBlank()) {
+                    System.out.println("LINE : '"+line+"'");
+                    return line;
+                }
+            }
         }
     }
 

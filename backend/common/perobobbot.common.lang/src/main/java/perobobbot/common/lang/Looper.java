@@ -121,9 +121,9 @@ public abstract class Looper {
         return current != null && !current.isDone();
     }
 
-    protected void beforeLooping() {};
+    protected void beforeLooping() {}
 
-    protected void afterLooping() {};
+    protected void afterLooping() {}
 
     @RequiredArgsConstructor
     private class Loop implements Runnable {
@@ -134,6 +134,7 @@ public abstract class Looper {
         @Override
         public void run() {
             try {
+                Thread.currentThread().setName("Loop : "+Looper.this.getClass().getSimpleName());
                 beforeLooping();
                 starting.complete(Nil.NIL);
             } catch (RuntimeException e) {
@@ -149,12 +150,18 @@ public abstract class Looper {
                             break;
                         }
                     } catch (Exception e) {
-                        ThrowableTool.interruptThreadIfCausedByInterruption(e);
-                        LOG.warn("Iteration failed : ", e);
+                        final boolean isCausedByInterruption = ThrowableTool.isCausedByAnInterruption(e);
+                        if (ThrowableTool.isCausedByAnInterruption(e)) {
+                            LOG.warn("Iteration interrupted");
+                            Thread.currentThread().interrupt();
+                        } else {
+                            LOG.warn("Iteration failed : ", e);
+                        }
                     }
                 }
             } finally {
                 afterLooping();
+                Thread.currentThread().setName("Looper idle");
             }
         }
     }

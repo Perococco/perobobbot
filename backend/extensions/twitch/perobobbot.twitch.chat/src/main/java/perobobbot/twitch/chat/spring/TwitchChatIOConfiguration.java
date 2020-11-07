@@ -29,12 +29,12 @@ public class TwitchChatIOConfiguration {
     private final String keyPath;
 
     @Bean
-    public TwitchChatIO twitchChatIO() throws Exception {
-        final TwitchChat twitchChat = createTwitchChat();
+    public TwitchChatIO twitchChatIO(@NonNull TwitchChat twitchChat) throws Exception {
         return twitchChat.startAndWait();
     }
 
-    private @NonNull TwitchChat createTwitchChat() throws IOException {
+    @Bean(destroyMethod = "requestStop")
+    public @NonNull TwitchChat createTwitchChat() throws IOException {
         final TwitchChatOptions options = createTwitchChatOptions();
         return TwitchChat.create(options);
     }
