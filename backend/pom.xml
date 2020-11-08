@@ -19,26 +19,33 @@
     </properties>
 
     <modules>
+        <!-- Implementation that is not specific to the bot -->
         <module>common/perobobbot.common.lang</module>
         <module>common/perobobbot.common.command</module>
         <module>common/perobobbot.common.messaging</module>
         <module>common/perobobbot.common.irc</module>
         <module>common/perobobbot.common.sound</module>
 
+        <!-- API and implementation to easily create Chat -->
+        <module>chat/perobobbot.chat.core</module>
+        <module>chat/perobobbot.chat.advanced</module>
+        <module>chat/perobobbot.chat.websocket</module>
+
+        <!-- Module to handle data persistence -->
         <module>data/perobobbot.data.com</module>
         <module>data/perobobbot.data.domain</module>
         <module>data/perobobbot.data.service</module>
         <module>data/perobobbot.data.jpa</module>
         <module>data/perobobbot.data.schema</module>
 
-        <module>chat/perobobbot.chat.core</module>
-        <module>chat/perobobbot.chat.advanced</module>
-        <module>chat/perobobbot.chat.websocket</module>
-
-        <module>engine/perobobbot.access</module>
+        <!-- Module used by extensions -->
         <module>engine/perobobbot.extension</module>
+        <module>engine/perobobbot.access</module>
         <module>engine/overlay/perobobbot.overlay.api</module>
         <module>engine/overlay/perobobbot.overlay.newtek</module>
+
+        <!-- extensions. The scope of the dependencies
+        to these modules should be runtime -->
         <module>extensions/twitch/perobobbot.twitch.chat</module>
         <module>extensions/perobobbot.consoleio</module>
         <module>extensions/perobobbot.dvdlogo</module>
