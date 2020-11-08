@@ -1,22 +1,22 @@
 package perobobbot.echo;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.ExecutionContext;
-import perobobbot.program.core.ProgramExecutor;
+import perobobbot.common.lang.fp.Consumer1;
 
-public class EchoExecutor extends ProgramExecutor<EchoProgram> {
+@RequiredArgsConstructor
+public class EchoExecutor implements Consumer1<ExecutionContext> {
 
-    public EchoExecutor(@NonNull EchoProgram program) {
-        super(program);
-    }
+    private final @NonNull EchoExtension echoExtension;
 
     @Override
-    protected void doExecute(EchoProgram program, ExecutionContext ctx) {
+    public void f(@NonNull ExecutionContext ctx) {
         if (ctx.isMessageFromMe()) {
             return;
         }
-        program.performEcho(ctx.getChannelInfo(),
-                            ctx.getMessageOwner(),
-                            ctx.getContent());
+        echoExtension.performEcho(ctx.getChannelInfo(),
+                                  ctx.getMessageOwner(),
+                                  ctx.getContent());
     }
 }

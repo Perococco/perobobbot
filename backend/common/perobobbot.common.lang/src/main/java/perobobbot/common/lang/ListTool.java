@@ -6,6 +6,8 @@ import lombok.NonNull;
 import perobobbot.common.lang.fp.Function1;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -14,6 +16,32 @@ import java.util.stream.Collector;
  * @author perococco
  **/
 public class ListTool extends CollectionTool {
+
+
+    public static <A> ImmutableList<A> addInOrderedList(@NonNull ImmutableList<A> source,
+                                                        @NonNull A element,
+                                                        @NonNull Comparator<A> comparator) {
+        final int index = Collections.binarySearch(source, element, comparator);
+        if (index >= 0) {
+            return ImmutableList.<A>builder()
+                    .addAll(source.subList(0, index))
+                    .add(element)
+                    .addAll(source.subList(index, source.size()))
+                    .build();
+        } else {
+            final int insert = -index-1;
+            return ImmutableList.<A>builder()
+                    .addAll(source.subList(0,insert))
+                    .add(element)
+                    .addAll(source.subList(insert,source.size()))
+                    .build();
+        }
+    }
+
+    public static <A extends Comparable<A>> ImmutableList<A> addInOrderedList(@NonNull ImmutableList<A> source,
+                                                        @NonNull A element) {
+        return addInOrderedList(source, element, Comparable::compareTo);
+    }
 
     /**
      * @return a list made by concatenating <code>element</code> and <code>source</code>
@@ -51,7 +79,7 @@ public class ListTool extends CollectionTool {
                 removed = true;
             }
         }
-        return removed?builder.build():source;
+        return removed ? builder.build() : source;
     }
 
     /**
@@ -68,7 +96,7 @@ public class ListTool extends CollectionTool {
                 removed = true;
             }
         }
-        return removed?builder.build().reverse():source;
+        return removed ? builder.build().reverse() : source;
     }
 
     @NonNull
@@ -84,7 +112,7 @@ public class ListTool extends CollectionTool {
     }
 
     @NonNull
-    public static <A,B> ImmutableList<B> map(@NonNull ImmutableCollection<A> input, @NonNull Function1<? super A, ? extends B> mapper) {
+    public static <A, B> ImmutableList<B> map(@NonNull ImmutableCollection<A> input, @NonNull Function1<? super A, ? extends B> mapper) {
         return input.stream().map(mapper).collect(collector());
     }
 
@@ -107,7 +135,7 @@ public class ListTool extends CollectionTool {
     }
 
     @NonNull
-    public static <T> Collector<T,?,ImmutableList<T>> collector() {
+    public static <T> Collector<T, ?, ImmutableList<T>> collector() {
         return ImmutableList.toImmutableList();
     }
 }

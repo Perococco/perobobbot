@@ -1,9 +1,9 @@
 package perobobbot.dvdlogo;
 
 import lombok.NonNull;
-import perobobbot.overlay.Overlay;
-import perobobbot.overlay.OverlayClient;
-import perobobbot.overlay.OverlayIteration;
+import perobobbot.overlay.api.Overlay;
+import perobobbot.overlay.api.OverlayClient;
+import perobobbot.overlay.api.OverlayIteration;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -29,35 +29,20 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-advanced</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-overlay</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-manager</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-echo</artifactId>
+            <artifactId>perobobbot-extension</artifactId>
         </dependency>
 
-
+        <!-- extension dependencies. Should be runtime scope -->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-messaging</artifactId>
+            <artifactId>perobobbot-ext-twitch-chat</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-sound</artifactId>
+            <artifactId>perobobbot-ext-consoleio</artifactId>
+            <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-greeter</artifactId>
@@ -65,8 +50,51 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-echo</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-dvdlogo</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-overlay-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-access</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-overlay-newtek</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-chat-advanced</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-overlay-api</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-command</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-sound</artifactId>
         </dependency>
 
         <dependency>
@@ -95,16 +123,17 @@
             </exclusions>
         </dependency>
 
+        <!-- Dependency used to force fontend vuejs compilation before this-->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-twitch-chat</artifactId>
-            <scope>runtime</scope>
+            <artifactId>frontend-vuejs</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-consoleio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -177,16 +206,6 @@
             <artifactId>jjwt</artifactId>
         </dependency>
 
-        <!-- Dependency used to force fontend vuejs compilation before this-->
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>frontend-vuejs</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-websocket</artifactId>
@@ -203,10 +222,6 @@
             <artifactId>javax-websocket-client-impl</artifactId>
             <version>9.4.27.v20200227</version>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-services</artifactId>
         </dependency>
 
     </dependencies>

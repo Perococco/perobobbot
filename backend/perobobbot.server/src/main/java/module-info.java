@@ -19,10 +19,6 @@ module perobobbot.server {
     requires perobobbot.data.com;
     requires perobobbot.data.jpa;
     requires perobobbot.data.service;
-    requires perobobbot.program.core;
-    requires perobobbot.services;
-//    requires perobobbot.twitch.chat;
-    requires perobobbot.overlay;
     requires perobobbot.common.sound;
 
 
@@ -44,9 +40,9 @@ module perobobbot.server {
     opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.config.extension to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
-    opens perobobbot.server.config.program to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
-    opens perobobbot.server.config.overlay to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
 
@@ -63,9 +59,11 @@ module perobobbot.server {
 
     requires spring.boot.actuator;
     requires perobobbot.chat.core;
-    requires perobobbot.access;
     requires perobobbot.common.messaging;
-    requires perobobbot.program.manager;
+    requires perobobbot.extension;
+    requires perobobbot.overlay.api;
+    requires perobobbot.access;
+    requires perobobbot.common.command;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

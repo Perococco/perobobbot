@@ -9,7 +9,7 @@ public class ConsoleIOPackages implements Packages {
 
     @Override
     public @NonNull String context() {
-        return "Console IO";
+        return "console-io";
     }
 
     @Override

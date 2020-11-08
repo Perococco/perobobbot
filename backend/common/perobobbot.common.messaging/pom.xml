@@ -29,6 +29,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-common-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-command</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

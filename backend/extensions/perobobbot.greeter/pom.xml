@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-program-core</artifactId>
+            <artifactId>perobobbot-extension</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
@@ -31,7 +31,15 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
     </dependencies>
 

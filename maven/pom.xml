@@ -96,6 +96,11 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-common-command</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-common-sound</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -152,24 +157,15 @@
                 <artifactId>perobobbot-program-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-ext-greeter</artifactId>
+                <artifactId>perobobbot-overlay-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-ext-dvdlogo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-program-echo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-overlay</artifactId>
+                <artifactId>perobobbot-overlay-newtek</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -198,12 +194,32 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-extension</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-ext-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-ext-consoleio</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-greeter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-dvdlogo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-echo</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -220,7 +236,6 @@
                 <artifactId>frontend-vuejs</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
 
             <dependency>

@@ -1,5 +1,5 @@
-import perobobbot.greeter.GreeterFactory;
-import perobobbot.program.core.ProgramFactory;
+import perobobbot.common.lang.Packages;
+import perobobbot.greeter.spring.GreeterPackages;
 
 module perobobbot.greeter {
     requires static lombok;
@@ -8,14 +8,13 @@ module perobobbot.greeter {
     requires org.apache.logging.log4j;
 
     requires perobobbot.common.lang;
-    requires perobobbot.program.core;
-    requires perobobbot.access;
-    requires perobobbot.services;
     requires perobobbot.chat.core;
     requires perobobbot.common.messaging;
+    requires perobobbot.extension;
 
+    requires spring.context;
 
-    exports perobobbot.greeter;
+    opens perobobbot.greeter.spring to spring.core,spring.beans,spring.context;
 
-    provides ProgramFactory with GreeterFactory;
+    provides Packages with GreeterPackages;
 }

@@ -8,6 +8,6 @@ public class JPAPackages {
 
     @NonNull
     public static Packages provider() {
-        return Packages.with("Data Service", JPAUserService.class);
+        return Packages.with("data-service", JPAUserService.class);
     }
 }

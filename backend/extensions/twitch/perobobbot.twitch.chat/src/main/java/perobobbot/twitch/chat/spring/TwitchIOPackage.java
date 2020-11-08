@@ -9,7 +9,7 @@ public class TwitchIOPackage implements Packages {
 
     @Override
     public @NonNull String context() {
-        return "Twitch IO";
+        return "twitch-io";
     }
 
     @Override

@@ -20,6 +20,7 @@
 
     <modules>
         <module>common/perobobbot.common.lang</module>
+        <module>common/perobobbot.common.command</module>
         <module>common/perobobbot.common.messaging</module>
         <module>common/perobobbot.common.irc</module>
         <module>common/perobobbot.common.sound</module>
@@ -35,15 +36,14 @@
         <module>chat/perobobbot.chat.websocket</module>
 
         <module>engine/perobobbot.access</module>
-        <module>engine/perobobbot.services</module>
-        <module>engine/perobobbot.overlay</module>
-        <module>engine/perobobbot.program.core</module>
-        <module>engine/perobobbot.program.manager</module>
+        <module>engine/perobobbot.extension</module>
+        <module>engine/overlay/perobobbot.overlay.api</module>
+        <module>engine/overlay/perobobbot.overlay.newtek</module>
+        <module>extensions/twitch/perobobbot.twitch.chat</module>
         <module>extensions/perobobbot.consoleio</module>
         <module>extensions/perobobbot.dvdlogo</module>
         <module>extensions/perobobbot.greeter</module>
         <module>extensions/perobobbot.echo</module>
-        <module>extensions/twitch/perobobbot.twitch.chat</module>
 
         <module>perobobbot.server</module>
         <module>packaging</module>

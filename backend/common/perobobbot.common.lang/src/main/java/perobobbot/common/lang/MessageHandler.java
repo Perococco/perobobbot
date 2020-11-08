@@ -7,6 +7,10 @@ import lombok.NonNull;
  */
 public interface MessageHandler {
 
+    default int priority() {
+        return 0;
+    }
+
     /**
      * @param messageContext the incoming message
      * @return true if the message should not be handle by anyother {@link MessageHandler}

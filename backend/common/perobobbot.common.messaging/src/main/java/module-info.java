@@ -5,6 +5,7 @@ module perobobbot.common.messaging {
     requires com.google.common;
 
     requires perobobbot.common.lang;
+    requires perobobbot.common.command;
 
     exports perobobbot.common.messaging;
 }

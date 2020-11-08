@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.common.lang.IO;
 import perobobbot.common.lang.IOBuilder;
 import perobobbot.common.lang.PlatformIO;
-import perobobbot.server.config.MessageGateway;
-import perobobbot.server.config.Service;
+import perobobbot.server.component.MessageGateway;
 
 import java.util.Map;
 
@@ -25,7 +24,6 @@ public class IOConfiguration {
     private final MessageGateway messageGateway;
 
     @Bean
-    @Service
     public IO io() {
         final Map<String,PlatformIO> platformIOs = context.getBeansOfType(PlatformIO.class);
 

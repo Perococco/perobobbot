@@ -8,9 +8,8 @@ module bot.consoleio {
     requires spring.context;
 
 
-    exports perobobbot.consoleio;
-
     opens perobobbot.consoleio.spring to spring.core,spring.beans,spring.context;
+    opens perobobbot.consoleio to spring.beans;
 
     provides Packages with ConsoleIOPackages;
 }

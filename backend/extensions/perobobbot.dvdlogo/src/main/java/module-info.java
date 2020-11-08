@@ -1,20 +1,22 @@
-import perobobbot.dvdlogo.DVDLogoProgramFactory;
-import perobobbot.program.core.ProgramFactory;
+import perobobbot.common.lang.Packages;
+import perobobbot.dvdlogo.spring.DVDLogoConfiguration;
 
 module perobobbot.dvdlogo {
     requires static lombok;
 
-    requires perobobbot.services;
-    requires perobobbot.access;
-    requires perobobbot.program.core;
     requires perobobbot.chat.core;
-    requires perobobbot.overlay;
+    requires perobobbot.extension;
+    requires perobobbot.overlay.api;
+    requires perobobbot.common.command;
+    requires perobobbot.access;
 
     requires java.desktop;
     requires com.google.common;
-    requires perobobbot.common.messaging;
+    requires spring.context;
 
     exports perobobbot.dvdlogo;
 
-    provides ProgramFactory with DVDLogoProgramFactory;
+    provides Packages with DVDLogoConfiguration;
+
+    opens perobobbot.dvdlogo.spring to spring.core,spring.beans,spring.context;
 }
