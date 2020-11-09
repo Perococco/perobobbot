@@ -28,4 +28,9 @@ public class SafeOverlayClient extends ProxyOverlayClient {
             unsafe = true;
         }
     }
+
+    @Override
+    public String toString() {
+        return "SafeOverlayClient{" +getDelegate()+"}";
+    }
 }

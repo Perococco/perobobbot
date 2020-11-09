@@ -113,9 +113,10 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         protected @NonNull IterationCommand performOneIteration() throws Exception {
             this.time += dt;
             this.iterationCount++;
+            final ImmutableList<OverlayClient> clients = drawers;
             try (OverlayIteration iteration = this.createOverlayIteration()) {
                 iteration.clearDrawing();
-                drawers.forEach(d -> renderDrawer(d, iteration));
+                clients.forEach(d -> renderDrawer(d, iteration));
                 ndiData.copyDataToFreeBuffers(iteration.getIterationCount());
             }
             return IterationCommand.CONTINUE;
@@ -218,7 +219,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
     @Synchronized
     public @NonNull Subscription addClient(@NonNull OverlayClient client) {
         final OverlayClient safeClient = new SafeOverlayClient(client);
-        client.initialize(this);
+        safeClient.initialize(this);
         this.drawers = ListTool.addFirst(drawers, safeClient);
         if (auto) {
             this.start();

@@ -74,7 +74,7 @@ public class ListTool extends CollectionTool {
         final ImmutableList.Builder<A> builder = ImmutableList.builder();
         for (A a : source) {
             if (removed || !a.equals(element)) {
-                builder.add(element);
+                builder.add(a);
             } else {
                 removed = true;
             }
