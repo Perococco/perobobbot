@@ -46,7 +46,7 @@ public class CastTool {
         try {
             return OptionalInt.of(Integer.parseInt(string));
         } catch (NumberFormatException nfe) {
-            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into int",string),nfe);
+            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into int",string));
             return OptionalInt.empty();
         }
     }
