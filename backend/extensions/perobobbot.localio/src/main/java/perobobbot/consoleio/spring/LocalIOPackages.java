@@ -2,18 +2,19 @@ package perobobbot.consoleio.spring;
 
 import lombok.NonNull;
 import perobobbot.common.lang.Packages;
+import perobobbot.consoleio.LocalIO;
 
 import java.util.stream.Stream;
 
-public class ConsoleIOPackages implements Packages {
+public class LocalIOPackages implements Packages {
 
     @Override
     public @NonNull String context() {
-        return "console-io";
+        return LocalIO.EXTENSION_NAME;
     }
 
     @Override
     public @NonNull Stream<String> stream() {
-        return Stream.of(ConsoleIOPackages.class.getPackageName());
+        return Stream.of(LocalIOPackages.class.getPackageName());
     }
 }

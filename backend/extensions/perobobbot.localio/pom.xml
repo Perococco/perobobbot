@@ -33,5 +33,9 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-common-command</artifactId>
+        </dependency>
     </dependencies>
 </project>

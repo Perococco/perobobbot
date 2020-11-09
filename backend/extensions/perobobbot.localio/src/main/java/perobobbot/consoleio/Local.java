@@ -2,19 +2,17 @@ package perobobbot.consoleio;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import perobobbot.common.lang.*;
 import perobobbot.common.lang.fp.Function1;
 
+import javax.swing.*;
+import java.awt.*;
 import java.time.Instant;
 import java.util.Scanner;
 
 @RequiredArgsConstructor
-public class Console implements ConsoleIO {
-
-    private static final String STANDARD = "standard";
-    private static final User CONSOLE_USER = new ConsoleUser();
-    private static final ChannelInfo CHANNEL_INFO = new ChannelInfo(Platform.CONSOLE, STANDARD);
-
+public class Local implements LocalIO {
 
     private final @NonNull ApplicationCloser applicationCloser;
 
@@ -22,28 +20,42 @@ public class Console implements ConsoleIO {
 
     private final @NonNull InputReader inputReader = new InputReader();
 
+    private JDialog dialog = null;
+
     @NonNull
     @Override
-    public ConsoleIO enable() {
+    public LocalIO enable() {
         inputReader.start();
         return this;
     }
 
     @Override
     public void disable() {
+        hideGui();
         inputReader.requestStop();
     }
 
     @Override
-    public @NonNull Platform getPlatform() {
-        return Platform.CONSOLE;
+    @Synchronized
+    public void showGui() {
+        if (GraphicsEnvironment.isHeadless() || dialog != null) {
+            return;
+        }
+        System.out.println("SHOULD SHOW GUI");
+    }
+
+    @Override
+    @Synchronized
+    public void hideGui() {
+        System.out.println("SHOULD HIDE GUI");
     }
 
     @Override
     public void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        if (channel.equals(STANDARD)) {
-            final String message = messageBuilder.apply((DispatchContext) Instant::now);
-            System.out.println(message);
+        final String message = messageBuilder.apply((DispatchContext) Instant::now);
+        switch (channel) {
+            case CONSOLE: System.out.println(message);break;
+            case GUI:
         }
     }
 
@@ -88,9 +100,9 @@ public class Console implements ConsoleIO {
                                                      .messageFromMe(false)
                                                      .content(line)
                                                      .rawPayload(line)
-                                                     .messageOwner(CONSOLE_USER)
+                                                     .messageOwner(LOCAL_USER)
                                                      .receptionTime(Instant.now())
-                                                     .channelInfo(CHANNEL_INFO)
+                                                     .channelInfo(CONSOLE_CHANNEL_INFO)
                                                      .build();
             listeners.warnListeners(l -> l.onMessage(ctx));
             return IterationCommand.CONTINUE;

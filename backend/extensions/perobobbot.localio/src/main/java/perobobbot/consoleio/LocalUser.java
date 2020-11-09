@@ -4,21 +4,21 @@ import lombok.NonNull;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 
-public class ConsoleUser implements User {
+public class LocalUser implements User {
 
     @Override
     public @NonNull String getUserId() {
-        return "CONSOLE_USER";
+        return "LOCAL_USER";
     }
 
     @Override
     public @NonNull String getUserName() {
-        return "console";
+        return "local";
     }
 
     @Override
     public @NonNull String getHighlightedUserName() {
-        return "console";
+        return "local";
     }
 
     @Override
