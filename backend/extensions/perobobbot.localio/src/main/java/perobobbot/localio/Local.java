@@ -9,13 +9,13 @@ import perobobbot.localio.swing.InputPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
-import java.util.Scanner;
 
 @RequiredArgsConstructor
 public class Local implements LocalIO {
@@ -32,6 +32,7 @@ public class Local implements LocalIO {
     @NonNull
     @Override
     public LocalIO enable() {
+        showGui();
         inputReader.start();
         return this;
     }
@@ -95,7 +96,14 @@ public class Local implements LocalIO {
 
     private void onGuiMessage(@NonNull String message) {
         if (message.equals("exit")) {
-            inputReader.requestStop();
+            inputReader.shouldExit = true;
+            try {
+                final var robot = new Robot();
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+            } catch (AWTException ignored) {
+                //
+            }
         } else {
             sendMessage(message);
         }
@@ -117,6 +125,8 @@ public class Local implements LocalIO {
     private class InputReader extends Looper {
 
         private BufferedReader reader;
+
+        public boolean shouldExit = false;
 
         @Override
         protected void beforeLooping() {
@@ -152,6 +162,10 @@ public class Local implements LocalIO {
         public String getNextNotBlankLine() throws IOException {
             while (true) {
                 final String line = reader.readLine().trim();
+                if (shouldExit) {
+                    return "exit";
+
+                }
                 if (!line.isBlank()) {
                     return line;
                 }

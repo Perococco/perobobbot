@@ -30,7 +30,11 @@ public class Puck {
     }
 
     public void draw(@NonNull Graphics2D g2) {
+        final float ofx = Math.round(x-size*0.5f);
+        final float ofy = Math.round(y-size*0.5f);
+        g2.translate(ofx,ofy);
         g2.setPaint(color);
-        g2.fillOval(Math.round(x-size*0.5f),Math.round(y-size*0.5f), size, size);
+        g2.fillOval(0,0, size, size);
+        g2.translate(-ofx,-ofy);
     }
 }

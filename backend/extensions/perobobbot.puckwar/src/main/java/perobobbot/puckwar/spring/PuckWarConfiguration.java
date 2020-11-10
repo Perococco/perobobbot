@@ -14,6 +14,7 @@ import perobobbot.common.lang.Role;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.LaunchGame;
 import perobobbot.puckwar.PuckWarExtension;
+import perobobbot.puckwar.SetNiceState;
 
 import java.time.Duration;
 
@@ -37,8 +38,9 @@ public class PuckWarConfiguration {
     public CommandBundle commandBundle(@NonNull PuckWarExtension puckWarExtension) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
         return Command.factory()
-                .add("pw start", policy, new LaunchGame(puckWarExtension))
-                .add("pw stop", policy, puckWarExtension::stopGame)
-                .build();
+                      .add("pw start", policy, new LaunchGame(puckWarExtension))
+                      .add("pw nice", policy, new SetNiceState(puckWarExtension))
+                      .add("pw stop", policy, puckWarExtension::stopGame)
+                      .build();
     }
 }

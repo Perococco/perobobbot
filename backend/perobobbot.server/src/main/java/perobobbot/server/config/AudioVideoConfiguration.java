@@ -22,7 +22,8 @@ public class AudioVideoConfiguration {
 
     public static final int OVERLAY_HEIGHT = 1080;
 
-    public static final FrameRate OVERLAY_FRAME_RATE = FrameRate.FPS_60;
+    public static final FrameRate OVERLAY_FRAME_RATE = FrameRate.FPS_30
+            ;
 
     @Bean
     public SoundManager soundManager() {
