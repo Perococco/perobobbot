@@ -167,7 +167,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             this.audioFrame = audioFrame.getFrame();
             this.audioBuffer = audioFrame.getData();
             this.ndiData = ndiData;
-            this.fpsCounter = FPSCounter.toLogger(LOG);
+            this.fpsCounter = FPSCounter.toLogger();
         }
 
         @Override
@@ -197,8 +197,8 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             ndiData.releaseBuffer(data);
 
             frameCount++;
-            if (frameCount % 30 == 0) {
-                fpsCounter.display(30);
+            if (frameCount % 60 == 0) {
+                fpsCounter.display(60);
             }
             return IterationCommand.CONTINUE;
         }

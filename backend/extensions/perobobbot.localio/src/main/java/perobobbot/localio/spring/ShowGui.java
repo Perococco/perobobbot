@@ -1,10 +1,10 @@
-package perobobbot.consoleio.spring;
+package perobobbot.localio.spring;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.ExecutionContext;
 import perobobbot.common.lang.fp.Consumer1;
-import perobobbot.consoleio.LocalIO;
+import perobobbot.localio.LocalIO;
 
 import java.awt.*;
 

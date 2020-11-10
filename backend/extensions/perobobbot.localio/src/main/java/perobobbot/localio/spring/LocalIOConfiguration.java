@@ -1,4 +1,4 @@
-package perobobbot.consoleio.spring;
+package perobobbot.localio.spring;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +10,9 @@ import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
 import perobobbot.common.lang.ApplicationCloser;
-import perobobbot.common.lang.IO;
 import perobobbot.common.lang.Role;
-import perobobbot.consoleio.Local;
-import perobobbot.consoleio.LocalIO;
+import perobobbot.localio.Local;
+import perobobbot.localio.LocalIO;
 
 import java.time.Duration;
 
@@ -35,7 +34,7 @@ public class LocalIOConfiguration {
 
         return Command.factory()
                 .add("lio show-gui", policy, new ShowGui(local))
-                .add("lio show-hide", policy,local::hideGui)
+                .add("lio hide-gui", policy,local::hideGui)
                 .build();
     }
 }

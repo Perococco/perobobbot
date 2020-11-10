@@ -12,6 +12,7 @@ import perobobbot.common.lang.ApplicationCloser;
 import perobobbot.common.lang.Packages;
 import perobobbot.common.lang.fp.Function1;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
@@ -57,7 +58,9 @@ public class SpringLauncher {
         }
 
         private void createSpringApplication() {
+            final boolean headless = GraphicsEnvironment.isHeadless();
             application = new SpringApplication(applicationClass);
+            application.setHeadless(headless);
             application.addInitializers(app -> {
                 app.getBeanFactory().registerSingleton("__closer", createCloser(app));
             });

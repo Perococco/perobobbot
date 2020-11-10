@@ -20,7 +20,7 @@ public class SimpleFPSCounter implements FPSCounter {
     public void display(int nbFrames) {
         final long last = current;
         current = System.nanoTime();
-        long timeSpent = current - last;
-        logger.accept(String.format("Average FPS: %5.1f",3e10f / (timeSpent)));
+        double timeSpent = (current - last)*1e-9;
+        logger.accept(String.format("Average FPS: %5.1f", nbFrames / timeSpent));
     }
 }

@@ -1,8 +1,8 @@
-package perobobbot.consoleio.spring;
+package perobobbot.localio.spring;
 
 import lombok.NonNull;
 import perobobbot.common.lang.Packages;
-import perobobbot.consoleio.LocalIO;
+import perobobbot.localio.LocalIO;
 
 import java.util.stream.Stream;
 

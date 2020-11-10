@@ -1,4 +1,4 @@
-package perobobbot.consoleio;
+package perobobbot.localio;
 
 import lombok.NonNull;
 import perobobbot.common.lang.ChannelInfo;

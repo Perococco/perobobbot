@@ -1,16 +1,22 @@
 package perobobbot.overlay.api;
 
 import lombok.NonNull;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.spi.LoggerContextFactory;
 import perobobbot.overlay.api._private.SimpleFPSCounter;
 
 public interface FPSCounter {
 
-    static FPSCounter toLogger(@NonNull Logger logger) {
+    static @NonNull FPSCounter toLogger(@NonNull Logger logger) {
         if (logger.isDebugEnabled()) {
             return new SimpleFPSCounter(logger::debug);
         }
         return NOP;
+    }
+
+    static @NonNull FPSCounter toLogger() {
+        return toLogger(LogManager.getLogger(FPSCounter.class));
     }
 
     static FPSCounter toStdOut() {
