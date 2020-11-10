@@ -12,12 +12,16 @@ import java.util.function.Function;
  **/
 public interface Tags {
 
+    Optional<String> findTag(@NonNull String tagName);
+
     @NonNull
-    Optional<String> findTag(@NonNull TagKey tagKey);
+    default Optional<String> findTag(@NonNull TagKey tagKey) {
+        return findTag(tagKey.getKeyName());
+    }
 
     @NonNull
     default String getTag(@NonNull TagKey tagKey) {
-        return findTag(tagKey).orElseThrow(() -> new IllegalArgumentException("Could not find tag "+tagKey));
+        return findTag(tagKey).orElseThrow(() -> new IllegalArgumentException("Could not find tag " + tagKey));
     }
 
     @NonNull
@@ -31,7 +35,7 @@ public interface Tags {
 
     @NonNull
     default Optional<Integer> findIntTag(@NonNull TagKey tagKey) {
-        return findTag(tagKey,Integer::parseInt);
+        return findTag(tagKey, Integer::parseInt);
     }
 
     @NonNull
@@ -46,10 +50,10 @@ public interface Tags {
 
 
     @NonNull
-    static Tags mapBased(@NonNull ImmutableMap<String,Tag> tags) {
-        return tagKey -> {
-            final Tag tag = tags.get(tagKey.name());
-            return tag == null?Optional.empty():Optional.of(tag.getValue());
+    static Tags mapBased(@NonNull ImmutableMap<String, Tag> tags) {
+        return tagName -> {
+            final Tag tag = tags.get(tagName);
+            return tag == null ? Optional.empty() : Optional.of(tag.getValue());
         };
     }
 

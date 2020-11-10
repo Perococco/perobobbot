@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.SubscriptionHolder;
+import perobobbot.common.math.Vector2D;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.overlay.api.Overlay;
 
@@ -37,17 +38,21 @@ public class PuckWarExtension extends ExtensionBase {
     }
 
     @Synchronized
-    public void startGame(int nbPucks, int puckSize) {
+    public void startGame(int puckSize) {
         if (subscriptionHolder.hasSubscription() || !isEnabled()) {
             return;
         }
-        puckWarOverlay = new PuckWarOverlay(nbPucks,puckSize);
+        puckWarOverlay = new PuckWarOverlay(puckSize);
         subscriptionHolder.replaceWith(() -> overlay.addClient(puckWarOverlay));
     }
 
     @Synchronized
     public void stopGame() {
         subscriptionHolder.unsubscribe();
+    }
+
+    public void throwPuck(@NonNull Vector2D speed) {
+        Optional.ofNullable(puckWarOverlay).ifPresent(o -> o.throwPuck(speed));
     }
 
     public void setNice(boolean nice) {

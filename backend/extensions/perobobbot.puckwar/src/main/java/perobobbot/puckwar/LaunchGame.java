@@ -15,10 +15,8 @@ public class LaunchGame implements Consumer1<ExecutionContext> {
     public void f(ExecutionContext executionContext) {
         final var token = executionContext.getParameters().trim().split(" +");
 
-        final var nbPucks = token.length>=1?CastTool.castToInt(token[0]).orElse(200):200;
-        final var tuckSize = token.length>=2?CastTool.castToInt(token[1]).orElse(3):3;
+        final var puckSize = token.length>=1?CastTool.castToInt(token[0]).orElse(20):20;
 
-        puckWarExtension.stopGame();
-        puckWarExtension.startGame(nbPucks,tuckSize);
+        puckWarExtension.startGame(puckSize);
     }
 }

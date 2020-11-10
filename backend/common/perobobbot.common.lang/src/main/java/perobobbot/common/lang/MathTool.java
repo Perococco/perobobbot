@@ -9,4 +9,8 @@ public class MathTool {
     public static float mod(float value, int base) {
         return (value%base)+(value<0?base:0);
     }
+
+    public static double mod(double value, int base) {
+        return (value%base)+(value<0?base:0);
+    }
 }

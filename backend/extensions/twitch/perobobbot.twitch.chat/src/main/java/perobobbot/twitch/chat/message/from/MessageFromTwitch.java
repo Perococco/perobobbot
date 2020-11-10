@@ -2,16 +2,15 @@ package perobobbot.twitch.chat.message.from;
 
 import lombok.NonNull;
 import perobobbot.common.irc.IRCParsing;
-import perobobbot.twitch.chat.Badges;
+import perobobbot.twitch.chat.TagsAndBadges;
 import perobobbot.twitch.chat.message.TagKey;
-import perobobbot.twitch.chat.message.Tags;
 
 import java.util.Optional;
 
 /**
  * @author perococco
  **/
-public interface MessageFromTwitch extends Tags, Badges {
+public interface MessageFromTwitch extends TagsAndBadges {
 
     @NonNull
     IRCParsing getIrcParsing();

@@ -11,6 +11,7 @@ module perobobbot.ext.puckwar {
     requires perobobbot.common.command;
     requires perobobbot.access;
     requires spring.context;
+    requires perobobbot.common.math;
 
 
     provides Packages with PuckWarConfiguration;

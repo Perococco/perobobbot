@@ -26,6 +26,11 @@ public abstract class MessageFromTwitchBase implements MessageFromTwitch {
     }
 
     @Override
+    public Optional<String> findTag(@NonNull String tagName) {
+        return ircParsing.tagValue(tagName);
+    }
+
+    @Override
     public @NonNull Optional<Badge> findBadge(@NonNull String badgeName) {
         return badges.findBadge(badgeName);
     }

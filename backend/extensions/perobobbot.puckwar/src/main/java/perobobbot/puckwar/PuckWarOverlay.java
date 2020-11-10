@@ -1,41 +1,39 @@
 package perobobbot.puckwar;
 
 import lombok.NonNull;
+import perobobbot.common.math.MVector2D;
+import perobobbot.common.math.Rectangle;
+import perobobbot.common.math.Vector2D;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class PuckWarOverlay implements OverlayClient {
 
-    private static final Puck[] NO_PUCK = new Puck[0];
-
-    private final int nbPucks;
     private final int puckSize;
 
     private boolean nice = false;
 
-    private Puck[] pucks;
+    private List<Puck> pucks = new ArrayList<>(256);
 
-    public PuckWarOverlay(int nbPucks,  int puckSize) {
-        this.nbPucks = nbPucks;
+    private List<Vector2D> pendingPuckVelocities = new ArrayList<>();
+
+    public PuckWarOverlay(int puckSize) {
         this.puckSize = puckSize;
     }
 
     @Override
     public void initialize(@NonNull Overlay overlay) {
-        final var factory = new PuckFactory(overlay.getWidth(), overlay.getHeight(),puckSize);
-        this.pucks = IntStream.range(0, nbPucks)
-                              .mapToObj(factory::randomPuck)
-                              .toArray(Puck[]::new);
     }
 
     @Override
     public void dispose(@NonNull Overlay overlay) {
-        pucks = NO_PUCK;
+        pucks.clear();
     }
 
     public void setNice(boolean nice) {
@@ -46,17 +44,50 @@ public class PuckWarOverlay implements OverlayClient {
     public void render(@NonNull OverlayIteration iteration) {
         final int width = iteration.getWidth();
         final int height = iteration.getHeight();
-        final float dt = (float)iteration.getDeltaTime();
+        final double dt = iteration.getDeltaTime();
+
+        this.updatePuckPositions(dt);
+        this.addPendingPucks();
+        this.cleanUpPucks(width, height);
+
         final Graphics2D g2 = iteration.createGraphics2D();
-        if (nice) {
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        }
+        setupRenderingHints(g2);
         try {
-            Arrays.stream(pucks).forEach(p -> p.update(width,height,dt).draw(g2));
+            pucks.forEach(p -> p.draw(g2));
         } finally {
             g2.dispose();
         }
+    }
+
+    private void addPendingPucks() {
+        pendingPuckVelocities.stream()
+                             .map(v -> new Puck(MVector2D.of(0, 0), v.unfix(), puckSize, Color.RED))
+                             .forEach(p -> pucks.add(p));
+        pendingPuckVelocities.clear();
+    }
+
+    private void updatePuckPositions(double dt) {
+        pucks.forEach(p -> p.update(dt));
+    }
+
+    private void cleanUpPucks(int width, int height) {
+        pucks.removeIf(isPuckOutsideOverlay(width, height));
+    }
+
+    private Predicate<Puck> isPuckOutsideOverlay(int width, int height) {
+        final Rectangle overlay = new Rectangle(-puckSize, -puckSize, width + 2*puckSize, height + 2*puckSize);
+        return puck -> !overlay.contains(puck.getPosition());
+    }
+
+    private void setupRenderingHints(@NonNull Graphics2D graphics2D) {
+        if (nice) {
+            graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        }
+    }
+
+    public void throwPuck(@NonNull Vector2D speed) {
+        pendingPuckVelocities.add(speed);
     }
 }

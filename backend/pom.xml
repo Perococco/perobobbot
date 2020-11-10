@@ -21,6 +21,7 @@
     <modules>
         <!-- Implementation that is not specific to the bot -->
         <module>common/perobobbot.common.lang</module>
+        <module>common/perobobbot.common.math</module>
         <module>common/perobobbot.common.command</module>
         <module>common/perobobbot.common.messaging</module>
         <module>common/perobobbot.common.irc</module>

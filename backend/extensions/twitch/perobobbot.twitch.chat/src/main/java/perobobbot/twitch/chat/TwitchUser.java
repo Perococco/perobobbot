@@ -4,14 +4,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.twitch.chat.message.TagKey;
+import perobobbot.twitch.chat.message.Tags;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"userId"})
-public class TwitchUser implements User {
+public class TwitchUser implements User, TagsAndBadges {
 
     @NonNull
     @Getter
@@ -22,7 +24,8 @@ public class TwitchUser implements User {
     private final String userName;
 
     @NonNull
-    private final Badges badges;
+    @Delegate(types = {Tags.class,Badges.class})
+    private final TagsAndBadges tagsAndBadges;
 
     @Override
     public @NonNull String getHighlightedUserName() {
@@ -31,11 +34,11 @@ public class TwitchUser implements User {
 
     @Override
     public boolean canActAs(@NonNull Role role) {
-        if (role == Role.ANY_USER || badges.hasBadge(BadgeName.BROADCASTER)) {
+        if (role == Role.ANY_USER || tagsAndBadges.hasBadge(BadgeName.BROADCASTER)) {
             return true;
-        } else if (badges.hasBadge(BadgeName.MODERATOR)) {
+        } else if (tagsAndBadges.hasBadge(BadgeName.MODERATOR)) {
             return role.isNotBetterThan(Role.TRUSTED_USER);
-        } else if (badges.hasBadge(BadgeName.SUBSCRIBER)) {
+        } else if (tagsAndBadges.hasBadge(BadgeName.SUBSCRIBER)) {
             return role.isNotBetterThan(Role.STANDARD_USER);
         }
         return false;
@@ -46,6 +49,5 @@ public class TwitchUser implements User {
         final String userName = message.getTag(TagKey.DISPLAY_NAME, userId);
         return new TwitchUser(userId, userName, message);
     }
-
 
 }

@@ -96,6 +96,11 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-common-math</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-common-command</artifactId>
                 <version>${project.version}</version>
             </dependency>
