@@ -198,8 +198,8 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             ndiData.releaseBuffer(data);
 
             frameCount++;
-            if (frameCount % 60 == 0) {
-                fpsCounter.display(60);
+            if (frameCount % 120 == 0) {
+                fpsCounter.display(120);
             }
             return IterationCommand.CONTINUE;
         }
