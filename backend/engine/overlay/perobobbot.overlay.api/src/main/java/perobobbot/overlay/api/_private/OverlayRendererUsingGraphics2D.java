@@ -37,6 +37,7 @@ public class OverlayRendererUsingGraphics2D implements OverlayRenderer {
     @Override
     public @NonNull OverlayRenderer clearOverlay() {
         final Color backup = graphics2D.getBackground();
+        graphics2D.setBackground(TRANSPARENT);
         graphics2D.clearRect(0,0,overlaySize.getWidth(),overlaySize.getHeight());
         graphics2D.setBackground(backup);
         return this;
