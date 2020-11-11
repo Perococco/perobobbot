@@ -42,6 +42,22 @@ public class MVector2D implements Vector2DInterface<MVector2D> {
         return Math.abs(x)+Math.abs(y);
     }
 
+    public @NonNull MVector2D setX(double x, double y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
+    public @NonNull MVector2D setX(double x) {
+        this.x = x;
+        return this;
+    }
+
+    public @NonNull MVector2D setY(double y) {
+        this.y = y;
+        return this;
+    }
+
     @Override
     public @NonNull MVector2D normalize() {
         final var norm = norm();

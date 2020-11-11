@@ -20,6 +20,8 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class Local implements LocalIO {
 
+    public static final String QUIT_COMMAND = "quit";
+
     private final @NonNull ApplicationCloser applicationCloser;
 
     private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
@@ -95,7 +97,7 @@ public class Local implements LocalIO {
     }
 
     private void onGuiMessage(@NonNull String message) {
-        if (message.equals("exit")) {
+        if (message.equals(QUIT_COMMAND)) {
             inputReader.shouldExit = true;
             try {
                 final var robot = new Robot();
@@ -152,7 +154,7 @@ public class Local implements LocalIO {
         @Override
         protected @NonNull IterationCommand performOneIteration() throws IOException {
             final String line = getNextNotBlankLine();
-            if (line.equals("exit")) {
+            if (line.equals(QUIT_COMMAND)) {
                 return IterationCommand.STOP;
             }
             sendMessage(line);
@@ -161,13 +163,12 @@ public class Local implements LocalIO {
 
         public String getNextNotBlankLine() throws IOException {
             while (true) {
-                final String line = reader.readLine().trim();
-                if (shouldExit) {
-                    return "exit";
-
+                final String line = reader.readLine();
+                if (line == null || shouldExit) {
+                    return QUIT_COMMAND;
                 }
                 if (!line.isBlank()) {
-                    return line;
+                    return line.trim();
                 }
             }
         }
