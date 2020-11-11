@@ -3,6 +3,7 @@ package perobobbot.puckwar;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.common.math.MVector2D;
+import perobobbot.overlay.api.OverlayRenderer;
 
 import java.awt.*;
 
@@ -43,13 +44,13 @@ public class Puck {
         return this;
     }
 
-    public void draw(@NonNull Graphics2D g2) {
-        final double ofx = Math.round(position.x()-hsize);
-        final double ofy = Math.round(position.y()-hsize);
-        g2.translate(ofx,ofy);
-        g2.setPaint(color);
-        g2.fillOval(0,0, size, size);
-        g2.translate(-ofx,-ofy);
+    public void drawWith(@NonNull OverlayRenderer renderer) {
+        final double xc = position.x();
+        final double yc = position.y();
+        renderer.translate(xc,yc);
+        renderer.setColor(color);
+        renderer.fillCircle(0,0,size);
+        renderer.translate(-xc,-yc);
     }
 
 }

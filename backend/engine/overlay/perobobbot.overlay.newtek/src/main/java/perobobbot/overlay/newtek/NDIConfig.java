@@ -16,7 +16,9 @@ public class NDIConfig {
 
     public static final int PIXEL_DEPTH = 4;
 
+    @Getter
     private final @NonNull OverlaySize overlaySize;
+
     private final @NonNull DevolayFrameFourCCType ccType;
     private final @NonNull FrameRate frameRate;
     private final int audioSampleRate;

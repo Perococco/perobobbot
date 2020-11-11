@@ -1,6 +1,8 @@
 package perobobbot.overlay.api;
 
-public interface OverlayIteration extends DrawingContext, SoundContext {
+import lombok.NonNull;
+
+public interface OverlayIteration extends AutoCloseable {
 
     /**
      * @return the iteration count
@@ -17,4 +19,16 @@ public interface OverlayIteration extends DrawingContext, SoundContext {
      */
     double getDeltaTime();
 
+    @NonNull OverlayRenderer getOverlayRenderer();
+
+    @NonNull SoundContext getSoundContext();
+
+    @Override
+    default void close() throws Exception {
+        getOverlayRenderer().dispose();
+    }
+
+    default void clearOverlay() {
+        getOverlayRenderer().clearOverlay();
+    }
 }

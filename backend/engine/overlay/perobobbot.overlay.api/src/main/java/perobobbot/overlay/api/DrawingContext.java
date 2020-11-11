@@ -12,7 +12,7 @@ public interface DrawingContext extends AutoCloseable {
      * @return the graphics that can be used to draw on the overlay
      */
     @NonNull
-    Graphics2D getGraphics2D();
+    OverlayRenderer getGraphics2D();
 
     /**
      * @return the width available for the draw
@@ -28,10 +28,5 @@ public interface DrawingContext extends AutoCloseable {
      * clear the drawing
      */
     void clearDrawing();
-
-    @NonNull
-    default Graphics2D createGraphics2D() {
-        return (Graphics2D)getGraphics2D().create();
-    }
 
 }

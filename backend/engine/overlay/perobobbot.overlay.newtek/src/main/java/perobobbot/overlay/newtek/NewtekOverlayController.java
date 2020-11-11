@@ -84,8 +84,14 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         @NonNull
         private final NDIData ndiData;
 
+        /**
+         * The time between each frames in second (1./FrameRate)
+         */
         private final double dt;
 
+        /**
+         * The time in second
+         */
         private double time;
 
         private long iterationCount = 0;
@@ -111,7 +117,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             this.iterationCount++;
             final ImmutableList<OverlayClient> clients = drawers;
             try (OverlayIteration iteration = this.createOverlayIteration()) {
-                iteration.clearDrawing();
+                iteration.clearOverlay();
                 clients.forEach(d -> renderDrawer(d, iteration));
                 ndiData.copyDataToFreeBuffers(iteration.getIterationCount());
             }
@@ -122,13 +128,13 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             client.render(iteration);
         }
 
-        private OverlayIteration createOverlayIteration() {
+        private @NonNull OverlayIteration createOverlayIteration() {
             return SimpleOverlayIteration.builder()
                                          .deltaTime(dt)
                                          .iterationCount(iterationCount)
                                          .time(time)
                                          .soundContext(ndiData.getSoundContext())
-                                         .drawingContext(ndiData.createDrawingContext())
+                                         .overlayRenderer(ndiData.createOverlayRenderer())
                                          .build();
         }
     }

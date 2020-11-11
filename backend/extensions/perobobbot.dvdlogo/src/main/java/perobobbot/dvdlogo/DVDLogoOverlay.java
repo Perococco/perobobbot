@@ -50,7 +50,9 @@ public class DVDLogoOverlay implements OverlayClient {
 
     @Override
     public void render(@NonNull OverlayIteration iteration) {
-
+        final double dt = iteration.getDeltaTime();
+        final var renderer = iteration.getOverlayRenderer();
+        final var size = renderer.getOverlaySize();
         boolean bumped = false;
 
         x = x + iteration.getDeltaTime() * vx;
@@ -59,8 +61,8 @@ public class DVDLogoOverlay implements OverlayClient {
             x = -x;
             vx = -vx;
             bumped = true;
-        } else if (x > iteration.getWidth() - logoWidth) {
-            x = 2 * (iteration.getWidth() - logoWidth) - x;
+        } else if (x > size.getWidth() - logoWidth) {
+            x = 2 * (size.getWidth() - logoWidth) - x;
             vx = -vx;
             bumped = true;
         }
@@ -69,8 +71,8 @@ public class DVDLogoOverlay implements OverlayClient {
             y = -y;
             vy = -vy;
             bumped = true;
-        } else if (y > iteration.getHeight() - logoHeight) {
-            y = 2 * (iteration.getHeight() - logoHeight) - y;
+        } else if (y > size.getHeight() - logoHeight) {
+            y = 2 * (size.getHeight() - logoHeight) - y;
             vy = -vy;
             bumped = true;
         }
@@ -78,15 +80,11 @@ public class DVDLogoOverlay implements OverlayClient {
         if (bumped) {
             idx = (idx + 1) % (colors.length);
         }
-        final Graphics2D g2 = iteration.createGraphics2D();
-        try {
-            g2.translate(x, y);
-            g2.setPaint(colors[idx]);
-            g2.fillRect(0, 0, logoWidth, logoHeight);
-
-            g2.drawImage(logo, widthMargin, heightMargin, null);
-        } finally {
-            g2.dispose();
-        }
+        renderer.withPrivateContext(r -> {
+            r.translate(x, y);
+            r.setColor(colors[idx]);
+            r.fillRect(0, 0, logoWidth, logoHeight);
+            r.drawImage(logo, widthMargin, heightMargin);
+        });
     }
 }

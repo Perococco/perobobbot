@@ -2,30 +2,30 @@ package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
 import perobobbot.common.sound.SoundManager;
+import perobobbot.overlay.api.OverlayRenderer;
+import perobobbot.overlay.api.OverlaySize;
 import perobobbot.overlay.api.SoundContext;
 
-import java.awt.*;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class NDIData {
 
-    @NonNull
-    private final NDIImage image;
+    private final @NonNull NDIImage image;
 
-    @NonNull
-    private final NDISoundContext soundContext;
+    private final @NonNull OverlaySize overlaySize;
 
-    @NonNull
-    private final BlockingDeque<NDIBuffers> freeBuffers;
+    private final @NonNull NDISoundContext soundContext;
 
-    @NonNull
-    private final BlockingDeque<NDIBuffers> pendingBuffers;
+    private final @NonNull BlockingDeque<NDIBuffers> freeBuffers;
 
-    private final AudioBufferSizeComputer audioBufferSizeComputer;
+    private final @NonNull BlockingDeque<NDIBuffers> pendingBuffers;
+
+    private final @NonNull AudioBufferSizeComputer audioBufferSizeComputer;
 
     public NDIData(@NonNull NDIConfig config, @NonNull SoundManager soundManager, int bufferingSize) {
         this.image = config.createImage();
+        this.overlaySize = config.getOverlaySize();
         this.soundContext = new NDISoundContext(soundManager);
         this.audioBufferSizeComputer = config.getAudioBufferSizeComputer();
         this.freeBuffers = new LinkedBlockingDeque<>(bufferingSize);
@@ -36,11 +36,8 @@ public class NDIData {
     }
 
     @NonNull
-    public SimpleDrawingContext createDrawingContext() {
-        final Graphics2D graphics2D = image.createGraphics();
-        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        return new SimpleDrawingContext(graphics2D, image.getWidth(), image.getHeight());
+    public OverlayRenderer createOverlayRenderer() {
+        return OverlayRenderer.withGraphics2D(image.createGraphics(),overlaySize);
     }
 
     public SoundContext getSoundContext() {

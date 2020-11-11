@@ -19,11 +19,13 @@ public class NDIImage extends BufferedImage {
         return new NDIImage(size,copier);
     }
 
-    @NonNull
-    private final Consumer1<IntBuffer> copier;
+    private final @NonNull Consumer1<IntBuffer> copier;
 
-    private NDIImage(@NonNull OverlaySize size, @NonNull Consumer2<int[],IntBuffer> copier) {
-        super(size.getWidth(), size.getHeight(), TYPE_INT_ARGB);
+    private final @NonNull OverlaySize overlaySize;
+
+    private NDIImage(@NonNull OverlaySize overlaySize, @NonNull Consumer2<int[],IntBuffer> copier) {
+        super(overlaySize.getWidth(), overlaySize.getHeight(), TYPE_INT_ARGB);
+        this.overlaySize = overlaySize;
         this.copier = copier.f1(((DataBufferInt) getRaster().getDataBuffer()).getData());
     }
 

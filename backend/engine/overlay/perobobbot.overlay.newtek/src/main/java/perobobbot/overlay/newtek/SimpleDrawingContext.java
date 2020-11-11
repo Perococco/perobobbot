@@ -3,17 +3,14 @@ package perobobbot.overlay.newtek;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import java.awt.*;
+import perobobbot.overlay.api.OverlayRenderer;
 
 @RequiredArgsConstructor
 public class SimpleDrawingContext implements AutoCloseable {
 
-    public static final Color TRANSPARENT = new Color(0,0,0,0);
-
     @NonNull
     @Getter
-    private final Graphics2D graphics2D;
+    private final OverlayRenderer graphics2D;
 
     @Getter
     private final int width;
@@ -27,10 +24,7 @@ public class SimpleDrawingContext implements AutoCloseable {
     }
 
     public void clear() {
-        final Color paint = graphics2D.getBackground();
-        graphics2D.setBackground(TRANSPARENT);
-        graphics2D.clearRect(0,0,width,height);
-        graphics2D.setBackground(paint);
+        graphics2D.clearOverlay();
     }
 
 }
