@@ -3,6 +3,7 @@ package perobobbot.twitch.chat.message;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.common.irc.Tag;
+import perobobbot.common.lang.fp.Function1;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -12,7 +13,12 @@ import java.util.function.Function;
  **/
 public interface Tags {
 
-    Optional<String> findTag(@NonNull String tagName);
+    @NonNull Optional<String> findTag(@NonNull String tagName);
+
+    @NonNull
+    default <T> Optional<T> flatFindTag(@NonNull String tagName, @NonNull Function1<? super String, ? extends Optional<? extends T>> caster) {
+        return findTag(tagName).flatMap(caster);
+    }
 
     @NonNull
     default Optional<String> findTag(@NonNull TagKey tagKey) {

@@ -4,7 +4,12 @@ import lombok.NonNull;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 
+import java.awt.*;
+import java.util.Optional;
+
 public class LocalUser implements User {
+
+    public static final Color LOCAL_COLOR = new Color(212, 146, 239);
 
     @Override
     public @NonNull String getUserId() {
@@ -24,5 +29,10 @@ public class LocalUser implements User {
     @Override
     public boolean canActAs(@NonNull Role role) {
         return true;
+    }
+
+    @Override
+    public @NonNull Optional<Color> getUseColor() {
+        return Optional.of(LOCAL_COLOR);
     }
 }

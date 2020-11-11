@@ -5,7 +5,9 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.awt.*;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.function.Function;
 
@@ -20,6 +22,10 @@ public class CastTool {
     @NonNull
     public static <A> Function<Object,Optional<A>> caster(@NonNull Class<A> type) {
         return o -> cast(type,o);
+    }
+
+    public static @NonNull Optional<Color> castToColor(@NonNull String colorAsString) {
+        return Optional.of(Color.decode(colorAsString));
     }
 
     /**
@@ -52,12 +58,21 @@ public class CastTool {
     }
 
     public static int castToInt(@NonNull String string, int defaultValue) {
+        return castToInt(string).orElse(defaultValue);
+    }
+
+    @NonNull
+    public static OptionalDouble castToDouble(@NonNull String string) {
         try {
-            return Integer.parseInt(string);
+            return OptionalDouble.of(Double.parseDouble(string));
         } catch (NumberFormatException nfe) {
-            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into int",string),nfe);
-            return defaultValue;
+            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into double",string));
+            return OptionalDouble.empty();
         }
+    }
+
+    public static double castToDouble(@NonNull String string, double defaultValue) {
+        return castToDouble(string).orElse(defaultValue);
     }
 
     @NonNull

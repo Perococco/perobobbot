@@ -13,6 +13,7 @@ public interface Vector2DInterface<V extends Vector2DInterface<V>> extends Point
 
     V normalize();
 
+    @NonNull V negate();
     @NonNull Vector2D fix();
     @NonNull MVector2D unfix();
     @NonNull V add(double x, double y);

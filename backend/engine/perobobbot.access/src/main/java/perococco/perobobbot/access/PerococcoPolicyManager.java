@@ -143,9 +143,9 @@ public class PerococcoPolicyManager implements PolicyManager {
             if (userPolicyFailed(executor)) {
                 return false;
             }
-            if (globalCoolDownPolicyFailed(executionTime)) {
-                return false;
-            }
+//            if (globalCoolDownPolicyFailed(executionTime)) {
+//                return false;
+//            }
             return !userCoolDownPolicyFailed(executor, executionTime);
         }
 
@@ -159,7 +159,7 @@ public class PerococcoPolicyManager implements PolicyManager {
 
         private boolean globalCoolDownPolicyFailed(@NonNull Instant now) {
             final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-            return durationSinceLastExecution.compareTo(rule.getGlobalCoolDown()) < 0;
+            return durationSinceLastExecution.compareTo(rule.getDefaultCooldown()) < 0;
         }
 
         private boolean userCoolDownPolicyFailed(@NonNull User executor, @NonNull Instant now) {

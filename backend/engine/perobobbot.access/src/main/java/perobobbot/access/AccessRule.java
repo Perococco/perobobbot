@@ -1,7 +1,6 @@
 package perobobbot.access;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.Builder;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Value
-@Builder
 public class AccessRule {
 
     /**
@@ -26,10 +24,10 @@ public class AccessRule {
     Role requiredRole;
 
     /**
-     * The global cooldown of the execution
+     * The default cooldown for the role without specific cooldown
      */
     @NonNull
-    Duration globalCoolDown;
+    Duration defaultCooldown;
 
     /**
      * the cooldown for each role
@@ -44,23 +42,12 @@ public class AccessRule {
     }
 
     @NonNull
-    public static AccessRule create(@NonNull Role requiredRole, @NonNull Duration globalCoolDown, @NonNull RoleCooldown... roleCoolDowns) {
+    public static AccessRule create(@NonNull Role requiredRole, @NonNull Duration defaultCooldown, @NonNull RoleCooldown... roleCoolDowns) {
         return new AccessRule(
                 requiredRole,
-                globalCoolDown,
+                defaultCooldown,
                 Arrays.stream(roleCoolDowns).collect(Collectors.collectingAndThen(Collectors.toMap(RoleCooldown::getRole, RoleCooldown::getDuration), ImmutableMap::copyOf))
         );
-    }
-
-    public static AccessRuleBuilder builder() {
-        return new AccessRuleBuilder()
-                .requiredRole(Role.ANY_USER)
-                .globalCoolDown(Duration.ZERO)
-                ;
-    }
-
-    public static AccessRule withGlobalCooldown(@NonNull Duration duration) {
-        return AccessRule.builder().globalCoolDown(duration).build();
     }
 
     @NonNull
@@ -84,7 +71,7 @@ public class AccessRule {
      */
     @NonNull
     public Duration findForUserOrGlobalCoolDown(@NonNull User user) {
-        return findCoolDownFor(user).orElse(globalCoolDown);
+        return findCoolDownFor(user).orElse(defaultCooldown);
     }
 
 

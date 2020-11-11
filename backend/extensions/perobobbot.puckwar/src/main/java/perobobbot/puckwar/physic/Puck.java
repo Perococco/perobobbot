@@ -1,8 +1,9 @@
-package perobobbot.puckwar;
+package perobobbot.puckwar.physic;
 
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.common.math.MVector2D;
+import perobobbot.common.math.Vector2D;
 import perobobbot.overlay.api.OverlayRenderer;
 
 import java.awt.*;
@@ -10,23 +11,24 @@ import java.awt.*;
 public class Puck {
 
     public static final double SPEED_THRESHOLD = 1e-3;
-    public static final double DEFAULT_FRICTION_FACTOR = Math.log(2) / 3;
+    public static final double DEFAULT_FRICTION_FACTOR = Math.log(2);
 
     private double frictionFactor = DEFAULT_FRICTION_FACTOR;
     @Getter
-    private MVector2D position;
-    private MVector2D velocity;
-    private int size;
+    private final MVector2D position = new MVector2D();
+    private final MVector2D velocity = new MVector2D();
+    @Getter
+    private int radius;
     private double hsize;
     private Color color;
 
     private boolean stopped;
 
-    public Puck(@NonNull MVector2D position, @NonNull MVector2D velocity, int puckSize, Color color) {
-        this.position = position;
-        this.velocity = velocity;
-        this.size = puckSize;
-        this.hsize = this.size*0.5;
+    public Puck(@NonNull Vector2D position, @NonNull Vector2D velocity, int puckRadius, Color color) {
+        this.position.setTo(position);
+        this.velocity.setTo(velocity);
+        this.radius = puckRadius;
+        this.hsize = this.radius * 0.5;
         this.color = color;
     }
 
@@ -49,7 +51,7 @@ public class Puck {
         final double yc = position.y();
         renderer.translate(xc,yc);
         renderer.setColor(color);
-        renderer.fillCircle(0,0,size);
+        renderer.fillCircle(0, 0, radius);
         renderer.translate(-xc,-yc);
     }
 

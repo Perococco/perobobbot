@@ -3,6 +3,7 @@ package perobobbot.common.lang;
 import com.google.common.collect.ImmutableCollection;
 import lombok.NonNull;
 
+import java.awt.*;
 import java.util.Optional;
 
 public interface User {
@@ -23,7 +24,10 @@ public interface User {
     @NonNull
     String getHighlightedUserName();
 
+    @NonNull Optional<Color> getUseColor();
+
     boolean canActAs(@NonNull Role role);
+
 
     @NonNull
     default Optional<Role> findHighestRole(@NonNull ImmutableCollection<Role> roles) {

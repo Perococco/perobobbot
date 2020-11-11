@@ -33,6 +33,11 @@ public class Vector2D implements Vector2DInterface<Vector2D> {
     }
 
     @Override
+    public @NonNull Vector2D negate() {
+        return of(-x,-y);
+    }
+
+    @Override
     public @NonNull MVector2D unfix() {
         return new MVector2D(x, y);
     }

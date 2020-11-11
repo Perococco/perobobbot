@@ -42,6 +42,13 @@ public class MVector2D implements Vector2DInterface<MVector2D> {
         return Math.abs(x)+Math.abs(y);
     }
 
+    @Override
+    public @NonNull MVector2D negate() {
+        this.x=-x;
+        this.y=-y;
+        return this;
+    }
+
     public @NonNull MVector2D setX(double x, double y) {
         this.x = x;
         this.y = y;

@@ -5,11 +5,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
+import perobobbot.common.lang.CastTool;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.Tags;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
+
+import java.awt.*;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"userId"})
@@ -26,6 +30,11 @@ public class TwitchUser implements User, TagsAndBadges {
     @NonNull
     @Delegate(types = {Tags.class,Badges.class})
     private final TagsAndBadges tagsAndBadges;
+
+    @Override
+    public @NonNull Optional<Color> getUseColor() {
+        return tagsAndBadges.flatFindTag(TagKey.COLOR, CastTool::castToColor);
+    }
 
     @Override
     public @NonNull String getHighlightedUserName() {
