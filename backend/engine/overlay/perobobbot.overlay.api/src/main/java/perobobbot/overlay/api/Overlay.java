@@ -15,14 +15,9 @@ public interface Overlay extends SoundRegistry {
     Subscription addClient(@NonNull OverlayClient client);
 
     /**
-     * @return the width of the overlay
+     * @return the size of the overlay
      */
-    int getWidth();
-
-    /**
-     * @return the height of the overlay
-     */
-    int getHeight();
+    OverlaySize getOverlaySize();
 
     /**
      * @return the frame rate at which the overlay is redrawed

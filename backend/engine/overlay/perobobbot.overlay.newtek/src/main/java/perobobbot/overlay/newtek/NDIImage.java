@@ -4,6 +4,7 @@ import com.walker.devolay.DevolayFrameFourCCType;
 import lombok.NonNull;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.lang.fp.Consumer2;
+import perobobbot.overlay.api.OverlaySize;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -13,16 +14,16 @@ import java.nio.IntBuffer;
 public class NDIImage extends BufferedImage {
 
     @NonNull
-    public static NDIImage create(int width, int height, DevolayFrameFourCCType ccType) {
+    public static NDIImage create(@NonNull OverlaySize size, DevolayFrameFourCCType ccType) {
         final Consumer2<int[],IntBuffer> copier = createCopier(ccType);
-        return new NDIImage(width,height,copier);
+        return new NDIImage(size,copier);
     }
 
     @NonNull
     private final Consumer1<IntBuffer> copier;
 
-    private NDIImage(int width, int height, @NonNull Consumer2<int[],IntBuffer> copier) {
-        super(width, height, TYPE_INT_ARGB);
+    private NDIImage(@NonNull OverlaySize size, @NonNull Consumer2<int[],IntBuffer> copier) {
+        super(size.getWidth(), size.getHeight(), TYPE_INT_ARGB);
         this.copier = copier.f1(((DataBufferInt) getRaster().getDataBuffer()).getData());
     }
 

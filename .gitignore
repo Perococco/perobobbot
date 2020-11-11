@@ -3,6 +3,7 @@
 .idea/
 
 #maven
+logs/
 target/
 build/
 

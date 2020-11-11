@@ -15,16 +15,16 @@ public interface OverlayController extends Overlay {
 
         @NonNull String getImplementationName();
 
-        @NonNull OverlayController create(@NonNull String name, int width, int height, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager);
+        @NonNull OverlayController create(@NonNull String name, @NonNull OverlaySize size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager);
     }
 
     @NonNull
-    static OverlayController create(@NonNull String name, int width, int height, @NonNull SoundManager soundManager) {
-        return create(name,width,height,FrameRate.FPS_30,soundManager);
+    static OverlayController create(@NonNull String name, @NonNull OverlaySize size, @NonNull SoundManager soundManager) {
+        return create(name,size,FrameRate.FPS_30,soundManager);
     }
 
-    static OverlayController create(@NonNull String name, int width, int height, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
-        return new OverlayControllerFactory().create(name, width, height, frameRate, soundManager);
+    static OverlayController create(@NonNull String name, @NonNull OverlaySize size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
+        return new OverlayControllerFactory().create(name, size, frameRate, soundManager);
     }
 
     /**

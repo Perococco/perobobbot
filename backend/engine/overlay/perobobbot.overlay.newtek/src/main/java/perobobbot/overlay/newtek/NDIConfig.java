@@ -6,6 +6,7 @@ import com.walker.devolay.DevolayVideoFrame;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.overlay.api.FrameRate;
+import perobobbot.overlay.api.OverlaySize;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -15,8 +16,7 @@ public class NDIConfig {
 
     public static final int PIXEL_DEPTH = 4;
 
-    private final int width;
-    private final int height;
+    private final @NonNull OverlaySize overlaySize;
     private final @NonNull DevolayFrameFourCCType ccType;
     private final @NonNull FrameRate frameRate;
     private final int audioSampleRate;
@@ -26,9 +26,8 @@ public class NDIConfig {
     private final AudioBufferSizeComputer audioBufferSizeComputer;
 
 
-    public NDIConfig(int width, int height, @NonNull DevolayFrameFourCCType ccType, @NonNull FrameRate frameRate, int audioSampleRate, int nbChannels) {
-        this.width = width;
-        this.height = height;
+    public NDIConfig(@NonNull OverlaySize size, @NonNull DevolayFrameFourCCType ccType, @NonNull FrameRate frameRate, int audioSampleRate, int nbChannels) {
+        this.overlaySize = size;
         this.ccType = ccType;
         this.frameRate = frameRate;
         this.audioSampleRate = audioSampleRate;
@@ -44,9 +43,9 @@ public class NDIConfig {
     @NonNull
     public DevolayVideoFrame createNDIFrame() {
         final DevolayVideoFrame videoFrame = new DevolayVideoFrame();
-        videoFrame.setResolution(width, height);
+        videoFrame.setResolution(overlaySize.getWidth(), overlaySize.getHeight());
         videoFrame.setFourCCType(ccType);
-        videoFrame.setLineStride(width * PIXEL_DEPTH);
+        videoFrame.setLineStride(overlaySize.getWidth() * PIXEL_DEPTH);
         videoFrame.setFrameRate(frameRate.getNumerator(), frameRate.getDenominator());
         return videoFrame;
     }
@@ -72,7 +71,7 @@ public class NDIConfig {
 
     @NonNull
     public NDIImage createImage() {
-        return NDIImage.create(width,height,ccType);
+        return NDIImage.create(overlaySize, ccType);
     }
 
     public NDIBuffers createBuffer() {
@@ -81,6 +80,6 @@ public class NDIConfig {
 
     @NonNull
     private ByteBuffer createVideoBuffer() {
-        return ByteBuffer.allocateDirect(width * height * PIXEL_DEPTH);
+        return ByteBuffer.allocateDirect(overlaySize.numberOfPixels() * PIXEL_DEPTH);
     }
 }

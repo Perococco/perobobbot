@@ -26,37 +26,33 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         Devolay.loadLibraries();
     }
 
-    private final Drawer drawer;
+    private final @NonNull Drawer drawer;
 
-    private final Sender sender;
+    private final @NonNull Sender sender;
 
     private final boolean auto;
 
-    private ImmutableList<OverlayClient> drawers = ImmutableList.of();
-
-    private final String ndiName;
+    private final @NonNull String ndiName;
 
     @Getter
-    private final int width;
+    private final @NonNull OverlaySize overlaySize;
 
     @Getter
-    private final int height;
-
-    @NonNull
-    @Getter
-    private final FrameRate frameRate;
+    private final @NonNull FrameRate frameRate;
 
     @Delegate(types = {SoundRegistry.class})
-    private final SoundManager soundManager;
+    private final @NonNull SoundManager soundManager;
 
-    public NewtekOverlayController(String ndiName, int width, int height, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
+    private ImmutableList<OverlayClient> drawers = ImmutableList.of();
+
+
+    public NewtekOverlayController(@NonNull String ndiName, @NonNull OverlaySize overlaySize, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
         this.auto = false;
-        this.width = width;
-        this.height = height;
+        this.overlaySize = overlaySize;
         this.frameRate = frameRate;
         this.ndiName = ndiName;
         this.soundManager = soundManager;
-        final NDIConfig ndiConfig = new NDIConfig(width, height, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
+        final NDIConfig ndiConfig = new NDIConfig(overlaySize, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
         final NDIData ndiData = new NDIData(ndiConfig, soundManager,3);
 
         this.drawer = new Drawer(ndiData, frameRate.getDeltaT());
