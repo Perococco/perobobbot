@@ -15,7 +15,7 @@ public class PuckFactory {
 
     private final int radius;
 
-    private final OverlaySize overlaySize;
+    private final @NonNull OverlaySize overlaySize;
 
     private static final Color[] COLORS = {
             Color.ORANGE,
@@ -28,8 +28,10 @@ public class PuckFactory {
     };
 
     public @NonNull Puck create(int puckIndex) {
-        final Vector2D position =createRandomVector2D();
-        final Vector2D velocity = createRandomVector2D().scale(0.1);
+        final int w = overlaySize.getWidth();
+        final int h = overlaySize.getHeight();
+        final Vector2D position = createRandomVector2D(w,h);
+        final Vector2D velocity = createRandomVector2D(w,h).subtract(w/2.,h/2.).scale(0.1);
         return new Puck(position,velocity,getRandomColor(),radius);
     }
 
@@ -37,7 +39,7 @@ public class PuckFactory {
         return COLORS[random.nextInt(COLORS.length)];
     }
 
-    private Vector2D createRandomVector2D() {
-        return Vector2D.of(random.nextInt(overlaySize.getWidth()),random.nextInt(overlaySize.getHeight()));
+    private @NonNull Vector2D createRandomVector2D(int w, int h) {
+        return Vector2D.of(random.nextInt(w),random.nextInt(h));
     }
 }

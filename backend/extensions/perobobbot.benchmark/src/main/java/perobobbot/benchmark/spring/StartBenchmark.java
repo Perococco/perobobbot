@@ -16,7 +16,7 @@ public class StartBenchmark implements Consumer1<ExecutionContext> {
     public void f(@NonNull ExecutionContext executionContext) {
         final String[] tokens = executionContext.getParameters().split(" +");
         final int nbPucks = parse(tokens,0,200);
-        final int radius = parse(tokens,0,20);
+        final int radius = parse(tokens,1,20);
 
         extension.stop();
         extension.start(nbPucks,radius);

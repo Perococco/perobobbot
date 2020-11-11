@@ -57,18 +57,18 @@ public class Vector2D implements Vector2DInterface<Vector2D> {
     }
 
     @Override
-    public @NonNull Vector2D add(@NonNull Vector2DInterface<?> rhs) {
-        return of(this.x+rhs.x(),this.y+rhs.y());
+    public @NonNull Vector2D add(double x, double y) {
+        return of(this.x + x,this.y + y);
     }
 
     @Override
-    public @NonNull Vector2D subtract(@NonNull Vector2DInterface<?> rhs) {
-        return of(this.x - rhs.x(),this.y - rhs.y());
+    public @NonNull Vector2D subtract(double x, double y) {
+        return of(this.x - x,this.y - y);
     }
 
     @Override
-    public @NonNull Vector2D addScaled(@NonNull Vector2DInterface<?> rhs, double scaled) {
-        return of(this.x - rhs.x()*scaled,this.y - rhs.y()*scaled);
+    public @NonNull Vector2D addScaled(double x, double y, double scaled) {
+        return of(this.x + scaled*x, this.y + scaled*y);
     }
 
     @Override

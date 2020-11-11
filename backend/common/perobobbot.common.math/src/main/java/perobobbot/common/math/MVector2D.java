@@ -73,23 +73,23 @@ public class MVector2D implements Vector2DInterface<MVector2D> {
     }
 
     @Override
-    public @NonNull MVector2D add(@NonNull Vector2DInterface<?> rhs) {
-        this.x+=rhs.x();
-        this.y+=rhs.y();
+    public @NonNull MVector2D add(double x, double y) {
+        this.x+=x;
+        this.y+=y;
         return this;
     }
 
     @Override
-    public @NonNull MVector2D subtract(@NonNull Vector2DInterface<?> rhs) {
-        this.x-=rhs.x();
-        this.y-=rhs.y();
+    public @NonNull MVector2D subtract(double x, double y) {
+        this.x-=x;
+        this.y-=y;
         return this;
     }
 
     @Override
-    public @NonNull MVector2D addScaled(@NonNull Vector2DInterface<?> rhs, double scaled) {
-        this.x+=scaled*rhs.x();
-        this.y+=scaled*rhs.y();
+    public @NonNull MVector2D addScaled(double x, double y, double scaled) {
+        this.x+=scaled*x;
+        this.y+=scaled*y;
         return this;
     }
 
