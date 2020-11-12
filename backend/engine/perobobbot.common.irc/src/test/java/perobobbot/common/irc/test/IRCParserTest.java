@@ -35,12 +35,12 @@ public class IRCParserTest {
 
     @Test
     public void shouldHaveNickPerococco() {
-        Assertions.assertEquals("perococco",ircParsing.getPrefix().get().getNickOrServerName());
+        Assertions.assertEquals("perococco", ircParsing.getPrefix().get().getNickOrServerName());
     }
 
     @Test
     public void shouldHaveUserPerococco() {
-        Assertions.assertEquals("perococco",ircParsing.getPrefix().get().user().get());
+        Assertions.assertEquals("perococco", ircParsing.getPrefix().get().user().get());
     }
 
     @Test
