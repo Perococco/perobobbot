@@ -10,7 +10,7 @@ module perobobbot.twitch.chat {
 
     requires perobobbot.chat.core;
     requires perobobbot.chat.advanced;
-    requires transitive perobobbot.common.irc;
+    requires transitive perobobbot.irc;
 
     requires io.github.bucket4j.core;
     requires org.apache.logging.log4j;

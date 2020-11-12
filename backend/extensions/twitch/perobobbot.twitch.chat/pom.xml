@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-irc</artifactId>
+            <artifactId>perobobbot-irc</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

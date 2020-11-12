@@ -2,7 +2,7 @@ package perobobbot.twitch.chat.message.from;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.irc.IRCParsing;
+import perobobbot.irc.IRCParsing;
 import perobobbot.twitch.chat.Badge;
 import perobobbot.twitch.chat.Badges;
 import perococco.perobobbot.twitch.chat.BadgesParser;

@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat.message.from;
 
 import lombok.NonNull;
-import perobobbot.common.irc.IRCParsing;
+import perobobbot.irc.IRCParsing;
 import perobobbot.twitch.chat.message.IRCCommand;
 
 /**

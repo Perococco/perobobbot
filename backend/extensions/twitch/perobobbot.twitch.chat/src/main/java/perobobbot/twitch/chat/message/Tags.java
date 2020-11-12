@@ -2,7 +2,7 @@ package perobobbot.twitch.chat.message;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
-import perobobbot.common.irc.Tag;
+import perobobbot.irc.Tag;
 import perobobbot.lang.fp.Function1;
 
 import java.util.Optional;
