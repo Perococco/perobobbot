@@ -1,4 +1,4 @@
-package perobobbot.common.command;
+package perobobbot.command;
 
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;

@@ -1,8 +1,8 @@
-package perobobbot.common.command;
+package perobobbot.command;
 
 import lombok.NonNull;
 import perobobbot.lang.MessageHandler;
-import perococco.common.command.PeroCommandControllerBuilder;
+import perococco.command.PeroCommandControllerBuilder;
 
 public interface CommandController extends MessageHandler {
 

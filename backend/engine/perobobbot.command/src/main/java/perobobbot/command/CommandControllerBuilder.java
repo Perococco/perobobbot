@@ -1,4 +1,4 @@
-package perobobbot.common.command;
+package perobobbot.command;
 
 import lombok.NonNull;
 import perobobbot.lang.Platform;

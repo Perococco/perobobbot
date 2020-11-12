@@ -1,8 +1,8 @@
-package perococco.common.command;
+package perococco.command;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.command.Command;
+import perobobbot.command.Command;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.fp.Consumer1;
 

@@ -65,7 +65,7 @@ module perobobbot.server {
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
     requires perobobbot.access;
-    requires perobobbot.common.command;
+    requires perobobbot.command;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

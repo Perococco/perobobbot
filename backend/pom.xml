@@ -22,7 +22,7 @@
         <!-- Implementation that is not specific to the bot -->
         <module>engine/perobobbot.lang</module>
         <module>engine/perobobbot.math</module>
-        <module>engine/perobobbot.common.command</module>
+        <module>engine/perobobbot.command</module>
         <module>engine/perobobbot.common.messaging</module>
         <module>engine/perobobbot.common.irc</module>
         <module>engine/perobobbot.common.sound</module>

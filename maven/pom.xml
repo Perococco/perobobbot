@@ -101,7 +101,7 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-common-command</artifactId>
+                <artifactId>perobobbot-command</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

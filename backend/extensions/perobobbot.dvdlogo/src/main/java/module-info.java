@@ -7,7 +7,7 @@ module perobobbot.dvdlogo {
     requires perobobbot.chat.core;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
-    requires perobobbot.common.command;
+    requires perobobbot.command;
     requires perobobbot.access;
 
     requires java.desktop;

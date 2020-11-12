@@ -1,8 +1,8 @@
-package perobobbot.common.command;
+package perobobbot.command;
 
 import lombok.NonNull;
 import perobobbot.lang.ExecutionContext;
-import perococco.common.command.PeroCommandFactory;
+import perococco.command.PeroCommandFactory;
 
 /**
  * A command that launch an execution

@@ -13,7 +13,7 @@ module perobobbot.ext.benchmark {
     requires perobobbot.extension;
     requires spring.context;
     requires perobobbot.access;
-    requires perobobbot.common.command;
+    requires perobobbot.command;
 
 
     provides Packages with BenchmarkConfiguration;

@@ -1,10 +1,10 @@
-package perococco.common.command;
+package perococco.command;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.common.command.Command;
-import perobobbot.common.command.CommandRegistry;
+import perobobbot.command.Command;
+import perobobbot.command.CommandRegistry;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
 

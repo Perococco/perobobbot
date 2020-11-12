@@ -8,7 +8,7 @@ module perobobbot.ext.puckwar {
     requires perobobbot.overlay.api;
     requires perobobbot.lang;
     requires perobobbot.extension;
-    requires perobobbot.common.command;
+    requires perobobbot.command;
     requires perobobbot.access;
     requires perobobbot.math;
 

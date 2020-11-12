@@ -7,7 +7,7 @@ module perobobbot.echo {
 
     requires perobobbot.extension;
     requires perobobbot.chat.core;
-    requires perobobbot.common.command;
+    requires perobobbot.command;
     requires perobobbot.access;
 
     requires spring.context;

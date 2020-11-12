@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.messaging.MessageChannel;
-import perobobbot.common.command.CommandBundle;
-import perobobbot.common.command.CommandController;
-import perobobbot.common.command.CommandRegistry;
+import perobobbot.command.CommandBundle;
+import perobobbot.command.CommandController;
+import perobobbot.command.CommandRegistry;
 import perobobbot.common.messaging.ChatController;
 
 @Configuration

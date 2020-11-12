@@ -1,12 +1,12 @@
-package perococco.common.command;
+package perococco.command;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.access.Policy;
-import perobobbot.common.command.Command;
-import perobobbot.common.command.CommandBundle;
-import perobobbot.common.command.CommandFactory;
+import perobobbot.command.Command;
+import perobobbot.command.CommandBundle;
+import perobobbot.command.CommandFactory;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.Executor;
 import perobobbot.lang.fp.Consumer1;

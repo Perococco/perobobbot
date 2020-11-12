@@ -1,4 +1,4 @@
-module perobobbot.common.command {
+module perobobbot.command {
     requires static lombok;
     requires java.desktop;
     requires perobobbot.lang;
@@ -6,5 +6,5 @@ module perobobbot.common.command {
     requires perobobbot.access;
 
 
-    exports perobobbot.common.command;
+    exports perobobbot.command;
 }
