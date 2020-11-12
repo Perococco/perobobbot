@@ -20,7 +20,7 @@ public abstract class ImageTester {
     }
 
     private JPanel createPanelView() {
-        return new JPanel() {
+        final JPanel panel =  new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -44,6 +44,8 @@ public abstract class ImageTester {
                 g.drawImage(image, x+(width-w)/2, y+(height-h)/2, w,h, null);
             }
         };
+        panel.setBackground(Color.MAGENTA);
+        return panel;
     }
 
     protected abstract BufferedImage getImage(int with, int height);

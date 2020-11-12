@@ -37,7 +37,7 @@ public interface OverlayRenderer extends AutoCloseable {
 
     @NonNull OverlayRenderer drawImage(@NonNull BufferedImage image, int x, int y, @NonNull Color bkgColor);
 
-    @NonNull OverlayRenderer fillRect(int i, int i1, int logoWidth, int logoHeight);
+    @NonNull OverlayRenderer fillRect(int x, int y, int width, int height);
 
     @Override
     default void close(){

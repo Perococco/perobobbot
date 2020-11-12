@@ -18,7 +18,10 @@ public class Game {
 
     public static @NonNull Game create(@NonNull OverlaySize overlaySize, int puckSize) {
         final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
+        final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth())/3.);
+        final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
         return new Game(puckSize,
+                        new Target(targetPosition,size),
                         initialPosition,
                         v -> v.scale(5),
                         new OutsiderPredicate(overlaySize));
@@ -28,6 +31,8 @@ public class Game {
      * The default size of the pucks
      */
     private final @NonNull int puckSize;
+
+    private final Target target;
 
     /**
      * The initial position of all pucks
@@ -95,6 +100,7 @@ public class Game {
     }
 
     public void draw(OverlayRenderer overlayRenderer) {
+        target.drawWith(overlayRenderer);
         pucks.forEach(p -> p.drawWith(overlayRenderer));
     }
 

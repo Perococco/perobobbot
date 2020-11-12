@@ -1,24 +1,34 @@
 package perobobbot.puckwar.game;
 
+import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.common.math.Vector2D;
+import perobobbot.overlay.api.OverlayRenderer;
 
 import java.awt.image.BufferedImage;
 
-public class Target extends BufferedImage {
+public class Target {
 
-    public static @NonNull Target create(@NonNull OverlaySize overlaySize) {
-        final int size = (int)Math.round(Math.min(overlaySize.getHeight()/10.,overlaySize.getWidth())/10.);
-        return create(size);
+    @Getter
+    private final @NonNull Vector2D position;
+
+    @Getter
+    private final @NonNull BufferedImage image;
+
+    private final double offsetX;
+    private final double offsetY;
+
+    public Target(@NonNull Vector2D position, int size) {
+        this.position = position;
+        this.offsetX = position.x() - size * 0.5;
+        this.offsetY = position.y() - size * 0.5;
+        this.image = new BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR);
+        TargetDrawer.draw(image.createGraphics(), size);
     }
 
-    public static @NonNull Target create(int size) {
-        final var target = new Target(size);
-        TargetDrawer.draw(target.createGraphics(),size);
-        return target;
-    }
-
-    public Target(int size) {
-        super(size, size, BufferedImage.TYPE_INT_ARGB);
+    public void drawWith(@NonNull OverlayRenderer overlayRenderer) {
+        overlayRenderer.withPrivateContext(r -> r.translate(offsetX, offsetY)
+                                                 .drawImage(image, 0, 0)
+        );
     }
 }

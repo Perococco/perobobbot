@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import perobobbot.overlay.api.OverlayRenderer;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -20,9 +21,9 @@ public class TargetDrawer {
 
 
     public static final List<Circle> CIRCLES = List.of(
-            Circle.of(980,18,Color.RED),
-            Circle.of(400,10,Color.RED),
-            Circle.of(100,5,Color.RED)
+            Circle.of(820,180,Color.RED),
+            Circle.of(400,100,Color.RED),
+            Circle.of(100,25,Color.RED)
                                                        );
 
 
@@ -30,10 +31,16 @@ public class TargetDrawer {
     private final int size;
 
     public void draw() {
+        this.clearImage();
         this.setupTransformation();
         this.setupRenderingQuality();
         this.drawCircles();
         this.drawTargetLines();
+    }
+
+    private void clearImage() {
+        graphics2D.setBackground(OverlayRenderer.TRANSPARENT);
+        graphics2D.clearRect(0,0,size,size);
     }
 
     private void setupTransformation() {
@@ -56,6 +63,7 @@ public class TargetDrawer {
                .max(Comparator.comparingInt(Circle::getRadius))
                .map(Circle::getRadius)
                .ifPresent(r ->  {
+                   graphics2D.setStroke(new BasicStroke(25));
                    graphics2D.setPaint(Color.RED);
                    graphics2D.drawLine(-r,0,r,0);
                    graphics2D.drawLine(0,-r,0,r);

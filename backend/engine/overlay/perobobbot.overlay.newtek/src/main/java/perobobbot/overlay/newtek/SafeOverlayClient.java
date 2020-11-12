@@ -24,7 +24,7 @@ public class SafeOverlayClient extends ProxyOverlayClient {
             super.render(iteration);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.warn("Overlay client '{}' failed",getDelegate(), t);
+            LOG.error("Overlay client '{}' failed",getDelegate(), t);
             unsafe = true;
         }
     }

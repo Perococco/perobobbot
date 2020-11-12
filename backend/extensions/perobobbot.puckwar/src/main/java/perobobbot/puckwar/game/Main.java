@@ -15,6 +15,9 @@ public class Main extends ImageTester {
 
     @Override
     protected BufferedImage getImage(int with, int height) {
-        return Target.create(Math.min(with, height));
+        final int size = Math.min(with, height);
+        final BufferedImage image = new BufferedImage(size,size,BufferedImage.TYPE_4BYTE_ABGR);
+        TargetDrawer.draw(image.createGraphics(),size);
+        return image;
     }
 }
