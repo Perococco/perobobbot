@@ -9,7 +9,7 @@ module perobobbot.greeter {
 
     requires perobobbot.lang;
     requires perobobbot.chat.core;
-    requires perobobbot.common.messaging;
+    requires perobobbot.messaging;
     requires perobobbot.extension;
 
     requires spring.context;

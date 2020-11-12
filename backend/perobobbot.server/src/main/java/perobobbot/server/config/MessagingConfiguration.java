@@ -11,7 +11,7 @@ import org.springframework.messaging.MessageChannel;
 import perobobbot.command.CommandBundle;
 import perobobbot.command.CommandController;
 import perobobbot.command.CommandRegistry;
-import perobobbot.common.messaging.ChatController;
+import perobobbot.messaging.ChatController;
 
 @Configuration
 @EnableIntegration

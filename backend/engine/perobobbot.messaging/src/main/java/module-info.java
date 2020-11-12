@@ -1,4 +1,4 @@
-module perobobbot.common.messaging {
+module perobobbot.messaging {
     requires static lombok;
     requires java.desktop;
 
@@ -7,5 +7,5 @@ module perobobbot.common.messaging {
     requires perobobbot.lang;
     requires perobobbot.command;
 
-    exports perobobbot.common.messaging;
+    exports perobobbot.messaging;
 }

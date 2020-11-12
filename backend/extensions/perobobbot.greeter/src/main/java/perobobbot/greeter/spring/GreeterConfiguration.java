@@ -4,9 +4,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.common.messaging.ChatController;
 import perobobbot.greeter.GreeterExtension;
 import perobobbot.lang.IO;
+import perobobbot.messaging.ChatController;
 
 @Configuration
 @RequiredArgsConstructor

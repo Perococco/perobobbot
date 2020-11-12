@@ -61,7 +61,7 @@ module perobobbot.server {
 
     requires spring.boot.actuator;
     requires perobobbot.chat.core;
-    requires perobobbot.common.messaging;
+    requires perobobbot.messaging;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
     requires perobobbot.access;

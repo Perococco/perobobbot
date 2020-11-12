@@ -1,11 +1,11 @@
-package perobobbot.common.messaging;
+package perobobbot.messaging;
 
 import lombok.NonNull;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.MessageContext;
 import perobobbot.lang.MessageHandler;
 import perobobbot.lang.Subscription;
-import perococco.common.messaging.PerococcoChatController;
+import perococco.messaging.PerococcoChatController;
 
 /**
  * Control and dispatch to command and listener messages coming from any chat.
