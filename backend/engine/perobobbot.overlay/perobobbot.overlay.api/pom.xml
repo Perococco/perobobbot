@@ -25,7 +25,6 @@
             <groupId>com.walker</groupId>
             <artifactId>devolay</artifactId>
         </dependency>
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>

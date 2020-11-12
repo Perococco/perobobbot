@@ -5,7 +5,12 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.access.Policy;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
 import perobobbot.lang.SubscriptionHolder;
+import perobobbot.lang.fp.Consumer1;
+import perococco.command.PeroBuilder;
 
 /**
  * A bundle of command. This class is used
@@ -36,5 +41,25 @@ public class CommandBundle {
     @Synchronized
     public void detach() {
         subscriptionHolder.unsubscribe();
+    }
+
+
+    public static @NonNull Builder builder() { return new PeroBuilder();}
+
+
+    public interface Builder {
+
+        @NonNull
+        CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Consumer1<? super ExecutionContext> action);
+
+        @NonNull
+        CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Runnable action);
+
+        @NonNull
+        CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Executor<? super ExecutionContext> action);
+
+        @NonNull
+        CommandBundle build();
+
     }
 }

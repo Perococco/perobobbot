@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
 import perobobbot.echo.EchoExecutor;
 import perobobbot.echo.EchoExtension;
@@ -36,7 +35,7 @@ public class EchoConfiguration {
     @Bean(name = "echo")
     public CommandBundle commandBundle(@NonNull EchoExtension extension) {
         final var policy = policyManager.createPolicy(AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10)));
-        return Command.factory()
+        return CommandBundle.builder()
                       .add("echo", policy, new EchoExecutor(extension))
                       .build();
     }

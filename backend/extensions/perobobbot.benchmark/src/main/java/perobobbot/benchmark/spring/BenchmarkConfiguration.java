@@ -37,7 +37,7 @@ public class BenchmarkConfiguration {
     public CommandBundle commandBundle(@NonNull BenchmarkExtension extension) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
 
-        return Command.factory()
+        return CommandBundle.builder()
                 .add("bm start",policy,new StartBenchmark(extension))
                 .add("bm stop", policy, extension::stop)
                 .build();

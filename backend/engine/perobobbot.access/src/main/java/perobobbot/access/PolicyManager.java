@@ -3,6 +3,9 @@ package perobobbot.access;
 import lombok.NonNull;
 import perococco.perobobbot.access.PerococcoPolicyManager;
 
+/**
+ * Manager of policies (yes, this is not that informative...)
+ */
 public interface PolicyManager {
 
     @NonNull
@@ -13,5 +16,9 @@ public interface PolicyManager {
     @NonNull
     Policy createPolicy(@NonNull AccessRule accessRule);
 
+    /**
+     * Clean up any policy information (like execution time of associated
+     * to user for which the cooldown has cooled down...)
+     */
     void cleanUp();
 }

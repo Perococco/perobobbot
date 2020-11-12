@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.Role;
@@ -32,7 +31,7 @@ public class LocalIOConfiguration {
     public CommandBundle commandBundle(@NonNull LocalIO local) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.THE_BOSS, Duration.ofSeconds(0)));
 
-        return Command.factory()
+        return CommandBundle.builder()
                 .add("lio show-gui", policy, new ShowGui(local))
                 .add("lio hide-gui", policy,local::hideGui)
                 .build();

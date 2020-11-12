@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
@@ -44,7 +43,7 @@ public class PuckWarConfiguration {
                                                                                 applyTo(Role.THE_BOSS).aCDof(0),
                                                                                 applyTo(Role.ANY_USER).aCDof(10)
         ));
-        return Command.factory()
+        return CommandBundle.builder()
                       .add("pw start", policy, new LaunchGame(puckWarExtension))
                       .add("pw stop", policy, puckWarExtension::stopGame)
                       .add("pw throw", throwPolicy, new ThrowPuck(puckWarExtension))

@@ -37,7 +37,7 @@ public class DVDLogoConfiguration {
     public CommandBundle commandBundle(@NonNull DVDLogoExtension dvdLogoExtension) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
 
-        return Command.factory()
+        return CommandBundle.builder()
                 .add("dl start", policy, dvdLogoExtension::startOverlay)
                 .add("dl stop", policy, dvdLogoExtension::stopOverlay)
                 .build();

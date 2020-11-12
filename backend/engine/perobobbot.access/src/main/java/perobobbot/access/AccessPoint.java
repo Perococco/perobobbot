@@ -5,6 +5,11 @@ import perobobbot.lang.fp.Consumer1;
 
 import java.util.UUID;
 
+/**
+ * An access point is simply a consumer but it is
+ * by convention protected by a policy.
+ * @param <P>
+ */
 public interface AccessPoint<P> extends Consumer1<P> {
 
     @NonNull

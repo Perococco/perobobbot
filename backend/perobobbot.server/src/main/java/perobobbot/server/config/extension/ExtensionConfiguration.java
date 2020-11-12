@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionManager;
@@ -50,7 +49,7 @@ public class ExtensionConfiguration {
     @Bean(name = "extension-manager")
     public CommandBundle commandBundle(@NonNull ExtensionManager extensionManager, @NonNull IO io, @NonNull PolicyManager policyManager) {
         final var policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
-        return Command.factory()
+        return CommandBundle.builder()
                 .add("em list", policy, new ListExtensions(extensionManager,io))
                 .add("em enable", policy, new EnableExtension(extensionManager))
                 .add("em disable", policy, new DisableExtension(extensionManager))

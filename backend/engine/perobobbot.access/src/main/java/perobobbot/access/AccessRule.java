@@ -14,6 +14,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Defines the rule to access an action
+ */
 @Value
 public class AccessRule {
 

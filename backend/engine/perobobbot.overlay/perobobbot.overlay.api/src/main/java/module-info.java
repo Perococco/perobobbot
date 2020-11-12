@@ -1,6 +1,6 @@
-import perobobbot.overlay.api.OverlayController;
 
 module perobobbot.overlay.api {
+    uses perobobbot.overlay.api.OverlayController.Factory;
     requires static lombok;
     requires java.desktop;
 
@@ -13,7 +13,5 @@ module perobobbot.overlay.api {
     requires org.apache.logging.log4j;
 
     exports perobobbot.overlay.api;
-
-    uses OverlayController.Factory;
 
 }

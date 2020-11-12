@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.access.Policy;
 import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
-import perobobbot.command.CommandFactory;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.Executor;
 import perobobbot.lang.fp.Consumer1;
@@ -14,14 +13,14 @@ import perobobbot.lang.fp.Consumer1;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PeroCommandFactory implements CommandFactory {
+public class PeroBuilder implements CommandBundle.Builder {
 
-    private final Builder root = new Builder(null, "");
+    private final BuilderNode root = new BuilderNode(null, "");
 
     @Override
-    public @NonNull CommandFactory add(@NonNull String name, @NonNull Policy policy, @NonNull Consumer1<? super ExecutionContext> action) {
+    public @NonNull CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Consumer1<? super ExecutionContext> action) {
         String[] tokens = name.trim().split(" +");
-        Builder current = root;
+        BuilderNode current = root;
         for (String token : tokens) {
             current = current.getSub(token);
         }
@@ -30,38 +29,37 @@ public class PeroCommandFactory implements CommandFactory {
     }
 
     @Override
-    public @NonNull CommandFactory add(@NonNull String name, @NonNull Policy policy, @NonNull Runnable action) {
+    public @NonNull CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Runnable action) {
         return add(name,policy,Consumer1.toConsumer1(ctx -> action.run()));
     }
 
     @Override
-    public @NonNull CommandFactory add(@NonNull String name, @NonNull Policy policy, @NonNull Executor<? super ExecutionContext> action) {
+    public @NonNull CommandBundle.Builder add(@NonNull String name, @NonNull Policy policy, @NonNull Executor<? super ExecutionContext> action) {
         final Consumer1<ExecutionContext> consumer = action::execute;
         return add(name, policy, consumer);
     }
 
     @Override
     public @NonNull CommandBundle build() {
-        final CommandBundle commandBundle = CommandBundle.with(root.builders.values()
-                                                                            .stream()
-                                                                            .map(Builder::buildCommand)
-                                                                            .collect(ImmutableList.toImmutableList()));
-        return commandBundle;
+        return CommandBundle.with(root.builders.values()
+                                               .stream()
+                                               .map(BuilderNode::buildCommand)
+                                               .collect(ImmutableList.toImmutableList()));
     }
 
     @RequiredArgsConstructor
-    private static class Builder {
+    private static class BuilderNode {
 
-        private final Builder parent;
+        private final BuilderNode parent;
 
         private final String name;
 
         private Consumer1<? super ExecutionContext> fallback = null;
 
-        private final Map<String, Builder> builders = new HashMap<>();
+        private final Map<String, BuilderNode> builders = new HashMap<>();
 
-        public Builder getSub(String token) {
-            return builders.computeIfAbsent(token, n -> new Builder(this, n));
+        public BuilderNode getSub(String token) {
+            return builders.computeIfAbsent(token, n -> new BuilderNode(this, n));
         }
 
         private String fullCommand() {
@@ -81,7 +79,7 @@ public class PeroCommandFactory implements CommandFactory {
             }
             final Command[] subCommands = builders.values()
                                                   .stream()
-                                                  .map(Builder::buildCommand)
+                                                  .map(BuilderNode::buildCommand)
                                                   .toArray(Command[]::new);
 
             if (fallback == null) {
