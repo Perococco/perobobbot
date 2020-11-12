@@ -2,10 +2,10 @@ package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.sound.Sound;
-import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api.SoundContext;
 import perobobbot.overlay.api.SoundExecution;
+import perobobbot.sound.Sound;
+import perobobbot.sound.SoundManager;
 
 import java.util.*;
 

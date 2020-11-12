@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.common.sound.SoundManager;
-import perobobbot.common.sound.SoundRegistry;
 import perobobbot.lang.ListTool;
 import perobobbot.lang.Looper;
 import perobobbot.lang.Subscription;
 import perobobbot.overlay.api.*;
 import perobobbot.rendering.Size;
+import perobobbot.sound.SoundManager;
+import perobobbot.sound.SoundRegistry;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

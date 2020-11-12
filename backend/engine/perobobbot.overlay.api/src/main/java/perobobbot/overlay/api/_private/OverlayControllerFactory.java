@@ -1,10 +1,10 @@
 package perobobbot.overlay.api._private;
 
 import lombok.NonNull;
-import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
 import perobobbot.rendering.Size;
+import perobobbot.sound.SoundManager;
 
 public class OverlayControllerFactory implements OverlayController.Factory {
 

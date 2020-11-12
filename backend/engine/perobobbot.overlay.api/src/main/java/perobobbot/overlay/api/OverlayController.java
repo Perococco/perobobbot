@@ -1,9 +1,9 @@
 package perobobbot.overlay.api;
 
 import lombok.NonNull;
-import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api._private.OverlayControllerFactory;
 import perobobbot.rendering.Size;
+import perobobbot.sound.SoundManager;
 
 /**
  * An overlay with extra method to control its lifecycle

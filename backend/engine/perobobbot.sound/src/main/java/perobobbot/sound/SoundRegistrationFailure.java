@@ -1,4 +1,4 @@
-package perobobbot.common.sound;
+package perobobbot.sound;
 
 import lombok.Getter;
 import lombok.NonNull;

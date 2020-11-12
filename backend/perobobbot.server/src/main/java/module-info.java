@@ -21,7 +21,7 @@ module perobobbot.server {
     requires perobobbot.data.com;
     requires perobobbot.data.jpa;
     requires perobobbot.data.service;
-    requires perobobbot.common.sound;
+    requires perobobbot.sound;
 
 
     requires org.apache.logging.log4j;

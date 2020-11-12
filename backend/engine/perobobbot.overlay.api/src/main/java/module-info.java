@@ -4,7 +4,7 @@ module perobobbot.overlay.api {
     requires static lombok;
     requires java.desktop;
 
-    requires transitive perobobbot.common.sound;
+    requires transitive perobobbot.sound;
     requires transitive perobobbot.rendering;
     requires perobobbot.lang;
 

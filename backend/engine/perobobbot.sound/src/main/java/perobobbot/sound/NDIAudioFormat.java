@@ -1,4 +1,4 @@
-package perobobbot.common.sound;
+package perobobbot.sound;
 
 import javax.sound.sampled.AudioFormat;
 

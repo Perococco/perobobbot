@@ -6,10 +6,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
 import perobobbot.rendering.Size;
+import perobobbot.sound.SoundManager;
 
 @Configuration
 @RequiredArgsConstructor

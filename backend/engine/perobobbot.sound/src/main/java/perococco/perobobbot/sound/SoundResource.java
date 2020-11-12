@@ -1,7 +1,7 @@
-package perococco.perobobbot.common.sound;
+package perococco.perobobbot.sound;
 
 import lombok.NonNull;
-import perobobbot.common.sound.Sound;
+import perobobbot.sound.Sound;
 
 public interface SoundResource {
 

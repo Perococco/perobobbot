@@ -1,17 +1,17 @@
-package perococco.perobobbot.common.sound;
+package perococco.perobobbot.sound;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.sound.NDIAudioFormat;
-import perobobbot.common.sound.Sound;
-import perobobbot.common.sound.SoundManager;
-import perobobbot.common.sound.SoundRegistrationFailure;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.fp.Try2;
+import perobobbot.sound.NDIAudioFormat;
+import perobobbot.sound.Sound;
+import perobobbot.sound.SoundManager;
+import perobobbot.sound.SoundRegistrationFailure;
 
 import java.net.URL;
 import java.util.Optional;

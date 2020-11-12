@@ -25,7 +25,7 @@
         <module>engine/perobobbot.command</module>
         <module>engine/perobobbot.messaging</module>
         <module>engine/perobobbot.irc</module>
-        <module>engine/perobobbot.common.sound</module>
+        <module>engine/perobobbot.sound</module>
 
         <!-- API and implementation to easily create Chat -->
         <module>chat/perobobbot.chat.core</module>

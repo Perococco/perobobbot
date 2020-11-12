@@ -106,7 +106,7 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-common-sound</artifactId>
+                <artifactId>perobobbot-sound</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -1,7 +1,7 @@
-package perobobbot.common.sound;
+package perobobbot.sound;
 
 import lombok.NonNull;
-import perococco.perobobbot.common.sound.PerococcoSoundManager;
+import perococco.perobobbot.sound.PerococcoSoundManager;
 
 import java.util.Optional;
 import java.util.ServiceLoader;

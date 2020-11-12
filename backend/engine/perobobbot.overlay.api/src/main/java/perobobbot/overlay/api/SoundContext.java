@@ -9,7 +9,7 @@ public interface SoundContext {
     /**
      * Play the sound at the next frame rendering.
      * @param soundId the id of the sound. This is the id returns by the
-     *                {@link perobobbot.common.sound.SoundRegistry} implementation
+     *                {@link perobobbot.sound.SoundRegistry} implementation
      *                of the {@link Overlay}
      * @return a structure that can be used to control the sound execution
      */

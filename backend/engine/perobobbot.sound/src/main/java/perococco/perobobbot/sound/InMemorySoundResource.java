@@ -1,11 +1,11 @@
-package perococco.perobobbot.common.sound;
+package perococco.perobobbot.sound;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.sound.NDIAudioFormat;
-import perobobbot.common.sound.Sound;
 import perobobbot.lang.AudioStreamUtils;
+import perobobbot.sound.NDIAudioFormat;
+import perobobbot.sound.Sound;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

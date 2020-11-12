@@ -1,10 +1,10 @@
 package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
-import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api.SoundContext;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
+import perobobbot.sound.SoundManager;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;

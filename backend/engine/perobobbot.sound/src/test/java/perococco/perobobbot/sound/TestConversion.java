@@ -1,9 +1,9 @@
-package perococco.perobobbot.common.sound;
+package perococco.perobobbot.sound;
 
 import lombok.NonNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import perobobbot.common.sound.SoundManager;
+import perobobbot.sound.SoundManager;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
