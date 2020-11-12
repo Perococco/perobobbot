@@ -3,7 +3,7 @@ package perobobbot.common.command;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.Subscription;
 import perococco.common.command.PeroCommandRegistry;
 
 import java.util.Optional;

@@ -2,9 +2,9 @@ package perobobbot.common.command;
 
 import lombok.NonNull;
 import perobobbot.access.Policy;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.Executor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
+import perobobbot.lang.fp.Consumer1;
 
 public interface CommandFactory {
 

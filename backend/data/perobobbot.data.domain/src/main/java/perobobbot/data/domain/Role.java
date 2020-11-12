@@ -2,8 +2,8 @@ package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableList;
 import lombok.*;
-import perobobbot.common.lang.ListTool;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.ListTool;
+import perobobbot.lang.fp.Function1;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

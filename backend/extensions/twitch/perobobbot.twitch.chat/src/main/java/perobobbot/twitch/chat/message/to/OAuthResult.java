@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.common.lang.fp.Either;
+import perobobbot.lang.fp.Either;
 import perobobbot.twitch.chat.message.from.GlobalUserState;
 
 /**

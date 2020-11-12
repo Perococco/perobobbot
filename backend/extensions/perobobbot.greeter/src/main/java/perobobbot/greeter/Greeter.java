@@ -3,10 +3,10 @@ package perobobbot.greeter;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ChannelIO;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.IO;
-import perobobbot.common.lang.User;
+import perobobbot.lang.ChannelIO;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.IO;
+import perobobbot.lang.User;
 
 @RequiredArgsConstructor
 public class Greeter {

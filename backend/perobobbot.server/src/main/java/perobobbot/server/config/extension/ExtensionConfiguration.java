@@ -11,10 +11,10 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
-import perobobbot.common.lang.IO;
-import perobobbot.common.lang.Role;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionManager;
+import perobobbot.lang.IO;
+import perobobbot.lang.Role;
 import perobobbot.server.config.extension.executor.*;
 
 import java.time.Duration;

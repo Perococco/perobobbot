@@ -9,8 +9,8 @@ import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
-import perobobbot.common.lang.Packages;
-import perobobbot.common.lang.Role;
+import perobobbot.lang.Packages;
+import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.action.LaunchGame;
@@ -18,7 +18,7 @@ import perobobbot.puckwar.action.ThrowPuck;
 
 import java.time.Duration;
 
-import static perobobbot.common.lang.RoleCooldown.applyTo;
+import static perobobbot.lang.RoleCooldown.applyTo;
 
 @Configuration
 @RequiredArgsConstructor

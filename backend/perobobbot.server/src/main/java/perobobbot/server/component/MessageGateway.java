@@ -4,7 +4,7 @@ import lombok.NonNull;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.stereotype.Component;
-import perobobbot.common.lang.MessageContext;
+import perobobbot.lang.MessageContext;
 
 @Component
 @MessagingGateway

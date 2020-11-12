@@ -3,7 +3,7 @@ package perococco.perobobbot.twitch.chat.actions;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.Nil;
+import perobobbot.lang.Nil;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.to.Join;
 import perococco.perobobbot.twitch.chat.IO;

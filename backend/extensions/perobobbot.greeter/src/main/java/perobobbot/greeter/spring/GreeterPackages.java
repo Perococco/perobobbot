@@ -1,7 +1,7 @@
 package perobobbot.greeter.spring;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Packages;
+import perobobbot.lang.Packages;
 
 import java.util.stream.Stream;
 

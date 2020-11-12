@@ -6,9 +6,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.common.lang.IO;
-import perobobbot.common.lang.IOBuilder;
-import perobobbot.common.lang.PlatformIO;
+import perobobbot.lang.IO;
+import perobobbot.lang.IOBuilder;
+import perobobbot.lang.PlatformIO;
 import perobobbot.server.component.MessageGateway;
 
 import java.util.Map;

@@ -6,7 +6,7 @@ module perobobbot.data.domain {
     requires java.validation;
     requires com.google.common;
 
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
     requires perobobbot.data.com;
 
     opens perobobbot.data.domain to org.hibernate.orm.core, org.hibernate.validator, spring.core ;

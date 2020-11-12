@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.User;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.User;
 
 @RequiredArgsConstructor
 public class HelloState {

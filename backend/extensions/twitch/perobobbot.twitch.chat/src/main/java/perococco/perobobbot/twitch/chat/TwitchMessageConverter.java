@@ -5,7 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.MessageConverter;
 import perobobbot.common.irc.IRCParser;
 import perobobbot.common.irc.IRCParsing;
-import perobobbot.common.lang.ThrowableTool;
+import perobobbot.lang.ThrowableTool;
 import perobobbot.twitch.chat.TwitchMarkers;
 import perobobbot.twitch.chat.message.IRCCommand;
 import perobobbot.twitch.chat.message.from.AnswerBuilderHelper;

@@ -1,6 +1,6 @@
 package perobobbot.data.com;
 
-import perobobbot.common.lang.PerobobbotException;
+import perobobbot.lang.PerobobbotException;
 
 public class DataException extends PerobobbotException {
 

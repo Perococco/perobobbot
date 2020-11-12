@@ -2,11 +2,11 @@ package perobobbot.server.config.extension.executor;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.Executor;
-import perobobbot.common.lang.IO;
 import perobobbot.extension.ExtensionInfo;
 import perobobbot.extension.ExtensionManager;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
+import perobobbot.lang.IO;
 
 import java.util.stream.Collectors;
 

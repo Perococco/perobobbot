@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.lang.SubscriptionHolder;
+import perobobbot.lang.SubscriptionHolder;
 
 /**
  * A bundle of command. This class is used

@@ -2,8 +2,8 @@ package perobobbot.chat.core;
 
 import lombok.NonNull;
 import perobobbot.chat.core.event.ChatEvent;
-import perobobbot.common.lang.Listeners;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.Listeners;
+import perobobbot.lang.Subscription;
 
 /**
  * Chat implementing the listener part of the {@link ChatIO} interface.

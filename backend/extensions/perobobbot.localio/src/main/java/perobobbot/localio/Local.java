@@ -3,8 +3,8 @@ package perobobbot.localio;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.lang.*;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.*;
+import perobobbot.lang.fp.Function1;
 import perobobbot.localio.swing.InputPanel;
 
 import javax.swing.*;

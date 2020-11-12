@@ -8,7 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.ChatListener;
 import perobobbot.chat.core.MessagePostingFailure;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.Subscription;
 
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -1,7 +1,7 @@
 package perobobbot.chat.advanced;
 
 import lombok.NonNull;
-import perobobbot.common.lang.fp.TryResult;
+import perobobbot.lang.fp.TryResult;
 
 import java.util.Optional;
 

@@ -1,9 +1,9 @@
 package perobobbot.access;
 
 import lombok.NonNull;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.Executor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
+import perobobbot.lang.fp.Consumer1;
 import perococco.perobobbot.access.ProviderFromContext;
 
 import java.util.UUID;

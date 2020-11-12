@@ -1,4 +1,4 @@
-import perobobbot.common.lang.Packages;
+import perobobbot.lang.Packages;
 import perobobbot.twitch.chat.spring.TwitchIOPackage;
 
 /**

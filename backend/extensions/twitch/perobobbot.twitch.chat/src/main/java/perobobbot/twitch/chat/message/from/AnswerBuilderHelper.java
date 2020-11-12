@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.irc.IRCParsing;
 import perobobbot.common.irc.Prefix;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.chat.Capability;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.IRCCommand;

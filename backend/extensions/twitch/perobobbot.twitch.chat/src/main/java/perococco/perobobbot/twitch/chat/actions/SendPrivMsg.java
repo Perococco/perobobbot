@@ -2,8 +2,8 @@ package perococco.perobobbot.twitch.chat.actions;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.DispatchContext;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.to.PrivMsg;
 import perococco.perobobbot.twitch.chat.IO;

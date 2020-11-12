@@ -1,5 +1,7 @@
+import perobobbot.lang.Packages;
+
 module perobobbot.server {
-    uses perobobbot.common.lang.Packages;
+    uses Packages;
     requires static lombok;
 
     requires java.desktop;
@@ -13,7 +15,7 @@ module perobobbot.server {
 
     requires com.google.common;
 
-    requires transitive perobobbot.common.lang;
+    requires transitive perobobbot.lang;
     requires perobobbot.chat.advanced;
     requires perobobbot.data.domain;
     requires perobobbot.data.com;

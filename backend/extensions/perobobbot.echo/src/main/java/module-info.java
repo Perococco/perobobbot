@@ -1,5 +1,5 @@
-import perobobbot.common.lang.Packages;
 import perobobbot.echo.spring.EchoConfiguration;
+import perobobbot.lang.Packages;
 
 module perobobbot.echo {
     requires static lombok;

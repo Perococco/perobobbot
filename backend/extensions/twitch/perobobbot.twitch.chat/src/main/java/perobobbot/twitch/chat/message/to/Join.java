@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat.message.to;
 
 import lombok.NonNull;
-import perobobbot.common.lang.DispatchContext;
-import perobobbot.common.lang.fp.TryResult;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.fp.TryResult;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.ChannelSpecific;
 import perobobbot.twitch.chat.JoinFailure;

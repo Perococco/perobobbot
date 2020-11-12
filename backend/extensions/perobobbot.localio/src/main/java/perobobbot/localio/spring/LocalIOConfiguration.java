@@ -9,8 +9,8 @@ import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
-import perobobbot.common.lang.ApplicationCloser;
-import perobobbot.common.lang.Role;
+import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.Role;
 import perobobbot.localio.Local;
 import perobobbot.localio.LocalIO;
 

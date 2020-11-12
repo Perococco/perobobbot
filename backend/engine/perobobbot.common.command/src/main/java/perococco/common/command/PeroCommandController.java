@@ -7,9 +7,9 @@ import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandController;
 import perobobbot.common.command.CommandControllerBuilder;
 import perobobbot.common.command.CommandRegistry;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.MessageContext;
-import perobobbot.common.lang.Platform;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.MessageContext;
+import perobobbot.lang.Platform;
 
 import java.util.Optional;
 

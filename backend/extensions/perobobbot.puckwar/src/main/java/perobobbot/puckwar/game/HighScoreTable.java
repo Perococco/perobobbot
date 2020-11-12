@@ -2,7 +2,7 @@ package perobobbot.puckwar.game;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.fp.Function1;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.VAlignment;

@@ -4,8 +4,8 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.Lazy;
-import perobobbot.common.lang.User;
+import perobobbot.lang.Lazy;
+import perobobbot.lang.User;
 
 import java.time.Instant;
 import java.util.Comparator;

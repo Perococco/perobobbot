@@ -8,8 +8,8 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.access.UnknownPolicy;
-import perobobbot.common.lang.SmartLock;
-import perobobbot.common.lang.User;
+import perobobbot.lang.SmartLock;
+import perobobbot.lang.User;
 
 import java.time.Duration;
 import java.time.Instant;

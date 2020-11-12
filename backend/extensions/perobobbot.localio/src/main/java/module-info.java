@@ -1,10 +1,10 @@
-import perobobbot.common.lang.Packages;
+import perobobbot.lang.Packages;
 import perobobbot.localio.spring.LocalIOPackages;
 
 module bot.consoleio {
     requires static lombok;
     requires java.desktop;
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
     requires spring.context;
     requires perobobbot.common.command;
     requires perobobbot.access;

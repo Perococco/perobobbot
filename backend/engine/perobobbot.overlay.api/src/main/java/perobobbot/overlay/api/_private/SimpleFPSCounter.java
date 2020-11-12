@@ -2,7 +2,7 @@ package perobobbot.overlay.api._private;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer1;
 import perobobbot.overlay.api.FPSCounter;
 
 @RequiredArgsConstructor

@@ -10,9 +10,9 @@ import perobobbot.chat.advanced.event.Error;
 import perobobbot.chat.advanced.event.PostedMessage;
 import perobobbot.chat.core.ChatIO;
 import perobobbot.chat.core.ChatNotConnected;
-import perobobbot.common.lang.DispatchContext;
-import perobobbot.common.lang.Listeners;
-import perobobbot.common.lang.Looper;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.Listeners;
+import perobobbot.lang.Looper;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -5,7 +5,7 @@ import lombok.NonNull;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.chat.core.ReconnectionPolicy;
-import perobobbot.common.lang.ServiceLoaderHelper;
+import perobobbot.lang.ServiceLoaderHelper;
 
 import java.net.URI;
 import java.util.ServiceLoader;

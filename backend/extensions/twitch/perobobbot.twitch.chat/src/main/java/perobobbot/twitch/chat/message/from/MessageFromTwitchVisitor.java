@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat.message.from;
 
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.fp.Function1;
 
 public interface MessageFromTwitchVisitor<T> {
 

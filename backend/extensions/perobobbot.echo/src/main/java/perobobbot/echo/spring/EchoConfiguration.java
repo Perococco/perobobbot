@@ -8,11 +8,11 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
-import perobobbot.common.lang.IO;
-import perobobbot.common.lang.Packages;
-import perobobbot.common.lang.Role;
 import perobobbot.echo.EchoExecutor;
 import perobobbot.echo.EchoExtension;
+import perobobbot.lang.IO;
+import perobobbot.lang.Packages;
+import perobobbot.lang.Role;
 
 import java.time.Duration;
 

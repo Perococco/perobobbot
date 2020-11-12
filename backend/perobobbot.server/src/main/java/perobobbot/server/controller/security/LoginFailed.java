@@ -1,6 +1,6 @@
 package perobobbot.server.controller.security;
 
-import perobobbot.common.lang.PerobobbotException;
+import perobobbot.lang.PerobobbotException;
 
 public class LoginFailed extends PerobobbotException {
 

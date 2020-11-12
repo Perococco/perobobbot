@@ -2,9 +2,9 @@ package perobobbot.server.config.extension.executor;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.Executor;
 import perobobbot.extension.ExtensionManager;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
 
 @RequiredArgsConstructor
 public class EnableAllExtensions implements Executor<ExecutionContext> {

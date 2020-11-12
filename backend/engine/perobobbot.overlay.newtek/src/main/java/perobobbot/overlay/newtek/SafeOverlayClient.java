@@ -2,7 +2,7 @@ package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.common.lang.ThrowableTool;
+import perobobbot.lang.ThrowableTool;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 

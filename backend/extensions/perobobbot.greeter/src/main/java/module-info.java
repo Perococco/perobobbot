@@ -1,5 +1,5 @@
-import perobobbot.common.lang.Packages;
 import perobobbot.greeter.spring.GreeterPackages;
+import perobobbot.lang.Packages;
 
 module perobobbot.greeter {
     requires static lombok;
@@ -7,7 +7,7 @@ module perobobbot.greeter {
     requires com.google.common;
     requires org.apache.logging.log4j;
 
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
     requires perobobbot.chat.core;
     requires perobobbot.common.messaging;
     requires perobobbot.extension;

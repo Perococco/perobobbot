@@ -1,7 +1,7 @@
 package perobobbot.extension;
 
 import lombok.NonNull;
-import perobobbot.common.lang.ThreadFactories;
+import perobobbot.lang.ThreadFactories;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

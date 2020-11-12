@@ -1,7 +1,7 @@
 package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Ratio;
+import perobobbot.lang.Ratio;
 import perobobbot.overlay.api.FrameRate;
 
 public class AudioBufferSizeComputer {

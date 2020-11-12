@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.*;
 import perobobbot.greeter.HelloState;
 import perobobbot.greeter.UserOnChannel;
+import perobobbot.lang.*;
 
 /**
  * Mutation to add a greeting execution to the hello state
@@ -40,8 +40,8 @@ public class AddGreeter implements Mutation<HelloState> {
         newAlreadyGreeted = SetTool.add(current.getAlreadyGreeted(), userOnChannel);
 
         newGreeters = MapTool.add(current.getGreetersPerChannel(),
-                                   channelInfo,
-                                   () -> ImmutableSet.of(greeter),
+                                  channelInfo,
+                                  () -> ImmutableSet.of(greeter),
                                    set -> SetTool.add(set, greeter));
 
         return new HelloState(newAlreadyGreeted, newGreeters);

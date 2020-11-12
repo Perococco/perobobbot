@@ -2,7 +2,7 @@ package perobobbot.chat.advanced;
 
 import lombok.NonNull;
 import perobobbot.chat.core.Chat;
-import perobobbot.common.lang.ServiceLoaderHelper;
+import perobobbot.lang.ServiceLoaderHelper;
 
 import java.util.ServiceLoader;
 

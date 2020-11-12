@@ -11,7 +11,7 @@ module perobobbot.chat.advanced {
     requires org.apache.logging.log4j;
     requires com.google.common;
     requires perobobbot.chat.core;
-    requires transitive perobobbot.common.lang;
+    requires transitive perobobbot.lang;
 
     exports perobobbot.chat.advanced;
     exports perobobbot.chat.advanced.event;

@@ -1,12 +1,12 @@
 import perobobbot.benchmark.spring.BenchmarkConfiguration;
-import perobobbot.common.lang.Packages;
+import perobobbot.lang.Packages;
 
 module perobobbot.ext.benchmark {
     requires static lombok;
     requires java.desktop;
 
 
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
     requires perobobbot.common.math;
     requires perobobbot.overlay.api;
     requires com.google.common;

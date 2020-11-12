@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.common.lang.Secret;
+import perobobbot.lang.Secret;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChat;
 import perobobbot.twitch.chat.TwitchChatIO;

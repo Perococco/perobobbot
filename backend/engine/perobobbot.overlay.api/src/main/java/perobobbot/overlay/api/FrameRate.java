@@ -2,7 +2,7 @@ package perobobbot.overlay.api;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.Ratio;
+import perobobbot.lang.Ratio;
 
 @RequiredArgsConstructor
 public enum FrameRate {

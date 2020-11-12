@@ -3,7 +3,7 @@ package perobobbot.twitch.chat.message.to;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import perobobbot.chat.advanced.Message;
-import perobobbot.common.lang.DispatchContext;
+import perobobbot.lang.DispatchContext;
 
 /**
  * @author perococco

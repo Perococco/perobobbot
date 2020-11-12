@@ -1,9 +1,9 @@
 package perobobbot.localio.swing;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Listeners;
-import perobobbot.common.lang.Subscription;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.Listeners;
+import perobobbot.lang.Subscription;
+import perobobbot.lang.fp.Consumer1;
 
 import javax.swing.*;
 import java.awt.*;

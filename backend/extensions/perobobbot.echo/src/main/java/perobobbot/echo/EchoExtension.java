@@ -2,10 +2,10 @@ package perobobbot.echo;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.IO;
-import perobobbot.common.lang.User;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.IO;
+import perobobbot.lang.User;
 
 public class EchoExtension extends ExtensionBase {
 

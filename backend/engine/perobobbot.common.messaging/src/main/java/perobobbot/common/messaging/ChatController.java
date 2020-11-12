@@ -1,10 +1,10 @@
 package perobobbot.common.messaging;
 
 import lombok.NonNull;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.MessageContext;
-import perobobbot.common.lang.MessageHandler;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.MessageContext;
+import perobobbot.lang.MessageHandler;
+import perobobbot.lang.Subscription;
 import perococco.common.messaging.PerococcoChatController;
 
 /**

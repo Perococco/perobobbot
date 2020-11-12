@@ -1,7 +1,7 @@
 package perobobbot.access;
 
 import lombok.NonNull;
-import perobobbot.common.lang.User;
+import perobobbot.lang.User;
 
 import java.time.Instant;
 

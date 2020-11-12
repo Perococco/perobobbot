@@ -7,9 +7,9 @@ import perobobbot.access.Policy;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
 import perobobbot.common.command.CommandFactory;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.Executor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.Executor;
+import perobobbot.lang.fp.Consumer1;
 
 import java.util.HashMap;
 import java.util.Map;

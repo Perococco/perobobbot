@@ -2,8 +2,8 @@ package perococco.perobobbot.access;
 
 import lombok.NonNull;
 import perobobbot.access.AccessInfoExtractor;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.User;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.User;
 
 import java.time.Instant;
 

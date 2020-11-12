@@ -4,7 +4,7 @@ import lombok.NonNull;
 import perobobbot.chat.advanced.ReceiptSlip;
 import perobobbot.chat.advanced.Request;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
-import perobobbot.common.lang.fp.TryResult;
+import perobobbot.lang.fp.TryResult;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -1,8 +1,8 @@
 package perobobbot.twitch.chat.message.to;
 
 import lombok.NonNull;
-import perobobbot.common.lang.DispatchContext;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.IRCCommand;
 

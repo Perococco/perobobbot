@@ -3,8 +3,8 @@ package perobobbot.twitch.chat.message;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.ImmutableEntry;
-import perobobbot.common.lang.MapTool;
+import perobobbot.lang.ImmutableEntry;
+import perobobbot.lang.MapTool;
 import perobobbot.twitch.chat.message.from.*;
 
 import java.util.Optional;

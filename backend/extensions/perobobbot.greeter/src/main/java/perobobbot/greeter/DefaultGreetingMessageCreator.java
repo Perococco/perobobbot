@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.CollectionTool;
-import perobobbot.common.lang.User;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.CollectionTool;
+import perobobbot.lang.User;
+import perobobbot.lang.fp.Function1;
 
 import java.util.HashSet;
 import java.util.Optional;

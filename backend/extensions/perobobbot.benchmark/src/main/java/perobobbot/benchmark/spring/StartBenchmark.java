@@ -3,9 +3,9 @@ package perobobbot.benchmark.spring;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.benchmark.BenchmarkExtension;
-import perobobbot.common.lang.CastTool;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.CastTool;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.fp.Consumer1;
 
 @RequiredArgsConstructor
 public class StartBenchmark implements Consumer1<ExecutionContext> {

@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
-import perobobbot.common.lang.Role;
-import perobobbot.common.lang.RoleCooldown;
-import perobobbot.common.lang.User;
+import perobobbot.lang.Role;
+import perobobbot.lang.RoleCooldown;
+import perobobbot.lang.User;
 
 import java.time.Duration;
 import java.util.Arrays;

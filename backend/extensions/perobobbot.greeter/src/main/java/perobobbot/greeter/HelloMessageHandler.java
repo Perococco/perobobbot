@@ -2,8 +2,8 @@ package perobobbot.greeter;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.MessageContext;
-import perobobbot.common.lang.MessageHandler;
+import perobobbot.lang.MessageContext;
+import perobobbot.lang.MessageHandler;
 
 @RequiredArgsConstructor
 public class HelloMessageHandler implements MessageHandler {

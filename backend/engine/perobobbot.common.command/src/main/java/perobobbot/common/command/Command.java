@@ -1,7 +1,7 @@
 package perobobbot.common.command;
 
 import lombok.NonNull;
-import perobobbot.common.lang.ExecutionContext;
+import perobobbot.lang.ExecutionContext;
 import perococco.common.command.PeroCommandFactory;
 
 /**

@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 
 @RequiredArgsConstructor

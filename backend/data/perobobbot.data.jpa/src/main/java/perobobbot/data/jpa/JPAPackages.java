@@ -1,8 +1,8 @@
 package perobobbot.data.jpa;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Packages;
 import perobobbot.data.jpa.service.JPAUserService;
+import perobobbot.lang.Packages;
 
 public class JPAPackages {
 

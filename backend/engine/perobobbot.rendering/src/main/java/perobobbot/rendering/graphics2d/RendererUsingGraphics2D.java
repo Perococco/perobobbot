@@ -3,7 +3,7 @@ package perobobbot.rendering.graphics2d;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer1;
 import perobobbot.rendering.HAlignment;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;

@@ -3,9 +3,9 @@ package perobobbot.benchmark;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import perobobbot.common.lang.MathTool;
 import perobobbot.common.math.MVector2D;
 import perobobbot.common.math.Vector2D;
+import perobobbot.lang.MathTool;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
 

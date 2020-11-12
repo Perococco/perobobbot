@@ -3,8 +3,8 @@ package perococco.common.command;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.command.Command;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.fp.Consumer1;
 
 @RequiredArgsConstructor
 public class SimpleCommand implements Command {

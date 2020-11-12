@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.command.Command;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.MapTool;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.MapTool;
+import perobobbot.lang.fp.Consumer1;
 
 import java.util.Arrays;
 import java.util.Optional;

@@ -2,8 +2,8 @@ package perobobbot.overlay.newtek;
 
 import com.walker.devolay.DevolayFrameFourCCType;
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Consumer1;
-import perobobbot.common.lang.fp.Consumer2;
+import perobobbot.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer2;
 import perobobbot.rendering.Size;
 
 import java.awt.image.BufferedImage;

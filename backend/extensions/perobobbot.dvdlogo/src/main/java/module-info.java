@@ -1,5 +1,5 @@
-import perobobbot.common.lang.Packages;
 import perobobbot.dvdlogo.spring.DVDLogoConfiguration;
+import perobobbot.lang.Packages;
 
 module perobobbot.dvdlogo {
     requires static lombok;

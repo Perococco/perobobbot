@@ -1,10 +1,12 @@
+import perobobbot.overlay.api.OverlayController;
+
 module perobobbot.overlay.api {
     requires static lombok;
     requires java.desktop;
 
     requires transitive perobobbot.common.sound;
     requires transitive perobobbot.rendering;
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
 
     requires devolay;
     requires com.google.common;
@@ -13,4 +15,5 @@ module perobobbot.overlay.api {
     exports perobobbot.overlay.api;
 
     uses OverlayController.Factory;
+
 }

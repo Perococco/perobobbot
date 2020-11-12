@@ -1,9 +1,9 @@
 package perobobbot.localio;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Platform;
-import perobobbot.common.lang.Role;
-import perobobbot.common.lang.User;
+import perobobbot.lang.Platform;
+import perobobbot.lang.Role;
+import perobobbot.lang.User;
 
 import java.awt.*;
 import java.util.Optional;

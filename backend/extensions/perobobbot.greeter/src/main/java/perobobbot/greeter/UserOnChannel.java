@@ -2,9 +2,9 @@ package perobobbot.greeter;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.ExecutionContext;
-import perobobbot.common.lang.MessageContext;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.lang.MessageContext;
 
 @Value
 public class UserOnChannel {

@@ -1,7 +1,7 @@
 package perobobbot.rendering;
 
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer1;
 import perobobbot.rendering.graphics2d.RendererUsingGraphics2D;
 
 import java.awt.*;

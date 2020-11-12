@@ -1,5 +1,5 @@
-import perobobbot.common.lang.Packages;
 import perobobbot.data.jpa.JPAPackages;
+import perobobbot.lang.Packages;
 
 module perobobbot.data.jpa {
     requires static lombok;

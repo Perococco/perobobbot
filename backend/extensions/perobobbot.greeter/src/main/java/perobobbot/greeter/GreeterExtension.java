@@ -7,10 +7,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.common.lang.*;
 import perobobbot.common.messaging.ChatController;
 import perobobbot.extension.Extension;
 import perobobbot.greeter.mutation.ClearGreetingIssuers;
+import perobobbot.lang.*;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;

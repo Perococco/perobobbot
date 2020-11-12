@@ -2,9 +2,9 @@ package perobobbot.puckwar.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.*;
-import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.math.Vector2D;
+import perobobbot.lang.*;
+import perobobbot.lang.fp.Consumer1;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.game.Throw;
 
@@ -46,7 +46,7 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
         if (user.getPlatform() != Platform.LOCAL) {
             return user;
         }
-        final String newName = "local"+RandomString.generate(4);
+        final String newName = "local" + RandomString.generate(4);
         return new ProxyUser(user) {
             @Override
             public @NonNull String getUserName() {

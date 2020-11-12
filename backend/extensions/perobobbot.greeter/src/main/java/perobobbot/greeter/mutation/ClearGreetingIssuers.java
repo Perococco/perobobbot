@@ -2,8 +2,8 @@ package perobobbot.greeter.mutation;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
-import perobobbot.common.lang.Mutation;
 import perobobbot.greeter.HelloState;
+import perobobbot.lang.Mutation;
 
 public class ClearGreetingIssuers implements Mutation<HelloState> {
 

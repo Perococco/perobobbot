@@ -3,7 +3,7 @@ package perococco.perobobbot.common.irc;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.common.irc.Tag;
-import perobobbot.common.lang.ThrowableTool;
+import perobobbot.lang.ThrowableTool;
 
 import java.util.Optional;
 

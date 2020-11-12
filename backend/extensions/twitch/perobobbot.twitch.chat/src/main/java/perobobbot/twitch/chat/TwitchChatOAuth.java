@@ -2,7 +2,7 @@ package perobobbot.twitch.chat;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.common.lang.Secret;
+import perobobbot.lang.Secret;
 
 /**
  * @author perococco

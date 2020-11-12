@@ -2,7 +2,7 @@ package perobobbot.extension;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.PerobobbotException;
+import perobobbot.lang.PerobobbotException;
 
 public class UnknownExtension extends PerobobbotException {
 

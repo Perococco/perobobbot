@@ -1,4 +1,4 @@
-import perobobbot.common.lang.Packages;
+import perobobbot.lang.Packages;
 import perobobbot.puckwar.spring.PuckWarConfiguration;
 
 module perobobbot.ext.puckwar {
@@ -6,7 +6,7 @@ module perobobbot.ext.puckwar {
     requires java.desktop;
 
     requires perobobbot.overlay.api;
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
     requires perobobbot.extension;
     requires perobobbot.common.command;
     requires perobobbot.access;

@@ -1,7 +1,7 @@
 package perobobbot.access;
 
 import lombok.NonNull;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer1;
 
 import java.util.UUID;
 

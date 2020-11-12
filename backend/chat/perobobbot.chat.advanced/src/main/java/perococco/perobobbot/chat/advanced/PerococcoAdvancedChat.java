@@ -7,8 +7,8 @@ import perobobbot.chat.advanced.event.ReceivedMessage;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.event.Error;
 import perobobbot.chat.core.event.*;
-import perobobbot.common.lang.Listeners;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.Listeners;
+import perobobbot.lang.Subscription;
 
 import java.time.Duration;
 import java.time.Instant;

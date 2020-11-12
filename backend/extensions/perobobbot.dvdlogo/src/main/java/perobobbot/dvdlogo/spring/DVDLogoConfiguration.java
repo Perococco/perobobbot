@@ -9,9 +9,9 @@ import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandBundle;
-import perobobbot.common.lang.Packages;
-import perobobbot.common.lang.Role;
 import perobobbot.dvdlogo.DVDLogoExtension;
+import perobobbot.lang.Packages;
+import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
 
 import java.time.Duration;

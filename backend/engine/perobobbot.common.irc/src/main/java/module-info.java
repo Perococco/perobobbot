@@ -11,7 +11,7 @@ module perobobbot.common.irc {
 
     requires org.apache.logging.log4j;
 
-    requires perobobbot.common.lang;
+    requires perobobbot.lang;
 
     exports perobobbot.common.irc;
 

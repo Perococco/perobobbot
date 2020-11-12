@@ -7,7 +7,7 @@ module perobobbot.chat.core {
     requires static lombok;
     requires java.desktop;
 
-    requires transitive perobobbot.common.lang;
+    requires transitive perobobbot.lang;
 
     requires com.google.common;
     requires org.apache.logging.log4j;

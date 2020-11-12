@@ -1,7 +1,7 @@
 package perobobbot.common.command;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Platform;
+import perobobbot.lang.Platform;
 
 public interface CommandControllerBuilder {
 

@@ -2,7 +2,7 @@ package perobobbot.overlay.newtek;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.fp.Consumer1;
 
 import java.awt.image.DataBufferByte;
 import java.nio.ByteBuffer;

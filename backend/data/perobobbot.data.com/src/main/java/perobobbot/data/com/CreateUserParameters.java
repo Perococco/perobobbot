@@ -2,7 +2,7 @@ package perobobbot.data.com;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.fp.Function1;
 
 @Value
 public class CreateUserParameters {

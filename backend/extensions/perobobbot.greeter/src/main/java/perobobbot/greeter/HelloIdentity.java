@@ -2,8 +2,8 @@ package perobobbot.greeter;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.*;
 import perobobbot.greeter.mutation.AddGreeter;
+import perobobbot.lang.*;
 
 import java.util.concurrent.CompletionStage;
 

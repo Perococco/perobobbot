@@ -7,8 +7,8 @@ import perobobbot.access.AccessInfoExtractor;
 import perobobbot.access.AccessPoint;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
-import perobobbot.common.lang.User;
-import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.lang.User;
+import perobobbot.lang.fp.Consumer1;
 
 import java.time.Instant;
 import java.util.UUID;

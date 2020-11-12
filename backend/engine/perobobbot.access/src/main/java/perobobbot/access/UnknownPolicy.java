@@ -2,7 +2,7 @@ package perobobbot.access;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.PerobobbotException;
+import perobobbot.lang.PerobobbotException;
 
 import java.util.UUID;
 

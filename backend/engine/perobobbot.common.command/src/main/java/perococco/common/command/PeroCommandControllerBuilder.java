@@ -5,7 +5,7 @@ import lombok.NonNull;
 import perobobbot.common.command.CommandController;
 import perobobbot.common.command.CommandControllerBuilder;
 import perobobbot.common.command.CommandRegistry;
-import perobobbot.common.lang.Platform;
+import perobobbot.lang.Platform;
 
 import java.util.Arrays;
 import java.util.HashMap;

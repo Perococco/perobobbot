@@ -1,7 +1,7 @@
 package perobobbot.chat.advanced;
 
 import lombok.NonNull;
-import perobobbot.common.lang.DispatchContext;
+import perobobbot.lang.DispatchContext;
 
 /**
  * @author perococco

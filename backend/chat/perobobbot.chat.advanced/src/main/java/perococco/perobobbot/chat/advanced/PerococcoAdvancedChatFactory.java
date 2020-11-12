@@ -6,7 +6,7 @@ import perobobbot.chat.advanced.AdvancedChatFactory;
 import perobobbot.chat.advanced.MessageConverter;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
 import perobobbot.chat.core.Chat;
-import perobobbot.common.lang.Priority;
+import perobobbot.lang.Priority;
 
 /**
  * @author perococco

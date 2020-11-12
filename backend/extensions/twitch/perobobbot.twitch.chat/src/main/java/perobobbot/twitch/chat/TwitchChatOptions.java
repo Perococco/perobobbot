@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
-import perobobbot.common.lang.Secret;
+import perobobbot.lang.Secret;
 
 @Value
 @Builder

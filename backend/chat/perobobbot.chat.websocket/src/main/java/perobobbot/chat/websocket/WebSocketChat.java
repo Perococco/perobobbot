@@ -8,10 +8,10 @@ import perobobbot.chat.core.event.Connection;
 import perobobbot.chat.core.event.Disconnection;
 import perobobbot.chat.core.event.Error;
 import perobobbot.chat.core.event.ReceivedMessage;
-import perobobbot.common.lang.Looper;
-import perobobbot.common.lang.SmartLock;
-import perobobbot.common.lang.ThrowableTool;
-import perobobbot.common.lang.WaitStrategy;
+import perobobbot.lang.Looper;
+import perobobbot.lang.SmartLock;
+import perobobbot.lang.ThrowableTool;
+import perobobbot.lang.WaitStrategy;
 
 import javax.websocket.*;
 import java.io.IOException;

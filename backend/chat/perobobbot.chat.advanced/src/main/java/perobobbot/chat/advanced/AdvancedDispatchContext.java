@@ -2,7 +2,7 @@ package perobobbot.chat.advanced;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.common.lang.DispatchContext;
+import perobobbot.lang.DispatchContext;
 
 import java.time.Instant;
 

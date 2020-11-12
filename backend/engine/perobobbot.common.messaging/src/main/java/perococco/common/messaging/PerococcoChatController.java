@@ -4,11 +4,11 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.common.lang.ListTool;
-import perobobbot.common.lang.MessageContext;
-import perobobbot.common.lang.MessageHandler;
-import perobobbot.common.lang.Subscription;
 import perobobbot.common.messaging.ChatController;
+import perobobbot.lang.ListTool;
+import perobobbot.lang.MessageContext;
+import perobobbot.lang.MessageHandler;
+import perobobbot.lang.Subscription;
 
 import java.util.Comparator;
 

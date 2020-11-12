@@ -8,9 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
-import perobobbot.common.lang.ApplicationCloser;
-import perobobbot.common.lang.Packages;
-import perobobbot.common.lang.fp.Function1;
+import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.Packages;
+import perobobbot.lang.fp.Function1;
 
 import java.awt.*;
 import java.util.List;

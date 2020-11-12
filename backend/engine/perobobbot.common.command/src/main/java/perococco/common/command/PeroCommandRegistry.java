@@ -5,8 +5,8 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.common.command.Command;
 import perobobbot.common.command.CommandRegistry;
-import perobobbot.common.lang.MapTool;
-import perobobbot.common.lang.Subscription;
+import perobobbot.lang.MapTool;
+import perobobbot.lang.Subscription;
 
 import java.util.Optional;
 

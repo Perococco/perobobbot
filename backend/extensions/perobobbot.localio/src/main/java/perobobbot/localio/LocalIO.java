@@ -1,10 +1,10 @@
 package perobobbot.localio;
 
 import lombok.NonNull;
-import perobobbot.common.lang.ChannelInfo;
-import perobobbot.common.lang.Platform;
-import perobobbot.common.lang.PlatformIO;
-import perobobbot.common.lang.User;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformIO;
+import perobobbot.lang.User;
 
 public interface LocalIO extends PlatformIO {
 

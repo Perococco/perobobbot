@@ -2,7 +2,7 @@ package perobobbot.twitch.chat.message.to;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.common.lang.DispatchContext;
+import perobobbot.lang.DispatchContext;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.message.IRCCommand;

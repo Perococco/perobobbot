@@ -1,9 +1,9 @@
 package perobobbot.data.domain.transformers;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Transformer;
 import perobobbot.data.com.UserDTO;
 import perobobbot.data.domain.User;
+import perobobbot.lang.Transformer;
 
 public class UserTransformer implements Transformer<User, UserDTO> {
 

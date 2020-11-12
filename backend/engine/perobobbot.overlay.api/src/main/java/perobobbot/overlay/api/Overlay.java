@@ -1,8 +1,8 @@
 package perobobbot.overlay.api;
 
 import lombok.NonNull;
-import perobobbot.common.lang.Subscription;
 import perobobbot.common.sound.SoundRegistry;
+import perobobbot.lang.Subscription;
 import perobobbot.rendering.Size;
 
 public interface Overlay extends SoundRegistry {
