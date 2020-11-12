@@ -6,7 +6,7 @@ import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.overlay.api.OverlayRenderer;
-import perobobbot.puckwar.physic.Game;
+import perobobbot.puckwar.game.Game;
 
 @RequiredArgsConstructor
 public class PuckWarOverlay implements OverlayClient {

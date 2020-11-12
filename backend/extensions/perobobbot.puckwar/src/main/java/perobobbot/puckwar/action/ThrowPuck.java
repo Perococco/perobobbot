@@ -7,7 +7,7 @@ import perobobbot.common.lang.ExecutionContext;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.math.Vector2D;
 import perobobbot.puckwar.PuckWarExtension;
-import perobobbot.puckwar.physic.Throw;
+import perobobbot.puckwar.game.Throw;
 
 import java.util.OptionalDouble;
 

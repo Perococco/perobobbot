@@ -1,4 +1,4 @@
-package perobobbot.puckwar.physic;
+package perobobbot.puckwar.game;
 
 import lombok.NonNull;
 import perobobbot.overlay.api.OverlaySize;

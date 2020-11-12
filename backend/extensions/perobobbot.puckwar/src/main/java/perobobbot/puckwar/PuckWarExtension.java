@@ -6,7 +6,7 @@ import lombok.Synchronized;
 import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.overlay.api.Overlay;
-import perobobbot.puckwar.physic.Game;
+import perobobbot.puckwar.game.Game;
 
 import java.util.Optional;
 

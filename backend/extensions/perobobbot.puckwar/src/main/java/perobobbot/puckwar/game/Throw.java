@@ -1,4 +1,4 @@
-package perobobbot.puckwar.physic;
+package perobobbot.puckwar.game;
 
 import lombok.Getter;
 import lombok.NonNull;
