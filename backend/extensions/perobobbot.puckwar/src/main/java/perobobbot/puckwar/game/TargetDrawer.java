@@ -3,12 +3,10 @@ package perobobbot.puckwar.game;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import perobobbot.rendering.Renderer;
 
 import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
+import java.util.function.IntConsumer;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TargetDrawer {
@@ -19,13 +17,7 @@ public class TargetDrawer {
 
     public static final int DRAWING_AREA_SIZE = 1000;
 
-
-    public static final List<Circle> CIRCLES = List.of(
-            Circle.of(820,180,Color.RED),
-            Circle.of(400,100,Color.RED),
-            Circle.of(100,25,Color.RED)
-                                                       );
-
+    private static final Color TARGET_COLOR = new Color(255,0, 81, 255);
 
     private final @NonNull Graphics2D graphics2D;
     private final int size;
@@ -35,7 +27,7 @@ public class TargetDrawer {
         this.setupTransformation();
         this.setupRenderingQuality();
         this.drawCircles();
-        this.drawTargetLines();
+        this.drawReticule();
     }
 
     private void clearImage() {
@@ -55,38 +47,34 @@ public class TargetDrawer {
     }
 
     private void drawCircles() {
-        CIRCLES.forEach(c -> c.draw(graphics2D));
-    }
-
-    private void drawTargetLines() {
-        CIRCLES.stream()
-               .max(Comparator.comparingInt(Circle::getRadius))
-               .map(Circle::getRadius)
-               .ifPresent(r ->  {
-                   graphics2D.setStroke(new BasicStroke(25));
-                   graphics2D.setPaint(Color.RED);
-                   graphics2D.drawLine(-r,0,r,0);
-                   graphics2D.drawLine(0,-r,0,r);
-               });
-    }
-
-    @Value
-    private static class Circle {
-
-        public static Circle of(int radius, int thickness, @NonNull Color color) {
-            return new Circle(radius,thickness,color);
-        }
-
-        int radius;
-
-        int thickness;
-
-        Color color;
-
-        public void draw(@NonNull Graphics2D graphics2D) {
-            graphics2D.setPaint(color);
-            graphics2D.setStroke(new BasicStroke(thickness));
-            graphics2D.drawOval(-radius,-radius,radius*2,radius*2);
+        graphics2D.setComposite(AlphaComposite.Src);
+        final IntConsumer fillCircle = r -> {
+            graphics2D.setColor(TARGET_COLOR);
+            graphics2D.fillOval(-r,-r,r*2,r*2);
+        };
+        final IntConsumer clearCircle = r -> {
+            graphics2D.setColor(Renderer.TRANSPARENT);
+            graphics2D.fillOval(-r,-r,r*2,r*2);
+        };
+        for (int i = 5; i > 0; i--) {
+            final int radius = DRAWING_AREA_SIZE/5*i;
+            if (i%2==1) {
+                fillCircle.accept(radius);
+            } else {
+                clearCircle.accept(radius);
+            }
         }
     }
+
+    private void drawReticule() {
+        graphics2D.setComposite(AlphaComposite.Src);
+        final int l = DRAWING_AREA_SIZE/10;
+        graphics2D.setStroke(new BasicStroke(8));
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.drawLine(l,0,-l,0);
+        graphics2D.drawLine(0,l,0,-l);
+    }
+
+
+
 }

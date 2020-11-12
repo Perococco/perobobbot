@@ -4,6 +4,7 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.EllipsedString;
 import perobobbot.lang.Lazy;
 import perobobbot.lang.User;
 
@@ -35,7 +36,7 @@ public class Score {
     private final Lazy<String> lazyText = Lazy.basic(this::createScoreText);
 
     private @NonNull String createScoreText() {
-        return String.format("%-30s : %8.2f",user.getUserName(),score);
+        return String.format("%-10s : %6.1f", EllipsedString.create(user.getUserName(),10),score);
     }
 
     public @NonNull String getText() {

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.Command;
 import perobobbot.command.CommandBundle;
 import perobobbot.dvdlogo.DVDLogoExtension;
 import perobobbot.lang.Packages;

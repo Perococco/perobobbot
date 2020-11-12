@@ -31,9 +31,6 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
         if (vx.isPresent() && vy.isPresent()) {
             final var velocity = Vector2D.of(vx.getAsDouble(),vy.getAsDouble());
             final var thrower = transformUser(executionContext.getMessageOwner());
-            if (thrower.getPlatform() == Platform.LOCAL) {
-
-            }
 
             final var throwInstant = executionContext.getReceptionTime();
             final var puckThrow = new Throw(thrower,throwInstant,velocity);
@@ -46,7 +43,7 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
         if (user.getPlatform() != Platform.LOCAL) {
             return user;
         }
-        final String newName = "local" + RandomString.generate(4);
+        final String newName = "local" + RandomString.generate(8);
         return new ProxyUser(user) {
             @Override
             public @NonNull String getUserName() {

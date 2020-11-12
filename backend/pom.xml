@@ -20,31 +20,31 @@
 
     <modules>
         <!-- Implementation that is not specific to the bot -->
-        <module>engine/perobobbot.lang</module>
-        <module>engine/perobobbot.math</module>
-        <module>engine/perobobbot.command</module>
-        <module>engine/perobobbot.messaging</module>
-        <module>engine/perobobbot.irc</module>
-        <module>engine/perobobbot.sound</module>
+        <module>perobobbot.lang</module>
+        <module>perobobbot.math</module>
+        <module>perobobbot.command</module>
+        <module>perobobbot.messaging</module>
+        <module>perobobbot.irc</module>
+        <module>perobobbot.sound</module>
 
         <!-- API and implementation to easily create Chat -->
-        <module>chat/perobobbot.chat.core</module>
-        <module>chat/perobobbot.chat.advanced</module>
-        <module>chat/perobobbot.chat.websocket</module>
+        <module>perobobbot.chat/perobobbot.chat.core</module>
+        <module>perobobbot.chat/perobobbot.chat.advanced</module>
+        <module>perobobbot.chat/perobobbot.chat.websocket</module>
 
         <!-- Module to handle data persistence -->
-        <module>data/perobobbot.data.com</module>
-        <module>data/perobobbot.data.domain</module>
-        <module>data/perobobbot.data.service</module>
-        <module>data/perobobbot.data.jpa</module>
-        <module>data/perobobbot.data.schema</module>
+        <module>perobobbot.data/perobobbot.data.com</module>
+        <module>perobobbot.data/perobobbot.data.domain</module>
+        <module>perobobbot.data/perobobbot.data.service</module>
+        <module>perobobbot.data/perobobbot.data.jpa</module>
+        <module>perobobbot.data/perobobbot.data.schema</module>
 
         <!-- Module used by extensions -->
-        <module>engine/perobobbot.extension</module>
-        <module>engine/perobobbot.access</module>
-        <module>engine/perobobbot.rendering</module>
-        <module>engine/perobobbot.overlay/perobobbot.overlay.api</module>
-        <module>engine/perobobbot.overlay/perobobbot.overlay.newtek</module>
+        <module>perobobbot.extension</module>
+        <module>perobobbot.access</module>
+        <module>perobobbot.rendering</module>
+        <module>perobobbot.overlay/perobobbot.overlay.api</module>
+        <module>perobobbot.overlay/perobobbot.overlay.newtek</module>
 
         <!-- extensions. The scope of the dependencies
         to these modules should be runtime -->
