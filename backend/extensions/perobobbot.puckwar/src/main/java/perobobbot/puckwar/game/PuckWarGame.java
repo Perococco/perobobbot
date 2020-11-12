@@ -23,11 +23,11 @@ public class PuckWarGame {
         {
             final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
             final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
-            target = new Target(targetPosition,size);
+            target = new Target(targetPosition, size);
         }
 
         return new PuckWarGame(puckSize,
-                                target,
+                               target,
                                initialPosition,
                                v -> v.scale(5),
                                new OutsiderPredicate(overlaySize));
@@ -36,9 +36,9 @@ public class PuckWarGame {
     /**
      * The default size of the pucks
      */
-    private final @NonNull int puckSize;
+    private final int puckSize;
 
-    private final Target target;
+    private final @NonNull Target target;
 
     /**
      * The initial position of all pucks
@@ -58,13 +58,14 @@ public class PuckWarGame {
     /**
      * The throw that are not included in the game yet
      */
-    private final BlockingDeque<Throw> pendingThrows = new LinkedBlockingDeque<>();
+    private final @NonNull BlockingDeque<Throw> pendingThrows = new LinkedBlockingDeque<>();
 
     /**
      * The list of active puck in the game
      */
-    private final List<Puck> pucks = new ArrayList<>(256);
+    private final @NonNull List<Puck> pucks = new ArrayList<>(256);
 
+    private final @NonNull HighScoreTable highScoreTable = HighScoreTable.lowerIsBetter(5);
 
     /**
      * add a throw that will be added at the next rendering frame
@@ -84,6 +85,7 @@ public class PuckWarGame {
         this.updatePuckPositions(dt);
         this.removeOutsiders();
         this.addPendingThrowToPuckList();
+        this.updateHighScoreTable();
     }
 
     private void updatePuckPositions(double dt) {
@@ -105,7 +107,18 @@ public class PuckWarGame {
                            .forEach(pucks::add);
     }
 
+    private void updateHighScoreTable() {
+        highScoreTable.fillTable(pucks, this::createScoreFromPuck);
+    }
+
+    private @NonNull Score createScoreFromPuck(@NonNull Puck puck) {
+        final double distance = target.getPosition().distanceTo(puck.getPosition());
+        return new Score(puck.getThrower(),puck.getThrowInstant(),distance);
+    }
+
+
     public void draw(OverlayRenderer overlayRenderer) {
+        highScoreTable.drawWith(overlayRenderer);
         target.drawWith(overlayRenderer);
         pucks.forEach(p -> p.drawWith(overlayRenderer));
     }

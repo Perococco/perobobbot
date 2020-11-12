@@ -2,8 +2,7 @@ package perobobbot.puckwar.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.lang.CastTool;
-import perobobbot.common.lang.ExecutionContext;
+import perobobbot.common.lang.*;
 import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.common.math.Vector2D;
 import perobobbot.puckwar.PuckWarExtension;
@@ -31,9 +30,28 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
 
         if (vx.isPresent() && vy.isPresent()) {
             final var velocity = Vector2D.of(vx.getAsDouble(),vy.getAsDouble());
-            final var puckThrow = new Throw(executionContext.getMessageOwner(),velocity);
+            final var thrower = transformUser(executionContext.getMessageOwner());
+            if (thrower.getPlatform() == Platform.LOCAL) {
+
+            }
+
+            final var throwInstant = executionContext.getReceptionTime();
+            final var puckThrow = new Throw(thrower,throwInstant,velocity);
             extension.getCurrentGame().ifPresent(g -> g.addThrow(puckThrow));
         }
 
+    }
+
+    private @NonNull User transformUser(@NonNull User user) {
+        if (user.getPlatform() != Platform.LOCAL) {
+            return user;
+        }
+        final String newName = "local"+RandomString.generate(4);
+        return new ProxyUser(user) {
+            @Override
+            public @NonNull String getUserName() {
+                return newName;
+            }
+        };
     }
 }

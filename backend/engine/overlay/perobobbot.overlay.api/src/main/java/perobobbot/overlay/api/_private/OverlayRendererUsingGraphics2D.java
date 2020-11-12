@@ -4,10 +4,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.fp.Consumer1;
+import perobobbot.overlay.api.HAlignment;
 import perobobbot.overlay.api.OverlayRenderer;
 import perobobbot.overlay.api.OverlaySize;
+import perobobbot.overlay.api.VAlignment;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 @RequiredArgsConstructor
@@ -84,6 +89,51 @@ public class OverlayRendererUsingGraphics2D implements OverlayRenderer {
     @Override
     public @NonNull OverlayRenderer fillRect(int x, int y, int width, int height) {
         graphics2D.fillRect(x,y,width,height);
+        return this;
+    }
+
+    @Override
+    public @NonNull Font getFont() {
+        return graphics2D.getFont();
+    }
+
+    @Override
+    public @NonNull OverlayRenderer setFont(@NonNull Font font) {
+        graphics2D.setFont(font);
+        return this;
+    }
+
+    @Override
+    public @NonNull OverlayRenderer setFontSize(float fontSize) {
+        graphics2D.setFont(graphics2D.getFont().deriveFont(fontSize));
+        return this;
+    }
+
+    @Override
+    public double getTextLineHeight() {
+        return graphics2D.getFontMetrics().getHeight();
+    }
+
+    @Override
+    public Rectangle2D getMaxCharBounds() {
+        return graphics2D.getFontMetrics().getMaxCharBounds(graphics2D);
+    }
+
+    @Override
+    public @NonNull OverlayRenderer drawString(
+            @NonNull String string,
+            @NonNull double x,
+            @NonNull double y,
+            @NonNull HAlignment hAlignment,
+            @NonNull VAlignment vAlignment) {
+        final Font font = graphics2D.getFont();
+        final FontRenderContext frc = graphics2D.getFontRenderContext();
+        final TextLayout textLayout = new TextLayout(string,font,frc);
+        final Rectangle2D bounds = textLayout.getBounds();
+        final var dx = hAlignment.getPosition(bounds.getWidth());
+        final var dy = vAlignment.getPosition(textLayout.getAscent());
+
+        textLayout.draw(graphics2D,(float)(x-dx),(float)(y-dy));
         return this;
     }
 }

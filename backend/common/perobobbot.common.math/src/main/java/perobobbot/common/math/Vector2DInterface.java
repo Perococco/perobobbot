@@ -34,4 +34,10 @@ public interface Vector2DInterface<V extends Vector2DInterface<V>> extends Point
     }
 
 
+    default double distanceTo(MVector2D position) {
+        final var dx = this.x() - position.x();
+        final var dy = this.y() - position.y();
+        return Math.sqrt(dx*dx+dy*dy);
+    }
+
 }

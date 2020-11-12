@@ -1,6 +1,7 @@
 package perobobbot.localio;
 
 import lombok.NonNull;
+import perobobbot.common.lang.Platform;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 
@@ -14,6 +15,11 @@ public class LocalUser implements User {
     @Override
     public @NonNull String getUserId() {
         return "LOCAL_USER";
+    }
+
+    @Override
+    public @NonNull Platform getPlatform() {
+        return Platform.LOCAL;
     }
 
     @Override
@@ -32,7 +38,8 @@ public class LocalUser implements User {
     }
 
     @Override
-    public @NonNull Optional<Color> getUseColor() {
+    public @NonNull Optional<Color> findUserColor() {
         return Optional.of(LOCAL_COLOR);
     }
+
 }

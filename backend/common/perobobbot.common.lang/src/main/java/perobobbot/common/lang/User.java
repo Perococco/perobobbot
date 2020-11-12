@@ -4,15 +4,24 @@ import com.google.common.collect.ImmutableCollection;
 import lombok.NonNull;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.Optional;
 
 public interface User {
+
+    Comparator<User> COMPARE_BY_ID = Comparator.comparing(User::getUserId).thenComparing(User::getPlatform);
 
     /**
      * @return an identifier of the user (for Twitch it can be his login)
      */
     @NonNull
     String getUserId();
+
+    /**
+     * @return the platform this use belongs to
+     */
+    @NonNull
+    Platform getPlatform();
 
     /**
      * @return the name of the user (for Twitch it can be the displayed name of the user which
@@ -24,7 +33,7 @@ public interface User {
     @NonNull
     String getHighlightedUserName();
 
-    @NonNull Optional<Color> getUseColor();
+    @NonNull Optional<Color> findUserColor();
 
     boolean canActAs(@NonNull Role role);
 
@@ -35,4 +44,10 @@ public interface User {
                     .filter(this::canActAs)
                     .max(Role.HIGHER_LEVEL_ROLE_COMPARATOR);
     }
+
+    default @NonNull Color getUserColor(@NonNull Color defaultColor) {
+        return findUserColor().orElse(defaultColor);
+    }
+
+
 }

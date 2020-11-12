@@ -5,6 +5,7 @@ import perobobbot.common.lang.fp.Consumer1;
 import perobobbot.overlay.api._private.OverlayRendererUsingGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public interface OverlayRenderer extends AutoCloseable {
@@ -39,9 +40,30 @@ public interface OverlayRenderer extends AutoCloseable {
 
     @NonNull OverlayRenderer fillRect(int x, int y, int width, int height);
 
+    @NonNull OverlayRenderer drawString(@NonNull String string, @NonNull double x, @NonNull double y, @NonNull HAlignment hAlignment, @NonNull VAlignment vAlignment);
+
+    @NonNull OverlayRenderer setFontSize(float fontSize);
+
+    @NonNull Font getFont();
+
+    @NonNull OverlayRenderer setFont(@NonNull Font font);
+
+    double getTextLineHeight();
+
+    @NonNull Rectangle2D getMaxCharBounds();
+
+    default @NonNull OverlayRenderer drawString(@NonNull String string, @NonNull double x, @NonNull double y) {
+        return drawString(string,x,y,HAlignment.LEFT,VAlignment.TOP);
+    }
+
+    default @NonNull OverlayRenderer drawString(@NonNull String string, @NonNull double x, @NonNull double y, @NonNull VAlignment vAlignment) {
+        return drawString(string,x,y,HAlignment.LEFT,vAlignment);
+    }
+
     @Override
     default void close(){
         dispose();
     }
+
 
 }

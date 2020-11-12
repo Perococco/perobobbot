@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import perobobbot.common.lang.CastTool;
+import perobobbot.common.lang.Platform;
 import perobobbot.common.lang.Role;
 import perobobbot.common.lang.User;
 import perobobbot.twitch.chat.message.TagKey;
@@ -32,13 +33,18 @@ public class TwitchUser implements User, TagsAndBadges {
     private final TagsAndBadges tagsAndBadges;
 
     @Override
-    public @NonNull Optional<Color> getUseColor() {
+    public @NonNull Optional<Color> findUserColor() {
         return tagsAndBadges.flatFindTag(TagKey.COLOR, CastTool::castToColor);
     }
 
     @Override
     public @NonNull String getHighlightedUserName() {
         return "@"+userName;
+    }
+
+    @Override
+    public @NonNull Platform getPlatform() {
+        return Platform.TWITCH;
     }
 
     @Override

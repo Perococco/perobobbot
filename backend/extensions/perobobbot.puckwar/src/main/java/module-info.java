@@ -10,8 +10,11 @@ module perobobbot.ext.puckwar {
     requires perobobbot.extension;
     requires perobobbot.common.command;
     requires perobobbot.access;
-    requires spring.context;
     requires perobobbot.common.math;
+
+    requires com.google.common;
+
+    requires spring.context;
 
 
     provides Packages with PuckWarConfiguration;
