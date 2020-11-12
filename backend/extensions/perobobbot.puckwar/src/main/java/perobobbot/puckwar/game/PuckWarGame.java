@@ -14,17 +14,17 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
-public class Game {
+public class PuckWarGame {
 
-    public static @NonNull Game create(@NonNull OverlaySize overlaySize, int puckSize) {
+    public static @NonNull PuckWarGame create(@NonNull OverlaySize overlaySize, int puckSize) {
         final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
         final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth())/3.);
         final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
-        return new Game(puckSize,
-                        new Target(targetPosition,size),
-                        initialPosition,
+        return new PuckWarGame(puckSize,
+                               new Target(targetPosition,size),
+                               initialPosition,
                         v -> v.scale(5),
-                        new OutsiderPredicate(overlaySize));
+                               new OutsiderPredicate(overlaySize));
     }
 
     /**

@@ -6,7 +6,7 @@ import lombok.Synchronized;
 import perobobbot.common.lang.SubscriptionHolder;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.overlay.api.Overlay;
-import perobobbot.puckwar.game.Game;
+import perobobbot.puckwar.game.PuckWarGame;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ public class PuckWarExtension extends ExtensionBase {
 
     private final @NonNull Overlay overlay;
 
-    private Game game = null;
+    private PuckWarGame puckWarGame = null;
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
@@ -42,19 +42,19 @@ public class PuckWarExtension extends ExtensionBase {
         if (subscriptionHolder.hasSubscription() || !isEnabled()) {
             return;
         }
-        game = Game.create(overlay.getOverlaySize(),puckSize);
-        subscriptionHolder.replaceWith(() -> overlay.addClient(new PuckWarOverlay(game)));
+        puckWarGame = PuckWarGame.create(overlay.getOverlaySize(), puckSize);
+        subscriptionHolder.replaceWith(() -> overlay.addClient(new PuckWarOverlay(puckWarGame)));
     }
 
     @Synchronized
     public void stopGame() {
         subscriptionHolder.unsubscribe();
-        game = null;
+        puckWarGame = null;
     }
 
     @Synchronized
-    public @NonNull Optional<Game> getCurrentGame() {
-        return Optional.ofNullable(game);
+    public @NonNull Optional<PuckWarGame> getCurrentGame() {
+        return Optional.ofNullable(puckWarGame);
     }
 
 
