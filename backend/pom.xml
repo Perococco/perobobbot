@@ -42,8 +42,9 @@
         <!-- Module used by extensions -->
         <module>engine/perobobbot.extension</module>
         <module>engine/perobobbot.access</module>
-        <module>engine/overlay/perobobbot.overlay.api</module>
-        <module>engine/overlay/perobobbot.overlay.newtek</module>
+        <module>engine/perobobbot.rendering</module>
+        <module>engine/perobobbot.overlay.api</module>
+        <module>engine/perobobbot.overlay.newtek</module>
 
         <!-- extensions. The scope of the dependencies
         to these modules should be runtime -->

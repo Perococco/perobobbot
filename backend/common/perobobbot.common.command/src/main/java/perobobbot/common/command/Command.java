@@ -4,6 +4,9 @@ import lombok.NonNull;
 import perobobbot.common.lang.ExecutionContext;
 import perococco.common.command.PeroCommandFactory;
 
+/**
+ * A command that launch an execution
+ */
 public interface Command {
 
     @NonNull

@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Size;
 
 import java.util.Random;
 
@@ -14,11 +14,11 @@ public class TargetPositionComputer {
     public static final int MAXIMAL_NUMBER_OF_ITERATIONS = 10;
 
     private final @NonNull Random random = new Random();
-    private final @NonNull OverlaySize overlaySize;
+    private final @NonNull Size overlaySize;
     private final @NonNull Vector2D initialPosition;
     private final int targetSize;
 
-    public static @NonNull Vector2D compute(@NonNull  OverlaySize overlaySize, @NonNull Vector2D initialPosition, int targetSize) {
+    public static @NonNull Vector2D compute(@NonNull Size overlaySize, @NonNull Vector2D initialPosition, int targetSize) {
         return new TargetPositionComputer(overlaySize, initialPosition,targetSize).compute();
     }
 

@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.overlay.api.OverlayRenderer;
+import perobobbot.rendering.Renderer;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -39,7 +39,7 @@ public class TargetDrawer {
     }
 
     private void clearImage() {
-        graphics2D.setBackground(OverlayRenderer.TRANSPARENT);
+        graphics2D.setBackground(Renderer.TRANSPARENT);
         graphics2D.clearRect(0,0,size,size);
     }
 

@@ -3,14 +3,15 @@ package perobobbot.puckwar.game;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.common.lang.fp.Function1;
-import perobobbot.overlay.api.OverlayRenderer;
-import perobobbot.overlay.api.VAlignment;
+import perobobbot.rendering.Renderable;
+import perobobbot.rendering.Renderer;
+import perobobbot.rendering.VAlignment;
 
 import java.awt.*;
 import java.util.Collection;
 import java.util.Comparator;
 
-public class HighScoreTable {
+public class HighScoreTable implements Renderable {
 
     public static @NonNull HighScoreTable lowerIsBetter(int tableLength) {
         return new HighScoreTable(tableLength,Score.LOWER_IS_FIRST);
@@ -42,14 +43,15 @@ public class HighScoreTable {
                            .collect(ImmutableList.toImmutableList());
     }
 
-    public void drawWith(@NonNull OverlayRenderer overlayRenderer) {
-        overlayRenderer.withPrivateContext(r -> {
-            overlayRenderer.setFont(FONT);
-            final var lineHeight = overlayRenderer.getTextLineHeight();
+    @Override
+    public void drawWith(@NonNull Renderer renderer) {
+        renderer.withPrivateContext(r -> {
+            renderer.setFont(FONT);
+            final var lineHeight = renderer.getTextLineHeight();
             final ImmutableList<Score> scores = this.scores;
             for (int i = 0; i < scores.size(); i++) {
                 final Score score = scores.get(i);
-                overlayRenderer.drawString(score.getText(), 10,lineHeight*i+10, VAlignment.TOP);
+                renderer.drawString(score.getText(), 10, lineHeight * i + 10, VAlignment.TOP);
             }
         });
     }

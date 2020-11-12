@@ -1,6 +1,6 @@
 package perobobbot.puckwar.game;
 
-import perobobbot.overlay.api.ImageTester;
+import perobobbot.rendering.ImageTester;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;

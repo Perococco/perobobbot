@@ -165,6 +165,11 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-rendering</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-overlay-api</artifactId>
                 <version>${project.version}</version>
             </dependency>

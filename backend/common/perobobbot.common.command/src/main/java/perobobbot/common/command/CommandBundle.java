@@ -7,6 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.common.lang.SubscriptionHolder;
 
+/**
+ * A bundle of command. This class is used
+ * by spring to find commands and add them
+ * to the appropriate message provider
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CommandBundle {
 

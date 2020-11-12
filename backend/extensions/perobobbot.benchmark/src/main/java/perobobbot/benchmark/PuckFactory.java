@@ -3,7 +3,7 @@ package perobobbot.benchmark;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Size;
 
 import java.awt.*;
 import java.util.Random;
@@ -15,7 +15,7 @@ public class PuckFactory {
 
     private final int radius;
 
-    private final @NonNull OverlaySize overlaySize;
+    private final @NonNull Size overlaySize;
 
     private static final Color[] COLORS = {
             Color.ORANGE,

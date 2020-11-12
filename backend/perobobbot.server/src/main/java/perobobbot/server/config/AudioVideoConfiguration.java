@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import perobobbot.common.sound.SoundManager;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Size;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class AudioVideoConfiguration {
 
     public static final int AUDIO_SAMPLING_RATE = 48_000;
 
-    public static final OverlaySize OVERLAY_SIZE = OverlaySize._1600_900;
+    public static final Size OVERLAY_SIZE = Size._1600_900;
     public static final FrameRate OVERLAY_FRAME_RATE = FrameRate.FPS_30
             ;
 

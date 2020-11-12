@@ -41,7 +41,7 @@ public class PeroCommandControllerBuilder implements CommandControllerBuilder {
     public @NonNull CommandController build() {
         final ImmutableMap<Platform, Character> prefixes = Arrays.stream(Platform.values())
                                                                  .collect(ImmutableMap.toImmutableMap(p -> p, this::getPrefix));
-        return new CommandController(prefixes,commandRegistry);
+        return new PeroCommandController(prefixes,commandRegistry);
     }
 
     private char getPrefix(@NonNull Platform platform) {

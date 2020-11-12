@@ -4,8 +4,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.common.lang.fp.UnaryOperator1;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlayRenderer;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Renderable;
+import perobobbot.rendering.Renderer;
+import perobobbot.rendering.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
-public class PuckWarGame {
+public class PuckWarGame implements Renderable {
 
-    public static @NonNull PuckWarGame create(@NonNull OverlaySize overlaySize, int puckSize) {
+    public static @NonNull PuckWarGame create(@NonNull Size overlaySize, int puckSize) {
         final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
 
         final Target target;
@@ -117,10 +118,11 @@ public class PuckWarGame {
     }
 
 
-    public void draw(OverlayRenderer overlayRenderer) {
-        highScoreTable.drawWith(overlayRenderer);
-        target.drawWith(overlayRenderer);
-        pucks.forEach(p -> p.drawWith(overlayRenderer));
+    @Override
+    public void drawWith(@NonNull Renderer renderer) {
+        highScoreTable.drawWith(renderer);
+        target.drawWith(renderer);
+        pucks.forEach(p -> p.drawWith(renderer));
     }
 
     public void dispose() {

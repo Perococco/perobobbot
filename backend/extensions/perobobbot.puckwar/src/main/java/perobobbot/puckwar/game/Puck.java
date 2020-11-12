@@ -5,7 +5,7 @@ import lombok.NonNull;
 import perobobbot.common.lang.User;
 import perobobbot.common.math.MVector2D;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlayRenderer;
+import perobobbot.rendering.Renderer;
 
 import java.awt.*;
 import java.time.Instant;
@@ -64,7 +64,7 @@ public class Puck {
         return this;
     }
 
-    public void drawWith(@NonNull OverlayRenderer renderer) {
+    public void drawWith(@NonNull Renderer renderer) {
         final double xc = position.x();
         final double yc = position.y();
         renderer.translate(xc, yc);

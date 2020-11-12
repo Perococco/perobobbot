@@ -1,7 +1,7 @@
 package perobobbot.puckwar.game;
 
 import lombok.NonNull;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Size;
 
 import java.util.function.Predicate;
 
@@ -10,7 +10,7 @@ public class OutsiderPredicate implements Predicate<Puck> {
     private final int width;
     private final int height;
 
-    public OutsiderPredicate(@NonNull OverlaySize overlaySize) {
+    public OutsiderPredicate(@NonNull Size overlaySize) {
         this.width = overlaySize.getWidth();
         this.height = overlaySize.getHeight();
     }

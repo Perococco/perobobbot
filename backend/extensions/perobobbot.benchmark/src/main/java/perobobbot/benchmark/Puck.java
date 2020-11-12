@@ -6,8 +6,8 @@ import lombok.Setter;
 import perobobbot.common.lang.MathTool;
 import perobobbot.common.math.MVector2D;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlayRenderer;
-import perobobbot.overlay.api.OverlaySize;
+import perobobbot.rendering.Renderer;
+import perobobbot.rendering.Size;
 
 import java.awt.*;
 
@@ -35,7 +35,7 @@ public class Puck {
         return this;
     }
 
-    public Puck wrap(OverlaySize overlaySize) {
+    public Puck wrap(Size overlaySize) {
         final var xm = modulate(this.position.x(),overlaySize.getWidth());
         final var ym = modulate(this.position.y(),overlaySize.getHeight());
         this.position.setX(xm);
@@ -47,7 +47,7 @@ public class Puck {
         return MathTool.mod(p+radius,size+2*radius)-radius;
     }
 
-    public Puck draw(@NonNull OverlayRenderer renderer) {
+    public Puck draw(@NonNull Renderer renderer) {
         final var x = position.x();
         final var y = position.y();
         renderer.translate(x,y);

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
-import perobobbot.overlay.api.OverlayRenderer;
 import perobobbot.puckwar.game.PuckWarGame;
+import perobobbot.rendering.Renderer;
 
 @RequiredArgsConstructor
 public class PuckWarOverlay implements OverlayClient {
@@ -23,11 +23,11 @@ public class PuckWarOverlay implements OverlayClient {
 
     @Override
     public void render(@NonNull OverlayIteration iteration) {
-        final OverlayRenderer renderer = iteration.getOverlayRenderer();
+        final Renderer renderer = iteration.getRenderer();
         final double dt = iteration.getDeltaTime();
 
         puckWarGame.updateGame(dt);
-        puckWarGame.draw(iteration.getOverlayRenderer());
+        puckWarGame.drawWith(iteration.getRenderer());
     }
 
 }

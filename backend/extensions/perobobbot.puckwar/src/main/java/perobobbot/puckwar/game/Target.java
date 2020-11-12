@@ -3,11 +3,12 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.common.math.Vector2D;
-import perobobbot.overlay.api.OverlayRenderer;
+import perobobbot.rendering.Renderable;
+import perobobbot.rendering.Renderer;
 
 import java.awt.image.BufferedImage;
 
-public class Target {
+public class Target implements Renderable {
 
     @Getter
     private final @NonNull Vector2D position;
@@ -26,9 +27,11 @@ public class Target {
         TargetDrawer.draw(image.createGraphics(), size);
     }
 
-    public void drawWith(@NonNull OverlayRenderer overlayRenderer) {
-        overlayRenderer.withPrivateContext(r -> r.translate(offsetX, offsetY)
-                                                 .drawImage(image, 0, 0)
+    @NonNull
+    @Override
+    public void drawWith(@NonNull Renderer renderer) {
+        renderer.withPrivateContext(r -> r.translate(offsetX, offsetY)
+                                          .drawImage(image, 0, 0)
         );
     }
 }
