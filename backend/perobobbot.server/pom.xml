@@ -72,11 +72,11 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-overlay-api</artifactId>
+            <artifactId>perobobbot-access</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-access</artifactId>
+            <artifactId>perobobbot-overlay-api</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
