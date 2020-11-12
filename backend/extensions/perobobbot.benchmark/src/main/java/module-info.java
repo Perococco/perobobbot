@@ -7,7 +7,7 @@ module perobobbot.ext.benchmark {
 
 
     requires perobobbot.lang;
-    requires perobobbot.common.math;
+    requires perobobbot.math;
     requires perobobbot.overlay.api;
     requires com.google.common;
     requires perobobbot.extension;

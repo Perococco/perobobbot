@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-math</artifactId>
+            <artifactId>perobobbot-math</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

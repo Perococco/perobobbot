@@ -3,7 +3,7 @@ package perobobbot.puckwar.game;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.math.Vector2D;
+import perobobbot.math.Vector2D;
 import perobobbot.rendering.Size;
 
 import java.util.Random;

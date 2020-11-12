@@ -1,4 +1,4 @@
-package perobobbot.common.math;
+package perobobbot.math;
 
 public interface Point2D {
 

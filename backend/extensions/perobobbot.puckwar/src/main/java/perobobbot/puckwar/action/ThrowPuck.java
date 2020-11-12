@@ -2,9 +2,9 @@ package perobobbot.puckwar.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.math.Vector2D;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Consumer1;
+import perobobbot.math.Vector2D;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.game.Throw;
 

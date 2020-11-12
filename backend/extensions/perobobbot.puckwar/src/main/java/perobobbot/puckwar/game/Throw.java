@@ -3,9 +3,9 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.math.Vector2D;
 import perobobbot.lang.User;
 import perobobbot.lang.fp.UnaryOperator1;
+import perobobbot.math.Vector2D;
 
 import java.awt.*;
 import java.time.Instant;

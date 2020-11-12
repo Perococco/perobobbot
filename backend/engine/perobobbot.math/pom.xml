@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-common-math</artifactId>
+    <artifactId>perobobbot-math</artifactId>
 
     <name>${root.name} - ${module.name}</name>
 

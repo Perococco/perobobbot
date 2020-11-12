@@ -10,7 +10,7 @@ module perobobbot.ext.puckwar {
     requires perobobbot.extension;
     requires perobobbot.common.command;
     requires perobobbot.access;
-    requires perobobbot.common.math;
+    requires perobobbot.math;
 
     requires com.google.common;
 

@@ -2,8 +2,8 @@ package perobobbot.puckwar.game;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.common.math.Vector2D;
 import perobobbot.lang.fp.UnaryOperator1;
+import perobobbot.math.Vector2D;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;

@@ -1,4 +1,4 @@
-package perobobbot.common.math;
+package perobobbot.math;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
