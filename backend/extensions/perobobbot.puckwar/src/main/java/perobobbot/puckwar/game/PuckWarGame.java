@@ -18,10 +18,16 @@ public class PuckWarGame {
 
     public static @NonNull PuckWarGame create(@NonNull OverlaySize overlaySize, int puckSize) {
         final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
-        final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
-        final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
+
+        final Target target;
+        {
+            final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
+            final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
+            target = new Target(targetPosition,size);
+        }
+
         return new PuckWarGame(puckSize,
-                               new Target(targetPosition, size),
+                                target,
                                initialPosition,
                                v -> v.scale(5),
                                new OutsiderPredicate(overlaySize));
