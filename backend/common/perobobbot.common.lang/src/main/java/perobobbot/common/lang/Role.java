@@ -25,9 +25,6 @@ public enum Role {
         return Holder.ROLE_FROM_HIGHEST_TO_LOWEST;
     }
 
-    @NonNull
-    public static final Comparator<Role> HIGHER_LEVEL_ROLE = Comparator.comparingInt(Role::getLevel).reversed();
-
     public boolean isBetterThan(@NonNull Role other) {
         return other.level < this.level;
     }
@@ -46,13 +43,21 @@ public enum Role {
         return cooldown(Duration.ZERO);
     }
 
+
+
+    @NonNull
+    public static final Comparator<Role> HIGHER_LEVEL_ROLE_COMPARATOR = Comparator.comparingInt(Role::getLevel).reversed();
+
     private static final class Holder {
+
 
         private static final ImmutableSet<Role> ROLES = ImmutableSet.copyOf(values());
         private static final ImmutableList<Role> ROLE_FROM_HIGHEST_TO_LOWEST;
 
         static {
-            ROLE_FROM_HIGHEST_TO_LOWEST = ROLES.stream().sorted(HIGHER_LEVEL_ROLE).collect(ImmutableList.toImmutableList());
+            ROLE_FROM_HIGHEST_TO_LOWEST = ROLES.stream()
+                                               .sorted(HIGHER_LEVEL_ROLE_COMPARATOR)
+                                               .collect(ImmutableList.toImmutableList());
         }
 
     }

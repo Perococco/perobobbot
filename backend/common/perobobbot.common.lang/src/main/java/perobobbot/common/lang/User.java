@@ -33,6 +33,6 @@ public interface User {
     default Optional<Role> findHighestRole(@NonNull ImmutableCollection<Role> roles) {
         return roles.stream()
                     .filter(this::canActAs)
-                    .max(Role.HIGHER_LEVEL_ROLE);
+                    .max(Role.HIGHER_LEVEL_ROLE_COMPARATOR);
     }
 }
