@@ -19,14 +19,6 @@
     </properties>
 
     <modules>
-        <!-- Implementation that is not specific to the bot -->
-        <module>perobobbot.lang</module>
-        <module>perobobbot.math</module>
-        <module>perobobbot.command</module>
-        <module>perobobbot.messaging</module>
-        <module>perobobbot.irc</module>
-        <module>perobobbot.sound</module>
-
         <!-- API and implementation to easily create Chat -->
         <module>perobobbot.chat/perobobbot.chat.core</module>
         <module>perobobbot.chat/perobobbot.chat.advanced</module>
@@ -38,6 +30,14 @@
         <module>perobobbot.data/perobobbot.data.service</module>
         <module>perobobbot.data/perobobbot.data.jpa</module>
         <module>perobobbot.data/perobobbot.data.schema</module>
+
+        <!-- Implementation that is not specific to the bot -->
+        <module>perobobbot.lang</module>
+        <module>perobobbot.math</module>
+        <module>perobobbot.command</module>
+        <module>perobobbot.messaging</module>
+        <module>perobobbot.irc</module>
+        <module>perobobbot.sound</module>
 
         <!-- Module used by extensions -->
         <module>perobobbot.extension</module>
