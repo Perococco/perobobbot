@@ -10,6 +10,7 @@ import perobobbot.rendering.VAlignment;
 import java.awt.*;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Optional;
 
 public class HighScoreTable implements Renderable {
 
@@ -34,6 +35,17 @@ public class HighScoreTable implements Renderable {
         this.scoreComparator = scoreComparator;
     }
 
+    public @NonNull Optional<Score> getBestScore() {
+        final ImmutableList<Score> scores = this.scores;
+        if (scores.isEmpty()) {
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(scores.get(0));
+        }
+    }
+
+
     public <T> void fillTable(@NonNull Collection<T> items,
                               @NonNull Function1<? super T, ? extends Score> scoreExtractor) {
         this.scores = items.stream()
@@ -55,4 +67,5 @@ public class HighScoreTable implements Renderable {
             }
         });
     }
+
 }

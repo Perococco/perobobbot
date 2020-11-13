@@ -16,7 +16,7 @@ public interface Renderer extends AutoCloseable {
 
     Color TRANSPARENT = new Color(0,0,0,0);
 
-    @NonNull Size getOverlaySize();
+    @NonNull Size getDrawingSize();
 
     void dispose();
 

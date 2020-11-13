@@ -6,7 +6,7 @@ import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.puckwar.game.PuckWarGame;
-import perobobbot.rendering.Renderer;
+import perobobbot.puckwar.game.PuckWarRound;
 
 @RequiredArgsConstructor
 public class PuckWarOverlay implements OverlayClient {
@@ -18,7 +18,7 @@ public class PuckWarOverlay implements OverlayClient {
 
     @Override
     public void dispose(@NonNull Overlay overlay) {
-        puckWarGame.dispose();
+        puckWarGame.stop();
     }
 
     @Override

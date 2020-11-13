@@ -23,7 +23,7 @@ public class BenchmarkOverlay implements OverlayClient {
     @Override
     public void render(@NonNull OverlayIteration iteration) {
         final var render = iteration.getRenderer();
-        final var size = render.getOverlaySize();
+        final var size = render.getDrawingSize();
         pucks.forEach(p -> p.update(iteration.getDeltaTime())
                             .wrap(size)
                             .draw(render));

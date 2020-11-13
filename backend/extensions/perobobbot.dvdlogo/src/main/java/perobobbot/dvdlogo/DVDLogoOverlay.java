@@ -52,7 +52,7 @@ public class DVDLogoOverlay implements OverlayClient {
     public void render(@NonNull OverlayIteration iteration) {
         final double dt = iteration.getDeltaTime();
         final var renderer = iteration.getRenderer();
-        final var size = renderer.getOverlaySize();
+        final var size = renderer.getDrawingSize();
         boolean bumped = false;
 
         x = x + iteration.getDeltaTime() * vx;

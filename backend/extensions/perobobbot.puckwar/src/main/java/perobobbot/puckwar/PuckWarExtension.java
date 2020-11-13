@@ -7,7 +7,9 @@ import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.game.PuckWarGame;
+import perobobbot.puckwar.game.PuckWarRound;
 
+import java.time.Duration;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -32,6 +34,12 @@ public class PuckWarExtension extends ExtensionBase {
     }
 
     @Override
+    protected void onEnabled() {
+        super.onEnabled();
+        this.startGame(20);
+    }
+
+    @Override
     protected void onDisabled() {
         super.onDisabled();
         subscriptionHolder.unsubscribe();
@@ -42,13 +50,15 @@ public class PuckWarExtension extends ExtensionBase {
         if (subscriptionHolder.hasSubscription() || !isEnabled()) {
             return;
         }
-        puckWarGame = PuckWarGame.create(overlay.getOverlaySize(), puckSize);
+        puckWarGame = new PuckWarGame(overlay.getOverlaySize(), puckSize, Duration.ofMinutes(1));
+        puckWarGame.start();
         subscriptionHolder.replaceWith(() -> overlay.addClient(new PuckWarOverlay(puckWarGame)));
     }
 
     @Synchronized
     public void stopGame() {
         subscriptionHolder.unsubscribe();
+        puckWarGame.stop();
         puckWarGame = null;
     }
 

@@ -21,7 +21,7 @@ public class RendererUsingGraphics2D implements Renderer {
     private final @NonNull Graphics2D graphics2D;
 
     @Getter
-    private final @NonNull Size overlaySize;
+    private final @NonNull Size drawingSize;
 
     @Override
     public void dispose() {
@@ -43,7 +43,7 @@ public class RendererUsingGraphics2D implements Renderer {
     public @NonNull Renderer clearOverlay() {
         final Color backup = graphics2D.getBackground();
         graphics2D.setBackground(Renderer.TRANSPARENT);
-        graphics2D.clearRect(0,0,overlaySize.getWidth(),overlaySize.getHeight());
+        graphics2D.clearRect(0,0,drawingSize.getWidth(),drawingSize.getHeight());
         graphics2D.setBackground(backup);
         return this;
     }
@@ -68,7 +68,7 @@ public class RendererUsingGraphics2D implements Renderer {
 
     @Override
     public @NonNull Renderer withPrivateContext(Consumer1<? super Renderer> drawer) {
-        try (Renderer r = new RendererUsingGraphics2D((Graphics2D)graphics2D.create(), overlaySize)) {
+        try (Renderer r = new RendererUsingGraphics2D((Graphics2D)graphics2D.create(), drawingSize)) {
             drawer.f(r);
         }
         return this;
