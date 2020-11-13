@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
+<Configuration monitorInterval="30">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout
@@ -37,7 +37,7 @@
 
         <!-- LOG "com.baeldung*" at TRACE level -->
         <Logger name="web" level="warn"/>
-        <Logger name="perobobbot.overlay.api.FPSCounter" level="debug"/>
+        <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>
     </Loggers>
 
 </Configuration>

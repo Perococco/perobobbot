@@ -67,10 +67,10 @@ perobot.ssl.key-alias=perobobbot
 perobot.ssl.key-type=PKCS12
 ----
 
-If this file is in directory `/home/perobobbot/.perobobbot/config/`, then the application
+If this file is in directory `/home/perobobbot/.perobot/config/`, then the application
 must be launched with the option
 
 ----
 #the / at the end is important
--Dspring.config.additional-location=/home/perobobbot/.perobobbot/config/
+-Dspring.config.additional-location=/home/perobobbot/.perobot/config/
 ----

@@ -23,10 +23,7 @@ public class PuckWarOverlay implements OverlayClient {
 
     @Override
     public void render(@NonNull OverlayIteration iteration) {
-        final Renderer renderer = iteration.getRenderer();
-        final double dt = iteration.getDeltaTime();
-
-        puckWarGame.updateGame(dt);
+        puckWarGame.updateGame(iteration.getDeltaTime());
         puckWarGame.drawWith(iteration.getRenderer());
     }
 
