@@ -24,12 +24,12 @@ public class LocalUser implements User {
 
     @Override
     public @NonNull String getUserName() {
-        return "local";
+        return "Perobobbot";
     }
 
     @Override
     public @NonNull String getHighlightedUserName() {
-        return "local";
+        return "perobobbot";
     }
 
     @Override
