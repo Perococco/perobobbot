@@ -9,6 +9,16 @@ import perococco.perobobbot.twitch.chat.PrivMsgFromTwitchListenerWrapper;
 
 public interface PrivMsgFromTwitchListener {
 
+    void onPrivateMessage(@NonNull ReceivedMessage<PrivMsgFromTwitch> message);
+
+    @NonNull
+    default TwitchChatListener toTwitchChatListener() {
+        return new PrivMsgFromTwitchListenerWrapper(this);
+    }
+
+
+
+
     @NonNull
     static <T> PrivMsgFromTwitchListener with(
             @NonNull Function1<? super ReceivedMessage<PrivMsgFromTwitch>, ? extends T> converter,
@@ -17,10 +27,4 @@ public interface PrivMsgFromTwitchListener {
         return listener::f;
     }
 
-    void onPrivateMessage(@NonNull ReceivedMessage<PrivMsgFromTwitch> message);
-
-    @NonNull
-    default TwitchChatListener toTwitchChatListener() {
-        return new PrivMsgFromTwitchListenerWrapper(this);
-    }
 }
