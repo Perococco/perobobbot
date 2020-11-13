@@ -1,0 +1,13 @@
+== Tasks
+
+.Render
+* [ ] investigate lwjgl for the renderer engine
+* [ ] investigate javafx for the renderer engine
+
+
+.Puck War
+* [ ] Introduction concept of round with limited duration
+** [ ] Display countdown to end of round
+** [ ] Show winner at end of a round
+* [ ] Improve highscore table rendering
+* [ ] Display command on top of screen
