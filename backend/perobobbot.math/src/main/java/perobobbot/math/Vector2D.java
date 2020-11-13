@@ -2,49 +2,55 @@ package perobobbot.math;
 
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.Setter;
 
-import java.util.concurrent.atomic.AtomicReference;
+public class Vector2D implements ReadOnlyVector2D {
 
-@Getter
-@RequiredArgsConstructor
-public class Vector2D implements Vector2DInterface<Vector2D> {
-
-    public static @NonNull Vector2D of(double x, double y) {
+    public static @NonNull Vector2D create(double x, double y) {
         return new Vector2D(x,y);
     }
 
-    private final double x;
-    private final double y;
-    private final AtomicReference<Norm> norm = new AtomicReference<>(null);
+    public static Vector2D create() {
+        return new Vector2D(0,0);
+    }
 
-    @Override
-    public @NonNull Vector2D fix() {
+    private Vector2D(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Getter @Setter
+    private double x;
+    @Getter @Setter
+    private double y;
+
+
+    public @NonNull Vector2D setTo(@NonNull ImmutableVector2D source) {
+        this.x = source.x();
+        this.y = source.y();
+        return this;
+    }
+
+    public @NonNull Vector2D addScaled(@NonNull ReadOnlyVector2D readOnlyVector2D, double scale) {
+        this.x += readOnlyVector2D.x()*scale;
+        this.y += readOnlyVector2D.y()*scale;
+        return this;
+    }
+
+    public @NonNull Vector2D scale(double scale) {
+        this.x*=scale;
+        this.y*=scale;
         return this;
     }
 
     @Override
-    public Vector2D normalize() {
-        final var norm = norm();
-        final var result = of(x/norm,y/norm);
-        result.norm.set(Norm.ONE);
-        return result;
-    }
-
-    @Override
-    public @NonNull Vector2D negate() {
-        return of(-x,-y);
-    }
-
-    @Override
-    public @NonNull MVector2D unfix() {
-        return new MVector2D(x, y);
-    }
-
-    @Override
     public double squaredNorm() {
-        return getNorm().squaredNorm;
+        return x*x+y*y;
+    }
+
+    @Override
+    public double norm() {
+        return Math.sqrt(squaredNorm());
     }
 
     @Override
@@ -52,54 +58,13 @@ public class Vector2D implements Vector2DInterface<Vector2D> {
         return Math.abs(x)+Math.abs(y);
     }
 
-    @Override
-    public double norm() {
-        return getNorm().norm;
+    public @NonNull Vector2D nullify() {
+        this.x = 0;
+        this.y = 0;
+        return this;
     }
 
-    private @NonNull Norm getNorm() {
-        return norm.updateAndGet(n -> n == null?new Norm(x,y):n);
-    }
-
-    @Override
-    public @NonNull Vector2D add(double x, double y) {
-        return of(this.x + x,this.y + y);
-    }
-
-    @Override
-    public @NonNull Vector2D subtract(double x, double y) {
-        return of(this.x - x,this.y - y);
-    }
-
-    @Override
-    public @NonNull Vector2D addScaled(double x, double y, double scaled) {
-        return of(this.x + scaled*x, this.y + scaled*y);
-    }
-
-    @Override
-    public @NonNull Vector2D scale(double factor) {
-        return of(x*factor, y*factor);
-    }
-
-    @Value
-    private static class Norm {
-        public static final Norm ONE = new Norm(1, 0);
-
-        double squaredNorm;
-        double norm;
-
-        public Norm(double x, double y) {
-            this.squaredNorm = x*x+y*y;
-            this.norm = Math.sqrt(this.squaredNorm);
-        }
-
-    }
-
-    @Override
-    public String toString() {
-        return "Vector2D{" +
-               "x=" + x +
-               ", y=" + y +
-               '}';
+    public @NonNull Vector2D duplicate() {
+        return new Vector2D(this.x,this.y);
     }
 }

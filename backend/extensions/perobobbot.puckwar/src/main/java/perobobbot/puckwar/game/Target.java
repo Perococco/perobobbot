@@ -2,19 +2,17 @@ package perobobbot.puckwar.game;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.math.Point2D;
-import perobobbot.math.Vector2D;
-import perobobbot.math.Vector2DInterface;
+import perobobbot.math.ImmutableVector2D;
+import perobobbot.math.ReadOnlyVector2D;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Target implements Renderable {
 
     @Getter
-    private final @NonNull Vector2D position;
+    private final @NonNull ImmutableVector2D position;
 
     @Getter
     private final @NonNull BufferedImage image;
@@ -22,7 +20,7 @@ public class Target implements Renderable {
     private final double offsetX;
     private final double offsetY;
 
-    public Target(@NonNull Vector2D position, int size) {
+    public Target(@NonNull ImmutableVector2D position, int size) {
         this.position = position;
         this.offsetX = position.x() - size * 0.5;
         this.offsetY = position.y() - size * 0.5;
@@ -30,8 +28,8 @@ public class Target implements Renderable {
         TargetDrawer.draw(image.createGraphics(), size);
     }
 
-    public boolean isPointInside(@NonNull Vector2DInterface<?> position) {
-        return this.position.distanceTo(position) < image.getWidth()*0.5;
+    public boolean isPointInside(@NonNull ReadOnlyVector2D position) {
+        return this.position.normOfDifference(position) < image.getWidth()*0.5;
     }
 
     @NonNull

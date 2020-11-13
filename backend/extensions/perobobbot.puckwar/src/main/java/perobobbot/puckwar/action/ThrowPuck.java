@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.fp.Function1;
-import perobobbot.math.Vector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.game.Throw;
 
-import java.time.Instant;
 import java.util.Optional;
-import java.util.OptionalDouble;
 
 @RequiredArgsConstructor
 public class ThrowPuck implements Consumer1<ExecutionContext> {
@@ -30,13 +28,13 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
 
         final var thrower = transformUser(executionContext.getMessageOwner());
         if (vx.isPresent() && vy.isPresent()) {
-            final var velocity = Vector2D.of(vx.get(),vy.get());
+            final var velocity = ImmutableVector2D.of(vx.get(),vy.get());
 
             final var throwInstant = executionContext.getReceptionTime();
             final var puckThrow = new Throw(thrower,throwInstant,velocity);
             extension.getCurrentGame().ifPresent(g -> g.addThrow(puckThrow));
         } else if (thrower.getPlatform() == Platform.LOCAL) {
-            extension.getCurrentGame().ifPresent(g -> g.addThrow(new Throw(thrower, executionContext.getReceptionTime(), Vector2D.of(Double.NaN, Double.NaN))));
+            extension.getCurrentGame().ifPresent(g -> g.addThrow(new Throw(thrower, executionContext.getReceptionTime(), ImmutableVector2D.of(Double.NaN, Double.NaN))));
         }
 
     }

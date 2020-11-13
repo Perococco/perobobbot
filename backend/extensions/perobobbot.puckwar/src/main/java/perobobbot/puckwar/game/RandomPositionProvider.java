@@ -1,9 +1,8 @@
 package perobobbot.puckwar.game;
 
-import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.math.Vector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.rendering.Size;
 
 import java.util.Random;
@@ -14,7 +13,7 @@ public class RandomPositionProvider {
     private final @NonNull Random random = new Random();
     private final @NonNull Size overlaySize;
 
-    public @NonNull Vector2D compute(int margin, double xMinimalFraction, double xMaximalFraction) {
+    public @NonNull ImmutableVector2D compute(int margin, double xMinimalFraction, double xMaximalFraction) {
         final double x;
         final double y;
 
@@ -29,7 +28,7 @@ public class RandomPositionProvider {
             y = getRandomPosition(ymin,ymax);
         }
 
-        return Vector2D.of(x,y);
+        return ImmutableVector2D.of(x,y);
     }
 
     private double getRandomPosition(double vmin, double vmax) {

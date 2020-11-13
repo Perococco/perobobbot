@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.math.MVector2D;
-import perobobbot.math.Vector2D;
-import perobobbot.math.Vector2DInterface;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 
@@ -20,7 +18,7 @@ import java.io.UncheckedIOException;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlackHole implements Renderable {
 
-    public static @NonNull BlackHole create(@NonNull Vector2D position) {
+    public static @NonNull BlackHole create(@NonNull ImmutableVector2D position) {
         return new BlackHole(Holder.BLACK_HOLE_IMAGE, position);
     }
 
@@ -29,7 +27,7 @@ public class BlackHole implements Renderable {
     private final BufferedImage image;
 
     @Getter
-    private final @NonNull Vector2D position;
+    private final @NonNull ImmutableVector2D position;
 
     private double angle = 0;
 

@@ -2,7 +2,7 @@ package perobobbot.puckwar.game;
 
 import lombok.NonNull;
 import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.math.Vector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.rendering.*;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ public class PuckWarRound implements Renderable {
                                                @NonNull Instant startingTime,
                                                @NonNull Size overlaySize,
                                                int puckSize) {
-        final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
+        final var initialPosition = ImmutableVector2D.of(0, overlaySize.getHeight() * 0.5);
 
         final var positionProvider = new RandomPositionProvider(overlaySize);
 
@@ -78,12 +78,12 @@ public class PuckWarRound implements Renderable {
     /**
      * The initial position of all pucks
      */
-    private final @NonNull Vector2D initialPosition;
+    private final @NonNull ImmutableVector2D initialPosition;
 
     /**
      * A modifier of the velocity so that the positive velocities are directed to the center of the overlay
      */
-    private final @NonNull UnaryOperator1<Vector2D> velocityModifier;
+    private final @NonNull UnaryOperator1<ImmutableVector2D> velocityModifier;
 
     /**
      * Predicate to test if a puck is outside of the drawing region
@@ -110,8 +110,8 @@ public class PuckWarRound implements Renderable {
                         int puckSize,
                         @NonNull Target target,
                         @NonNull BlackHole blackHole,
-                        @NonNull Vector2D initialPosition,
-                        @NonNull UnaryOperator1<Vector2D> velocityModifier,
+                        @NonNull ImmutableVector2D initialPosition,
+                        @NonNull UnaryOperator1<ImmutableVector2D> velocityModifier,
                         @NonNull Predicate<Puck> isOutsideGameRegion) {
         this.duration = duration;
         this.startingTime = startingTime;
@@ -266,7 +266,7 @@ public class PuckWarRound implements Renderable {
     }
 
     private @NonNull Score createScoreFromPuck(@NonNull Puck puck) {
-        final double distance = target.getPosition().distanceTo(puck.getPosition());
+        final double distance = target.getPosition().normOfDifference(puck.getPosition());
         return new Score(puck.getThrower(), puck.getThrowInstant(), distance);
     }
 

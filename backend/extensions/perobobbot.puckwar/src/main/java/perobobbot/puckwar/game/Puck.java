@@ -3,7 +3,7 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.User;
-import perobobbot.math.MVector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.math.Vector2D;
 import perobobbot.rendering.Renderer;
 
@@ -24,9 +24,9 @@ public class Puck {
     private final @NonNull Instant throwInstant;
 
     @Getter
-    private final MVector2D position = new MVector2D();
+    private final Vector2D position = Vector2D.create();
 
-    private final MVector2D velocity = new MVector2D();
+    private final Vector2D velocity = Vector2D.create();
 
     private @NonNull Color color;
 
@@ -40,8 +40,8 @@ public class Puck {
     public Puck(
             @NonNull User thrower,
             @NonNull Instant throwInstant,
-            @NonNull Vector2D position,
-            @NonNull Vector2D velocity,
+            @NonNull ImmutableVector2D position,
+            @NonNull ImmutableVector2D velocity,
             int puckRadius) {
         this.thrower = thrower;
         this.throwInstant = throwInstant;
@@ -57,7 +57,7 @@ public class Puck {
         }
         this.position.addScaled(velocity, dt);
 
-        final MVector2D forces = computeForces(dt,backHole,target);
+        final Vector2D forces = computeForces(dt,backHole,target);
 
         //v = v*friction
         this.velocity.addScaled(forces,dt);
@@ -68,11 +68,10 @@ public class Puck {
         return this;
     }
 
-    private MVector2D computeForces(double dt, @NonNull BlackHole blackHole, @NonNull Target target) {
+    private @NonNull Vector2D computeForces(double dt, @NonNull BlackHole blackHole, @NonNull Target target) {
         final var friction = Math.exp(-frictionFactor * dt);
 
-        final MVector2D forces = new MVector2D();
-        forces.addScaled(this.velocity, (friction-1)/dt);
+        final Vector2D forces = this.velocity.duplicate().scale((friction-1)/dt);
 
         if (target.isPointInside(position)) {
             return forces;
@@ -80,7 +79,7 @@ public class Puck {
 
         final var vector = blackHole.getPosition().subtract(this.position);
 
-        if (vector.norm()<40) {
+        if (vector.norm()<5) {
             this.dead = true;
             return forces;
         } else {
@@ -106,7 +105,7 @@ public class Puck {
     }
 
     public void clearVelocity() {
-        this.velocity.setX(0,0);
+        this.velocity.nullify();
         this.stopped = true;
     }
 }

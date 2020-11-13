@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import perobobbot.lang.MathTool;
-import perobobbot.math.MVector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.math.Vector2D;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
@@ -17,14 +17,14 @@ public class Puck {
     private int radius;
     @Getter @Setter
     private Color color = Color.RED;
-    private final MVector2D position = MVector2D.of(0,0);
-    private final MVector2D velocity = MVector2D.of(0,0);
+    private final Vector2D position = Vector2D.create();
+    private final Vector2D velocity = Vector2D.create();
 
-    public Puck(@NonNull Vector2D position,@NonNull Vector2D velocity) {
+    public Puck(@NonNull ImmutableVector2D position, @NonNull ImmutableVector2D velocity) {
         this.position.setTo(position);
         this.velocity.setTo(velocity);
     }
-    public Puck(@NonNull Vector2D position,@NonNull Vector2D velocity, @NonNull Color color, int radius) {
+    public Puck(@NonNull ImmutableVector2D position, @NonNull ImmutableVector2D velocity, @NonNull Color color, int radius) {
         this(position,velocity);
         this.color = color;
         this.radius = radius;
@@ -38,8 +38,8 @@ public class Puck {
     public Puck wrap(Size overlaySize) {
         final var xm = modulate(this.position.x(),overlaySize.getWidth());
         final var ym = modulate(this.position.y(),overlaySize.getHeight());
-        this.position.setX(xm);
-        this.position.setY(ym);
+        this.position.x(xm);
+        this.position.y(ym);
         return this;
     }
 

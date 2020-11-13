@@ -10,7 +10,7 @@ public class Rectangle {
     double width;
     double height;
 
-    public boolean contains(Point2D position) {
+    public boolean contains(Vector2D position) {
         final var px = position.x();
         final var py = position.y();
 

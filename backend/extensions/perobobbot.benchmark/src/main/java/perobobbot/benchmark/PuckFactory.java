@@ -2,7 +2,7 @@ package perobobbot.benchmark;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.math.Vector2D;
+import perobobbot.math.ImmutableVector2D;
 import perobobbot.rendering.Size;
 
 import java.awt.*;
@@ -30,8 +30,8 @@ public class PuckFactory {
     public @NonNull Puck create(int puckIndex) {
         final int w = overlaySize.getWidth();
         final int h = overlaySize.getHeight();
-        final Vector2D position = createRandomVector2D(w,h);
-        final Vector2D velocity = createRandomVector2D(w,h).subtract(w/2.,h/2.).scale(0.1);
+        final ImmutableVector2D position = createRandomVector2D(w,h);
+        final ImmutableVector2D velocity = createRandomVector2D(w,h).subtract(w/2.,h/2.).scale(0.1);
         return new Puck(position,velocity,getRandomColor(),radius);
     }
 
@@ -39,7 +39,7 @@ public class PuckFactory {
         return COLORS[random.nextInt(COLORS.length)];
     }
 
-    private @NonNull Vector2D createRandomVector2D(int w, int h) {
-        return Vector2D.of(random.nextInt(w),random.nextInt(h));
+    private @NonNull ImmutableVector2D createRandomVector2D(int w, int h) {
+        return ImmutableVector2D.of(random.nextInt(w),random.nextInt(h));
     }
 }
