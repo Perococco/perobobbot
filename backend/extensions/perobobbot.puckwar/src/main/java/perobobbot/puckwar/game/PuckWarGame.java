@@ -28,10 +28,10 @@ public class PuckWarGame implements Renderable {
         }
 
         return new PuckWarGame(puckSize,
-                               target,
-                               initialPosition,
-                               v -> v.scale(5),
-                               new OutsiderPredicate(overlaySize));
+                target,
+                initialPosition,
+                v -> v.scale(5),
+                new OutsiderPredicate(overlaySize));
     }
 
     /**
@@ -47,12 +47,12 @@ public class PuckWarGame implements Renderable {
     private final @NonNull Vector2D initialPosition;
 
     /**
-     * A modifier of the velocity so that the positive velocity are directed to the center of the overlay
+     * A modifier of the velocity so that the positive velocities are directed to the center of the overlay
      */
     private final @NonNull UnaryOperator1<Vector2D> velocityModifier;
 
     /**
-     * Predicate to test if a puck is outside of the overlay drawing region
+     * Predicate to test if a puck is outside of the drawing region
      */
     private final @NonNull Predicate<Puck> isOutsideGameRegion;
 
@@ -62,7 +62,7 @@ public class PuckWarGame implements Renderable {
     private final @NonNull BlockingDeque<Throw> pendingThrows = new LinkedBlockingDeque<>();
 
     /**
-     * The list of active puck in the game
+     * The list of active pucks in the game
      */
     private final @NonNull List<Puck> pucks = new ArrayList<>(256);
 
@@ -98,14 +98,19 @@ public class PuckWarGame implements Renderable {
     }
 
     private void addPendingThrowToPuckList() {
+        drainPendingThrows()
+                .stream()
+                .map(thrw -> thrw.createPuck(initialPosition, puckSize))
+                .forEach(pucks::add);
+    }
+
+    private @NonNull List<Throw> drainPendingThrows() {
         if (pendingThrows.isEmpty()) {
-            return;
+            return List.of();
         }
         final List<Throw> retrievedPuckThrows = new ArrayList<>(pendingThrows.size() + 10);
         pendingThrows.drainTo(retrievedPuckThrows);
-        retrievedPuckThrows.stream()
-                           .map(thrw -> thrw.createPuck(initialPosition, puckSize))
-                           .forEach(pucks::add);
+        return retrievedPuckThrows;
     }
 
     private void updateHighScoreTable() {
@@ -114,7 +119,7 @@ public class PuckWarGame implements Renderable {
 
     private @NonNull Score createScoreFromPuck(@NonNull Puck puck) {
         final double distance = target.getPosition().distanceTo(puck.getPosition());
-        return new Score(puck.getThrower(),puck.getThrowInstant(),distance);
+        return new Score(puck.getThrower(), puck.getThrowInstant(), distance);
     }
 
 

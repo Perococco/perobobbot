@@ -1,0 +1,8 @@
+== Tasks
+
+.Puck War
+* [ ] Introduction concept of round with limited duration
+** [ ] Display countdown to end of round
+** [ ] Show winner at end of round
+* [ ] Improve highscore table rendering
+* [ ] Display command on top of screen
