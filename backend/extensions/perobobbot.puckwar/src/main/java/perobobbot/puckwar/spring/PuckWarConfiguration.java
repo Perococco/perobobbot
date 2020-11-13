@@ -38,7 +38,7 @@ public class PuckWarConfiguration {
     @Bean(name = PuckWarExtension.EXTENSION_NAME)
     public CommandBundle commandBundle(@NonNull PuckWarExtension puckWarExtension) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
-        final Policy throwPolicy = policyManager.createPolicy(AccessRule.create(Role.STANDARD_USER,
+        final Policy throwPolicy = policyManager.createPolicy(AccessRule.create(Role.ANY_USER,
                                                                                 Duration.ofSeconds(0),
                                                                                 applyTo(Role.THE_BOSS).aCDof(0),
                                                                                 applyTo(Role.ANY_USER).aCDof(10)

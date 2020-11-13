@@ -45,7 +45,7 @@ public class GreeterExtension implements Extension {
 
     @Override
     public boolean isAutoStart() {
-        return true;
+        return false;
     }
 
     @Override

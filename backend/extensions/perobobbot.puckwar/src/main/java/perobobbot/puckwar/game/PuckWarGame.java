@@ -21,27 +21,30 @@ public class PuckWarGame implements Renderable {
 
     private final @NonNull Duration roundDuration;
 
-
     private PuckWarRound currentRound = null;
+
+    private boolean stopAtNextRound = false;
 
 
     @Synchronized
     public void start() {
+        stopAtNextRound = false;
         launchANewRound();
     }
 
     @Synchronized
     public void requestStop() {
-        //end game at the end of next round
+        stopAtNextRound = true;
     }
 
     @Synchronized
     public void stop() {
-        //force end of game even if a round is in progress
+        stopAtNextRound = true;
+        executeWithCurrentRound(PuckWarRound::dispose);
+        currentRound = null;
     }
 
     private void launchANewRound() {
-        assert currentRound == null; //TODO handle end of round (display best score)
         currentRound = PuckWarRound.create(
                 roundDuration,
                 Instant.now(),
@@ -51,7 +54,18 @@ public class PuckWarGame implements Renderable {
     }
 
     public void updateGame(double dt) {
-        executeWithCurrentRound(r -> r.updateRound(dt));
+        final PuckWarRound puckWarRound = this.currentRound;
+        if (puckWarRound == null) {
+            return;
+        }
+        if (puckWarRound.isRoundOver()) {
+            if (!stopAtNextRound) {
+                launchANewRound();
+            }
+        } else {
+            puckWarRound.updateRound(dt);
+        }
+
     }
 
     @Override

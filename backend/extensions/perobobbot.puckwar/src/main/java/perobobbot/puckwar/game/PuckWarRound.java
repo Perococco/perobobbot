@@ -5,6 +5,7 @@ import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.math.Vector2D;
 import perobobbot.rendering.*;
 
+import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -118,16 +119,21 @@ public class PuckWarRound implements Renderable {
 
     @Override
     public void drawWith(@NonNull Renderer renderer) {
-        this.displayRemainingTime(renderer);
         highScoreTable.drawWith(renderer);
         target.drawWith(renderer);
         pucks.forEach(p -> p.drawWith(renderer));
+        if (isRoundOver()) {
+            //TODO display winner
+        } else {
+            this.displayRemainingTime(renderer);
+        }
     }
 
     private void displayRemainingTime(@NonNull Renderer renderer) {
         renderer.withPrivateContext(r -> {
             final Size size = r.getDrawingSize();
             final String remainingTimeText = String.format("End of round in %4.1f sec.",remainingTime);
+            r.setColor(Color.WHITE);
             r.setFontSize(28);
             r.drawString(remainingTimeText,size.getWidth()/2,10, HAlignment.MIDDLE, VAlignment.TOP);
         });
