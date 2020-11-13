@@ -46,7 +46,7 @@ public class PuckWarConfiguration {
         return CommandBundle.builder()
                       .add("pw start", policy, new LaunchGame(puckWarExtension))
                       .add("pw stop", policy, puckWarExtension::stopGame)
-                      .add("pw throw", throwPolicy, new ThrowPuck(puckWarExtension))
+                      .add("throw", throwPolicy, new ThrowPuck(puckWarExtension))
                       .build();
     }
 }
