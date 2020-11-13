@@ -117,10 +117,13 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             this.time += dt;
             this.iterationCount++;
             final ImmutableList<OverlayClient> clients = drawers;
-            try (OverlayIteration iteration = this.createOverlayIteration()) {
+            final OverlayIteration iteration = this.createOverlayIteration();
+            try {
                 iteration.clearOverlay();
                 clients.forEach(d -> renderDrawer(d, iteration));
                 ndiData.copyDataToFreeBuffers(iteration.getIterationCount());
+            } finally {
+                iteration.getRenderer().close();
             }
             return IterationCommand.CONTINUE;
         }

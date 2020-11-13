@@ -3,7 +3,7 @@ package perobobbot.overlay.api;
 import lombok.NonNull;
 import perobobbot.rendering.Renderer;
 
-public interface OverlayIteration extends AutoCloseable {
+public interface OverlayIteration {
 
     /**
      * @return the iteration count
@@ -16,18 +16,19 @@ public interface OverlayIteration extends AutoCloseable {
     double getTime();
 
     /**
-     * @return the time since ne previous iteration
+     * @return the time since the previous iteration
      */
     double getDeltaTime();
 
+    /**
+     * @return the renderer to use to draw on the overlay
+     */
     @NonNull Renderer getRenderer();
 
+    /**
+     * @return the sound context that can be used to play sound on the overlay
+     */
     @NonNull SoundContext getSoundContext();
-
-    @Override
-    default void close() {
-        getRenderer().dispose();
-    }
 
     default void clearOverlay() {
         getRenderer().clearOverlay();
