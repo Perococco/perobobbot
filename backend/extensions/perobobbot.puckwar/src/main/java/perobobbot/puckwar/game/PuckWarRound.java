@@ -28,11 +28,19 @@ public class PuckWarRound implements Renderable {
                                                int puckSize) {
         final var initialPosition = Vector2D.of(0, overlaySize.getHeight() * 0.5);
 
+        final var positionProvider = new RandomPositionProvider(overlaySize);
+
         final Target target;
         {
             final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
-            final var targetPosition = TargetPositionComputer.compute(overlaySize, initialPosition, size);
+            final var targetPosition = positionProvider.compute(size, 0.66, 1.0);
             target = new Target(targetPosition, size);
+        }
+        final BlackHole blackHole;
+        {
+            final int size = BlackHole.getImageSize();
+            final var blackHolePosition = positionProvider.compute(size,0.25,0.5);
+            blackHole = BlackHole.create(blackHolePosition);
         }
 
         return new PuckWarRound(
@@ -40,6 +48,7 @@ public class PuckWarRound implements Renderable {
                 startingTime,
                 puckSize,
                 target,
+                blackHole,
                 initialPosition,
                 v -> v.scale(5),
                 new OutsiderPredicate(overlaySize));
@@ -61,6 +70,10 @@ public class PuckWarRound implements Renderable {
     private final int puckSize;
 
     private final @NonNull Target target;
+
+
+    private final @NonNull BlackHole blackHole;
+
 
     /**
      * The initial position of all pucks
@@ -96,6 +109,7 @@ public class PuckWarRound implements Renderable {
                         @NonNull Instant startingTime,
                         int puckSize,
                         @NonNull Target target,
+                        @NonNull BlackHole blackHole,
                         @NonNull Vector2D initialPosition,
                         @NonNull UnaryOperator1<Vector2D> velocityModifier,
                         @NonNull Predicate<Puck> isOutsideGameRegion) {
@@ -103,6 +117,7 @@ public class PuckWarRound implements Renderable {
         this.startingTime = startingTime;
         this.puckSize = puckSize;
         this.target = target;
+        this.blackHole = blackHole;
         this.initialPosition = initialPosition;
         this.velocityModifier = velocityModifier;
         this.isOutsideGameRegion = isOutsideGameRegion;
@@ -125,6 +140,7 @@ public class PuckWarRound implements Renderable {
     @Override
     public void drawWith(@NonNull Renderer renderer) {
         this.drawTarget(renderer);
+        this.drawBlackHole(renderer);
         this.drawPucks(renderer);
         this.drawHighScoreTable(renderer);
         if (isGamePhaseIsOver()) {
@@ -142,6 +158,11 @@ public class PuckWarRound implements Renderable {
     private void drawTarget(@NonNull Renderer renderer) {
         target.drawWith(renderer);
     }
+
+    private void drawBlackHole(@NonNull Renderer renderer) {
+        blackHole.drawWith(renderer);
+    }
+
 
     private void drawPucks(@NonNull Renderer renderer) {
         pucks.forEach(p -> p.drawWith(renderer));

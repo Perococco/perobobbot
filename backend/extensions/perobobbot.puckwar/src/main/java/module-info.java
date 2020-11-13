@@ -12,6 +12,8 @@ module perobobbot.ext.puckwar {
     requires perobobbot.access;
     requires perobobbot.math;
 
+
+    requires org.apache.logging.log4j;
     requires com.google.common;
 
     requires spring.context;
