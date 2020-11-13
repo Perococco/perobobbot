@@ -40,15 +40,6 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
     }
 
     private @NonNull User transformUser(@NonNull User user) {
-        if (user.getPlatform() != Platform.LOCAL) {
-            return user;
-        }
-        final String newName = "local" + RandomString.generate(8);
-        return new ProxyUser(user) {
-            @Override
-            public @NonNull String getUserName() {
-                return newName;
-            }
-        };
+        return user;
     }
 }
