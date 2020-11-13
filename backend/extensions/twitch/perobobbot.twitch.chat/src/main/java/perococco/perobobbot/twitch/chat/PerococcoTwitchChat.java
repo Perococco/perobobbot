@@ -63,7 +63,7 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
 
     @Override
     @Synchronized
-    public @NonNull CompletionStage<TwitchChatIO> start() {
+    public @NonNull CompletionStage<TwitchChat> start() {
         try {
             connectionIdentity.setToConnecting(chatManager.addChatListener(this));
             chatManager.start();

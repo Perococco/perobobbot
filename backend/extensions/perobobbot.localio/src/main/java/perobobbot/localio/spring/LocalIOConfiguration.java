@@ -9,6 +9,7 @@ import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.command.CommandBundle;
 import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.PlatformIO;
 import perobobbot.lang.Role;
 import perobobbot.localio.Local;
 import perobobbot.localio.LocalIO;

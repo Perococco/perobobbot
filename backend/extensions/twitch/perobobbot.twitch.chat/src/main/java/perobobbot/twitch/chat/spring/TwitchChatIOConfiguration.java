@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import perobobbot.lang.PlatformIO;
 import perobobbot.lang.Secret;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChat;
@@ -28,15 +29,11 @@ public class TwitchChatIOConfiguration {
     @Value("${perobot.io.twitch.keyfile}")
     private final String keyPath;
 
-    @Bean
-    public TwitchChatIO twitchChatIO(@NonNull TwitchChat twitchChat) throws Exception {
-        return twitchChat.startAndWait();
-    }
-
     @Bean(destroyMethod = "requestStop")
-    public @NonNull TwitchChat createTwitchChat() throws IOException {
+    public TwitchChat twitchChatIO() throws Exception {
         final TwitchChatOptions options = createTwitchChatOptions();
-        return TwitchChat.create(options);
+        TwitchChat twitchChat = TwitchChat.create(options);
+        return twitchChat.startAndWait();
     }
 
     private @NonNull TwitchChatOptions createTwitchChatOptions() throws IOException {

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import perobobbot.lang.fp.Function1;
 
 import java.awt.*;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class CastTool {
     private static final Marker CAST_MARKER = MarkerManager.getMarker("CAST_ERROR");
 
     @NonNull
-    public static <A> Function<Object,Optional<A>> caster(@NonNull Class<A> type) {
+    public static <A> Function1<Object,Optional<A>> caster(@NonNull Class<A> type) {
         return o -> cast(type,o);
     }
 

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.fp.Function1;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author perococco
@@ -45,5 +46,10 @@ public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
     @NonNull
     public <S> ImmutableEntry<K,S> map(@NonNull Function1<? super V,? extends S> mapper) {
         return ImmutableEntry.of(key,mapper.apply(value));
+    }
+
+    @NonNull
+    public <S> Optional<ImmutableEntry<K,S>> flatMap(@NonNull Function1<? super V,? extends Optional<? extends S>> mapper) {
+        return mapper.apply(value).map(v -> of(key,v));
     }
 }
