@@ -17,6 +17,9 @@ import java.util.function.Predicate;
 
 public class PuckWarRound implements Renderable {
 
+    public static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 92);
+    public static final int BACKGROUND_MARGIN = 20;
+
     public static final double WINNER_DISPLAY_DURATION_IN_SEC = 10;
 
     public static @NonNull PuckWarRound create(@NonNull Duration duration,
@@ -147,9 +150,14 @@ public class PuckWarRound implements Renderable {
     private void drawWinner(@NonNull Renderer renderer, @NonNull Score score) {
         final Size size = renderer.getDrawingSize();
         renderer.withPrivateContext(r -> {
-            r.setFontSize(48);
-            r.setColor(Color.WHITE);
-            r.drawString(Messager.formWinnerMessage(score), size.getWidth()/2, size.getHeight()/2,HAlignment.MIDDLE, VAlignment.MIDDLE);
+            r.blockBuilder()
+             .setBackgroundColor(BACKGROUND_COLOR)
+             .setBackgroundMargin(BACKGROUND_MARGIN)
+             .setFontSize(48)
+             .setColor(Color.WHITE)
+             .addString(Messager.formWinnerMessage(score),HAlignment.MIDDLE)
+             .build()
+             .draw(size.getWidth()/2, size.getHeight()/2,HAlignment.MIDDLE, VAlignment.MIDDLE);
         });
     }
 

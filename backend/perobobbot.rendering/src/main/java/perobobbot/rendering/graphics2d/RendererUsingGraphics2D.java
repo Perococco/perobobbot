@@ -1,13 +1,11 @@
 package perobobbot.rendering.graphics2d;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.fp.Consumer1;
-import perobobbot.rendering.HAlignment;
-import perobobbot.rendering.Renderer;
-import perobobbot.rendering.Size;
-import perobobbot.rendering.VAlignment;
+import perobobbot.rendering.*;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -18,6 +16,7 @@ import java.awt.image.BufferedImage;
 @RequiredArgsConstructor
 public class RendererUsingGraphics2D implements Renderer {
 
+    @Getter(AccessLevel.PACKAGE)
     private final @NonNull Graphics2D graphics2D;
 
     @Getter
@@ -117,6 +116,21 @@ public class RendererUsingGraphics2D implements Renderer {
     @Override
     public Rectangle2D getMaxCharBounds() {
         return graphics2D.getFontMetrics().getMaxCharBounds(graphics2D);
+    }
+
+    @Override
+    public float getFontSize() {
+        return graphics2D.getFont().getSize2D();
+    }
+
+    @Override
+    public @NonNull Color getColor() {
+        return graphics2D.getColor();
+    }
+
+    @Override
+    public @NonNull BlockBuilder blockBuilder() {
+        return new Graphics2DBlockBuilder(this.graphics2D);
     }
 
     @Override

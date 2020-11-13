@@ -5,6 +5,7 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.rendering.graphics2d.RendererUsingGraphics2D;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -40,6 +41,10 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Renderer fillRect(int x, int y, int width, int height);
 
+    default @NonNull Renderer fillRect(int x, int y, Size size) {
+        return fillRect(x,y,size.getWidth(),size.getHeight());
+    }
+
     @NonNull Renderer drawString(@NonNull String string, double x, double y, @NonNull HAlignment hAlignment, @NonNull VAlignment vAlignment);
 
     @NonNull Renderer setFontSize(float fontSize);
@@ -50,6 +55,15 @@ public interface Renderer extends AutoCloseable {
 
     double getTextLineHeight();
 
+    @NonNull BlockBuilder blockBuilder();
+
+    /**
+     * Returns the bounds for the character with the maximum bounds
+     * in the specified {@code Graphics} context.
+     * @return a {@code Rectangle2D} that is the
+     * bounding box for the character with the maximum bounds.
+     * @see java.awt.Font#getMaxCharBounds(FontRenderContext)
+     */
     @NonNull Rectangle2D getMaxCharBounds();
 
     default @NonNull Renderer drawString(@NonNull String string, @NonNull double x, @NonNull double y) {
@@ -65,5 +79,9 @@ public interface Renderer extends AutoCloseable {
         dispose();
     }
 
+
+    float getFontSize();
+
+    @NonNull Color getColor();
 
 }

@@ -1,6 +1,7 @@
 package perobobbot.rendering;
 
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
@@ -21,10 +22,16 @@ public class Size {
     public static final Size _1920_1080 = new Size(1920,1080);
     public static final Size _1600_900 = new Size(1600,900);
 
+    public static final Size _0_0 = new Size(0,0);
+
     int width;
     int height;
 
     public int numberOfPixels() {
         return width*height;
+    }
+
+    public @NonNull Size addMargin(int margin) {
+        return with(width+margin,height+margin);
     }
 }

@@ -3,9 +3,7 @@ package perobobbot.puckwar.game;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.lang.fp.Function1;
-import perobobbot.rendering.Renderable;
-import perobobbot.rendering.Renderer;
-import perobobbot.rendering.VAlignment;
+import perobobbot.rendering.*;
 
 import java.awt.*;
 import java.util.Collection;
@@ -14,12 +12,15 @@ import java.util.Optional;
 
 public class HighScoreTable implements Renderable {
 
+    public static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 92);
+    public static final int BACKGROUND_MARGIN = 20;
+
     public static @NonNull HighScoreTable lowerIsBetter(int tableLength) {
-        return new HighScoreTable(tableLength,Score.LOWER_IS_FIRST);
+        return new HighScoreTable(tableLength, Score.LOWER_IS_FIRST);
     }
 
     public static @NonNull HighScoreTable higherIsBetter(int tableLength) {
-        return new HighScoreTable(tableLength,Score.HIGHER_IS_FIRST);
+        return new HighScoreTable(tableLength, Score.HIGHER_IS_FIRST);
     }
 
     private final static Font FONT = new Font("Monospaced", Font.PLAIN, 36);
@@ -39,8 +40,7 @@ public class HighScoreTable implements Renderable {
         final ImmutableList<Score> scores = this.scores;
         if (scores.isEmpty()) {
             return Optional.empty();
-        }
-        else {
+        } else {
             return Optional.of(scores.get(0));
         }
     }
@@ -57,15 +57,22 @@ public class HighScoreTable implements Renderable {
 
     @Override
     public void drawWith(@NonNull Renderer renderer) {
+
+
         renderer.withPrivateContext(r -> {
-            renderer.setFont(FONT);
-            renderer.setColor(Color.WHITE);
-            final var lineHeight = renderer.getTextLineHeight();
-            final ImmutableList<Score> scores = this.scores;
-            for (int i = 0; i < scores.size(); i++) {
-                final Score score = scores.get(i);
-                renderer.drawString(score.getScoreText(), 10, lineHeight * i + 10, VAlignment.TOP);
-            }
+            final BlockBuilder blockBuilder = r.blockBuilder()
+                                               .setBackgroundColor(BACKGROUND_COLOR)
+                                               .setBackgroundMargin(BACKGROUND_MARGIN)
+                                               .setFont(FONT)
+                                               .setColor(Color.WHITE)
+                                               .addString("Scores", HAlignment.MIDDLE)
+                                               .addSeparator();
+            this.scores.stream()
+                       .map(Score::getScoreText)
+                       .forEach(t -> blockBuilder.addString(t,HAlignment.LEFT));
+
+            final Block block = blockBuilder.build();
+            block.draw();
         });
     }
 
