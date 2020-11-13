@@ -33,13 +33,13 @@ public class PuckWarRound implements Renderable {
         final Target target;
         {
             final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
-            final var targetPosition = positionProvider.compute(size, 0.66, 1.0);
+            final var targetPosition = positionProvider.compute(size/2, 0.66, 1.0);
             target = new Target(targetPosition, size);
         }
         final BlackHole blackHole;
         {
             final int size = BlackHole.getImageSize();
-            final var blackHolePosition = positionProvider.compute(size,0.25,0.5);
+            final var blackHolePosition = positionProvider.compute(size/2,0.25,0.5);
             blackHole = BlackHole.create(blackHolePosition);
         }
 
@@ -210,6 +210,7 @@ public class PuckWarRound implements Renderable {
      */
     public void updateRound(double dt) {
         this.updateRemainingTime(dt);
+        this.blackHole.update(dt);
         if (isGamePhaseIsOver()) {
             return;
         }
@@ -228,7 +229,7 @@ public class PuckWarRound implements Renderable {
     }
 
     private void updatePuckPositions(double dt) {
-        this.pucks.forEach(p -> p.update(dt));
+        this.pucks.forEach(p -> p.update(dt,blackHole,target));
     }
 
     private void removeOutsiders() {
@@ -239,7 +240,16 @@ public class PuckWarRound implements Renderable {
         drainPendingThrows()
                 .stream()
                 .map(thrw -> thrw.createPuck(initialPosition, puckSize))
+                .map(this::prepareCheatingPuck)
                 .forEach(pucks::add);
+    }
+
+    private @NonNull Puck prepareCheatingPuck(@NonNull Puck puck) {
+        if (puck.isACheater()) {
+            puck.getPosition().setTo(target.getPosition());
+            puck.clearVelocity();
+        }
+        return puck;
     }
 
     private @NonNull List<Throw> drainPendingThrows() {

@@ -2,10 +2,13 @@ package perobobbot.puckwar.game;
 
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.math.Point2D;
 import perobobbot.math.Vector2D;
+import perobobbot.math.Vector2DInterface;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Target implements Renderable {
@@ -25,6 +28,10 @@ public class Target implements Renderable {
         this.offsetY = position.y() - size * 0.5;
         this.image = new BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR);
         TargetDrawer.draw(image.createGraphics(), size);
+    }
+
+    public boolean isPointInside(@NonNull Vector2DInterface<?> position) {
+        return this.position.distanceTo(position) < image.getWidth()*0.5;
     }
 
     @NonNull

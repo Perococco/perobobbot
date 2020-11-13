@@ -134,6 +134,16 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public void rotate(double angle) {
+        graphics2D.rotate(angle);
+    }
+
+    @Override
+    public void rotate(double angle, double xc, double yc) {
+        graphics2D.rotate(angle,xc,yc);
+    }
+
+    @Override
     public @NonNull Renderer drawString(
             @NonNull String string,
             @NonNull double x,

@@ -84,4 +84,7 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Color getColor();
 
+    void rotate(double angle);
+
+    void rotate(double angle, double xc, double yc);
 }

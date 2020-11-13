@@ -35,6 +35,8 @@ public class Puck {
 
     private boolean stopped;
 
+    private boolean dead = false;
+
     public Puck(
             @NonNull User thrower,
             @NonNull Instant throwInstant,
@@ -47,22 +49,48 @@ public class Puck {
         this.position.setTo(position);
         this.velocity.setTo(velocity);
         this.radius = puckRadius;
-        this.color = color;
     }
 
-    public @NonNull Puck update(double dt) {
-        if (stopped) {
+    public @NonNull Puck update(double dt, @NonNull BlackHole backHole, @NonNull Target target) {
+        if (stopped || dead) {
             return this;
         }
-        final double factor = Math.exp(-frictionFactor * dt);
         this.position.addScaled(velocity, dt);
-        this.velocity.scale(factor);
+
+        final MVector2D forces = computeForces(dt,backHole,target);
+
+        //v = v*friction
+        this.velocity.addScaled(forces,dt);
         if (this.velocity.manhattanNorm() < SPEED_THRESHOLD) {
             stopped = true;
             this.velocity.nullify();
         }
         return this;
     }
+
+    private MVector2D computeForces(double dt, @NonNull BlackHole blackHole, @NonNull Target target) {
+        final var friction = Math.exp(-frictionFactor * dt);
+
+        final MVector2D forces = new MVector2D();
+        forces.addScaled(this.velocity, (friction-1)/dt);
+
+        if (target.isPointInside(position)) {
+            return forces;
+        }
+
+        final var vector = blackHole.getPosition().subtract(this.position);
+
+        if (vector.norm()<40) {
+            this.dead = true;
+            return forces;
+        } else {
+            // GMm/r^2
+            forces.addScaled(vector.normalize(),5e6/vector.squaredNorm());
+        }
+
+        return forces;
+    }
+
 
     public void drawWith(@NonNull Renderer renderer) {
         final double xc = position.x();
@@ -73,4 +101,12 @@ public class Puck {
         renderer.translate(-xc, -yc);
     }
 
+    public boolean isACheater() {
+        return Double.isNaN(velocity.x());
+    }
+
+    public void clearVelocity() {
+        this.velocity.setX(0,0);
+        this.stopped = true;
+    }
 }
