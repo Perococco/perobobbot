@@ -6,6 +6,7 @@ import lombok.Synchronized;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.puckwar.game.GameOptions;
 import perobobbot.puckwar.game.PuckWarGame;
 import perobobbot.puckwar.game.PuckWarRound;
 
@@ -36,7 +37,7 @@ public class PuckWarExtension extends ExtensionBase {
     @Override
     protected void onEnabled() {
         super.onEnabled();
-        this.startGame(20);
+        this.startGame(new GameOptions(20,Duration.ofMinutes(1)));
     }
 
     @Override
@@ -46,11 +47,11 @@ public class PuckWarExtension extends ExtensionBase {
     }
 
     @Synchronized
-    public void startGame(int puckSize) {
+    public void startGame(@NonNull GameOptions gameOptions) {
         if (subscriptionHolder.hasSubscription() || !isEnabled()) {
             return;
         }
-        puckWarGame = new PuckWarGame(overlay.getOverlaySize(), puckSize, Duration.ofMinutes(1));
+        puckWarGame = new PuckWarGame(overlay.getOverlaySize(), gameOptions);
         puckWarGame.start();
         subscriptionHolder.replaceWith(() -> overlay.addClient(new PuckWarOverlay(puckWarGame)));
     }

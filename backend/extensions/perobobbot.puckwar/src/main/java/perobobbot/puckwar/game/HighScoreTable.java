@@ -59,11 +59,12 @@ public class HighScoreTable implements Renderable {
     public void drawWith(@NonNull Renderer renderer) {
         renderer.withPrivateContext(r -> {
             renderer.setFont(FONT);
+            renderer.setColor(Color.WHITE);
             final var lineHeight = renderer.getTextLineHeight();
             final ImmutableList<Score> scores = this.scores;
             for (int i = 0; i < scores.size(); i++) {
                 final Score score = scores.get(i);
-                renderer.drawString(score.getText(), 10, lineHeight * i + 10, VAlignment.TOP);
+                renderer.drawString(score.getScoreText(), 10, lineHeight * i + 10, VAlignment.TOP);
             }
         });
     }

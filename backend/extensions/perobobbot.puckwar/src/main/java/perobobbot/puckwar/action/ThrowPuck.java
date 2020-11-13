@@ -8,6 +8,7 @@ import perobobbot.math.Vector2D;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.game.Throw;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 @RequiredArgsConstructor
@@ -25,11 +26,11 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
         if (tokens.length != 2) {
             return;
         }
-        final OptionalDouble vx = CastTool.castToDouble(tokens[0]);
-        final OptionalDouble vy = CastTool.castToDouble(tokens[1]);
+        final Optional<Double> vx = CastTool.castToDouble(tokens[0]);
+        final Optional<Double> vy = CastTool.castToDouble(tokens[1]);
 
         if (vx.isPresent() && vy.isPresent()) {
-            final var velocity = Vector2D.of(vx.getAsDouble(),vy.getAsDouble());
+            final var velocity = Vector2D.of(vx.get(),vy.get());
             final var thrower = transformUser(executionContext.getMessageOwner());
 
             final var throwInstant = executionContext.getReceptionTime();

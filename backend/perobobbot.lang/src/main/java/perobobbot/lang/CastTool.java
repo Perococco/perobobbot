@@ -49,13 +49,8 @@ public class CastTool {
      * @return an optional contain the conversion result, an empty optional if the conversion could not be done
      */
     @NonNull
-    public static OptionalInt castToInt(@NonNull String string) {
-        try {
-            return OptionalInt.of(Integer.parseInt(string));
-        } catch (NumberFormatException nfe) {
-            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into int",string));
-            return OptionalInt.empty();
-        }
+    public static Optional<Integer> castToInt(@NonNull String string) {
+        return castToNumber(string,Integer::parseInt);
     }
 
     public static int castToInt(@NonNull String string, int defaultValue) {
@@ -63,13 +58,8 @@ public class CastTool {
     }
 
     @NonNull
-    public static OptionalDouble castToDouble(@NonNull String string) {
-        try {
-            return OptionalDouble.of(Double.parseDouble(string));
-        } catch (NumberFormatException nfe) {
-            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into double",string));
-            return OptionalDouble.empty();
-        }
+    public static Optional<Double> castToDouble(@NonNull String string) {
+        return castToNumber(string,Double::parseDouble);
     }
 
     public static double castToDouble(@NonNull String string, double defaultValue) {
@@ -77,7 +67,26 @@ public class CastTool {
     }
 
     @NonNull
+    public static Optional<Long> castToLong(@NonNull String string) {
+        return castToNumber(string,Long::parseLong);
+    }
+
+    public static double castToLong(@NonNull String string, long defaultValue) {
+        return castToLong(string).orElse(defaultValue);
+    }
+
+    @NonNull
     public static <T,R> Optional<R> castAndCall(@NonNull Object object, @NonNull Class<T> type, @NonNull Function<? super T, ? extends Optional<R>> mapper) {
         return cast(type,object).flatMap(mapper);
     }
+
+    private static <N extends Number> Optional<N> castToNumber(@NonNull String string, @NonNull Function1<? super String, ? extends N> caster) {
+        try {
+            return Optional.of(caster.apply(string));
+        } catch (NumberFormatException nfe) {
+            LOG.warn(CAST_MARKER,() -> String.format("Fail to cast '%s' into number",string));
+            return Optional.empty();
+        }
+    }
+
 }

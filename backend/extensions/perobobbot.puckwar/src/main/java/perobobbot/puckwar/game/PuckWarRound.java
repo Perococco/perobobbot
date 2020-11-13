@@ -17,6 +17,8 @@ import java.util.function.Predicate;
 
 public class PuckWarRound implements Renderable {
 
+    public static final double WINNER_DISPLAY_DURATION_IN_SEC = 10;
+
     public static @NonNull PuckWarRound create(@NonNull Duration duration,
                                                @NonNull Instant startingTime,
                                                @NonNull Size overlaySize,
@@ -119,23 +121,46 @@ public class PuckWarRound implements Renderable {
 
     @Override
     public void drawWith(@NonNull Renderer renderer) {
-        highScoreTable.drawWith(renderer);
-        target.drawWith(renderer);
-        pucks.forEach(p -> p.drawWith(renderer));
-        if (isRoundOver()) {
-            //TODO display winner
+        this.drawTarget(renderer);
+        this.drawPucks(renderer);
+        this.drawHighScoreTable(renderer);
+        if (isGamePhaseIsOver()) {
+            highScoreTable.getBestScore()
+                          .ifPresent(score -> this.drawWinner(renderer, score));
         } else {
-            this.displayRemainingTime(renderer);
+            this.drawRemainingTime(renderer);
         }
     }
 
-    private void displayRemainingTime(@NonNull Renderer renderer) {
+    private void drawHighScoreTable(@NonNull Renderer renderer) {
+        highScoreTable.drawWith(renderer);
+    }
+
+    private void drawTarget(@NonNull Renderer renderer) {
+        target.drawWith(renderer);
+    }
+
+    private void drawPucks(@NonNull Renderer renderer) {
+        pucks.forEach(p -> p.drawWith(renderer));
+    }
+
+    private void drawWinner(@NonNull Renderer renderer, @NonNull Score score) {
+        final Size size = renderer.getDrawingSize();
+        renderer.withPrivateContext(r -> {
+            r.setFontSize(48);
+            r.setColor(Color.WHITE);
+            r.drawString(Messager.formWinnerMessage(score), size.getWidth()/2, size.getHeight()/2,HAlignment.MIDDLE, VAlignment.MIDDLE);
+        });
+    }
+
+
+    private void drawRemainingTime(@NonNull Renderer renderer) {
         renderer.withPrivateContext(r -> {
             final Size size = r.getDrawingSize();
-            final String remainingTimeText = String.format("End of round in %4.1f sec.",remainingTime);
+            final String remainingTimeText = Messager.formRemainingTimeMessage(remainingTime);
             r.setColor(Color.WHITE);
             r.setFontSize(28);
-            r.drawString(remainingTimeText,size.getWidth()/2,10, HAlignment.MIDDLE, VAlignment.TOP);
+            r.drawString(remainingTimeText, size.getWidth()*0.5, 10, HAlignment.MIDDLE, VAlignment.TOP);
         });
     }
 
@@ -144,30 +169,34 @@ public class PuckWarRound implements Renderable {
         pendingThrows.clear();
     }
 
+    public boolean isRoundOver() {
+        return (remainingTime + WINNER_DISPLAY_DURATION_IN_SEC) <= 0;
+    }
+
+
     /**
      * Update the position of the pucks in the game
      *
      * @param dt the delta in time since the last update
      */
     public void updateRound(double dt) {
-        if (isRoundOver()) {
+        this.updateRemainingTime(dt);
+        if (isGamePhaseIsOver()) {
             return;
         }
-        this.updateRemainingTime(dt);
         this.updatePuckPositions(dt);
         this.removeOutsiders();
         this.addPendingThrowToPuckList();
         this.updateHighScoreTable();
     }
 
-    public boolean isRoundOver() {
-        return remainingTime<=0;
+    public boolean isGamePhaseIsOver() {
+        return remainingTime <= 0;
     }
 
     private void updateRemainingTime(double dt) {
         this.remainingTime -= dt;
     }
-
 
     private void updatePuckPositions(double dt) {
         this.pucks.forEach(p -> p.update(dt));
@@ -201,7 +230,6 @@ public class PuckWarRound implements Renderable {
         final double distance = target.getPosition().distanceTo(puck.getPosition());
         return new Score(puck.getThrower(), puck.getThrowInstant(), distance);
     }
-
 
 
 }

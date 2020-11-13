@@ -1,5 +1,9 @@
 == Tasks
 
+.Command
+* [ ] Improve the parsing of the command parameters
+* [ ] Handle multiple commands with same name
+
 .Greeter
 * [ ] Remove bot from user to greet (WizeBot)
 

@@ -8,7 +8,6 @@ import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -17,14 +16,11 @@ public class PuckWarGame implements Renderable {
 
     private final @NonNull Size overlaySize;
 
-    private final int puckSize;
-
-    private final @NonNull Duration roundDuration;
+    private final @NonNull GameOptions gameOptions;
 
     private PuckWarRound currentRound = null;
 
     private boolean stopAtNextRound = false;
-
 
     @Synchronized
     public void start() {
@@ -46,10 +42,10 @@ public class PuckWarGame implements Renderable {
 
     private void launchANewRound() {
         currentRound = PuckWarRound.create(
-                roundDuration,
+                gameOptions.getRoundDuration(),
                 Instant.now(),
                 overlaySize,
-                puckSize
+                gameOptions.getPuckSize()
         );
     }
 

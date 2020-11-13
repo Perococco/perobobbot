@@ -39,8 +39,12 @@ public class Score {
         return String.format("%-10s : %6.1f", EllipsedString.create(user.getUserName(),10),score);
     }
 
-    public @NonNull String getText() {
+    public @NonNull String getScoreText() {
         return lazyText.get();
+    }
+
+    public @NonNull String getUserName() {
+        return user.getUserName();
     }
 
 }
