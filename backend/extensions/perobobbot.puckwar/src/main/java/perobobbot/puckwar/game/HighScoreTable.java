@@ -65,7 +65,7 @@ public class HighScoreTable implements Renderable {
                                                .setBackgroundMargin(BACKGROUND_MARGIN)
                                                .setFont(FONT)
                                                .setColor(Color.WHITE)
-                                               .addString("Scores", HAlignment.MIDDLE)
+                                               .addString(Messager.getHighScoreTableTitle(), HAlignment.MIDDLE)
                                                .addSeparator();
             this.scores.stream()
                        .map(Score::getScoreText)

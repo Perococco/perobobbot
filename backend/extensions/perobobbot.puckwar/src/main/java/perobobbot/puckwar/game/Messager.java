@@ -11,4 +11,8 @@ public class Messager {
     public static @NonNull String formWinnerMessage(@NonNull Score score) {
         return String.format("%s wins with %.1f!",score.getUserName(),score.getScore());
     }
+
+    public static @NonNull String getHighScoreTableTitle() {
+        return "Score";
+    }
 }
