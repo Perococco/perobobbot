@@ -1,5 +1,8 @@
 == Tasks
 
+.Greeter
+* [ ] Remove bot from user to greet (WizeBot)
+
 .Render
 * [ ] investigate lwjgl for the renderer engine
 * [ ] investigate javafx for the renderer engine
