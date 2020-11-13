@@ -25,7 +25,7 @@ public class TargetPositionComputer {
     private @NonNull Vector2D compute() {
         for (int i = 0; i < MAXIMAL_NUMBER_OF_ITERATIONS - 1; i++) {
             final Vector2D position = generateTargetPosition();
-            if (position.subtract(initialPosition).manhattanNorm()>targetSize*2) {
+            if (position.subtract(initialPosition).manhattanNorm()>targetSize*4) {
                 return position;
             }
         }

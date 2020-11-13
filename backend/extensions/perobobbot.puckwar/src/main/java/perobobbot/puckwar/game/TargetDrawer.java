@@ -17,7 +17,7 @@ public class TargetDrawer {
 
     public static final int DRAWING_AREA_SIZE = 1000;
 
-    private static final Color TARGET_COLOR = new Color(255,0, 81, 255);
+    private static final Color TARGET_COLOR = new Color(255,0, 0, 255);
 
     private final @NonNull Graphics2D graphics2D;
     private final int size;
