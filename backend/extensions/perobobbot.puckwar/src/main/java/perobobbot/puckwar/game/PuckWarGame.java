@@ -55,8 +55,11 @@ public class PuckWarGame implements Renderable {
             return;
         }
         if (puckWarRound.isRoundOver()) {
+            puckWarRound.dispose();
             if (!stopAtNextRound) {
                 launchANewRound();
+            } else {
+                this.stop();
             }
         } else {
             puckWarRound.updateRound(dt);
@@ -77,4 +80,8 @@ public class PuckWarGame implements Renderable {
         Optional.ofNullable(currentRound).ifPresent(action);
     }
 
+    public boolean isRunning() {
+        final PuckWarRound puckWarRound = this.currentRound;
+        return puckWarRound != null && !puckWarRound.isRoundOver();
+    }
 }

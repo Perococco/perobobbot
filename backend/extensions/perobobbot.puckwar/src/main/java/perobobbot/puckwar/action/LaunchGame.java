@@ -25,8 +25,8 @@ public class LaunchGame implements Consumer1<ExecutionContext> {
 
     private @NonNull GameOptions parseGameOptions(@NonNull String parameters) {
         final var token = parameters.trim().split(" +");
-        final var puckSize = parse(token,0,CastTool::castToInt, 20);
-        final var duration = Duration.ofSeconds(parse(token,1,CastTool::castToLong,60l));
+        final var duration = Duration.ofSeconds(parse(token,0,CastTool::castToLong,60l));
+        final var puckSize = parse(token,1,CastTool::castToInt, 20);
 
         return new GameOptions(puckSize,duration);
     }

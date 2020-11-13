@@ -48,7 +48,7 @@ public class PuckWarExtension extends ExtensionBase {
 
     @Synchronized
     public void startGame(@NonNull GameOptions gameOptions) {
-        if (subscriptionHolder.hasSubscription() || !isEnabled()) {
+        if (!isEnabled() && puckWarGame!=null && puckWarGame.isRunning()) {
             return;
         }
         puckWarGame = new PuckWarGame(overlay.getOverlaySize(), gameOptions);
@@ -61,6 +61,11 @@ public class PuckWarExtension extends ExtensionBase {
         subscriptionHolder.unsubscribe();
         puckWarGame.stop();
         puckWarGame = null;
+    }
+
+    @Synchronized
+    public void requestStop() {
+        getCurrentGame().ifPresent(PuckWarGame::requestStop);
     }
 
     @Synchronized
