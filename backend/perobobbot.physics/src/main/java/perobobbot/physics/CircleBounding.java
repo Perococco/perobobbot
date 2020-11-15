@@ -13,9 +13,9 @@ public class CircleBounding implements BoundingBox2D {
     @Getter @Setter
     private double size;
 
-    public CircleBounding(@NonNull ROEntity2D entity, double size) {
+    public CircleBounding(@NonNull ROEntity2D entity, double radius) {
         this.entity = entity;
-        this.size = size;
+        this.size = radius;
     }
 
     @Override

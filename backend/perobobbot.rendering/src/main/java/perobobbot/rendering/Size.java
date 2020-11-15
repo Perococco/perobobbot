@@ -34,4 +34,8 @@ public class Size {
     public @NonNull Size addMargin(int margin) {
         return with(width+margin,height+margin);
     }
+
+    public int getMinLength() {
+        return Math.min(width,height);
+    }
 }

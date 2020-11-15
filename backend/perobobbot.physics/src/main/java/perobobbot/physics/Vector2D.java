@@ -37,6 +37,12 @@ public class Vector2D implements ROVector2D {
         return this;
     }
 
+    public @NonNull Vector2D setToCartesian(double x, double y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
     public @NonNull Vector2D addScaled(@NonNull ROVector2D ROVector2D, double scale) {
         this.x += ROVector2D.getX()*scale;
         this.y += ROVector2D.getY()*scale;

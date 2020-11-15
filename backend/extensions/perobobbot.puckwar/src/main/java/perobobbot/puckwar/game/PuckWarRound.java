@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 
 public class PuckWarRound implements Renderable {
 
-    public static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 92);
+    public static final Color BACKGROUND_COLOR = new Color(0, 0, 0, 169);
     public static final int BACKGROUND_MARGIN = 20;
 
     public static final double WINNER_DISPLAY_DURATION_IN_SEC = 10;
@@ -30,25 +30,25 @@ public class PuckWarRound implements Renderable {
                                                int puckSize) {
         final var initialPosition = ImmutableVector2D.cartesian(overlaySize.getWidth(), overlaySize.getHeight());
 
-        final int targetSize = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
-        final var targetImage = TargetImage.create(targetSize);
+        final int targetRadius = (int) Math.round(overlaySize.getMinLength() / 6.);
+        final var targetImage = TargetImage.create(2*targetRadius);
         final BufferedImage blackHoleImage = Images.BLACK_HOLE.getImage();
 
-        final var positions = PositionsPicker.pick(overlaySize, initialPosition, targetSize);
+        final var positions = PositionsPicker.pick(overlaySize, initialPosition, targetRadius*2);
 
         final Sprite target;
         {
             final var targetPosition = positions.getTargetPosition();
-            target = new Sprite(targetImage);
+            target = new Sprite("Target", targetImage);
             target.getPosition().setTo(targetPosition);
             target.setFixed(true);
-            target.setBoundingBox(new CircleBounding(target, targetSize));
+            target.setBoundingBox(new CircleBounding(target, targetRadius));
             target.setAccelerationsModifier(a -> a.getGravitationAcceleration().nullify());
         }
 
         final Sprite blackHole;
         {
-            blackHole = new Sprite(blackHoleImage);
+            blackHole = new Sprite("Black Hole", blackHoleImage);
             blackHole.getPosition().setTo(positions.getBlackHolePosition());
             blackHole.setFixed(true);
             blackHole.setMass(1e17);
@@ -70,6 +70,8 @@ public class PuckWarRound implements Renderable {
      * The default size of the pucks
      */
     private final int puckSize;
+
+    private final @NonNull Sprite help;
 
     private final @NonNull Sprite target;
 
@@ -120,8 +122,14 @@ public class PuckWarRound implements Renderable {
         this.velocityModifier = velocityModifier;
         this.isOutsideGameRegion = new OutsiderPredicate(overlaySize);
         this.remainingTime = duration.getSeconds();
-        this.universe.addEntity(blackHole);
+
+        this.help = new Sprite("Help",StartPointImage.create(overlaySize.getMinLength()/4));
+        this.help.setFixed(true);
+        this.help.getPosition().setTo(initialPosition.subtract(help.getWidth()*0.5,help.getHeight()*0.5));
+
+        this.universe.addEntity(help);
         this.universe.addEntity(target);
+        this.universe.addEntity(blackHole);
     }
 
     /**
@@ -139,6 +147,7 @@ public class PuckWarRound implements Renderable {
 
     @Override
     public void drawWith(@NonNull Renderer renderer) {
+        this.drawHelp(renderer);
         this.drawTarget(renderer);
         this.drawBlackHole(renderer);
         this.drawPucks(renderer);
@@ -149,6 +158,10 @@ public class PuckWarRound implements Renderable {
         } else {
             this.drawRemainingTime(renderer);
         }
+    }
+
+    private void drawHelp(Renderer renderer) {
+        this.help.drawWith(renderer);
     }
 
     private void drawHighScoreTable(@NonNull Renderer renderer) {

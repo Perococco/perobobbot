@@ -16,6 +16,6 @@ public class Main extends ImageTester {
     @Override
     protected BufferedImage getImage(int with, int height) {
         final int size = Math.min(with, height);
-        return TargetImage.create(size);
+        return StartPointImage.create(size);
     }
 }

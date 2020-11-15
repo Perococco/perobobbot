@@ -1,5 +1,6 @@
 package perobobbot.rendering;
 
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.physics.Entity2DBase;
 
@@ -9,8 +10,10 @@ public class Sprite extends Entity2DBase implements Renderable {
 
     private final @NonNull BufferedImage image;
 
+    @Getter
     private final int width;
 
+    @Getter
     private final int height;
 
     public Sprite(@NonNull BufferedImage image) {

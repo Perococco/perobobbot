@@ -28,6 +28,7 @@ public class Entity2DBase implements Entity2D {
     public Entity2DBase() {
         this.previousDynamic = new Dynamic(this);
         this.dynamic = new Dynamic(this);
+        this.name = this.id.toString();
     }
     public Entity2DBase(@NonNull String name) {
         this();
@@ -91,5 +92,10 @@ public class Entity2DBase implements Entity2D {
     @Override
     public double getAngularSpeed() {
         return getDynamic().getAngularSpeed();
+    }
+
+    @Override
+    public String toString() {
+        return "Entity2D{"+name+"}";
     }
 }

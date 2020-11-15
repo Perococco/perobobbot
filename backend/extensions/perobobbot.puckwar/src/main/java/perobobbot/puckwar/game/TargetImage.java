@@ -16,6 +16,8 @@ public class TargetImage {
         return new TargetImage(size).create();
     }
 
+    public static final Color INTER_CIRCLE_COLOR = Color.WHITE;
+
     public static final int DRAWING_AREA_SIZE = 1000;
 
     private static final Color TARGET_COLOR = new Color(255,0, 0, 255);
@@ -63,7 +65,7 @@ public class TargetImage {
             graphics2D.fillOval(-r,-r,r*2,r*2);
         };
         final IntConsumer clearCircle = r -> {
-            graphics2D.setColor(Renderer.TRANSPARENT);
+            graphics2D.setColor(INTER_CIRCLE_COLOR);
             graphics2D.fillOval(-r,-r,r*2,r*2);
         };
         for (int i = 5; i > 0; i--) {
