@@ -33,7 +33,8 @@
 
         <!-- Implementation that is not specific to the bot -->
         <module>perobobbot.lang</module>
-        <module>perobobbot.math</module>
+<!--        <module>perobobbot.math</module>-->
+        <module>perobobbot.physics</module>
         <module>perobobbot.command</module>
         <module>perobobbot.messaging</module>
         <module>perobobbot.irc</module>

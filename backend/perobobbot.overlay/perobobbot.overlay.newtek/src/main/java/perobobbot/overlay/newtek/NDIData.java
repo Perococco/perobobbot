@@ -6,8 +6,11 @@ import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
 import perobobbot.sound.SoundManager;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.stream.Stream;
 
 public class NDIData {
 
@@ -55,13 +58,26 @@ public class NDIData {
 
     public void copyDataToFreeBuffers(long iterationCount) throws InterruptedException {
         final NDIBuffers buffer = freeBuffers.take();
-        buffer.nbAudioSamples = audioBufferSizeComputer.getAudioBufferSize(iterationCount);
-        soundContext.fillAudioBuffer(buffer.audio,buffer.nbAudioSamples);
-        image.copyTo(buffer.video);
-        this.pendingBuffers.putLast(buffer);
+        try {
+            buffer.nbAudioSamples = audioBufferSizeComputer.getAudioBufferSize(iterationCount);
+            soundContext.fillAudioBuffer(buffer.audio, buffer.nbAudioSamples);
+            image.copyTo(buffer.video);
+            this.pendingBuffers.putLast(buffer);
+        } catch (Throwable t) {
+            this.freeBuffers.offerLast(buffer);
+        }
     }
 
     public void release() {
         this.soundContext.releaseSounds();
+    }
+
+    public @NonNull Optional<NDIBuffers> takeAnyBuffers() {
+        return Stream.of(
+                this.freeBuffers,
+                this.pendingBuffers
+        ).map(BlockingDeque::peek)
+                     .filter(Objects::nonNull)
+                     .findFirst();
     }
 }

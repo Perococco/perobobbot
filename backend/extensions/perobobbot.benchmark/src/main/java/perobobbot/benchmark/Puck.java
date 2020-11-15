@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import perobobbot.lang.MathTool;
-import perobobbot.math.ImmutableVector2D;
-import perobobbot.math.Vector2D;
+import perobobbot.physics.ImmutableVector2D;
+import perobobbot.physics.Vector2D;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
 
@@ -36,10 +36,10 @@ public class Puck {
     }
 
     public Puck wrap(Size overlaySize) {
-        final var xm = modulate(this.position.x(),overlaySize.getWidth());
-        final var ym = modulate(this.position.y(),overlaySize.getHeight());
-        this.position.x(xm);
-        this.position.y(ym);
+        final var xm = modulate(this.position.getX(),overlaySize.getWidth());
+        final var ym = modulate(this.position.getY(),overlaySize.getHeight());
+        this.position.setX(xm);
+        this.position.setY(ym);
         return this;
     }
 
@@ -48,8 +48,8 @@ public class Puck {
     }
 
     public Puck draw(@NonNull Renderer renderer) {
-        final var x = position.x();
-        final var y = position.y();
+        final var x = position.getX();
+        final var y = position.getY();
         renderer.translate(x,y);
         renderer.setColor(color);
         renderer.fillCircle(0, 0, radius);

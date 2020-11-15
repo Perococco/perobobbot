@@ -43,8 +43,8 @@ public class Graphics2DBlock implements Block {
     @Override
     public void draw(double x, double y, @NonNull HAlignment hAlignment, @NonNull VAlignment vAlignment) {
         final var ox = hAlignment.getPosition(size.getWidth());
-        final var oy = hAlignment.getPosition(size.getHeight());
-        graphics2D.translate(x-ox,y-oy);
+        final var oy = vAlignment.getPosition(size.getHeight());
+        graphics2D.translate(x-ox,y-oy-size.getHeight());
         backgroundInfo.getColor().ifPresent(this::drawBackground);
         this.drawBlockContent();
     }

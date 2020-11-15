@@ -10,6 +10,7 @@ import perobobbot.rendering.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -69,6 +70,17 @@ public class RendererUsingGraphics2D implements Renderer {
     public @NonNull Renderer withPrivateContext(Consumer1<? super Renderer> drawer) {
         try (Renderer r = new RendererUsingGraphics2D((Graphics2D)graphics2D.create(), drawingSize)) {
             drawer.f(r);
+        }
+        return this;
+    }
+
+    @Override
+    public @NonNull Renderer withPrivateTransform(Consumer1<? super Renderer> drawer) {
+        final AffineTransform backup = graphics2D.getTransform();
+        try {
+            drawer.f(this);
+        } finally {
+            graphics2D.setTransform(backup);
         }
         return this;
     }

@@ -1,7 +1,9 @@
 package perobobbot.puckwar.game;
 
 import com.google.common.collect.ImmutableList;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import perobobbot.lang.fp.Function1;
 import perobobbot.rendering.*;
 
@@ -31,6 +33,9 @@ public class HighScoreTable implements Renderable {
 
     private @NonNull ImmutableList<Score> scores = ImmutableList.of();
 
+    @Getter @Setter
+    private Positioning positioning = new Positioning(0,0,HAlignment.LEFT,VAlignment.TOP);
+
     public HighScoreTable(int tableLength, Comparator<Score> scoreComparator) {
         this.tableLength = tableLength;
         this.scoreComparator = scoreComparator;
@@ -57,8 +62,6 @@ public class HighScoreTable implements Renderable {
 
     @Override
     public void drawWith(@NonNull Renderer renderer) {
-
-
         renderer.withPrivateContext(r -> {
             final BlockBuilder blockBuilder = r.blockBuilder()
                                                .setBackgroundColor(BACKGROUND_COLOR)
@@ -72,8 +75,11 @@ public class HighScoreTable implements Renderable {
                        .forEach(t -> blockBuilder.addString(t,HAlignment.LEFT));
 
             final Block block = blockBuilder.build();
-            block.draw();
+            block.draw(positioning);
         });
     }
 
+    public boolean isEmpty() {
+        return scores.isEmpty();
+    }
 }

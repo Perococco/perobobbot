@@ -150,7 +150,6 @@ public abstract class Looper {
                             break;
                         }
                     } catch (Exception e) {
-                        final boolean isCausedByInterruption = ThrowableTool.isCausedByAnInterruption(e);
                         if (ThrowableTool.isCausedByAnInterruption(e)) {
                             LOG.warn("Loop interrupted");
                             Thread.currentThread().interrupt();
@@ -160,8 +159,12 @@ public abstract class Looper {
                     }
                 }
             } finally {
+                boolean interrupted = Thread.interrupted();
                 afterLooping();
                 Thread.currentThread().setName("Looper idle");
+                if (interrupted) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
     }

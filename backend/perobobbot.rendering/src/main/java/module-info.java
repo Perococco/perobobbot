@@ -4,6 +4,7 @@ module perobobbot.rendering {
     requires perobobbot.lang;
 
     requires com.google.common;
+    requires perobobbot.physics;
 
     exports perobobbot.rendering;
     exports perobobbot.rendering.graphics2d.element;

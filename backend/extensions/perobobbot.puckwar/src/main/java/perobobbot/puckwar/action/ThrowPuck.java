@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.fp.Function1;
-import perobobbot.math.ImmutableVector2D;
+import perobobbot.physics.ImmutableVector2D;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.game.Throw;
 
@@ -23,28 +23,21 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
         }
 
         final String[] tokens = executionContext.getParameters().split(" +");
-        final Optional<Double> vx = parse(tokens,0,CastTool::castToDouble);
-        final Optional<Double> vy = parse(tokens,1,CastTool::castToDouble);
+        final Optional<Double> speed = parse(tokens, 0, CastTool::castToDouble);
+        final Optional<Double> angle = parse(tokens, 1, CastTool::castToDouble).map(MathTool::degreeToRadian);
 
-        final var thrower = transformUser(executionContext.getMessageOwner());
-        if (vx.isPresent() && vy.isPresent()) {
-            final var velocity = ImmutableVector2D.of(vx.get(),vy.get());
+        final var thrower = executionContext.getMessageOwner();
 
-            final var throwInstant = executionContext.getReceptionTime();
-            final var puckThrow = new Throw(thrower,throwInstant,velocity);
-            extension.getCurrentGame().ifPresent(g -> g.addThrow(puckThrow));
-        } else if (thrower.getPlatform() == Platform.LOCAL) {
-            extension.getCurrentGame().ifPresent(g -> g.addThrow(new Throw(thrower, executionContext.getReceptionTime(), ImmutableVector2D.of(Double.NaN, Double.NaN))));
-        }
-
-    }
-
-    private @NonNull User transformUser(@NonNull User user) {
-        return user;
+        OptionalTools.map(speed, angle, ImmutableVector2D::radial)
+                     .ifPresent(velocity -> {
+                         final var throwInstant = executionContext.getReceptionTime();
+                         final var puckThrow = new Throw(thrower, throwInstant, velocity);
+                         extension.getCurrentGame().ifPresent(g -> g.addThrow(puckThrow));
+                     });
     }
 
     private <T> @NonNull Optional<T> parse(String[] token, int index, Function1<? super String, ? extends Optional<T>> mapper) {
-        if (token.length<=index) {
+        if (token.length <= index) {
             return Optional.empty();
         }
         return mapper.apply(token[index]);

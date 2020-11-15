@@ -2,7 +2,7 @@ package perobobbot.benchmark;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.math.ImmutableVector2D;
+import perobobbot.physics.ImmutableVector2D;
 import perobobbot.rendering.Size;
 
 import java.awt.*;
@@ -40,6 +40,6 @@ public class PuckFactory {
     }
 
     private @NonNull ImmutableVector2D createRandomVector2D(int w, int h) {
-        return ImmutableVector2D.of(random.nextInt(w),random.nextInt(h));
+        return ImmutableVector2D.cartesian(random.nextInt(w),random.nextInt(h));
     }
 }

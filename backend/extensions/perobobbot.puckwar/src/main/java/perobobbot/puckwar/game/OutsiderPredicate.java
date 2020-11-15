@@ -17,8 +17,8 @@ public class OutsiderPredicate implements Predicate<Puck> {
 
     @Override
     public boolean test(Puck puck) {
-        final double x = puck.getPosition().x();
-        final double y = puck.getPosition().y();
+        final double x = puck.getPosition().getX();
+        final double y = puck.getPosition().getY();
         final double radius = puck.getRadius();
         return x + radius < 0 || x - radius > width || y + radius < 0 || y - radius > height;
     }

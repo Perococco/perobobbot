@@ -10,7 +10,7 @@ module perobobbot.ext.puckwar {
     requires perobobbot.extension;
     requires perobobbot.command;
     requires perobobbot.access;
-    requires perobobbot.math;
+    requires perobobbot.physics;
 
 
     requires org.apache.logging.log4j;

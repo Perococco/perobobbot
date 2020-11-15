@@ -96,7 +96,7 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-math</artifactId>
+                <artifactId>perobobbot-physics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

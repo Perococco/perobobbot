@@ -6,28 +6,38 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.rendering.Renderer;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.function.IntConsumer;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class TargetDrawer {
+public class TargetImage {
 
-    public static void draw(@NonNull Graphics2D graphics2D, int size) {
-        new TargetDrawer(graphics2D,size).draw();
+    public static @NonNull BufferedImage create(int size) {
+        return new TargetImage(size).create();
     }
 
     public static final int DRAWING_AREA_SIZE = 1000;
 
     private static final Color TARGET_COLOR = new Color(255,0, 0, 255);
 
-    private final @NonNull Graphics2D graphics2D;
     private final int size;
 
-    public void draw() {
+    private BufferedImage image;
+    private Graphics2D graphics2D;
+
+    public @NonNull BufferedImage create() {
+        this.createImage();
         this.clearImage();
         this.setupTransformation();
         this.setupRenderingQuality();
         this.drawCircles();
         this.drawReticule();
+        return image;
+    }
+
+    private void createImage() {
+        this.image = new BufferedImage(size, size, BufferedImage.TYPE_4BYTE_ABGR);
+        this.graphics2D = this.image.createGraphics();
     }
 
     private void clearImage() {

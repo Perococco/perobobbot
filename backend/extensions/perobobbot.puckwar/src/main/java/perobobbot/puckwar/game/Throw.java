@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.User;
 import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.math.ImmutableVector2D;
+import perobobbot.physics.ImmutableVector2D;
 
 import java.awt.*;
 import java.time.Instant;
@@ -22,7 +22,11 @@ public class Throw {
     private final @NonNull ImmutableVector2D velocity;
 
     public Puck createPuck(@NonNull ImmutableVector2D initialPosition, int puckSize) {
-        return new Puck(thrower,throwInstant,initialPosition, velocity, puckSize);
+        final var puck = Puck.create(thrower,throwInstant,puckSize);
+        puck.getPosition().setTo(initialPosition);
+        puck.getVelocity().setTo(velocity);
+        puck.setSlowDownCoefficient(Math.log(2));
+        return puck;
     }
 
     public @NonNull Throw modifyVelocity(@NonNull UnaryOperator1<ImmutableVector2D> velocityModifier) {

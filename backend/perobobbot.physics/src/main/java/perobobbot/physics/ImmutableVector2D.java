@@ -1,4 +1,4 @@
-package perobobbot.math;
+package perobobbot.physics;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -7,10 +7,18 @@ import lombok.RequiredArgsConstructor;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
-public class ImmutableVector2D implements ReadOnlyVector2D {
+public class ImmutableVector2D implements ROVector2D {
 
-    public static @NonNull ImmutableVector2D of(double x, double y) {
+    public static @NonNull ImmutableVector2D cartesian(double x, double y) {
         return new ImmutableVector2D(x,y);
+    }
+
+    public static @NonNull ImmutableVector2D radial(double norm, double angle) {
+        final double x= norm*Math.cos(angle);
+        final double y= norm*Math.sin(angle);
+        final var result = ImmutableVector2D.cartesian(x,y);
+        result.norm.set(Math.abs(norm));
+        return result;
     }
 
     @Getter
@@ -39,26 +47,26 @@ public class ImmutableVector2D implements ReadOnlyVector2D {
     }
 
     @Override
-    public double normOfDifference(@NonNull ReadOnlyVector2D readOnlyVector2D) {
-        final var dx = this.x() - readOnlyVector2D.x();
-        final var dy = this.y() - readOnlyVector2D.y();
+    public double normOfDifference(@NonNull ROVector2D ROVector2D) {
+        final var dx = this.getX() - ROVector2D.getX();
+        final var dy = this.getY() - ROVector2D.getY();
         return Math.sqrt(dx*dx+dy*dy);
     }
 
-    public @NonNull ImmutableVector2D subtract(@NonNull ReadOnlyVector2D position) {
-        return of(x-position.x(),y-position.y());
+    public @NonNull ImmutableVector2D subtract(@NonNull ROVector2D position) {
+        return cartesian(x-position.getX(),y-position.getY());
     }
 
     public @NonNull ImmutableVector2D subtract(double x, double y) {
-        return of(this.x-x,this.y-y);
+        return cartesian(this.x-x,this.y-y);
     }
 
     public @NonNull ImmutableVector2D normalize() {
         final double norm = norm();
-        return of(x/norm,y/norm);
+        return cartesian(x/norm,y/norm);
     }
 
     public @NonNull ImmutableVector2D scale(double scale) {
-        return of(x*scale,y*scale);
+        return cartesian(x*scale,y*scale);
     }
 }

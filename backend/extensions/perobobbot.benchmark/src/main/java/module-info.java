@@ -7,13 +7,13 @@ module perobobbot.ext.benchmark {
 
 
     requires perobobbot.lang;
-    requires perobobbot.math;
     requires perobobbot.overlay.api;
     requires com.google.common;
     requires perobobbot.extension;
     requires spring.context;
     requires perobobbot.access;
     requires perobobbot.command;
+    requires perobobbot.physics;
 
 
     provides Packages with BenchmarkConfiguration;

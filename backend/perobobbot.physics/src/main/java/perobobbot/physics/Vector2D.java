@@ -1,10 +1,10 @@
-package perobobbot.math;
+package perobobbot.physics;
 
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-public class Vector2D implements ReadOnlyVector2D {
+public class Vector2D implements ROVector2D {
 
     public static @NonNull Vector2D create(double x, double y) {
         return new Vector2D(x,y);
@@ -25,15 +25,21 @@ public class Vector2D implements ReadOnlyVector2D {
     private double y;
 
 
-    public @NonNull Vector2D setTo(@NonNull ImmutableVector2D source) {
-        this.x = source.x();
-        this.y = source.y();
+    public @NonNull Vector2D subtract(@NonNull ROVector2D other) {
+        this.x -= other.getX();
+        this.y -= other.getY();
         return this;
     }
 
-    public @NonNull Vector2D addScaled(@NonNull ReadOnlyVector2D readOnlyVector2D, double scale) {
-        this.x += readOnlyVector2D.x()*scale;
-        this.y += readOnlyVector2D.y()*scale;
+    public @NonNull Vector2D setTo(@NonNull ROVector2D source) {
+        this.x = source.getX();
+        this.y = source.getY();
+        return this;
+    }
+
+    public @NonNull Vector2D addScaled(@NonNull ROVector2D ROVector2D, double scale) {
+        this.x += ROVector2D.getX()*scale;
+        this.y += ROVector2D.getY()*scale;
         return this;
     }
 

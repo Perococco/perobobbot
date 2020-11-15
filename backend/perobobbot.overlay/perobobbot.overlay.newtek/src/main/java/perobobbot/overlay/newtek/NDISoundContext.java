@@ -28,6 +28,11 @@ public class NDISoundContext implements SoundContext {
         return sound::close;
     }
 
+    @Override
+    public void stopAllSounds() {
+        releaseSounds();
+    }
+
     public void fillAudioBuffer(@NonNull float[][] data, int nbSamples) {
         final Iterator<Sound> itr = sounds.iterator();
         boolean filled = false;

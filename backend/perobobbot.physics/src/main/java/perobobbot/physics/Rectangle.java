@@ -1,4 +1,4 @@
-package perobobbot.math;
+package perobobbot.physics;
 
 import lombok.Value;
 
@@ -11,8 +11,8 @@ public class Rectangle {
     double height;
 
     public boolean contains(Vector2D position) {
-        final var px = position.x();
-        final var py = position.y();
+        final var px = position.getX();
+        final var py = position.getY();
 
         return px>=x && py>=y && (px-x)<=width && (py-y)<=height;
     }

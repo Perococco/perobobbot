@@ -43,7 +43,6 @@ public class PuckWarGame implements Renderable {
     private void launchANewRound() {
         currentRound = PuckWarRound.create(
                 gameOptions.getRoundDuration(),
-                Instant.now(),
                 overlaySize,
                 gameOptions.getPuckSize()
         );

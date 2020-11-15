@@ -19,4 +19,11 @@ public class NDIBuffers {
     final ByteBuffer video;
 
 
+    public void clear() {
+        nbAudioSamples = 0;
+        video.rewind();
+        while(video.hasRemaining()) {
+            video.putLong(0);
+        }
+    }
 }

@@ -54,10 +54,10 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         this.ndiName = ndiName;
         this.soundManager = soundManager;
         final NDIConfig ndiConfig = new NDIConfig(overlaySize, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
-        final NDIData ndiData = new NDIData(ndiConfig, soundManager,3);
+        final NDIData ndiData = new NDIData(ndiConfig, soundManager, 3);
 
         this.drawer = new Drawer(ndiData, frameRate.getDeltaT());
-        this.sender = new Sender(new DevolaySender(ndiName,null,true,false), ndiConfig.createNDIFrame(),ndiConfig.createNDIAudioFrame(), ndiData);
+        this.sender = new Sender(new DevolaySender(ndiName, null, true, false), ndiConfig.createNDIFrame(), ndiConfig.createNDIAudioFrame(), ndiData);
     }
 
     @Override
@@ -186,22 +186,35 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         @Override
         protected void afterLooping() {
             super.afterLooping();
+            ndiData.takeAnyBuffers().ifPresent(
+                    d -> {
+                        d.clear();
+                        sendData(d);
+
+                    }
+            );
             this.sender.close();
             this.videoFrame.close();
+        }
+
+        private void sendData(@NonNull NDIBuffers data) {
+            videoFrame.setData(data.video);
+            if (data.nbAudioSamples>0) {
+                audioFrame.setSamples(data.nbAudioSamples);
+                copyAudioData(data.audio, audioBuffer);
+                sender.sendAudioFrame(audioFrame);
+            }
+            sender.sendVideoFrame(videoFrame);
         }
 
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
             final NDIBuffers data = ndiData.takePendingBuffer();
-
-            audioFrame.setSamples(data.nbAudioSamples);
-            copyAudioData(data.audio,audioBuffer);
-            videoFrame.setData(data.video);
-
-            sender.sendAudioFrame(audioFrame);
-            sender.sendVideoFrame(videoFrame);
-
-            ndiData.releaseBuffer(data);
+            try {
+                sendData(data);
+            } finally {
+                ndiData.releaseBuffer(data);
+            }
 
             frameCount++;
             if (frameCount % 60 == 0) {

@@ -15,4 +15,6 @@ public interface SoundContext {
      */
     @NonNull
     SoundExecution playSound(@NonNull UUID soundId);
+
+    void stopAllSounds();
 }

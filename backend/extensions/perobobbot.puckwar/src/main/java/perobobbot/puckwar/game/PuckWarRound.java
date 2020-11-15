@@ -2,12 +2,15 @@ package perobobbot.puckwar.game;
 
 import lombok.NonNull;
 import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.math.ImmutableVector2D;
+import perobobbot.physics.GravityEffect;
+import perobobbot.physics.ImmutableVector2D;
+import perobobbot.physics.CircleBounding;
+import perobobbot.physics.Universe;
 import perobobbot.rendering.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,57 +26,54 @@ public class PuckWarRound implements Renderable {
     public static final double WINNER_DISPLAY_DURATION_IN_SEC = 10;
 
     public static @NonNull PuckWarRound create(@NonNull Duration duration,
-                                               @NonNull Instant startingTime,
                                                @NonNull Size overlaySize,
                                                int puckSize) {
-        final var initialPosition = ImmutableVector2D.of(0, overlaySize.getHeight() * 0.5);
+        final var initialPosition = ImmutableVector2D.cartesian(overlaySize.getWidth(), overlaySize.getHeight());
 
-        final var positionProvider = new RandomPositionProvider(overlaySize);
+        final int targetSize = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
+        final var targetImage = TargetImage.create(targetSize);
+        final BufferedImage blackHoleImage = Images.BLACK_HOLE.getImage();
 
-        final Target target;
+        final var positions = PositionsPicker.pick(overlaySize, initialPosition, targetSize);
+
+        final Sprite target;
         {
-            final int size = (int) Math.round(Math.min(overlaySize.getHeight(), overlaySize.getWidth()) / 3.);
-            final var targetPosition = positionProvider.compute(size/2, 0.66, 1.0);
-            target = new Target(targetPosition, size);
+            final var targetPosition = positions.getTargetPosition();
+            target = new Sprite(targetImage);
+            target.getPosition().setTo(targetPosition);
+            target.setFixed(true);
+            target.setBoundingBox(new CircleBounding(target, targetSize));
+            target.setAccelerationsModifier(a -> a.getGravitationAcceleration().nullify());
         }
-        final BlackHole blackHole;
+
+        final Sprite blackHole;
         {
-            final int size = BlackHole.getImageSize();
-            final var blackHolePosition = positionProvider.compute(size/2,0.25,0.5);
-            blackHole = BlackHole.create(blackHolePosition);
+            blackHole = new Sprite(blackHoleImage);
+            blackHole.getPosition().setTo(positions.getBlackHolePosition());
+            blackHole.setFixed(true);
+            blackHole.setMass(1e17);
+            blackHole.setAngularSpeed(-2 * Math.PI / 30);
+            blackHole.setGravityEffect(GravityEffect.ATTRACTOR);
         }
 
         return new PuckWarRound(
                 duration,
-                startingTime,
                 puckSize,
                 target,
                 blackHole,
                 initialPosition,
-                v -> v.scale(5),
-                new OutsiderPredicate(overlaySize));
+                v -> v.scale(-5),
+                overlaySize);
     }
-
-    /**
-     * The duration of the round
-     */
-    private final @NonNull Duration duration;
-
-    /**
-     * the time at which the round has been launch
-     */
-    private final @NonNull Instant startingTime;
 
     /**
      * The default size of the pucks
      */
     private final int puckSize;
 
-    private final @NonNull Target target;
+    private final @NonNull Sprite target;
 
-
-    private final @NonNull BlackHole blackHole;
-
+    private final @NonNull Sprite blackHole;
 
     /**
      * The initial position of all pucks
@@ -99,6 +99,7 @@ public class PuckWarRound implements Renderable {
      * The list of active pucks in the game
      */
     private final @NonNull List<Puck> pucks = new ArrayList<>(256);
+    private final @NonNull Universe universe = Universe.create();
 
     private final @NonNull HighScoreTable highScoreTable = HighScoreTable.lowerIsBetter(5);
 
@@ -106,22 +107,21 @@ public class PuckWarRound implements Renderable {
 
 
     public PuckWarRound(@NonNull Duration duration,
-                        @NonNull Instant startingTime,
                         int puckSize,
-                        @NonNull Target target,
-                        @NonNull BlackHole blackHole,
+                        @NonNull Sprite target,
+                        @NonNull Sprite blackHole,
                         @NonNull ImmutableVector2D initialPosition,
                         @NonNull UnaryOperator1<ImmutableVector2D> velocityModifier,
-                        @NonNull Predicate<Puck> isOutsideGameRegion) {
-        this.duration = duration;
-        this.startingTime = startingTime;
+                        @NonNull Size overlaySize) {
         this.puckSize = puckSize;
         this.target = target;
         this.blackHole = blackHole;
         this.initialPosition = initialPosition;
         this.velocityModifier = velocityModifier;
-        this.isOutsideGameRegion = isOutsideGameRegion;
+        this.isOutsideGameRegion = new OutsiderPredicate(overlaySize);
         this.remainingTime = duration.getSeconds();
+        this.universe.addEntity(blackHole);
+        this.universe.addEntity(target);
     }
 
     /**
@@ -163,7 +163,6 @@ public class PuckWarRound implements Renderable {
         blackHole.drawWith(renderer);
     }
 
-
     private void drawPucks(@NonNull Renderer renderer) {
         pucks.forEach(p -> p.drawWith(renderer));
     }
@@ -176,9 +175,9 @@ public class PuckWarRound implements Renderable {
              .setBackgroundMargin(BACKGROUND_MARGIN)
              .setFontSize(48)
              .setColor(Color.WHITE)
-             .addString(Messager.formWinnerMessage(score),HAlignment.MIDDLE)
+             .addString(Messager.formWinnerMessage(score), HAlignment.MIDDLE)
              .build()
-             .draw(size.getWidth()/2, size.getHeight()/2,HAlignment.MIDDLE, VAlignment.MIDDLE);
+             .draw(size.getWidth() / 2.0, size.getHeight() / 2.0, HAlignment.MIDDLE, VAlignment.MIDDLE);
         });
     }
 
@@ -189,7 +188,7 @@ public class PuckWarRound implements Renderable {
             final String remainingTimeText = Messager.formRemainingTimeMessage(remainingTime);
             r.setColor(Color.WHITE);
             r.setFontSize(28);
-            r.drawString(remainingTimeText, size.getWidth()*0.5, 10, HAlignment.MIDDLE, VAlignment.TOP);
+            r.drawString(remainingTimeText, size.getWidth() * 0.5, 10, HAlignment.MIDDLE, VAlignment.TOP);
         });
     }
 
@@ -199,7 +198,8 @@ public class PuckWarRound implements Renderable {
     }
 
     public boolean isRoundOver() {
-        return (remainingTime + WINNER_DISPLAY_DURATION_IN_SEC) <= 0;
+        final double extraTimeAfterGame = highScoreTable.isEmpty()?0:WINNER_DISPLAY_DURATION_IN_SEC;
+        return (remainingTime + extraTimeAfterGame) <= 0;
     }
 
 
@@ -210,11 +210,11 @@ public class PuckWarRound implements Renderable {
      */
     public void updateRound(double dt) {
         this.updateRemainingTime(dt);
-        this.blackHole.update(dt);
+        this.universe.update(dt);
         if (isGamePhaseIsOver()) {
+            pucks.forEach(p -> p.setFixed(true));
             return;
         }
-        this.updatePuckPositions(dt);
         this.removeOutsiders();
         this.addPendingThrowToPuckList();
         this.updateHighScoreTable();
@@ -228,28 +228,20 @@ public class PuckWarRound implements Renderable {
         this.remainingTime -= dt;
     }
 
-    private void updatePuckPositions(double dt) {
-        this.pucks.forEach(p -> p.update(dt,blackHole,target));
-    }
-
     private void removeOutsiders() {
         this.pucks.removeIf(isOutsideGameRegion);
     }
 
     private void addPendingThrowToPuckList() {
-        drainPendingThrows()
-                .stream()
-                .map(thrw -> thrw.createPuck(initialPosition, puckSize))
-                .map(this::prepareCheatingPuck)
-                .forEach(pucks::add);
-    }
-
-    private @NonNull Puck prepareCheatingPuck(@NonNull Puck puck) {
-        if (puck.isACheater()) {
-            puck.getPosition().setTo(target.getPosition());
-            puck.clearVelocity();
+        final List<Throw> pendingThrows = drainPendingThrows();
+        if (!isGamePhaseIsOver()) {
+            pendingThrows.stream()
+                         .map(thrw -> thrw.createPuck(initialPosition, puckSize))
+                         .forEach(p -> {
+                             pucks.add(p);
+                             universe.addEntity(p);
+                         });
         }
-        return puck;
     }
 
     private @NonNull List<Throw> drainPendingThrows() {

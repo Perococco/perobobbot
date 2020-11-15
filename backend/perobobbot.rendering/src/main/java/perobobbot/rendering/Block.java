@@ -17,6 +17,10 @@ public interface Block {
     default void draw() {
         draw(0,0,HAlignment.LEFT,VAlignment.TOP);
     }
+    default void draw(@NonNull Positioning positioning) {
+        draw(positioning.getX(),positioning.getY(),positioning.getHAlignment(),positioning.getVAlignment());
+    }
+
 
     Block EMPTY = new Block() {
         @Override

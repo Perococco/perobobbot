@@ -25,6 +25,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-physics</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

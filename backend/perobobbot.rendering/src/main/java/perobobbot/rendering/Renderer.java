@@ -2,6 +2,7 @@ package perobobbot.rendering;
 
 import lombok.NonNull;
 import perobobbot.lang.fp.Consumer1;
+import perobobbot.physics.ROVector2D;
 import perobobbot.rendering.graphics2d.RendererUsingGraphics2D;
 
 import java.awt.*;
@@ -27,6 +28,10 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Renderer clearOverlay();
 
+    default @NonNull Renderer translate(@NonNull ROVector2D position) {
+        return translate(position.getX(),position.getY());
+    }
+
     @NonNull Renderer translate(double x, double y);
 
     @NonNull Renderer setColor(@NonNull Color color);
@@ -34,6 +39,8 @@ public interface Renderer extends AutoCloseable {
     @NonNull Renderer fillCircle(int xc, int yc, int radius);
 
     @NonNull Renderer withPrivateContext(@NonNull Consumer1<? super Renderer> drawer);
+
+    @NonNull Renderer withPrivateTransform(@NonNull Consumer1<? super Renderer> drawer);
 
     @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y);
 
