@@ -103,7 +103,7 @@ public class PuckWarRound implements Renderable {
     private final @NonNull List<Puck> pucks = new ArrayList<>(256);
     private final @NonNull Universe universe = Universe.create();
 
-    private final @NonNull HighScoreTable highScoreTable = HighScoreTable.lowerIsBetter(5);
+    private final @NonNull HighScoreTable highScoreTable = HighScoreTable.higherIsBetter(5);
 
     private double remainingTime = 0.0;
 
@@ -226,11 +226,13 @@ public class PuckWarRound implements Renderable {
         this.universe.update(dt);
         if (isGamePhaseIsOver()) {
             pucks.forEach(p -> p.setFixed(true));
+            this.updateHighScoreTable(true);
             return;
         }
         this.removeOutsiders();
+        this.pucks.forEach(Puck::updateBending);
         this.addPendingThrowToPuckList();
-        this.updateHighScoreTable();
+        this.updateHighScoreTable(false);
     }
 
     public boolean isGamePhaseIsOver() {
@@ -266,13 +268,21 @@ public class PuckWarRound implements Renderable {
         return retrievedPuckThrows;
     }
 
-    private void updateHighScoreTable() {
-        highScoreTable.fillTable(pucks, this::createScoreFromPuck);
+    private void updateHighScoreTable(boolean done) {
+        highScoreTable.fillTable(pucks, p -> createScoreFromPuck(p,done));
     }
 
-    private @NonNull Score createScoreFromPuck(@NonNull Puck puck) {
+    private @NonNull Score createScoreFromPuck(@NonNull Puck puck, boolean done) {
         final double distance = target.getPosition().normOfDifference(puck.getPosition());
-        return new Score(puck.getThrower(), puck.getThrowInstant(), distance);
+        final double score;
+
+        if (done && distance>target.getWidth()) {
+            score = 0;
+        } else {
+            score = puck.getBending();//+(90/(distance+1));
+        }
+
+        return new Score(puck.getThrower(), puck.getThrowInstant(), score);
     }
 
 

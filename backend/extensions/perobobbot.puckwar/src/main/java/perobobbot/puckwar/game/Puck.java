@@ -30,6 +30,8 @@ public class Puck extends Entity2DBase {
     @Getter
     private int radius;
 
+    private double bending = 0;
+
     private Puck(
             @NonNull User thrower,
             @NonNull Instant throwInstant,
@@ -47,5 +49,22 @@ public class Puck extends Entity2DBase {
         renderer.setColor(color);
         renderer.fillCircle(0, 0, radius);
         renderer.translate(-xc, -yc);
+    }
+
+    public void updateBending() {
+        final var v1 = getPreviousDynamic().getVelocity();
+        final var v2  = getDynamic().getVelocity();
+        final var n1 = v1.norm();
+        final var n2 = v2.norm();
+        if (n1<2 || n2 <2) {
+            return;
+        }
+        final var cosAngle = Math.min(1, Math.max(-1, (v1.getX()*v2.getX()+v1.getY()*v2.getY())/(n1*n2)));
+
+        this.bending+= Math.abs(Math.toDegrees(Math.acos(cosAngle)));
+    }
+
+    public double getBending() {
+        return bending;
     }
 }

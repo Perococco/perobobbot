@@ -79,4 +79,5 @@ public class Vector2D implements ROVector2D {
     public @NonNull Vector2D duplicate() {
         return new Vector2D(this.x,this.y);
     }
+
 }

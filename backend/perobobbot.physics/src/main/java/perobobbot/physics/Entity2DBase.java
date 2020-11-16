@@ -6,6 +6,7 @@ import lombok.Setter;
 import perobobbot.lang.Listeners;
 import perobobbot.lang.Subscription;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class Entity2DBase implements Entity2D {
@@ -25,6 +26,8 @@ public class Entity2DBase implements Entity2D {
     @Getter private @NonNull GravityEffect gravityEffect = GravityEffect.NONE;
     @Getter private @NonNull AccelerationsModifier accelerationsModifier = AccelerationsModifier.NOP;
 
+    private Object userData = null;
+
     public Entity2DBase() {
         this.previousDynamic = new Dynamic(this);
         this.dynamic = new Dynamic(this);
@@ -34,6 +37,18 @@ public class Entity2DBase implements Entity2D {
         this();
         this.name = name;
     }
+
+    @Override
+    public Optional<Object> getUserData() {
+        return Optional.ofNullable(userData);
+    }
+
+    @Override
+    public void setUserData(@NonNull Object userData) {
+        this.userData = userData;
+    }
+
+
 
     @Override
     public void setGravityEffect(@NonNull GravityEffect gravityEffect) {

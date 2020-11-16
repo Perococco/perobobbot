@@ -66,7 +66,7 @@ public class StartPointImage {
                 g2.setColor(Color.WHITE);
                 g2.drawLine(x, y, x-radius, y);
 
-                final var angleInDegree =  MathTool.radianToDegree(angle);
+                final var angleInDegree =  Math.toDegrees(angle);
 
                 final TextLayout tx = new TextLayout(String.format("%.0f°",angleInDegree),g2.getFont(),g2.getFontRenderContext());
                 final Rectangle2D bounds = tx.getBounds();

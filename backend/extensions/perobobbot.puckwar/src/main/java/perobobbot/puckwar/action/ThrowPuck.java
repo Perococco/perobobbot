@@ -24,7 +24,7 @@ public class ThrowPuck implements Consumer1<ExecutionContext> {
 
         final String[] tokens = executionContext.getParameters().split(" +");
         final Optional<Double> speed = parse(tokens, 0, CastTool::castToDouble);
-        final Optional<Double> angle = parse(tokens, 1, CastTool::castToDouble).map(MathTool::degreeToRadian);
+        final Optional<Double> angle = parse(tokens, 1, CastTool::castToDouble).map(Math::toRadians);
 
         final var thrower = executionContext.getMessageOwner();
 

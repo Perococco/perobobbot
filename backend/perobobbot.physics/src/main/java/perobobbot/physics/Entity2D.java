@@ -2,7 +2,18 @@ package perobobbot.physics;
 
 import lombok.NonNull;
 
+import java.util.Optional;
+
 public interface Entity2D  extends ROEntity2D {
+
+    Optional<Object> getUserData();
+
+    void setUserData(@NonNull Object userData);
+
+    default <T> Optional<T> getUserData(@NonNull Class<T> type) {
+        return getUserData().filter(type::isInstance).map(type::cast);
+    }
+
 
     @NonNull Dynamic getPreviousDynamic();
 

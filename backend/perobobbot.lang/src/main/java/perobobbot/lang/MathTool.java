@@ -18,11 +18,4 @@ public class MathTool {
     }
 
 
-    public static double degreeToRadian(double angleInDegree) {
-        return angleInDegree*DEGREE_TO_RADIAN_FACTOR;
-    }
-
-    public static double radianToDegree(double angleInRadian) {
-        return angleInRadian*RADIAN_TO_DEGREE_FACTOR;
-    }
 }
