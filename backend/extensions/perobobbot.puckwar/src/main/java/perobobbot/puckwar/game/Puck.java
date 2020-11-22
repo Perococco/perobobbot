@@ -11,6 +11,8 @@ import java.time.Instant;
 
 public class Puck extends Entity2DBase {
 
+    public static final double INV_PI = 1./Math.PI;
+
     public static final double DEFAULT_FRICTION_FACTOR = Math.log(2);
 
     public static Puck create(@NonNull User thrower, @NonNull Instant throwInstant, int radius) {
@@ -61,7 +63,7 @@ public class Puck extends Entity2DBase {
         }
         final var cosAngle = Math.min(1, Math.max(-1, (v1.getX()*v2.getX()+v1.getY()*v2.getY())/(n1*n2)));
 
-        this.bending+= Math.abs(Math.toDegrees(Math.acos(cosAngle)));
+        this.bending+= Math.abs(Math.acos(cosAngle)*INV_PI);
     }
 
     public double getBending() {

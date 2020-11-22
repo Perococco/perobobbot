@@ -107,6 +107,8 @@ public class PuckWarRound implements Renderable {
 
     private double remainingTime = 0.0;
 
+    private final double invTargetRadius;
+
 
     public PuckWarRound(@NonNull Duration duration,
                         int puckSize,
@@ -122,6 +124,8 @@ public class PuckWarRound implements Renderable {
         this.velocityModifier = velocityModifier;
         this.isOutsideGameRegion = new OutsiderPredicate(overlaySize);
         this.remainingTime = duration.getSeconds();
+
+        this.invTargetRadius = 2./target.getWidth();
 
         this.help = new Sprite("Help",StartPointImage.create(overlaySize.getMinLength()/4));
         this.help.setFixed(true);
@@ -269,20 +273,17 @@ public class PuckWarRound implements Renderable {
     }
 
     private void updateHighScoreTable(boolean done) {
-        highScoreTable.fillTable(pucks, p -> createScoreFromPuck(p,done));
+        highScoreTable.fillTable(() -> pucks.stream()
+                                            .map(this::createScoreFromPuck)
+                                            .filter(s -> s.getScore()>0));
     }
 
-    private @NonNull Score createScoreFromPuck(@NonNull Puck puck, boolean done) {
+    private @NonNull Score createScoreFromPuck(@NonNull Puck puck) {
         final double distance = target.getPosition().normOfDifference(puck.getPosition());
-        final double score;
+        final double score = Math.max(0,1000.*(1-distance*invTargetRadius));
+        final double bendingFactor = 1+puck.getBending();
 
-        if (done && distance>target.getWidth()) {
-            score = 0;
-        } else {
-            score = puck.getBending();//+(90/(distance+1));
-        }
-
-        return new Score(puck.getThrower(), puck.getThrowInstant(), score);
+        return new Score(puck.getThrower(), puck.getThrowInstant(), score*bendingFactor);
     }
 
 

@@ -31,7 +31,7 @@ public class Score {
     private final @NonNull Instant timeStamp;
 
     @Getter
-    private final @NonNull double score;
+    private final double score;
 
     private final Lazy<String> lazyText = Lazy.basic(this::createScoreText);
 

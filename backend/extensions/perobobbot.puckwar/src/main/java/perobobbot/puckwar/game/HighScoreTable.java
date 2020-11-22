@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import perobobbot.lang.fp.Function0;
 import perobobbot.lang.fp.Function1;
 import perobobbot.rendering.*;
 
@@ -11,6 +12,8 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class HighScoreTable implements Renderable {
 
@@ -33,8 +36,9 @@ public class HighScoreTable implements Renderable {
 
     private @NonNull ImmutableList<Score> scores = ImmutableList.of();
 
-    @Getter @Setter
-    private Positioning positioning = new Positioning(0,0,HAlignment.LEFT,VAlignment.TOP);
+    @Getter
+    @Setter
+    private Positioning positioning = new Positioning(0, 0, HAlignment.LEFT, VAlignment.TOP);
 
     public HighScoreTable(int tableLength, Comparator<Score> scoreComparator) {
         this.tableLength = tableLength;
@@ -53,11 +57,14 @@ public class HighScoreTable implements Renderable {
 
     public <T> void fillTable(@NonNull Collection<T> items,
                               @NonNull Function1<? super T, ? extends Score> scoreExtractor) {
-        this.scores = items.stream()
-                           .map(scoreExtractor)
-                           .sorted(scoreComparator)
-                           .limit(tableLength)
-                           .collect(ImmutableList.toImmutableList());
+        fillTable(() -> items.stream().map(scoreExtractor));
+    }
+
+    public <T> void fillTable(@NonNull Function0<? extends Stream<? extends Score>> scoreStream) {
+        this.scores = scoreStream.f()
+                                 .sorted(scoreComparator)
+                                 .limit(tableLength)
+                                 .collect(ImmutableList.toImmutableList());
     }
 
     @Override
@@ -72,7 +79,7 @@ public class HighScoreTable implements Renderable {
                                                .addSeparator();
             this.scores.stream()
                        .map(Score::getScoreText)
-                       .forEach(t -> blockBuilder.addString(t,HAlignment.LEFT));
+                       .forEach(t -> blockBuilder.addString(t, HAlignment.LEFT));
 
             final Block block = blockBuilder.build();
             block.draw(positioning);
