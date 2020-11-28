@@ -29,15 +29,27 @@ import java.util.concurrent.LinkedBlockingDeque;
 @RequiredArgsConstructor
 public class ChatSender<M> extends Looper {
 
+    /**
+     * The chat i/o used to send the message
+     */
     @NonNull
     private final ChatIO chat;
 
+    /**
+     * the list of listeners of chat events.
+     */
     @NonNull
     private final Listeners<AdvancedChatListener<M>> listeners;
 
+    /**
+     * contains the list of requests waiting for an answer from the chat
+     */
     @NonNull
     private final BlockingDeque<RequestPostData<?,M>> requestPostDataQueue;
 
+    /**
+     * The queue of pending message to send
+     */
     @NonNull
     private final BlockingDeque<PostData<?,M>> postQueue = new LinkedBlockingDeque<>();
 

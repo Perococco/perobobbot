@@ -34,7 +34,7 @@ public class PuckWarRound implements Renderable {
         final var targetImage = TargetImage.create(2*targetRadius);
         final BufferedImage blackHoleImage = Images.BLACK_HOLE.getImage();
 
-        final var positions = PositionsPicker.pick(overlaySize, initialPosition, targetRadius*2);
+        final var positions = PositionsPicker.pick(overlaySize, targetRadius*2);
 
         final Sprite target;
         {

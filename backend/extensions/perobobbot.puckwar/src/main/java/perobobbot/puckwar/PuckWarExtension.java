@@ -37,7 +37,7 @@ public class PuckWarExtension extends ExtensionBase {
     @Override
     protected void onEnabled() {
         super.onEnabled();
-        this.startGame(new GameOptions(20,Duration.ofMinutes(1)));
+        this.startGame(new GameOptions(20,Duration.ofSeconds(3)));
     }
 
     @Override

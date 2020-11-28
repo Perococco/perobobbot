@@ -28,6 +28,18 @@ public abstract class AdvancedChatFactory {
             @NonNull MessageConverter<M> messageConverter
     );
 
+    /**
+     *
+     */
+    @NonNull
+    public static <M> AdvancedChat<M> createAdvancedChatBasedOn(
+            @NonNull Chat chat,
+            @NonNull RequestAnswerMatcher<M> matcher,
+            @NonNull MessageConverter<M> messageConverter
+    ) {
+        return getInstance().createBasedOn(chat,matcher,messageConverter);
+    }
+
     @NonNull
     public static AdvancedChatFactory getInstance() {
         return Holder.INSTANCE;

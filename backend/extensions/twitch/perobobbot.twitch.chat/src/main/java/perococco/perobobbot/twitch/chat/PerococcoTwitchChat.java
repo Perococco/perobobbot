@@ -48,8 +48,8 @@ public class PerococcoTwitchChat extends TwitchChatBase implements AdvancedChatL
 
     public PerococcoTwitchChat(@NonNull URI chatAddress, @NonNull TwitchChatOptions options) {
         final Chat chat = ChatFactory.getInstance().create(chatAddress, new TwitchReconnectionPolicy());
-        final Chat throttled = new ThrottledChat(chat);
-        this.chatManager = AdvancedChatFactory.getInstance().createBasedOn(throttled, new TwitchMatcher(connectionIdentity), new TwitchMessageConverter());
+        final Chat throttledChat = new ThrottledChat(chat);
+        this.chatManager = AdvancedChatFactory.createAdvancedChatBasedOn(throttledChat, new TwitchMatcher(connectionIdentity), new TwitchMessageConverter());
         this.options = options;
         this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));
     }

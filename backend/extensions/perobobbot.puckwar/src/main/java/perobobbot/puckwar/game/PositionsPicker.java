@@ -12,69 +12,64 @@ import java.util.Random;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PositionsPicker {
 
-    public static Result pick(@NonNull Size overlaySize, @NonNull ImmutableVector2D initialPosition, int targetSize) {
+    public static Result pick(@NonNull Size overlaySize, int targetSize) {
         final var minimalDistance = Math.min(overlaySize.getHeight(), overlaySize.getWidth()) * 0.1;
-        return new PositionsPicker(overlaySize, initialPosition, targetSize, minimalDistance).pick();
+        return new PositionsPicker(overlaySize, targetSize).pick();
     }
 
-    public static final int  MAX_NUMBER_OF_ITERATIONS = 100;
+    public static final int MAX_NUMBER_OF_ITERATIONS = 100;
 
     @Value
     public static class Result {
-
         @NonNull ImmutableVector2D targetPosition;
         @NonNull ImmutableVector2D blackHolePosition;
-
-        private Result swapPositions() {
-            return new Result(blackHolePosition, targetPosition);
-        }
-
     }
 
     private final Random random = new Random();
 
     private final Size overlaySize;
-    private final @NonNull ImmutableVector2D initialPosition;
     private final int size;
-    private final double minimalDistance;
 
     private @NonNull Result pick() {
-        Result result = null;
-        for (int i = 0; i < MAX_NUMBER_OF_ITERATIONS; i++) {
-            result = new Result(pickOnePosition(),pickOnePosition());
-            if (isTargetCloserToInitialPositionThanBlackHole(result)) {
-                result = result.swapPositions();
-            }
-            if (areValidPositions(result)) {
-                return result;
-            }
+        final var blackHoleDirection = pickDirection();
+        final var targetDirection = pickDirection();
+        final var blackHoleDistance = pickBetween(overlaySize.getMinLength() * 0.5, blackHoleDirection.getLength() * 0.6);
+        final var targetDistance = pickBetween(blackHoleDirection.getLength() * 0.6 + size, targetDirection.getLength() - size*0.5);
+
+
+        return new Result(
+                computePosition(targetDistance, targetDirection.getAngle()),
+                computePosition(blackHoleDistance, blackHoleDirection.getAngle()));
+    }
+
+    private Direction pickDirection() {
+        final double angle = Math.toRadians(pickBetween(25, 65));
+
+        final double length;
+        final double height = Math.atan(angle) * overlaySize.getWidth();
+        if (height <= overlaySize.getHeight()) {
+            length = overlaySize.getWidth() / Math.cos(angle);
+        } else {
+            length = overlaySize.getHeight() / Math.sin(angle);
         }
-        return result;
+        return new Direction(length, angle);
     }
 
-    private @NonNull ImmutableVector2D pickOnePosition() {
-        return ImmutableVector2D.cartesian(pickWithMargin(overlaySize.getWidth()), pickWithMargin(overlaySize.getHeight()));
+    @Value
+    private static class Direction {
+        double length;
+        double angle;
     }
 
-    private int pickWithMargin(int size) {
-        return this.size/2 +random.nextInt(size- this.size);
-    }
-
-    private boolean isTargetCloserToInitialPositionThanBlackHole(Result result) {
-        return distanceToInitialPosition(result.blackHolePosition) > distanceToInitialPosition(result.targetPosition);
-    }
-
-    private double distanceToInitialPosition(@NonNull ImmutableVector2D vector) {
-        return vector.normOfDifference(initialPosition);
-    }
-
-    private boolean areValidPositions(@NonNull Result result) {
-        if (distanceToInitialPosition(result.blackHolePosition)<minimalDistance) {
-            return false;
+    private double pickBetween(double vinf, double vsup) {
+        if (vsup <= vinf) {
+            return vsup;
         }
-        if (Math.abs(result.blackHolePosition.getX()-result.targetPosition.getX())< size) {
-            return false;
-        }
-        return !(Math.abs(result.blackHolePosition.getY() - result.targetPosition.getY()) < size);
+        return random.nextDouble() * (vsup - vinf) + vinf;
     }
+
+    private ImmutableVector2D computePosition(double distance, double angle) {
+        return ImmutableVector2D.cartesian(overlaySize.getWidth() - distance * Math.cos(angle), overlaySize.getHeight() - distance * Math.sin(angle));
+    }
+
 }

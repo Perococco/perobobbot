@@ -43,11 +43,6 @@ public abstract class AbstractPostData<A,S extends Message, M> implements PostDa
         completableFuture.completeExceptionally(t);
     }
 
-    @Override
-    public @NonNull String messagePayload(@NonNull DispatchContext dispatchContext) {
-        return message.payload(dispatchContext);
-    }
-
     public boolean isCompleted() {
         return completableFuture.isDone();
     }
