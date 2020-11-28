@@ -35,7 +35,7 @@
         <!-- extension dependencies. Should be runtime scope -->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-twitch-chat</artifactId>
+            <artifactId>perobobbot-twitch-chat</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

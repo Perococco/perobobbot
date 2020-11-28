@@ -1,6 +1,3 @@
-import perobobbot.lang.Packages;
-import perobobbot.twitch.chat.spring.TwitchIOPackage;
-
 /**
  * @author perococco
  **/
@@ -16,17 +13,11 @@ module perobobbot.twitch.chat {
     requires org.apache.logging.log4j;
 
     requires com.google.common;
-    requires spring.context;
-    requires spring.beans;
 
     exports perobobbot.twitch.chat;
     exports perobobbot.twitch.chat.event;
     exports perobobbot.twitch.chat.message;
     exports perobobbot.twitch.chat.message.to;
     exports perobobbot.twitch.chat.message.from;
-
-    opens perobobbot.twitch.chat.spring to spring.core,spring.beans,spring.context;
-
-    provides Packages with TwitchIOPackage;
 
 }

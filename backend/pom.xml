@@ -19,10 +19,6 @@
     </properties>
 
     <modules>
-        <!-- API and implementation to easily create Chat -->
-        <module>perobobbot.chat/perobobbot.chat.core</module>
-        <module>perobobbot.chat/perobobbot.chat.advanced</module>
-        <module>perobobbot.chat/perobobbot.chat.websocket</module>
 
         <!-- Module to handle data persistence -->
         <module>perobobbot.data/perobobbot.data.com</module>
@@ -49,7 +45,6 @@
 
         <!-- extensions. The scope of the dependencies
         to these modules should be runtime -->
-        <module>extensions/twitch/perobobbot.twitch.chat</module>
         <module>extensions/perobobbot.localio</module>
         <module>extensions/perobobbot.dvdlogo</module>
         <module>extensions/perobobbot.puckwar</module>

@@ -19,6 +19,14 @@
 
     <modules>
         <module>maven</module>
+
+        <!-- API and implementation to easily create Chat -->
+        <module>lib/chat/perobobbot.chat.core</module>
+        <module>lib/chat/perobobbot.chat.advanced</module>
+        <module>lib/chat/perobobbot.chat.websocket</module>
+        <module>lib/twitch/perobobbot.twitch.chat</module>
+
+
         <module>backend</module>
         <module>frontend</module>
     </modules>
