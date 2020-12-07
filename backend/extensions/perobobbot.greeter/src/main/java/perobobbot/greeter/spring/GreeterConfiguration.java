@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.greeter.GreeterExtension;
-import perobobbot.lang.IO;
+import perobobbot.chat.core.IO;
 import perobobbot.messaging.ChatController;
 
 @Configuration

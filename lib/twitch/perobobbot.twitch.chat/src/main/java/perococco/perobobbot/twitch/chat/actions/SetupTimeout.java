@@ -2,12 +2,13 @@ package perococco.perobobbot.twitch.chat.actions;
 
 import lombok.NonNull;
 import perobobbot.twitch.chat.message.to.Ping;
-import perococco.perobobbot.twitch.chat.IO;
+import perococco.perobobbot.twitch.chat.TwitchIO;
+import perococco.perobobbot.twitch.chat.state.mutator.OperatorUsingIO;
 
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
-public class SetupTimeout implements IOAction<Void> {
+public class SetupTimeout implements OperatorUsingIO<CompletionStage<Void>> {
 
     @NonNull
     public static SetupTimeout create() {
@@ -22,14 +23,14 @@ public class SetupTimeout implements IOAction<Void> {
 
     private SetupTimeout() {}
 
-    @NonNull
-    public CompletionStage<Void> evaluate(@NonNull IO io) {
+    @Override
+    public CompletionStage<Void> withIO(@NonNull TwitchIO io) {
         return io.sendToChat(new Ping())
                  .thenApply(this::evaluateTimeout)
                  .thenAccept(io::timeout);
     }
 
-    private Duration evaluateTimeout(@NonNull IO.ReceiptSlip<?> receiptSlip) {
+    private Duration evaluateTimeout(@NonNull TwitchIO.ReceiptSlip<?> receiptSlip) {
         final Duration dialogDuration = Duration.between(receiptSlip.getDispatchingTime(), receiptSlip.getReceptionTime());
         return dialogDuration.multipliedBy(2).plus(Duration.ofSeconds(10));
     }

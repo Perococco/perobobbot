@@ -1,7 +1,10 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.lang.*;
+import perobobbot.chat.core.ChannelIO;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.MessageListener;
+import perobobbot.lang.Subscription;
 import perobobbot.lang.fp.Function1;
 
 import java.net.URI;
@@ -10,14 +13,14 @@ import java.util.concurrent.CompletionStage;
 /**
  * @author perococco
  **/
-public interface TwitchChatIO extends PlatformIO {
+public interface TwitchChatIO {
 
     URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
 
-    @Override
-    default @NonNull Platform getPlatform() {
-        return Platform.TWITCH;
-    }
+
+    @NonNull CompletionStage<ChannelIO> join(@NonNull Channel channel);
+
+    void partAll();
 
     /**
      * Send a message on the provided channel
@@ -26,14 +29,13 @@ public interface TwitchChatIO extends PlatformIO {
      * @return a completion stage that completes when the message has been sent
      */
     @NonNull
-    default CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull String message) {
-        return message(channel,d -> message);
+    default CompletionStage<TwitchDispatchSlip> send(@NonNull Channel channel, @NonNull String message) {
+        return send(channel, d -> message);
     }
 
     @NonNull
-    CompletionStage<TwitchDispatchSlip> message(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
+    CompletionStage<TwitchDispatchSlip> send(@NonNull Channel channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
-    @Override
     @NonNull
     default Subscription addMessageListener(@NonNull MessageListener listener) {
         return addPrivateMessageListener(message -> message.toMessage().ifPresent(listener::onMessage));
@@ -52,14 +54,8 @@ public interface TwitchChatIO extends PlatformIO {
         return this.addTwitchChatListener(listener.toTwitchChatListener());
     }
 
-    /**
-     * @return true if this TwitchChat is running
-     */
-    boolean isRunning();
-
-    @Override
-    default void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        message(Channel.create(channel),messageBuilder);
+    default void send(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+        send(Channel.create(channel),messageBuilder);
     }
 
 

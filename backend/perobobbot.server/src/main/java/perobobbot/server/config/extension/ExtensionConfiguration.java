@@ -12,7 +12,7 @@ import perobobbot.access.PolicyManager;
 import perobobbot.command.CommandBundle;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionManager;
-import perobobbot.lang.IO;
+import perobobbot.chat.core.IO;
 import perobobbot.lang.Role;
 import perobobbot.server.config.extension.executor.*;
 

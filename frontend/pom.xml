@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>maven</artifactId>
+        <artifactId>perobobbot-maven</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../maven/pom.xml</relativePath>
     </parent>

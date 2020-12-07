@@ -9,7 +9,7 @@ import perobobbot.access.PolicyManager;
 import perobobbot.command.CommandBundle;
 import perobobbot.echo.EchoExecutor;
 import perobobbot.echo.EchoExtension;
-import perobobbot.lang.IO;
+import perobobbot.chat.core.IO;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 

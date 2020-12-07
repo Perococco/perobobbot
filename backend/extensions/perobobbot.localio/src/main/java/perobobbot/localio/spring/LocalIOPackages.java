@@ -2,7 +2,7 @@ package perobobbot.localio.spring;
 
 import lombok.NonNull;
 import perobobbot.lang.Packages;
-import perobobbot.localio.LocalIO;
+import perobobbot.localio.LocalChat;
 
 import java.util.stream.Stream;
 
@@ -10,7 +10,7 @@ public class LocalIOPackages implements Packages {
 
     @Override
     public @NonNull String context() {
-        return LocalIO.EXTENSION_NAME;
+        return LocalChat.EXTENSION_NAME;
     }
 
     @Override

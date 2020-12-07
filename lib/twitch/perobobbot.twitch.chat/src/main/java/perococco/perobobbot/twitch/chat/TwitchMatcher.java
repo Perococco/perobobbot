@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.Request;
 import perobobbot.chat.advanced.RequestAnswerMatcher;
+import perobobbot.lang.Identity;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.fp.TryResult;
 import perobobbot.twitch.chat.TwitchMarkers;
@@ -15,6 +16,7 @@ import perobobbot.twitch.chat.message.from.KnownMessageFromTwitch;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.to.RequestToTwitch;
 import perococco.perobobbot.twitch.chat.state.ConnectionIdentity;
+import perococco.perobobbot.twitch.chat.state.ConnectionState;
 
 import java.util.Optional;
 
@@ -26,7 +28,7 @@ import java.util.Optional;
 public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
 
     @NonNull
-    private final ConnectionIdentity connectionIdentity;
+    private final Identity<ConnectionState> connectionIdentity;
 
     @Override
     public @NonNull <A> Optional<TryResult<Throwable,A>> performMatch(@NonNull Request<A> request, @NonNull MessageFromTwitch answer) {
@@ -65,7 +67,7 @@ public class TwitchMatcher implements RequestAnswerMatcher<MessageFromTwitch> {
 
     @NonNull
     private <A> Optional<TryResult<Throwable,A>> performMatch(@NonNull RequestToTwitch<A> request, @NonNull MessageFromTwitch answer) {
-        return connectionIdentity.applyWithTwitchState(s -> request.isMyAnswer(answer, s));
+        return connectionIdentity.get(s -> request.isMyAnswer(answer, s));
     }
 
 

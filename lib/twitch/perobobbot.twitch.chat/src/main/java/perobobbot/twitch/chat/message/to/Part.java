@@ -33,7 +33,7 @@ public class Part extends SimpleRequestToTwitch<perobobbot.twitch.chat.message.f
     @NonNull
     protected Optional<perobobbot.twitch.chat.message.from.Part> doIsMyAnswer(@NonNull perobobbot.twitch.chat.message.from.Part twitchAnswer,
                                                                               @NonNull TwitchChatState state) {
-        if (twitchAnswer.getChannel().equals(channel) && twitchAnswer.getUser().equals(state.userName())) {
+        if (twitchAnswer.getChannel().equals(channel) && twitchAnswer.getUser().equals(state.getUserId())) {
             return Optional.of(twitchAnswer);
         }
         return Optional.empty();

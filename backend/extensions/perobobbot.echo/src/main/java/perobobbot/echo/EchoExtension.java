@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.ChannelInfo;
-import perobobbot.lang.IO;
+import perobobbot.chat.core.IO;
 import perobobbot.lang.User;
 
 public class EchoExtension extends ExtensionBase {
@@ -24,7 +24,7 @@ public class EchoExtension extends ExtensionBase {
             return;
         }
         final String answer = createEchoMessage(messageOwner,contentToEcho);
-        io.print(channelInfo,answer);
+        io.send(channelInfo,answer);
     }
 
     private String createEchoMessage(@NonNull User messageOwner, @NonNull String contentToEcho) {

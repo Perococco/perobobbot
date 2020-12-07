@@ -12,6 +12,7 @@ import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.from.Notice;
 import perobobbot.twitch.chat.message.from.NoticeId;
 import perobobbot.twitch.chat.message.from.UserState;
+import perococco.perobobbot.twitch.chat.TwitchChannelIO;
 
 import java.util.Optional;
 
@@ -21,10 +22,14 @@ import java.util.Optional;
 public class Join extends RequestToTwitch<UserState> {
 
     @NonNull
+    private final String nick;
+
+    @NonNull
     private final Channel channel;
 
-    public Join(@NonNull Channel channel) {
+    public Join(@NonNull String nick, @NonNull Channel channel) {
         super(IRCCommand.JOIN, UserState.class);
+        this.nick = nick;
         this.channel = channel;
     }
 
@@ -67,6 +72,7 @@ public class Join extends RequestToTwitch<UserState> {
 
     @NonNull
     private Optional<TryResult<Throwable, UserState>> checkUserState(@NonNull UserState userState) {
+        System.out.println(userState);
         return Optional.of(TryResult.success(userState));
     }
 

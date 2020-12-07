@@ -6,12 +6,12 @@ import perobobbot.lang.DispatchContext;
 import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.to.PrivMsg;
-import perococco.perobobbot.twitch.chat.IO;
+import perococco.perobobbot.twitch.chat.TwitchIO;
 
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
-public class SendPrivMsg implements IOAction<IO.DispatchSlip> {
+public class SendPrivMsg implements TwitchIOAction<TwitchIO.DispatchSlip> {
 
     @NonNull
     private final PrivMsg privMsg;
@@ -23,7 +23,7 @@ public class SendPrivMsg implements IOAction<IO.DispatchSlip> {
 
 
     @Override
-    public @NonNull CompletionStage<IO.DispatchSlip> evaluate(@NonNull IO io) {
+    public @NonNull CompletionStage<TwitchIO.DispatchSlip> evaluate(@NonNull TwitchIO io) {
         return io.sendToChat(privMsg);
     }
 }

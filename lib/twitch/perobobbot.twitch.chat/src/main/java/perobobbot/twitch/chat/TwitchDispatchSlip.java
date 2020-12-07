@@ -3,8 +3,10 @@ package perobobbot.twitch.chat;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
+import perobobbot.chat.core.ChannelIO;
+import perobobbot.chat.core.DispatchSlip;
 import perobobbot.twitch.chat.message.to.CommandToTwitch;
+import perococco.perobobbot.twitch.chat.TwitchChannelIO;
 
 import java.time.Instant;
 
@@ -12,11 +14,11 @@ import java.time.Instant;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public class TwitchDispatchSlip implements TwitchChatIO {
+public class TwitchDispatchSlip implements DispatchSlip {
 
     @NonNull
-    @Delegate
-    private final TwitchChatIO twitchChatIO;
+    @Getter
+    private final TwitchChannelIO channelIO;
 
     @NonNull
     @Getter
@@ -24,5 +26,6 @@ public class TwitchDispatchSlip implements TwitchChatIO {
 
     @NonNull
     @Getter
-    private final Instant dispatchingTime;
+    private final Instant dispatchTime;
+
 }

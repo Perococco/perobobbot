@@ -7,7 +7,7 @@ public interface IdentityMutator {
     IdentityMutator IDENTITY = v -> v;
 
     @NonNull
-    ConnectionValue mutate(@NonNull ConnectionValue currentValue);
+    ConnectionState mutate(@NonNull ConnectionState currentValue);
 
     @NonNull
     default IdentityMutator then(@NonNull IdentityMutator identityMutator) {

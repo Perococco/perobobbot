@@ -7,12 +7,12 @@ import lombok.NonNull;
  **/
 public interface TwitchChatState {
 
-    boolean connected();
+    boolean isConnected();
 
     /**
      * empty if not defined
      */
     @NonNull
-    String userName();
+    String getUserId();
 
 }

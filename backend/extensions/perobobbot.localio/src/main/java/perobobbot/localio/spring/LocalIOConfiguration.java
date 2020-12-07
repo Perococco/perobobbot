@@ -12,7 +12,7 @@ import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.PlatformIO;
 import perobobbot.lang.Role;
 import perobobbot.localio.Local;
-import perobobbot.localio.LocalIO;
+import perobobbot.localio.LocalChat;
 
 import java.time.Duration;
 
@@ -24,12 +24,12 @@ public class LocalIOConfiguration {
     private final @NonNull ApplicationCloser applicationCloser;
 
     @Bean(destroyMethod = "disable")
-    public LocalIO console() {
+    public LocalChat console() {
         return new Local(applicationCloser).enable();
     }
 
-    @Bean(name= LocalIO.EXTENSION_NAME)
-    public CommandBundle commandBundle(@NonNull LocalIO local) {
+    @Bean(name= LocalChat.EXTENSION_NAME)
+    public CommandBundle commandBundle(@NonNull LocalChat local) {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.THE_BOSS, Duration.ofSeconds(0)));
 
         return CommandBundle.builder()

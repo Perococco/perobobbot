@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
+import java.util.Optional;
 
 /**
  * Event sent when a message is received from the chat
@@ -25,6 +26,11 @@ public class ReceivedMessage<M> implements AdvancedChatEvent<M> {
     @Override
     public <T> T accept(@NonNull AdvancedChatEventVisitor<M,T> visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public @NonNull Optional<ReceivedMessage<M>> castToReceivedMessage() {
+        return Optional.of(this);
     }
 
     @Override

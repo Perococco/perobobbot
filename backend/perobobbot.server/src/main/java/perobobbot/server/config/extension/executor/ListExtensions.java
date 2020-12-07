@@ -6,7 +6,7 @@ import perobobbot.extension.ExtensionInfo;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.Executor;
-import perobobbot.lang.IO;
+import perobobbot.chat.core.IO;
 
 import java.util.stream.Collectors;
 
@@ -27,7 +27,7 @@ public class ListExtensions implements Executor<ExecutionContext> {
                       .map(this::format)
                       .collect(Collectors.joining(", "));
 
-        io.print(context.getChannelInfo(),message);
+        io.send(context.getChannelInfo(),message);
     }
 
     @NonNull

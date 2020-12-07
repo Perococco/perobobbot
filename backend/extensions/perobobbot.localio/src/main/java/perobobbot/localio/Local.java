@@ -3,6 +3,7 @@ package perobobbot.localio;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.chat.core.ChannelIO;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 import perobobbot.localio.swing.InputPanel;
@@ -16,9 +17,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
-public class Local implements LocalIO {
+public class Local implements LocalChat {
 
     public static final String QUIT_COMMAND = "quit";
 
@@ -31,9 +33,21 @@ public class Local implements LocalIO {
     private JFrame dialog = null;
     private SubscriptionHolder guiSubscription = new SubscriptionHolder();
 
+    @Override
+    public @NonNull CompletionStage<ChannelIO> join(@NonNull String channelName) {
+        //TODO
+        throw new RuntimeException("NOT YET IMPLEMENTED");
+    }
+
+    @Override
+    public @NonNull CompletionStage<ChannelIO> findChannelIO(@NonNull String channelName) {
+        //TODO
+        throw new RuntimeException("NOT YET IMPLEMENTED");
+    }
+
     @NonNull
     @Override
-    public LocalIO enable() {
+    public LocalChat enable() {
         showGui();
         inputReader.start();
         return this;
@@ -81,7 +95,7 @@ public class Local implements LocalIO {
     }
 
     @Override
-    public void print(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+    public void send(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
         final String message = messageBuilder.apply((DispatchContext) Instant::now);
         switch (channel) {
             case CONSOLE:

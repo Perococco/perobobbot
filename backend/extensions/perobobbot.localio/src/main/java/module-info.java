@@ -6,6 +6,8 @@ module bot.consoleio {
     requires java.desktop;
     requires perobobbot.lang;
     requires spring.context;
+
+    requires perobobbot.chat.core;
     requires perobobbot.command;
     requires perobobbot.access;
 
