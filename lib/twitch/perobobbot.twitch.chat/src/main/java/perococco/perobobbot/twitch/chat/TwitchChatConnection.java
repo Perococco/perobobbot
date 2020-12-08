@@ -76,8 +76,13 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
 
     @Override
     public @NonNull CompletionStage<TwitchChannelIO> join(@NonNull String channelName) {
-        return operate(new JoinChannel(nick,Channel.create(channelName)))
-                .thenApply(s -> TODO(TwitchChannelIO.class));
+        final Channel channel = Channel.create(channelName);
+        return operate(new JoinChannel(nick,channel))
+                .thenApply(s -> {
+                    final var twitchChannelIO = new TwitchChannelIO(channel,this);
+                    this.operate(Operator.mutator(new ChanelAdder(twitchChannelIO)));
+                    return twitchChannelIO;
+                });
     }
 
     public @NonNull Subscription addMessageListener(@NonNull MessageListener listener) {

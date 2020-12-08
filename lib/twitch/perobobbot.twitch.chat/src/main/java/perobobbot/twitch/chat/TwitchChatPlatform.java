@@ -1,4 +1,4 @@
-package perococco.perobobbot.twitch.chat;
+package perobobbot.twitch.chat;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -10,6 +10,7 @@ import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.lang.*;
 import perobobbot.twitch.chat.TwitchChatListener;
+import perococco.perobobbot.twitch.chat.TwitchChatConnection;
 
 import java.util.HashMap;
 import java.util.Map;
