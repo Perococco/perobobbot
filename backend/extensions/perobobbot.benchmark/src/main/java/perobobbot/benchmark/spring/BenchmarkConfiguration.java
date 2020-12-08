@@ -8,6 +8,7 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.benchmark.BenchmarkExtension;
+import perobobbot.benchmark.action.StartBenchmark;
 import perobobbot.command.CommandBundle;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;

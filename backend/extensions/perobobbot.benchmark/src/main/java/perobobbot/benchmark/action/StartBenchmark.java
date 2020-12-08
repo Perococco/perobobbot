@@ -1,4 +1,4 @@
-package perobobbot.benchmark.spring;
+package perobobbot.benchmark.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
