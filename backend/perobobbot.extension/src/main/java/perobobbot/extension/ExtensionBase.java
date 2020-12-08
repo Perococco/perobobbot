@@ -1,10 +1,17 @@
 package perobobbot.extension;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 
+@RequiredArgsConstructor
 public abstract class ExtensionBase implements Extension {
 
     private volatile boolean enabled = false;
+
+    @Getter
+    private final @NonNull String name;
 
     @Override
     @Synchronized

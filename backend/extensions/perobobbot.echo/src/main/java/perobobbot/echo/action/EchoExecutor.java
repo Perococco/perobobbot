@@ -1,7 +1,8 @@
-package perobobbot.echo;
+package perobobbot.echo.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.echo.EchoExtension;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.fp.Consumer1;
 

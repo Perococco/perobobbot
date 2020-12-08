@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
 import perobobbot.command.CommandBundle;
-import perobobbot.echo.EchoExecutor;
+import perobobbot.command.CommandRegistry;
+import perobobbot.echo.EchoExtensionFactory;
+import perobobbot.echo.action.EchoExecutor;
 import perobobbot.echo.EchoExtension;
 import perobobbot.chat.core.IO;
 import perobobbot.lang.Packages;
@@ -25,18 +27,13 @@ public class EchoConfiguration {
 
     private final @NonNull IO io;
 
+    private final @NonNull CommandRegistry commandRegistry;
+
     private final @NonNull PolicyManager policyManager;
 
     @Bean
-    public EchoExtension echoExtension() {
-        return new EchoExtension("echo", io);
+    public EchoExtensionFactory echoExtensionFactory() {
+        return new EchoExtensionFactory(io,policyManager,commandRegistry);
     }
 
-    @Bean(name = "echo")
-    public CommandBundle commandBundle(@NonNull EchoExtension extension) {
-        final var policy = policyManager.createPolicy(AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10)));
-        return CommandBundle.builder()
-                      .add("echo", policy, new EchoExecutor(extension))
-                      .build();
-    }
 }

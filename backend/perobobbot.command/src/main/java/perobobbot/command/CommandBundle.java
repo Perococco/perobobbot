@@ -44,6 +44,10 @@ public class CommandBundle {
     }
 
 
+    public @NonNull CommandBundleLifeCycle createLifeCycle(@NonNull CommandRegistry commandRegistry) {
+        return new SimpleCommandBundleLifeCycle(commandRegistry,this);
+    }
+
     public static @NonNull Builder builder() { return new PeroBuilder();}
 
 
