@@ -1,4 +1,4 @@
-package perobobbot.server.config.extension.executor;
+package perobobbot.extension._private.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -7,13 +7,12 @@ import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.Executor;
 
 @RequiredArgsConstructor
-public class DisableExtension implements Executor<ExecutionContext> {
+public class DisableAllExtensions implements Executor<ExecutionContext> {
 
     private final @NonNull ExtensionManager extensionManager;
 
     @Override
     public void execute(@NonNull ExecutionContext context) {
-        extensionManager.disableExtension(context.getParameters());
+        extensionManager.disableAll();
     }
-
 }

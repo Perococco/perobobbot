@@ -8,6 +8,10 @@ import perococco.command.PeroCommandRegistry;
 
 import java.util.Optional;
 
+/**
+ * A registered command (with one of the methods {@link #addCommand(Command)}, {@link #addCommands(Command...)}
+ * or {@link #addCommands(ImmutableCollection)} can be found in the registery from its chat name form
+ */
 public interface CommandRegistry {
 
     static @NonNull CommandRegistry create() {

@@ -25,6 +25,11 @@ public class EchoExtensionFactory implements ExtensionFactory {
     private final @NonNull CommandRegistry commandRegistry;
 
     @Override
+    public @NonNull String getExtensionName() {
+        return EchoExtension.NAME;
+    }
+
+    @Override
     public @NonNull Extension create(@NonNull String userId) {
         return new EchoExtension(userId, io, this::buildCommandBundle);
     }

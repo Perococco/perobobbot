@@ -2,32 +2,45 @@ package perobobbot.extension._private;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import perobobbot.extension.Extension;
-import perobobbot.extension.ExtensionInfo;
-import perobobbot.extension.ExtensionManager;
-import perobobbot.extension.UnknownExtension;
+import perobobbot.command.CommandBundleLifeCycle;
+import perobobbot.extension.*;
+import perobobbot.lang.fp.Function1;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 public class PeroExtensionManager implements ExtensionManager {
 
-    public static @NonNull ExtensionManager create(@NonNull ImmutableMap<String, Extension> extensions) {
-        final ExtensionManager extensionManager = new PeroExtensionManager(extensions);
-
-        extensions.values().stream()
-                  .filter(Extension::isAutoStart)
-                  .map(Extension::getName)
-                  .forEach(extensionManager::enableExtension);
-
+    public static @NonNull ExtensionManager create(@NonNull String userId,
+                                                   @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
+                                                   @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
+        final ExtensionManager extensionManager = new PeroExtensionManager(userId, extensionFactories, commandBundleLifeCycleFactory);
         return extensionManager;
     }
 
-    private final @NonNull ImmutableMap<String, Extension> extensions;
+    @Getter
+    private final @NonNull String userId;
 
-    private @NonNull Extension getExtension(@NonNull String extensionName) {
-        final var extension = extensions.get(extensionName);
+    private final @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories;
+
+    private final @NonNull Map<String, Extension> enabledExtensions = new HashMap<>();
+
+    private final CommandBundleLifeCycle commandBundleLifeCycle;
+
+    public PeroExtensionManager(@NonNull String userId,
+                                @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
+                                @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
+        this.userId = userId;
+        this.extensionFactories = extensionFactories;
+        this.commandBundleLifeCycle = commandBundleLifeCycleFactory.f(this);
+        this.commandBundleLifeCycle.attachCommandBundle();
+    }
+
+    private @NonNull ExtensionFactory getExtensionFactory(@NonNull String extensionName) {
+        final var extension = extensionFactories.get(extensionName);
         if (extension == null) {
             throw new UnknownExtension(extensionName);
         }
@@ -36,28 +49,44 @@ public class PeroExtensionManager implements ExtensionManager {
 
     @Override
     public void enableExtension(@NonNull String extensionName) {
-        getExtension(extensionName).enable();
+        enableExtension(getExtensionFactory(extensionName));
     }
 
     @Override
     public void disableExtension(@NonNull String extensionName) {
-        getExtension(extensionName).disable();
+        disableExtension(getExtensionFactory(extensionName));
     }
 
     @Override
     public void enableAll() {
-        extensions.values().forEach(Extension::enable);
+        extensionFactories.values().forEach(this::enableExtension);
     }
 
     @Override
     public void disableAll() {
-        extensions.values().forEach(Extension::disable);
+        extensionFactories.values().forEach(this::disableExtension);
     }
 
     @Override
     public @NonNull ImmutableSet<ExtensionInfo> getExtensionInfo() {
-        return extensions.values().stream()
-                         .map(e -> new ExtensionInfo(e.getName(), e.isEnabled()))
-                         .collect(ImmutableSet.toImmutableSet());
+        return extensionFactories.values().stream()
+                                 .map(this::retrieveExtensionInformation)
+                                 .collect(ImmutableSet.toImmutableSet());
     }
+
+    private @NonNull ExtensionInfo retrieveExtensionInformation(@NonNull ExtensionFactory factory) {
+        return new ExtensionInfo(factory.getExtensionName(), enabledExtensions.containsKey(factory.getExtensionName()));
+    }
+
+    private void enableExtension(@NonNull ExtensionFactory extensionFactory) {
+        final Extension extension = extensionFactory.create(userId);
+        this.enabledExtensions.put(extensionFactory.getExtensionName(), extension);
+        extension.enable();
+    }
+
+    private void disableExtension(@NonNull ExtensionFactory extensionFactory) {
+        Optional.ofNullable(this.enabledExtensions.remove(extensionFactory.getExtensionName()))
+                .ifPresent(Extension::disable);
+    }
+
 }

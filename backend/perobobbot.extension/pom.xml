@@ -26,6 +26,14 @@
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
         <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-command</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-chat-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

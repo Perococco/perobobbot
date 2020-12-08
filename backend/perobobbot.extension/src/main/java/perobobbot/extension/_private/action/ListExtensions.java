@@ -1,4 +1,4 @@
-package perobobbot.server.config.extension.executor;
+package perobobbot.extension._private.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ListExtensions implements Executor<ExecutionContext> {
                       .map(this::format)
                       .collect(Collectors.joining(", "));
 
-        io.send(context.getChannelInfo(),message);
+        io.send(extensionManager.getUserId(), context.getChannelInfo(), message);
     }
 
     @NonNull

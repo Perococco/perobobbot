@@ -7,16 +7,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.access.AccessRule;
 import perobobbot.access.PolicyManager;
-import perobobbot.command.CommandBundle;
-import perobobbot.extension.Extension;
-import perobobbot.extension.ExtensionManager;
 import perobobbot.chat.core.IO;
-import perobobbot.lang.Role;
-import perobobbot.server.config.extension.executor.*;
+import perobobbot.command.CommandRegistry;
+import perobobbot.extension.ExtensionFactory;
+import perobobbot.extension.ExtensionManagerFactory;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,14 +24,18 @@ public class ExtensionConfiguration {
 
     private final @NonNull ApplicationContext applicationContext;
 
+    private final @NonNull IO io;
+    private final @NonNull PolicyManager policyManager;
+    private final @NonNull CommandRegistry commandRegistry;
+
     @Bean(destroyMethod = "disableAll")
-    public ExtensionManager extensionManager() {
-        final var ext = applicationContext.getBeansOfType(Extension.class);
+    public ExtensionManagerFactory extensionManagerFactory() {
+        final var ext = applicationContext.getBeansOfType(ExtensionFactory.class);
 
-        final var extensionsByName = ext.values().stream().collect(Collectors.groupingBy(e -> e.getName()));
+        final var extensionsByName = ext.values().stream().collect(Collectors.groupingBy(e -> e.getExtensionName()));
 
-        final var builder = ImmutableMap.<String,Extension>builder();
-        for (Map.Entry<String, List<Extension>> entry : extensionsByName.entrySet()) {
+        final var builder = ImmutableMap.<String,ExtensionFactory>builder();
+        for (Map.Entry<String, List<ExtensionFactory>> entry : extensionsByName.entrySet()) {
             final var name = entry.getKey();
             final var extensions = entry.getValue();
             if (extensions.size() != 1) {
@@ -43,20 +43,9 @@ public class ExtensionConfiguration {
             }
             builder.put(name, extensions.get(0));
         }
-        return ExtensionManager.create(builder.build());
+        return new ExtensionManagerFactory(io,policyManager,commandRegistry,builder.build());
     }
 
-    @Bean(name = "extension-manager")
-    public CommandBundle commandBundle(@NonNull ExtensionManager extensionManager, @NonNull IO io, @NonNull PolicyManager policyManager) {
-        final var policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
-        return CommandBundle.builder()
-                .add("em list", policy, new ListExtensions(extensionManager,io))
-                .add("em enable", policy, new EnableExtension(extensionManager))
-                .add("em disable", policy, new DisableExtension(extensionManager))
-                .add("em enable-all", policy, new EnableAllExtensions(extensionManager))
-                .add("em disable-all", policy, new DisableAllExtensions(extensionManager))
-                .build();
-    }
 
 
 
