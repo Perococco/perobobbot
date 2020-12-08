@@ -57,11 +57,11 @@
             <artifactId>perobobbot-ext-dvdlogo</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-puckwar</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-puckwar</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>perococco.bot</groupId>-->
 <!--            <artifactId>perobobbot-ext-benchmark</artifactId>-->

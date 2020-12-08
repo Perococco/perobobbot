@@ -8,10 +8,12 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.command.CommandBundle;
+import perobobbot.command.CommandRegistry;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.PuckWarExtension;
+import perobobbot.puckwar.PuckWarExtensionFactory;
 import perobobbot.puckwar.action.LaunchGame;
 import perobobbot.puckwar.action.ThrowPuck;
 
@@ -24,30 +26,16 @@ import static perobobbot.lang.RoleCooldown.applyTo;
 public class PuckWarConfiguration {
 
     public static Packages provider() {
-        return Packages.with(PuckWarExtension.EXTENSION_NAME, PuckWarConfiguration.class);
+        return Packages.with(PuckWarExtension.NAME, PuckWarConfiguration.class);
     }
 
     private final @NonNull Overlay overlay;
     private final @NonNull PolicyManager policyManager;
+    private final @NonNull CommandRegistry commandRegistry;
 
     @Bean
-    public PuckWarExtension puckWarExtension() {
-        return new PuckWarExtension(overlay);
+    public PuckWarExtensionFactory puckWarExtensionFactory() {
+        return new PuckWarExtensionFactory(overlay,policyManager,commandRegistry);
     }
 
-    @Bean(name = PuckWarExtension.EXTENSION_NAME)
-    public CommandBundle commandBundle(@NonNull PuckWarExtension puckWarExtension) {
-        final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
-        final Policy throwPolicy = policyManager.createPolicy(AccessRule.create(Role.ANY_USER,
-                                                                                Duration.ofSeconds(0),
-                                                                                applyTo(Role.THE_BOSS).aCDof(0),
-                                                                                applyTo(Role.ANY_USER).aCDof(10)
-        ));
-        return CommandBundle.builder()
-                      .add("pw start", policy, new LaunchGame(puckWarExtension))
-                      .add("pw stop", policy, puckWarExtension::requestStop)
-                      .add("pw stop now", policy, puckWarExtension::stopGame)
-                      .add("throw", throwPolicy, new ThrowPuck(puckWarExtension))
-                      .build();
-    }
 }

@@ -22,7 +22,8 @@ public class DVDLogoExtension extends ExtensionBase {
 
     private final CommandBundleLifeCycle commandBundleLifeCycle;
 
-    public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay, @NonNull Function1<? super DVDLogoExtension, ? extends CommandBundleLifeCycle> lifeCycleFactory) {
+    public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay,
+                            @NonNull Function1<? super DVDLogoExtension, ? extends CommandBundleLifeCycle> lifeCycleFactory) {
         super(NAME);
         this.userId = userId;
         this.overlay = overlay;

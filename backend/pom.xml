@@ -46,7 +46,7 @@
         <module>extensions/perobobbot.echo</module>
 <!--        <module>extensions/perobobbot.localio</module>-->
         <module>extensions/perobobbot.dvdlogo</module>
-<!--        <module>extensions/perobobbot.puckwar</module>-->
+        <module>extensions/perobobbot.puckwar</module>
 <!--        <module>extensions/perobobbot.greeter</module>-->
 <!--        <module>extensions/perobobbot.benchmark</module>-->
 

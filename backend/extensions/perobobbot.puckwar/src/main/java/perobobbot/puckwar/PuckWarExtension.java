@@ -3,8 +3,10 @@ package perobobbot.puckwar;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.SubscriptionHolder;
+import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.game.GameOptions;
 import perobobbot.puckwar.game.PuckWarGame;
@@ -13,10 +15,9 @@ import perobobbot.puckwar.game.PuckWarRound;
 import java.time.Duration;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class PuckWarExtension extends ExtensionBase {
 
-    public static final String EXTENSION_NAME = "puck-war";
+    public static final String NAME = "puck-war";
 
     private final @NonNull Overlay overlay;
 
@@ -24,9 +25,13 @@ public class PuckWarExtension extends ExtensionBase {
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
-    @Override
-    public @NonNull String getName() {
-        return EXTENSION_NAME;
+    private final CommandBundleLifeCycle commandBundleLifeCycle;
+
+    public PuckWarExtension(@NonNull Overlay overlay,
+                            @NonNull Function1<? super PuckWarExtension, ? extends CommandBundleLifeCycle> lifeCycleFactory) {
+        super(NAME);
+        this.overlay = overlay;
+        this.commandBundleLifeCycle = lifeCycleFactory.f(this);
     }
 
     @Override
@@ -37,13 +42,14 @@ public class PuckWarExtension extends ExtensionBase {
     @Override
     protected void onEnabled() {
         super.onEnabled();
-        this.startGame(new GameOptions(20,Duration.ofSeconds(3)));
+        this.commandBundleLifeCycle.attachCommandBundle();
     }
 
     @Override
     protected void onDisabled() {
         super.onDisabled();
         subscriptionHolder.unsubscribe();
+        this.commandBundleLifeCycle.detachCommandBundle();
     }
 
     @Synchronized
