@@ -11,6 +11,7 @@ import perobobbot.command.CommandRegistry;
 import perobobbot.echo.action.EchoExecutor;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactory;
+import perobobbot.extension.ExtensionWithCommands;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
@@ -31,7 +32,8 @@ public class EchoExtensionFactory implements ExtensionFactory {
 
     @Override
     public @NonNull Extension create(@NonNull String userId) {
-        return new EchoExtension(userId, io, this::buildCommandBundle);
+        final var echoExtension = new EchoExtension(userId, io);
+        return new ExtensionWithCommands(echoExtension,buildCommandBundle(echoExtension));
     }
 
     private CommandBundleLifeCycle buildCommandBundle(@NonNull EchoExtension extension) {

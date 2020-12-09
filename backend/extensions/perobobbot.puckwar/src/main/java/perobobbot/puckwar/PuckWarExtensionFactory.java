@@ -10,6 +10,7 @@ import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.command.CommandRegistry;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactory;
+import perobobbot.extension.ExtensionWithCommands;
 import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.action.LaunchGame;
@@ -31,7 +32,8 @@ public class PuckWarExtensionFactory implements ExtensionFactory {
 
     @Override
     public @NonNull Extension create(@NonNull String userId) {
-        return new PuckWarExtension(overlay, this::createCommandBundleLifeCycle);
+        final var puckWarExtension = new PuckWarExtension(overlay);
+        return new ExtensionWithCommands(puckWarExtension,createCommandBundleLifeCycle(puckWarExtension));
     }
 
     private CommandBundleLifeCycle createCommandBundleLifeCycle(@NonNull PuckWarExtension puckWarExtension) {

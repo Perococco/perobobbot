@@ -22,13 +22,9 @@ public class PuckWarExtension extends ExtensionBase {
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
-    private final CommandBundleLifeCycle commandBundleLifeCycle;
-
-    public PuckWarExtension(@NonNull Overlay overlay,
-                            @NonNull Function1<? super PuckWarExtension, ? extends CommandBundleLifeCycle> lifeCycleFactory) {
+    public PuckWarExtension(@NonNull Overlay overlay) {
         super(NAME);
         this.overlay = overlay;
-        this.commandBundleLifeCycle = lifeCycleFactory.f(this);
     }
 
     @Override
@@ -37,16 +33,9 @@ public class PuckWarExtension extends ExtensionBase {
     }
 
     @Override
-    protected void onEnabled() {
-        super.onEnabled();
-        this.commandBundleLifeCycle.attachCommandBundle();
-    }
-
-    @Override
     protected void onDisabled() {
         super.onDisabled();
         subscriptionHolder.unsubscribe();
-        this.commandBundleLifeCycle.detachCommandBundle();
     }
 
     @Synchronized

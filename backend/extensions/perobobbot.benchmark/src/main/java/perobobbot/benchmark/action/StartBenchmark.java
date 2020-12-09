@@ -3,6 +3,7 @@ package perobobbot.benchmark.action;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.benchmark.BenchmarkExtension;
+import perobobbot.benchmark.BenchmarkExtensionFactory;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.fp.Consumer1;

@@ -18,14 +18,10 @@ public class DVDLogoExtension extends ExtensionBase {
 
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
-    private final CommandBundleLifeCycle commandBundleLifeCycle;
-
-    public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay,
-                            @NonNull Function1<? super DVDLogoExtension, ? extends CommandBundleLifeCycle> lifeCycleFactory) {
+    public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay) {
         super(NAME);
         this.userId = userId;
         this.overlay = overlay;
-        this.commandBundleLifeCycle = lifeCycleFactory.f(this);
     }
 
     @Override
@@ -34,16 +30,9 @@ public class DVDLogoExtension extends ExtensionBase {
     }
 
     @Override
-    protected void onEnabled() {
-        super.onEnabled();
-        commandBundleLifeCycle.attachCommandBundle();
-    }
-
-    @Override
     protected void onDisabled() {
         super.onDisabled();
         overlaySubscription.unsubscribe();
-        commandBundleLifeCycle.detachCommandBundle();
     }
 
     @Synchronized

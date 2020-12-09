@@ -16,13 +16,10 @@ public class EchoExtension extends ExtensionBase {
 
     private final @NonNull IO io;
 
-    private final @NonNull CommandBundleLifeCycle commandBundle;
-
-    public EchoExtension(@NonNull String userId, @NonNull IO io, Function1<EchoExtension, CommandBundleLifeCycle> commandBundleFactory) {
+    public EchoExtension(@NonNull String userId, @NonNull IO io) {
         super(NAME);
         this.userId = userId;
         this.io = io;
-        this.commandBundle = commandBundleFactory.f(this);
     }
 
     public void performEcho(@NonNull ChannelInfo channelInfo, @NonNull User messageOwner, @NonNull String contentToEcho) {
@@ -37,18 +34,6 @@ public class EchoExtension extends ExtensionBase {
         return String.format("%s said '%s'",
                              messageOwner.getHighlightedUserName(),
                              contentToEcho);
-    }
-
-    @Override
-    protected void onEnabled() {
-        super.onEnabled();
-        commandBundle.attachCommandBundle();
-    }
-
-    @Override
-    protected void onDisabled() {
-        super.onDisabled();
-        commandBundle.detachCommandBundle();
     }
 
     @Override

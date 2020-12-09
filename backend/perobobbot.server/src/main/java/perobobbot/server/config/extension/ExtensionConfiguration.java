@@ -32,7 +32,9 @@ public class ExtensionConfiguration {
     public ExtensionManagerFactory extensionManagerFactory() {
         final var ext = applicationContext.getBeansOfType(ExtensionFactory.class);
 
-        final var extensionsByName = ext.values().stream().collect(Collectors.groupingBy(e -> e.getExtensionName()));
+        final var extensionsByName = ext.values()
+                                        .stream()
+                                        .collect(Collectors.groupingBy(ExtensionFactory::getExtensionName));
 
         final var builder = ImmutableMap.<String,ExtensionFactory>builder();
         for (Map.Entry<String, List<ExtensionFactory>> entry : extensionsByName.entrySet()) {

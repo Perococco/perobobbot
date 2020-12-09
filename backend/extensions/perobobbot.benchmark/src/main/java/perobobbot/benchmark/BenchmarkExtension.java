@@ -7,10 +7,7 @@ import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 
-@RequiredArgsConstructor
 public class BenchmarkExtension extends ExtensionBase {
-
-    public static final String EXTENSION_NAME = "benchmark";
 
     private final @NonNull Overlay overlay;
 
@@ -18,9 +15,9 @@ public class BenchmarkExtension extends ExtensionBase {
 
     private BenchmarkOverlay benchmarkOverlay = null;
 
-    @Override
-    public @NonNull String getName() {
-        return EXTENSION_NAME;
+    public BenchmarkExtension(@NonNull Overlay overlay) {
+        super(BenchmarkExtensionFactory.NAME);
+        this.overlay = overlay;
     }
 
     @Synchronized

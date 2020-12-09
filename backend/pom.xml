@@ -48,7 +48,7 @@
         <module>extensions/perobobbot.dvdlogo</module>
         <module>extensions/perobobbot.puckwar</module>
 <!--        <module>extensions/perobobbot.greeter</module>-->
-<!--        <module>extensions/perobobbot.benchmark</module>-->
+        <module>extensions/perobobbot.benchmark</module>
 
         <module>perobobbot.server</module>
         <module>packaging</module>
