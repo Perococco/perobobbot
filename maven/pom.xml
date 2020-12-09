@@ -242,6 +242,11 @@
                 <artifactId>perobobbot-ext-benchmark</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-pause</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>

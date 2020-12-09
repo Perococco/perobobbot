@@ -1,7 +1,7 @@
 import perobobbot.lang.Packages;
 import perobobbot.localio.spring.LocalIOPackages;
 
-module bot.consoleio {
+module perobobbot.consoleio {
     requires static lombok;
     requires java.desktop;
     requires spring.context;

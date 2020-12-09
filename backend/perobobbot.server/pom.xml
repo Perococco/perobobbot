@@ -68,6 +68,11 @@
             <artifactId>perobobbot-ext-benchmark</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-pause</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
 
         <dependency>
