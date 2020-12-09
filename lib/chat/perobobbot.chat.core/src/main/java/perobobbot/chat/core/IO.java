@@ -38,6 +38,10 @@ public interface IO {
         return findPlatform(platform).orElseThrow(() -> new IllegalArgumentException("No IO defined for platform '"+platform+"'"));
     }
 
+    default @NonNull CompletionStage<? extends MessageChannelIO> getMessageChannelIO(@NonNull String nick, @NonNull ChannelInfo channelInfo) {
+        return getPlatform(channelInfo.getPlatform()).getChannelIO(nick,channelInfo.getChannelName());
+    }
+
 
     static IOBuilder builder() {
         return new PerococcoIOBuilder();

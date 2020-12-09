@@ -22,7 +22,9 @@ public class GreeterExtension implements Extension {
 
     @NonNull
     @Getter
-    private final String name = "greeter";
+    private final String name = GreeterExtensionFactory.NAME;
+
+    private final String userId;
 
     @NonNull
     private final IO io;
@@ -40,8 +42,8 @@ public class GreeterExtension implements Extension {
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
-    public GreeterExtension(@NonNull IO io, @NonNull ChatController chatController) {
-        this(io, chatController, new DefaultGreetingMessageCreator());
+    public GreeterExtension(@NonNull String userId, @NonNull IO io, @NonNull ChatController chatController) {
+        this(userId, io, chatController, new DefaultGreetingMessageCreator());
     }
 
     @Override
@@ -90,7 +92,7 @@ public class GreeterExtension implements Extension {
 
             greeters.entrySet()
                     .stream()
-                    .map(e -> new Greeter(io, messageCreator, e.getKey(), e.getValue()))
+                    .map(e -> new Greeter(io, messageCreator, userId, e.getKey(), e.getValue()))
                     .forEach(Greeter::execute);
 
         } catch (Throwable t) {

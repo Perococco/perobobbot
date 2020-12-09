@@ -38,7 +38,7 @@
         <!-- LOG "com.baeldung*" at TRACE level -->
         <Logger name="perobobbot.server.SpringLauncher" level="info"/>
         <Logger name="web" level="warn"/>
-        <Logger name="perobobbot.overlay.api.FPSCounter" level="debug"/>
+        <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>
     </Loggers>
 
 </Configuration>

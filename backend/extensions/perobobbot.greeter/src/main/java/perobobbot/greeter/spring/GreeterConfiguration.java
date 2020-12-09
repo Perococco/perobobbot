@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.greeter.GreeterExtension;
 import perobobbot.chat.core.IO;
+import perobobbot.greeter.GreeterExtensionFactory;
 import perobobbot.messaging.ChatController;
 
 @Configuration
@@ -17,7 +18,7 @@ public class GreeterConfiguration {
     private final @NonNull ChatController chatController;
 
     @Bean
-    public GreeterExtension greeter() {
-        return new GreeterExtension(io,chatController);
+    public GreeterExtensionFactory greeter() {
+        return new GreeterExtensionFactory(io,chatController);
     }
 }
