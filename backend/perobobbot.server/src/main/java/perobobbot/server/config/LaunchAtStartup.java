@@ -48,7 +48,6 @@ public class LaunchAtStartup implements ApplicationRunner, DisposableBean {
     }
 
     private void withChatChannel(@NonNull MessageChannelIO messageChannelIo) {
-        messageChannelIo.send("Connected !!!");
         extensionManagerFactory.create(nick);
     }
 

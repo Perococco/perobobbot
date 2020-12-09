@@ -35,6 +35,17 @@ public class TwitchChatPlatform implements ChatPlatform {
                           .getConnection();
     }
 
+    @Override
+    @Synchronized
+    public void disconnectAll() {
+        connections.values().forEach(c -> c.getConnection().whenComplete((r, t) -> {
+            if (r != null) {
+                r.requestStop();
+            }
+        }));
+        connections.clear();
+    }
+
     @Synchronized
     private void removeConnection(@NonNull String nick) {
         connections.remove(nick);

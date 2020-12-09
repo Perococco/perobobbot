@@ -41,4 +41,5 @@ public interface ChatPlatform {
         return getConnection(nick).thenCompose(c -> c.getChannel(channelName));
     }
 
+    void disconnectAll();
 }
