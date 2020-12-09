@@ -30,7 +30,7 @@ public class BackgroundInfo {
         return new BackgroundInfo(color,this.margin);
     }
 
-    public @NonNull BackgroundInfo withMargin(@NonNull int margin) {
+    public @NonNull BackgroundInfo withMargin(int margin) {
         return new BackgroundInfo(this.color,margin);
     }
 }

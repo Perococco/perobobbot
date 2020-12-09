@@ -73,11 +73,11 @@ public interface Renderer extends AutoCloseable {
      */
     @NonNull Rectangle2D getMaxCharBounds();
 
-    default @NonNull Renderer drawString(@NonNull String string, @NonNull double x, @NonNull double y) {
+    default @NonNull Renderer drawString(@NonNull String string, double x, double y) {
         return drawString(string,x,y,HAlignment.LEFT,VAlignment.TOP);
     }
 
-    default @NonNull Renderer drawString(@NonNull String string, @NonNull double x, @NonNull double y, @NonNull VAlignment vAlignment) {
+    default @NonNull Renderer drawString(@NonNull String string, double x, double y, @NonNull VAlignment vAlignment) {
         return drawString(string,x,y,HAlignment.LEFT,vAlignment);
     }
 

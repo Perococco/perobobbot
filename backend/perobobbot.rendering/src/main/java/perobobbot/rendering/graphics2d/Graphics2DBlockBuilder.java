@@ -44,7 +44,7 @@ public class Graphics2DBlockBuilder implements BlockBuilder {
     }
 
     @Override
-    public @NonNull BlockBuilder setBackgroundMargin(@NonNull int margin) {
+    public @NonNull BlockBuilder setBackgroundMargin(int margin) {
         this.backgroundInfo = this.backgroundInfo.withMargin(margin);
         return this;
     }

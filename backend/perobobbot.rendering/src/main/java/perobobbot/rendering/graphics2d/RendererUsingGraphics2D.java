@@ -158,8 +158,8 @@ public class RendererUsingGraphics2D implements Renderer {
     @Override
     public @NonNull Renderer drawString(
             @NonNull String string,
-            @NonNull double x,
-            @NonNull double y,
+            double x,
+            double y,
             @NonNull HAlignment hAlignment,
             @NonNull VAlignment vAlignment) {
         final Font font = graphics2D.getFont();
