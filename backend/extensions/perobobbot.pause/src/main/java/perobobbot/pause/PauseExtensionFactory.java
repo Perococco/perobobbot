@@ -30,7 +30,7 @@ public class PauseExtensionFactory implements ExtensionFactory {
 
     @Override
     public @NonNull Extension create(@NonNull String userId) {
-        final var pauseExtension = new PauseExtension(userId);
+        final var pauseExtension = new PauseExtension(userId,overlay);
         return new ExtensionWithCommands(pauseExtension,createCommandBundleLifeCycle(pauseExtension));
     }
 
