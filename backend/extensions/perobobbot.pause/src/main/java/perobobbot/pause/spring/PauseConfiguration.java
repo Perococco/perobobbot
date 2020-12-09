@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.access.PolicyManager;
+import perobobbot.chat.core.IO;
 import perobobbot.command.CommandRegistry;
 import perobobbot.lang.Packages;
 import perobobbot.overlay.api.Overlay;
@@ -19,13 +20,14 @@ public class PauseConfiguration {
     }
 
     private final @NonNull Overlay overlay;
+    private final @NonNull IO io;
     private final @NonNull CommandRegistry commandRegistry;
     private final @NonNull PolicyManager policyManager;
 
 
     @Bean
     public @NonNull PauseExtensionFactory pauseExtensionFactory() {
-        return new PauseExtensionFactory(overlay,commandRegistry,policyManager);
+        return new PauseExtensionFactory(overlay,io,commandRegistry,policyManager);
     }
 
 }

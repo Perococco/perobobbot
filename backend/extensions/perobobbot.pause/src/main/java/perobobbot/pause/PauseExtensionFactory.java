@@ -2,13 +2,21 @@ package perobobbot.pause;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.access.AccessRule;
+import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
+import perobobbot.chat.core.IO;
+import perobobbot.command.CommandBundle;
+import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.command.CommandRegistry;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactory;
+import perobobbot.extension.ExtensionWithCommands;
+import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.pause.action.StartPause;
 
-import static perobobbot.lang.Todo.TODO;
+import java.time.Duration;
 
 @RequiredArgsConstructor
 public class PauseExtensionFactory implements ExtensionFactory {
@@ -16,13 +24,28 @@ public class PauseExtensionFactory implements ExtensionFactory {
     public static final String NAME = "pause";
 
     private final @NonNull Overlay overlay;
+    private final @NonNull IO io;
     private final @NonNull CommandRegistry commandRegistry;
     private final @NonNull PolicyManager policyManager;
 
     @Override
     public @NonNull Extension create(@NonNull String userId) {
-        return TODO();
+        final var pauseExtension = new PauseExtension(userId);
+        return new ExtensionWithCommands(pauseExtension,createCommandBundleLifeCycle(pauseExtension));
     }
+
+    private CommandBundleLifeCycle createCommandBundleLifeCycle(@NonNull PauseExtension extension) {
+        final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO));
+
+        return CommandBundle.builder()
+                            .add("pause start", policy, new StartPause(io,extension))
+                            .add("pause stop",policy, extension::stopPause)
+                            .build()
+                            .createLifeCycle(commandRegistry);
+
+
+    }
+
 
     @Override
     public @NonNull String getExtensionName() {
