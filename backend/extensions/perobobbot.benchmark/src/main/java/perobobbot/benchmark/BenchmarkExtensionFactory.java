@@ -28,7 +28,7 @@ public class BenchmarkExtensionFactory implements ExtensionFactory {
 
     @Override
     public @NonNull Extension create(@NonNull String userId) {
-        final var benchmarkExtension = new BenchmarkExtension(overlay);
+        final var benchmarkExtension = new BenchmarkExtension(userId,overlay);
         return new ExtensionWithCommands(benchmarkExtension, createCommandBundleLifeCycle(benchmarkExtension));
     }
 

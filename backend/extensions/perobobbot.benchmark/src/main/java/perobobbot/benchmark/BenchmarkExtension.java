@@ -13,10 +13,13 @@ public class BenchmarkExtension extends ExtensionBase {
 
     private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
 
+    private final @NonNull String userId;
+
     private BenchmarkOverlay benchmarkOverlay = null;
 
-    public BenchmarkExtension(@NonNull Overlay overlay) {
+    public BenchmarkExtension(@NonNull String userId, @NonNull Overlay overlay) {
         super(BenchmarkExtensionFactory.NAME);
+        this.userId = userId;
         this.overlay = overlay;
     }
 
