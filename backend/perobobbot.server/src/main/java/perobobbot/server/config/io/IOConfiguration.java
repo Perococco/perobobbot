@@ -40,7 +40,6 @@ public class IOConfiguration {
     }
 
     private void localListener(@NonNull MessageContext messageContext) {
-        System.out.println(messageContext.getContent());
         messageGateway.sendMessage(messageContext);
     }
 

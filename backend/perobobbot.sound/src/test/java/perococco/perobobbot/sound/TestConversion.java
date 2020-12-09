@@ -1,6 +1,7 @@
 package perococco.perobobbot.sound;
 
 import lombok.NonNull;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import perobobbot.sound.SoundManager;
@@ -30,7 +31,7 @@ public class TestConversion {
         final SoundManager soundManager = SoundManager.create(44100);
         final URL sound = TestConversion.class.getResource(resourceName);
         final UUID id = soundManager.registerSoundResource(sound);
-        System.out.println(id);
+        Assertions.assertNotNull(id);
     }
 
 }
