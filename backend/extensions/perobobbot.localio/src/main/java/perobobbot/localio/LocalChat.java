@@ -2,11 +2,12 @@ package perobobbot.localio;
 
 import lombok.NonNull;
 import perobobbot.chat.core.ChatPlatform;
+import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.Platform;
 import perobobbot.lang.User;
 
-public interface LocalChat extends ChatPlatform {
+public interface LocalChat extends MessageChannelIO {
 
     String CONSOLE = "console";
     ChannelInfo CONSOLE_CHANNEL_INFO = new ChannelInfo(Platform.LOCAL, CONSOLE);
@@ -25,10 +26,5 @@ public interface LocalChat extends ChatPlatform {
     void showGui();
 
     void hideGui();
-
-    @Override
-    default @NonNull Platform getPlatform() {
-        return Platform.LOCAL;
-    }
 
 }

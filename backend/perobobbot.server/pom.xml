@@ -36,12 +36,13 @@
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-twitch-chat</artifactId>
+            <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-localio</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-localio</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>perococco.bot</groupId>-->
 <!--            <artifactId>perobobbot-ext-greeter</artifactId>-->

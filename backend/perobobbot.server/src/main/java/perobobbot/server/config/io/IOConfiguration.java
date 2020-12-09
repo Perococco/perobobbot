@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.chat.core.ChatPlatform;
+import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
 import perobobbot.lang.MessageContext;
@@ -24,8 +25,8 @@ public class IOConfiguration {
     @NonNull
     private final MessageGateway messageGateway;
 
-    @Bean
-    public IO io() {
+    @Bean(destroyMethod = "dispose")
+    public DisposableIO io() {
         final Map<String, ChatPlatform> platformIOs = context.getBeansOfType(ChatPlatform.class);
 
         final IOBuilder builder = IO.builder();
@@ -37,10 +38,6 @@ public class IOConfiguration {
                    });
 
         return builder.build();
-    }
-
-    private void localListener(@NonNull MessageContext messageContext) {
-        messageGateway.sendMessage(messageContext);
     }
 
 }

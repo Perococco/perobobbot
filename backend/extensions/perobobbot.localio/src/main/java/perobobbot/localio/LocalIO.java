@@ -3,7 +3,9 @@ package perobobbot.localio;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.chat.core.ChannelIO;
+import perobobbot.chat.core.DispatchSlip;
+import perobobbot.chat.core.MessageChannelIO;
+import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 import perobobbot.localio.swing.InputPanel;
@@ -17,38 +19,44 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@RequiredArgsConstructor
-public class Local implements LocalChat {
+public class LocalIO implements LocalChat {
 
     public static final String QUIT_COMMAND = "quit";
 
     private final @NonNull ApplicationCloser applicationCloser;
 
-    private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
+    private final @NonNull CommandBundleLifeCycle commandBundleLifeCycle;
+
+    private final @NonNull Listeners<MessageListener> listeners;
 
     private final @NonNull InputReader inputReader = new InputReader();
 
     private JFrame dialog = null;
     private SubscriptionHolder guiSubscription = new SubscriptionHolder();
 
-    @Override
-    public @NonNull CompletionStage<ChannelIO> join(@NonNull String channelName) {
-        //TODO
-        throw new RuntimeException("NOT YET IMPLEMENTED");
+    public LocalIO(@NonNull ApplicationCloser applicationCloser,
+                   @NonNull Function1<LocalIO, CommandBundleLifeCycle> commandBundleLifeCycleFactory,
+                   @NonNull Listeners<MessageListener> listeners) {
+        this.applicationCloser = applicationCloser;
+        this.commandBundleLifeCycle = commandBundleLifeCycleFactory.f(this);
+        this.listeners = listeners;
     }
 
     @Override
-    public @NonNull CompletionStage<ChannelIO> findChannelIO(@NonNull String channelName) {
-        //TODO
-        throw new RuntimeException("NOT YET IMPLEMENTED");
+    public @NonNull CompletionStage<? extends DispatchSlip> send(@NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+        final String message = messageBuilder.apply((DispatchContext) Instant::now);
+        System.out.println(message);
+        return CompletableFuture.completedFuture(DispatchSlip.with(this,Instant.now()));
     }
 
     @NonNull
     @Override
     public LocalChat enable() {
         showGui();
+        commandBundleLifeCycle.attachCommandBundle();
         inputReader.start();
         return this;
     }
@@ -57,6 +65,7 @@ public class Local implements LocalChat {
     public void disable() {
         hideGui();
         inputReader.requestStop();
+        commandBundleLifeCycle.detachCommandBundle();
     }
 
     @Override
@@ -94,16 +103,6 @@ public class Local implements LocalChat {
         this.dialog = null;
     }
 
-    @Override
-    public void send(@NonNull String channel, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        final String message = messageBuilder.apply((DispatchContext) Instant::now);
-        switch (channel) {
-            case CONSOLE:
-                System.out.println(message);
-                break;
-            case GUI:
-        }
-    }
 
     @Override
     public @NonNull Subscription addMessageListener(@NonNull MessageListener listener) {

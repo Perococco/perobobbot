@@ -4,9 +4,9 @@ import perobobbot.localio.spring.LocalIOPackages;
 module bot.consoleio {
     requires static lombok;
     requires java.desktop;
-    requires perobobbot.lang;
     requires spring.context;
 
+    requires perobobbot.lang;
     requires perobobbot.chat.core;
     requires perobobbot.command;
     requires perobobbot.access;

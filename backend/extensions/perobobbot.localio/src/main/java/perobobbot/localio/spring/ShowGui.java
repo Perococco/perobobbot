@@ -16,7 +16,7 @@ public class ShowGui implements Consumer1<ExecutionContext> {
     @Override
     public void f(@NonNull ExecutionContext executionContext) {
         if (GraphicsEnvironment.isHeadless()) {
-            localIO.send(LocalChat.CONSOLE,"No graphic environment for the GUI");
+            localIO.send("No graphic environment for the GUI");
         } else {
             localIO.showGui();
         }

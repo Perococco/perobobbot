@@ -28,7 +28,6 @@ module perobobbot.server {
     requires perobobbot.overlay.api;
     requires perobobbot.access;
     requires perobobbot.command;
-    requires perobobbot.twitch.chat;
 
 
     requires org.apache.logging.log4j;

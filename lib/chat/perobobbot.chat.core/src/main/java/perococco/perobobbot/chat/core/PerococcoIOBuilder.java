@@ -3,6 +3,7 @@ package perococco.perobobbot.chat.core;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.chat.core.ChatPlatform;
+import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
 import perobobbot.lang.Platform;
@@ -15,7 +16,7 @@ public class PerococcoIOBuilder implements IOBuilder {
     private final Map<Platform, ChatPlatform> platforms = new HashMap<>();
 
     @Override
-    public IO build() {
+    public DisposableIO build() {
         return new WithMapIO(ImmutableMap.copyOf(platforms));
     }
 
