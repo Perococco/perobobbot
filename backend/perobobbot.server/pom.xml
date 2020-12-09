@@ -43,11 +43,11 @@
             <artifactId>perobobbot-ext-localio</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-greeter</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-greeter</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-echo</artifactId>

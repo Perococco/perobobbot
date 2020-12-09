@@ -79,6 +79,9 @@ public class PeroExtensionManager implements ExtensionManager {
     }
 
     private void enableExtension(@NonNull ExtensionFactory extensionFactory) {
+        if (enabledExtensions.containsKey(extensionFactory.getExtensionName())) {
+            return;
+        }
         final Extension extension = extensionFactory.create(userId);
         this.enabledExtensions.put(extensionFactory.getExtensionName(), extension);
         extension.enable();

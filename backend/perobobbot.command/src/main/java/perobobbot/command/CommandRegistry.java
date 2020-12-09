@@ -11,6 +11,9 @@ import java.util.Optional;
 /**
  * A registered command (with one of the methods {@link #addCommand(Command)}, {@link #addCommands(Command...)}
  * or {@link #addCommands(ImmutableCollection)} can be found in the registery from its chat name form
+ *
+ * WARNING the commandRegistry does not known anything about the user. This might be problematic
+ * when multiple users will be managed by the bot.
  */
 public interface CommandRegistry {
 
