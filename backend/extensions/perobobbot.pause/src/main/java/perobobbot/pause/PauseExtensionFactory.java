@@ -14,7 +14,7 @@ import perobobbot.extension.ExtensionFactory;
 import perobobbot.extension.ExtensionWithCommands;
 import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
-import perobobbot.pause.action.StartPause;
+import perobobbot.pause.action.ExecuteCommand;
 
 import java.time.Duration;
 
@@ -38,8 +38,7 @@ public class PauseExtensionFactory implements ExtensionFactory {
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO));
 
         return CommandBundle.builder()
-                            .add("pause start", policy, new StartPause(io,extension))
-                            .add("pause stop",policy, extension::stopPause)
+                            .add("pause", policy, new ExecuteCommand(io,extension))
                             .build()
                             .createLifeCycle(commandRegistry);
 

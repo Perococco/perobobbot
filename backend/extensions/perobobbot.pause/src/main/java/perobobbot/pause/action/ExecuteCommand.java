@@ -11,7 +11,7 @@ import java.time.Duration;
 
 @NonNull
 @RequiredArgsConstructor
-public class StartPause implements Consumer1<ExecutionContext> {
+public class ExecuteCommand implements Consumer1<ExecutionContext> {
 
     private final @NonNull IO io;
 
@@ -19,9 +19,14 @@ public class StartPause implements Consumer1<ExecutionContext> {
 
     @Override
     public void f(@NonNull ExecutionContext executionContext) {
-        final var duration = parseArgument(executionContext.getParameters());
-        pauseExtension.startPause(duration);
-        io.send(pauseExtension.getUserId(),executionContext.getChannelInfo(),formPauseMessage(executionContext));
+        final var parameters = executionContext.getParameters().trim();
+        if (parameters.equals("stop")) {
+            pauseExtension.stopPause();
+        } else {
+            final var duration = parseArgument(executionContext.getParameters());
+            pauseExtension.startPause(duration);
+            io.send(pauseExtension.getUserId(), executionContext.getChannelInfo(), formPauseMessage(executionContext));
+        }
     }
 
     private @NonNull String formPauseMessage(@NonNull ExecutionContext executionContext) {
