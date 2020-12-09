@@ -2,9 +2,9 @@ package perobobbot.puckwar.game;
 
 import lombok.NonNull;
 import perobobbot.lang.fp.UnaryOperator1;
+import perobobbot.physics.CircleBounding;
 import perobobbot.physics.GravityEffect;
 import perobobbot.physics.ImmutableVector2D;
-import perobobbot.physics.CircleBounding;
 import perobobbot.physics.Universe;
 import perobobbot.rendering.*;
 

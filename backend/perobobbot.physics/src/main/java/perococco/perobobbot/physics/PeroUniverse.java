@@ -3,7 +3,6 @@ package perococco.perobobbot.physics;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.lang.SubscriptionHolder;
-import perobobbot.physics.Vector2D;
 import perobobbot.physics.*;
 
 import java.util.*;

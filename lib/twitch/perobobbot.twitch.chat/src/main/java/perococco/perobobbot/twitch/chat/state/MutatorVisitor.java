@@ -2,7 +2,9 @@ package perococco.perobobbot.twitch.chat.state;
 
 import lombok.NonNull;
 import perobobbot.lang.Mutation;
-import perobobbot.twitch.chat.message.from.*;
+import perobobbot.twitch.chat.message.from.MessageFromTwitch;
+import perobobbot.twitch.chat.message.from.MessageFromTwitchAdapter;
+import perobobbot.twitch.chat.message.from.Part;
 import perococco.perobobbot.twitch.chat.state.mutator.ChanelRemover;
 
 public class MutatorVisitor extends MessageFromTwitchAdapter<Mutation<ConnectionState>> {

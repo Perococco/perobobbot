@@ -3,7 +3,6 @@ package perococco.perobobbot.common.lang;
 import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.lang.*;
-import perobobbot.lang.fp.Function1;
 
 /**
  * @author perococco

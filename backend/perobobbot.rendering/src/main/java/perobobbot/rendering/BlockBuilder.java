@@ -1,6 +1,5 @@
 package perobobbot.rendering;
 
-import lombok.Builder;
 import lombok.NonNull;
 
 import java.awt.*;

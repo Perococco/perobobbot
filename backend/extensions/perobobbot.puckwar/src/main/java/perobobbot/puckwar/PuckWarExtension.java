@@ -1,7 +1,6 @@
 package perobobbot.puckwar;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
@@ -10,9 +9,7 @@ import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.game.GameOptions;
 import perobobbot.puckwar.game.PuckWarGame;
-import perobobbot.puckwar.game.PuckWarRound;
 
-import java.time.Duration;
 import java.util.Optional;
 
 public class PuckWarExtension extends ExtensionBase {

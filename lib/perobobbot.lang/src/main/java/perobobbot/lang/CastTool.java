@@ -8,8 +8,6 @@ import perobobbot.lang.fp.Function1;
 
 import java.awt.*;
 import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
 import java.util.function.Function;
 
 /**

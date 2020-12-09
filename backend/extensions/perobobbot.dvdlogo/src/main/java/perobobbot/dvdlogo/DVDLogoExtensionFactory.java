@@ -2,7 +2,6 @@ package perobobbot.dvdlogo;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;

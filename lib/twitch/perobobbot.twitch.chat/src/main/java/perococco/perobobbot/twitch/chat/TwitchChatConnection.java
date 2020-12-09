@@ -6,25 +6,32 @@ import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
-import perobobbot.chat.core.*;
+import perobobbot.chat.core.ChatAuthentication;
+import perobobbot.chat.core.ChatConnection;
+import perobobbot.chat.core.ChatFactory;
 import perobobbot.lang.*;
-import perobobbot.twitch.chat.*;
+import perobobbot.twitch.chat.Capability;
+import perobobbot.twitch.chat.Channel;
+import perobobbot.twitch.chat.TwitchChatListener;
+import perobobbot.twitch.chat.TwitchConstants;
 import perobobbot.twitch.chat.event.TwitchChatEvent;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.from.GlobalUserState;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
-import perobobbot.twitch.chat.message.to.*;
+import perobobbot.twitch.chat.message.to.Cap;
+import perobobbot.twitch.chat.message.to.Nick;
+import perobobbot.twitch.chat.message.to.Pass;
+import perobobbot.twitch.chat.message.to.Pong;
 import perococco.perobobbot.twitch.chat.actions.JoinChannel;
 import perococco.perobobbot.twitch.chat.actions.SetupTimeout;
-import perococco.perobobbot.twitch.chat.state.*;
+import perococco.perobobbot.twitch.chat.state.ConnectionState;
+import perococco.perobobbot.twitch.chat.state.StateUpdater;
 import perococco.perobobbot.twitch.chat.state.mutator.*;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
-
-import static perobobbot.lang.Todo.TODO;
 
 /**
  * @author perococco

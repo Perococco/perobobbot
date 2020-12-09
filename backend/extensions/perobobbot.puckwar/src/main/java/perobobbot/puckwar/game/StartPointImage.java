@@ -3,7 +3,6 @@ package perobobbot.puckwar.game;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.MathTool;
 import perobobbot.rendering.Renderer;
 
 import java.awt.*;

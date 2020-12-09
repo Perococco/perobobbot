@@ -8,7 +8,6 @@ import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
 
-import java.time.Instant;
 import java.util.Optional;
 
 @RequiredArgsConstructor

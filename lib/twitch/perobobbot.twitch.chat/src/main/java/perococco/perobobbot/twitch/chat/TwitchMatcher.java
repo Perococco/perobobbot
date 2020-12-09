@@ -15,7 +15,6 @@ import perobobbot.twitch.chat.message.from.InvalidIRCCommand;
 import perobobbot.twitch.chat.message.from.KnownMessageFromTwitch;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.to.RequestToTwitch;
-import perococco.perobobbot.twitch.chat.state.ConnectionIdentity;
 import perococco.perobobbot.twitch.chat.state.ConnectionState;
 
 import java.util.Optional;

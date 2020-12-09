@@ -2,7 +2,6 @@ package perococco.perobobbot.twitch.chat;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.MessageListener;
 import perobobbot.twitch.chat.PrivMsgFromTwitchListener;
 import perobobbot.twitch.chat.TwitchChatListener;
 import perobobbot.twitch.chat.TwitchChatState;

@@ -4,8 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.*;
-import perobobbot.lang.*;
+import perobobbot.chat.core.ChatPlatform;
+import perobobbot.chat.core.DispatchSlip;
+import perobobbot.chat.core.IO;
+import perobobbot.chat.core.UnknownChatPlatform;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
 
 import java.util.Optional;

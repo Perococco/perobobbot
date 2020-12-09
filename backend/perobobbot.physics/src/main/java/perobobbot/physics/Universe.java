@@ -3,7 +3,7 @@ package perobobbot.physics;
 import lombok.NonNull;
 import perococco.perobobbot.physics.PeroUniverse;
 
-import java.util.*;
+import java.util.UUID;
 
 public interface Universe {
 

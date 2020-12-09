@@ -3,8 +3,8 @@ package perococco.perobobbot.twitch.chat.state;
 import lombok.NonNull;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChatState;
-import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 import perococco.perobobbot.twitch.chat.TwitchIO;
+import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 
 import java.util.Optional;
 

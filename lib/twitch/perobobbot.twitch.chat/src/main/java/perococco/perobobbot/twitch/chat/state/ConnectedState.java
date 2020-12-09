@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
 import perobobbot.twitch.chat.Channel;
-import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 import perococco.perobobbot.twitch.chat.TwitchIO;
+import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 import perococco.perobobbot.twitch.chat.actions.TwitchIOAction;
 
 import java.util.Optional;

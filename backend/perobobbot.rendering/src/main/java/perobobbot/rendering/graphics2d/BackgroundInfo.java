@@ -3,7 +3,6 @@ package perobobbot.rendering.graphics2d;
 import lombok.*;
 
 import java.awt.*;
-import java.awt.desktop.OpenFilesEvent;
 import java.util.Optional;
 
 @Value

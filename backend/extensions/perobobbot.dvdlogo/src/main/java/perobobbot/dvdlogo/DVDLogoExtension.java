@@ -1,8 +1,6 @@
 package perobobbot.dvdlogo;
 
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;

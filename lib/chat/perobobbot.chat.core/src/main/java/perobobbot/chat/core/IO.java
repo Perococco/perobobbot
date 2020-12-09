@@ -3,7 +3,6 @@ package perobobbot.chat.core;
 import lombok.NonNull;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.DispatchContext;
-import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
 import perococco.perobobbot.chat.core.PerococcoIOBuilder;

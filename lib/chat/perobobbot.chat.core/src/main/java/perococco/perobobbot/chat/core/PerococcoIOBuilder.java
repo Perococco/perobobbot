@@ -2,10 +2,10 @@ package perococco.perobobbot.chat.core;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
+import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
 import perobobbot.lang.Platform;
-import perobobbot.chat.core.ChatPlatform;
 
 import java.util.HashMap;
 import java.util.Map;

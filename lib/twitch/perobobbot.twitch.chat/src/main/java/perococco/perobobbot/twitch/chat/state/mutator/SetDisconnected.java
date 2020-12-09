@@ -3,7 +3,9 @@ package perococco.perobobbot.twitch.chat.state.mutator;
 import lombok.NonNull;
 import perobobbot.lang.Mutation;
 import perobobbot.lang.Subscription;
-import perococco.perobobbot.twitch.chat.state.*;
+import perococco.perobobbot.twitch.chat.state.ConnectedState;
+import perococco.perobobbot.twitch.chat.state.ConnectingState;
+import perococco.perobobbot.twitch.chat.state.ConnectionState;
 
 public class SetDisconnected implements Mutation<ConnectionState> {
 

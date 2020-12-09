@@ -1,7 +1,10 @@
 package perobobbot.rendering.graphics2d;
 
 import com.google.common.collect.ImmutableList;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perobobbot.rendering.Block;
 import perobobbot.rendering.HAlignment;
 import perobobbot.rendering.Size;

@@ -1,7 +1,6 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
-import perobobbot.lang.fp.Function1;
 
 public class ProxyIdentity<S> implements Identity<S> {
 

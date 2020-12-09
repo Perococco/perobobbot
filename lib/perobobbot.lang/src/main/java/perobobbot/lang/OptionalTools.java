@@ -1,12 +1,10 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
-import lombok.experimental.ExtensionMethod;
 import perobobbot.lang.fp.Consumer2;
 import perobobbot.lang.fp.Function2;
 import perobobbot.lang.fp.Value2;
 
-import java.awt.image.AffineTransformOp;
 import java.util.Optional;
 
 public class OptionalTools {

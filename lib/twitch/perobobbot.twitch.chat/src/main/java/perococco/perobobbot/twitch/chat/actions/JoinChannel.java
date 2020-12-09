@@ -6,7 +6,6 @@ import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.message.from.UserState;
 import perobobbot.twitch.chat.message.to.Join;
 import perococco.perobobbot.twitch.chat.TwitchIO;
-import perococco.perobobbot.twitch.chat.state.IdentityMutator;
 import perococco.perobobbot.twitch.chat.state.mutator.OperatorUsingIO;
 
 import java.util.concurrent.CompletionStage;

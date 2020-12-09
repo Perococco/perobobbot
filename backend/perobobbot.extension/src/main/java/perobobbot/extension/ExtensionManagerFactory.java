@@ -10,8 +10,6 @@ import perobobbot.chat.core.IO;
 import perobobbot.command.CommandBundle;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.command.CommandRegistry;
-import perobobbot.extension.ExtensionFactory;
-import perobobbot.extension.ExtensionManager;
 import perobobbot.extension._private.PeroExtensionManager;
 import perobobbot.extension._private.action.*;
 import perobobbot.lang.PerobobbotException;

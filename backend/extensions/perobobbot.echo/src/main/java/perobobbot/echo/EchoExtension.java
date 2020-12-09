@@ -2,9 +2,7 @@ package perobobbot.echo;
 
 import lombok.NonNull;
 import perobobbot.chat.core.IO;
-import perobobbot.command.CommandBundle;
 import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.echo.action.EchoExecutor;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.User;

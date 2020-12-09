@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Mutation;
 import perobobbot.lang.Subscription;
 import perobobbot.twitch.chat.TwitchChatAlreadyConnected;
-import perococco.perobobbot.twitch.chat.state.ConnectingState;
 import perococco.perobobbot.twitch.chat.state.ConnectionState;
 
 @RequiredArgsConstructor
