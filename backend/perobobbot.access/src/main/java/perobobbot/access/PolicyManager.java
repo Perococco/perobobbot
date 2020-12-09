@@ -18,7 +18,7 @@ public interface PolicyManager {
 
     /**
      * Clean up any policy information (like execution time of associated
-     * to user for which the cooldown has cooled down...)
+     * to user for which the cool-down has cooled down...)
      */
     void cleanUp();
 }

@@ -2,7 +2,6 @@ package perobobbot.puckwar;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jmx.export.annotation.ManagedNotification;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
@@ -18,7 +17,7 @@ import perobobbot.puckwar.action.ThrowPuck;
 
 import java.time.Duration;
 
-import static perobobbot.lang.RoleCooldown.applyTo;
+import static perobobbot.lang.RoleCoolDown.applyTo;
 
 @RequiredArgsConstructor
 public class PuckWarExtensionFactory implements ExtensionFactory {

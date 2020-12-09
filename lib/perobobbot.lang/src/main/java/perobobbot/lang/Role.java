@@ -34,12 +34,12 @@ public enum Role {
     }
 
     @NonNull
-    public RoleCooldown cooldown(@NonNull Duration duration) {
-        return new RoleCooldown(this,duration);
+    public RoleCoolDown cooldown(@NonNull Duration duration) {
+        return new RoleCoolDown(this,duration);
     }
 
     @NonNull
-    public RoleCooldown noCooldown() {
+    public RoleCoolDown noCooldown() {
         return cooldown(Duration.ZERO);
     }
 

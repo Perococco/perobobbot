@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
 import perobobbot.lang.Role;
-import perobobbot.lang.RoleCooldown;
+import perobobbot.lang.RoleCoolDown;
 import perobobbot.lang.User;
 
 import java.time.Duration;
@@ -27,34 +27,34 @@ public class AccessRule {
     Role requiredRole;
 
     /**
-     * The default cooldown for the role without specific cooldown
+     * The default cool-down for the role without specific cool-down
      */
     @NonNull
-    Duration defaultCooldown;
+    Duration defaultCoolDown;
 
     /**
-     * the cooldown for each role
+     * the cool-down for each role
      */
     @NonNull
     @Singular
     ImmutableMap<Role,Duration> coolDowns;
 
     @NonNull
-    public static AccessRule create(@NonNull Role requiredRole, @NonNull RoleCooldown... roleCoolDowns) {
+    public static AccessRule create(@NonNull Role requiredRole, @NonNull RoleCoolDown... roleCoolDowns) {
         return create(requiredRole,Duration.ZERO,roleCoolDowns);
     }
 
     @NonNull
-    public static AccessRule create(@NonNull Role requiredRole, @NonNull Duration defaultCooldown, @NonNull RoleCooldown... roleCoolDowns) {
+    public static AccessRule create(@NonNull Role requiredRole, @NonNull Duration defaultCooldown, @NonNull RoleCoolDown... roleCoolDowns) {
         return new AccessRule(
                 requiredRole,
                 defaultCooldown,
-                Arrays.stream(roleCoolDowns).collect(Collectors.collectingAndThen(Collectors.toMap(RoleCooldown::getRole, RoleCooldown::getDuration), ImmutableMap::copyOf))
+                Arrays.stream(roleCoolDowns).collect(Collectors.collectingAndThen(Collectors.toMap(RoleCoolDown::getRole, RoleCoolDown::getDuration), ImmutableMap::copyOf))
         );
     }
 
     @NonNull
-    public Optional<Duration> maxCooldownForRole() {
+    public Optional<Duration> maxCoolDownForRole() {
         return coolDowns.values().stream().max(Duration::compareTo);
     }
 
@@ -74,7 +74,7 @@ public class AccessRule {
      */
     @NonNull
     public Duration findForUserOrGlobalCoolDown(@NonNull User user) {
-        return findCoolDownFor(user).orElse(defaultCooldown);
+        return findCoolDownFor(user).orElse(defaultCoolDown);
     }
 
 

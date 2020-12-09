@@ -7,7 +7,7 @@ import lombok.Value;
 import java.time.Duration;
 
 @Value
-public class RoleCooldown {
+public class RoleCoolDown {
 
     @NonNull Role role;
 
@@ -22,11 +22,11 @@ public class RoleCooldown {
     public static class RoleCooldownBuilder {
         private final @NonNull Role role;
 
-        public @NonNull RoleCooldown aCDof(@NonNull Duration duration) {
-            return new RoleCooldown(role,duration);
+        public @NonNull RoleCoolDown aCDof(@NonNull Duration duration) {
+            return new RoleCoolDown(role,duration);
         }
 
-        public @NonNull RoleCooldown aCDof(long coolDownInSeconds) {
+        public @NonNull RoleCoolDown aCDof(long coolDownInSeconds) {
             return aCDof(Duration.ofSeconds(coolDownInSeconds));
         }
     }

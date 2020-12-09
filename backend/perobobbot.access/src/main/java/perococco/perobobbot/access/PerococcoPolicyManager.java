@@ -108,7 +108,7 @@ public class PerococcoPolicyManager implements PolicyManager {
             this.parent = parent;
             this.policyId = policyId;
             this.rule = rule;
-            this.maxUserCoolDown = rule.maxCooldownForRole().orElse(Duration.ZERO);
+            this.maxUserCoolDown = rule.maxCoolDownForRole().orElse(Duration.ZERO);
         }
 
         @Synchronized
@@ -159,7 +159,7 @@ public class PerococcoPolicyManager implements PolicyManager {
 
         private boolean globalCoolDownPolicyFailed(@NonNull Instant now) {
             final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, now);
-            return durationSinceLastExecution.compareTo(rule.getDefaultCooldown()) < 0;
+            return durationSinceLastExecution.compareTo(rule.getDefaultCoolDown()) < 0;
         }
 
         private boolean userCoolDownPolicyFailed(@NonNull User executor, @NonNull Instant now) {
