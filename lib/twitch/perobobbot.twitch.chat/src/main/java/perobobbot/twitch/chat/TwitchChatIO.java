@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.chat.core.ChannelIO;
+import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.MessageListener;
 import perobobbot.lang.Subscription;
@@ -18,7 +18,7 @@ public interface TwitchChatIO {
     URI TWITCH_CHAT_URI = URI.create("wss://irc-ws.chat.twitch.tv:443");
 
 
-    @NonNull CompletionStage<ChannelIO> join(@NonNull Channel channel);
+    @NonNull CompletionStage<MessageChannelIO> join(@NonNull Channel channel);
 
     void partAll();
 

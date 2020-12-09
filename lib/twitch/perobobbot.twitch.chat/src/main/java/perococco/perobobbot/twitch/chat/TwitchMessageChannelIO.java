@@ -3,7 +3,7 @@ package perococco.perobobbot.twitch.chat;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.chat.core.ChannelIO;
+import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.chat.core.DispatchSlip;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.MessageListener;
@@ -18,7 +18,7 @@ import perococco.perobobbot.twitch.chat.state.mutator.OperatorToSendCommand;
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
-public class TwitchChannelIO implements ChannelIO {
+public class TwitchMessageChannelIO implements MessageChannelIO {
 
     @Getter
     private final @NonNull Channel channel;

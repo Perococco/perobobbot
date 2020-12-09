@@ -6,9 +6,7 @@ import java.time.Instant;
 
 public interface DispatchContext {
 
-
     @NonNull Instant getDispatchingTime();
-
 
     DispatchContext NIL = () -> Instant.EPOCH;
 

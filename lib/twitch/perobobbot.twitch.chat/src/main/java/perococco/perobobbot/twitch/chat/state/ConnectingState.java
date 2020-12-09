@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Subscription;
+import perococco.perobobbot.twitch.chat.TwitchIO;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ConnectingState extends NotConnectedState {
@@ -16,7 +19,16 @@ public class ConnectingState extends NotConnectedState {
     private final @NonNull Subscription subscription;
 
     @Override
-    public <T> @NonNull T accept(@NonNull Visitor<T> visitor) {
-        return visitor.visit(this);
+    public @NonNull Optional<ConnectingState> asConnectingState() {
+        return Optional.of(this);
+    }
+
+    public @NonNull ConnectedState toConnected(@NonNull TwitchIO twitchIO, @NonNull String userId) {
+        return ConnectedState.create(
+                twitchIO,
+                userId,
+                subscription
+        );
+
     }
 }

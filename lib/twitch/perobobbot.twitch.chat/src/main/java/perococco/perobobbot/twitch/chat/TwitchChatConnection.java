@@ -10,6 +10,7 @@ import perobobbot.chat.core.*;
 import perobobbot.lang.*;
 import perobobbot.twitch.chat.*;
 import perobobbot.twitch.chat.event.TwitchChatEvent;
+import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.from.GlobalUserState;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.to.*;
@@ -60,7 +61,7 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     }
 
     @Override
-    public @NonNull CompletionStage<Optional<TwitchChannelIO>> findChannel(@NonNull String channelName) {
+    public @NonNull CompletionStage<Optional<TwitchMessageChannelIO>> findChannel(@NonNull String channelName) {
         final var channel = Channel.create(channelName);
         return CompletableFuture.supplyAsync(() -> connectionIdentity.get(state -> state.findChannel(channel)));
     }
@@ -75,11 +76,11 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     }
 
     @Override
-    public @NonNull CompletionStage<TwitchChannelIO> join(@NonNull String channelName) {
+    public @NonNull CompletionStage<TwitchMessageChannelIO> join(@NonNull String channelName) {
         final Channel channel = Channel.create(channelName);
         return operate(new JoinChannel(nick,channel))
                 .thenApply(s -> {
-                    final var twitchChannelIO = new TwitchChannelIO(channel,this);
+                    final var twitchChannelIO = new TwitchMessageChannelIO(channel,this);
                     this.operate(Operator.mutator(new ChanelAdder(twitchChannelIO)));
                     return twitchChannelIO;
                 });
@@ -136,7 +137,8 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
 
     private void handleAuthenticationResult(ReceiptSlip<GlobalUserState> result, Throwable error) {
         if (result != null) {
-            connectionIdentity.mutate(new SetConnected(result.getAnswer(),chat));
+            final String userId = result.getAnswer().getTag(TagKey.USER_ID);
+            connectionIdentity.mutate(new SetConnected(userId,chat));
         } else {
             requestStop();
         }

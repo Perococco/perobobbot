@@ -6,7 +6,13 @@ import java.time.Instant;
 
 public interface DispatchSlip {
 
-    @NonNull ChannelIO getChannelIO();
+    /**
+     * @return the channel used to send to message
+     */
+    @NonNull MessageChannelIO getMessageChannelIO();
 
+    /**
+     * @return the time the message was sent (basically when it left the bot to the iiIInteEErneEEt)
+     */
     @NonNull Instant getDispatchTime();
 }

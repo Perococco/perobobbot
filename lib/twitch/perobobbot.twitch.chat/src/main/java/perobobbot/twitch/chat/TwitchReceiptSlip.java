@@ -4,9 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import perobobbot.twitch.chat.message.to.RequestToTwitch;
-import perococco.perobobbot.twitch.chat.TwitchChannelIO;
+import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,7 +19,7 @@ public class TwitchReceiptSlip<A> {
 
     @NonNull
     @Getter
-    private final TwitchChannelIO twitchChatIO;
+    private final TwitchMessageChannelIO twitchChatIO;
 
     @NonNull
     @Getter

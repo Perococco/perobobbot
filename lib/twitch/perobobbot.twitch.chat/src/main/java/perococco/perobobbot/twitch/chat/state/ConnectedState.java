@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
 import perobobbot.twitch.chat.Channel;
-import perococco.perobobbot.twitch.chat.TwitchChannelIO;
+import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 import perococco.perobobbot.twitch.chat.TwitchIO;
 import perococco.perobobbot.twitch.chat.actions.TwitchIOAction;
 
@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.function.UnaryOperator;
 
+/**
+ * The connected state.
+ */
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
 public class ConnectedState implements ConnectionState {
@@ -24,21 +27,28 @@ public class ConnectedState implements ConnectionState {
         return new ConnectedState(io,userId, ImmutableMap.of(), subscription);
     }
 
+    /**
+     * the i/o to communicate with twitch chat
+     */
     @Getter
     private final @NonNull TwitchIO twitchIO;
 
+    /**
+     * The id of the user used for the connection
+     */
     @Getter
     private final @NonNull String userId;
 
-    private final @NonNull ImmutableMap<Channel, TwitchChannelIO> joinedChannels;
+    /**
+     * A map of all the joined channels
+     */
+    private final @NonNull ImmutableMap<Channel, TwitchMessageChannelIO> joinedChannels;
 
+    /**
+     *
+     */
     @Getter
     private final @NonNull Subscription subscription;
-
-    @Override
-    public <T> @NonNull T accept(@NonNull Visitor<T> visitor) {
-        return visitor.visit(this);
-    }
 
     @Override
     public boolean isConnected() {
@@ -46,20 +56,20 @@ public class ConnectedState implements ConnectionState {
     }
 
     @Override
-    public @NonNull ConnectedState asConnectedState() {
-        return this;
+    public @NonNull Optional<ConnectedState> asConnectedState() {
+        return Optional.of(this);
     }
 
     public <T> @NonNull CompletionStage<T> execute(@NonNull TwitchIOAction<T> action) {
         return action.evaluate(this.getTwitchIO());
     }
 
-    public @NonNull Optional<TwitchChannelIO> findChannel(@NonNull Channel channel) {
+    public @NonNull Optional<TwitchMessageChannelIO> findChannel(@NonNull Channel channel) {
         return Optional.ofNullable(joinedChannels.get(channel));
     }
 
 
-    public @NonNull ConnectedState withAddedJoinedChannel(@NonNull TwitchChannelIO twitchChannelIO) {
+    public @NonNull ConnectedState withAddedJoinedChannel(@NonNull TwitchMessageChannelIO twitchChannelIO) {
         return withJoinedChannelMutation(MapTool.adder(twitchChannelIO.getChannel(), twitchChannelIO));
     }
 
@@ -67,8 +77,8 @@ public class ConnectedState implements ConnectionState {
         return withJoinedChannelMutation(MapTool.remover(channel));
     }
 
-    private @NonNull ConnectedState withJoinedChannelMutation(@NonNull UnaryOperator<ImmutableMap<Channel, TwitchChannelIO>> mutator) {
-        final ImmutableMap<Channel, TwitchChannelIO> newChannels = mutator.apply(joinedChannels);
+    private @NonNull ConnectedState withJoinedChannelMutation(@NonNull UnaryOperator<ImmutableMap<Channel, TwitchMessageChannelIO>> mutator) {
+        final ImmutableMap<Channel, TwitchMessageChannelIO> newChannels = mutator.apply(joinedChannels);
         if (newChannels == joinedChannels) {
             return this;
         }

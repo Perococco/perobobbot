@@ -12,7 +12,6 @@ import perobobbot.twitch.chat.message.from.MessageFromTwitch;
 import perobobbot.twitch.chat.message.from.Notice;
 import perobobbot.twitch.chat.message.from.NoticeId;
 import perobobbot.twitch.chat.message.from.UserState;
-import perococco.perobobbot.twitch.chat.TwitchChannelIO;
 
 import java.util.Optional;
 

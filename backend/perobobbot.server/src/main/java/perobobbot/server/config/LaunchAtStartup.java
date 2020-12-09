@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import perobobbot.chat.core.ChannelIO;
+import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.chat.core.ChatAuthentication;
 import perobobbot.extension.ExtensionManagerFactory;
 import perobobbot.lang.Secret;
-import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChatPlatform;
 
 import java.io.IOException;
@@ -48,8 +47,8 @@ public class LaunchAtStartup implements ApplicationRunner, DisposableBean {
 
     }
 
-    private void withChatChannel(@NonNull ChannelIO channelIo) {
-        channelIo.send("Connected !!!");
+    private void withChatChannel(@NonNull MessageChannelIO messageChannelIo) {
+        messageChannelIo.send("Connected !!!");
         extensionManagerFactory.create(nick);
     }
 
