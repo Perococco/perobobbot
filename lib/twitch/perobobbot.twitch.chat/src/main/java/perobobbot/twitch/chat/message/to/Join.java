@@ -71,7 +71,6 @@ public class Join extends RequestToTwitch<UserState> {
 
     @NonNull
     private Optional<TryResult<Throwable, UserState>> checkUserState(@NonNull UserState userState) {
-        System.out.println(userState);
         return Optional.of(TryResult.success(userState));
     }
 
