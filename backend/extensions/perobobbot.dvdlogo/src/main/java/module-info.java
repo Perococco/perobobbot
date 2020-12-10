@@ -1,4 +1,4 @@
-import perobobbot.dvdlogo.spring.DVDLogoConfiguration;
+import perobobbot.dvdlogo.spring.DVDLogoExtensionFactory;
 import perobobbot.lang.Packages;
 
 module perobobbot.dvdlogo {
@@ -16,7 +16,7 @@ module perobobbot.dvdlogo {
 
     exports perobobbot.dvdlogo;
 
-    provides Packages with DVDLogoConfiguration;
+    provides Packages with DVDLogoExtensionFactory;
 
     opens perobobbot.dvdlogo.spring to spring.core,spring.beans,spring.context;
 }

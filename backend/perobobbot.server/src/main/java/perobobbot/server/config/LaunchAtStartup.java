@@ -41,6 +41,7 @@ public class LaunchAtStartup implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        System.out.println("Launch initialization");
         final ChatAuthentication authentication = new ChatAuthentication(nick, readTwitchChatSecret());
         io.getPlatform(Platform.TWITCH)
           .connect(authentication)

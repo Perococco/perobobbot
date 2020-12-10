@@ -27,11 +27,19 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-overlay-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-command</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

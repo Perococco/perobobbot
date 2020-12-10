@@ -101,7 +101,7 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-common-messaging</artifactId>
+            <artifactId>perobobbot-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

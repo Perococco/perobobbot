@@ -1,4 +1,4 @@
-import perobobbot.benchmark.spring.BenchmarkConfiguration;
+import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.lang.Packages;
 
 module perobobbot.ext.benchmark {
@@ -8,15 +8,15 @@ module perobobbot.ext.benchmark {
 
     requires perobobbot.lang;
     requires perobobbot.overlay.api;
-    requires com.google.common;
     requires perobobbot.extension;
-    requires spring.context;
     requires perobobbot.access;
     requires perobobbot.command;
     requires perobobbot.physics;
 
+    requires com.google.common;
+    requires spring.context;
 
-    provides Packages with BenchmarkConfiguration;
+    provides Packages with BenchmarkExtensionFactory;
 
     opens perobobbot.benchmark.spring to spring.core, spring.beans,spring.context;
 }

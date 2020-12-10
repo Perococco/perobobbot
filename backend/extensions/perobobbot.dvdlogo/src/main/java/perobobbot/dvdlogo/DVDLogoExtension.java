@@ -4,24 +4,20 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
 
-public class DVDLogoExtension extends ExtensionBase {
+public class DVDLogoExtension extends OverlayExtension {
 
     public static final String NAME = "dvdlogo";
 
     private final @NonNull String userId;
 
-    private final @NonNull Overlay overlay;
-
-    private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
-
     public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay) {
-        super(NAME);
+        super(NAME,overlay);
         this.userId = userId;
-        this.overlay = overlay;
     }
 
     @Override
@@ -29,26 +25,16 @@ public class DVDLogoExtension extends ExtensionBase {
         return true;
     }
 
-    @Override
-    protected void onDisabled() {
-        super.onDisabled();
-        overlaySubscription.unsubscribe();
-    }
-
     @Synchronized
     public void startOverlay() {
-        if (isEnabled()) {
-            if (overlaySubscription.hasSubscription()) {
-                return;
-            }
-            this.overlaySubscription.replaceWith(() -> overlay.addClient(new DVDLogoOverlay()));
+        if (!isEnabled() || isClientAttached()) {
+            return;
         }
+        this.attachClient(new DVDLogoOverlay());
     }
 
     @Synchronized
     public void stopOverlay() {
-        if (isEnabled()) {
-            overlaySubscription.unsubscribe();
-        }
+        this.detachClient();
     }
 }

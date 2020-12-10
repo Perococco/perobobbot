@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.IO;
 import perobobbot.extension.Extension;
 import perobobbot.greeter.mutation.ClearGreetingIssuers;
+import perobobbot.greeter.spring.GreeterExtensionFactory;
 import perobobbot.lang.*;
 import perobobbot.messaging.ChatController;
 

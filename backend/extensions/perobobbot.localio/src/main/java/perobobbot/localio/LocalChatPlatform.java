@@ -30,10 +30,6 @@ public class LocalChatPlatform implements ChatPlatform {
 
     private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
 
-    private final @NonNull CommandRegistry commandRegistry;
-
-    private final @NonNull PolicyManager policyManager;
-
     final Function1<LocalIO, CommandBundleLifeCycle> cycleFunction;
 
 
@@ -41,8 +37,6 @@ public class LocalChatPlatform implements ChatPlatform {
 
     public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull CommandRegistry commandRegistry, @NonNull PolicyManager policyManager) {
         this.applicationCloser = applicationCloser;
-        this.commandRegistry = commandRegistry;
-        this.policyManager = policyManager;
         final Policy policy = policyManager.createPolicy(AccessRule.create(Role.THE_BOSS, Duration.ofSeconds(0)));
 
         this.cycleFunction = local -> CommandBundle.builder()

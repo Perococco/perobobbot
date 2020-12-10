@@ -1,26 +1,22 @@
 package perobobbot.benchmark;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 
-public class BenchmarkExtension extends ExtensionBase {
-
-    private final @NonNull Overlay overlay;
-
-    private final SubscriptionHolder overlaySubscription = new SubscriptionHolder();
+public class BenchmarkExtension extends OverlayExtension {
 
     private final @NonNull String userId;
 
     private BenchmarkOverlay benchmarkOverlay = null;
 
     public BenchmarkExtension(@NonNull String userId, @NonNull Overlay overlay) {
-        super(BenchmarkExtensionFactory.NAME);
+        super(BenchmarkExtensionFactory.NAME,overlay);
         this.userId = userId;
-        this.overlay = overlay;
     }
 
     @Synchronized
@@ -28,13 +24,13 @@ public class BenchmarkExtension extends ExtensionBase {
         if (!this.isEnabled() || benchmarkOverlay != null) {
             return;
         }
-        this.benchmarkOverlay = BenchmarkOverlay.create(nbPuck, radius, overlay.getOverlaySize());
-        this.overlaySubscription.replaceWith(() -> overlay.addClient(this.benchmarkOverlay));
+        this.benchmarkOverlay = BenchmarkOverlay.create(nbPuck, radius, this.getOverlaySize());
+        this.attachClient(this.benchmarkOverlay);
     }
 
     @Synchronized
     public void stop() {
-        this.overlaySubscription.unsubscribe();
+        this.detachClient();
         this.benchmarkOverlay = null;
     }
 

@@ -1,4 +1,4 @@
-import perobobbot.echo.spring.EchoConfiguration;
+import perobobbot.echo.spring.EchoExtensionFactory;
 import perobobbot.lang.Packages;
 
 module perobobbot.echo {
@@ -13,7 +13,7 @@ module perobobbot.echo {
     requires spring.context;
     requires com.google.common;
 
-    provides Packages with EchoConfiguration;
+    provides Packages with EchoExtensionFactory;
 
     opens perobobbot.echo.spring to spring.core,spring.beans,spring.context;
 }
