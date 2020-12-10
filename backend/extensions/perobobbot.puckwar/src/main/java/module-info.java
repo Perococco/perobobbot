@@ -1,5 +1,6 @@
 import perobobbot.lang.Packages;
-import perobobbot.puckwar.spring.PuckWarConfiguration;
+import perobobbot.puckwar.PuckWarExtension;
+import perobobbot.puckwar.spring.PuckWarExtensionFactory;
 
 module perobobbot.ext.puckwar {
     requires static lombok;
@@ -19,7 +20,7 @@ module perobobbot.ext.puckwar {
     requires spring.context;
 
 
-    provides Packages with PuckWarConfiguration;
+    provides Packages with PuckWarExtensionFactory;
 
     opens perobobbot.puckwar.spring to spring.core, spring.beans, spring.context;
 }

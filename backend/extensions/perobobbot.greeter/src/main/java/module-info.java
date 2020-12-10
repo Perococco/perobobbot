@@ -1,4 +1,4 @@
-import perobobbot.greeter.spring.GreeterPackages;
+import perobobbot.greeter.spring.GreeterExtensionFactory;
 import perobobbot.lang.Packages;
 
 module perobobbot.greeter {
@@ -16,5 +16,5 @@ module perobobbot.greeter {
 
     opens perobobbot.greeter.spring to spring.core,spring.beans,spring.context;
 
-    provides Packages with GreeterPackages;
+    provides Packages with GreeterExtensionFactory;
 }

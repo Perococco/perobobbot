@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
@@ -12,19 +13,14 @@ import perobobbot.puckwar.game.PuckWarGame;
 
 import java.util.Optional;
 
-public class PuckWarExtension extends ExtensionBase {
+public class PuckWarExtension extends OverlayExtension {
 
     public static final String NAME = "puck-war";
 
-    private final @NonNull Overlay overlay;
-
     private PuckWarGame puckWarGame = null;
 
-    private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
-
-    public PuckWarExtension(@NonNull Overlay overlay) {
-        super(NAME);
-        this.overlay = overlay;
+    public PuckWarExtension(@NonNull String userId, @NonNull Overlay overlay) {
+        super(NAME,overlay);
     }
 
     @Override
@@ -32,25 +28,19 @@ public class PuckWarExtension extends ExtensionBase {
         return true;
     }
 
-    @Override
-    protected void onDisabled() {
-        super.onDisabled();
-        subscriptionHolder.unsubscribe();
-    }
-
     @Synchronized
     public void startGame(@NonNull GameOptions gameOptions) {
         if (!isEnabled() && puckWarGame!=null && puckWarGame.isRunning()) {
             return;
         }
-        puckWarGame = new PuckWarGame(overlay.getOverlaySize(), gameOptions);
+        puckWarGame = new PuckWarGame(this.getOverlaySize(), gameOptions);
         puckWarGame.start();
-        subscriptionHolder.replaceWith(() -> overlay.addClient(new PuckWarOverlay(puckWarGame)));
+        this.attachClient(new PuckWarOverlay(puckWarGame));
     }
 
     @Synchronized
     public void stopGame() {
-        subscriptionHolder.unsubscribe();
+        this.detachClient();
         puckWarGame.stop();
         puckWarGame = null;
     }
