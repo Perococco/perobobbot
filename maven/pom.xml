@@ -25,6 +25,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
+        <guava.version>30.0-jre</guava.version>
         <log4j.version>2.11.2</log4j.version>
         <byte-buddy.version>1.10.6</byte-buddy.version>
         <lombok.version>1.18.12</lombok.version>
@@ -99,11 +100,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.sun.activation</groupId>
-                <artifactId>jakarta.activation</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit-jupiter.version}</version>
@@ -143,11 +139,6 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-services</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-access</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -164,22 +155,6 @@
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-chat-websocket</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-blackjack-engine</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-program-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-program-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -310,7 +285,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>28.2-jre</version>
+                <version>${guava.version}</version>
             </dependency>
 
             <dependency>
