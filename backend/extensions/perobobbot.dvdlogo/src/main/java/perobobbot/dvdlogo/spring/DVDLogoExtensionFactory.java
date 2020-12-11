@@ -26,7 +26,7 @@ public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtensi
 
 
     public static Packages provider() {
-        return Packages.with(DVDLogoExtension.NAME,DVDLogoExtensionFactory.class);
+        return Packages.with("[Extension] DVD Logo",DVDLogoExtensionFactory.class);
     }
 
     public DVDLogoExtensionFactory( @NonNull Parameters parameters) {

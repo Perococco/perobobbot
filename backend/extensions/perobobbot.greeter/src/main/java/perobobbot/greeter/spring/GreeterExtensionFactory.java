@@ -11,7 +11,7 @@ import perobobbot.lang.Packages;
 public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
 
     public static @NonNull Packages provider() {
-        return Packages.with("greeter",GreeterExtensionFactory.class);
+        return Packages.with("[Extension] Greeter",GreeterExtensionFactory.class);
     }
 
     public static final String NAME = "greeter";

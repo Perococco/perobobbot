@@ -18,7 +18,7 @@ import java.util.Optional;
 public class BenchmarkExtensionFactory extends ExtensionFactoryBase<BenchmarkExtension> {
 
     public static @NonNull Packages provider() {
-        return Packages.with(BenchmarkExtensionFactory.NAME, BenchmarkExtensionFactory.class);
+        return Packages.with("[Extension] Benchmark", BenchmarkExtensionFactory.class);
     }
 
     public static final String NAME = "benchmark";

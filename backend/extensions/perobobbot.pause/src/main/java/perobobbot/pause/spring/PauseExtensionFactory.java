@@ -18,7 +18,7 @@ import java.util.Optional;
 public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> {
 
     public static Packages provider() {
-        return Packages.with("pause",PauseExtensionFactory.class);
+        return Packages.with("[Extension] Pause",PauseExtensionFactory.class);
     }
 
     public static final String NAME = "pause";

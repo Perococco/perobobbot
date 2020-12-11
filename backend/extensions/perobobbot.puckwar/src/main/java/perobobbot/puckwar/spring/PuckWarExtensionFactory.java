@@ -24,7 +24,7 @@ import static perobobbot.lang.RoleCoolDown.applyTo;
 public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtension> {
 
     public static Packages provider() {
-        return Packages.with(PuckWarExtension.NAME, PuckWarExtensionFactory.class);
+        return Packages.with("[Extension] Puck War", PuckWarExtensionFactory.class);
     }
 
     public PuckWarExtensionFactory(@NonNull Parameters parameters) {

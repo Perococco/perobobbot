@@ -63,7 +63,7 @@ module perobobbot.server {
     requires spring.webmvc;
     requires spring.integration.core;
 
-    requires spring.boot.actuator;
+//    requires spring.boot.actuator;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

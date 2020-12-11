@@ -10,8 +10,7 @@ module perobobbot.chat.websocket {
 
     requires transitive perobobbot.chat.core;
 
-    requires javax.websocket.client.api;
-
+    requires jakarta.websocket.api;
     requires org.apache.logging.log4j;
 
     exports perobobbot.chat.websocket;

@@ -10,7 +10,7 @@ public class LocalIOPackages implements Packages {
 
     @Override
     public @NonNull String context() {
-        return LocalChat.EXTENSION_NAME;
+        return "[Extension] Local IO";
     }
 
     @Override

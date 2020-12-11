@@ -25,7 +25,7 @@ import java.util.Optional;
 public class EchoExtensionFactory extends ExtensionFactoryBase<EchoExtension> {
 
     public static Packages provider() {
-        return Packages.with("echo", EchoExtensionFactory.class);
+        return Packages.with("[Extension] Echo", EchoExtensionFactory.class);
     }
 
     public EchoExtensionFactory(@NonNull Parameters parameters) {

@@ -26,9 +26,8 @@
             <artifactId>perobobbot-chat-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-client-api</artifactId>
-            <version>${javax-websocket.version}</version>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
         </dependency>
 
     </dependencies>
