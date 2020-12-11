@@ -61,8 +61,6 @@ module perobobbot.server {
     requires java.servlet;
     requires java.validation;
     requires spring.webmvc;
-    requires java.xml.bind;
-    requires jakarta.activation;
     requires spring.integration.core;
 
     requires spring.boot.actuator;

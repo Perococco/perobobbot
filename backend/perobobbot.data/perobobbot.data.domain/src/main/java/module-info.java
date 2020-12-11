@@ -2,12 +2,13 @@ module perobobbot.data.domain {
     requires static lombok;
     requires java.desktop;
     requires org.apache.logging.log4j;
-    requires java.persistence;
-    requires java.validation;
     requires com.google.common;
 
     requires perobobbot.lang;
     requires perobobbot.data.com;
+
+    requires java.validation;
+    requires java.persistence;
 
     opens perobobbot.data.domain to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
 

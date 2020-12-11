@@ -57,9 +57,5 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-lang</artifactId>
-        </dependency>
     </dependencies>
 </project>
