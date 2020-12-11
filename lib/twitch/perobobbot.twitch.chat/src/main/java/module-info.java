@@ -14,10 +14,8 @@ module perobobbot.twitch.chat {
 
     requires io.github.bucket4j.core;
     requires org.apache.logging.log4j;
-
     requires com.google.common;
     requires spring.context;
-    requires spring.beans;
 
     exports perobobbot.twitch.chat;
     exports perobobbot.twitch.chat.event;

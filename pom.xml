@@ -27,6 +27,7 @@
         <module>lib/chat/perobobbot.chat.advanced</module>
         <module>lib/chat/perobobbot.chat.websocket</module>
         <module>lib/twitch/perobobbot.twitch.chat</module>
+        <module>lib/twitch/perobobbot.twitch.oauth</module>
 
 
         <module>backend</module>

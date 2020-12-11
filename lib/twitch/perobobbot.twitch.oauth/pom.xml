@@ -17,7 +17,7 @@
     <name>${application.name} : ${module.name}</name>
 
     <properties>
-        <module.name>Twitch Chat</module.name>
+        <module.name>Twitch OAuth</module.name>
     </properties>
 
     <dependencies>
@@ -30,28 +30,16 @@
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-irc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-advanced</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-chat-websocket</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
         </dependency>
     </dependencies>
 </project>
