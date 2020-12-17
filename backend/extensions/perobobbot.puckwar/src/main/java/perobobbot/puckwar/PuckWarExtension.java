@@ -23,11 +23,6 @@ public class PuckWarExtension extends OverlayExtension {
         super(NAME,overlay);
     }
 
-    @Override
-    public boolean isAutoStart() {
-        return true;
-    }
-
     @Synchronized
     public void startGame(@NonNull GameOptions gameOptions) {
         if (!isEnabled() && puckWarGame!=null && puckWarGame.isRunning()) {

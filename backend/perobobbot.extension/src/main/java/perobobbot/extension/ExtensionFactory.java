@@ -14,13 +14,20 @@ public interface ExtensionFactory {
 
     @NonNull String getExtensionName();
 
+    /**
+     * @return true if this extension should be auto started
+     */
+    default boolean isAutoStart() {
+        return true;
+    }
+
+
     interface Parameters {
         @NonNull ChatController getChatController();
         @NonNull Policy createPolicy(@NonNull AccessRule accessRule);
         @NonNull IO getIo();
         @NonNull CommandRegistry getCommandRegistry();
         @NonNull Overlay getOverlay();
-
     }
 
 }

@@ -1,5 +1,7 @@
 package perobobbot.extension;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
@@ -8,6 +10,7 @@ import perobobbot.rendering.Size;
 
 public abstract class OverlayExtension extends ExtensionBase {
 
+    @Getter(AccessLevel.PROTECTED)
     private final @NonNull Overlay overlay;
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();

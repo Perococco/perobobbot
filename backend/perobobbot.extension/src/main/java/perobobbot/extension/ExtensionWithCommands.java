@@ -15,11 +15,6 @@ public class ExtensionWithCommands extends ExtensionBase {
     }
 
     @Override
-    public boolean isAutoStart() {
-        return extension.isAutoStart();
-    }
-
-    @Override
     protected void onEnabled() {
         super.onEnabled();
         extension.enable();

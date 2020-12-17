@@ -20,10 +20,6 @@ public class DVDLogoExtension extends OverlayExtension {
         this.userId = userId;
     }
 
-    @Override
-    public boolean isAutoStart() {
-        return true;
-    }
 
     @Synchronized
     public void startOverlay() {

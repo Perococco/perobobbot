@@ -19,11 +19,6 @@ public class PauseExtension extends OverlayExtension {
         this.userId = userId;
     }
 
-    @Override
-    public boolean isAutoStart() {
-        return false;
-    }
-
     public void startPause(@NonNull Duration duration) {
         attachClient(new PauseOverlayClient(duration));
     }

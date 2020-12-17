@@ -242,6 +242,11 @@
                 <artifactId>perobobbot-ext-pause</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-play</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>

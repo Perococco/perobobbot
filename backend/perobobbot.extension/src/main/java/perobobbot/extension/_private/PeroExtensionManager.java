@@ -17,7 +17,10 @@ public class PeroExtensionManager implements ExtensionManager {
     public static @NonNull ExtensionManager create(@NonNull String userId,
                                                    @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
                                                    @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
-        final ExtensionManager extensionManager = new PeroExtensionManager(userId, extensionFactories, commandBundleLifeCycleFactory);
+        final PeroExtensionManager extensionManager = new PeroExtensionManager(userId, extensionFactories, commandBundleLifeCycleFactory);
+
+        extensionManager.enableAutoStartExtensions();
+
         return extensionManager;
     }
 
@@ -30,7 +33,7 @@ public class PeroExtensionManager implements ExtensionManager {
 
     private final CommandBundleLifeCycle commandBundleLifeCycle;
 
-    public PeroExtensionManager(@NonNull String userId,
+    private PeroExtensionManager(@NonNull String userId,
                                 @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
                                 @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
         this.userId = userId;
@@ -38,6 +41,14 @@ public class PeroExtensionManager implements ExtensionManager {
         this.commandBundleLifeCycle = commandBundleLifeCycleFactory.f(this);
         this.commandBundleLifeCycle.attachCommandBundle();
     }
+
+    private void enableAutoStartExtensions() {
+        extensionFactories.values()
+                          .stream()
+                          .filter(ExtensionFactory::isAutoStart)
+                          .forEach(this::enableExtension);
+    }
+
 
     private @NonNull ExtensionFactory getExtensionFactory(@NonNull String extensionName) {
         final var extension = extensionFactories.get(extensionName);

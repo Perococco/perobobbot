@@ -50,6 +50,7 @@
         <module>extensions/perobobbot.greeter</module>
         <module>extensions/perobobbot.benchmark</module>
         <module>extensions/perobobbot.pause</module>
+        <module>extensions/perobobbot.play</module>
 
         <module>perobobbot.server</module>
         <module>packaging</module>

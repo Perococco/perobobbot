@@ -37,7 +37,7 @@ public class ExtensionManagerFactory {
         if (extensionManagers.containsKey(userId)) {
             throw new PerobobbotException("An extension manager for the user '" + userId + "' exists already");
         }
-        final var extensionManager = new PeroExtensionManager(userId, extensionFactories, this::createCommandBundleLifeCycle);
+        final var extensionManager = PeroExtensionManager.create(userId, extensionFactories, this::createCommandBundleLifeCycle);
         extensionManagers.put(userId, extensionManager);
         return extensionManager;
     }

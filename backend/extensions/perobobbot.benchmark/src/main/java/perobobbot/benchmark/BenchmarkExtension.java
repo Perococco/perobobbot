@@ -34,8 +34,4 @@ public class BenchmarkExtension extends OverlayExtension {
         this.benchmarkOverlay = null;
     }
 
-    @Override
-    public boolean isAutoStart() {
-        return true;
-    }
 }

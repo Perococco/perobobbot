@@ -30,8 +30,4 @@ public interface Extension {
      */
     boolean isEnabled();
 
-    /**
-     * @return true if this extension should be auto started
-     */
-    boolean isAutoStart();
 }

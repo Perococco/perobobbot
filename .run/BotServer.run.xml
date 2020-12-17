@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BotServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <module name="perobobbot-server" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="perobobbot.server.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="perobobbot.server.BotServer" />
+    <option name="VM_PARAMETERS" value="-Dspring.config.additional-location=$USER_HOME$/.perobot/config/" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

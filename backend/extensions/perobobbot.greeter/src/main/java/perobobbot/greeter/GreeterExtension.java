@@ -48,11 +48,6 @@ public class GreeterExtension implements Extension {
     }
 
     @Override
-    public boolean isAutoStart() {
-        return false;
-    }
-
-    @Override
     @Synchronized
     public void enable() {
         if (future != null) {

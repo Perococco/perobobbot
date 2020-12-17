@@ -25,7 +25,17 @@ public class NDISoundContext implements SoundContext {
             return SoundExecution.NOP;
         }
         sounds.add(sound);
-        return sound::close;
+        return new SoundExecution() {
+            @Override
+            public void cancel() {
+                sound.close();
+            }
+
+            @Override
+            public boolean isDone() {
+                return sound.isCompleted();
+            }
+        };
     }
 
     @Override
@@ -43,7 +53,7 @@ public class NDISoundContext implements SoundContext {
                 continue;
             }
             if (filled) {
-                sound.addTo(data,nbSamples);
+                sound.addTo(data, nbSamples);
             } else {
                 sound.copyTo(data, nbSamples);
                 filled = true;

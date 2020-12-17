@@ -36,8 +36,4 @@ public class EchoExtension extends ExtensionBase {
                              contentToEcho);
     }
 
-    @Override
-    public boolean isAutoStart() {
-        return true;
-    }
 }
