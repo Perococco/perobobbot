@@ -7,6 +7,7 @@ import perobobbot.chat.core.IO;
 import perobobbot.command.CommandRegistry;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.sound.SoundResolver;
 
 public interface ExtensionFactory {
 
@@ -28,6 +29,7 @@ public interface ExtensionFactory {
         @NonNull IO getIo();
         @NonNull CommandRegistry getCommandRegistry();
         @NonNull Overlay getOverlay();
+        @NonNull SoundResolver getSoundResolver();
     }
 
 }

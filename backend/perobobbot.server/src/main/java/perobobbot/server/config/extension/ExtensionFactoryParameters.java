@@ -12,6 +12,7 @@ import perobobbot.command.CommandRegistry;
 import perobobbot.extension.ExtensionFactory;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.sound.SoundResolver;
 
 @RequiredArgsConstructor
 @Getter
@@ -23,6 +24,8 @@ public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
     private final @NonNull CommandRegistry commandRegistry;
     private final @NonNull PolicyManager policyManager;
     private final @NonNull Overlay overlay;
+    private final @NonNull SoundResolver soundResolver;
+
 
     @Override
     public @NonNull Policy createPolicy(@NonNull AccessRule accessRule) {

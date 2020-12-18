@@ -3,8 +3,9 @@ package perobobbot.play;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.extension.OverlayExtension;
-import perobobbot.lang.PerobobbotException;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.sound.SoundNotFound;
+import perobobbot.sound.SoundResolver;
 
 @Log4j2
 public class PlayExtension extends OverlayExtension {
@@ -29,10 +30,9 @@ public class PlayExtension extends OverlayExtension {
 
     public void playSound(@NonNull String name) {
         final var overlay = getOverlay();
-        final var url = soundResolver.resolveSound(name)
-                                     .orElseThrow(() -> new PerobobbotException("Could find sound with name '" + name + "'"));
+        final var url = soundResolver.resolveSound(name).orElseThrow(() -> new SoundNotFound(name));
         final var uuid = overlay.registerSoundResource(url);
-        LOG.info("Add sound to queue {} - {}",name,uuid);
+        LOG.info("Add sound to queue {} - {}", name, uuid);
         soundPlayer.addToQueue(uuid);
     }
 }

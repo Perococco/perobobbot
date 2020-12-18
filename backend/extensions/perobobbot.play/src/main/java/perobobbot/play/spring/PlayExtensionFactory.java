@@ -26,7 +26,7 @@ public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
 
     @Override
     protected PlayExtension createExtension(@NonNull String userId, @NonNull Parameters parameters) {
-        return new PlayExtension(parameters.getOverlay(), new DebugSoundResolver());
+        return new PlayExtension(parameters.getOverlay(), parameters.getSoundResolver());
     }
 
     @Override

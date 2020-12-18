@@ -3,6 +3,7 @@ package perobobbot.server.config;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -10,6 +11,9 @@ import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
 import perobobbot.rendering.Size;
 import perobobbot.sound.SoundManager;
+import perobobbot.sound.SoundResolver;
+
+import java.nio.file.Path;
 
 @Configuration
 @RequiredArgsConstructor
@@ -35,6 +39,11 @@ public class AudioVideoConfiguration {
                                                         OVERLAY_FRAME_RATE,
                                                         soundManager);
         return controller;
+    }
+
+    @Bean
+    public SoundResolver soundResolver(@Value("${perobot.sound.directory}") String soundDirectory) {
+        return SoundResolver.soundFileResolver(Path.of(soundDirectory));
     }
 
 
