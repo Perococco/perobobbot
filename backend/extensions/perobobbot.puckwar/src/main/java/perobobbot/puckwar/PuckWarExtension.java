@@ -5,6 +5,7 @@ import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.extension.OverlayExtension;
+import perobobbot.lang.Bot;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
@@ -19,7 +20,7 @@ public class PuckWarExtension extends OverlayExtension {
 
     private PuckWarGame puckWarGame = null;
 
-    public PuckWarExtension(@NonNull String userId, @NonNull Overlay overlay) {
+    public PuckWarExtension(@NonNull Bot bot, @NonNull Overlay overlay) {
         super(NAME,overlay);
     }
 

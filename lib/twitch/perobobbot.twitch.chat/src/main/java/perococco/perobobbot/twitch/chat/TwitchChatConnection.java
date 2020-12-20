@@ -1,12 +1,13 @@
 package perococco.perobobbot.twitch.chat;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
-import perobobbot.chat.core.ChatAuthentication;
+import perobobbot.lang.Credentials;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.lang.*;
@@ -40,24 +41,25 @@ import java.util.concurrent.ExecutionException;
 public class TwitchChatConnection implements ChatConnection, AdvancedChatListener<MessageFromTwitch> {
 
     @Getter
-    private final @NonNull String nick;
+    private final @NonNull Bot bot;
 
     private final @NonNull Listeners<TwitchChatListener> listeners;
 
-    private final @NonNull Identity<ConnectionState> connectionIdentity = Identity.create(ConnectionState.disconnected());
+    private final @NonNull Identity<ConnectionState> connectionIdentity;
 
     private final @NonNull AdvancedChat<MessageFromTwitch> chat;
 
-    private final @NonNull ChatAuthentication authentication;
+    private final @NonNull Credentials credentials;
 
     private final @NonNull EventBridge eventBridge;
 
-    public TwitchChatConnection(@NonNull ChatAuthentication authentication,
+    public TwitchChatConnection(@NonNull Bot bot,
                                 @NonNull Listeners<TwitchChatListener> listeners) {
-        this.nick = authentication.getNick();
+        this.bot = bot;
+        this.credentials = bot.getCredentials(Platform.TWITCH);
+        this.connectionIdentity = Identity.create(ConnectionState.disconnected(bot));
         this.chat = createChat(connectionIdentity);
         this.listeners = listeners;
-        this.authentication = authentication;
         this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));
     }
 
@@ -85,9 +87,9 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     @Override
     public @NonNull CompletionStage<TwitchMessageChannelIO> join(@NonNull String channelName) {
         final Channel channel = Channel.create(channelName);
-        return operate(new JoinChannel(nick,channel))
+        return operate(new JoinChannel(credentials.getNick(),channel))
                 .thenApply(s -> {
-                    final var twitchChannelIO = new TwitchMessageChannelIO(channel,this);
+                    final var twitchChannelIO = new TwitchMessageChannelIO(channel,this, new ChannelInfo(getPlatform(),channelName));
                     this.operate(Operator.mutator(new ChanelAdder(twitchChannelIO)));
                     return twitchChannelIO;
                 });
@@ -96,13 +98,6 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     public @NonNull Subscription addMessageListener(@NonNull MessageListener listener) {
         return listeners.addListener(TwitchChatListener.wrap(listener));
     }
-
-//    @NonNull
-//    private <T> CompletionStage<T> joinChannels(@NonNull T passThrough) {
-//        return connectionIdentity.executeWithIO(new JoinChannels(options.getChannels()))
-//                                 .thenApply(v -> passThrough);
-//    }
-
 
     private void onTwitchChatEvent(@NonNull TwitchChatEvent event) {
         if (event.isPing()) {
@@ -159,8 +154,8 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     @NonNull
     private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO) {
         final Cap cap = new Cap(Capability.AllCapabilities());
-        final Pass pass = new Pass(authentication.getPass());
-        final Nick nick = new Nick(authentication.getNick());
+        final Pass pass = new Pass(credentials.getPass());
+        final Nick nick = new Nick(credentials.getNick());
         advancedChatIO.sendRequest(cap);
         return advancedChatIO.sendCommand(pass)
                              .thenCompose(r -> advancedChatIO.sendRequest(nick));

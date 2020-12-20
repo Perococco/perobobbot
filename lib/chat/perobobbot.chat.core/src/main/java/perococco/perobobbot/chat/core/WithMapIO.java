@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.*;
+import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.Platform;
@@ -23,11 +24,11 @@ public class WithMapIO implements DisposableIO {
 
     @Override
     public void dispose() {
-        ioByPlatform.forEach((p,c) -> c.disconnectAll());
+        ioByPlatform.forEach((p,c) -> c.dispose());
     }
 
     @Override
-    public CompletionStage<? extends DispatchSlip> send(@NonNull String nick,
+    public CompletionStage<? extends DispatchSlip> send(@NonNull Bot bot,
                                                         @NonNull ChannelInfo channelInfo,
                                                         @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
         final String channelName = channelInfo.getChannelName();
@@ -36,7 +37,7 @@ public class WithMapIO implements DisposableIO {
         final ChatPlatform chatPlatform = ioByPlatform.get(platform);
 
         if (chatPlatform != null) {
-            return chatPlatform.getChannelIO(nick, channelName)
+            return chatPlatform.getChannelIO(bot, channelName)
                                .thenCompose(c -> c.send(messageBuilder));
         } else {
             LOG.warn("No IO for platform {}", channelInfo.getPlatform());

@@ -14,7 +14,7 @@ public class InputPanel extends JPanel {
 
     private final JTextField inputField;
 
-    private final Listeners<Consumer1<String>> inputListeners = new Listeners<>();
+    private final Listeners<Consumer1<? super String>> inputListeners = new Listeners<>();
 
     public InputPanel() {
         super(new BorderLayout());
@@ -31,7 +31,7 @@ public class InputPanel extends JPanel {
         this.add(inputField,BorderLayout.CENTER);
     }
 
-    public @NonNull Subscription addListener(@NonNull Consumer1<String> listener) {
+    public @NonNull Subscription addListener(@NonNull Consumer1<? super String> listener) {
         return inputListeners.addListener(listener);
     }
 

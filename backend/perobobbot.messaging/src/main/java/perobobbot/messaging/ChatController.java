@@ -8,8 +8,8 @@ import perobobbot.lang.Subscription;
 import perococco.messaging.PerococcoChatController;
 
 /**
- * Control and dispatch to command and listener messages coming from any chat.
- * Use the {@link ChannelInfo} member if the provided contexts to get information
+ * Control and dispatch to listeners, messages coming from any chat.
+ * Use the {@link ChannelInfo} member in the provided contexts to get information
  * on the origin of the message.
  */
 public interface ChatController {

@@ -1,11 +1,9 @@
 package perobobbot.twitch.chat;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.ChatAuthentication;
+import perobobbot.lang.NoCredentialForChatConnection;
+import perobobbot.lang.Credentials;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.lang.*;
@@ -30,14 +28,18 @@ public class TwitchChatPlatform implements ChatPlatform {
 
     @Override
     @Synchronized
-    public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatAuthentication authentication) {
-        return connections.computeIfAbsent(authentication.getNick(), n -> new Connector(authentication).connect())
-                          .getConnection();
+    public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
+        final var nickname = bot.getCredentialsNick(Platform.TWITCH);
+
+        return connections.computeIfAbsent(nickname, n -> new Connector(bot).connect())
+                   .checkIsForBot(bot)
+                   .getConnection();
     }
+
 
     @Override
     @Synchronized
-    public void disconnectAll() {
+    public void dispose() {
         connections.values().forEach(c -> c.getConnection().whenComplete((r, t) -> {
             if (r != null) {
                 r.requestStop();
@@ -53,8 +55,9 @@ public class TwitchChatPlatform implements ChatPlatform {
 
     @Override
     @Synchronized
-    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull String nick) {
-        return Optional.ofNullable(connections.get(nick)).map(ConnectionData::getConnection);
+    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot) {
+        return Optional.ofNullable(connections.get(bot.getCredentialsNick(Platform.TWITCH)))
+                       .map(ConnectionData::getConnection);
     }
 
     @Override
@@ -65,29 +68,40 @@ public class TwitchChatPlatform implements ChatPlatform {
     private final class ConnectionData {
 
         @Getter
-        private final @NonNull ChatAuthentication authentication;
+        private final @NonNull Bot bot;
 
         @Getter
         private final @NonNull CompletionStage<TwitchChatConnection> connection;
 
-        public ConnectionData(@NonNull ChatAuthentication authentication) {
-            this.authentication = authentication;
-            this.connection = new TwitchChatConnection(authentication, listeners)
+        public ConnectionData(@NonNull Bot bot) {
+            final var nick = bot.getCredentialsNick(Platform.TWITCH);
+            this.bot = bot;
+            this.connection = new TwitchChatConnection(bot, listeners)
                     .start()
                     .whenComplete((result, error) -> {
                         if (error != null) {
-                            LOG.warn("Could not connect to twitch chat for nick {}", authentication.getNick(), error);
-                            removeConnection(authentication.getNick());
+                            LOG.warn("Could not connect to twitch chat for nick {}", nick, error);
+                            removeConnection(nick);
                         }
                     });
         }
 
+        public boolean isForBot(Bot bot) {
+            return this.bot.equals(bot);
+        }
+
+        public ConnectionData checkIsForBot(Bot bot) {
+            if (this.bot.equals(bot)) {
+                return this;
+            }
+            throw new PerobobbotException("Multiple bots try to connect with the same nickname : '"+bot.getCredentialsNick(Platform.TWITCH)+"'");
+        }
     }
 
     @RequiredArgsConstructor
     private class Connector {
 
-        private final ChatAuthentication authentication;
+        private final Bot bot;
 
         private ConnectionData connectionData = null;
 
@@ -101,20 +115,21 @@ public class TwitchChatPlatform implements ChatPlatform {
         }
 
         private @NonNull ConnectionData createNewConnection() {
-            return new ConnectionData(authentication);
+            return new ConnectionData(bot);
         }
 
         private @NonNull ConnectionData checkExistingConnection() {
             assert connectionData != null;
-            if (connectionData.getAuthentication().equals(authentication)) {
+            if (connectionData.isForBot(bot)) {
                 return connectionData;
             }
             throw new PerobobbotException("Invalid authentication for chat connection");
         }
 
         private void retrieveConnectionData() {
-            this.connectionData = connections.get(authentication.getNick());
+            this.connectionData = connections.get(bot.getCredentialsNick(Platform.TWITCH));
         }
 
     }
 }
+

@@ -1,12 +1,12 @@
 package perococco.perobobbot.twitch.chat.state;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.MapTool;
-import perobobbot.lang.Subscription;
+import perobobbot.lang.*;
 import perobobbot.twitch.chat.Channel;
 import perococco.perobobbot.twitch.chat.TwitchIO;
 import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
@@ -23,9 +23,12 @@ import java.util.function.UnaryOperator;
 @Builder(toBuilder = true)
 public class ConnectedState implements ConnectionState {
 
-    public static ConnectedState create(@NonNull TwitchIO io, @NonNull String userId, @NonNull Subscription subscription) {
-        return new ConnectedState(io,userId, ImmutableMap.of(), subscription);
+    public static ConnectedState create(@NonNull Bot bot, @NonNull TwitchIO io, @NonNull String userId, @NonNull Subscription subscription) {
+        return new ConnectedState(bot, io,userId, ImmutableMap.of(), subscription);
     }
+
+    @Getter
+    private final @NonNull Bot bot;
 
     /**
      * the i/o to communicate with twitch chat
@@ -68,6 +71,19 @@ public class ConnectedState implements ConnectionState {
         return Optional.ofNullable(joinedChannels.get(channel));
     }
 
+    @Override
+    public boolean hasJoined(@NonNull String channelName) {
+        return joinedChannels.containsKey(channelName);
+    }
+
+    @Override
+    public @NonNull ImmutableSet<ChannelInfo> getJoinedChannels() {
+        return joinedChannels.keySet()
+                             .stream()
+                             .map(Channel::getName)
+                             .map(channelName -> new ChannelInfo(Platform.TWITCH,channelName))
+                             .collect(ImmutableSet.toImmutableSet());
+    }
 
     public @NonNull ConnectedState withAddedJoinedChannel(@NonNull TwitchMessageChannelIO twitchChannelIO) {
         return withJoinedChannelMutation(MapTool.adder(twitchChannelIO.getChannel(), twitchChannelIO));
@@ -84,6 +100,7 @@ public class ConnectedState implements ConnectionState {
         }
         return toBuilder().joinedChannels(newChannels).build();
     }
+
 
 
 }

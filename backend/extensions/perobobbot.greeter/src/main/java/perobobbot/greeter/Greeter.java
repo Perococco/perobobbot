@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.MessageChannelIO;
+import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.chat.core.IO;
 import perobobbot.lang.User;
@@ -17,7 +18,7 @@ public class Greeter {
     @NonNull
     private final GreetingMessageCreator messageCreator;
 
-    private final String userId;
+    private final Bot bot;
 
     @NonNull
     private final ChannelInfo channelInfo;
@@ -26,7 +27,7 @@ public class Greeter {
     private final ImmutableSet<User> greeters;
 
     public void execute() {
-        io.getMessageChannelIO(userId,channelInfo)
+        io.getMessageChannelIO(bot,channelInfo)
           .thenAccept(this::sendGreeting);
     }
 

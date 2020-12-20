@@ -14,6 +14,7 @@ import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactory;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.extension.ExtensionWithCommands;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 import perobobbot.overlay.api.Overlay;
@@ -24,7 +25,6 @@ import java.util.Optional;
 @Component
 public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtension> {
 
-
     public static Packages provider() {
         return Packages.with("[Extension] DVD Logo",DVDLogoExtensionFactory.class);
     }
@@ -34,8 +34,8 @@ public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtensi
     }
 
     @Override
-    protected @NonNull DVDLogoExtension createExtension(@NonNull String userId, @NonNull Parameters parameters) {
-        return new DVDLogoExtension(userId,parameters.getOverlay());
+    protected @NonNull DVDLogoExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
+        return new DVDLogoExtension(bot,parameters.getOverlay());
     }
 
     @Override

@@ -3,6 +3,7 @@ package perococco.perobobbot.twitch.chat.state;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Subscription;
 import perococco.perobobbot.twitch.chat.TwitchIO;
 
@@ -11,9 +12,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ConnectingState extends NotConnectedState {
 
-    public static @NonNull ConnectingState create(@NonNull Subscription subscription) {
-        return new ConnectingState(subscription);
+    public static @NonNull ConnectingState create(@NonNull Bot bot, @NonNull Subscription subscription) {
+        return new ConnectingState(bot, subscription);
     }
+
+    @Getter
+    private final @NonNull Bot bot;
 
     @Getter
     private final @NonNull Subscription subscription;
@@ -25,6 +29,7 @@ public class ConnectingState extends NotConnectedState {
 
     public @NonNull ConnectedState toConnected(@NonNull TwitchIO twitchIO, @NonNull String userId) {
         return ConnectedState.create(
+                bot,
                 twitchIO,
                 userId,
                 subscription

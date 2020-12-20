@@ -4,8 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.Delegate;
+import perobobbot.command.CommandBundle;
 import perobobbot.command.CommandBundleLifeCycle;
+import perobobbot.command.CommandRegistry;
+import perobobbot.command.ROCommandRegistry;
 import perobobbot.extension.*;
+import perobobbot.lang.Bot;
 import perobobbot.lang.fp.Function1;
 
 import java.util.HashMap;
@@ -14,10 +19,10 @@ import java.util.Optional;
 
 public class PeroExtensionManager implements ExtensionManager {
 
-    public static @NonNull ExtensionManager create(@NonNull String userId,
+    public static @NonNull ExtensionManager create(@NonNull Bot bot,
                                                    @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
-                                                   @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
-        final PeroExtensionManager extensionManager = new PeroExtensionManager(userId, extensionFactories, commandBundleLifeCycleFactory);
+                                                   @NonNull Function1<? super ExtensionManager, ? extends CommandBundle> commandBundle) {
+        final PeroExtensionManager extensionManager = new PeroExtensionManager(bot, extensionFactories, commandBundle);
 
         extensionManager.enableAutoStartExtensions();
 
@@ -25,21 +30,25 @@ public class PeroExtensionManager implements ExtensionManager {
     }
 
     @Getter
-    private final @NonNull String userId;
+    private final @NonNull Bot bot;
+
+    @Delegate(types = ROCommandRegistry.class)
+    private final @NonNull CommandRegistry commandRegistry;
 
     private final @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories;
 
     private final @NonNull Map<String, Extension> enabledExtensions = new HashMap<>();
 
-    private final CommandBundleLifeCycle commandBundleLifeCycle;
+    private final CommandBundle commandBundle;
 
-    private PeroExtensionManager(@NonNull String userId,
-                                @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
-                                @NonNull Function1<? super ExtensionManager, ? extends CommandBundleLifeCycle> commandBundleLifeCycleFactory) {
-        this.userId = userId;
+    private PeroExtensionManager(@NonNull Bot bot,
+                                 @NonNull ImmutableMap<String, ExtensionFactory> extensionFactories,
+                                 @NonNull Function1<? super ExtensionManager, ? extends CommandBundle> commandBundleFactory) {
+        this.bot = bot;
         this.extensionFactories = extensionFactories;
-        this.commandBundleLifeCycle = commandBundleLifeCycleFactory.f(this);
-        this.commandBundleLifeCycle.attachCommandBundle();
+        this.commandBundle = commandBundleFactory.f(this);
+        this.commandRegistry = CommandRegistry.create();
+        this.commandBundle.attachTo(commandRegistry);
     }
 
     private void enableAutoStartExtensions() {
@@ -93,7 +102,7 @@ public class PeroExtensionManager implements ExtensionManager {
         if (enabledExtensions.containsKey(extensionFactory.getExtensionName())) {
             return;
         }
-        final Extension extension = extensionFactory.create(userId);
+        final Extension extension = extensionFactory.create(bot,commandRegistry);
         this.enabledExtensions.put(extensionFactory.getExtensionName(), extension);
         extension.enable();
     }

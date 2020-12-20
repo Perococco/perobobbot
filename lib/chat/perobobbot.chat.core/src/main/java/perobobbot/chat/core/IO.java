@@ -1,6 +1,7 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
+import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.Platform;
@@ -14,20 +15,20 @@ public interface IO {
 
     /**
      * Print a message to the provided channel
-     * @param nick the user that will send the message, he must have enable a connection with the chat beforehand
+     * @param bot the id of the bot that will send the message, he must have enable a connection with the chat beforehand
      * @param channelInfo the channel information to find the platform and the channel to send the message to
      * @param messageBuilder abuilder that can use the {@link DispatchContext} to create the message to send
      */
     @NonNull
-    CompletionStage<? extends DispatchSlip> send(@NonNull String nick, @NonNull ChannelInfo channelInfo, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
+    CompletionStage<? extends DispatchSlip> send(@NonNull Bot bot, @NonNull ChannelInfo channelInfo, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
     /**
-     * @param nick the user that will send the message, he must have enable a connection with the chat beforehand
+     * @param bot the id of the bot that will send the message, he must have enable a connection with the chat beforehand
      * @param channelInfo the channel information to find the platform and the channel to send the message to
      * @param message print the message to the provided channel
      */
-    default void send(@NonNull String nick, @NonNull ChannelInfo channelInfo , @NonNull String message) {
-        send(nick, channelInfo, d -> message);
+    default void send(@NonNull Bot bot, @NonNull ChannelInfo channelInfo , @NonNull String message) {
+        send(bot, channelInfo, d -> message);
     }
 
     @NonNull
@@ -38,8 +39,8 @@ public interface IO {
         return findPlatform(platform).orElseThrow(() -> new IllegalArgumentException("No IO defined for platform '"+platform+"'"));
     }
 
-    default @NonNull CompletionStage<? extends MessageChannelIO> getMessageChannelIO(@NonNull String nick, @NonNull ChannelInfo channelInfo) {
-        return getPlatform(channelInfo.getPlatform()).getChannelIO(nick,channelInfo.getChannelName());
+    default @NonNull CompletionStage<? extends MessageChannelIO> getMessageChannelIO(@NonNull Bot bot, @NonNull ChannelInfo channelInfo) {
+        return getPlatform(channelInfo.getPlatform()).getChannelIO(bot, channelInfo.getChannelName());
     }
 
 

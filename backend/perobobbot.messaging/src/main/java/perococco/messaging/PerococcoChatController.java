@@ -20,9 +20,7 @@ public class PerococcoChatController implements ChatController {
     @Override
     public void handleMessage(@NonNull MessageContext messageContext) {
         for (MessageHandler listener : listeners) {
-            if (listener.handleMessage(messageContext)) {
-                break;
-            }
+            listener.handleMessage(messageContext);
         }
     }
 

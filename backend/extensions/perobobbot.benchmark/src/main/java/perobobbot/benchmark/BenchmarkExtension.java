@@ -5,18 +5,19 @@ import lombok.Synchronized;
 import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.extension.OverlayExtension;
+import perobobbot.lang.Bot;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 
 public class BenchmarkExtension extends OverlayExtension {
 
-    private final @NonNull String userId;
+    private final @NonNull Bot bot;
 
     private BenchmarkOverlay benchmarkOverlay = null;
 
-    public BenchmarkExtension(@NonNull String userId, @NonNull Overlay overlay) {
+    public BenchmarkExtension(@NonNull Bot bot, @NonNull Overlay overlay) {
         super(BenchmarkExtensionFactory.NAME,overlay);
-        this.userId = userId;
+        this.bot = bot;
     }
 
     @Synchronized

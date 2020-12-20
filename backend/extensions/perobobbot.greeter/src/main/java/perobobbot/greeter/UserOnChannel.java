@@ -6,6 +6,9 @@ import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.MessageContext;
 
+/**
+ * Agglomeration of an user id and information of a channel
+ */
 @Value
 public class UserOnChannel {
 

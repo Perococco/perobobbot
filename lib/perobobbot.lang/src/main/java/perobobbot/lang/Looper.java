@@ -149,12 +149,12 @@ public abstract class Looper {
                         if (command == IterationCommand.STOP) {
                             break;
                         }
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         if (ThrowableTool.isCausedByAnInterruption(e)) {
                             LOG.warn("Loop interrupted");
                             Thread.currentThread().interrupt();
                         } else {
-                            LOG.warn("Iteration failed : ", e);
+                            LOG.error("Iteration failed : ", e);
                         }
                     }
                 }

@@ -5,13 +5,14 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.chat.core.IO;
 import perobobbot.command.CommandRegistry;
+import perobobbot.lang.Bot;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.sound.SoundResolver;
 
 public interface ExtensionFactory {
 
-    @NonNull Extension create(@NonNull String userId);
+    @NonNull Extension create(@NonNull Bot bot, @NonNull CommandRegistry commandRegistry);
 
     @NonNull String getExtensionName();
 
@@ -27,7 +28,6 @@ public interface ExtensionFactory {
         @NonNull ChatController getChatController();
         @NonNull Policy createPolicy(@NonNull AccessRule accessRule);
         @NonNull IO getIo();
-        @NonNull CommandRegistry getCommandRegistry();
         @NonNull Overlay getOverlay();
         @NonNull SoundResolver getSoundResolver();
     }

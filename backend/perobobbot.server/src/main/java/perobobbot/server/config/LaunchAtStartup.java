@@ -2,12 +2,12 @@ package perobobbot.server.config;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import perobobbot.chat.core.ChatAuthentication;
+import perobobbot.lang.Bot;
+import perobobbot.lang.Credentials;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.extension.ExtensionManagerFactory;
@@ -17,6 +17,8 @@ import perobobbot.lang.Secret;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @Component
 @RequiredArgsConstructor
@@ -42,21 +44,33 @@ public class LaunchAtStartup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Launch initialization");
-        final ChatAuthentication authentication = new ChatAuthentication(nick, readTwitchChatSecret());
+        final Bot bot = Bot.builder()
+                           .name("Perobobbot")
+                           .credential(Platform.TWITCH, new Credentials(nick, readTwitchChatSecret()))
+                           .credential(Platform.LOCAL, new Credentials(nick, new Secret("")))
+                           .build();
+
+
         io.getPlatform(Platform.TWITCH)
-          .connect(authentication)
+          .connect(bot)
           .thenCompose(c -> c.join(channelName))
-          .thenAccept(this::withChatChannel);
+          .thenCombine(
+                  io.getPlatform(Platform.LOCAL)
+                    .connect(bot)
+                    .thenCompose(c -> c.join("console"))
+                  , (twitch, local) -> "Perobobbot is ready"
+          ).whenComplete((r,t) -> {
+              if (t!=null) {
+                  System.err.println("Start up failed");
+                  t.printStackTrace();
+              }
+              else {
+                  System.out.println(r);
+              }
+        });
 
-        io.getPlatform(Platform.LOCAL)
-          .connect(authentication)
-          .thenCompose(c -> c.join("DUMMY"))
-          .thenAccept(c -> c.send("Perobobbot is ready!"));
-
+        extensionManagerFactory.create(bot);
     }
 
-    private void withChatChannel(@NonNull MessageChannelIO messageChannelIo) {
-        extensionManagerFactory.create(nick);
-    }
 
 }

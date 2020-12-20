@@ -1,30 +1,34 @@
 package perobobbot.extension;
 
 import lombok.NonNull;
+import perobobbot.command.CommandBundle;
 import perobobbot.command.CommandBundleLifeCycle;
+import perobobbot.command.CommandRegistry;
 
 public class ExtensionWithCommands extends ExtensionBase {
 
     private final @NonNull Extension extension;
-    private final @NonNull CommandBundleLifeCycle commandBundleLifeCycle;
+    private final @NonNull CommandRegistry commandRegistry;
+    private final @NonNull CommandBundle commandBundle;
 
-    public ExtensionWithCommands(@NonNull Extension extension, @NonNull CommandBundleLifeCycle commandBundleLifeCycle) {
+    public ExtensionWithCommands(@NonNull Extension extension, @NonNull CommandRegistry commandRegistry, @NonNull CommandBundle commandBundle) {
         super(extension.getName());
         this.extension = extension;
-        this.commandBundleLifeCycle = commandBundleLifeCycle;
+        this.commandRegistry = commandRegistry;
+        this.commandBundle = commandBundle;
     }
 
     @Override
     protected void onEnabled() {
         super.onEnabled();
         extension.enable();
-        commandBundleLifeCycle.attachCommandBundle();
+        commandBundle.attachTo(commandRegistry);
     }
 
     @Override
     protected void onDisabled() {
         super.onDisabled();
-        commandBundleLifeCycle.detachCommandBundle();
+        commandBundle.detach();
         extension.disable();
     }
 }

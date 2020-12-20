@@ -37,7 +37,7 @@ public class ExecutionContext {
 
 
     @NonNull
-    public static Optional<ExecutionContext> from(char prefix, @NonNull MessageContext messageContext) {
+    public static Optional<ExecutionContext> createFrom(char prefix, @NonNull MessageContext messageContext) {
         if (!messageContext.doesContentStartWith(prefix)) {
             return Optional.empty();
         }

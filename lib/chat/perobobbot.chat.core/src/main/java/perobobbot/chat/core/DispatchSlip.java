@@ -1,20 +1,21 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
+import perobobbot.lang.ChannelInfo;
 import perococco.perobobbot.chat.core.SimpleDispatchSlip;
 
 import java.time.Instant;
 
 public interface DispatchSlip {
 
-    public static @NonNull DispatchSlip with(@NonNull MessageChannelIO messageChannelIO, @NonNull Instant dispatchTime) {
-        return new SimpleDispatchSlip(messageChannelIO,dispatchTime);
+    static @NonNull DispatchSlip with(@NonNull ChannelInfo channelInfo, @NonNull Instant dispatchTime) {
+        return new SimpleDispatchSlip(channelInfo,dispatchTime);
     }
 
     /**
-     * @return the channel used to send to message
+     * @return the information of channel the message originated from
      */
-    @NonNull MessageChannelIO getMessageChannelIO();
+    @NonNull ChannelInfo getChannelInfo();
 
     /**
      * @return the time the message was sent (basically when it left the bot to the iiIInteEErneEEt)

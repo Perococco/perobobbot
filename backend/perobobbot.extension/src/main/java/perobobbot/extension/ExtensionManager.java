@@ -2,14 +2,16 @@ package perobobbot.extension;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.command.ROCommandRegistry;
+import perobobbot.lang.Bot;
 
-public interface ExtensionManager {
+public interface ExtensionManager extends ROCommandRegistry {
 
 
     /**
-     * @return id of the user this extension manager is associated to.
+     * @return the bot this extension manager is associated to.
      */
-    @NonNull String getUserId();
+    @NonNull Bot getBot();
 
     /**
      * Enable the extension with the provided name

@@ -8,6 +8,7 @@ import perobobbot.benchmark.BenchmarkExtension;
 import perobobbot.benchmark.action.StartBenchmark;
 import perobobbot.command.CommandBundle;
 import perobobbot.extension.ExtensionFactoryBase;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 
@@ -23,14 +24,13 @@ public class BenchmarkExtensionFactory extends ExtensionFactoryBase<BenchmarkExt
 
     public static final String NAME = "benchmark";
 
-
     public BenchmarkExtensionFactory(@NonNull Parameters parameters) {
         super(NAME, parameters);
     }
 
     @Override
-    protected @NonNull BenchmarkExtension createExtension(@NonNull String userId, @NonNull Parameters parameters) {
-        return new BenchmarkExtension(userId,parameters.getOverlay());
+    protected @NonNull BenchmarkExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
+        return new BenchmarkExtension(bot,parameters.getOverlay());
     }
 
     @Override

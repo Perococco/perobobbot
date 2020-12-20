@@ -4,9 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.access.PolicyManager;
-import perobobbot.command.CommandRegistry;
 import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.StandardInputProvider;
 import perobobbot.localio.LocalChatPlatform;
 
 @Configuration
@@ -14,11 +13,12 @@ import perobobbot.localio.LocalChatPlatform;
 public class LocalIOConfiguration {
 
     private final @NonNull ApplicationCloser applicationCloser;
-    private final @NonNull CommandRegistry commandRegistry;
-    private final @NonNull PolicyManager policyManager;
 
-    @Bean(destroyMethod = "disconnectAll")
+    private final @NonNull StandardInputProvider standardInputProvider;
+
+    @Bean(destroyMethod = "dispose")
     public LocalChatPlatform console() {
-        return new LocalChatPlatform(applicationCloser, commandRegistry, policyManager);
+        return new LocalChatPlatform(applicationCloser,standardInputProvider);
     }
+
 }

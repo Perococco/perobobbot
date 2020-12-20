@@ -1,17 +1,22 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Subscription;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class DisconnectedState extends NotConnectedState {
 
-    public static @NonNull DisconnectedState create() {
-        return DISCONNECTED;
+    public static @NonNull DisconnectedState create(@NonNull Bot bot) {
+        return new DisconnectedState(bot);
     }
 
-    private static final DisconnectedState DISCONNECTED = new DisconnectedState();
+    @Getter
+    private final @NonNull Bot bot;
 
     @Override
     public @NonNull Optional<DisconnectedState> asDisconnectedState() {
@@ -19,6 +24,6 @@ public class DisconnectedState extends NotConnectedState {
     }
 
     public @NonNull ConnectionState toConnecting(Subscription subscription) {
-        return ConnectingState.create(subscription);
+        return ConnectingState.create(bot, subscription);
     }
 }

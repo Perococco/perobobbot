@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.DispatchSlip;
+import perobobbot.lang.ChannelInfo;
 import perobobbot.twitch.chat.message.to.CommandToTwitch;
 import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 
@@ -17,7 +18,7 @@ public class TwitchDispatchSlip implements DispatchSlip {
 
     @NonNull
     @Getter
-    private final TwitchMessageChannelIO messageChannelIO;
+    private final ChannelInfo channelInfo;
 
     @NonNull
     @Getter

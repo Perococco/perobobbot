@@ -5,6 +5,7 @@ import lombok.Synchronized;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
 import perobobbot.extension.OverlayExtension;
+import perobobbot.lang.Bot;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
@@ -13,13 +14,12 @@ public class DVDLogoExtension extends OverlayExtension {
 
     public static final String NAME = "dvdlogo";
 
-    private final @NonNull String userId;
+    private final @NonNull Bot bot;
 
-    public DVDLogoExtension(@NonNull String userId, @NonNull Overlay overlay) {
+    public DVDLogoExtension(@NonNull Bot bot, @NonNull Overlay overlay) {
         super(NAME,overlay);
-        this.userId = userId;
+        this.bot = bot;
     }
-
 
     @Synchronized
     public void startOverlay() {

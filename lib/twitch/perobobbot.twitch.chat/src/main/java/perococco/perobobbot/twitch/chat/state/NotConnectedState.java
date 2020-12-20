@@ -1,6 +1,11 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import com.google.common.collect.ImmutableSet;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.lang.Bot;
+import perobobbot.lang.ChannelInfo;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwicthChatNotConnected;
 import perococco.perobobbot.twitch.chat.TwitchIO;
@@ -30,4 +35,13 @@ public abstract class NotConnectedState implements ConnectionState {
         throw new TwicthChatNotConnected();
     }
 
+    @Override
+    public @NonNull ImmutableSet<ChannelInfo> getJoinedChannels() {
+        return ImmutableSet.of();
+    }
+
+    @Override
+    public boolean hasJoined(@NonNull String channelName) {
+        return false;
+    }
 }

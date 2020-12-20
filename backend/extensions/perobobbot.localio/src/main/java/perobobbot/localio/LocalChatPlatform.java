@@ -1,49 +1,106 @@
 package perobobbot.localio;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import perobobbot.access.AccessRule;
-import perobobbot.access.Policy;
-import perobobbot.access.PolicyManager;
-import perobobbot.chat.core.ChatAuthentication;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
-import perobobbot.command.CommandBundle;
-import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.command.CommandRegistry;
 import perobobbot.lang.*;
-import perobobbot.lang.fp.Function1;
-import perobobbot.localio.spring.ShowGui;
+import perobobbot.localio.swing.InputPanel;
 
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.PrintStream;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+
 public class LocalChatPlatform implements ChatPlatform {
 
-
     private final @NonNull ApplicationCloser applicationCloser;
+    private final @NonNull StandardInputProvider standardInputProvider;
 
+    private final @NonNull LocalSender localSender = new ToStandardOutputSender();
+
+    private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
+    private volatile @NonNull ImmutableMap<Bot, LocalConnection> localConnections = ImmutableMap.of();
     private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
+    private final LocalExecutor localExecutor;
 
-    final Function1<LocalIO, CommandBundleLifeCycle> cycleFunction;
+    private final PrintStream output = System.out;
+    private JFrame dialog = null;
+    private final SubscriptionHolder guiSubscription = new SubscriptionHolder();
 
-
-    private final Map<String, LocalConnection> localConnections = new HashMap<>();
-
-    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull CommandRegistry commandRegistry, @NonNull PolicyManager policyManager) {
+    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull StandardInputProvider standardInputProvider) {
         this.applicationCloser = applicationCloser;
-        final Policy policy = policyManager.createPolicy(AccessRule.create(Role.THE_BOSS, Duration.ofSeconds(0)));
+        this.standardInputProvider = standardInputProvider;
+        this.localExecutor = new LocalExecutor(output, this::onLocalMessages,
+                                               LocalAction.with("stop", "stop the server", this::stopServer),
+                                               LocalAction.with("show-gui", "show the gui", this::showGui),
+                                               LocalAction.with("hide-gui", "hide the gui", this::hideGui)
+        );
+        this.subscriptionHolder.replaceWith(() -> standardInputProvider.addListener(localExecutor::handleMessage));
+    }
 
-        this.cycleFunction = local -> CommandBundle.builder()
-                                                   .add("lio show-gui", policy, new ShowGui(local))
-                                                   .add("lio hide-gui", policy, local::hideGui)
-                                                   .build()
-                                                   .createLifeCycle(commandRegistry);
+    private void stopServer() {
+        applicationCloser.execute();
+    }
+
+    private void onLocalMessages(@NonNull LocalMessage localMessage) {
+        findTargetedBot(localMessage)
+                .ifPresent(b ->
+                           {
+                               final MessageContext ctx = MessageContext.builder()
+                                                                        .bot(b)
+                                                                        .messageFromMe(false)
+                                                                        .content(localMessage.getMessage())
+                                                                        .rawPayload(localMessage.getMessage())
+                                                                        .messageOwner(LocalChat.LOCAL_USER)
+                                                                        .receptionTime(Instant.now())
+                                                                        .channelInfo(LocalChat.CONSOLE_CHANNEL_INFO)
+                                                                        .build();
+                               listeners.warnListeners(l -> l.onMessage(ctx));
+                           }
+                );
+    }
+
+    private @NonNull Optional<Bot> findTargetedBot(@NonNull LocalMessage localMessage) {
+        final var connections = this.localConnections;
+        if (localMessage.getBotName().isBlank()) {
+            if (connections.isEmpty()) {
+                return Optional.empty();
+            } else if (connections.size() == 1) {
+                return connections.keySet().stream().findFirst();
+            } else {
+                output.println("Bot name must be provided when multiple bots are registered: #botname message");
+                return Optional.empty();
+            }
+        } else {
+            final var bot = connections.keySet()
+                                       .stream()
+                                       .filter(b -> b.getName().equalsIgnoreCase(localMessage.getBotName()))
+                                       .findFirst();
+            if (bot.isEmpty()) {
+                output.println("Unknown bot '"+localMessage.getBotName()+"'");
+            }
+            return bot;
+        }
+
+    }
+
+    private void showHelp() {
+        System.out.println("stop -> stop the server");
+        System.out.println("");
+    }
+
+    private void dispatchInputMessage(String line) {
+        if (line.startsWith("#")) {
+
+        }
     }
 
     @Override
@@ -52,22 +109,28 @@ public class LocalChatPlatform implements ChatPlatform {
     }
 
     @Override
-    public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatAuthentication authentication) {
-        return CompletableFuture.completedFuture(getLocalConnection(authentication.getNick()));
+    public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
+        return CompletableFuture.completedFuture(getLocalConnection(bot));
     }
 
     @Override
-    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull String nick) {
-        return Optional.of(CompletableFuture.completedFuture(getLocalConnection(nick)));
+    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot) {
+        return Optional.of(CompletableFuture.completedFuture(getLocalConnection(bot)));
     }
 
     @Synchronized
-    private @NonNull LocalConnection getLocalConnection(@NonNull String nick) {
-        return localConnections.computeIfAbsent(nick, this::createLocalConnectionForUser);
+    private @NonNull LocalConnection getLocalConnection(@NonNull Bot bot) {
+        final LocalConnection existingConnection = localConnections.get(bot);
+        if (existingConnection != null) {
+            return existingConnection;
+        }
+        final LocalConnection newConnection = this.createLocalConnectionForBot(bot);
+        this.localConnections = MapTool.add(this.localConnections, bot, newConnection);
+        return newConnection;
     }
 
-    private @NonNull LocalConnection createLocalConnectionForUser(@NonNull String nick) {
-        return new LocalConnection(nick, applicationCloser, cycleFunction, listeners);
+    private @NonNull LocalConnection createLocalConnectionForBot(@NonNull Bot bot) {
+        return new LocalConnection(bot, localSender);
     }
 
     @Override
@@ -77,8 +140,48 @@ public class LocalChatPlatform implements ChatPlatform {
 
     @Override
     @Synchronized
-    public void disconnectAll() {
-        localConnections.values().forEach(LocalConnection::disconnectAll);
-        localConnections.clear();
+    public void dispose() {
+        localConnections.values().forEach(LocalConnection::dispose);
+        localConnections = ImmutableMap.of();
     }
+
+    public void showGui() {
+        if (!SwingUtilities.isEventDispatchThread()) {
+            SwingUtilities.invokeLater(this::showGui);
+            return;
+        }
+        if (GraphicsEnvironment.isHeadless() || dialog != null) {
+            return;
+        }
+        final InputPanel inputPanel = new InputPanel();
+        this.guiSubscription.replaceWith(() -> inputPanel.addListener(localExecutor::handleMessage));
+        this.dialog = new JFrame("Local Command");
+        this.dialog.getContentPane().add(inputPanel);
+        this.dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                guiSubscription.unsubscribe();
+                dialog = null;
+            }
+        });
+        this.dialog.pack();
+        this.dialog.setVisible(true);
+        this.dialog.setAlwaysOnTop(true);
+        this.dialog.toFront();
+    }
+
+    public void hideGui() {
+        if (!SwingUtilities.isEventDispatchThread()) {
+            SwingUtilities.invokeLater(this::hideGui);
+            return;
+        }
+        if (dialog == null) {
+            return;
+        }
+        this.guiSubscription.unsubscribe();
+        this.dialog.dispose();
+        this.dialog = null;
+    }
+
 }

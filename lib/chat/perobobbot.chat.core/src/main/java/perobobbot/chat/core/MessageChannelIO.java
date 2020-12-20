@@ -28,6 +28,4 @@ public interface MessageChannelIO {
         return send(d -> message);
     }
 
-    @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
-
 }

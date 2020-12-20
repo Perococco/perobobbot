@@ -1,6 +1,9 @@
 package perococco.perobobbot.twitch.chat.state;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.lang.Bot;
+import perobobbot.lang.ChannelInfo;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchChatState;
 import perococco.perobobbot.twitch.chat.TwitchIO;
@@ -17,8 +20,8 @@ public interface ConnectionState extends TwitchChatState {
      * @return a new disconnected state
      */
     @NonNull
-    static DisconnectedState disconnected() {
-        return DisconnectedState.create();
+    static DisconnectedState disconnected(@NonNull Bot bot) {
+        return DisconnectedState.create(bot);
     }
 
     /**
@@ -51,4 +54,7 @@ public interface ConnectionState extends TwitchChatState {
     default @NonNull Optional<ConnectedState> asConnectedState(){ return Optional.empty(); }
     default @NonNull Optional<ConnectingState> asConnectingState(){ return Optional.empty(); }
 
+    @NonNull ImmutableSet<ChannelInfo> getJoinedChannels();
+
+    boolean hasJoined(@NonNull String channelName);
 }

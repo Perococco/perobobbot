@@ -21,7 +21,6 @@ public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
 
     private final @NonNull IO io;
     private final @NonNull ChatController chatController;
-    private final @NonNull CommandRegistry commandRegistry;
     private final @NonNull PolicyManager policyManager;
     private final @NonNull Overlay overlay;
     private final @NonNull SoundResolver soundResolver;

@@ -15,5 +15,5 @@ public interface MessageHandler {
      * @param messageContext the incoming message
      * @return true if the message should not be handle by anyother {@link MessageHandler}
      */
-    boolean handleMessage(@NonNull MessageContext messageContext);
+    void handleMessage(@NonNull MessageContext messageContext);
 }

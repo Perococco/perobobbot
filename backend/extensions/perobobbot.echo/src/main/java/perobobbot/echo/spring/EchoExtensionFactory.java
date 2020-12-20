@@ -15,6 +15,7 @@ import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactory;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.extension.ExtensionWithCommands;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 
@@ -33,8 +34,8 @@ public class EchoExtensionFactory extends ExtensionFactoryBase<EchoExtension> {
     }
 
     @Override
-    protected @NonNull EchoExtension createExtension(@NonNull String userId, @NonNull Parameters parameters) {
-        return new EchoExtension(userId, parameters.getIo());
+    protected @NonNull EchoExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
+        return new EchoExtension(bot, parameters.getIo());
     }
 
     @Override

@@ -5,6 +5,9 @@ import perobobbot.lang.Subscription;
 import perobobbot.rendering.Size;
 import perobobbot.sound.SoundRegistry;
 
+/**
+ * WARNING!! Overlay is shared amongst all users. A user specific overlay might be needed
+ */
 public interface Overlay extends SoundRegistry {
 
     /**

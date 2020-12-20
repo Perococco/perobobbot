@@ -12,9 +12,14 @@ public class MessageContext {
 
     /**
      * @return true if the user that is at the origin of
-     * the message is me (as the one connected to the channel)
+     * the message is the one that is connected to the channel {@see #userId}
      */
     boolean messageFromMe;
+
+    /**
+     * @return the bot that is connected to the channel
+     */
+    @NonNull Bot bot;
 
     /**
      * @return the user that is at the origin of this message
@@ -37,19 +42,36 @@ public class MessageContext {
     @NonNull String content;
 
     /**
-     * @return information regarding the channel the execution has been initiated from
+     * @return information regarding the channel the message is coming from
      */
     @NonNull ChannelInfo channelInfo;
 
+    /**
+     * @return the id of the user that is at the origin of the message
+     */
     @NonNull
     public String getMessageOwnerId() {
         return messageOwner.getUserId();
     }
 
+    /**
+     * @return the platform the message is coming from
+     */
     public Platform getPlatform() {
         return channelInfo.getPlatform();
     }
 
+    /**
+     * @return the name of channel the message is coming from
+     */
+    public String getChannelName() {
+        return channelInfo.getChannelName();
+    }
+
+    /**
+     * @param prefix a prefix value
+     * @return true if the message content starts with the provided prefix
+     */
     public boolean doesContentStartWith(char prefix) {
         return !content.isEmpty() && content.charAt(0) == prefix;
     }

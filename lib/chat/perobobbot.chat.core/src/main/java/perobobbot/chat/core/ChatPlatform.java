@@ -1,9 +1,7 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
-import perobobbot.lang.MessageListener;
-import perobobbot.lang.Platform;
-import perobobbot.lang.Subscription;
+import perobobbot.lang.*;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -18,28 +16,28 @@ public interface ChatPlatform {
 
     /**
      * connect to a chat platform
-     * @param authentication the authentication used to connect to the chat platform
+     * @param bot the bot to use to connect to the chat platform
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO} after successful connection
      */
-    @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatAuthentication authentication);
+    @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot);
 
     /**
      * find the chat connection for the specific authentication
-     * @param nick the user used to connect
+     * @param bot the botId used to connect
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO}
      */
-    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull String nick);
+    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot);
 
     @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
 
-    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull String nick) {
-        return findConnection(nick)
-                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(getPlatform(),nick)));
+    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull Bot bot) {
+        return findConnection(bot)
+                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(getPlatform(), bot)));
     }
 
-    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull String nick, @NonNull String channelName) {
-        return getConnection(nick).thenCompose(c -> c.getChannel(channelName));
+    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull Bot bot, @NonNull String channelName) {
+        return getConnection(bot).thenCompose(c -> c.getChannel(channelName));
     }
 
-    void disconnectAll();
+    void dispose();
 }

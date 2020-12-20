@@ -6,6 +6,7 @@ module perobobbot.command {
     requires perobobbot.lang;
     requires perobobbot.access;
 
+    requires perobobbot.chat.core;
 
     exports perobobbot.command;
 }

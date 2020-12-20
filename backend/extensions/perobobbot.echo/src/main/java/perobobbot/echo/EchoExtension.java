@@ -4,6 +4,7 @@ import lombok.NonNull;
 import perobobbot.chat.core.IO;
 import perobobbot.command.CommandBundleLifeCycle;
 import perobobbot.extension.ExtensionBase;
+import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.User;
 import perobobbot.lang.fp.Function1;
@@ -12,13 +13,13 @@ public class EchoExtension extends ExtensionBase {
 
     public static final String NAME = "echo";
 
-    private final @NonNull String userId;
+    private final @NonNull Bot bot;
 
     private final @NonNull IO io;
 
-    public EchoExtension(@NonNull String userId, @NonNull IO io) {
+    public EchoExtension(@NonNull Bot bot, @NonNull IO io) {
         super(NAME);
-        this.userId = userId;
+        this.bot = bot;
         this.io = io;
     }
 
@@ -27,7 +28,7 @@ public class EchoExtension extends ExtensionBase {
             return;
         }
         final String answer = createEchoMessage(messageOwner,contentToEcho);
-        io.send(userId,channelInfo,answer);
+        io.send(bot,channelInfo,answer);
     }
 
     private @NonNull String createEchoMessage(@NonNull User messageOwner, @NonNull String contentToEcho) {

@@ -25,7 +25,7 @@ public class ExecuteCommand implements Consumer1<ExecutionContext> {
         } else {
             final var duration = parseArgument(executionContext.getParameters());
             pauseExtension.startPause(duration);
-            io.send(pauseExtension.getUserId(), executionContext.getChannelInfo(), formPauseMessage(executionContext));
+            io.send(pauseExtension.getBot(), executionContext.getChannelInfo(), formPauseMessage(executionContext));
         }
     }
 

@@ -12,7 +12,7 @@ public class SetDisconnected implements Mutation<ConnectionState> {
     @Override
     public @NonNull ConnectionState mutate(@NonNull ConnectionState currentValue) {
         retrieveSubscription(currentValue).unsubscribe();
-        return ConnectionState.disconnected();
+        return ConnectionState.disconnected(currentValue.getBot());
     }
 
     private @NonNull Subscription retrieveSubscription(@NonNull ConnectionState connectionState) {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionWithoutCommandFactory;
 import perobobbot.greeter.GreeterExtension;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 
 @Component
@@ -21,8 +22,8 @@ public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
     }
 
     @Override
-    protected @NonNull Extension createExtension(@NonNull String userId, @NonNull Parameters parameters) {
-        return new GreeterExtension(userId, parameters.getIo(), parameters.getChatController());
+    protected @NonNull Extension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
+        return new GreeterExtension(bot, parameters.getIo(), parameters.getChatController());
     }
 
 }

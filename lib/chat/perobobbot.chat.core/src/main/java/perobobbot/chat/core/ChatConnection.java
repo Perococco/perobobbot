@@ -1,6 +1,7 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Platform;
 
 import java.util.Optional;
@@ -10,7 +11,10 @@ public interface ChatConnection {
 
     @NonNull Platform getPlatform();
 
-    @NonNull String getNick();
+    /**
+     * @return the bot used for the connection
+     */
+    @NonNull Bot getBot();
 
     /**
      * join a channel
@@ -23,7 +27,7 @@ public interface ChatConnection {
 
     default @NonNull CompletionStage<? extends MessageChannelIO> getChannel(@NonNull String channelName) {
         return findChannel(channelName)
-                .thenApply(o -> o.orElseThrow(() -> new ChatChannelNotJoined(getPlatform(),getNick(),channelName)));
+                .thenApply(o -> o.orElseThrow(() -> new ChatChannelNotJoined(getBot(),getPlatform(),channelName)));
     }
 
 }

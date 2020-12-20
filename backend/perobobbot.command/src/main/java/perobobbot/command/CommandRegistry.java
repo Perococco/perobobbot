@@ -15,7 +15,7 @@ import java.util.Optional;
  * WARNING the commandRegistry does not known anything about the user. This might be problematic
  * when multiple users will be managed by the bot.
  */
-public interface CommandRegistry {
+public interface CommandRegistry extends ROCommandRegistry {
 
     static @NonNull CommandRegistry create() {
         return new PeroCommandRegistry();
@@ -27,13 +27,6 @@ public interface CommandRegistry {
      * @return a subscription to remove the provided command from the manager
      */
     @NonNull Subscription addCommand(@NonNull Command command);
-
-    /**
-     * Find a command from its name
-     * @param commandName the command name
-     * @return an optional containing the command with the provided name, an empty optional otherwise.
-     */
-    @NonNull Optional<Command> findCommand(@NonNull String commandName);
 
     /**
      * Add several commands to the manager

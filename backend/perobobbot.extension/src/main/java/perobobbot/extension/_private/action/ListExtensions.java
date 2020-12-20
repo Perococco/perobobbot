@@ -27,7 +27,7 @@ public class ListExtensions implements Executor<ExecutionContext> {
                       .map(this::format)
                       .collect(Collectors.joining(", "));
 
-        io.send(extensionManager.getUserId(), context.getChannelInfo(), message);
+        io.send(extensionManager.getBot(), context.getChannelInfo(), message);
     }
 
     @NonNull
