@@ -10,6 +10,7 @@
     <option name="SPRING_BOOT_MAIN_CLASS" value="perobobbot.server.BotServer" />
     <option name="VM_PARAMETERS" value="-Dspring.config.additional-location=$USER_HOME$/.perobot/config/ -ea" />
     <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

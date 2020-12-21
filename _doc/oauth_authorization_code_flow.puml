@@ -1,0 +1,11 @@
+@startuml
+
+title OAuth Authorization Code Flow
+User -> Twitch : GET
+group User Accepts
+    User -> Bot : Redirected with auth. code
+    Bot -> Twitch: Authentication Request
+    Twitch --> Bot: Authentication Response
+end
+
+@enduml
