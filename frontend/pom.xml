@@ -21,6 +21,6 @@
     </properties>
 
     <modules>
-        <module>vuejs</module>
+        <module>svelte</module>
     </modules>
 </project>

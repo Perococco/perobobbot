@@ -136,9 +136,8 @@
         <!-- Dependency used to force fontend vuejs compilation before this-->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>frontend-vuejs</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
+            <artifactId>perobobbot-frontend-svelte</artifactId>
+            <type>jar</type>
             <scope>provided</scope>
         </dependency>
 

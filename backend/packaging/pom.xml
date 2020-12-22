@@ -33,6 +33,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-frontend-svelte</artifactId>
+        </dependency>
 
     </dependencies>
 

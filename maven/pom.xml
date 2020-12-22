@@ -259,6 +259,13 @@
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>frontend-vuejs</artifactId>
+                <type>pom</type>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-frontend-svelte</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
