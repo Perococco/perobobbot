@@ -133,12 +133,9 @@
             <artifactId>perobobbot-data-jpa</artifactId>
         </dependency>
 
-        <!-- Dependency used to force fontend vuejs compilation before this-->
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-frontend-svelte</artifactId>
-            <type>jar</type>
-            <scope>provided</scope>
         </dependency>
 
 
@@ -245,27 +242,27 @@
                     </delimiters>
                 </configuration>
                 <executions>
-                    <execution>
-                        <id>copy Vue.js frontend content</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>src/main/resources/public</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>${project.root}/frontend/vuejs/target/dist</directory>
-                                    <includes>
-                                        <include>static/</include>
-                                        <include>index.html</include>
-                                        <include>favicon.ico</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>copy Vue.js frontend content</id>-->
+<!--                        <phase>generate-resources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-resources</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>src/main/resources/public</outputDirectory>-->
+<!--                            <overwrite>true</overwrite>-->
+<!--                            <resources>-->
+<!--                                <resource>-->
+<!--                                    <directory>${project.root}/frontend/vuejs/target/dist</directory>-->
+<!--                                    <includes>-->
+<!--                                        <include>static/</include>-->
+<!--                                        <include>index.html</include>-->
+<!--                                        <include>favicon.ico</include>-->
+<!--                                    </includes>-->
+<!--                                </resource>-->
+<!--                            </resources>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

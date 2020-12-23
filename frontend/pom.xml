@@ -21,7 +21,7 @@
     </properties>
 
     <modules>
-        <module>svelte</module>
+        <module>svelte-snowpack</module>
 <!--        <module></module>-->
     </modules>
 </project>
