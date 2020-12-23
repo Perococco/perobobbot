@@ -22,5 +22,6 @@
 
     <modules>
         <module>svelte</module>
+<!--        <module></module>-->
     </modules>
 </project>

@@ -5,9 +5,15 @@ import lombok.NonNull;
 import lombok.Value;
 
 @Value
-@Builder
 public class UserDTO {
 
     @NonNull
     String login;
+
+    @Builder
+    public UserDTO(@NonNull String login) {
+        this.login = login;
+    }
 }
+
+
