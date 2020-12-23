@@ -20,12 +20,6 @@
     </properties>
 
     <build>
-        <sourceDirectory>java-src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>java-src/main/resources</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -60,6 +54,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>

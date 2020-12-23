@@ -19,9 +19,9 @@ module.exports = {
     /* ... */
   },
   buildOptions: {
-    out : "target/classes/public"
   },
   proxy: {
+    "/api":"https://localhost:8443/api",
     /* ... */
   },
   alias: {
