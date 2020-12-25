@@ -21,7 +21,7 @@ module.exports = {
     open:"none", /* can be default, chrome, brave, firefox or none */
   },
   buildOptions: {
-    out:"target/classes/dashboard/public"
+    out:"target/classes/dashboard-svelte/public"
   },
   proxy: {
     "/api":"https://localhost:8443/api",

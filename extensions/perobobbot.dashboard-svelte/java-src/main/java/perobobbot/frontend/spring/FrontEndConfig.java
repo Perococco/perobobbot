@@ -16,7 +16,7 @@ public class FrontEndConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/dashboard/**")
-                .addResourceLocations("classpath:/dashboard/public/");
+                .addResourceLocations("classpath:/dashboard-svelte/public/");
     }
 
 
