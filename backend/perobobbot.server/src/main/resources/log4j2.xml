@@ -35,6 +35,8 @@
 <!--        logging.level.org.springframework.security=DEBUG-->
 <!--        logging.level.perobobbot.overlay.api.FPSCounter=DEBUG-->
 
+        <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="info"/>
+
         <Logger name="org.springframework.boot.autoconfigure" level="off"/>
 
         <!-- LOG "com.baeldung*" at TRACE level -->

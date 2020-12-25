@@ -14,4 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
 //        configurer.addPathPrefix("api", HandlerTypePredicate.forAnnotation(RestController.class));
     }
 
+
+
 }

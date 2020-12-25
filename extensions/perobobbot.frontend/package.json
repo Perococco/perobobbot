@@ -2,7 +2,7 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "web-test-runner \"src/**/*.test.ts\""
+    "test": "web-test-runner \\\"js-src/**/*.test.ts\\\""
   },
   "dependencies": {
     "axios": "^0.21.1",

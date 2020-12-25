@@ -241,45 +241,11 @@
                 <directory>src/main/resources-with-filtering</directory>
                 <filtering>true</filtering>
             </resource>
-            <resource>
-                <directory>${project.root}/extensions/perobobbot.frontend/build</directory>
-                <filtering>false</filtering>
-                <targetPath>public</targetPath>
-            </resource>
+<!--            <resource>-->
+<!--                <directory>${project.root}/extensions/perobobbot.frontend/build</directory>-->
+<!--                <filtering>false</filtering>-->
+<!--                <targetPath>public</targetPath>-->
+<!--            </resource>-->
         </resources>
-        <plugins>
-<!--            <plugin>-->
-<!--                <artifactId>maven-resources-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <encoding>UTF-8</encoding>-->
-<!--                    <delimiters>-->
-<!--                        <delimiter>@</delimiter>-->
-<!--                    </delimiters>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--&lt;!&ndash;                    <execution>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <id>copy Vue.js frontend content</id>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <phase>generate-resources</phase>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <goals>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <goal>copy-resources</goal>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </goals>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <outputDirectory>src/main/resources/public</outputDirectory>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <overwrite>true</overwrite>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <resources>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <resource>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <directory>${project.root}/frontend/vuejs/target/dist</directory>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <includes>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <include>static/</include>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <include>index.html</include>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <include>favicon.ico</include>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </includes>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </resource>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </resources>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </execution>&ndash;&gt;-->
-<!--                </executions>-->
-<!--            </plugin>-->
-        </plugins>
     </build>
 </project>
