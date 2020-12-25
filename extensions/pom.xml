@@ -27,7 +27,7 @@
         <module>perobobbot.benchmark</module>
         <module>perobobbot.pause</module>
         <module>perobobbot.play</module>
-        <module>perobobbot.frontend</module>
+        <module>perobobbot.dashboard-svelte</module>
     </modules>
 
 </project>

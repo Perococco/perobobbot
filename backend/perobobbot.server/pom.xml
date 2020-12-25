@@ -81,7 +81,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-frontend</artifactId>
+            <artifactId>perobobbot-ext-dashboard-svelte</artifactId>
             <scope>runtime</scope>
         </dependency>
 

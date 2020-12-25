@@ -249,7 +249,7 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-ext-frontend</artifactId>
+                <artifactId>perobobbot-ext-dashboard-svelte</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
