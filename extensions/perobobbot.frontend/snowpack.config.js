@@ -1,7 +1,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    "public": {url: '/', static: true},
+    public: {url: '/', static: true},
     src: {url: '/dist'},
   },
   plugins: [
@@ -16,9 +16,11 @@ module.exports = {
     /* ... */
   },
   devOptions: {
-    /* ... */
+    port: 8080,
+    open:"none", /* can be default, chrome, brave, firefox or none */
   },
   buildOptions: {
+    out:"target/classes/public"
   },
   proxy: {
     "/api":"https://localhost:8443/api",
