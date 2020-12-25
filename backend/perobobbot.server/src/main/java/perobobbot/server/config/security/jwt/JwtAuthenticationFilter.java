@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader(AUTHORIZATION_HEADER_NAME);
 
-        if (isHeaderNullOrNotMatchBearer(header)) {
+        if (isHeaderNullOrDoesNotMatchBearer(header)) {
             filterChain.doFilter(request,response);
             return;
         }
@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-    private boolean isHeaderNullOrNotMatchBearer(String header) {
+    private boolean isHeaderNullOrDoesNotMatchBearer(String header) {
         return header == null || !header.toLowerCase().startsWith(BEARER_PREFIX_TOKEN);
     }
 
