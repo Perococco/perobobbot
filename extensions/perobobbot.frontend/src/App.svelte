@@ -1,14 +1,10 @@
 <script lang='typescript'>
     import {onMount} from 'svelte';
-    import axios from 'axios';
 
     let count: number = 0;
     let name: string = "waiting";
     onMount(() => {
         const interval = setInterval(() => count++, 1000);
-        axios.get("api/debug/user")
-        .then(value => name = value.data.login)
-        .catch(err => console.log(err))
         return () => {
             clearInterval(interval);
         };

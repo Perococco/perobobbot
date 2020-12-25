@@ -1,6 +1,6 @@
 {
   "include": [
-    "js-src", "types"],
+    "src", "types"],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
