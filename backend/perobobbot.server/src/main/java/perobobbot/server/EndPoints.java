@@ -10,7 +10,7 @@ public interface EndPoints {
     String CONTEXT_PATH = "/api";
 
     String CURRENT_USER = "/user";
-    String LOGIN = "/login";
+    String SIGN_IN = "/signin";
     String SIGN_UP = "/signup";
 
     @NonNull

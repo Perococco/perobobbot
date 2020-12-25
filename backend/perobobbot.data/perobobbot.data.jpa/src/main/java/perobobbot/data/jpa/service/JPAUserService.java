@@ -33,8 +33,8 @@ public class JPAUserService implements UserService {
 
     @NonNull
     @Override
-    public UserDTO getUserInfo(@NonNull String userEmail) {
-        return Transformers.toDTO(userRepository.getByLogin(userEmail));
+    public UserDTO getUserInfo(@NonNull String login) {
+        return Transformers.toDTO(userRepository.getByLogin(login));
     }
 
     @NonNull

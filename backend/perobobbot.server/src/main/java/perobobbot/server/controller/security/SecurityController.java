@@ -28,6 +28,10 @@ public class SecurityController {
     @NonNull
     private final UserService userService;
 
+    /**
+     * @param principal the principal provided by the security framework if an user is authenticated
+     * @return the authenticated user information
+     */
     @GetMapping(EndPoints.CURRENT_USER)
     public UserDTO getCurrentUser(@AuthenticationPrincipal UserDetails principal) {
         return userService.getUserInfo(principal.getUsername());
@@ -38,7 +42,7 @@ public class SecurityController {
      * @param credentials the credentials to use to authenticate the user
      * @return a JWT for further authentication
      */
-    @PostMapping(EndPoints.LOGIN)
+    @PostMapping(EndPoints.SIGN_IN)
     public String login(@Valid @RequestBody Credentials credentials) {
         final Authentication authentication = authenticationManager.authenticate(credentials.createAuthentication());
         final LoginFromAuthentication email = new LoginFromAuthentication(authentication);
@@ -47,6 +51,7 @@ public class SecurityController {
 
 
     /**
+     * Sign up user
      * @param parameters the data used to create the user
      * @return the created user
      */

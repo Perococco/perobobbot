@@ -15,10 +15,10 @@ public class LoginFromAuthentication implements CharSequence {
     @NonNull
     private final Authentication authentication;
 
-    private final Lazy<String> email = Lazy.basic(this::extractEmail);
+    private final Lazy<String> login = Lazy.basic(this::extractLogin);
 
     @NonNull
-    private String extractEmail() {
+    private String extractLogin() {
         if (!authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof UserDetails)) {
             throw new LoginFailed("Could not log user");
         }
@@ -28,21 +28,21 @@ public class LoginFromAuthentication implements CharSequence {
 
     @Override
     public int length() {
-        return email.get().length();
+        return login.get().length();
     }
 
     @Override
     public char charAt(int index) {
-        return email.get().charAt(index);
+        return login.get().charAt(index);
     }
 
     @Override
     public CharSequence subSequence(int start, int end) {
-        return email.get().subSequence(start,end);
+        return login.get().subSequence(start, end);
     }
 
     @Override
     public String toString() {
-        return email.get();
+        return login.get();
     }
 }
