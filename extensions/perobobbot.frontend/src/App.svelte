@@ -65,7 +65,7 @@
 
 <div class="App">
     <header class="App-header">
-        <img src="/logo.svg" class="App-logo" alt="logo"/>
+        <img src="./logo.svg" class="App-logo" alt="logo"/>
         <p>My name is : {name}</p>
         <p>Page has been open for <code>{count}</code> seconds.</p>
         <p>

@@ -20,7 +20,6 @@ import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@Component
 @RequiredArgsConstructor
 public class LaunchAtStartup implements ApplicationRunner {
 
