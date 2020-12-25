@@ -1,8 +1,8 @@
 == Tasks
 
 .Command
-* [ ] Improve the parsing of the command parameters
-* [ ] Handle multiple commands with same name
+* [x] Improve the parsing of the command parameters
+* [x] Handle multiple commands with same name
 
 .Greeter
 * [ ] Remove bot from user to greet (WizeBot)
@@ -13,8 +13,8 @@
 
 
 .Puck War
-* [ ] Introduction concept of round with limited duration
-** [ ] Display countdown to end of round
-** [ ] Show winner at end of a round
-* [ ] Improve highscore table rendering
+* [x] Introduction concept of round with limited duration
+** [x] Display countdown to end of round
+** [x] Show winner at end of a round
+* [x] Improve highscore table rendering
 * [ ] Display command on top of screen

@@ -12,34 +12,32 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-twitch-oauth</artifactId>
+    <artifactId>perobobbot-overlay-newtek</artifactId>
 
     <name>${application.name} : ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Twitch OAuth</submodule.name>
+        <submodule.name>Overlay : NewTek</submodule.name>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.github.vladimir-bukhtoyarov</groupId>
-            <artifactId>bucket4j-core</artifactId>
+            <groupId>com.walker</groupId>
+            <artifactId>devolay</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-overlay-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-sound</artifactId>
         </dependency>
     </dependencies>
 </project>

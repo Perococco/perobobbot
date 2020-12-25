@@ -19,18 +19,18 @@
 
     <modules>
         <module>maven</module>
+        <module>lib</module>
+        <module>extensions</module>
 
 <!--        <module>lib/perobobbot.lang</module>-->
         <!-- API and implementation to easily create Chat -->
-        <module>lib/perobobbot.lang</module>
-        <module>lib/chat/perobobbot.chat.core</module>
-        <module>lib/chat/perobobbot.chat.advanced</module>
-        <module>lib/chat/perobobbot.chat.websocket</module>
-        <module>lib/twitch/perobobbot.twitch.chat</module>
-        <module>lib/twitch/perobobbot.twitch.oauth</module>
+
+        <!-- extensions. The scope of the dependencies
+to these modules should be runtime -->
+
 
 
         <module>backend</module>
-        <module>frontend</module>
+<!--        <module>frontend</module>-->
     </modules>
 </project>

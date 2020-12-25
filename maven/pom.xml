@@ -247,6 +247,11 @@
                 <artifactId>perobobbot-ext-play</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-frontend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>
@@ -254,21 +259,6 @@
                 <artifactId>perobobbot-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>frontend-vuejs</artifactId>
-                <type>pom</type>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-frontend-svelte</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>org.projectlombok</groupId>

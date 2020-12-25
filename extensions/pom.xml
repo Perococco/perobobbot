@@ -9,27 +9,25 @@
         <relativePath>../maven/pom.xml</relativePath>
     </parent>
 
-    <name>${root.name}</name>
+    <name>${application.name} : ${module.name}</name>
 
-    <artifactId>perobobbot-backend</artifactId>
+    <artifactId>perobobbot-extensions</artifactId>
     <packaging>pom</packaging>
 
     <properties>
-        <root.name>Perococco Bot Backend</root.name>
+        <module.name>Extension</module.name>
     </properties>
 
     <modules>
-
-        <!-- Module to handle data persistence -->
-        <module>perobobbot.data/perobobbot.data.com</module>
-        <module>perobobbot.data/perobobbot.data.domain</module>
-        <module>perobobbot.data/perobobbot.data.service</module>
-        <module>perobobbot.data/perobobbot.data.jpa</module>
-        <module>perobobbot.data/perobobbot.data.schema</module>
-
-
-        <module>perobobbot.server</module>
-        <module>packaging</module>
+        <module>perobobbot.echo</module>
+        <module>perobobbot.localio</module>
+        <module>perobobbot.dvdlogo</module>
+        <module>perobobbot.puckwar</module>
+        <module>perobobbot.greeter</module>
+        <module>perobobbot.benchmark</module>
+        <module>perobobbot.pause</module>
+        <module>perobobbot.play</module>
+        <module>perobobbot.frontend</module>
     </modules>
 
 </project>
