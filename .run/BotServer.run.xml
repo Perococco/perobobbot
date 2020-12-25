@@ -12,6 +12,7 @@
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
     <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="generate-sources" />
       <option name="Make" enabled="true" />
     </method>
   </configuration>
