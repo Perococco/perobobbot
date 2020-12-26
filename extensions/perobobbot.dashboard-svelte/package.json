@@ -2,7 +2,6 @@
   "scripts": {
     "dev": "snowpack dev",
     "build": "snowpack build",
-
     "test": "web-test-runner \"src/**/*.test.ts\""
   },
   "dependencies": {
