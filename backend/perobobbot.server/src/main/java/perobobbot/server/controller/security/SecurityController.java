@@ -43,7 +43,7 @@ public class SecurityController {
      * @return a JWT for further authentication
      */
     @PostMapping(EndPoints.SIGN_IN)
-    public String login(@Valid @RequestBody Credentials credentials) {
+    public String signIn(@Valid @RequestBody Credentials credentials) {
         final Authentication authentication = authenticationManager.authenticate(credentials.createAuthentication());
         final LoginFromAuthentication email = new LoginFromAuthentication(authentication);
         return userService.getJWTToken(email.toString());
