@@ -43,8 +43,9 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <phase>initialize</phase>
                         <configuration>
-                            <nodeVersion>v14.2.0</nodeVersion>
+                            <nodeVersion>v14.15.3</nodeVersion>
                         </configuration>
                     </execution>
                     <!-- Install all project dependencies -->
@@ -54,8 +55,8 @@
                             <goal>npm</goal>
                         </goals>
                         <!-- optional: default phase is "generate-resources" -->
-                        <phase>generate-resources</phase>
                         <!-- Optional configuration which provides for running any npm command -->
+                        <phase>generate-sources</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -66,14 +67,14 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>generate-sources</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
                     </execution>
                     <!-- Run Unit tests with Jest -->
                     <execution>
-                        <id>npm run test:unit</id>
+                        <id>npm run test</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
