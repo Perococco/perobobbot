@@ -1,37 +1,72 @@
 <script lang='typescript'>
-    import './TailwindStyles.svelte';
+    // import './TailwindStyles.svelte';
 
-    const message = 'Learn Svelte';
+    import Router, {link} from 'svelte-spa-router'
+    import {wrap} from 'svelte-spa-router/wrap'
+    import {authentication} from "./stores/stores";
+    import Optional from './optional.ts';
+    import type Unsubscriber from 'svelte/store'
+    import {onDestroy} from 'svelte';
+    import {push, pop, replace} from 'svelte-spa-router'
+    import User from "./types/user";
+
+    let authenticated_user: Optional<User> = Optional.empty();
+
+    const unsubscriber: Unsubscriber = authentication.subscribe(o => {
+            console.log("New user : " + o.map(u => u.login).orElse("No user"))
+            authenticated_user = o
+        }
+    );
+
+    onDestroy(() => {
+        unsubscriber; //TODO does the unsubscription occurs actually
+    })
+
+
+    function check_authentication(details): boolean {
+        //si l'utilisateur est authentifié on laisse passer
+        //sinon, on verifie l'existence d'un JWT et on l'utilise pour recuperer l'utilisateur
+        //sinon, on interdit l'access
+        return authenticated_user.isPresent()
+    }
+
+
+    const routes = new Map();
+
+    routes.set("/login", wrap({
+        asyncComponent: () => import('./Login.svelte'),
+    }));
+    routes.set("/warning", wrap({
+        asyncComponent: () => import('./Warning.svelte'),
+    }));
+
+
+    routes.set(/^\/(home)?/, wrap({
+        asyncComponent: () => import('./Home.svelte'),
+        userData: {
+            onDenyRoute: "/warning"
+        },
+        conditions: [
+            (detail => check_authentication(detail))
+        ]
+    }));
+
+    function onRouteDenied(event: object): void {
+        Optional.ofNullable(event.detail)
+            .map(d => d.userData)
+            .map(d => d.onDenyRoute)
+            .ifPresent(r => replace(r))
+    }
+
 </script>
 
 <style>
-    .App-logo {
-        animation: App-logo-scale infinite 1.6s ease-in-out alternate;
-    }
-
-    @keyframes App-logo-scale {
-        from {
-            transform: scale(1);
-        }
-        to {
-            transform: scale(1.06);
-        }
-    }
 </style>
 
-<div class="text-center font-serif">
-    <header class="bg-gray-100 h-screen flex justify-center items-center flex-col text-3xl">
-        <img src="./logo.svg" class="App-logo pointer-events-none m-4 h-64" alt="logo"/>
-        <p>
-            Edit <code>src/App.svelte</code> and save to reload.
-        </p>
-        <a
-                class="text-orange-500"
-                href="https://svelte.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-        >
-            {message}
-        </a>
-    </header>
+<div>
+    <div>
+        <a href="/login" use:link>Login</a>
+        <a href="/home" use:link>Home</a>
+    </div>
+    <Router {routes} on:conditionsFailed={onRouteDenied}/>
 </div>
