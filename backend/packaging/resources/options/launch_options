@@ -5,6 +5,5 @@
 -Dspring.jmx.enabled=false
 -Dspring.liveBeansView.mbeanDomain
 -Dspring.application.admin.enabled=false
---add-modules java.xml.bind
 -p ./lib:./extensions
 -m  perobobbot.server/perobobbot.server.BotServer
