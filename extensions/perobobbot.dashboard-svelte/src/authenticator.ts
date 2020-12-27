@@ -1,7 +1,7 @@
 import * as Backend from "./backend";
 import {User, Optional} from "./types/types";
-import {authentication} from "./stores/stores";
-import axios, {AxiosRequestConfig} from "axios";
+import {currentUser} from "./stores/stores";
+import axios from "axios";
 
 export function logout() {
     clearAuthentication()
@@ -26,7 +26,7 @@ function retrieveStoredJWToken(): Optional<string> {
 function clearAuthentication(): void {
     localStorage.removeItem(JWT_TOKEN_KEY);
     sessionStorage.removeItem(JWT_TOKEN_KEY);
-    authentication.set(Optional.empty());
+    currentUser.set(Optional.empty());
 }
 
 /**
@@ -46,7 +46,7 @@ function storedJWToken(jwToken: string, local: boolean = false): string {
  * @param user the provided user
  */
 function updateAuthorisationStore(user: User): User {
-    authentication.set(Optional.of(user));
+    currentUser.set(Optional.of(user));
     return user;
 }
 

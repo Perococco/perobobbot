@@ -1,17 +1,15 @@
 <script lang='typescript'>
 
     import {onMount, onDestroy} from 'svelte';
-    import Router, {link} from 'svelte-spa-router'
+    import Router, {link,replace} from 'svelte-spa-router'
     import {wrap} from 'svelte-spa-router/wrap'
-    import {push, pop, replace} from 'svelte-spa-router'
     import * as Store from "./stores/stores";
     import {User, Optional} from './types/types';
     import * as Authenticator from "./authenticator";
-    import TailwindStyles from "./TailwindStyles.svelte";
 
-    let authenticated_user: Optional<User> = Optional.empty();
+    let authenticatedUser: Optional<User> = Optional.empty();
 
-    const unsubscriber = Store.authentication.subscribe(o => authenticated_user = o);
+    const unsubscriber = Store.currentUser.subscribe(o => authenticatedUser = o);
 
     onMount(() => Authenticator.initialize())
     onDestroy(() => unsubscriber())
@@ -27,7 +25,7 @@
             onDeniedRoute: "/login"
         },
         conditions: [
-            (detail => authenticated_user.isPresent())
+            (detail => authenticatedUser.isPresent())
         ]
     }));
 

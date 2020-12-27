@@ -1,4 +1,6 @@
+// @ts-ignore
 import App from "./App.svelte";
+import "./css/Tailwind.css";
 
 var app = new App({
   target: document.body,
@@ -13,4 +15,14 @@ if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     app.$destroy();
   });
+}
+
+//Type override for HMR so TS doesn't complain
+declare global {
+  interface ImportMeta {
+    hot: {
+      accept: Function;
+      dispose: Function;
+    };
+  }
 }
