@@ -1,7 +1,6 @@
 <script lang="ts">
     import * as Authenticator from "./authenticator";
     import {replace} from 'svelte-spa-router';
-    import "./css/Tailwind.css";
 
     let login: string = "";
     let password: string = "";
@@ -21,10 +20,10 @@
 </style>
 
 
-<div class="bg-blue-100">
+<div>
     <div class="container flex justify-center mt-40 mx-auto">
-        <form class="bg-blue-300 w-40 p-4 shadow-2xl">
-            <div class="p-4">
+        <form class="bg-blue-300 p-4 shadow-2xl">
+            <div class="p-3">
                 <input type="text" bind:value={login} placeholder="Enter Username" name="uname" required>
             </div>
             <div class="p-3">

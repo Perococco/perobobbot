@@ -1,6 +1,5 @@
 // @ts-ignore
 import App from "./App.svelte";
-import "./css/Tailwind.css";
 
 var app = new App({
   target: document.body,
