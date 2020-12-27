@@ -1,12 +1,14 @@
 <script lang="ts">
-    import * as Backend from "./backend_connection";
+    import * as Authenticator from "./authenticator";
+    import {push, pop, replace} from 'svelte-spa-router';
 
 
     let login: string = "";
     let password: string = "";
 
     function submitForm(): void {
-        Backend.authenticate(login, password)
+        Authenticator.authenticate(login, password)
+            .then(u => replace("/home"))
             .catch(error => {
                 console.log("LOGIN : Authentication failed : " + error)
             });

@@ -1,4 +1,4 @@
-class Optional<T> {
+export class Optional<T> {
     private value?:T;
 
     private static Empty = new Optional<any>(undefined);
@@ -14,6 +14,13 @@ class Optional<T> {
         return Optional.ofNullable(mapper(this.value));
     }
 
+    public flatMap<U>(mapper:(t:T) => Optional<U>):Optional<U> {
+        if (this.value == undefined) {
+            return Optional.Empty;
+        }
+        return mapper(this.value);
+    }
+
     public get():T {
         if (this.value == undefined) {
             throw new Error("Retrieve value from empty optional");
@@ -21,7 +28,7 @@ class Optional<T> {
         return this.value;
     }
 
-    public orElse(defaultValue:T):T {
+    public orElseGet(defaultValue:T|undefined):T|undefined {
         return this.value??defaultValue;
     }
 
@@ -44,11 +51,12 @@ class Optional<T> {
         return new Optional<T>(value);
     }
 
-    static ofNullable<T>(value?:T):Optional<T> {
-        if (value == undefined) {
+    static ofNullable<T>(value:T|null):Optional<T> {
+        if (value == null) {
             return Optional.Empty;
+        } else {
+            return new Optional<T>(value);
         }
-        return new Optional<T>(value);
     }
 
     static empty<T>():Optional<T> {
@@ -56,5 +64,3 @@ class Optional<T> {
     }
 
 }
-
-export default Optional;

@@ -1,6 +1,5 @@
 import {writable} from "svelte/store";
-import Optional from "../optional";
-import type User from "../types/user";
+import {User,Optional} from "../types/types";
 
 let authentication = writable<Optional<User>>(Optional.empty());
 
