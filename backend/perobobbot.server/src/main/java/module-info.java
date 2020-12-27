@@ -41,6 +41,7 @@ module perobobbot.server {
     requires spring.tx;
     requires jjwt;
     requires org.flywaydb.core;
+    requires java.xml.bind;
 
     opens db.migration;
     opens perobobbot.server.transfert to com.fasterxml.jackson.databind, org.hibernate.validator;
