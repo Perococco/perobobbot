@@ -1,13 +1,13 @@
 <script lang='typescript'>
-    import './TailwindStyles.svelte';
 
     import {onMount, onDestroy} from 'svelte';
     import Router, {link} from 'svelte-spa-router'
     import {wrap} from 'svelte-spa-router/wrap'
     import {push, pop, replace} from 'svelte-spa-router'
     import * as Store from "./stores/stores";
-    import {User,Optional} from './types/types';
+    import {User, Optional} from './types/types';
     import * as Authenticator from "./authenticator";
+    import TailwindStyles from "./TailwindStyles.svelte";
 
     let authenticated_user: Optional<User> = Optional.empty();
 
@@ -38,6 +38,10 @@
             .ifPresent(r => replace(r))
     }
 
+    function logout():void {
+        Authenticator.logout();
+    }
+
 </script>
 
 <style>
@@ -47,7 +51,7 @@
     <div>
         <a href="/login" use:link>Login</a>
         <a href="/home" use:link>Home</a>
-        <a href="/logout" on:click|preventDefault={Authenticator.logout()}>Logout</a>
+        <a href="/logout" on:click|preventDefault={logout}>Logout</a>
     </div>
     <Router {routes} on:conditionsFailed={onRouteDenied}/>
 </div>
