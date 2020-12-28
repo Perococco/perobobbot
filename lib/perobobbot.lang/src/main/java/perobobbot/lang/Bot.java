@@ -12,10 +12,19 @@ import java.util.UUID;
 @ToString(of = {"name","id"})
 public class Bot {
 
+    /**
+     * A uniq identifier used to id the bot through the application
+     */
     @NonNull UUID id = UUID.randomUUID();
 
+    /**
+     * The name of the bot
+     */
     @NonNull String name;
 
+    /**
+     * The credentials to use for each platform
+     */
     @Singular
     @NonNull ImmutableMap<Platform,Credentials> credentials;
 
@@ -23,12 +32,8 @@ public class Bot {
         return Optional.ofNullable(credentials.get(platform));
     }
 
-    public @NonNull Optional<String> findCredentialsNick(@NonNull Platform platform) {
-        return Optional.ofNullable(credentials.get(platform)).map(Credentials::getNick);
-    }
-
     public @NonNull Credentials getCredentials(@NonNull Platform platform) {
-        return findCredentials(platform).orElseThrow(() -> new NoCredentialForChatConnection(this,platform));
+        return findCredentials(platform).orElseThrow(() -> new NoCredentialForPlatformConnection(this, platform));
     }
 
     public @NonNull String getCredentialsNick(@NonNull Platform platform) {

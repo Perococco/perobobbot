@@ -2,8 +2,6 @@ package perobobbot.twitch.chat;
 
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.lang.NoCredentialForChatConnection;
-import perobobbot.lang.Credentials;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.lang.*;

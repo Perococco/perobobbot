@@ -1,10 +1,8 @@
 import axios, { AxiosResponse} from "axios";
-import type {User} from "./types/types";
+import type {User} from "../types/user";
 
 const SIGN_IN_ENDPOINT = "/api/signin";
 const CURRENT_USER_ENDPOINT = "/api/user";
-
-export const JWT_TOKEN_KEY = "jwt_token";
 
 
 export function postSignIn(login: string, password: string): Promise<string> {

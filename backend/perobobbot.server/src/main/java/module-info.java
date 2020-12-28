@@ -10,8 +10,12 @@ module perobobbot.server {
     requires spring.security.core;
     requires spring.security.config;
     requires spring.messaging;
+    requires spring.websocket;
     requires spring.boot;
     requires spring.boot.autoconfigure;
+    requires jakarta.websocket.api;
+
+    requires org.eclipse.jetty.websocket.api;
 
     requires com.google.common;
 
@@ -48,6 +52,7 @@ module perobobbot.server {
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config.websocket to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.extension to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
@@ -65,6 +70,7 @@ module perobobbot.server {
     requires spring.integration.core;
 
     requires spring.boot.actuator;
+    requires org.eclipse.jetty.websocket.server;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

@@ -12,7 +12,7 @@ public class MessageContext {
 
     /**
      * @return true if the user that is at the origin of
-     * the message is the one that is connected to the channel {@see #userId}
+     * the message is the one that is connected to the channel {@see #bot}
      */
     boolean messageFromMe;
 
@@ -49,22 +49,22 @@ public class MessageContext {
     /**
      * @return the id of the user that is at the origin of the message
      */
-    @NonNull
-    public String getMessageOwnerId() {
+
+    public @NonNull String getMessageOwnerId() {
         return messageOwner.getUserId();
     }
 
     /**
      * @return the platform the message is coming from
      */
-    public Platform getPlatform() {
+    public @NonNull Platform getPlatform() {
         return channelInfo.getPlatform();
     }
 
     /**
      * @return the name of channel the message is coming from
      */
-    public String getChannelName() {
+    public @NonNull String getChannelName() {
         return channelInfo.getChannelName();
     }
 

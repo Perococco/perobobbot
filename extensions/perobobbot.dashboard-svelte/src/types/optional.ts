@@ -28,8 +28,12 @@ export class Optional<T> {
         return this.value;
     }
 
-    public orElseGet(defaultValue:T|undefined):T|undefined {
+    public orElse(defaultValue:T|undefined):T|undefined {
         return this.value??defaultValue;
+    }
+
+    public orElseGet(defaultValue:()=>T|undefined):T|undefined {
+        return this.value??defaultValue();
     }
 
     public isPresent():boolean {
@@ -51,11 +55,11 @@ export class Optional<T> {
         return new Optional<T>(value);
     }
 
-    static ofNullable<T>(value:T|null):Optional<T> {
-        if (value == null) {
+    static ofNullable<T>(value:T|undefined|null):Optional<T> {
+        if (value == undefined) {
             return Optional.Empty;
         } else {
-            return new Optional<T>(value);
+            return new Optional<T>(value as T);
         }
     }
 

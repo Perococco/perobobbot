@@ -1,44 +1,29 @@
 <script lang='typescript'>
 
-    import {onMount, onDestroy} from 'svelte';
-    import Router, {link,replace} from 'svelte-spa-router'
-    import {wrap} from 'svelte-spa-router/wrap'
-    import * as Store from "./stores/stores";
-    import {User, Optional} from './types/types';
-    import * as Authenticator from "./authenticator";
+    import {onDestroy, onMount} from 'svelte';
+    import {link} from 'svelte-spa-router'
+    import * as Authenticator from "./server/authenticator";
+    import {background,authentication} from "./stores/stores";
+    import MainRouter from "./MainRouter.svelte";
+    import {GlobalStyle} from "./types/globalStyle";
 
-    let authenticatedUser: Optional<User> = Optional.empty();
+    const unsubscriber1 = background.subscribe(bkg => updateBackground(bkg))
+    const unsubscriber2 = authentication.subscribe(a => {
+        console.log(a.getUser().map(u => u.login).orElse("no user"));
+    })
 
-    const unsubscriber = Store.currentUser.subscribe(o => authenticatedUser = o);
 
     onMount(() => Authenticator.initialize())
-    onDestroy(() => unsubscriber())
+    onDestroy(() => {
+        unsubscriber1();
+        unsubscriber2();
+    });
 
-    const routes = new Map();
 
-    routes.set("/login", wrap({
-        asyncComponent: () => import('./Login.svelte'),
-    }));
-    routes.set(/^\/(home)?/, wrap({
-        asyncComponent: () => import('./Home.svelte'),
-        userData: {
-            onDeniedRoute: "/login"
-        },
-        conditions: [
-            (detail => authenticatedUser.isPresent())
-        ]
-    }));
-
-    function onRouteDenied(event: object): void {
-        Optional.ofNullable(event.detail)
-            .map(d => d.userData)
-            .map(d => d.onDeniedRoute)
-            .ifPresent(r => replace(r))
+    function updateBackground(globalStyle: GlobalStyle) {
+        document.body.style.background = globalStyle.getBackground();
     }
 
-    function logout():void {
-        Authenticator.logout();
-    }
 
 </script>
 
@@ -46,13 +31,25 @@
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
+
+    body {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-color: red;
+    }
+    a {
+        color: white;
+    }
 </style>
 
 <div>
     <div>
+        <a href="/welcome" use:link>Welcome</a>
         <a href="/login" use:link>Login</a>
         <a href="/home" use:link>Home</a>
-        <a href="/logout" on:click|preventDefault={logout}>Logout</a>
+        <a href="/logout" on:click|preventDefault={() => Authenticator.logout()}>Logout</a>
     </div>
-    <Router {routes} on:conditionsFailed={onRouteDenied}/>
+    <MainRouter/>
 </div>
