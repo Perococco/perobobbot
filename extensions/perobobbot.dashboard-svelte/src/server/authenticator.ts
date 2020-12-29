@@ -67,6 +67,7 @@ export function authenticate(login: string, password: string, rememberMe: boolea
     return Backend.postSignIn(login, password)
         .then(jwt  => storedJWToken(jwt,rememberMe))
         .then(() => updateAuthenticationStore())
+
 }
 
 /**
@@ -80,7 +81,6 @@ function updateAuthenticationStore():Promise<void> {
             localStorage.removeItem(JWT_KEY);
             sessionStorage.removeItem(JWT_KEY);
             authentication.set(Authentication.none());
-            throw err;
         });
 }
 

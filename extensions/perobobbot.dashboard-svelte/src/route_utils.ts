@@ -8,9 +8,11 @@ function basicAsync(asyncComponent:AsyncSvelteComponent):WrappedComponent {
     })
 }
 
-function securedAsync(asyncComponent:AsyncSvelteComponent,authenticated:()=>boolean):WrappedComponent {
+function securedAsync(asyncComponent:AsyncSvelteComponent,
+                      authenticated:()=>boolean,
+                      fallbackRoute:string = "/login"):WrappedComponent {
     const data:UserData = {
-        onDeniedRoute: "/login"
+        onDeniedRoute: fallbackRoute
     }
     return wrap({
         asyncComponent: asyncComponent,

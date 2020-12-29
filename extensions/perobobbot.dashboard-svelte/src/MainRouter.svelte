@@ -17,7 +17,8 @@
         const routes = new Map<string|RegExp,WrappedComponent>();
         routes.set("/welcome", Utils.basicAsync(() => import("./routes/Welcome.svelte")));
         routes.set("/login", Utils.basicAsync(() => import("./routes/Login.svelte")));
-        routes.set(/^\/(home)?/, Utils.securedAsync(() => import("./routes/Home.svelte"),authenticated))
+        routes.set("/", Utils.securedAsync(() => import("./routes/Home.svelte"),authenticated, "/welcome"))
+        routes.set(/^\/home(\/(.*))?/, Utils.securedAsync(() => import("./routes/Home.svelte"),authenticated))
         return routes;
     }
 

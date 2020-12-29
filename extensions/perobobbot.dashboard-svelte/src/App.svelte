@@ -32,24 +32,22 @@
     @tailwind components;
     @tailwind utilities;
 
+    html {
+        height: 100vh;
+        width: 100vw;
+    }
+
     body {
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        background-color: red;
-    }
-    a {
-        color: white;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
     }
 </style>
 
 <div>
-    <div>
-        <a href="/welcome" use:link>Welcome</a>
-        <a href="/login" use:link>Login</a>
-        <a href="/home" use:link>Home</a>
-        <a href="/logout" on:click|preventDefault={() => Authenticator.logout()}>Logout</a>
-    </div>
     <MainRouter/>
 </div>
