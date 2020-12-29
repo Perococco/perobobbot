@@ -1,5 +1,7 @@
 <script lang='typescript'>
 
+    import "./GlobalCSS.svelte";
+
     import {onDestroy, onMount} from 'svelte';
     import {link} from 'svelte-spa-router'
     import * as Authenticator from "./server/authenticator";
@@ -28,9 +30,6 @@
 </script>
 
 <style global>
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
 
     html {
         height: 100vh;

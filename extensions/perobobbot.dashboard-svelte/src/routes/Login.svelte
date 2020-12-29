@@ -3,12 +3,17 @@
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
     import {background} from "../stores/background";
-    import {debug} from "svelte/internal";
+    import {fade} from "svelte/transition";
+    import * as Str from "../tools";
 
     let error:string = "";
     let login: string = "";
     let password: string = "";
     let rememberMe: boolean = false;
+
+    $: passwordInvalid = Str.isBlank(password);
+    $: loginInvalid = Str.isBlank(login);
+    $: invalid = passwordInvalid || loginInvalid;
 
     function submitForm(): void {
         Authenticator.authenticate(login, password, rememberMe)
@@ -24,7 +29,10 @@
         if (status == 403) {
             return "Invalid credentials";
         }
-        if (Math.floor(status/100) == 5) {
+        else if (Math.floor(status/100) == 4) {
+            return "Invalid login/password";
+        }
+        else if (Math.floor(status/100) == 5) {
             return "server error";
         }
         return "error";
@@ -38,18 +46,17 @@
 
 </style>
 
-
-<div>
-    <div class="container flex justify-center mt-40 mx-auto">
-        <form class="bg-blue-300 p-4 shadow-2xl">
-            <div class="p-3">
-                <input type="text" bind:value={login} placeholder="Enter Username" name="uname" required>
+<div class="full-screen" in:fade="{{duration: 500}}">
+    <div class="mycenter flex justify-center">
+        <form class="bg-white p-4 shadow-2xl">
+            <div >
+                <input class="p-1 m-2 border-black border-2" type="text" bind:value={login} placeholder="Enter Username" name="uname" required>
+            </div>
+            <div>
+                <input class="p-1 m-2 border-black border-2"  type="password" bind:value={password} placeholder="Enter Password" name="psw" required>
             </div>
             <div class="p-3">
-                <input type="password" bind:value={password} placeholder="Enter Password" name="psw" required>
-            </div>
-            <div class="p-3">
-                <button type="submit" on:click|preventDefault={submitForm}>Login</button>
+                <button type="submit" disabled={invalid} on:click|preventDefault={submitForm}>Login</button>
                 <label>
                     <input type="checkbox" bind:checked={rememberMe} name="remember"> Remember me
                 </label>

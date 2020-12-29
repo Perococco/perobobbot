@@ -21,12 +21,4 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-    @Bean
-    public ServerContainer serverWebSocket(@NonNull ServletContext servletContext) {
-        ServerContainer container = (ServerContainer)servletContext.getAttribute(ServerContainer.class.getName());
-        System.out.println("ServerContainer: "+container);
-        return container;
-    }
-
-
 }
