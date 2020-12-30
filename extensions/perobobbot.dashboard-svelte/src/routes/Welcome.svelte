@@ -2,7 +2,6 @@
     import {onMount} from "svelte";
     import {push} from "svelte-spa-router";
     import {styles} from "../stores/styles";
-    import * as GS from "../types/styles";
 
     let style = "border-2 border-black text-center rounded-xl md:text-4xl lg:text-5xl align-middle p-1 shadow-2xl";
 
