@@ -7,7 +7,7 @@
     import * as Authenticator from "./server/authenticator";
     import {background,authentication} from "./stores/stores";
     import MainRouter from "./MainRouter.svelte";
-    import {GlobalStyle} from "./types/globalStyle";
+    import {Styles} from "./types/styles";
 
     const unsubscriber1 = background.subscribe(bkg => updateBackground(bkg))
     const unsubscriber2 = authentication.subscribe(a => {
@@ -22,7 +22,7 @@
     });
 
 
-    function updateBackground(globalStyle: GlobalStyle) {
+    function updateBackground(globalStyle: Styles) {
         document.body.style.background = globalStyle.getBackground();
     }
 

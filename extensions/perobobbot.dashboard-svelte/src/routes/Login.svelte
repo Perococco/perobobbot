@@ -5,6 +5,8 @@
     import {background} from "../stores/background";
     import {fade} from "svelte/transition";
     import * as Str from "../tools";
+    import * as GS from "../types/styles";
+
 
     let error:string = "";
     let login: string = "";
@@ -38,7 +40,7 @@
         return "error";
     }
 
-    onMount(() => background.update(g => g.withBackgroundImage("welcome_bkg.png")));
+    onMount(() => background.update(g => g.withBackgroundForRoute("/login")));
 
 </script>
 

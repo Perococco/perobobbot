@@ -28,8 +28,12 @@ export class Optional<T> {
         return this.value;
     }
 
-    public orElse(defaultValue:T|undefined):T|undefined {
+    public orElse(defaultValue:T):T {
         return this.value??defaultValue;
+    }
+
+    public orUndefined():T|undefined {
+        return this.value??undefined;
     }
 
     public orElseGet(defaultValue:()=>T|undefined):T|undefined {

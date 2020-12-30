@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import {push} from "svelte-spa-router";
     import {background} from "../stores/background";
+    import * as GS from "../types/styles";
 
     let style = "border-2 border-black text-center rounded-xl md:text-4xl lg:text-5xl align-middle p-1 shadow-2xl";
 
@@ -15,7 +16,7 @@
         push("/home");
     }
 
-    onMount(() => background.update(g => g.withBackgroundImage("welcome_bkg.png")));
+    onMount(() => background.update(g => g.withBackgroundForRoute("/welcome")));
 </script>
 
 <style>

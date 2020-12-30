@@ -1,5 +1,5 @@
 import {writable} from "svelte/store";
-import {GlobalStyle} from "../types/globalStyle";
+import {Styles} from "../types/styles";
 
-export let background = writable<GlobalStyle>(new GlobalStyle());
+export let background = writable<Styles>(new Styles());
 
