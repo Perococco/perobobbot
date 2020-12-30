@@ -56,7 +56,7 @@
                         </goals>
                         <!-- optional: default phase is "generate-resources" -->
                         <!-- Optional configuration which provides for running any npm command -->
-                        <phase>generate-sources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>

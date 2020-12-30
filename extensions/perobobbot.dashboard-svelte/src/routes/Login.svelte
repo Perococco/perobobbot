@@ -2,7 +2,7 @@
     import * as Authenticator from "../server/authenticator";
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
-    import {background} from "../stores/background";
+    import {styles} from "../stores/styles";
     import {fade} from "svelte/transition";
     import * as Str from "../tools";
     import * as GS from "../types/styles";
@@ -40,7 +40,7 @@
         return "error";
     }
 
-    onMount(() => background.update(g => g.withBackgroundForRoute("/login")));
+    onMount(() => styles.update(g => g.withBackgroundForRoute("/login")));
 
 </script>
 

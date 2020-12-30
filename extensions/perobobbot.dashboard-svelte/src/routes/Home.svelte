@@ -1,8 +1,8 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {background} from "../stores/background";
+    import {styles} from "../stores/styles";
 
-    onMount(() => background.update(g => g.withBackgroundForRoute("/home")));
+    onMount(() => styles.update(g => g.withBackgroundForRoute("/home")));
 </script>
 
 <style>

@@ -1,2 +1,2 @@
 export * from "./authentication";
-export * from "./background";
+export * from "./styles";
