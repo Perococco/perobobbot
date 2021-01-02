@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.SimpleUser;
+import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.server.EndPoints;
 import perobobbot.server.config.security.jwt.JWTokenManager;
@@ -25,7 +26,7 @@ public class SecurityController {
 
     private final @NonNull AuthenticationManager authenticationManager;
 
-    private final @NonNull UserService userService;
+    private final @NonNull @SecuredService UserService userService;
 
     private final @NonNull JWTokenManager jwTokenManager;
 

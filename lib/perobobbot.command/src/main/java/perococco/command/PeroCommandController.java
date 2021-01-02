@@ -20,28 +20,16 @@ import java.util.concurrent.atomic.AtomicReference;
 @Log4j2
 public class PeroCommandController implements CommandController {
 
-    public static @NonNull CommandControllerBuilder builder(@NonNull IO io,
-                                                            @NonNull MessageDispatcher messageDispatcher,
-                                                            @NonNull CommandExecutor commandExecutor) {
-        return new PeroCommandControllerBuilder(io,messageDispatcher,commandExecutor);
-    }
-
     @Override
     public int priority() {
         return 100;
     }
 
 
-    private final @NonNull IO io;
-
     private final @NonNull CommandRegistry commandRegistry;
 
     private final @NonNull CommandExecutor commandExecutor;
 
-    /**
-     * used to convert exception that occurs when executing a command, to error message
-     */
-    private final @NonNull MessageErrorResolver messageErrorResolver;
 
     /**
      * The character that determine if a message is a command. This is generally le '!' char.
@@ -110,12 +98,7 @@ public class PeroCommandController implements CommandController {
         }
 
         private void executeCommand() {
-            try {
-                commandExecutor.execute(command,context);
-            } catch (PerobobbotException e) {
-                final var message = messageErrorResolver.resolve(e).orElse(e.getMessage());
-                LOG.error("Could not execute command '"+command.getFullCommand()+"' : "+message,e);
-            }
+            commandExecutor.execute(command, context);
         }
 
         private void warnForInvalidCommand() {

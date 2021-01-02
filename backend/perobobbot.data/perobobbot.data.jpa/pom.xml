@@ -23,10 +23,6 @@
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-data-com</artifactId>
         </dependency>
         <dependency>
@@ -40,14 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-security</artifactId>
         </dependency>
 
 

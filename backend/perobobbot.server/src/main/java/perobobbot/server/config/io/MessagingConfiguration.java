@@ -20,33 +20,9 @@ import perobobbot.messaging.ChatController;
 @RequiredArgsConstructor
 public class MessagingConfiguration {
 
-    @NonNull
-    private final IO io;
-
-    @NonNull
-    private final ChatController chatController;
-
-    @NonNull
-    private final CommandExecutor commandExecutor;
-
     @Bean
     public MessageChannel chatChannel() {
         return new PublishSubscribeChannel();
-    }
-
-    @Bean(destroyMethod = "stop")
-    public @NonNull CommandController commandController() {
-        final CommandController commandController = CommandController.builder(io, chatController, commandExecutor)
-                                                                     .commandRegistry(commandRegistry())
-                                                                     .setCommandPrefix('!')
-                                                                     .build();
-        commandController.start();
-        return commandController;
-    }
-
-    @Bean
-    public @NonNull CommandRegistry commandRegistry() {
-        return CommandRegistry.create();
     }
 
     @Bean(destroyMethod = "requestStop", initMethod = "start")

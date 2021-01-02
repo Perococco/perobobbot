@@ -1,11 +1,11 @@
-package perobobbot.data.jpa.service.permission;
+package perobobbot.data.security.permission;
 
 import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import perobobbot.data.domain.BotEntity;
-import perobobbot.data.jpa.repository.BotRepository;
-import perobobbot.data.jpa.service.DataPermission;
+import perobobbot.data.security.DataPermission;
+import perobobbot.data.service.BotService;
+import perobobbot.data.service.UnsecuredService;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -13,11 +13,11 @@ import java.util.UUID;
 @Component
 public class BotEntityPermissions extends DataEntityPermission {
 
-    private final @NonNull BotRepository botRepository;
+    private final BotService botService;
 
-    public BotEntityPermissions(@NonNull BotRepository botRepository) {
-        super(BotEntity.class);
-        this.botRepository = botRepository;
+    public BotEntityPermissions(@NonNull @UnsecuredService BotService botService) {
+        super("BotEntity");
+        this.botService = botService;
     }
 
     @Override
@@ -34,10 +34,10 @@ public class BotEntityPermissions extends DataEntityPermission {
     }
 
     private boolean doesNotExistOrIsMyBot(UserDetails userDetails, UUID uuid) {
-        final var bot = botRepository.findByUuid(uuid).orElse(null);
+        final var bot = botService.findBot(uuid).orElse(null);
         if (bot == null) {
             return true;
         }
-        return userDetails.getUsername().equals(bot.getOwnerLogin());
+        return bot.getOwnerLogin().equals(userDetails.getUsername());
     }
 }

@@ -21,7 +21,10 @@ public class User {
     String jwtClaim;
 
     @NonNull
-    ImmutableSet<Role> roles;
+    ImmutableSet<RoleKind> roles;
+
+    @NonNull
+    ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
         return new SimpleUser(login,roles);

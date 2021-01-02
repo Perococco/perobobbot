@@ -8,10 +8,9 @@ import perococco.command.PeroCommandControllerBuilder;
 
 public interface CommandController extends MessageHandler {
 
-    static @NonNull CommandControllerBuilder builder(@NonNull IO io,
-                                                     @NonNull MessageDispatcher messageDispatcher,
+    static @NonNull CommandControllerBuilder builder(@NonNull MessageDispatcher messageDispatcher,
                                                      @NonNull CommandExecutor commandExecutor) {
-        return new PeroCommandControllerBuilder(io,messageDispatcher,commandExecutor);
+        return new PeroCommandControllerBuilder(messageDispatcher,commandExecutor);
     }
 
     void start();

@@ -3,6 +3,7 @@ package perobobbot.data.com;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.DTO;
+import perobobbot.lang.PasswordEncoder;
 import perobobbot.lang.fp.Function1;
 
 @Value
@@ -14,8 +15,8 @@ public class CreateUserParameters {
     @NonNull String password;
 
     @NonNull
-    public CreateUserParameters withPasswordEncoded(@NonNull Function1<? super String, ? extends String> passwordEncoder) {
-        return new CreateUserParameters(login,passwordEncoder.f(password));
+    public CreateUserParameters withPasswordEncoded(@NonNull PasswordEncoder passwordEncoder) {
+        return new CreateUserParameters(login,passwordEncoder.encode(password));
     }
 
 }

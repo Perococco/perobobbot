@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 @Entity
 @Table(name = "USER", uniqueConstraints = {
-        @UniqueConstraint(name = "UK_USER__LOGIN", columnNames = {"LOGIN"})
+        @UniqueConstraint(columnNames = {"LOGIN"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -35,7 +35,7 @@ public class UserEntity extends SimplePersistentObject {
 
     @NonNull
     @NotBlank
-    @Column(name="LOGIN")
+    @Column(name = "LOGIN")
     @Size(max = 255)
     private String login = "";
 
@@ -50,8 +50,8 @@ public class UserEntity extends SimplePersistentObject {
     @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "USER_ROLE",
-            joinColumns = {@JoinColumn(name = "USER_ID", foreignKey = @ForeignKey(name=("FK_USER_ROLE__USER")))},
-            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", foreignKey = @ForeignKey(name=("FK_USER_ROLE__ROLE")))}
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")}
     )
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
@@ -110,7 +110,7 @@ public class UserEntity extends SimplePersistentObject {
     }
 
     public @NonNull BotEntity createBot(@NonNull String botName) {
-        final var bot = new BotEntity(this,botName);
+        final var bot = new BotEntity(this, botName);
         this.bots.add(bot);
         return bot;
     }
@@ -120,9 +120,8 @@ public class UserEntity extends SimplePersistentObject {
                    .login(this.login)
                    .password(this.password)
                    .jwtClaim(this.jwtClaim)
-                   .roles(this.roles.stream()
-                                    .map(RoleEntity::toView)
-                                    .collect(ImmutableSet.toImmutableSet()))
+                   .roles(this.roles.stream().map(RoleEntity::getRole).collect(ImmutableSet.toImmutableSet()))
+                   .operations(this.roles.stream().flatMap(RoleEntity::allowedOperationStream).collect(ImmutableSet.toImmutableSet()))
                    .build();
     }
 }

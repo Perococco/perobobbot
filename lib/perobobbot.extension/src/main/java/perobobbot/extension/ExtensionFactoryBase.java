@@ -18,7 +18,7 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
     @Override
     public @NonNull ExtensionInfo create() {
         final var instance = createExtension(parameters);
-        final var commandDefinitions = createCommandBundle(instance,parameters);
+        final var commandDefinitions = createCommandDefinitions(instance, parameters);
         return new ExtensionInfo(instance, commandDefinitions);
     }
 
@@ -33,6 +33,6 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
      * @param parameters this factory parameters containing some services the extension might use
      * @return an optional containing the command bundle that command the extension, an empty optional if the extension has no command
      */
-    protected abstract @NonNull ImmutableList<CommandDefinition> createCommandBundle(@NonNull E extension, @NonNull Parameters parameters);
+    protected abstract @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull E extension, @NonNull Parameters parameters);
 
 }

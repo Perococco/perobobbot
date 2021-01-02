@@ -17,6 +17,9 @@ public class Bot {
     @Getter
     private final @NonNull UUID id;
 
+    @Getter
+    private final @NonNull String ownerLogin;
+
     /**
      * The name of the bot
      */

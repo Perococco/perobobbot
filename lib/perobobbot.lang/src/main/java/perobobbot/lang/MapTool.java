@@ -109,10 +109,28 @@ public class MapTool {
     }
 
     @NonNull
-    public static <K,U,V> ImmutableMap<K,V> mapValues(@NonNull ImmutableMap<K,U> map, @NonNull Function1<? super U, ? extends V> wrapper) {
+    public static <K,U,V> ImmutableMap<K,V> mapValues(@NonNull ImmutableMap<K,U> map, @NonNull Function1<? super U, ? extends V> mapper) {
         return map.entrySet()
                   .stream()
-                  .map(e -> ImmutableEntry.<K,V>of(e.getKey(),wrapper.apply(e.getValue())))
+                  .map(e -> ImmutableEntry.<K,V>of(e.getKey(),mapper.apply(e.getValue())))
+                  .collect(entryCollector());
+    }
+
+    /**
+     * Unsafe mapping. This is unsafe as the input value is mutable but if you own the map or know that
+     * it will not be modify during the call of this method, this is safe
+     * @param map the map to map
+     * @param mapper the function to map the value
+     * @param <K> type of the keys of the input map
+     * @param <U> type of the values of the input map
+     * @param <V> type of the values of the output map
+     * @return a new map created from the input map by mapping each its values with the provided mapper
+     */
+    @NonNull
+    public static <K,U,V> ImmutableMap<K,V> unsafeMapValues(@NonNull Map<K,U> map, @NonNull Function1<? super U, ? extends V> mapper) {
+        return map.entrySet()
+                  .stream()
+                  .map(e -> ImmutableEntry.<K,V>of(e.getKey(),mapper.apply(e.getValue())))
                   .collect(entryCollector());
     }
 }

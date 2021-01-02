@@ -37,7 +37,7 @@ public class BenchmarkExtensionFactory extends ExtensionFactoryBase<BenchmarkExt
     }
 
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandBundle(@NonNull BenchmarkExtension extension, @NonNull Parameters parameters) {
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull BenchmarkExtension extension, @NonNull Parameters parameters) {
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
         return ImmutableList.of(
                 CommandDefinition.with("bm start [%s] [%s]".formatted(NB_PUCKS_PARAMETER, RADIUS_PARAMETER), accessRule, new StartBenchmark(extension)),

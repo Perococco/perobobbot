@@ -3,20 +3,21 @@ package perobobbot.data.jpa.service;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.jpa.repository.BotRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.service.BotService;
+import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.Todo;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional()
+@UnsecuredService
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class JPABotService implements BotService {
 
@@ -27,20 +28,24 @@ public class JPABotService implements BotService {
     private final UserRepository userRepository;
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR') || authentication.name == #login")
     public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
         final var user = userRepository.getByLogin(login);
         return user.getBots().stream().map(BotEntity::toView).collect(ImmutableList.toImmutableList());
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR') || hasPermission(#targetId,'BotEntity','DELETE')")
+    public @NonNull Optional<Bot> findBot(@NonNull UUID botId) {
+        return botRepository.findByUuid(botId).map(BotEntity::toView);
+    }
+
+    @Override
+    @Transactional
     public void deleteBot(@NonNull UUID botId) {
         botRepository.deleteByUuid(botId);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMINISTRATOR') || authentication.name == #login")
+    @Transactional
     public @NonNull Bot createBot(@NonNull String login, @NonNull String botName) {
         final var user = userRepository.getByLogin(login);
         final var bot = user.createBot(botName);

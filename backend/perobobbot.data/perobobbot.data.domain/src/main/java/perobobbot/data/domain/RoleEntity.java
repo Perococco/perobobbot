@@ -4,13 +4,15 @@ import com.google.common.collect.ImmutableSet;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import perobobbot.data.com.Operation;
 import perobobbot.data.com.Role;
+import perobobbot.data.com.RoleKind;
 import perobobbot.lang.SetTool;
 import perobobbot.lang.fp.Function1;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -18,58 +20,54 @@ import java.util.stream.Stream;
  * @author Perococco
  */
 @Entity
-@Table(name = "ROLE", uniqueConstraints = {@UniqueConstraint(name = "UK_ROLE__NAME",columnNames = {"NAME"})})
+@Table(name = "ROLE", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
 @Getter
 @Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(callSuper = false,of = "name")
+@EqualsAndHashCode(callSuper = false,of = "role")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoleEntity extends SimplePersistentObject {
 
     @NonNull
     @Column(name = "NAME")
-    @NotBlank
-    String name = "";
+    @Enumerated(EnumType.STRING)
+    private RoleKind role = RoleKind.USER;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @Fetch(FetchMode.JOIN)
-    @JoinTable(
-            name = "ROLE_OPERATION",
-            joinColumns = {@JoinColumn(name = "ROLE_ID", foreignKey = @ForeignKey(name=("FK_ROLE_OPERATION__ROLE")))},
-            inverseJoinColumns = {@JoinColumn(name = "OPERATION_ID", foreignKey = @ForeignKey(name=("FK_ROLE_OPERATION__OPERATION")))}
-    )
-    private final Set<OperationEntity> allowedOperations = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "ROLE_OPERATION",joinColumns = {@JoinColumn(name = "ROLE_ID")})
+    @Column(name = "OPERATION")
+    private final Set<Operation> allowedOperations = new HashSet<>();
 
-    public RoleEntity(@NonNull String name) {
-        this.name = name;
+    public RoleEntity(@NonNull RoleKind role) {
+        this.role = role;
     }
 
     @NonNull
-    public <T> ImmutableSet<T> transformedAllowedOperations(Function1<? super OperationEntity, ? extends T> transformer) {
+    public <T> ImmutableSet<T> transformedAllowedOperations(Function1<? super Operation, ? extends T> transformer) {
         return allowedOperations.stream().map(transformer).collect(SetTool.collector());
     }
 
     @NonNull
-    public Stream<OperationEntity> allowedOperationStream() {
+    public Stream<Operation> allowedOperationStream() {
         return allowedOperations.stream();
     }
 
     @NonNull
-    public RoleEntity allowOperation(@NonNull OperationEntity operation) {
+    public RoleEntity allowOperation(@NonNull Operation operation) {
         this.allowedOperations.add(operation);
         return this;
     }
 
     @NonNull
-    public RoleEntity forbidOperation(@NonNull OperationEntity operation) {
+    public RoleEntity forbidOperation(@NonNull Operation operation) {
         this.allowedOperations.remove(operation);
         return this;
     }
 
-    private boolean isAllowed(@NonNull OperationEntity operation) {
+    private boolean isAllowed(@NonNull Operation operation) {
         return allowedOperations.contains(operation);
     }
 
     public @NonNull Role toView() {
-        return new Role(this.name,this.transformedAllowedOperations(OperationEntity::toView));
+        return new Role(this.role, ImmutableSet.copyOf(allowedOperations));
     }
 }

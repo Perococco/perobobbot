@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "BOT_CREDENTIAL", uniqueConstraints = {
-        @UniqueConstraint(name = "UK_BOT_CREDENTIAL__BOT_ID__PLATFORM",columnNames = {"BOT_ID","PLATFORM"})
+        @UniqueConstraint(columnNames = {"BOT_ID","PLATFORM"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class BotCredentialEntity extends SimplePersistentObject {
 
     @ManyToOne
-    @JoinColumn(name = "BOT_ID",nullable = false,foreignKey = @ForeignKey(name = "FK_BOT_CREDENTIAL__BOT"))
+    @JoinColumn(name = "BOT_ID",nullable = false)
     private BotEntity bot;
 
     @Column(name = "PLATFORM",nullable = false)

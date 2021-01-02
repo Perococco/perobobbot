@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import perobobbot.data.com.Role;
 import perobobbot.data.com.SimpleUser;
 
 @RestController

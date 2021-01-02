@@ -3,9 +3,11 @@ package perococco.command;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import perobobbot.access.AccessRule;
 import perobobbot.command.*;
 import perobobbot.lang.MapTool;
+import perobobbot.lang.Subscription;
 
 import java.util.Optional;
 
@@ -13,9 +15,9 @@ public class PeroCommandRegistry implements CommandRegistry {
 
     private ImmutableMap<String, Value> commands = ImmutableMap.of();
 
-
     @Override
-    public @NonNull void addCommandDefinition(@NonNull String commandDefinition,
+    @Synchronized
+    public @NonNull Subscription addCommandDefinition(@NonNull String commandDefinition,
                                               @NonNull AccessRule defaultAccessRule,
                                               @NonNull CommandAction executor) {
         final var commandParser = CommandParser.create(commandDefinition);
@@ -24,12 +26,14 @@ public class PeroCommandRegistry implements CommandRegistry {
             throw new IllegalArgumentException("Duplicate command '" + commandDefinition + "'");
         }
         this.commands = MapTool.add(this.commands, key, new Value(commandParser, defaultAccessRule, executor));
+        return () -> removeCommandDefinition(key);
     }
 
-    @Override
-    public @NonNull void addCommandDefinition(@NonNull CommandDefinition commandDefinition) {
-        this.addCommandDefinition(commandDefinition.getDefinition(),commandDefinition.getDefaultAccessRule(),commandDefinition.getCommandAction());
+    @Synchronized
+    private void removeCommandDefinition(@NonNull String key) {
+        this.commands = MapTool.remove(this.commands,key);
     }
+
 
     @Override
     public @NonNull Optional<Command> findCommand(@NonNull String message) {

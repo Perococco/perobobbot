@@ -1,4 +1,4 @@
-package perobobbot.data.jpa.service;
+package perobobbot.data.security;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;

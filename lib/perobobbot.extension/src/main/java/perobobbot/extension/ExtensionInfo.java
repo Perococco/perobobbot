@@ -8,10 +8,12 @@ import lombok.experimental.Delegate;
 import perobobbot.command.CommandDefinition;
 
 @RequiredArgsConstructor
-public class ExtensionInfo implements Extension {
-    @Delegate
+public class ExtensionInfo {
     final @NonNull Extension extension;
     @Getter
     final @NonNull ImmutableList<CommandDefinition> commandDefinitions;
 
+    public @NonNull String getExtensionName() {
+        return extension.getName();
+    }
 }

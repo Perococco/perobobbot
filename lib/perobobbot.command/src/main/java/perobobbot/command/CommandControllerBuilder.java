@@ -12,8 +12,6 @@ public interface CommandControllerBuilder {
 
     @NonNull CommandControllerBuilder setCommandPrefix(@NonNull Platform platform, char prefix);
 
-    @NonNull CommandControllerBuilder setErrorMessageResolver(@NonNull MessageErrorResolver messageResolver);
-
     @NonNull CommandController build();
 
 }

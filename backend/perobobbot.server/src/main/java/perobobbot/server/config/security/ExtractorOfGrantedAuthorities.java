@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import perobobbot.data.com.User;
 import perobobbot.data.com.Operation;
-import perobobbot.data.com.Role;
+import perobobbot.data.com.RoleKind;
 import perobobbot.lang.ListTool;
 
 import java.util.Collection;
@@ -44,17 +44,13 @@ public class ExtractorOfGrantedAuthorities {
     private Stream<String> roleNameStream() {
         return user.getRoles()
                    .stream()
-                   .map(r -> r.getName())
-                   .map(n -> "ROLE_" + n);
+                   .map(RoleKind::getGrantedAuthorityName);
     }
 
     private Stream<String> allowedOperationNameStream() {
-        return user.getRoles()
+        return user.getOperations()
                    .stream()
-                   .map(Role::getOperations)
-                   .flatMap(Collection::stream)
-                   .map(Operation::getName)
-                   .map(op -> "OP_" + op);
+                   .map(Operation::getGrantedAuthorityName);
     }
 
 

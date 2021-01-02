@@ -37,7 +37,7 @@ public class ExtensionLister {
                               .map(this::selectOneExtension)
                               .flatMap(Optional::stream)
                               .map(ExtensionFactory::create)
-                              .collect(MapTool.collector(Extension::getName));
+                              .collect(MapTool.collector(ExtensionInfo::getExtensionName));
     }
 
     private @NonNull Optional<ExtensionFactory> selectOneExtension(@NonNull Map.Entry<String, List<ExtensionFactory>> entry) {

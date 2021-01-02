@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.BotService;
+import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Bot;
 import perobobbot.server.transfert.CreateBotParameters;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BotController {
 
-    private final @NonNull BotService botService;
+    private final @NonNull @SecuredService BotService botService;
 
     @DeleteMapping("/{id}")
     public void deleteBot(@PathVariable @NonNull UUID id) {

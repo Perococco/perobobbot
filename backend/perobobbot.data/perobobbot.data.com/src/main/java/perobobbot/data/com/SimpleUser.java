@@ -1,7 +1,6 @@
 package perobobbot.data.com;
 
 import com.google.common.collect.ImmutableSet;
-import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.DTO;
@@ -14,7 +13,7 @@ public class SimpleUser {
     String login;
 
     @NonNull
-    ImmutableSet<Role> roles;
+    ImmutableSet<RoleKind> roles;
 
 }
 

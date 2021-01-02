@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PerobobbotPasswordEncoder implements PasswordEncoder {
+public class PerobobbotPasswordEncoder implements PasswordEncoder, perobobbot.lang.PasswordEncoder {
 
     private final PasswordEncoder delegate = new BCryptPasswordEncoder();
 

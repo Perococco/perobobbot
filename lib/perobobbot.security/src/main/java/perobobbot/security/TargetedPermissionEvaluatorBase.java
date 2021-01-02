@@ -10,7 +10,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public abstract class TargetedPermissionEvaluatorBase<A,P> implements TargetedPermissionEvaluator {
 
-    private final @NonNull Class<?> targetType;
+    private final @NonNull String targetType;
 
     private final @NonNull Class<A> principalType;
 
@@ -18,7 +18,7 @@ public abstract class TargetedPermissionEvaluatorBase<A,P> implements TargetedPe
 
     @Override
     public @NonNull String getTargetType() {
-        return targetType.getSimpleName();
+        return targetType;
     }
 
     @Override

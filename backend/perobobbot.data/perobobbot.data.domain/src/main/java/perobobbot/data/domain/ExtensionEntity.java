@@ -1,6 +1,7 @@
 package perobobbot.data.domain;
 
 import lombok.*;
+import perobobbot.data.com.Extension;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,26 +11,30 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
-@Table(name = "EXTENSION", uniqueConstraints = {@UniqueConstraint(name = "UK_EXTENSION__NAME",columnNames = {"NAME"})})
+@Table(name = "EXTENSION", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
 @Getter
-public class ExtensionEntity extends PersistentObjectWithUUID{
+public class ExtensionEntity extends PersistentObjectWithUUID {
 
-    @Column(name = "NAME",nullable = false)
+    @Column(name = "NAME", nullable = false)
     @NotBlank
     private String name = "";
 
-    @Column(name = "ENABLED",nullable = false)
+    @Column(name = "ACTIVATED", nullable = false)
     @Setter
-    private boolean enabled = false;
+    private boolean activated = false;
 
-    @Column(name = "AVAILABLE",nullable = false)
+    @Column(name = "AVAILABLE", nullable = false)
     @Setter
-    private boolean available = false;
+    private boolean available = true;
 
     public ExtensionEntity(@NonNull @NotBlank String name) {
         super(UUID.randomUUID());
         this.name = name;
+    }
+
+    public @NonNull Extension toView() {
+        return Extension.builder().name(name).activated(activated).build();
     }
 }

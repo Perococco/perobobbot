@@ -1,12 +1,14 @@
 package perobobbot.data.com;
 
 import lombok.NonNull;
-import lombok.Value;
 import perobobbot.lang.DTO;
 
-@Value
-@DTO
-public class Operation {
 
-    @NonNull String name;
+@DTO
+public enum Operation {
+    ;
+
+    public @NonNull String getGrantedAuthorityName() {
+        return "OP_" + this.name();
+    }
 }

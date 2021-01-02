@@ -4,16 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import perobobbot.data.com.BotHasThisExtensionAlready;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Credential;
+import perobobbot.lang.MapTool;
 import perobobbot.lang.Platform;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "BOT")
@@ -23,7 +22,7 @@ import java.util.UUID;
 public class BotEntity extends PersistentObjectWithUUID{
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false,foreignKey = @ForeignKey(name = "FK_BOT__USER"))
+    @JoinColumn(name = "USER_ID", nullable = false)
     private UserEntity owner;
 
     @Column(name = "NAME",nullable = false)
@@ -33,7 +32,12 @@ public class BotEntity extends PersistentObjectWithUUID{
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "bot")
     @Fetch(FetchMode.JOIN)
-    private List<BotCredentialEntity> credentials = new ArrayList<>();
+    @MapKey(name = "platform")
+    private Map<Platform,BotCredentialEntity> credentials = new HashMap<>();
+
+    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL)
+    @MapKey(name = "extension")
+    private Map<ExtensionEntity,BotExtensionEntity> extensions = new HashMap<>();
 
     public BotEntity(UserEntity owner, @NonNull String name) {
         super(UUID.randomUUID());
@@ -46,12 +50,22 @@ public class BotEntity extends PersistentObjectWithUUID{
     }
 
     public @NonNull ImmutableMap<Platform, Credential> getCredentialsAsMap() {
-        return credentials.stream().collect(ImmutableMap.toImmutableMap(BotCredentialEntity::getPlatform, BotCredentialEntity::getCredential));
+        return MapTool.unsafeMapValues(credentials, BotCredentialEntity::getCredential);
+    }
+
+    public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
+        if (extensions.containsKey(extension)) {
+            throw new BotHasThisExtensionAlready(this.uuid,extension.uuid);
+        }
+        final var botExtension = new BotExtensionEntity(this,extension);
+        this.extensions.put(extension,botExtension);
+        return botExtension;
     }
 
     public @NonNull Bot toView() {
         return Bot.builder()
                   .id(uuid)
+                  .ownerLogin(getOwnerLogin())
                   .name(name)
                   .credentials(getCredentialsAsMap())
                   .build();

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.lang.Bot;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface BotService {
@@ -14,5 +15,5 @@ public interface BotService {
 
     @NonNull Bot createBot(@NonNull String login, @NonNull String botName);
 
-
+    @NonNull Optional<Bot> findBot(@NonNull UUID botId);
 }

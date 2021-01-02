@@ -7,9 +7,6 @@ import perobobbot.chat.core.IO;
 import perobobbot.command.*;
 import perobobbot.lang.MessageDispatcher;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Subscription;
-import perobobbot.lang.Todo;
-import perobobbot.lang.fp.Function1;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,11 +19,9 @@ public class PeroCommandControllerBuilder implements CommandControllerBuilder {
 
     private final Map<Platform, Character> prefixes = new HashMap<>();
 
-    private final @NonNull IO io;
     private final @NonNull MessageDispatcher messageDispatcher;
     private final @NonNull CommandExecutor commandExecutor;
 
-    private MessageErrorResolver messageErrorResolver = new BasicMessageErrorResolver();
     private CommandRegistry commandRegistry;
 
     @Override
@@ -48,16 +43,10 @@ public class PeroCommandControllerBuilder implements CommandControllerBuilder {
     }
 
     @Override
-    public @NonNull CommandControllerBuilder setErrorMessageResolver(@NonNull MessageErrorResolver messageResolver) {
-        this.messageErrorResolver = messageResolver;
-        return this;
-    }
-
-    @Override
     public @NonNull CommandController build() {
         final ImmutableMap<Platform, Character> prefixes = Arrays.stream(Platform.values())
                                                                  .collect(ImmutableMap.toImmutableMap(p -> p, this::getPrefix));
-        return new PeroCommandController(io,commandRegistry,commandExecutor,messageErrorResolver,prefixes,messageDispatcher);
+        return new PeroCommandController(commandRegistry,commandExecutor,prefixes,messageDispatcher);
     }
 
     private char getPrefix(@NonNull Platform platform) {
