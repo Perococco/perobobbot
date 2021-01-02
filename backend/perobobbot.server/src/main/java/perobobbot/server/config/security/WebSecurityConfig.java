@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -40,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @NonNull
     private final JWTokenManager jsonWebTokenService;
 
+    @Bean
     public @NonNull PermissionEvaluator permissionEvaluator(@NonNull List<TargetedPermissionEvaluator> evaluators) {
         final var map = evaluators.stream().collect(ImmutableMap.toImmutableMap(TargetedPermissionEvaluator::getTargetType, e -> e));
         return new PermissionEvaluatorDispatcher(map);

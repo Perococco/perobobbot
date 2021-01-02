@@ -4,6 +4,7 @@ module perobobbot.security {
     requires spring.security.core;
     requires com.google.common;
 
+    requires perobobbot.lang;
 
     exports perobobbot.security;
 }

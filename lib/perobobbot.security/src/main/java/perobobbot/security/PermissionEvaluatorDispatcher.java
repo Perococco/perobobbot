@@ -12,26 +12,24 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class PermissionEvaluatorDispatcher implements PermissionEvaluator {
 
-    private final DenyAllPermissionEvaluator denyAllPermissionEvaluator = new DenyAllPermissionEvaluator();
-
     private final ImmutableMap<String,TargetedPermissionEvaluator> evaluators;
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
         return retrievePermissionEvaluator(targetDomainObject.getClass().getSimpleName())
-                .hasPermission(authentication,targetDomainObject,permission);
+                .hasPermissionWithObject(authentication,targetDomainObject,permission);
     }
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {
         return retrievePermissionEvaluator(targetType)
-                .hasPermission(authentication,targetId,targetType,permission);
+                .hasPermissionWithId(authentication,targetId,permission);
     }
 
-    private @NonNull PermissionEvaluator retrievePermissionEvaluator(@NonNull String targetType) {
+    private @NonNull perobobbot.security.PermissionEvaluator retrievePermissionEvaluator(@NonNull String targetType) {
         final var evaluator = evaluators.get(targetType);
         if (evaluator == null) {
-            return denyAllPermissionEvaluator;
+            return perobobbot.security.PermissionEvaluator.DENY_ALL;
         }
         return evaluator;
     }

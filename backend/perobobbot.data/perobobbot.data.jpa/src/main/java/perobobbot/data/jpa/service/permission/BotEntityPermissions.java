@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.jpa.repository.BotRepository;
-import perobobbot.data.jpa.service.DataOperation;
+import perobobbot.data.jpa.service.DataPermission;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -21,14 +21,14 @@ public class BotEntityPermissions extends DataEntityPermission {
     }
 
     @Override
-    protected boolean hasPermission(@NonNull UserDetails userDetails, Object targetDomainObject, DataOperation permission) {
+    protected boolean hasPermissionWithObject(@NonNull UserDetails principal, Object targetDomainObject, @NonNull DataPermission permission) {
         return false;
     }
 
     @Override
-    protected boolean hasPermission(@NonNull UserDetails userDetails, Serializable targetId, String targetType, DataOperation permission) {
+    protected boolean hasPermissionWithId(@NonNull UserDetails principal, Serializable targetId, @NonNull DataPermission permission) {
         return switch (permission) {
-            case DELETE,READ,UPDATE -> doesNotExistOrIsMyBot(userDetails, (UUID)targetId);
+            case DELETE,READ,UPDATE -> doesNotExistOrIsMyBot(principal, (UUID)targetId);
             default -> false;
         };
     }

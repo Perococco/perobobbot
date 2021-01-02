@@ -29,12 +29,12 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
     }
 
     @Override
-    public Object getCredentials() {
+    public String getCredentials() {
         return userDetails.getPassword();
     }
 
     @Override
-    public Object getPrincipal() {
+    public UserDetails getPrincipal() {
         return userDetails;
     }
 }
