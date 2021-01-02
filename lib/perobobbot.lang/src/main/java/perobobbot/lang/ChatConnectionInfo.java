@@ -6,7 +6,7 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public class ConnectionInfo {
+public class ChatConnectionInfo {
 
     @NonNull UUID botId;
 

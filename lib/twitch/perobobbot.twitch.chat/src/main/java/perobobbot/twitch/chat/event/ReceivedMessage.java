@@ -68,7 +68,7 @@ public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatE
             final boolean messageFromMe = state.getNickOfConnectedUser().equals(owner.getUserId());
             final ChannelInfo channelInfo = new ChannelInfo(Platform.TWITCH,privateMsg.getChannelName());
             return Optional.ofNullable(MessageContext.builder()
-                                                     .connectionInfo(state.getConnectionInfo())
+                                                     .chatConnectionInfo(state.getChatConnectionInfo())
                                                      .content(message.getPayload())
                                                      .messageFromMe(messageFromMe)
                                                      .messageOwner(owner)

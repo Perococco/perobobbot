@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.ChannelInfo;
-import perobobbot.lang.ConnectionInfo;
+import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.User;
 import perobobbot.lang.fp.Value2;
 import perobobbot.lang.fp.Value3;
@@ -16,18 +16,18 @@ public class HelloState {
 
     @NonNull
     @Getter
-    private final ImmutableSet<Value3<ConnectionInfo,User,ChannelInfo>> alreadyGreeted;
+    private final ImmutableSet<Value3<ChatConnectionInfo,User,ChannelInfo>> alreadyGreeted;
 
     @NonNull
     @Getter
-    private final ImmutableMap<ChannelInfo,ImmutableSet<Value2<ConnectionInfo,User>>> greetersPerChannel;
+    private final ImmutableMap<ChannelInfo,ImmutableSet<Value2<ChatConnectionInfo,User>>> greetersPerChannel;
 
     @NonNull
-    public ImmutableSet<Value2<ConnectionInfo,User>> getGreetersOnChannel(@NonNull ChannelInfo channelInfo) {
+    public ImmutableSet<Value2<ChatConnectionInfo,User>> getGreetersOnChannel(@NonNull ChannelInfo channelInfo) {
         return greetersPerChannel.getOrDefault(channelInfo, ImmutableSet.of());
     }
 
-    public boolean hasBeenGreeted(@NonNull Value3<ConnectionInfo,User,ChannelInfo> triplet) {
+    public boolean hasBeenGreeted(@NonNull Value3<ChatConnectionInfo,User,ChannelInfo> triplet) {
         return alreadyGreeted.contains(triplet);
     }
 

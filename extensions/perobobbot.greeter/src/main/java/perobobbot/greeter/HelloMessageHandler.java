@@ -15,7 +15,7 @@ public class HelloMessageHandler implements MessageHandler {
     @Override
     public void handleMessage(@NonNull MessageContext messageContext) {
         final var value = Value3.of(
-                messageContext.getConnectionInfo(),
+                messageContext.getChatConnectionInfo(),
                 messageContext.getMessageOwner(),
                 messageContext.getChannelInfo()
         );

@@ -19,7 +19,7 @@ public class MessageContext {
     /**
      * @return information used to connect to the channel
      */
-    @NonNull ConnectionInfo connectionInfo;
+    @NonNull ChatConnectionInfo chatConnectionInfo;
 
     /**
      * @return the user that is at the origin of this message

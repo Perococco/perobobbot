@@ -23,20 +23,20 @@ public interface ChatPlatform {
 
     /**
      * find the chat connection for the specific authentication
-     * @param connectionInfo the information used to connect
+     * @param chatConnectionInfo the information used to connect
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO}
      */
-    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ConnectionInfo connectionInfo);
+    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo);
 
     @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
 
-    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull ConnectionInfo connectionInfo) {
-        return findConnection(connectionInfo)
-                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(connectionInfo)));
+    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
+        return findConnection(chatConnectionInfo)
+                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(chatConnectionInfo)));
     }
 
-    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull ConnectionInfo connectionInfo, @NonNull String channelName) {
-        return getConnection(connectionInfo).thenCompose(c -> c.getChannel(channelName));
+    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull String channelName) {
+        return getConnection(chatConnectionInfo).thenCompose(c -> c.getChannel(channelName));
     }
 
     void dispose();

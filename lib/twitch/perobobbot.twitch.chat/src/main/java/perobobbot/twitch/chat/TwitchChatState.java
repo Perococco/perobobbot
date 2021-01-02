@@ -1,7 +1,7 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.lang.ConnectionInfo;
+import perobobbot.lang.ChatConnectionInfo;
 
 /**
  * @author perococco
@@ -14,10 +14,10 @@ public interface TwitchChatState {
      * The bot used for the connection
      */
     @NonNull
-    ConnectionInfo getConnectionInfo();
+    ChatConnectionInfo getChatConnectionInfo();
 
     default @NonNull String getNickOfConnectedUser() {
-        return getConnectionInfo().getCredential().getNick();
+        return getChatConnectionInfo().getNick();
     }
 
 }

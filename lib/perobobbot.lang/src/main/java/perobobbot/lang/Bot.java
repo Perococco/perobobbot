@@ -41,7 +41,7 @@ public class Bot {
         return getCredentials(platform).getNick();
     }
 
-    public @NonNull ConnectionInfo extractConnectionInfo(@NonNull Platform platform) {
-        return new ConnectionInfo(getId(), getName(), platform, getCredentials(platform));
+    public @NonNull ChatConnectionInfo extractConnectionInfo(@NonNull Platform platform) {
+        return new ChatConnectionInfo(getId(), getName(), platform, getCredentials(platform));
     }
 }

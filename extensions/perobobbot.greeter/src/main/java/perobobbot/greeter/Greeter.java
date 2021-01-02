@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
-import perobobbot.lang.ConnectionInfo;
+import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.User;
 
 @RequiredArgsConstructor
@@ -21,13 +21,13 @@ public class Greeter {
     @NonNull
     private final ChannelInfo channelInfo;
 
-    private final ConnectionInfo connectionInfo;
+    private final ChatConnectionInfo chatConnectionInfo;
 
     @NonNull
     private final ImmutableSet<User> greeters;
 
     public void execute() {
-        io.getMessageChannelIO(connectionInfo, channelInfo)
+        io.getMessageChannelIO(chatConnectionInfo, channelInfo)
           .thenAccept(this::sendGreeting);
     }
 

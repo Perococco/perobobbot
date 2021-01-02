@@ -56,8 +56,8 @@ public class TwitchChatPlatform implements ChatPlatform {
 
     @Override
     @Synchronized
-    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ConnectionInfo connectionInfo) {
-        return Optional.ofNullable(connections.get(connectionInfo))
+    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
+        return Optional.ofNullable(connections.get(chatConnectionInfo))
                        .map(ConnectionData::getConnection);
     }
 
@@ -69,15 +69,15 @@ public class TwitchChatPlatform implements ChatPlatform {
     private final class ConnectionData {
 
         @Getter
-        private final @NonNull ConnectionInfo connectionInfo;
+        private final @NonNull ChatConnectionInfo chatConnectionInfo;
 
         @Getter
         private final @NonNull CompletionStage<TwitchChatConnection> connection;
 
-        public ConnectionData(@NonNull ConnectionInfo connectionInfo) {
-            final var nick = connectionInfo.getNick();
-            this.connectionInfo = connectionInfo;
-            this.connection = new TwitchChatConnection(connectionInfo, listeners)
+        public ConnectionData(@NonNull ChatConnectionInfo chatConnectionInfo) {
+            final var nick = chatConnectionInfo.getNick();
+            this.chatConnectionInfo = chatConnectionInfo;
+            this.connection = new TwitchChatConnection(chatConnectionInfo, listeners)
                     .start()
                     .whenComplete((result, error) -> {
                         if (error != null) {
@@ -87,22 +87,22 @@ public class TwitchChatPlatform implements ChatPlatform {
                     });
         }
 
-        public boolean isForBot(ConnectionInfo connectionInfo) {
-            return this.connectionInfo.equals(connectionInfo);
+        public boolean isForBot(ChatConnectionInfo chatConnectionInfo) {
+            return this.chatConnectionInfo.equals(chatConnectionInfo);
         }
 
-        public ConnectionData checkIsForBot(ConnectionInfo connectionInfo) {
-            if (this.connectionInfo.equals(connectionInfo)) {
+        public ConnectionData checkIsForBot(ChatConnectionInfo chatConnectionInfo) {
+            if (this.chatConnectionInfo.equals(chatConnectionInfo)) {
                 return this;
             }
-            throw new PerobobbotException("Multiple bots try to connect with the same nickname : '" + connectionInfo.getNick() + "'");
+            throw new PerobobbotException("Multiple bots try to connect with the same nickname : '" + chatConnectionInfo.getNick() + "'");
         }
     }
 
     @RequiredArgsConstructor
     private class Connector {
 
-        private final ConnectionInfo connectionInfo;
+        private final ChatConnectionInfo chatConnectionInfo;
 
         private ConnectionData connectionData = null;
 
@@ -116,19 +116,19 @@ public class TwitchChatPlatform implements ChatPlatform {
         }
 
         private @NonNull ConnectionData createNewConnection() {
-            return new ConnectionData(connectionInfo);
+            return new ConnectionData(chatConnectionInfo);
         }
 
         private @NonNull ConnectionData checkExistingConnection() {
             assert connectionData != null;
-            if (connectionData.isForBot(connectionInfo)) {
+            if (connectionData.isForBot(chatConnectionInfo)) {
                 return connectionData;
             }
             throw new PerobobbotException("Invalid authentication for chat connection");
         }
 
         private void retrieveConnectionData() {
-            this.connectionData = connections.get(connectionInfo.getNick());
+            this.connectionData = connections.get(chatConnectionInfo.getNick());
         }
 
     }

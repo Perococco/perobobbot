@@ -39,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 public class TwitchChatConnection implements ChatConnection, AdvancedChatListener<MessageFromTwitch> {
 
     @Getter
-    private final @NonNull ConnectionInfo connectionInfo;
+    private final @NonNull ChatConnectionInfo chatConnectionInfo;
 
     private final @NonNull Listeners<TwitchChatListener> listeners;
 
@@ -51,11 +51,11 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
 
     private final @NonNull EventBridge eventBridge;
 
-    public TwitchChatConnection(@NonNull ConnectionInfo connectionInfo,
+    public TwitchChatConnection(@NonNull ChatConnectionInfo chatConnectionInfo,
                                 @NonNull Listeners<TwitchChatListener> listeners) {
-        this.connectionInfo = connectionInfo;
-        this.credential = connectionInfo.getCredential();
-        this.connectionIdentity = Identity.create(ConnectionState.disconnected(connectionInfo));
+        this.chatConnectionInfo = chatConnectionInfo;
+        this.credential = chatConnectionInfo.getCredential();
+        this.connectionIdentity = Identity.create(ConnectionState.disconnected(chatConnectionInfo));
         this.chat = createChat(connectionIdentity);
         this.listeners = listeners;
         this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));

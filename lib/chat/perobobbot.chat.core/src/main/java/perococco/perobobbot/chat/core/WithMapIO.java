@@ -8,7 +8,7 @@ import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.DispatchSlip;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.UnknownChatPlatform;
-import perobobbot.lang.ConnectionInfo;
+import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
@@ -30,16 +30,16 @@ public class WithMapIO implements DisposableIO {
     }
 
     @Override
-    public @NonNull CompletionStage<? extends DispatchSlip> send(@NonNull ConnectionInfo connectionInfo, @NonNull String channelName, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        final Platform platform = connectionInfo.getPlatform();
+    public @NonNull CompletionStage<? extends DispatchSlip> send(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull String channelName, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
+        final Platform platform = chatConnectionInfo.getPlatform();
 
         final ChatPlatform chatPlatform = ioByPlatform.get(platform);
 
         if (chatPlatform != null) {
-            return chatPlatform.getChannelIO(connectionInfo, channelName)
+            return chatPlatform.getChannelIO(chatConnectionInfo, channelName)
                                .thenCompose(c -> c.send(messageBuilder));
         } else {
-            LOG.warn("No IO for platform {}", connectionInfo.getPlatform());
+            LOG.warn("No IO for platform {}", chatConnectionInfo.getPlatform());
             return CompletableFuture.failedFuture(new UnknownChatPlatform(platform));
         }
     }
