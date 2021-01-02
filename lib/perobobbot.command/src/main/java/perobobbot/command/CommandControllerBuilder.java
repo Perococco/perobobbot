@@ -1,7 +1,6 @@
 package perobobbot.command;
 
 import lombok.NonNull;
-import perobobbot.chat.core.IO;
 import perobobbot.lang.Platform;
 
 public interface CommandControllerBuilder {

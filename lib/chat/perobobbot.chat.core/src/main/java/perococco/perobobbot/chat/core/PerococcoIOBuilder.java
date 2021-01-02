@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.DisposableIO;
-import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
 import perobobbot.lang.Platform;
 

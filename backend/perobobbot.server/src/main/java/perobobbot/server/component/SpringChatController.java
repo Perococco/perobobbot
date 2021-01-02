@@ -4,10 +4,10 @@ package perobobbot.server.component;
 import lombok.NonNull;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
+import perobobbot.lang.GatewayChannels;
 import perobobbot.lang.MessageContext;
 import perobobbot.messaging.ChatController;
 import perobobbot.messaging.ProxyChatController;
-import perobobbot.lang.GatewayChannels;
 
 @Component
 public class SpringChatController extends ProxyChatController {

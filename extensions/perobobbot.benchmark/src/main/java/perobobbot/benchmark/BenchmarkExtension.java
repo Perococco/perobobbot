@@ -3,10 +3,7 @@ package perobobbot.benchmark;
 import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
-import perobobbot.extension.ExtensionBase;
 import perobobbot.extension.OverlayExtension;
-import perobobbot.lang.Bot;
-import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 
 public class BenchmarkExtension extends OverlayExtension {

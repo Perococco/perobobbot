@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import perobobbot.command.CommandDefinition;
 
 @RequiredArgsConstructor

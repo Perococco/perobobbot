@@ -1,10 +1,10 @@
 package perobobbot.data.event.service;
 
 import lombok.NonNull;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import perobobbot.data.service.*;
-import perobobbot.data.service.proxy.ProxyExtensionService;
+import perobobbot.data.service.EventService;
+import perobobbot.data.service.UnsecuredService;
+import perobobbot.data.service.UserService;
 import perobobbot.data.service.proxy.ProxyUserService;
 
 @Service

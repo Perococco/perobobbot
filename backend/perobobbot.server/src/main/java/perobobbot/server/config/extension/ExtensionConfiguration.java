@@ -6,9 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.access.PolicyManager;
-import perobobbot.chat.core.IO;
-import perobobbot.command.CommandController;
 import perobobbot.extension.AvailableExtensions;
 
 @Configuration

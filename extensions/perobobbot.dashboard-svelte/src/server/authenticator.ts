@@ -1,5 +1,5 @@
 import * as Backend from "./backend";
-import {Optional, Authentication} from "../types/types";
+import {Authentication, Optional} from "../types/types";
 import {authentication} from "../stores/authentication";
 import axios from "axios";
 

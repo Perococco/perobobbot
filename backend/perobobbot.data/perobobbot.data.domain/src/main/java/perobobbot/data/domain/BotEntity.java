@@ -12,7 +12,9 @@ import perobobbot.lang.Platform;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Entity
 @Table(name = "BOT")

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.DispatchSlip;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.twitch.chat.message.to.CommandToTwitch;
-import perococco.perobobbot.twitch.chat.TwitchMessageChannelIO;
 
 import java.time.Instant;
 

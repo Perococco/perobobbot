@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import perobobbot.data.service.UserProvider;
-import perobobbot.data.service.UserService;
 
 /**
  * @author Perococco

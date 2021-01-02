@@ -1,10 +1,7 @@
 package perococco.perobobbot.twitch.chat.state;
 
 import com.google.common.collect.ImmutableSet;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwicthChatNotConnected;

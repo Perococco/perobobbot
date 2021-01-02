@@ -7,7 +7,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
-import perobobbot.data.service.UnsecuredService;
 import perobobbot.extension.AvailableExtensions;
 
 @Component

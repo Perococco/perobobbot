@@ -1,8 +1,8 @@
 <script lang="typescript">
+    import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
     import Router, {replace} from "svelte-spa-router";
-    import type {WrappedComponent,ConditionsFailedEvent} from "svelte-spa-router";
     import {onDestroy} from "svelte";
-    import {Optional, UserData, Authentication} from "./types/types";
+    import {Authentication, Optional, UserData} from "./types/types";
     import {authentication} from "./stores/stores";
     import * as Utils from "./route_utils";
 

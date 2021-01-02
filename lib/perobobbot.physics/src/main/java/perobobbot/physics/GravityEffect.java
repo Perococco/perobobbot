@@ -1,7 +1,5 @@
 package perobobbot.physics;
 
-import lombok.NonNull;
-
 public enum GravityEffect {
     ATTRACTOR(){
         @Override

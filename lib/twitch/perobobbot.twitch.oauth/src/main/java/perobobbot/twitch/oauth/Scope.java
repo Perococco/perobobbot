@@ -3,9 +3,6 @@ package perobobbot.twitch.oauth;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.swing.text.View;
-import java.nio.channels.Channel;
-
 @RequiredArgsConstructor
 public enum Scope {
     ANALYTICS_READ_EXTENSIONS("analytics:read:extensions", "View analytics data for your extensions."),

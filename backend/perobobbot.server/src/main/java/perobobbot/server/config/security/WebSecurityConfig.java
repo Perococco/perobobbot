@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,8 +20,8 @@ import perobobbot.data.service.UserProvider;
 import perobobbot.security.PermissionEvaluatorDispatcher;
 import perobobbot.security.TargetedPermissionEvaluator;
 import perobobbot.server.EndPoints;
-import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 import perobobbot.server.config.security.jwt.JWTokenManager;
+import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;
 

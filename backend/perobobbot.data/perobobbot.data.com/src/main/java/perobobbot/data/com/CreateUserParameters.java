@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.DTO;
 import perobobbot.lang.PasswordEncoder;
-import perobobbot.lang.fp.Function1;
 
 @Value
 @DTO

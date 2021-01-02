@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.DispatchSlip;
-import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
 
 import java.time.Instant;

@@ -3,9 +3,9 @@ package perobobbot.greeter;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
-import perobobbot.chat.core.IO;
 import perobobbot.lang.ConnectionInfo;
 import perobobbot.lang.User;
 

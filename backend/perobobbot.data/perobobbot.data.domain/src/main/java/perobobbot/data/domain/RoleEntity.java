@@ -2,8 +2,6 @@ package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import perobobbot.data.com.Operation;
 import perobobbot.data.com.Role;
 import perobobbot.data.com.RoleKind;
@@ -12,7 +10,6 @@ import perobobbot.lang.fp.Function1;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 

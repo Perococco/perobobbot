@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.expression.DenyAllPermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
 import java.io.Serializable;

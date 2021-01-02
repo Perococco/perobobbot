@@ -3,7 +3,6 @@ package perococco.perobobbot.twitch.chat.state;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ConnectionInfo;
 import perobobbot.lang.Subscription;
 import perococco.perobobbot.twitch.chat.TwitchIO;

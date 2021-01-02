@@ -5,7 +5,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.access.AccessRule;
-import perobobbot.command.*;
+import perobobbot.command.Command;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParser;
+import perobobbot.command.CommandRegistry;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
 

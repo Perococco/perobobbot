@@ -6,7 +6,6 @@ import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
-import perobobbot.lang.Credential;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.lang.*;

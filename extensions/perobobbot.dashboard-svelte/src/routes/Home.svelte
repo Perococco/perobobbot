@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {onMount, onDestroy} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import {styles} from "../stores/styles";
     import {authentication} from "../stores/stores";
     import {Authentication} from "../types/authentication";

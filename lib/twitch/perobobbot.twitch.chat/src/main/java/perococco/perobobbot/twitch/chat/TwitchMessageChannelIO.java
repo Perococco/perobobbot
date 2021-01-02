@@ -5,11 +5,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.DispatchSlip;
 import perobobbot.chat.core.MessageChannelIO;
-import perobobbot.lang.*;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.DispatchContext;
+import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.chat.Channel;
 import perobobbot.twitch.chat.TwitchDispatchSlip;
-import perobobbot.twitch.chat.TwitchReceiptSlip;
 import perobobbot.twitch.chat.message.to.PrivMsg;
 import perococco.perobobbot.twitch.chat.state.mutator.OperatorToSendCommand;
 

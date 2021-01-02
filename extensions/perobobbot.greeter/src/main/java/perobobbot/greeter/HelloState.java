@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.ConnectionInfo;
 import perobobbot.lang.User;

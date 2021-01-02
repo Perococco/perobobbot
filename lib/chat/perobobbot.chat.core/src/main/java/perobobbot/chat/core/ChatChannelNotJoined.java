@@ -3,9 +3,7 @@ package perobobbot.chat.core;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ConnectionInfo;
-import perobobbot.lang.Platform;
 
 @Getter
 @ToString

@@ -1,9 +1,7 @@
 package perobobbot.twitch.chat;
 
 import lombok.NonNull;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ConnectionInfo;
-import perobobbot.lang.Platform;
 
 /**
  * @author perococco

@@ -1,8 +1,6 @@
 package perobobbot.extension;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.command.CommandDefinition;
 import perobobbot.lang.ThreadFactories;
 
 import java.util.concurrent.Executors;

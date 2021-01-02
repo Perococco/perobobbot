@@ -5,7 +5,6 @@
     import {styles} from "../stores/styles";
     import {fade} from "svelte/transition";
     import * as Str from "../tools";
-    import * as GS from "../types/styles";
 
 
     let error:string = "";

@@ -1,6 +1,9 @@
 package perobobbot.twitch.chat;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;

@@ -2,8 +2,6 @@ package perobobbot.chat.core;
 
 import lombok.NonNull;
 import perobobbot.lang.DispatchContext;
-import perobobbot.lang.MessageListener;
-import perobobbot.lang.Subscription;
 import perobobbot.lang.fp.Function1;
 
 import java.util.concurrent.CompletionStage;

@@ -8,7 +8,6 @@ import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
 import perobobbot.access.PolicyManager;
 import perobobbot.chat.core.IO;
-import perobobbot.command.CommandRegistry;
 import perobobbot.extension.ExtensionFactory;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;

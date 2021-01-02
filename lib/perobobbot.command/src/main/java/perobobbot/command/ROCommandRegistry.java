@@ -1,7 +1,6 @@
 package perobobbot.command;
 
 import lombok.NonNull;
-import perobobbot.lang.Bot;
 
 import java.util.Optional;
 

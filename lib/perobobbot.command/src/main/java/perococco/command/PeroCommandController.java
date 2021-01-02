@@ -3,18 +3,12 @@ package perococco.command;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.access.AccessRule;
-import perobobbot.chat.core.IO;
-import perobobbot.command.*;
+import perobobbot.command.Command;
+import perobobbot.command.CommandController;
+import perobobbot.command.CommandExecutor;
+import perobobbot.command.CommandRegistry;
 import perobobbot.lang.*;
-import perobobbot.lang.fp.Function0;
-import perobobbot.lang.fp.Function1;
-import perobobbot.lang.fp.Function2;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
 @Log4j2

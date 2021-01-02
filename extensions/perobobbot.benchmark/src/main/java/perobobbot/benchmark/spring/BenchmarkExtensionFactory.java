@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.access.Policy;
 import perobobbot.benchmark.BenchmarkExtension;
 import perobobbot.benchmark.action.StartBenchmark;
 import perobobbot.command.CommandDefinition;
@@ -13,7 +12,6 @@ import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
-import java.util.Optional;
 
 import static perobobbot.benchmark.action.StartBenchmark.NB_PUCKS_PARAMETER;
 import static perobobbot.benchmark.action.StartBenchmark.RADIUS_PARAMETER;

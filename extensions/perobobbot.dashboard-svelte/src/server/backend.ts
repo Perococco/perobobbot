@@ -1,4 +1,4 @@
-import axios, { AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import type {User} from "../types/user";
 
 const SIGN_IN_ENDPOINT = "/api/signin";

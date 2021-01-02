@@ -1,4 +1,4 @@
-import type {WrappedComponent,AsyncSvelteComponent} from "svelte-spa-router";
+import type {AsyncSvelteComponent, WrappedComponent} from "svelte-spa-router";
 import {wrap} from "svelte-spa-router/wrap";
 import type {UserData} from "./types/userData";
 
