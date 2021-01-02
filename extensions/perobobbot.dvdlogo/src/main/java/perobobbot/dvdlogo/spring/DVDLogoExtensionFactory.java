@@ -1,23 +1,13 @@
 package perobobbot.dvdlogo.spring;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
-import perobobbot.access.PolicyManager;
-import perobobbot.command.CommandBundle;
-import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.command.CommandRegistry;
 import perobobbot.dvdlogo.DVDLogoExtension;
-import perobobbot.extension.Extension;
-import perobobbot.extension.ExtensionFactory;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.extension.ExtensionWithCommands;
-import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
-import perobobbot.overlay.api.Overlay;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -34,8 +24,8 @@ public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtensi
     }
 
     @Override
-    protected @NonNull DVDLogoExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
-        return new DVDLogoExtension(bot,parameters.getOverlay());
+    protected @NonNull DVDLogoExtension createExtension(@NonNull Parameters parameters) {
+        return new DVDLogoExtension(parameters.getOverlay());
     }
 
     @Override

@@ -16,8 +16,10 @@ public class EchoExecutor implements Consumer1<ExecutionContext> {
         if (ctx.isMessageFromMe()) {
             return;
         }
-        echoExtension.performEcho(ctx.getChannelInfo(),
-                                  ctx.getMessageOwner(),
-                                  ctx.getContent());
+        echoExtension.performEcho(
+                ctx.getBot(),
+                ctx.getChannelInfo(),
+                ctx.getMessageOwner(),
+                ctx.getContent());
     }
 }

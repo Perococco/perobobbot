@@ -1,7 +1,8 @@
 package perobobbot.extension;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.command.CommandBundle;
+import perobobbot.command.CommandDefinition;
 
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBas
     }
 
     @Override
-    protected Optional<CommandBundle> createCommandBundle(@NonNull Extension extension, @NonNull Parameters parameters) {
-        return Optional.empty();
+    protected @NonNull ImmutableList<CommandDefinition> createCommandBundle(@NonNull Extension extension, @NonNull Parameters parameters) {
+        return ImmutableList.of();
     }
 }

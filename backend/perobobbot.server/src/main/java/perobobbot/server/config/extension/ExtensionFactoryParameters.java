@@ -25,7 +25,6 @@ public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
     private final @NonNull Overlay overlay;
     private final @NonNull SoundResolver soundResolver;
 
-
     @Override
     public @NonNull Policy createPolicy(@NonNull AccessRule accessRule) {
         return policyManager.createPolicy(accessRule);

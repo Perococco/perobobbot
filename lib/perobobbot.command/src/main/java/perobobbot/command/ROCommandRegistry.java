@@ -1,6 +1,7 @@
 package perobobbot.command;
 
 import lombok.NonNull;
+import perobobbot.lang.Bot;
 
 import java.util.Optional;
 
@@ -12,9 +13,9 @@ public interface ROCommandRegistry {
 
     /**
      * Find a command from its name
-     * @param commandName the command name
+     * @param message the message
      * @return an optional containing the command with the provided name, an empty optional otherwise.
      */
-    @NonNull Optional<Command> findCommand(@NonNull String commandName);
+    @NonNull Optional<Command> findCommand(@NonNull String message);
 
 }

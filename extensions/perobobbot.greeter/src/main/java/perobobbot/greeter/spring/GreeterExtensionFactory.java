@@ -22,8 +22,8 @@ public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
     }
 
     @Override
-    protected @NonNull Extension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
-        return new GreeterExtension(bot, parameters.getIo(), parameters.getChatController());
+    protected @NonNull Extension createExtension(@NonNull Parameters parameters) {
+        return new GreeterExtension(parameters.getIo(), parameters.getChatController());
     }
 
 }

@@ -18,10 +18,10 @@ public class Greeter {
     @NonNull
     private final GreetingMessageCreator messageCreator;
 
-    private final Bot bot;
-
     @NonNull
     private final ChannelInfo channelInfo;
+
+    private final Bot bot;
 
     @NonNull
     private final ImmutableSet<User> greeters;

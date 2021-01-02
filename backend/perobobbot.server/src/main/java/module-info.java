@@ -21,11 +21,10 @@ module perobobbot.server {
 
     requires transitive perobobbot.lang;
     requires perobobbot.chat.advanced;
-    requires perobobbot.data.domain;
     requires perobobbot.data.com;
-    requires perobobbot.data.jpa;
     requires perobobbot.data.service;
     requires perobobbot.sound;
+    requires perobobbot.security;
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
     requires perobobbot.extension;
@@ -59,6 +58,7 @@ module perobobbot.server {
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.dto to com.fasterxml.jackson.databind;
 
     requires net.bytebuddy;
     requires spring.beans;
@@ -71,6 +71,9 @@ module perobobbot.server {
 
     requires spring.boot.actuator;
     requires org.eclipse.jetty.websocket.server;
+    requires java.sql;
+    requires java.naming;
+    requires com.h2database;
 
     exports perobobbot.server;
     exports perobobbot.server.controller;

@@ -26,7 +26,6 @@
 
 
     <dependencies>
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-extension</artifactId>
@@ -40,52 +39,89 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-localio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-greeter</artifactId>
             <scope>runtime</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.zaxxer</groupId>-->
+<!--            <artifactId>HikariCP</artifactId>-->
+<!--            <version>3.4.5</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.codahale.metrics</groupId>-->
+<!--            <artifactId>metrics-healthchecks</artifactId>-->
+<!--            <version>3.0.2</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-echo</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.25.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>javax.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-dvdlogo</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-puckwar</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-localio</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-echo</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-dvdlogo</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-puckwar</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-benchmark</artifactId>
             <scope>runtime</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-pause</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-play</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>perococco.bot</groupId>-->
+<!--            <artifactId>perobobbot-ext-dashboard-svelte</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-pause</artifactId>
+            <artifactId>perobobbot-overlay-newtek</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-play</artifactId>
+            <artifactId>perobobbot-data-jpa</artifactId>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-ext-dashboard-svelte</artifactId>
-            <scope>runtime</scope>
+            <artifactId>perobobbot-security</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-access</artifactId>
@@ -96,16 +132,8 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-overlay-newtek</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-command</artifactId>
@@ -118,26 +146,15 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-sound</artifactId>
         </dependency>
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-data-com</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-domain</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-data-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-jpa</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -230,7 +247,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+<!--            <scope>runtime</scope>-->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

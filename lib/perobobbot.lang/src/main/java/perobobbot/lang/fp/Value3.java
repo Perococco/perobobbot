@@ -40,4 +40,8 @@ public class Value3<A,B,C> {
     public <D> D use(@NonNull Function3<? super A, ? super B, ? super C, ? extends D> function) {
         return function.f(a,b,c);
     }
+
+    public Value2<A,B> dropC() {
+        return Value2.of(a,b);
+    }
 }

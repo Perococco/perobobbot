@@ -4,7 +4,7 @@ import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import perobobbot.data.com.UnknownUser;
-import perobobbot.data.domain.User;
+import perobobbot.data.domain.UserEntity;
 
 import java.util.Optional;
 
@@ -12,12 +12,12 @@ import java.util.Optional;
  * @author Perococco
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<User> findByLogin(@NonNull String login);
+    Optional<UserEntity> findByLogin(@NonNull String login);
 
-    default User getByLogin(@NonNull String email) {
-        return findByLogin(email).orElseThrow(() -> new UnknownUser(email));
+    default UserEntity getByLogin(@NonNull String login) {
+        return findByLogin(login).orElseThrow(() -> new UnknownUser(login));
     }
 
     default boolean doesUserExist(@NonNull String login) {

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.MessageContext;
 import perobobbot.lang.MessageHandler;
+import perobobbot.lang.fp.Value3;
 
 @RequiredArgsConstructor
 public class HelloMessageHandler implements MessageHandler {
@@ -13,9 +14,15 @@ public class HelloMessageHandler implements MessageHandler {
 
     @Override
     public void handleMessage(@NonNull MessageContext messageContext) {
-        if (!hello.getRootState().hasBeenGreeted(UserOnChannel.from(messageContext))) {
-            hello.greetUser(messageContext.getChannelInfo(), messageContext.getMessageOwner());
+        final var value = Value3.of(
+                messageContext.getBot(),
+                messageContext.getMessageOwner(),
+                messageContext.getChannelInfo()
+        );
+
+        if (!hello.getRootState().hasBeenGreeted(value)) {
+            hello.greetUser(value);
         }
     }
-    
+
 }

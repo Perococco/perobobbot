@@ -4,12 +4,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
-import perobobbot.command.CommandBundle;
-import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.extension.ExtensionWithCommands;
-import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 import perobobbot.puckwar.PuckWarExtension;
@@ -33,8 +28,8 @@ public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtensi
     }
 
     @Override
-    protected @NonNull PuckWarExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
-        return new PuckWarExtension(bot, parameters.getOverlay());
+    protected @NonNull PuckWarExtension createExtension(@NonNull Parameters parameters) {
+        return new PuckWarExtension(parameters.getOverlay());
     }
 
     @Override

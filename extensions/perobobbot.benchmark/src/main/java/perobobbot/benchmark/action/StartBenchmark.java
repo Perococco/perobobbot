@@ -3,29 +3,24 @@ package perobobbot.benchmark.action;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.benchmark.BenchmarkExtension;
-import perobobbot.lang.CastTool;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParsing;
 import perobobbot.lang.ExecutionContext;
-import perobobbot.lang.fp.Consumer1;
 
 @RequiredArgsConstructor
-public class StartBenchmark implements Consumer1<ExecutionContext> {
+public class StartBenchmark implements CommandAction {
+
+    public static final String NB_PUCKS_PARAMETER = "nb_pucks";
+    public static final String RADIUS_PARAMETER = "radius";
 
     private final @NonNull BenchmarkExtension extension;
 
     @Override
-    public void f(@NonNull ExecutionContext executionContext) {
-        final String[] tokens = executionContext.getParameters().split(" +");
-        final int nbPucks = parse(tokens,0,200);
-        final int radius = parse(tokens,1,20);
-
+    public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
+        final int nbPucks = parsing.findIntParameter(NB_PUCKS_PARAMETER).orElse(200);
+        final int radius = parsing.findIntParameter(RADIUS_PARAMETER).orElse(20);
         extension.stop();
         extension.start(nbPucks,radius);
     }
 
-    private int parse(@NonNull String[] tokens, int index, int defaultValue) {
-        if (tokens.length>=index) {
-            return CastTool.castToInt(tokens[index]).orElse(defaultValue);
-        }
-        return defaultValue;
-    }
 }

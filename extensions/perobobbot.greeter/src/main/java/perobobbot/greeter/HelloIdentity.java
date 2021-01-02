@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.greeter.mutation.AddGreeter;
 import perobobbot.lang.*;
+import perobobbot.lang.fp.Value3;
 
 import java.util.concurrent.CompletionStage;
 
@@ -13,8 +14,8 @@ public class HelloIdentity {
     @Getter
     private final AsyncIdentity<HelloState> identity = AsyncIdentity.create(HelloState.empty());
 
-    public void greetUser(@NonNull ChannelInfo channelInfo, @NonNull User user) {
-        identity.mutate(new AddGreeter(channelInfo, user));
+    public void greetUser(@NonNull Value3<Bot,User,ChannelInfo> greetingInfo) {
+        identity.mutate(new AddGreeter(greetingInfo));
     }
 
     @NonNull

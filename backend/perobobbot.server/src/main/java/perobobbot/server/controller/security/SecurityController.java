@@ -8,7 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.UserDTO;
+import perobobbot.data.com.SimpleUser;
+import perobobbot.data.service.JWTokenService;
 import perobobbot.data.service.UserService;
 import perobobbot.server.EndPoints;
 import perobobbot.server.transfert.Credentials;
@@ -22,19 +23,19 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class SecurityController {
 
-    @NonNull
-    private final AuthenticationManager authenticationManager;
+    private final @NonNull AuthenticationManager authenticationManager;
 
-    @NonNull
-    private final UserService userService;
+    private final @NonNull UserService userService;
+
+    private final @NonNull JWTokenService jwTokenService;
 
     /**
      * @param principal the principal provided by the security framework if an user is authenticated
      * @return the authenticated user information
      */
     @GetMapping(EndPoints.CURRENT_USER)
-    public UserDTO getCurrentUser(@AuthenticationPrincipal UserDetails principal) {
-        return userService.getUserInfo(principal.getUsername());
+    public SimpleUser getCurrentUser(@AuthenticationPrincipal UserDetails principal) {
+        return userService.getUser(principal.getUsername()).simplify();
     }
 
     /**
@@ -45,8 +46,8 @@ public class SecurityController {
     @PostMapping(EndPoints.SIGN_IN)
     public String signIn(@Valid @RequestBody Credentials credentials) {
         final Authentication authentication = authenticationManager.authenticate(credentials.createAuthentication());
-        final LoginFromAuthentication email = new LoginFromAuthentication(authentication);
-        return userService.getJWTToken(email.toString());
+        final LoginFromAuthentication login = new LoginFromAuthentication(authentication);
+        return jwTokenService.createJWToken(login.toString());
     }
 
 
@@ -56,8 +57,9 @@ public class SecurityController {
      * @return the created user
      */
     @PostMapping(EndPoints.SIGN_UP)
-    public UserDTO singup(@RequestBody CreateUserParameters parameters) {
-        return userService.createUser(parameters);
+    public SimpleUser singup(@RequestBody CreateUserParameters parameters) {
+        return userService.createUser(parameters)
+                          .simplify();
     }
 
 }

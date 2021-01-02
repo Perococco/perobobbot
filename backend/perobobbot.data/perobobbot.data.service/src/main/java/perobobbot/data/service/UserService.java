@@ -2,15 +2,12 @@ package perobobbot.data.service;
 
 import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.UserDTO;
+import perobobbot.data.com.User;
 
-public interface UserService {
+public interface UserService extends UserProvider {
 
-    @NonNull UserDTO getUserInfo(@NonNull String login);
+    @NonNull User getUser(@NonNull String login);
 
-    @NonNull UserDTO createUser(@NonNull CreateUserParameters parameters);
-
-    @NonNull
-    String getJWTToken(@NonNull String login);
+    @NonNull User createUser(@NonNull CreateUserParameters parameters);
 
 }

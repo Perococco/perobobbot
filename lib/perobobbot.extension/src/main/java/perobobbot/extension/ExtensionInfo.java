@@ -1,19 +1,17 @@
 package perobobbot.extension;
 
-import lombok.EqualsAndHashCode;
+import com.google.common.collect.ImmutableList;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
+import perobobbot.command.CommandDefinition;
 
-@Value
-@EqualsAndHashCode(of = {"extensionName"})
-public class ExtensionInfo implements Comparable<ExtensionInfo> {
+@RequiredArgsConstructor
+public class ExtensionInfo implements Extension {
+    @Delegate
+    final @NonNull Extension extension;
+    @Getter
+    final @NonNull ImmutableList<CommandDefinition> commandDefinitions;
 
-    @NonNull String extensionName;
-
-    boolean enabled;
-
-    @Override
-    public int compareTo(ExtensionInfo o) {
-        return this.extensionName.compareTo(o.extensionName);
-    }
 }

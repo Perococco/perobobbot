@@ -5,7 +5,7 @@ import lombok.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import perobobbot.data.domain.User;
+import perobobbot.data.com.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
 
 /**
@@ -13,10 +13,12 @@ import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
  */
 public class JwtAuthentication extends AbstractAuthenticationToken {
 
-    public static JwtAuthentication create(@NonNull User user) {
+    public static @NonNull JwtAuthentication create(@NonNull User user) {
         final ImmutableList<GrantedAuthority> authorities = ExtractorOfGrantedAuthorities.extract(user);
         final UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
-        return new JwtAuthentication(userDetails);
+        final var authentication = new JwtAuthentication(userDetails);
+        authentication.setAuthenticated(true);
+        return authentication;
     }
 
     private final UserDetails userDetails;

@@ -3,6 +3,7 @@ module perobobbot.data.com {
     requires java.desktop;
     requires transitive perobobbot.lang;
 
+    requires com.google.common;
 
     exports perobobbot.data.com;
 }

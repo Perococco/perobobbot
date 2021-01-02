@@ -1,13 +1,12 @@
 package perococco.perobobbot.twitch.chat;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.advanced.*;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
-import perobobbot.lang.Credentials;
+import perobobbot.lang.Credential;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.lang.*;
@@ -49,14 +48,14 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
 
     private final @NonNull AdvancedChat<MessageFromTwitch> chat;
 
-    private final @NonNull Credentials credentials;
+    private final @NonNull Credential credential;
 
     private final @NonNull EventBridge eventBridge;
 
     public TwitchChatConnection(@NonNull Bot bot,
                                 @NonNull Listeners<TwitchChatListener> listeners) {
         this.bot = bot;
-        this.credentials = bot.getCredentials(Platform.TWITCH);
+        this.credential = bot.getCredentials(Platform.TWITCH);
         this.connectionIdentity = Identity.create(ConnectionState.disconnected(bot));
         this.chat = createChat(connectionIdentity);
         this.listeners = listeners;
@@ -87,7 +86,7 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     @Override
     public @NonNull CompletionStage<TwitchMessageChannelIO> join(@NonNull String channelName) {
         final Channel channel = Channel.create(channelName);
-        return operate(new JoinChannel(credentials.getNick(),channel))
+        return operate(new JoinChannel(credential.getNick(), channel))
                 .thenApply(s -> {
                     final var twitchChannelIO = new TwitchMessageChannelIO(channel,this, new ChannelInfo(getPlatform(),channelName));
                     this.operate(Operator.mutator(new ChanelAdder(twitchChannelIO)));
@@ -154,8 +153,8 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     @NonNull
     private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO) {
         final Cap cap = new Cap(Capability.AllCapabilities());
-        final Pass pass = new Pass(credentials.getPass());
-        final Nick nick = new Nick(credentials.getNick());
+        final Pass pass = new Pass(credential.getPass());
+        final Nick nick = new Nick(credential.getNick());
         advancedChatIO.sendRequest(cap);
         return advancedChatIO.sendCommand(pass)
                              .thenCompose(r -> advancedChatIO.sendRequest(nick));

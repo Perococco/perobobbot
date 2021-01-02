@@ -4,7 +4,10 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.data.jpa.repository.UserRepository;
+import org.springframework.context.annotation.Lazy;
+import perobobbot.data.service.UserProvider;
+import perobobbot.data.service.UserService;
+
 /**
  * @author Perococco
  */
@@ -13,17 +16,14 @@ public class JwtConfig {
 
     private static final String ISSUER = "PEROBOBBOT";
 
-    private final UserRepository userRepository;
-
     private final String key;
 
-    public JwtConfig(@NonNull UserRepository userRepository, @Value("${perobot.jwtconfig.key:shouldBeSetThroughtProperty}") String key) {
-        this.userRepository = userRepository;
+    public JwtConfig(@Value("${perobot.jwtconfig.key:shouldBeSetThroughtProperty}") String key) {
         this.key = key;
     }
 
     @Bean
-    public JwtTokenManager jwtTokenManager() {
-        return new JwtTokenManager(key,ISSUER,userRepository);
+    public JWTokenServiceFromUserService jwtTokenManager(@NonNull UserProvider userProvider) {
+        return new JWTokenServiceFromUserService(key, ISSUER, userProvider);
     }
 }

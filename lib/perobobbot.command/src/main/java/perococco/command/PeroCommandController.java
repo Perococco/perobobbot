@@ -4,21 +4,26 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import lombok.extern.log4j.Log4j2;
+import perobobbot.access.AccessRule;
 import perobobbot.chat.core.IO;
 import perobobbot.command.*;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function0;
 import perobobbot.lang.fp.Function1;
+import perobobbot.lang.fp.Function2;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
+@Log4j2
 public class PeroCommandController implements CommandController {
 
     public static @NonNull CommandControllerBuilder builder(@NonNull IO io,
-                                                            @NonNull Function1<? super CommandController,? extends Subscription> connector) {
-        return new PeroCommandControllerBuilder(io,connector);
+                                                            @NonNull MessageDispatcher messageDispatcher,
+                                                            @NonNull CommandExecutor commandExecutor) {
+        return new PeroCommandControllerBuilder(io,messageDispatcher,commandExecutor);
     }
 
     @Override
@@ -26,10 +31,12 @@ public class PeroCommandController implements CommandController {
         return 100;
     }
 
-    /**
-     * IO used to send error message
-     */
+
     private final @NonNull IO io;
+
+    private final @NonNull CommandRegistry commandRegistry;
+
+    private final @NonNull CommandExecutor commandExecutor;
 
     /**
      * used to convert exception that occurs when executing a command, to error message
@@ -43,17 +50,13 @@ public class PeroCommandController implements CommandController {
     private final @NonNull ImmutableMap<Platform, Character> prefixes;
 
     /**
-     * the command registry for each user.
-     */
-    private final @NonNull AtomicReference<ImmutableMap<Bot, ROCommandRegistry>> commandRegistryPerUser = new AtomicReference<>(ImmutableMap.of());
-
-    /**
      * the function that must be call to connect this controller to the chat
      * the provided subscription must be unsubscribed when this controller is stopped
      */
-    private final @NonNull Function1<? super CommandController,? extends Subscription> connector;
+    private final @NonNull MessageDispatcher messageDispatcher;
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
+
 
     @Override
     public void handleMessage(@NonNull MessageContext messageContext) {
@@ -73,7 +76,7 @@ public class PeroCommandController implements CommandController {
 
     @Override
     public void start() {
-        this.subscriptionHolder.replaceWith(() -> connector.f(this));
+        this.subscriptionHolder.replaceWith(() -> messageDispatcher.addListener(this));
     }
 
     @Override
@@ -81,30 +84,14 @@ public class PeroCommandController implements CommandController {
         this.subscriptionHolder.unsubscribe();
     }
 
-    @Override
-    public @NonNull Subscription addCommandRegistry(@NonNull Bot bot, @NonNull ROCommandRegistry commandRegistry) {
-        this.commandRegistryPerUser.updateAndGet(m -> MapTool.add(m,bot,commandRegistry));
-        return () -> removeCommandRegistry(bot);
-    }
-
-    private void removeCommandRegistry(@NonNull Bot bot) {
-        this.commandRegistryPerUser.updateAndGet(m -> MapTool.remove(m,bot));
-    }
-
     @RequiredArgsConstructor
     private class Executor {
 
         private final @NonNull ExecutionContext context;
 
-        private ROCommandRegistry commandRegistry;
-
         private Command command;
 
         public void execute() {
-            retrieveRegistryOfTheUser();
-            if (couldNotFoundRegistry()) {
-                return;
-            }
             findCommandFromRegistry();
             if (commandHasBeenFound()) {
                 executeCommand();
@@ -112,16 +99,6 @@ public class PeroCommandController implements CommandController {
                 warnForInvalidCommand();
             }
         }
-
-        private void retrieveRegistryOfTheUser() {
-            this.commandRegistry = commandRegistryPerUser.get().get(context.getBot());
-
-        }
-
-        private boolean couldNotFoundRegistry() {
-            return this.commandRegistry == null;
-        }
-
 
         private void findCommandFromRegistry() {
             assert command == null;
@@ -134,9 +111,10 @@ public class PeroCommandController implements CommandController {
 
         private void executeCommand() {
             try {
-                command.execute(context);
+                commandExecutor.execute(command,context);
             } catch (PerobobbotException e) {
-
+                final var message = messageErrorResolver.resolve(e).orElse(e.getMessage());
+                LOG.error("Could not execute command '"+command.getFullCommand()+"' : "+message,e);
             }
         }
 

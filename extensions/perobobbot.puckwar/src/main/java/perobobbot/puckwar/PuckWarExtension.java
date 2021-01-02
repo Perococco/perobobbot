@@ -2,12 +2,7 @@ package perobobbot.puckwar;
 
 import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.extension.ExtensionBase;
 import perobobbot.extension.OverlayExtension;
-import perobobbot.lang.Bot;
-import perobobbot.lang.SubscriptionHolder;
-import perobobbot.lang.fp.Function1;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.puckwar.game.GameOptions;
 import perobobbot.puckwar.game.PuckWarGame;
@@ -20,7 +15,7 @@ public class PuckWarExtension extends OverlayExtension {
 
     private PuckWarGame puckWarGame = null;
 
-    public PuckWarExtension(@NonNull Bot bot, @NonNull Overlay overlay) {
+    public PuckWarExtension(@NonNull Overlay overlay) {
         super(NAME,overlay);
     }
 

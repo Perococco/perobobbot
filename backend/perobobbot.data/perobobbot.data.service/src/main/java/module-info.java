@@ -3,6 +3,7 @@ module perobobbot.data.service {
     requires java.desktop;
     requires transitive perobobbot.data.com;
 
+    requires com.google.common;
 
     exports perobobbot.data.service;
 }

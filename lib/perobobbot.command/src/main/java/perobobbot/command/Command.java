@@ -1,25 +1,28 @@
 package perobobbot.command;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.access.AccessRule;
 import perobobbot.lang.ExecutionContext;
 
 /**
  * A command that launch an execution
  */
-public interface Command {
+@RequiredArgsConstructor
+public class Command {
 
-    /**
-     * @return the name of the command. This is used to identify a command
-     * from a chat message
-     */
-    @NonNull
-    String name();
+    private @NonNull CommandParsing parsing;
+    @Getter
+    private @NonNull AccessRule defaultAccessRule;
+    private @NonNull CommandAction executor;
 
-    /**
-     * Execute this command
-     * @param context the context in which the command is executed (like the user, the time of execution, the source
-     *                of the execution)
-     */
-    void execute(@NonNull ExecutionContext context);
+    public @NonNull String getFullCommand() {
+        return parsing.getFullName();
+    }
+
+    public void execute(@NonNull ExecutionContext context) {
+        executor.execute(parsing,context);
+    }
 
 }

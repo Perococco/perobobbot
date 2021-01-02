@@ -11,13 +11,10 @@ import perobobbot.overlay.api.Overlay;
 
 public class BenchmarkExtension extends OverlayExtension {
 
-    private final @NonNull Bot bot;
-
     private BenchmarkOverlay benchmarkOverlay = null;
 
-    public BenchmarkExtension(@NonNull Bot bot, @NonNull Overlay overlay) {
+    public BenchmarkExtension(@NonNull Overlay overlay) {
         super(BenchmarkExtensionFactory.NAME,overlay);
-        this.bot = bot;
     }
 
     @Synchronized

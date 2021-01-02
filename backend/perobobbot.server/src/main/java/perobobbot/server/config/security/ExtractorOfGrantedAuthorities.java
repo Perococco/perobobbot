@@ -6,11 +6,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import perobobbot.data.domain.Operation;
-import perobobbot.data.domain.Role;
-import perobobbot.data.domain.User;
+import perobobbot.data.com.User;
+import perobobbot.data.com.Operation;
+import perobobbot.data.com.Role;
 import perobobbot.lang.ListTool;
 
+import java.util.Collection;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -41,14 +42,17 @@ public class ExtractorOfGrantedAuthorities {
     }
 
     private Stream<String> roleNameStream() {
-        return user.roleStream()
-                   .map(Role::getName)
-                   .map(r -> "ROLE_" + r);
+        return user.getRoles()
+                   .stream()
+                   .map(r -> r.getName())
+                   .map(n -> "ROLE_" + n);
     }
 
     private Stream<String> allowedOperationNameStream() {
-        return user.roleStream()
-                   .flatMap(Role::allowedOperationStream)
+        return user.getRoles()
+                   .stream()
+                   .map(Role::getOperations)
+                   .flatMap(Collection::stream)
                    .map(Operation::getName)
                    .map(op -> "OP_" + op);
     }

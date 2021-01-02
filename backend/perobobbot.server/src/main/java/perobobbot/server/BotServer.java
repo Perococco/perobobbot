@@ -3,16 +3,13 @@ package perobobbot.server;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootApplication
-@Import(DataConfiguration.class)
 @Log4j2
 public class BotServer {
 

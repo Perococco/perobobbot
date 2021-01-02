@@ -1,6 +1,7 @@
 package perobobbot.server.config.security.jwt;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,17 +18,14 @@ import java.io.IOException;
  * @author Perococco
  */
 @Log4j2
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-    private final JwtTokenManager jwtTokenManager;
+    private final JWTokenServiceFromUserService JwtTokenService;
 
     public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     public static final String BEARER_PREFIX_TOKEN = "bearer ";
-
-    public JwtAuthenticationFilter(JwtTokenManager jwtTokenManager) {
-        this.jwtTokenManager = jwtTokenManager;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -51,15 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.clearContext();
         }
         filterChain.doFilter(request,response);
-
     }
 
     private boolean isHeaderNullOrDoesNotMatchBearer(String header) {
         return header == null || !header.toLowerCase().startsWith(BEARER_PREFIX_TOKEN);
     }
 
-    private Authentication extractAuthenticationFromJWTToken(String headerValue) {
-        return jwtTokenManager.extractClaimAndValidate(headerValue.substring(BEARER_PREFIX_TOKEN.length()));
+    private @NonNull Authentication extractAuthenticationFromJWTToken(String headerValue) {
+        final var user = JwtTokenService.getUserFromToken(headerValue.substring(BEARER_PREFIX_TOKEN.length()));
+        return JwtAuthentication.create(user);
     }
 
 }

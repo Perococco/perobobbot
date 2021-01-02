@@ -5,11 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 import perobobbot.lang.Bot;
-import perobobbot.lang.Credentials;
 import perobobbot.chat.core.IO;
-import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.extension.ExtensionManagerFactory;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
@@ -17,8 +14,6 @@ import perobobbot.lang.Secret;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
 public class LaunchAtStartup implements ApplicationRunner {
@@ -43,11 +38,12 @@ public class LaunchAtStartup implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Launch initialization");
-        final Bot bot = Bot.builder()
-                           .name("Perobobbot")
-                           .credential(Platform.TWITCH, new Credentials(nick, readTwitchChatSecret()))
-                           .credential(Platform.LOCAL, new Credentials(nick, new Secret("")))
-                           .build();
+        final Bot bot = null;
+//        Bot.builder()
+//                           .name("Perobobbot")
+//                           .credential(Platform.TWITCH, new Credentials(nick, readTwitchChatSecret()))
+//                           .credential(Platform.LOCAL, new Credentials(nick, new Secret("")))
+//                           .build();
 
 
         io.getPlatform(Platform.TWITCH)
@@ -68,7 +64,7 @@ public class LaunchAtStartup implements ApplicationRunner {
               }
         });
 
-        extensionManagerFactory.create(bot);
+//        extensionManagerFactory.create(bot);
     }
 
 

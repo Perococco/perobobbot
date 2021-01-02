@@ -4,10 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.IO;
-import perobobbot.command.CommandController;
-import perobobbot.command.CommandControllerBuilder;
-import perobobbot.command.CommandRegistry;
-import perobobbot.command.MessageErrorResolver;
+import perobobbot.command.*;
+import perobobbot.lang.MessageDispatcher;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Subscription;
 import perobobbot.lang.Todo;
@@ -24,10 +22,18 @@ public class PeroCommandControllerBuilder implements CommandControllerBuilder {
 
     private final Map<Platform, Character> prefixes = new HashMap<>();
 
-    private final IO io;
-    private final Function1<? super CommandController,? extends Subscription> connector;
+    private final @NonNull IO io;
+    private final @NonNull MessageDispatcher messageDispatcher;
+    private final @NonNull CommandExecutor commandExecutor;
 
     private MessageErrorResolver messageErrorResolver = new BasicMessageErrorResolver();
+    private CommandRegistry commandRegistry;
+
+    @Override
+    public @NonNull CommandControllerBuilder commandRegistry(@NonNull CommandRegistry commandRegistry) {
+        this.commandRegistry = commandRegistry;
+        return this;
+    }
 
     @Override
     public @NonNull CommandControllerBuilder setCommandPrefix(char prefix) {
@@ -51,7 +57,7 @@ public class PeroCommandControllerBuilder implements CommandControllerBuilder {
     public @NonNull CommandController build() {
         final ImmutableMap<Platform, Character> prefixes = Arrays.stream(Platform.values())
                                                                  .collect(ImmutableMap.toImmutableMap(p -> p, this::getPrefix));
-        return new PeroCommandController(io,messageErrorResolver,prefixes,connector);
+        return new PeroCommandController(io,commandRegistry,commandExecutor,messageErrorResolver,prefixes,messageDispatcher);
     }
 
     private char getPrefix(@NonNull Platform platform) {

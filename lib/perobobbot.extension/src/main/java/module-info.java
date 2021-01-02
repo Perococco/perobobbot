@@ -10,6 +10,5 @@ module perobobbot.extension {
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
 
-
     exports perobobbot.extension;
 }

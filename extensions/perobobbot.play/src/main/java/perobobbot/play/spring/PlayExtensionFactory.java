@@ -3,9 +3,7 @@ package perobobbot.play.spring;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.command.CommandBundle;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 import perobobbot.play.PlayExtension;
@@ -26,7 +24,7 @@ public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
     }
 
     @Override
-    protected PlayExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
+    protected PlayExtension createExtension(@NonNull Parameters parameters) {
         return new PlayExtension(parameters.getOverlay(), parameters.getSoundResolver());
     }
 

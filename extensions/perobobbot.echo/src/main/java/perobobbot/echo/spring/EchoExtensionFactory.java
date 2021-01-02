@@ -1,21 +1,11 @@
 package perobobbot.echo.spring;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.access.PolicyManager;
-import perobobbot.chat.core.IO;
-import perobobbot.command.CommandBundle;
-import perobobbot.command.CommandBundleLifeCycle;
-import perobobbot.command.CommandRegistry;
 import perobobbot.echo.EchoExtension;
 import perobobbot.echo.action.EchoExecutor;
-import perobobbot.extension.Extension;
-import perobobbot.extension.ExtensionFactory;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.extension.ExtensionWithCommands;
-import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 
@@ -34,8 +24,8 @@ public class EchoExtensionFactory extends ExtensionFactoryBase<EchoExtension> {
     }
 
     @Override
-    protected @NonNull EchoExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
-        return new EchoExtension(bot, parameters.getIo());
+    protected @NonNull EchoExtension createExtension(@NonNull Parameters parameters) {
+        return new EchoExtension(parameters.getIo());
     }
 
     @Override

@@ -8,5 +8,7 @@ module perobobbot.command {
 
     requires perobobbot.chat.core;
 
+    requires org.apache.logging.log4j;
+
     exports perobobbot.command;
 }

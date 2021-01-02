@@ -12,10 +12,14 @@ import perobobbot.extension.Extension;
 import perobobbot.greeter.mutation.ClearGreetingIssuers;
 import perobobbot.greeter.spring.GreeterExtensionFactory;
 import perobobbot.lang.*;
+import perobobbot.lang.fp.Value2;
 import perobobbot.messaging.ChatController;
 
+import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -24,8 +28,6 @@ public class GreeterExtension implements Extension {
     @NonNull
     @Getter
     private final String name = GreeterExtensionFactory.NAME;
-
-    private final Bot bot;
 
     @NonNull
     private final IO io;
@@ -43,8 +45,8 @@ public class GreeterExtension implements Extension {
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
-    public GreeterExtension(@NonNull Bot bot, @NonNull IO io, @NonNull ChatController chatController) {
-        this(bot, io, chatController, new DefaultGreetingMessageCreator());
+    public GreeterExtension(@NonNull IO io, @NonNull ChatController chatController) {
+        this(io, chatController, new DefaultGreetingMessageCreator());
     }
 
     @Override
@@ -80,7 +82,7 @@ public class GreeterExtension implements Extension {
 
     private void performGreetings() {
         try {
-            final ImmutableMap<ChannelInfo, ImmutableSet<User>> greeters;
+            final ImmutableMap<ChannelInfo, ImmutableSet<Value2<Bot, User>>> greeters;
 
             greeters = identity.mutateAndGetFromOldState(ClearGreetingIssuers.create(), HelloState::getGreetersPerChannel)
                                .toCompletableFuture()
@@ -88,13 +90,26 @@ public class GreeterExtension implements Extension {
 
             greeters.entrySet()
                     .stream()
-                    .map(e -> new Greeter(io, messageCreator, bot, e.getKey(), e.getValue()))
+                    .flatMap(e -> createGreeter(e.getKey(), e.getValue()))
                     .forEach(Greeter::execute);
 
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             LOG.warn("Error while greeting", t);
         }
+    }
+
+    private @NonNull Stream<Greeter> createGreeter(@NonNull ChannelInfo channelInfo, @NonNull ImmutableSet<Value2<Bot, User>> botAndUser) {
+        final Map<Bot, ImmutableSet<User>> userPerBot = botAndUser.stream()
+                                                                  .collect(
+                                                                          Collectors.groupingBy(Value2::getA,
+                                                                                                Collectors.mapping(Value2::getB,
+                                                                                                                   ImmutableSet.toImmutableSet())
+                                                                          ));
+
+        return userPerBot.entrySet()
+                         .stream()
+                         .map(e -> new Greeter(io, messageCreator, channelInfo, e.getKey(), e.getValue()));
     }
 
 

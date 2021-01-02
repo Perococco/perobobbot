@@ -4,9 +4,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Policy;
-import perobobbot.command.CommandBundle;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Bot;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 import perobobbot.pause.PauseExtension;
@@ -30,8 +28,8 @@ public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> 
 
     @NonNull
     @Override
-    protected PauseExtension createExtension(@NonNull Bot bot, @NonNull Parameters parameters) {
-        return new PauseExtension(bot,parameters.getOverlay());
+    protected PauseExtension createExtension(@NonNull Parameters parameters) {
+        return new PauseExtension(parameters.getOverlay());
     }
 
     @Override
