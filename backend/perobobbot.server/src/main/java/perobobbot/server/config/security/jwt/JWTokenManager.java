@@ -10,7 +10,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
 import perobobbot.data.com.User;
-import perobobbot.data.service.JWTokenService;
 import perobobbot.data.service.UserProvider;
 
 import java.time.Instant;
@@ -21,7 +20,7 @@ import java.util.Date;
  * @author Perococco
  */
 @RequiredArgsConstructor
-public class JWTokenServiceFromUserService implements JWTokenService {
+public class JWTokenManager {
 
     @NonNull
     private final String base64EncodedKey;
@@ -32,7 +31,6 @@ public class JWTokenServiceFromUserService implements JWTokenService {
     @NonNull
     private final UserProvider userProvider;
 
-    @Override
     public @NonNull String createJWToken(@NonNull String login) {
         final var user = userProvider.getUser(login);
         final var now = Instant.now();
@@ -59,7 +57,6 @@ public class JWTokenServiceFromUserService implements JWTokenService {
         }
     }
 
-    @Override
     public @NonNull User getUserFromToken(@NonNull String token) {
         final Claims claims = extractClaim(token);
         checkIssuer(claims);

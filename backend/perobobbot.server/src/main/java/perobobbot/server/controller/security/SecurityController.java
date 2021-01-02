@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.SimpleUser;
-import perobobbot.data.service.JWTokenService;
 import perobobbot.data.service.UserService;
 import perobobbot.server.EndPoints;
-import perobobbot.server.transfert.Credentials;
+import perobobbot.server.config.security.jwt.JWTokenManager;
+import perobobbot.server.transfert.Credential;
 
 import javax.validation.Valid;
 /**
@@ -27,7 +27,7 @@ public class SecurityController {
 
     private final @NonNull UserService userService;
 
-    private final @NonNull JWTokenService jwTokenService;
+    private final @NonNull JWTokenManager jwTokenManager;
 
     /**
      * @param principal the principal provided by the security framework if an user is authenticated
@@ -40,14 +40,14 @@ public class SecurityController {
 
     /**
      * Authenticate the user with the provided credential and return a JWT for further authentication
-     * @param credentials the credentials to use to authenticate the user
+     * @param credential the credentials to use to authenticate the user
      * @return a JWT for further authentication
      */
     @PostMapping(EndPoints.SIGN_IN)
-    public String signIn(@Valid @RequestBody Credentials credentials) {
-        final Authentication authentication = authenticationManager.authenticate(credentials.createAuthentication());
+    public String signIn(@Valid @RequestBody Credential credential) {
+        final Authentication authentication = authenticationManager.authenticate(credential.createAuthentication());
         final LoginFromAuthentication login = new LoginFromAuthentication(authentication);
-        return jwTokenService.createJWToken(login.toString());
+        return jwTokenManager.createJWToken(login.toString());
     }
 
 

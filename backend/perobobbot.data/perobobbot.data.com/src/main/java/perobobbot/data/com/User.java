@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.DTO;
 
 @Value
 @Builder
+@DTO
 public class User {
 
     @NonNull
@@ -22,7 +24,7 @@ public class User {
     ImmutableSet<Role> roles;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login);
+        return new SimpleUser(login,roles);
     }
 
 }

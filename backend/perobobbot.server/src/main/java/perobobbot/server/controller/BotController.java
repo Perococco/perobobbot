@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.BotService;
 import perobobbot.lang.Bot;
-import perobobbot.server.dto.CreateBotParameters;
+import perobobbot.server.transfert.CreateBotParameters;
 
 import java.util.UUID;
 

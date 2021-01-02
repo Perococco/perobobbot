@@ -2,9 +2,11 @@ package perobobbot.data.com;
 
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.DTO;
 import perobobbot.lang.fp.Function1;
 
 @Value
+@DTO
 public class CreateUserParameters {
 
     @NonNull String login;

@@ -58,7 +58,6 @@ module perobobbot.server {
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.dto to com.fasterxml.jackson.databind;
 
     requires net.bytebuddy;
     requires spring.beans;

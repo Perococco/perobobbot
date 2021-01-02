@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -22,7 +21,7 @@ import perobobbot.security.PermissionEvaluatorDispatcher;
 import perobobbot.security.TargetedPermissionEvaluator;
 import perobobbot.server.EndPoints;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
-import perobobbot.server.config.security.jwt.JWTokenServiceFromUserService;
+import perobobbot.server.config.security.jwt.JWTokenManager;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserProvider userProvider;
 
     @NonNull
-    private final JWTokenServiceFromUserService jsonWebTokenService;
+    private final JWTokenManager jsonWebTokenService;
 
     public @NonNull PermissionEvaluator permissionEvaluator(@NonNull List<TargetedPermissionEvaluator> evaluators) {
         final var map = evaluators.stream().collect(ImmutableMap.toImmutableMap(TargetedPermissionEvaluator::getTargetType, e -> e));

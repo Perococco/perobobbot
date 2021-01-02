@@ -4,9 +4,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import perobobbot.data.service.UserProvider;
-import perobobbot.data.service.UserService;
 
 /**
  * @author Perococco
@@ -23,7 +21,7 @@ public class JwtConfig {
     }
 
     @Bean
-    public JWTokenServiceFromUserService jwtTokenManager(@NonNull UserProvider userProvider) {
-        return new JWTokenServiceFromUserService(key, ISSUER, userProvider);
+    public JWTokenManager jwtTokenManager(@NonNull UserProvider userProvider) {
+        return new JWTokenManager(key, ISSUER, userProvider);
     }
 }

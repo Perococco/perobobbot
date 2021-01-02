@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import perobobbot.lang.DTO;
 
 import javax.validation.constraints.NotBlank;
 
@@ -12,7 +13,8 @@ import javax.validation.constraints.NotBlank;
  * @version 15/04/2019
  */
 @Value
-public class Credentials {
+@DTO
+public class Credential {
 
     @NotBlank String login;
 
