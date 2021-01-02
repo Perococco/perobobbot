@@ -12,7 +12,7 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class PersistentObjectWithUUID extends SimplePersistentObject {
 
-    private static final long servialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Column(name= "EXTERNAL_ID", nullable = false, unique = true)
     protected UUID uuid;

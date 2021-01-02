@@ -2,6 +2,8 @@ package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
@@ -30,6 +32,7 @@ public class BotEntity extends PersistentObjectWithUUID{
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "bot")
+    @Fetch(FetchMode.JOIN)
     private List<BotCredentialEntity> credentials = new ArrayList<>();
 
     public BotEntity(UserEntity owner, @NonNull String name) {

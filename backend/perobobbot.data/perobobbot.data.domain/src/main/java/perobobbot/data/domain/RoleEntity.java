@@ -30,7 +30,7 @@ public class RoleEntity extends SimplePersistentObject {
     @NotBlank
     String name = "";
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "ROLE_OPERATION",

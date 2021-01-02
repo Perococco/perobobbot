@@ -11,7 +11,7 @@ import java.util.function.Function;
 @MappedSuperclass
 public abstract class SimplePersistentObject extends PersistentObject<Long> {
 
-    private static final long servialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public static final String ID_COLUMN_NAME = "ID";
 

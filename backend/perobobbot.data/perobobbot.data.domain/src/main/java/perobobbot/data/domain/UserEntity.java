@@ -46,7 +46,7 @@ public class UserEntity extends SimplePersistentObject {
     @Column(name = "JWT_CLAIM", nullable = false)
     private String jwtClaim = "";
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "USER_ROLE",
