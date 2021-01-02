@@ -17,8 +17,7 @@ import perobobbot.extension.AvailableExtensions;
 @RequiredArgsConstructor
 public class ExtensionController {
 
-    private final @NonNull @SecuredService
-    ExtensionService extensionService;
+    private final @NonNull @SecuredService ExtensionService extensionService;
 
     @GetMapping()
     public ImmutableList<Extension> listExtensions() {

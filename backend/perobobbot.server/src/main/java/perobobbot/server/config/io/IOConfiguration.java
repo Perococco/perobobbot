@@ -10,7 +10,6 @@ import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
-import perobobbot.lang.MessageContext;
 import perobobbot.server.component.MessageGateway;
 
 import java.util.Map;
@@ -33,7 +32,7 @@ public class IOConfiguration {
 
         platformIOs.values()
                    .forEach(pio -> {
-                       pio.addMessageListener(messageGateway::sendMessage);
+                       pio.addMessageListener(messageGateway::sendPlatformMessage);
                        builder.add(pio.getPlatform(),pio);
                    });
 

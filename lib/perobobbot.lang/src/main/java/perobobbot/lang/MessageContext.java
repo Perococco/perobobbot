@@ -17,9 +17,9 @@ public class MessageContext {
     boolean messageFromMe;
 
     /**
-     * @return the bot that is connected to the channel
+     * @return information used to connect to the channel
      */
-    @NonNull Bot bot;
+    @NonNull ConnectionInfo connectionInfo;
 
     /**
      * @return the user that is at the origin of this message

@@ -27,11 +27,11 @@ public class TwitchChatPlatform implements ChatPlatform {
     @Override
     @Synchronized
     public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
-        final var nickname = bot.getCredentialsNick(Platform.TWITCH);
+        final var connectionInfo = bot.extractConnectionInfo(Platform.TWITCH);
 
-        return connections.computeIfAbsent(nickname, n -> new Connector(bot).connect())
-                   .checkIsForBot(bot)
-                   .getConnection();
+        return connections.computeIfAbsent(connectionInfo.getNick(), n -> new Connector(connectionInfo).connect())
+                          .checkIsForBot(connectionInfo)
+                          .getConnection();
     }
 
 
@@ -53,8 +53,8 @@ public class TwitchChatPlatform implements ChatPlatform {
 
     @Override
     @Synchronized
-    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot) {
-        return Optional.ofNullable(connections.get(bot.getCredentialsNick(Platform.TWITCH)))
+    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ConnectionInfo connectionInfo) {
+        return Optional.ofNullable(connections.get(connectionInfo))
                        .map(ConnectionData::getConnection);
     }
 
@@ -66,15 +66,15 @@ public class TwitchChatPlatform implements ChatPlatform {
     private final class ConnectionData {
 
         @Getter
-        private final @NonNull Bot bot;
+        private final @NonNull ConnectionInfo connectionInfo;
 
         @Getter
         private final @NonNull CompletionStage<TwitchChatConnection> connection;
 
-        public ConnectionData(@NonNull Bot bot) {
-            final var nick = bot.getCredentialsNick(Platform.TWITCH);
-            this.bot = bot;
-            this.connection = new TwitchChatConnection(bot, listeners)
+        public ConnectionData(@NonNull ConnectionInfo connectionInfo) {
+            final var nick = connectionInfo.getNick();
+            this.connectionInfo = connectionInfo;
+            this.connection = new TwitchChatConnection(connectionInfo, listeners)
                     .start()
                     .whenComplete((result, error) -> {
                         if (error != null) {
@@ -84,22 +84,22 @@ public class TwitchChatPlatform implements ChatPlatform {
                     });
         }
 
-        public boolean isForBot(Bot bot) {
-            return this.bot.equals(bot);
+        public boolean isForBot(ConnectionInfo connectionInfo) {
+            return this.connectionInfo.equals(connectionInfo);
         }
 
-        public ConnectionData checkIsForBot(Bot bot) {
-            if (this.bot.equals(bot)) {
+        public ConnectionData checkIsForBot(ConnectionInfo connectionInfo) {
+            if (this.connectionInfo.equals(connectionInfo)) {
                 return this;
             }
-            throw new PerobobbotException("Multiple bots try to connect with the same nickname : '"+bot.getCredentialsNick(Platform.TWITCH)+"'");
+            throw new PerobobbotException("Multiple bots try to connect with the same nickname : '" + connectionInfo.getNick() + "'");
         }
     }
 
     @RequiredArgsConstructor
     private class Connector {
 
-        private final Bot bot;
+        private final ConnectionInfo connectionInfo;
 
         private ConnectionData connectionData = null;
 
@@ -113,19 +113,19 @@ public class TwitchChatPlatform implements ChatPlatform {
         }
 
         private @NonNull ConnectionData createNewConnection() {
-            return new ConnectionData(bot);
+            return new ConnectionData(connectionInfo);
         }
 
         private @NonNull ConnectionData checkExistingConnection() {
             assert connectionData != null;
-            if (connectionData.isForBot(bot)) {
+            if (connectionData.isForBot(connectionInfo)) {
                 return connectionData;
             }
             throw new PerobobbotException("Invalid authentication for chat connection");
         }
 
         private void retrieveConnectionData() {
-            this.connectionData = connections.get(bot.getCredentialsNick(Platform.TWITCH));
+            this.connectionData = connections.get(connectionInfo.getNick());
         }
 
     }

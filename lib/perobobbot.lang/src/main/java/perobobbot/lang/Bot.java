@@ -40,4 +40,8 @@ public class Bot {
     public @NonNull String getCredentialsNick(@NonNull Platform platform) {
         return getCredentials(platform).getNick();
     }
+
+    public @NonNull ConnectionInfo extractConnectionInfo(@NonNull Platform platform) {
+        return new ConnectionInfo(getId(), getName(), platform, getCredentials(platform));
+    }
 }

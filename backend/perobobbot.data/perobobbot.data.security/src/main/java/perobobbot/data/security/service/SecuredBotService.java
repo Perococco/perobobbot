@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.service.BotService;
+import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.data.service.proxy.ProxyBotService;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @SecuredService
 public class SecuredBotService extends ProxyBotService {
 
-    public SecuredBotService(@NonNull @UnsecuredService BotService delegate) {
+    public SecuredBotService(@NonNull @EventService BotService delegate) {
         super(delegate);
     }
 

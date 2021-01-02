@@ -17,11 +17,11 @@ public class AddGreeter implements Mutation<HelloState> {
 
     @NonNull
     public static AddGreeter with(@NonNull ExecutionContext executionContext) {
-        return new AddGreeter(Value3.of(executionContext.getBot(),executionContext.getMessageOwner(), executionContext.getChannelInfo()));
+        return new AddGreeter(Value3.of(executionContext.getConnectionInfo(),executionContext.getMessageOwner(), executionContext.getChannelInfo()));
     }
 
     @NonNull
-    private final Value3<Bot,User,ChannelInfo> greetingInfo;
+    private final Value3<ConnectionInfo,User,ChannelInfo> greetingInfo;
 
     @Override
     public @NonNull HelloState mutate(@NonNull HelloState current) {
@@ -29,8 +29,8 @@ public class AddGreeter implements Mutation<HelloState> {
             return current;
         }
 
-        final ImmutableSet<Value3<Bot,User,ChannelInfo>> newAlreadyGreeted;
-        final ImmutableMap<ChannelInfo, ImmutableSet<Value2<Bot,User>>> newGreeters;
+        final ImmutableSet<Value3<ConnectionInfo,User,ChannelInfo>> newAlreadyGreeted;
+        final ImmutableMap<ChannelInfo, ImmutableSet<Value2<ConnectionInfo,User>>> newGreeters;
 
         newAlreadyGreeted = SetTool.add(current.getAlreadyGreeted(), greetingInfo);
 

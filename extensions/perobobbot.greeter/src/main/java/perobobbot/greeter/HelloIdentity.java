@@ -14,7 +14,7 @@ public class HelloIdentity {
     @Getter
     private final AsyncIdentity<HelloState> identity = AsyncIdentity.create(HelloState.empty());
 
-    public void greetUser(@NonNull Value3<Bot,User,ChannelInfo> greetingInfo) {
+    public void greetUser(@NonNull Value3<ConnectionInfo,User,ChannelInfo> greetingInfo) {
         identity.mutate(new AddGreeter(greetingInfo));
     }
 

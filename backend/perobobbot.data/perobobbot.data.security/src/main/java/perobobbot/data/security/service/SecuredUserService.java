@@ -5,8 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.User;
+import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.data.service.UnsecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.data.service.proxy.ProxyUserService;
 
@@ -14,7 +14,7 @@ import perobobbot.data.service.proxy.ProxyUserService;
 @SecuredService
 public class SecuredUserService extends ProxyUserService {
 
-    public SecuredUserService(@NonNull @UnsecuredService UserService delegate) {
+    public SecuredUserService(@NonNull @EventService UserService delegate) {
         super(delegate);
     }
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.lang.MessageContext;
 import perobobbot.messaging.ChatController;
 import perobobbot.messaging.ProxyChatController;
-import perobobbot.server.GatewayChannels;
+import perobobbot.lang.GatewayChannels;
 
 @Component
 public class SpringChatController extends ProxyChatController {
@@ -22,4 +22,9 @@ public class SpringChatController extends ProxyChatController {
         super.handleMessage(messageContext);
     }
 
+
+    @ServiceActivator(inputChannel = GatewayChannels.EVENT_MESSAGES)
+    public void toto(@NonNull Object event) {
+        System.out.println("###EVENT : "+event);
+    }
 }

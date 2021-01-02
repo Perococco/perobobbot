@@ -23,12 +23,12 @@ import java.util.function.UnaryOperator;
 @Builder(toBuilder = true)
 public class ConnectedState implements ConnectionState {
 
-    public static ConnectedState create(@NonNull Bot bot, @NonNull TwitchIO io, @NonNull String userId, @NonNull Subscription subscription) {
-        return new ConnectedState(bot, io,userId, ImmutableMap.of(), subscription);
+    public static ConnectedState create(@NonNull ConnectionInfo connectionInfo, @NonNull TwitchIO io, @NonNull String userId, @NonNull Subscription subscription) {
+        return new ConnectedState(connectionInfo, io,userId, ImmutableMap.of(), subscription);
     }
 
     @Getter
-    private final @NonNull Bot bot;
+    private final @NonNull ConnectionInfo connectionInfo;
 
     /**
      * the i/o to communicate with twitch chat

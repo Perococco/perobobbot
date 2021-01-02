@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.extension.AvailableExtensions;
@@ -15,7 +16,8 @@ public class LaunchAtStart implements ApplicationRunner {
 
     private final @NonNull AvailableExtensions availableExtensions;
 
-    private final @NonNull @UnsecuredService ExtensionService extensionService;
+    private final @NonNull @EventService
+    ExtensionService extensionService;
 
     @Override
     public void run(ApplicationArguments args) {

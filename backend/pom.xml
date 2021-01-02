@@ -26,6 +26,7 @@
         <module>perobobbot.data/perobobbot.data.service</module>
         <module>perobobbot.data/perobobbot.data.jpa</module>
         <module>perobobbot.data/perobobbot.data.security</module>
+        <module>perobobbot.data/perobobbot.data.event</module>
         <module>perobobbot.server</module>
 
         <module>packaging</module>

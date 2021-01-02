@@ -23,20 +23,20 @@ public interface ChatPlatform {
 
     /**
      * find the chat connection for the specific authentication
-     * @param bot the botId used to connect
+     * @param connectionInfo the information used to connect
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO}
      */
-    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot);
+    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ConnectionInfo connectionInfo);
 
     @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
 
-    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull Bot bot) {
-        return findConnection(bot)
-                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(getPlatform(), bot)));
+    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull ConnectionInfo connectionInfo) {
+        return findConnection(connectionInfo)
+                .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(connectionInfo)));
     }
 
-    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull Bot bot, @NonNull String channelName) {
-        return getConnection(bot).thenCompose(c -> c.getChannel(channelName));
+    default @NonNull CompletionStage<? extends MessageChannelIO> getChannelIO(@NonNull ConnectionInfo connectionInfo, @NonNull String channelName) {
+        return getConnection(connectionInfo).thenCompose(c -> c.getChannel(channelName));
     }
 
     void dispose();

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Bot;
+import perobobbot.lang.ConnectionInfo;
 import perobobbot.lang.Subscription;
 
 import java.util.Optional;
@@ -11,12 +12,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DisconnectedState extends NotConnectedState {
 
-    public static @NonNull DisconnectedState create(@NonNull Bot bot) {
-        return new DisconnectedState(bot);
+    public static @NonNull DisconnectedState create(@NonNull ConnectionInfo connectionInfo) {
+        return new DisconnectedState(connectionInfo);
     }
 
     @Getter
-    private final @NonNull Bot bot;
+    private final @NonNull ConnectionInfo connectionInfo;
 
     @Override
     public @NonNull Optional<DisconnectedState> asDisconnectedState() {
@@ -24,6 +25,6 @@ public class DisconnectedState extends NotConnectedState {
     }
 
     public @NonNull ConnectionState toConnecting(Subscription subscription) {
-        return ConnectingState.create(bot, subscription);
+        return ConnectingState.create(connectionInfo, subscription);
     }
 }

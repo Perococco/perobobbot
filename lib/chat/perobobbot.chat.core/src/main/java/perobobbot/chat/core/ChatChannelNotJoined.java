@@ -4,23 +4,21 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import perobobbot.lang.Bot;
+import perobobbot.lang.ConnectionInfo;
 import perobobbot.lang.Platform;
 
 @Getter
 @ToString
 public class ChatChannelNotJoined extends ChatException {
 
-    private final @NonNull Bot bot;
-    private final @NonNull Platform platform;
+    private final @NonNull ConnectionInfo connectionInfo;
     private final @NonNull String channelName;
 
     public ChatChannelNotJoined(
-            @NonNull Bot bot,
-            @NonNull Platform platform,
+            @NonNull ConnectionInfo connectionInfo,
             @NonNull String channelName) {
-        super("The bot '"+bot.getName()+"' has not joined the channel '"+channelName+"' on platfrom '"+platform+"'");
-        this.platform = platform;
-        this.bot = bot;
+        super("The bot '"+connectionInfo.getBotName()+"' has not joined the channel '"+channelName+"' on platform '"+connectionInfo.getPlatform()+"'");
+        this.connectionInfo = connectionInfo;
         this.channelName = channelName;
     }
 }

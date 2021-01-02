@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
 public class TwitchChatConnection implements ChatConnection, AdvancedChatListener<MessageFromTwitch> {
 
     @Getter
-    private final @NonNull Bot bot;
+    private final @NonNull ConnectionInfo connectionInfo;
 
     private final @NonNull Listeners<TwitchChatListener> listeners;
 
@@ -52,11 +52,11 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
 
     private final @NonNull EventBridge eventBridge;
 
-    public TwitchChatConnection(@NonNull Bot bot,
+    public TwitchChatConnection(@NonNull ConnectionInfo connectionInfo,
                                 @NonNull Listeners<TwitchChatListener> listeners) {
-        this.bot = bot;
-        this.credential = bot.getCredentials(Platform.TWITCH);
-        this.connectionIdentity = Identity.create(ConnectionState.disconnected(bot));
+        this.connectionInfo = connectionInfo;
+        this.credential = connectionInfo.getCredential();
+        this.connectionIdentity = Identity.create(ConnectionState.disconnected(connectionInfo));
         this.chat = createChat(connectionIdentity);
         this.listeners = listeners;
         this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));
@@ -72,11 +72,6 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     public @NonNull CompletionStage<Optional<TwitchMessageChannelIO>> findChannel(@NonNull String channelName) {
         final var channel = Channel.create(channelName);
         return CompletableFuture.supplyAsync(() -> connectionIdentity.get(state -> state.findChannel(channel)));
-    }
-
-    @Override
-    public @NonNull Platform getPlatform() {
-        return Platform.TWITCH;
     }
 
     public <T>  @NonNull T operate(@NonNull Operator<ConnectionState,T> operator) {
