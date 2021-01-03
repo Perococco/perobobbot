@@ -16,15 +16,10 @@ import java.util.concurrent.CompletionStage;
 public class LocalConnection implements ChatConnection {
 
     @Getter
-    private final @NonNull Bot bot;
+    private final ChatConnectionInfo chatConnectionInfo;
     private final @NonNull LocalSender localSender;
 
     private LocalIO local = null;
-
-    @Override
-    public @NonNull Platform getPlatform() {
-        return Platform.LOCAL;
-    }
 
     @Override
     public @NonNull CompletionStage<? extends MessageChannelIO> join(@NonNull String channelName) {
@@ -35,10 +30,11 @@ public class LocalConnection implements ChatConnection {
     public @NonNull CompletionStage<? extends Optional<? extends MessageChannelIO>> findChannel(@NonNull String channelName) {
         return CompletableFuture.completedFuture(Optional.of(getLocalIO()));
     }
+
     @Synchronized
     private @NonNull LocalIO getLocalIO() {
         if (local == null) {
-            local = new LocalIO(bot,localSender);
+            local = new LocalIO(chatConnectionInfo,localSender);
         }
         return local;
     }

@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.EllipsedString;
 import perobobbot.lang.Lazy;
-import perobobbot.lang.User;
+import perobobbot.lang.ChatUser;
 
 import java.time.Instant;
 import java.util.Comparator;
@@ -15,7 +15,7 @@ import java.util.Comparator;
 public class Score {
 
     private static final Comparator<Score> TIE_RESOLVER = Comparator.comparing(Score::getTimeStamp)
-                                                                    .thenComparing(Score::getUser, User.COMPARE_BY_ID);
+                                                                    .thenComparing(Score::getUser, ChatUser.COMPARE_BY_ID);
 
     public static final Comparator<Score> LOWER_IS_FIRST = Comparator.comparingDouble(Score::getScore)
                                                                       .thenComparing(TIE_RESOLVER);
@@ -25,7 +25,7 @@ public class Score {
                                                                        .thenComparing(TIE_RESOLVER);
 
     @Getter
-    private final @NonNull User user;
+    private final @NonNull ChatUser user;
 
     @Getter
     private final @NonNull Instant timeStamp;

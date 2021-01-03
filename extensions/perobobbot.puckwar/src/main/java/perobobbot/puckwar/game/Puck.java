@@ -2,7 +2,7 @@ package perobobbot.puckwar.game;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.lang.User;
+import perobobbot.lang.ChatUser;
 import perobobbot.physics.Entity2DBase;
 import perobobbot.rendering.Renderer;
 
@@ -15,14 +15,14 @@ public class Puck extends Entity2DBase {
 
     public static final double DEFAULT_FRICTION_FACTOR = Math.log(2);
 
-    public static Puck create(@NonNull User thrower, @NonNull Instant throwInstant, int radius) {
+    public static Puck create(@NonNull ChatUser thrower, @NonNull Instant throwInstant, int radius) {
         final var puck = new Puck(thrower,throwInstant,radius);
         puck.setSlowDownCoefficient(DEFAULT_FRICTION_FACTOR);
         return puck;
     }
 
     @Getter
-    private final @NonNull User thrower;
+    private final @NonNull ChatUser thrower;
 
     @Getter
     private final @NonNull Instant throwInstant;
@@ -35,7 +35,7 @@ public class Puck extends Entity2DBase {
     private double bending = 0;
 
     private Puck(
-            @NonNull User thrower,
+            @NonNull ChatUser thrower,
             @NonNull Instant throwInstant,
             int puckRadius) {
         this.thrower = thrower;

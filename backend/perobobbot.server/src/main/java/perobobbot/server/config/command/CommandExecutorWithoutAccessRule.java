@@ -29,7 +29,12 @@ public class CommandExecutorWithoutAccessRule implements CommandExecutor {
 
     @Override
     public void execute(@NonNull Command command, @NonNull ExecutionContext context) {
-        final var enabled = extensionService.isExtensionEnabled(context.getBotId(), command.getExtensionName());
+        final boolean enabled;
+        if (!context.getPlatform().isLocal()) {
+            enabled = extensionService.isExtensionEnabled(context.getBotId(), command.getExtensionName());
+        } else {
+            enabled = true;
+        }
         if (!enabled) {
             return;
         }

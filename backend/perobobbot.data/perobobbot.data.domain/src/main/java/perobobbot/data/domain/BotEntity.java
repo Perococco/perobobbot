@@ -27,7 +27,7 @@ public class BotEntity extends PersistentObjectWithUUID{
     @JoinColumn(name = "USER_ID", nullable = false)
     private UserEntity owner;
 
-    @Column(name = "NAME",nullable = false)
+    @Column(name = "NAME",nullable = false,unique = true)
     @NotBlank
     @Setter
     private String name;

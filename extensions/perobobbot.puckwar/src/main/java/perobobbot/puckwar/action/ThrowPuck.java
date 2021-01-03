@@ -2,6 +2,8 @@ package perobobbot.puckwar.action;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParsing;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.OptionalTools;
@@ -14,25 +16,20 @@ import perobobbot.puckwar.game.Throw;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class ThrowPuck implements Consumer1<ExecutionContext> {
+public class ThrowPuck implements CommandAction {
 
     private final @NonNull PuckWarExtension extension;
 
     @Override
-    public void f(@NonNull ExecutionContext executionContext) {
-        if (!extension.isEnabled()) {
-            return;
-        }
+    public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
+        final Optional<Double> speed = parsing.findDoubleParameter("speed");
+        final Optional<Double> angle = parsing.findDoubleParameter("angle");
 
-        final String[] tokens = executionContext.getParameters().split(" +");
-        final Optional<Double> speed = parse(tokens, 0, CastTool::castToDouble);
-        final Optional<Double> angle = parse(tokens, 1, CastTool::castToDouble).map(Math::toRadians);
-
-        final var thrower = executionContext.getMessageOwner();
+        final var thrower = context.getMessageOwner();
 
         OptionalTools.map(speed, angle, ImmutableVector2D::radial)
                      .ifPresent(velocity -> {
-                         final var throwInstant = executionContext.getReceptionTime();
+                         final var throwInstant = context.getReceptionTime();
                          final var puckThrow = new Throw(thrower, throwInstant, velocity);
                          extension.getCurrentGame().ifPresent(g -> g.addThrow(puckThrow));
                      });

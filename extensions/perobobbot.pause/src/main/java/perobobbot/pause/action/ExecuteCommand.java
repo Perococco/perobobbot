@@ -3,38 +3,36 @@ package perobobbot.pause.action;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.chat.core.IO;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParsing;
 import perobobbot.lang.ExecutionContext;
-import perobobbot.lang.fp.Consumer1;
 import perobobbot.pause.PauseExtension;
 
 import java.time.Duration;
 
 @NonNull
 @RequiredArgsConstructor
-public class ExecuteCommand implements Consumer1<ExecutionContext> {
+public class ExecuteCommand implements CommandAction {
 
     private final @NonNull IO io;
 
     private final @NonNull PauseExtension pauseExtension;
 
     @Override
-    public void f(@NonNull ExecutionContext executionContext) {
-        final var parameters = executionContext.getParameters().trim();
-        if (parameters.equals("stop")) {
+    public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
+        final String param = parsing.getParameter("param");
+        if (param.equals("stop")) {
             pauseExtension.stopPause();
         } else {
-            final var duration = parseArgument(executionContext.getParameters());
+            final double durationInSeconds = Math.max(0, parsing.getDoubleParameter("duration") * 60);
+            final Duration duration = Duration.ofSeconds((int) (durationInSeconds + 0.5));
             pauseExtension.startPause(duration);
-            io.send(pauseExtension.getBot(), executionContext.getChannelInfo(), formPauseMessage(executionContext));
+            io.send(context.getChatConnectionInfo(), context.getChannelName(), formPauseMessage(context));
         }
     }
 
     private @NonNull String formPauseMessage(@NonNull ExecutionContext executionContext) {
-        return executionContext.getMessageOwner().getHighlightedUserName()+" est en pause";//I18n TODO
+        return executionContext.getMessageOwner().getHighlightedUserName() + " est en pause";//I18n TODO
     }
 
-    private @NonNull Duration parseArgument(@NonNull String argument) {
-        final double durationInSeconds = Math.max(0,Double.parseDouble(argument.trim())*60);
-        return Duration.ofSeconds((int)(durationInSeconds+0.5));
-    }
 }

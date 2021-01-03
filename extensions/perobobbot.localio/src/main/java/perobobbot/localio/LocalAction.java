@@ -1,20 +1,17 @@
 package perobobbot.localio;
 
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import perobobbot.localio.action.SimpleLocalAction;
 
-@RequiredArgsConstructor
-@Getter
-public class LocalAction {
+public interface LocalAction {
 
-    public static LocalAction with(@NonNull String name, @NonNull String description, @NonNull Runnable execution) {
-        return new LocalAction(name,description,execution);
+    static @NonNull LocalAction with(@NonNull String name, @NonNull String description, @NonNull Runnable execution) {
+        return new SimpleLocalAction(name, description, execution);
     }
 
-    private final @NonNull String name;
+    @NonNull String getName();
 
-    private final @NonNull String description;
+    @NonNull String getDescription();
 
-    private final @NonNull Runnable execution;
+    void execute(@NonNull String[] parameters);
 }

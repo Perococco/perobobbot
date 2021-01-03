@@ -44,4 +44,10 @@ public class SecuredBotService extends ProxyBotService {
     public @NonNull Optional<Bot> findBot(@NonNull UUID botId) {
         return super.findBot(botId);
     }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #userLogin")
+    public @NonNull ImmutableList<Bot> listBots(@NonNull String userLogin) {
+        return super.listBots(userLogin);
+    }
 }

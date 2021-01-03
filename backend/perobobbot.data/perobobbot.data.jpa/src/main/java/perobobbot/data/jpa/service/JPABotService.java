@@ -51,4 +51,11 @@ public class JPABotService implements BotService {
         final var bot = user.createBot(botName);
         return botRepository.save(bot).toView();
     }
+
+    @Override
+    public @NonNull ImmutableList<Bot> listBots(@NonNull String login) {
+        return botRepository.findAllByOwnerLogin(login)
+                            .map(BotEntity::toView)
+                            .collect(ImmutableList.toImmutableList());
+    }
 }

@@ -1,11 +1,12 @@
 package perobobbot.play.action;
 
 import lombok.NonNull;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParsing;
 import perobobbot.lang.ExecutionContext;
-import perobobbot.lang.Executor;
 import perobobbot.play.PlayExtension;
 
-public class PlaySound implements Executor<ExecutionContext> {
+public class PlaySound implements CommandAction {
 
     private final @NonNull PlayExtension extension;
 
@@ -14,7 +15,8 @@ public class PlaySound implements Executor<ExecutionContext> {
     }
 
     @Override
-    public void execute(@NonNull ExecutionContext context) {
-        extension.playSound(context.getParameters());
+    public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
+        extension.playSound(parsing.getParameter("soundName"));
     }
+
 }

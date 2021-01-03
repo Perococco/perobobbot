@@ -1,9 +1,10 @@
 package perobobbot.pause.spring;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.access.Policy;
+import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
@@ -11,13 +12,12 @@ import perobobbot.pause.PauseExtension;
 import perobobbot.pause.action.ExecuteCommand;
 
 import java.time.Duration;
-import java.util.Optional;
 
 @Component
 public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> {
 
     public static Packages provider() {
-        return Packages.with("[Extension] Pause",PauseExtensionFactory.class);
+        return Packages.with("[Extension] Pause", PauseExtensionFactory.class);
     }
 
     public static final String NAME = "pause";
@@ -33,12 +33,12 @@ public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> 
     }
 
     @Override
-    protected Optional<CommandBundle> createCommandBundle(@NonNull PauseExtension extension, @NonNull Parameters parameters) {
-        final Policy policy = parameters.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO));
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull PauseExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
+        final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO);
 
-        return Optional.of(CommandBundle.builder()
-                                        .add("pause", policy, new ExecuteCommand(parameters.getIo(), extension))
-                                        .build());
+        return ImmutableList.of(
+                factory.create("pause {param}",accessRule,new ExecuteCommand(parameters.getIo(), extension))
+        );
     }
 
 }

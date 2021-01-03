@@ -1,16 +1,16 @@
 package perobobbot.dvdlogo.spring;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.access.Policy;
+import perobobbot.command.CommandDefinition;
 import perobobbot.dvdlogo.DVDLogoExtension;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Packages;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
-import java.util.Optional;
 
 @Component
 public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtension> {
@@ -29,14 +29,12 @@ public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtensi
     }
 
     @Override
-    protected Optional<CommandBundle> createCommandBundle(@NonNull DVDLogoExtension extension, @NonNull Parameters parameters) {
-        final Policy policy = parameters.createPolicy(AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1)));
-
-        return Optional.of(CommandBundle.builder()
-                                        .add("dl start", policy, extension::startOverlay)
-                                        .add("dl stop", policy, extension::stopOverlay)
-                                        .build());
-
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull DVDLogoExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
+        final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
+        return ImmutableList.of(
+                factory.create("dl start",accessRule,extension::startOverlay),
+                factory.create("dl stop",accessRule,extension::stopOverlay)
+        );
     }
 
 }

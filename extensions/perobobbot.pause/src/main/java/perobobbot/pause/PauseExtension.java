@@ -2,7 +2,6 @@ package perobobbot.pause;
 
 import lombok.NonNull;
 import perobobbot.extension.OverlayExtension;
-import perobobbot.lang.Bot;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.pause.spring.PauseExtensionFactory;
 

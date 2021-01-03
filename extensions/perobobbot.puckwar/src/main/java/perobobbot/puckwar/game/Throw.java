@@ -3,7 +3,7 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.User;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.physics.ImmutableVector2D;
 
@@ -17,7 +17,7 @@ public class Throw {
     public static final int PUCK_SIZE = 20;
     public static final Color COLOR = Color.WHITE;
 
-    private final @NonNull User thrower;
+    private final @NonNull ChatUser thrower;
     private final @NonNull Instant throwInstant;
     private final @NonNull ImmutableVector2D velocity;
 
@@ -30,6 +30,6 @@ public class Throw {
     }
 
     public @NonNull Throw modifyVelocity(@NonNull UnaryOperator1<ImmutableVector2D> velocityModifier) {
-        return new Throw(thrower,throwInstant,velocityModifier.apply(velocity));
+        return new Throw(thrower, throwInstant, velocityModifier.apply(velocity));
     }
 }

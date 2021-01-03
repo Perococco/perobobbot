@@ -2,7 +2,6 @@ package perobobbot.localio.spring;
 
 import lombok.NonNull;
 import perobobbot.lang.Packages;
-import perobobbot.localio.LocalChat;
 
 import java.util.stream.Stream;
 

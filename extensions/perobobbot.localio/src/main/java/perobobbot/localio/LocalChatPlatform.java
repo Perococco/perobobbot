@@ -5,7 +5,9 @@ import lombok.NonNull;
 import lombok.Synchronized;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
+import perobobbot.data.service.BotService;
 import perobobbot.lang.*;
+import perobobbot.localio.action.*;
 import perobobbot.localio.swing.InputPanel;
 
 import javax.swing.*;
@@ -22,32 +24,43 @@ import java.util.concurrent.CompletionStage;
 public class LocalChatPlatform implements ChatPlatform {
 
     private final @NonNull ApplicationCloser applicationCloser;
-    private final @NonNull StandardInputProvider standardInputProvider;
 
     private final @NonNull LocalSender localSender = new ToStandardOutputSender();
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
-    private volatile @NonNull ImmutableMap<Bot, LocalConnection> localConnections = ImmutableMap.of();
+    private volatile @NonNull ImmutableMap<ChatConnectionInfo, LocalConnection> localConnections = ImmutableMap.of();
     private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
-    private final LocalExecutor localExecutor;
+    private final SimpleLocalExecutor localExecutor;
 
     private final PrintStream output = System.out;
-    private JFrame dialog = null;
-    private final SubscriptionHolder guiSubscription = new SubscriptionHolder();
 
-    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull StandardInputProvider standardInputProvider) {
+
+    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull BotService botService, @NonNull StandardInputProvider standardInputProvider) {
         this.applicationCloser = applicationCloser;
-        this.standardInputProvider = standardInputProvider;
-        this.localExecutor = new LocalExecutor(output, this::onLocalMessages,
-                                               LocalAction.with("stop", "stop the server", this::stopServer),
-                                               LocalAction.with("show-gui", "show the gui", this::showGui),
-                                               LocalAction.with("hide-gui", "hide the gui", this::hideGui)
+        final GuiContext guiContext = new GuiContext(new LazyLocalExecutor(this::getLocalExecutor));
+        this.localExecutor = new SimpleLocalExecutor(output, this::onLocalMessages,
+                                                     new CreateBot(botService),
+                                                     new ListBots(botService),
+                                                     new StopServer(applicationCloser),
+                                                     new ShowGui(guiContext),
+                                                     new HideGui(guiContext)
         );
         this.subscriptionHolder.replaceWith(() -> standardInputProvider.addListener(localExecutor::handleMessage));
     }
 
+    private LocalExecutor getLocalExecutor() {
+        return this.localExecutor;
+    }
+
     private void stopServer() {
+        subscriptionHolder.unsubscribe();
         applicationCloser.execute();
+    }
+
+    @Override
+    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
+        return Optional.ofNullable(localConnections.get(chatConnectionInfo))
+                       .map(CompletableFuture::completedFuture);
     }
 
     private void onLocalMessages(@NonNull LocalMessage localMessage) {
@@ -55,7 +68,7 @@ public class LocalChatPlatform implements ChatPlatform {
                 .ifPresent(b ->
                            {
                                final MessageContext ctx = MessageContext.builder()
-                                                                        .bot(b)
+                                                                        .chatConnectionInfo(b)
                                                                         .messageFromMe(false)
                                                                         .content(localMessage.getMessage())
                                                                         .rawPayload(localMessage.getMessage())
@@ -68,7 +81,8 @@ public class LocalChatPlatform implements ChatPlatform {
                 );
     }
 
-    private @NonNull Optional<Bot> findTargetedBot(@NonNull LocalMessage localMessage) {
+
+    private @NonNull Optional<ChatConnectionInfo> findTargetedBot(@NonNull LocalMessage localMessage) {
         final var connections = this.localConnections;
         if (localMessage.getBotName().isBlank()) {
             if (connections.isEmpty()) {
@@ -82,25 +96,14 @@ public class LocalChatPlatform implements ChatPlatform {
         } else {
             final var bot = connections.keySet()
                                        .stream()
-                                       .filter(b -> b.getName().equalsIgnoreCase(localMessage.getBotName()))
+                                       .filter(b -> b.getBotName().equalsIgnoreCase(localMessage.getBotName()))
                                        .findFirst();
             if (bot.isEmpty()) {
-                output.println("Unknown bot '"+localMessage.getBotName()+"'");
+                output.println("Unknown bot '" + localMessage.getBotName() + "'");
             }
             return bot;
         }
 
-    }
-
-    private void showHelp() {
-        System.out.println("stop -> stop the server");
-        System.out.println("");
-    }
-
-    private void dispatchInputMessage(String line) {
-        if (line.startsWith("#")) {
-
-        }
     }
 
     @Override
@@ -110,27 +113,23 @@ public class LocalChatPlatform implements ChatPlatform {
 
     @Override
     public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
-        return CompletableFuture.completedFuture(getLocalConnection(bot));
-    }
-
-    @Override
-    public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull Bot bot) {
-        return Optional.of(CompletableFuture.completedFuture(getLocalConnection(bot)));
+        final var chatConnectionInfo = bot.extractConnectionInfo(getPlatform());
+        return CompletableFuture.completedFuture(getLocalConnection(chatConnectionInfo));
     }
 
     @Synchronized
-    private @NonNull LocalConnection getLocalConnection(@NonNull Bot bot) {
-        final LocalConnection existingConnection = localConnections.get(bot);
+    private @NonNull LocalConnection getLocalConnection(@NonNull ChatConnectionInfo connectionInfo) {
+        final LocalConnection existingConnection = localConnections.get(connectionInfo);
         if (existingConnection != null) {
             return existingConnection;
         }
-        final LocalConnection newConnection = this.createLocalConnectionForBot(bot);
-        this.localConnections = MapTool.add(this.localConnections, bot, newConnection);
+        final LocalConnection newConnection = this.createLocalConnectionForBot(connectionInfo);
+        this.localConnections = MapTool.add(this.localConnections, connectionInfo, newConnection);
         return newConnection;
     }
 
-    private @NonNull LocalConnection createLocalConnectionForBot(@NonNull Bot bot) {
-        return new LocalConnection(bot, localSender);
+    private @NonNull LocalConnection createLocalConnectionForBot(@NonNull ChatConnectionInfo connectionInfo) {
+        return new LocalConnection(connectionInfo, localSender);
     }
 
     @Override
@@ -145,43 +144,5 @@ public class LocalChatPlatform implements ChatPlatform {
         localConnections = ImmutableMap.of();
     }
 
-    public void showGui() {
-        if (!SwingUtilities.isEventDispatchThread()) {
-            SwingUtilities.invokeLater(this::showGui);
-            return;
-        }
-        if (GraphicsEnvironment.isHeadless() || dialog != null) {
-            return;
-        }
-        final InputPanel inputPanel = new InputPanel();
-        this.guiSubscription.replaceWith(() -> inputPanel.addListener(localExecutor::handleMessage));
-        this.dialog = new JFrame("Local Command");
-        this.dialog.getContentPane().add(inputPanel);
-        this.dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.dialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                guiSubscription.unsubscribe();
-                dialog = null;
-            }
-        });
-        this.dialog.pack();
-        this.dialog.setVisible(true);
-        this.dialog.setAlwaysOnTop(true);
-        this.dialog.toFront();
-    }
-
-    public void hideGui() {
-        if (!SwingUtilities.isEventDispatchThread()) {
-            SwingUtilities.invokeLater(this::hideGui);
-            return;
-        }
-        if (dialog == null) {
-            return;
-        }
-        this.guiSubscription.unsubscribe();
-        this.dialog.dispose();
-        this.dialog = null;
-    }
 
 }

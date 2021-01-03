@@ -68,5 +68,11 @@ public interface CommandParsing {
     }
 
 
+    default @NonNull Optional<Double> findDoubleParameter(@NonNull String parameterName) {
+        return findParameter(parameterName,Parser.PARSE_DOUBLE);
+    }
 
+    default double getDoubleParameter(@NonNull String parameterName) {
+        return getParameter(parameterName,Parser.PARSE_DOUBLE);
+    }
 }

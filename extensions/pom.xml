@@ -19,15 +19,15 @@
     </properties>
 
     <modules>
-<!--        <module>perobobbot.echo</module>-->
-<!--        <module>perobobbot.localio</module>-->
-<!--        <module>perobobbot.dvdlogo</module>-->
-<!--        <module>perobobbot.puckwar</module>-->
+        <module>perobobbot.echo</module>
+        <module>perobobbot.localio</module>
+        <module>perobobbot.dvdlogo</module>
+        <module>perobobbot.puckwar</module>
         <module>perobobbot.greeter</module>
         <module>perobobbot.benchmark</module>
-<!--        <module>perobobbot.pause</module>-->
-<!--        <module>perobobbot.play</module>-->
-<!--        <module>perobobbot.dashboard-svelte</module>-->
+        <module>perobobbot.pause</module>
+        <module>perobobbot.play</module>
+        <module>perobobbot.dashboard-svelte</module>
     </modules>
 
 </project>

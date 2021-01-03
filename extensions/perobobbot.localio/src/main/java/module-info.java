@@ -8,6 +8,7 @@ module perobobbot.consoleio {
 
     requires perobobbot.lang;
     requires perobobbot.chat.core;
+    requires perobobbot.data.service;
     requires perobobbot.command;
     requires perobobbot.access;
 

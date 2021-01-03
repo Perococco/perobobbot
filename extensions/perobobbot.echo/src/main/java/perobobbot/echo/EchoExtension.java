@@ -3,9 +3,8 @@ package perobobbot.echo;
 import lombok.NonNull;
 import perobobbot.chat.core.IO;
 import perobobbot.extension.ExtensionBase;
-import perobobbot.lang.Bot;
-import perobobbot.lang.ChannelInfo;
-import perobobbot.lang.User;
+import perobobbot.lang.ChatConnectionInfo;
+import perobobbot.lang.ChatUser;
 
 public class EchoExtension extends ExtensionBase {
 
@@ -18,15 +17,15 @@ public class EchoExtension extends ExtensionBase {
         this.io = io;
     }
 
-    public void performEcho(@NonNull Bot bot, @NonNull ChannelInfo channelInfo, @NonNull User messageOwner, @NonNull String contentToEcho) {
+    public void performEcho(@NonNull ChatConnectionInfo connectionInfo, @NonNull String channelName, @NonNull ChatUser messageOwner, @NonNull String contentToEcho) {
         if (!isEnabled()) {
             return;
         }
         final String answer = createEchoMessage(messageOwner,contentToEcho);
-        io.send(bot, channelInfo, answer);
+        io.send(connectionInfo,channelName, answer);
     }
 
-    private @NonNull String createEchoMessage(@NonNull User messageOwner, @NonNull String contentToEcho) {
+    private @NonNull String createEchoMessage(@NonNull ChatUser messageOwner, @NonNull String contentToEcho) {
         return String.format("%s said '%s'",
                              messageOwner.getHighlightedUserName(),
                              contentToEcho);

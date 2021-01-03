@@ -12,6 +12,7 @@ module perobobbot.pause {
     requires perobobbot.overlay.api;
     requires spring.context;
     requires perobobbot.chat.core;
+    requires com.google.common;
 
     exports perobobbot.pause;
     provides Packages with PauseExtensionFactory;

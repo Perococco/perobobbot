@@ -16,4 +16,6 @@ public interface BotService {
     @NonNull Bot createBot(@NonNull String login, @NonNull String botName);
 
     @NonNull Optional<Bot> findBot(@NonNull UUID botId);
+
+    @NonNull ImmutableList<Bot> listBots(@NonNull String login);
 }

@@ -1,14 +1,14 @@
 package perobobbot.localio;
 
 import lombok.NonNull;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Role;
-import perobobbot.lang.User;
 
 import java.awt.*;
 import java.util.Optional;
 
-public class LocalUser implements User {
+public class LocalUser implements ChatUser {
 
     public static final Color LOCAL_COLOR = new Color(212, 146, 239);
 

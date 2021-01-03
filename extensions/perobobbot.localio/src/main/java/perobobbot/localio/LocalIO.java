@@ -2,32 +2,22 @@ package perobobbot.localio;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
-import org.springframework.context.annotation.Bean;
 import perobobbot.chat.core.DispatchSlip;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
-import perobobbot.localio.swing.InputPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.time.Instant;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
 public class LocalIO implements LocalChat {
 
-    private final @NonNull Bot bot;
+    private final @NonNull ChatConnectionInfo chatConnectionInfo;
 
     private final @NonNull LocalSender localSender;
 
     @Override
     public @NonNull CompletionStage<? extends DispatchSlip> send(@NonNull Function1<? super DispatchContext, ? extends String> messageBuilder) {
-        return localSender.send(bot,messageBuilder);
+        return localSender.send(chatConnectionInfo,messageBuilder);
     }
 
 

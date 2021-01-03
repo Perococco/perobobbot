@@ -5,7 +5,7 @@ public enum Platform {
     LOCAL,
     ;
 
-    private boolean isLocal() {
+    public boolean isLocal() {
         return LOCAL == this;
     }
 

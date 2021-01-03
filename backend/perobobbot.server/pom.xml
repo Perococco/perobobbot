@@ -30,7 +30,6 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-extension</artifactId>
         </dependency>
-
         <!-- extension dependencies. Should be runtime scope -->
         <dependency>
             <groupId>perococco.bot</groupId>
@@ -42,51 +41,26 @@
             <artifactId>perobobbot-ext-greeter</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.zaxxer</groupId>-->
-<!--            <artifactId>HikariCP</artifactId>-->
-<!--            <version>3.4.5</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.codahale.metrics</groupId>-->
-<!--            <artifactId>metrics-healthchecks</artifactId>-->
-<!--            <version>3.0.2</version>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.4.25.Final</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.xml.bind</groupId>
-                    <artifactId>jaxb-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.activation</groupId>
-                    <artifactId>javax.activation-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-localio</artifactId>
+            <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-localio</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-echo</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-dvdlogo</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-puckwar</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-echo</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-dvdlogo</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-puckwar</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-benchmark</artifactId>
