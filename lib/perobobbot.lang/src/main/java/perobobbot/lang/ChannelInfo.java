@@ -21,7 +21,7 @@ public class ChannelInfo {
     @NonNull
     String channelName;
 
-    public boolean isOwnedBy(User user) {
+    public boolean isOwnedBy(ChatUser user) {
         return switch (platform) {
             case TWITCH -> channelName.equals(user.getUserId());
             case LOCAL -> true;

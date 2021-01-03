@@ -7,9 +7,9 @@ import java.awt.*;
 import java.util.Comparator;
 import java.util.Optional;
 
-public interface User {
+public interface ChatUser {
 
-    Comparator<User> COMPARE_BY_ID = Comparator.comparing(User::getUserId).thenComparing(User::getPlatform);
+    Comparator<ChatUser> COMPARE_BY_ID = Comparator.comparing(ChatUser::getUserId).thenComparing(ChatUser::getPlatform);
 
     /**
      * @return an identifier of the user (for Twitch it can be his login)

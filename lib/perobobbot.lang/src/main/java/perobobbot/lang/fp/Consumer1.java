@@ -21,6 +21,11 @@ public interface Consumer1<A> extends Consumer<A> {
     }
 
     @NonNull
+    default Try1<A, Nil, RuntimeException> toTry() {
+        return a -> { accept(a);return Nil.NIL;};
+    }
+
+    @NonNull
     default Function1<A,Consumer0> curry() {
         return a -> () -> f(a);
     }

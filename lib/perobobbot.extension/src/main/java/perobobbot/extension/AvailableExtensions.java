@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class AvailableExtensions {
 
@@ -17,4 +19,7 @@ public class AvailableExtensions {
         return extensionsByName.keySet();
     }
 
+    public @NonNull Optional<ExtensionInfo> find(String extensionName) {
+        return Optional.ofNullable(extensionsByName.get(extensionName));
+    }
 }

@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
  **/
 public interface Subscription {
 
-    Subscription NONE = () -> {
-    };
+    Subscription NONE = () -> { };
 
     void unsubscribe();
 

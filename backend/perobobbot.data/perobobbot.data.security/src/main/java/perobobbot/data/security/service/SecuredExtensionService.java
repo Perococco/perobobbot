@@ -28,6 +28,18 @@ public class SecuredExtensionService extends ProxyExtensionService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean activateExtension(@NonNull String extensionName) {
+        return super.activateExtension(extensionName);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean deactivateExtension(@NonNull String extensionName) {
+        return super.deactivateExtension(extensionName);
+    }
+
+    @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'ExtensionEntity','READ')")
     public @NonNull ImmutableList<Extension> listEnabledExtensions(@NonNull UUID botId) {
         return super.listEnabledExtensions(botId);
@@ -35,7 +47,8 @@ public class SecuredExtensionService extends ProxyExtensionService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'ExtensionEntity','READ')")
-    public boolean isExtensionEnabled(@NonNull UUID botId, @NonNull UUID extensionId) {
-        return super.isExtensionEnabled(botId, extensionId);
+    public boolean isExtensionEnabled(@NonNull UUID botId, @NonNull String extensionName) {
+        return super.isExtensionEnabled(botId, extensionName);
     }
+
 }

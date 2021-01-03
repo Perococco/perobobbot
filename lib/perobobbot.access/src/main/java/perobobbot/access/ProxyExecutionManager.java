@@ -5,13 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 
 /**
- * A proxy for a {@link PolicyManager}
+ * A proxy for a {@link ExecutionManager}
  */
 @RequiredArgsConstructor
-public class ProxyPolicyManager implements PolicyManager {
+public class ProxyExecutionManager implements ExecutionManager {
 
     @NonNull
     @Delegate
-    private final PolicyManager delegate;
+    private final ExecutionManager delegate;
 
 }

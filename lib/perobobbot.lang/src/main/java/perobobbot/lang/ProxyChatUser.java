@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 
 @RequiredArgsConstructor
-public class ProxyUser implements User {
+public class ProxyChatUser implements ChatUser {
 
     @Delegate
-    private final User delegate;
+    private final ChatUser delegate;
 }

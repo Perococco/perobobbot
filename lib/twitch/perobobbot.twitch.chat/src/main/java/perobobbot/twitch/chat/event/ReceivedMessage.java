@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.MessageContext;
 import perobobbot.lang.Platform;
-import perobobbot.lang.User;
 import perobobbot.twitch.chat.TwitchChatState;
 import perobobbot.twitch.chat.TwitchUser;
 import perobobbot.twitch.chat.message.from.MessageFromTwitch;
@@ -64,7 +64,7 @@ public class ReceivedMessage<M extends MessageFromTwitch> implements TwitchChatE
     public Optional<MessageContext> toMessage() {
         if (message instanceof PrivMsgFromTwitch) {
             final PrivMsgFromTwitch privateMsg = (PrivMsgFromTwitch) this.message;
-            final User owner = TwitchUser.createFromPrivateMessage(privateMsg);
+            final ChatUser owner = TwitchUser.createFromPrivateMessage(privateMsg);
             final boolean messageFromMe = state.getNickOfConnectedUser().equals(owner.getUserId());
             final ChannelInfo channelInfo = new ChannelInfo(Platform.TWITCH,privateMsg.getChannelName());
             return Optional.ofNullable(MessageContext.builder()

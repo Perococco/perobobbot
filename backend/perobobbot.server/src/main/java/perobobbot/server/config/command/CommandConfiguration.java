@@ -2,6 +2,7 @@ package perobobbot.server.config.command;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.chat.core.IO;
@@ -21,6 +22,7 @@ public class CommandConfiguration {
     private final ChatController chatController;
 
     @NonNull
+    @Qualifier("with-access-rule")
     private final CommandExecutor commandExecutor;
 
 

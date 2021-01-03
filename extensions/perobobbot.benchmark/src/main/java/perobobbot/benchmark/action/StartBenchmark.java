@@ -10,7 +10,7 @@ import perobobbot.lang.ExecutionContext;
 @RequiredArgsConstructor
 public class StartBenchmark implements CommandAction {
 
-    public static final String NB_PUCKS_PARAMETER = "nb_pucks";
+    public static final String NB_PUCKS_PARAMETER = "nbPucks";
     public static final String RADIUS_PARAMETER = "radius";
 
     private final @NonNull BenchmarkExtension extension;

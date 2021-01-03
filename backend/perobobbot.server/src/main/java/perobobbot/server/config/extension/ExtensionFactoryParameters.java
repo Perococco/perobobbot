@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import perobobbot.access.AccessRule;
-import perobobbot.access.Policy;
-import perobobbot.access.PolicyManager;
+import perobobbot.access.ExecutionManager;
 import perobobbot.chat.core.IO;
 import perobobbot.extension.ExtensionFactory;
 import perobobbot.messaging.ChatController;
@@ -20,12 +18,8 @@ public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
 
     private final @NonNull IO io;
     private final @NonNull ChatController chatController;
-    private final @NonNull PolicyManager policyManager;
+    private final @NonNull ExecutionManager executionManager;
     private final @NonNull Overlay overlay;
     private final @NonNull SoundResolver soundResolver;
 
-    @Override
-    public @NonNull Policy createPolicy(@NonNull AccessRule accessRule) {
-        return policyManager.createPolicy(accessRule);
-    }
 }

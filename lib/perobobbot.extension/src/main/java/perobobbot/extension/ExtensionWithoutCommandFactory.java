@@ -11,7 +11,7 @@ public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBas
     }
 
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull Extension extension, @NonNull Parameters parameters) {
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull Extension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
         return ImmutableList.of();
     }
 }

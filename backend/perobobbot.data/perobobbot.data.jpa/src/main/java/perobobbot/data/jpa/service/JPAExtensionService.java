@@ -29,17 +29,39 @@ public class JPAExtensionService implements ExtensionService {
     @Override
     @Transactional
     public void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames) {
-        final var missing = new HashSet<>(foundExtensionNames);
+        final var available = new HashSet<>(foundExtensionNames);
         final var existing = extensionRepository.findAll();
 
         for (ExtensionEntity extension : existing) {
-            boolean wasPresent = missing.remove(extension.getName());
-            extension.setActivated(wasPresent);
+            boolean wasPresent = available.remove(extension.getName());
+            extension.setAvailable(wasPresent);
         }
 
-        missing.forEach(name -> existing.add(new ExtensionEntity(name)));
+        available.forEach(name -> existing.add(new ExtensionEntity(name)));
 
         extensionRepository.saveAll(existing);
+    }
+
+    @Override
+    @Transactional
+    public boolean activateExtension(@NonNull String extensionName) {
+        return toggleActivateState(extensionName,true);
+    }
+
+    @Override
+    @Transactional
+    public boolean deactivateExtension(@NonNull String extensionName) {
+        return toggleActivateState(extensionName,false);
+    }
+
+    private boolean toggleActivateState(@NonNull String extensionName, boolean newState) {
+        final var extension = extensionRepository.getByName(extensionName);
+        if (newState == extension.isActivated()) {
+            return false;
+        }
+        extension.setActivated(newState);
+        extensionRepository.save(extension);
+        return true;
     }
 
     @Override
@@ -59,8 +81,8 @@ public class JPAExtensionService implements ExtensionService {
     }
 
     @Override
-    public boolean isExtensionEnabled(@NonNull UUID botId, @NonNull UUID extensionId) {
-        return botExtensionRepository.findByBot_UuidAndExtension_Uuid(botId, extensionId)
+    public boolean isExtensionEnabled(@NonNull UUID botId, @NonNull String extensionName) {
+        return botExtensionRepository.findByBot_UuidAndExtension_Name(botId, extensionName)
                                      .filter(BotExtensionEntity::isEnabledAndExtensionActive)
                                      .isPresent();
     }

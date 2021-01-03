@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Information about the context the execution
@@ -59,4 +60,7 @@ public class ExecutionContext {
         return Optional.of(new ExecutionContext(messageContext, command, parameters));
     }
 
+    public @NonNull UUID getBotId() {
+        return getChatConnectionInfo().getBotId();
+    }
 }

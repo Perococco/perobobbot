@@ -6,9 +6,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import perobobbot.lang.CastTool;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Role;
-import perobobbot.lang.User;
 import perobobbot.twitch.chat.message.TagKey;
 import perobobbot.twitch.chat.message.Tags;
 import perobobbot.twitch.chat.message.from.PrivMsgFromTwitch;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"userId"})
-public class TwitchUser implements User, TagsAndBadges {
+public class TwitchUser implements ChatUser, TagsAndBadges {
 
     @NonNull
     @Getter
@@ -59,7 +59,7 @@ public class TwitchUser implements User, TagsAndBadges {
         return false;
     }
 
-    public static User createFromPrivateMessage(@NonNull PrivMsgFromTwitch message) {
+    public static ChatUser createFromPrivateMessage(@NonNull PrivMsgFromTwitch message) {
         final String userId = message.getUser();
         final String userName = message.getTag(TagKey.DISPLAY_NAME, userId);
         return new TwitchUser(userId, userName, message);

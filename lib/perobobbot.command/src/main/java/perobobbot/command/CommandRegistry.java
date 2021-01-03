@@ -1,5 +1,7 @@
 package perobobbot.command;
 
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.access.AccessRule;
 import perobobbot.lang.Subscription;
@@ -14,12 +16,13 @@ public interface CommandRegistry extends ROCommandRegistry {
     /**
      * Add a command to the manager
      * @param commandDefinition the command definition
-     * @param executor the executor launch when the parsing is successful
      */
-    @NonNull Subscription addCommandDefinition(@NonNull String commandDefinition, @NonNull AccessRule defaultAccessRule, @NonNull CommandAction executor);
+    @NonNull Subscription addCommandDefinition(@NonNull CommandDefinition commandDefinition);
 
-    default @NonNull Subscription addCommandDefinition(@NonNull CommandDefinition commandDefinition) {
-        return this.addCommandDefinition(commandDefinition.getDefinition(),commandDefinition.getDefaultAccessRule(),commandDefinition.getCommandAction());
+    default @NonNull Subscription addCommandDefinitions(@NonNull ImmutableCollection<CommandDefinition> commandDefinitions) {
+        return Subscription.join(
+                commandDefinitions.stream().map(this::addCommandDefinition).collect(ImmutableList.toImmutableList())
+        );
     }
 
 }

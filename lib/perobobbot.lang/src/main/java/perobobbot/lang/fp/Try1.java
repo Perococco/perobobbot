@@ -5,6 +5,7 @@ import perobobbot.lang.ThrowableTool;
 
 public interface Try1<A,R,X extends Throwable> {
 
+
     @NonNull
     R f(@NonNull A a) throws X;
 

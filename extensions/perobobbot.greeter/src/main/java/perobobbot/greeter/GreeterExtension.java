@@ -82,7 +82,7 @@ public class GreeterExtension implements Extension {
 
     private void performGreetings() {
         try {
-            final ImmutableMap<ChannelInfo, ImmutableSet<Value2<ChatConnectionInfo, User>>> greeters;
+            final ImmutableMap<ChannelInfo, ImmutableSet<Value2<ChatConnectionInfo, ChatUser>>> greeters;
 
             greeters = identity.mutateAndGetFromOldState(ClearGreetingIssuers.create(), HelloState::getGreetersPerChannel)
                                .toCompletableFuture()
@@ -99,8 +99,8 @@ public class GreeterExtension implements Extension {
         }
     }
 
-    private @NonNull Stream<Greeter> createGreeter(@NonNull ChannelInfo channelInfo, @NonNull ImmutableSet<Value2<ChatConnectionInfo, User>> botAndUser) {
-        final Map<ChatConnectionInfo, ImmutableSet<User>> userPerBot = botAndUser.stream()
+    private @NonNull Stream<Greeter> createGreeter(@NonNull ChannelInfo channelInfo, @NonNull ImmutableSet<Value2<ChatConnectionInfo, ChatUser>> botAndUser) {
+        final Map<ChatConnectionInfo, ImmutableSet<ChatUser>> userPerBot = botAndUser.stream()
                                                                                  .collect(
                                                                           Collectors.groupingBy(Value2::getA,
                                                                                                 Collectors.mapping(Value2::getB,

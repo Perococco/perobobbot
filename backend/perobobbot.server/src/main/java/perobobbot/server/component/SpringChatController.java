@@ -22,9 +22,4 @@ public class SpringChatController extends ProxyChatController {
         super.handleMessage(messageContext);
     }
 
-
-    @ServiceActivator(inputChannel = GatewayChannels.EVENT_MESSAGES)
-    public void toto(@NonNull Object event) {
-        System.out.println("###EVENT : "+event);
-    }
 }

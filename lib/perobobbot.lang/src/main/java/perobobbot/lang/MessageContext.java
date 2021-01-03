@@ -24,7 +24,7 @@ public class MessageContext {
     /**
      * @return the user that is at the origin of this message
      */
-    @NonNull User messageOwner;
+    @NonNull ChatUser messageOwner;
 
     /**
      * @return the instant of reception of the message

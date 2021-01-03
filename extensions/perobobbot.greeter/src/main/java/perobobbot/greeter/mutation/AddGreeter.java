@@ -21,7 +21,7 @@ public class AddGreeter implements Mutation<HelloState> {
     }
 
     @NonNull
-    private final Value3<ChatConnectionInfo,User,ChannelInfo> greetingInfo;
+    private final Value3<ChatConnectionInfo,ChatUser,ChannelInfo> greetingInfo;
 
     @Override
     public @NonNull HelloState mutate(@NonNull HelloState current) {
@@ -29,8 +29,8 @@ public class AddGreeter implements Mutation<HelloState> {
             return current;
         }
 
-        final ImmutableSet<Value3<ChatConnectionInfo,User,ChannelInfo>> newAlreadyGreeted;
-        final ImmutableMap<ChannelInfo, ImmutableSet<Value2<ChatConnectionInfo,User>>> newGreeters;
+        final ImmutableSet<Value3<ChatConnectionInfo,ChatUser,ChannelInfo>> newAlreadyGreeted;
+        final ImmutableMap<ChannelInfo, ImmutableSet<Value2<ChatConnectionInfo,ChatUser>>> newGreeters;
 
         newAlreadyGreeted = SetTool.add(current.getAlreadyGreeted(), greetingInfo);
 

@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.Role;
 import perobobbot.lang.RoleCoolDown;
-import perobobbot.lang.User;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -59,7 +59,7 @@ public class AccessRule {
     }
 
     @NonNull
-    public Optional<Duration> findCoolDownFor(@NonNull User executor) {
+    public Optional<Duration> findCoolDownFor(@NonNull ChatUser executor) {
         return Role.rolesFromHighestToLowest()
                    .stream()
                    .filter(executor::canActAs)
@@ -73,7 +73,7 @@ public class AccessRule {
      * @return the cooldown for the provided user according to his role or the global cooldown if none is sets
      */
     @NonNull
-    public Duration findForUserOrGlobalCoolDown(@NonNull User user) {
+    public Duration findForUserOrGlobalCoolDown(@NonNull ChatUser user) {
         return findCoolDownFor(user).orElse(defaultCoolDown);
     }
 

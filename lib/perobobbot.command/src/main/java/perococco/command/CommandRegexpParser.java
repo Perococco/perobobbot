@@ -132,7 +132,7 @@ public class CommandRegexpParser {
     }
 
     private boolean isValidChar(int c) {
-        return c == '-' || c == '_' || c == '.' || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+        return c == '-' || c == '.' || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 
     private @NonNull String requiredParameter(@NonNull String name) {

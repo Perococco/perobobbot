@@ -7,7 +7,7 @@ import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.ChatConnectionInfo;
-import perobobbot.lang.User;
+import perobobbot.lang.ChatUser;
 
 @RequiredArgsConstructor
 public class Greeter {
@@ -24,7 +24,7 @@ public class Greeter {
     private final ChatConnectionInfo chatConnectionInfo;
 
     @NonNull
-    private final ImmutableSet<User> greeters;
+    private final ImmutableSet<ChatUser> greeters;
 
     public void execute() {
         io.getMessageChannelIO(chatConnectionInfo, channelInfo)
