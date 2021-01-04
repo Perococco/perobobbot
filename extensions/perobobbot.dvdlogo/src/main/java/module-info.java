@@ -1,5 +1,5 @@
 import perobobbot.dvdlogo.spring.DVDLogoExtensionFactory;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 
 module perobobbot.dvdlogo {
     requires static lombok;
@@ -16,7 +16,7 @@ module perobobbot.dvdlogo {
 
     exports perobobbot.dvdlogo;
 
-    provides Packages with DVDLogoExtensionFactory;
+    provides Plugin with DVDLogoExtensionFactory;
 
     opens perobobbot.dvdlogo.spring to spring.core,spring.beans,spring.context;
 }

@@ -1,5 +1,4 @@
-import perobobbot.lang.Packages;
-import perobobbot.puckwar.PuckWarExtension;
+import perobobbot.lang.Plugin;
 import perobobbot.puckwar.spring.PuckWarExtensionFactory;
 
 module perobobbot.ext.puckwar {
@@ -20,7 +19,7 @@ module perobobbot.ext.puckwar {
     requires spring.context;
 
 
-    provides Packages with PuckWarExtensionFactory;
+    provides Plugin with PuckWarExtensionFactory;
 
     opens perobobbot.puckwar.spring to spring.core, spring.beans, spring.context;
 }

@@ -1,4 +1,4 @@
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 import perobobbot.twitch.chat.spring.TwitchConfiguration;
 
 /**
@@ -25,6 +25,6 @@ module perobobbot.twitch.chat {
 
     opens perobobbot.twitch.chat.spring to spring.core,spring.beans,spring.context;
 
-    provides Packages with TwitchConfiguration;
+    provides Plugin with TwitchConfiguration;
 
 }

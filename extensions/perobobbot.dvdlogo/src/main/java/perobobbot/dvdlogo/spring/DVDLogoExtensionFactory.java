@@ -7,7 +7,8 @@ import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.dvdlogo.DVDLogoExtension;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
@@ -15,8 +16,8 @@ import java.time.Duration;
 @Component
 public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtension> {
 
-    public static Packages provider() {
-        return Packages.with("[Extension] DVD Logo",DVDLogoExtensionFactory.class);
+    public static Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"DVD Logo", DVDLogoExtensionFactory.class);
     }
 
     public DVDLogoExtensionFactory( @NonNull Parameters parameters) {

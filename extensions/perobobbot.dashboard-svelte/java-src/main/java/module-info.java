@@ -1,5 +1,5 @@
 import perobobbot.frontend.spring.FrontEndConfig;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 
 module perobobbot.frontend {
     requires spring.context;
@@ -8,5 +8,5 @@ module perobobbot.frontend {
 
     opens perobobbot.frontend.spring;
 
-    provides Packages with FrontEndConfig;
+    provides Plugin with FrontEndConfig;
 }

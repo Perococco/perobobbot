@@ -1,4 +1,4 @@
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 import perobobbot.pause.spring.PauseExtensionFactory;
 
 module perobobbot.pause {
@@ -15,7 +15,7 @@ module perobobbot.pause {
     requires com.google.common;
 
     exports perobobbot.pause;
-    provides Packages with PauseExtensionFactory;
+    provides Plugin with PauseExtensionFactory;
 
     opens perobobbot.pause.spring to spring.context,spring.beans,spring.core;
 }

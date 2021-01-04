@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.action.LaunchGame;
@@ -19,8 +20,8 @@ import static perobobbot.lang.RoleCoolDown.applyTo;
 @Component
 public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtension> {
 
-    public static Packages provider() {
-        return Packages.with("[Extension] Puck War", PuckWarExtensionFactory.class);
+    public static Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Puck War", PuckWarExtensionFactory.class);
     }
 
     public PuckWarExtensionFactory(@NonNull Parameters parameters) {

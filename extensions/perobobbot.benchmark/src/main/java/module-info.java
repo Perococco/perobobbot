@@ -1,5 +1,5 @@
 import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 
 module perobobbot.ext.benchmark {
     requires static lombok;
@@ -16,7 +16,7 @@ module perobobbot.ext.benchmark {
     requires com.google.common;
     requires spring.context;
 
-    provides Packages with BenchmarkExtensionFactory;
+    provides Plugin with BenchmarkExtensionFactory;
 
     opens perobobbot.benchmark.spring to spring.core, spring.beans,spring.context;
 }

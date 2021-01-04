@@ -1,5 +1,5 @@
 import perobobbot.echo.spring.EchoExtensionFactory;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 
 module perobobbot.echo {
     requires static lombok;
@@ -13,7 +13,7 @@ module perobobbot.echo {
     requires spring.context;
     requires com.google.common;
 
-    provides Packages with EchoExtensionFactory;
+    provides Plugin with EchoExtensionFactory;
 
     opens perobobbot.echo.spring to spring.core,spring.beans,spring.context;
 }

@@ -6,19 +6,19 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.play.PlayExtension;
 import perobobbot.play.action.PlaySound;
 
 import java.time.Duration;
-import java.util.Optional;
 
 @Component
 public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
 
-    public static @NonNull Packages provider() {
-        return Packages.with("[Extension] Play", PlayExtensionFactory.class);
+    public static @NonNull Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Play", PlayExtensionFactory.class);
     }
 
     public PlayExtensionFactory(@NonNull Parameters parameters) {

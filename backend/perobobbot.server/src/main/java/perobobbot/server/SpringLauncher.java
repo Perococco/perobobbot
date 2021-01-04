@@ -9,10 +9,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
 import perobobbot.lang.ApplicationCloser;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 import perobobbot.lang.fp.Function1;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
@@ -34,7 +35,7 @@ public class SpringLauncher {
     private final ApplicationContextInitializer<?>[] initializers;
 
     @NonNull
-    private final Function1<? super Packages, ? extends Optional<Packages>> packageProcessor;
+    private final Function1<? super Plugin, ? extends Optional<Plugin>> packageProcessor;
 
     @NonNull
     public ApplicationCloser launch() {
@@ -69,13 +70,14 @@ public class SpringLauncher {
         }
 
         private void retrieveAllExtraPackagesToScan() {
-            extraPackagesToScan = ServiceLoader.load(Packages.class)
+            extraPackagesToScan = ServiceLoader.load(Plugin.class)
                                                .stream()
                                                .map(ServiceLoader.Provider::get)
                                                .map(packageProcessor)
                                                .flatMap(Optional::stream)
-                                               .peek(p -> LOG.info("Extra Packages : {}", p.context()))
-                                               .flatMap(Packages::stream)
+                                               .sorted(Plugin.TYPE_THEN_NAME)
+                                               .peek(p -> LOG.info("Extra Packages : [{}] {}", p.type(), p.name()))
+                                               .flatMap(Plugin::packageStream)
                                                .toArray(String[]::new);
         }
 

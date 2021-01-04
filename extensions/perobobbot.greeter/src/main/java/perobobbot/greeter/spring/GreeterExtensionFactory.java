@@ -5,13 +5,14 @@ import org.springframework.stereotype.Component;
 import perobobbot.extension.Extension;
 import perobobbot.extension.ExtensionWithoutCommandFactory;
 import perobobbot.greeter.GreeterExtension;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 
 @Component
 public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
 
-    public static @NonNull Packages provider() {
-        return Packages.with("[Extension] Greeter",GreeterExtensionFactory.class);
+    public static @NonNull Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Greeter", GreeterExtensionFactory.class);
     }
 
     public static final String NAME = "greeter";

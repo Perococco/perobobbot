@@ -8,7 +8,8 @@ import perobobbot.command.CommandDefinition;
 import perobobbot.echo.EchoExtension;
 import perobobbot.echo.action.EchoExecutor;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
@@ -16,8 +17,8 @@ import java.time.Duration;
 @Component
 public class EchoExtensionFactory extends ExtensionFactoryBase<EchoExtension> {
 
-    public static Packages provider() {
-        return Packages.with("[Extension] Echo", EchoExtensionFactory.class);
+    public static Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Echo", EchoExtensionFactory.class);
     }
 
     public EchoExtensionFactory(@NonNull Parameters parameters) {

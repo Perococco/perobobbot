@@ -1,7 +1,7 @@
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 
 module perobobbot.server {
-    uses Packages;
+    uses Plugin;
     requires static lombok;
 
     requires java.desktop;

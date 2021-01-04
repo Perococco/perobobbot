@@ -4,15 +4,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 
 @Component
 public class FrontEndConfig implements WebMvcConfigurer {
 
     public static final String CONTEXT = "/dashboard";
 
-    public static Packages provider() {
-        return Packages.with("[Extension] Frontend", FrontEndConfig.class);
+    public static Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Frontend", FrontEndConfig.class);
     }
 
     @Override

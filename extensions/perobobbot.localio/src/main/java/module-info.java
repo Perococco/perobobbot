@@ -1,5 +1,5 @@
-import perobobbot.lang.Packages;
-import perobobbot.localio.spring.LocalIOPackages;
+import perobobbot.lang.Plugin;
+import perobobbot.localio.spring.LocalIOPlugin;
 
 module perobobbot.consoleio {
     requires static lombok;
@@ -17,5 +17,5 @@ module perobobbot.consoleio {
     opens perobobbot.localio.spring to spring.core,spring.beans,spring.context;
     opens perobobbot.localio to spring.beans;
 
-    provides Packages with LocalIOPackages;
+    provides Plugin with LocalIOPlugin;
 }

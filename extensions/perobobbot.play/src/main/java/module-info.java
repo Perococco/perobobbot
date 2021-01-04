@@ -1,4 +1,4 @@
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
 import perobobbot.play.spring.PlayExtensionFactory;
 
 module perobobbot.play {
@@ -16,7 +16,7 @@ module perobobbot.play {
     requires com.google.common;
 
     exports perobobbot.play;
-    provides Packages with PlayExtensionFactory;
+    provides Plugin with PlayExtensionFactory;
 
 
 

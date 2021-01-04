@@ -8,7 +8,8 @@ import perobobbot.benchmark.BenchmarkExtension;
 import perobobbot.benchmark.action.StartBenchmark;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
@@ -19,8 +20,8 @@ import static perobobbot.benchmark.action.StartBenchmark.RADIUS_PARAMETER;
 @Component
 public class BenchmarkExtensionFactory extends ExtensionFactoryBase<BenchmarkExtension> {
 
-    public static @NonNull Packages provider() {
-        return Packages.with("[Extension] Benchmark", BenchmarkExtensionFactory.class);
+    public static @NonNull Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Benchmark", BenchmarkExtensionFactory.class);
     }
 
     public static final String NAME = "benchmark";

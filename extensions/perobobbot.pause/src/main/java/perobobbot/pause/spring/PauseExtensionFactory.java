@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Packages;
+import perobobbot.lang.Plugin;
+import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.pause.PauseExtension;
 import perobobbot.pause.action.ExecuteCommand;
@@ -16,8 +17,8 @@ import java.time.Duration;
 @Component
 public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> {
 
-    public static Packages provider() {
-        return Packages.with("[Extension] Pause", PauseExtensionFactory.class);
+    public static Plugin provider() {
+        return Plugin.with(PluginType.EXTENSION,"Pause", PauseExtensionFactory.class);
     }
 
     public static final String NAME = "pause";
