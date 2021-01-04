@@ -4,28 +4,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>perobobbot-maven</artifactId>
+        <artifactId>perobobbot-backend</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../maven/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <name>${root.name}</name>
 
-    <artifactId>perobobbot-backend</artifactId>
+    <artifactId>perobobbot-primary</artifactId>
     <packaging>pom</packaging>
 
     <properties>
-        <root.name>Perococco Bot Backend</root.name>
+        <root.name>Perococco Bot Primary</root.name>
     </properties>
 
     <modules>
-
-        <!-- Module to handle data persistence -->
-        <module>secondary</module>
-        <module>perobobbot.server</module>
-
-        <module>packaging</module>
-
 
     </modules>
 
