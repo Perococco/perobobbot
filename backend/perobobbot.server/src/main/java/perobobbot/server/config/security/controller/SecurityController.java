@@ -1,8 +1,9 @@
-package perobobbot.server.controller.security;
+package perobobbot.server.config.security.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +12,8 @@ import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.SimpleUser;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
-import perobobbot.server.EndPoints;
+import perobobbot.server.config.security.EndPoints;
 import perobobbot.server.config.security.jwt.JWTokenManager;
-import perobobbot.server.transfert.Credential;
 
 import javax.validation.Valid;
 /**
@@ -34,7 +34,8 @@ public class SecurityController {
      * @param principal the principal provided by the security framework if an user is authenticated
      * @return the authenticated user information
      */
-    @GetMapping(EndPoints.CURRENT_USER)
+    @GetMapping(EndPoints
+            .CURRENT_USER)
     public SimpleUser getCurrentUser(@AuthenticationPrincipal UserDetails principal) {
         return userService.getUser(principal.getUsername()).simplify();
     }
@@ -46,11 +47,10 @@ public class SecurityController {
      */
     @PostMapping(EndPoints.SIGN_IN)
     public String signIn(@Valid @RequestBody Credential credential) {
-        final Authentication authentication = authenticationManager.authenticate(credential.createAuthentication());
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credential.getLogin(), credential.getPassword()));
         final LoginFromAuthentication login = new LoginFromAuthentication(authentication);
         return jwTokenManager.createJWToken(login.toString());
     }
-
 
     /**
      * Sign up user

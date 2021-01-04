@@ -20,7 +20,7 @@
 
     <modules>
 
-        <!-- Module to handle data persistence -->
+        <module>primary</module>
         <module>secondary</module>
         <module>perobobbot.server</module>
 

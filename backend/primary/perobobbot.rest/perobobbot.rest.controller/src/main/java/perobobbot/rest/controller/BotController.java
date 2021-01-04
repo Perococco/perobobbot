@@ -1,4 +1,4 @@
-package perobobbot.server.controller;
+package perobobbot.rest.controller;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Bot;
-import perobobbot.server.transfert.CreateBotParameters;
+import perobobbot.rest.com.CreateBotParameters;
 
 import java.util.UUID;
 
@@ -25,7 +25,7 @@ public class BotController {
         botService.deleteBot(id);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ImmutableList<Bot> listBots(@AuthenticationPrincipal UserDetails principal) {
         return botService.getBots(principal.getUsername());
     }
@@ -35,7 +35,7 @@ public class BotController {
         return botService.getBots(login);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public Bot createBot(@AuthenticationPrincipal UserDetails principal, @RequestBody CreateBotParameters parameters) {
         return botService.createBot(principal.getUsername(), parameters.getName());
     }

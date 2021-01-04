@@ -1,4 +1,4 @@
-package perobobbot.server.transfert;
+package perobobbot.rest.com;
 
 import lombok.NonNull;
 import lombok.Value;

@@ -21,7 +21,7 @@ import perobobbot.lang.PluginType;
 public class JpaConfiguration {
 
     public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.SECONDARY,"Data", JpaConfiguration.class);
+        return Plugin.with(PluginType.SECONDARY,"Data JPA", JpaConfiguration.class);
     }
 
 }

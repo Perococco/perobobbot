@@ -48,9 +48,6 @@ module perobobbot.server {
 
     opens db.migration;
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.transfert to com.fasterxml.jackson.databind, org.hibernate.validator;
-    opens perobobbot.server.controller to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.controller.security to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.websocket to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
@@ -59,6 +56,7 @@ module perobobbot.server {
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.config.security.controller to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
 
@@ -78,5 +76,4 @@ module perobobbot.server {
     requires com.h2database;
 
     exports perobobbot.server;
-    exports perobobbot.server.controller;
 }

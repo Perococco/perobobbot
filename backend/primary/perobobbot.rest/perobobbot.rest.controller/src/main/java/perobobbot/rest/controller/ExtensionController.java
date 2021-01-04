@@ -1,4 +1,4 @@
-package perobobbot.server.controller;
+package perobobbot.rest.controller;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;

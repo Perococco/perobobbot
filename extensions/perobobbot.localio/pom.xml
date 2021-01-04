@@ -22,6 +22,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>

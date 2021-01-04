@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import perobobbot.data.service.UserProvider;
 import perobobbot.security.PermissionEvaluatorDispatcher;
 import perobobbot.security.TargetedPermissionEvaluator;
-import perobobbot.server.EndPoints;
 import perobobbot.server.config.security.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 

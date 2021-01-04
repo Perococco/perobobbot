@@ -6,6 +6,9 @@ module perobobbot.consoleio {
     requires java.desktop;
     requires spring.context;
 
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
+
     requires perobobbot.lang;
     requires perobobbot.chat.core;
     requires perobobbot.data.service;

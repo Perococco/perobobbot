@@ -8,12 +8,7 @@ import perobobbot.chat.core.ChatPlatform;
 import perobobbot.data.service.BotService;
 import perobobbot.lang.*;
 import perobobbot.localio.action.*;
-import perobobbot.localio.swing.InputPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.PrintStream;
 import java.time.Instant;
 import java.util.Optional;
@@ -22,8 +17,6 @@ import java.util.concurrent.CompletionStage;
 
 
 public class LocalChatPlatform implements ChatPlatform {
-
-    private final @NonNull ApplicationCloser applicationCloser;
 
     private final @NonNull LocalSender localSender = new ToStandardOutputSender();
 
@@ -36,14 +29,16 @@ public class LocalChatPlatform implements ChatPlatform {
 
 
     public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull BotService botService, @NonNull StandardInputProvider standardInputProvider) {
-        this.applicationCloser = applicationCloser;
         final GuiContext guiContext = new GuiContext(new LazyLocalExecutor(this::getLocalExecutor));
+        final ApplicationCloser closer = () -> {subscriptionHolder.unsubscribe();applicationCloser.execute();};
+
         this.localExecutor = new SimpleLocalExecutor(output, this::onLocalMessages,
                                                      new CreateBot(botService),
                                                      new ListBots(botService),
-                                                     new StopServer(applicationCloser),
+                                                     new StopServer(closer),
                                                      new ShowGui(guiContext),
-                                                     new HideGui(guiContext)
+                                                     new HideGui(guiContext),
+                                                     new SqlLog()
         );
         this.subscriptionHolder.replaceWith(() -> standardInputProvider.addListener(localExecutor::handleMessage));
     }
@@ -52,10 +47,6 @@ public class LocalChatPlatform implements ChatPlatform {
         return this.localExecutor;
     }
 
-    private void stopServer() {
-        subscriptionHolder.unsubscribe();
-        applicationCloser.execute();
-    }
 
     @Override
     public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {

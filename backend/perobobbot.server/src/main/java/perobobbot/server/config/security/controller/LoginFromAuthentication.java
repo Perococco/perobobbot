@@ -1,4 +1,4 @@
-package perobobbot.server.controller.security;
+package perobobbot.server.config.security.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

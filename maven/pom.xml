@@ -127,6 +127,16 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-rest-com</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-rest-controller</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-security</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -101,6 +101,11 @@
             <artifactId>perobobbot-data-event</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-rest-controller</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>perococco.bot</groupId>

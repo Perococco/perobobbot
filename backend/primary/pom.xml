@@ -19,7 +19,8 @@
     </properties>
 
     <modules>
-
+        <module>perobobbot.rest/perobobbot.rest.com</module>
+        <module>perobobbot.rest/perobobbot.rest.controller</module>
     </modules>
 
 </project>
