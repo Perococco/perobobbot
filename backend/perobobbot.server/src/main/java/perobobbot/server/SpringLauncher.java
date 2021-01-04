@@ -76,7 +76,7 @@ public class SpringLauncher {
                                                .map(packageProcessor)
                                                .flatMap(Optional::stream)
                                                .sorted(Plugin.TYPE_THEN_NAME)
-                                               .peek(p -> LOG.info("Extra Packages : [{}] {}", p.type(), p.name()))
+                                               .peek(p -> LOG.info("Plugin : [{}] {}", p.type(), p.name()))
                                                .flatMap(Plugin::packageStream)
                                                .toArray(String[]::new);
         }
