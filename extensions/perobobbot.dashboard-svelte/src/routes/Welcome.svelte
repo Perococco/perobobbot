@@ -3,7 +3,7 @@
     import {push} from "svelte-spa-router";
     import {styles} from "../stores/styles";
 
-    let style = "border-2 border-black text-center rounded-xl md:text-4xl lg:text-5xl align-middle p-1 shadow-2xl";
+    let style = "border-2 m-4 p-2 border-black text-center md:text-4xl lg:text-5xl align-middle p-1 shadow-2xl";
 
     $: streamer =  "bg-white "+style;
     $: viewer =  "bg-white "+style;
@@ -28,7 +28,7 @@
     <!--            <div class="bg-red-50 h-10 w-10"></div>-->
     <!--        </div>-->
     <!--    </div>-->
-    <div class="mycenter flex flex-col place-content-evenly">
+    <div class="mycenter flex flex-col place-content-evenly ">
             <button class={streamer} on:click={onStreamer}>Streamer</button>
             <button class={viewer} on:click={onViewer}>Viewer</button>
     </div>

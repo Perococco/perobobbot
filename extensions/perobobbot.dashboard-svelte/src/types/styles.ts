@@ -38,7 +38,7 @@ export function getBackground(route: string):Optional<string> {
 }
 
 
-const NEBULA_LARGE:string = "nebula_large.png";
+const NEBULA_LARGE:string = "nebula_large_dark.png";
 
 export const GS_WELCOME_BKG = NEBULA_LARGE;
 export const GS_LOGIN_BKG = NEBULA_LARGE;
