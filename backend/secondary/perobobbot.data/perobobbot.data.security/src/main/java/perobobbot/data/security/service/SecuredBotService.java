@@ -22,9 +22,9 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || authentication.name == #userLogin")
-    public @NonNull ImmutableList<Bot> getBots(@NonNull String userLogin) {
-        return super.getBots(userLogin);
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
+        return super.getBots(login);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || authentication.name == #userLogin")
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public @NonNull Bot createBot(@NonNull String login, @NonNull String botName) {
         return super.createBot(login, botName);
     }
@@ -46,8 +46,8 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || authentication.name == #userLogin")
-    public @NonNull ImmutableList<Bot> listBots(@NonNull String userLogin) {
-        return super.listBots(userLogin);
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull ImmutableList<Bot> listBots(@NonNull String login) {
+        return super.listBots(login);
     }
 }
