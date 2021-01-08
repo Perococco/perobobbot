@@ -100,16 +100,6 @@ public class UserEntity extends SimplePersistentObject {
     }
 
     @NonNull
-    public <T> ImmutableList<T> transformedUserRoles(Function1<? super RoleEntity, ? extends T> transformer) {
-        return roles.stream().map(transformer).collect(ListTool.collector());
-    }
-
-    @NonNull
-    public Stream<RoleEntity> roleStream() {
-        return roles.stream();
-    }
-
-    @NonNull
     public UserEntity addRole(@NonNull RoleEntity role) {
         if (hasRole(role)) {
             throw new DuplicateRoleForUser(this.login, role.getRole());
