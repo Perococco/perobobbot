@@ -9,12 +9,8 @@ export class Styles {
 
     public withBackgroundForRoute(route:string):Styles {
         return getBackground(route)
-            .map(img => this.withBackgroundImage(img))
+            .map(bkg => this.withBackground(bkg))
             .orElse(this);
-    }
-
-    public withBackgroundImage(image: string): Styles {
-        return this.withBackground('url(assets/' + image + ') no-repeat center center fixed');
     }
 
     public withBackground(background: string): Styles {
@@ -27,18 +23,26 @@ export class Styles {
     }
 }
 
-export function getBackground(route: string):Optional<string> {
+function getBackground(route: string):Optional<string> {
     switch (route) {
-        case "/login": return Optional.of(NEBULA_LARGE);
-        case "/welcome": return Optional.of(NEBULA_LARGE);
-        case "/home": return Optional.of(NEBULA_LARGE);
+        case "/login": return Optional.of(backgroundWithPlainColor("var(--background-login)"));
+        case "/welcome": return Optional.of(backgroundWithPlainColor("var(--background-welcome)"));
+        case "/home": return Optional.of(backgroundWithPlainColor("var(--background-home)"));
     }
     return Optional.empty();
+}
 
+function backgroundWithImage(image:string): string {
+    return 'url(assets/' + image + ') no-repeat center center fixed';
+}
+
+function backgroundWithPlainColor(clr:string): string {
+    return clr+' no-repeat center center fixed';
 }
 
 
-const NEBULA_LARGE:string = "nebula_large_dark.png";
+
+const NEBULA_LARGE:string = "nebula_large_light.png";
 
 export const GS_WELCOME_BKG = NEBULA_LARGE;
 export const GS_LOGIN_BKG = NEBULA_LARGE;

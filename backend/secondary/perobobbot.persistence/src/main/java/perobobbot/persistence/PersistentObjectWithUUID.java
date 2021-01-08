@@ -1,5 +1,6 @@
-package perobobbot.data.domain;
+package perobobbot.persistence;
 
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import java.util.UUID;
  * @author Perococco
  */
 @MappedSuperclass
+@EqualsAndHashCode(of = {"uuid"},callSuper = false)
 public abstract class PersistentObjectWithUUID extends SimplePersistentObject {
 
     private static final long serialVersionUID = 1L;
@@ -32,5 +34,7 @@ public abstract class PersistentObjectWithUUID extends SimplePersistentObject {
     protected void setUuid(@NonNull UUID uuid) {
         this.uuid = uuid;
     }
+
+
 
 }

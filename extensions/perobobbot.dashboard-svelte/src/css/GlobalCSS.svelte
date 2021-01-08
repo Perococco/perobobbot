@@ -1,8 +1,4 @@
 <style global>
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-
     html {
         height: 100vh;
         width: 100vw;
@@ -29,4 +25,5 @@
         left: 50%;
         transform: translate(-50%,-50%);
     }
+
 </style>

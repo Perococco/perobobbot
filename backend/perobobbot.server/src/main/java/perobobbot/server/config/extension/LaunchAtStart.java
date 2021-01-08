@@ -21,7 +21,5 @@ public class LaunchAtStart implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         extensionService.updateExtensionList(availableExtensions.getNameOfExtensions());
-        extensionService.activateExtension("greeter");
-//        extensionService.deactivateExtension("greeter");
     }
 }

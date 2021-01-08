@@ -2,6 +2,7 @@ package perobobbot.data.domain;
 
 import lombok.*;
 import perobobbot.data.com.Extension;
+import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

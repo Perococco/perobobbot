@@ -1,7 +1,6 @@
 import perobobbot.lang.Plugin;
 
 module perobobbot.server {
-    uses Plugin;
     requires static lombok;
 
     requires java.desktop;
@@ -76,4 +75,5 @@ module perobobbot.server {
     requires com.h2database;
 
     exports perobobbot.server;
+    uses Plugin;
 }

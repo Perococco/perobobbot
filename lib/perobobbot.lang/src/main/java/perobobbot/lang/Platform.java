@@ -1,6 +1,8 @@
 package perobobbot.lang;
 
-public enum Platform {
+import lombok.NonNull;
+
+public enum Platform implements IdentifiedEnum {
     TWITCH,
     LOCAL,
     ;
@@ -9,4 +11,9 @@ public enum Platform {
         return LOCAL == this;
     }
 
+
+    @Override
+    public @NonNull String getIdentification() {
+        return name();
+    }
 }

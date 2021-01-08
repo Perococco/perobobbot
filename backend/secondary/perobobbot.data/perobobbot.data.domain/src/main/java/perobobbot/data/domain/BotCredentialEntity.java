@@ -1,9 +1,11 @@
 package perobobbot.data.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
+import perobobbot.persistence.SimplePersistentObject;
 
 import javax.persistence.*;
 
@@ -21,7 +23,7 @@ public class BotCredentialEntity extends SimplePersistentObject {
     private BotEntity bot;
 
     @Column(name = "PLATFORM",nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
     private Platform platform;
 
     @Column(name = "NICK",nullable = false)

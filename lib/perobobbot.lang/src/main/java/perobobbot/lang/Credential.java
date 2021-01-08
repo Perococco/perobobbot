@@ -7,6 +7,6 @@ import lombok.Value;
 public class Credential {
 
     @NonNull String nick;
-    @NonNull Secret pass;
+    @NonNull Secret secret;
 
 }

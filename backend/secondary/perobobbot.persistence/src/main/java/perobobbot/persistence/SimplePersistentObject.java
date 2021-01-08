@@ -1,4 +1,4 @@
-package perobobbot.data.domain;
+package perobobbot.persistence;
 
 import lombok.NonNull;
 

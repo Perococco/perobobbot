@@ -30,11 +30,6 @@ public class BotController {
         return botService.getBots(principal.getUsername());
     }
 
-    @GetMapping("/{login}")
-    public ImmutableList<Bot> listBots(@PathVariable @NonNull String login) {
-        return botService.getBots(login);
-    }
-
     @PostMapping("")
     public Bot createBot(@AuthenticationPrincipal UserDetails principal, @RequestBody CreateBotParameters parameters) {
         return botService.createBot(principal.getUsername(), parameters.getName());

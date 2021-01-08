@@ -17,7 +17,7 @@ public class ExtensionController {
 
     private final @NonNull @SecuredService ExtensionService extensionService;
 
-    @GetMapping()
+    @GetMapping("")
     public ImmutableList<Extension> listExtensions() {
         return extensionService.listAllExtensions();
     }

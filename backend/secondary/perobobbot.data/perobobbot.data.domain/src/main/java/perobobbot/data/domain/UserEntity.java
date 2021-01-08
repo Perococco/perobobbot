@@ -6,12 +6,18 @@ import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import perobobbot.data.com.CreateUserParameters;
+import perobobbot.data.com.DuplicateCredentialForUser;
+import perobobbot.data.com.DuplicateRoleForUser;
 import perobobbot.data.com.User;
+import perobobbot.lang.Credential;
 import perobobbot.lang.ListTool;
+import perobobbot.lang.Platform;
 import perobobbot.lang.RandomString;
 import perobobbot.lang.fp.Function1;
+import perobobbot.persistence.SimplePersistentObject;
 
 import javax.persistence.*;
+import javax.swing.text.PlainDocument;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -31,6 +37,7 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
+@EqualsAndHashCode(of = "login", callSuper = false)
 public class UserEntity extends SimplePersistentObject {
 
     @NonNull
@@ -50,12 +57,18 @@ public class UserEntity extends SimplePersistentObject {
     @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "USER_ROLE",
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_ID","ROLE_ID"})},
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")}
     )
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
+    private Set<CredentialEntity> credentials = new HashSet<>();
 
     @OneToMany(mappedBy = "owner")
     @Fetch(FetchMode.JOIN)
@@ -69,8 +82,17 @@ public class UserEntity extends SimplePersistentObject {
         this.jwtClaim = RandomString.generate(16);
     }
 
-    public static UserEntity create(CreateUserParameters parameters) {
+    public static @NonNull UserEntity create(CreateUserParameters parameters) {
         return new UserEntity(parameters.getLogin(), parameters.getPassword());
+    }
+
+    public @NonNull CredentialEntity addCredential(@NonNull Platform platform, @NonNull String nick) {
+        final var credential = new CredentialEntity(this, platform, nick);
+        if (credentials.contains(credential)) {
+            throw new DuplicateCredentialForUser(this.login, platform, nick);
+        }
+        this.credentials.add(credential);
+        return credential;
     }
 
     public void regenerateJwtClaim() {
@@ -89,9 +111,10 @@ public class UserEntity extends SimplePersistentObject {
 
     @NonNull
     public UserEntity addRole(@NonNull RoleEntity role) {
-        if (!hasRole(role)) {
-            this.roles.add(role);
+        if (hasRole(role)) {
+            throw new DuplicateRoleForUser(this.login, role.getRole());
         }
+        this.roles.add(role);
         return this;
     }
 
@@ -105,8 +128,12 @@ public class UserEntity extends SimplePersistentObject {
         return roles.contains(role);
     }
 
-    public <T> ImmutableSet<T> allRoles(@NonNull Function1<? super RoleEntity, ? extends T> mapper) {
-        return roles.stream().map(mapper).collect(ImmutableSet.toImmutableSet());
+    public @NonNull Stream<RoleEntity> roles() {
+        return roles.stream();
+    }
+
+    public @NonNull Stream<CredentialEntity> credentials() {
+        return credentials.stream();
     }
 
     public @NonNull BotEntity createBot(@NonNull String botName) {

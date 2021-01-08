@@ -9,6 +9,7 @@ import perobobbot.lang.Bot;
 import perobobbot.lang.Credential;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Platform;
+import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
 @Getter
-public class BotEntity extends PersistentObjectWithUUID{
+public class BotEntity extends PersistentObjectWithUUID {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
@@ -32,12 +33,12 @@ public class BotEntity extends PersistentObjectWithUUID{
     @Setter
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "bot")
+    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     @MapKey(name = "platform")
     private Map<Platform,BotCredentialEntity> credentials = new HashMap<>();
 
-    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL,orphanRemoval = true)
     @MapKey(name = "extension")
     private Map<ExtensionEntity,BotExtensionEntity> extensions = new HashMap<>();
 
@@ -57,7 +58,7 @@ public class BotEntity extends PersistentObjectWithUUID{
 
     public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
         if (extensions.containsKey(extension)) {
-            throw new BotHasThisExtensionAlready(this.uuid,extension.uuid);
+            throw new BotHasThisExtensionAlready(this.uuid,extension.getUuid());
         }
         final var botExtension = new BotExtensionEntity(this,extension);
         this.extensions.put(extension,botExtension);

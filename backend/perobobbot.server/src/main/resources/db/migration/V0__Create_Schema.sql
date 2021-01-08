@@ -31,6 +31,17 @@ create table PEROBOT.BOT_EXTENSION (
                                        primary key (ID)
 );
 
+create table PEROBOT.CREDENTIAL (
+                                    ID bigint not null,
+                                    VERSION integer not null,
+                                    EXTERNAL_ID binary not null,
+                                    NICK varchar(255) not null,
+                                    PLATFORM varchar(255),
+                                    SECRET varchar(255) not null,
+                                    USER_ID bigint not null,
+                                    primary key (ID)
+);
+
 create table PEROBOT.EXTENSION (
                                    ID bigint not null,
                                    VERSION integer not null,
@@ -44,13 +55,13 @@ create table PEROBOT.EXTENSION (
 create table PEROBOT.ROLE (
                               ID bigint not null,
                               VERSION integer not null,
-                              NAME varchar(255),
+                              ROLE varchar(255),
                               primary key (ID)
 );
 
 create table PEROBOT.ROLE_OPERATION (
                                         ROLE_ID bigint not null,
-                                        OPERATION integer
+                                        OPERATION varchar(255)
 );
 
 create table PEROBOT.USER (
@@ -68,6 +79,9 @@ create table PEROBOT.USER_ROLE (
                                    primary key (USER_ID, ROLE_ID)
 );
 
+alter table PEROBOT.BOT
+    add constraint UK_ievgedbgan6tu2f1ge01g5bit unique (NAME);
+
 alter table PEROBOT.BOT_CREDENTIAL
     add constraint UKtm3l3u1ke4gv9m56657e302fg unique (BOT_ID, PLATFORM);
 
@@ -78,7 +92,7 @@ alter table PEROBOT.EXTENSION
     add constraint UKdbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);
 
 alter table PEROBOT.ROLE
-    add constraint UKlqaytvswxwacb7s84gcw7tk7l unique (NAME);
+    add constraint UK3lhyjfk8dr6wyuurwws7wxtdv unique (ROLE);
 
 alter table PEROBOT.USER
     add constraint UKm6gjtxi6t4thhq8x960qif5cy unique (LOGIN);
@@ -102,6 +116,11 @@ alter table PEROBOT.BOT_EXTENSION
     add constraint FKc8cdjb355qlirj9deecfuk0bf
         foreign key (EXTENSION_ID)
             references PEROBOT.EXTENSION;
+
+alter table PEROBOT.CREDENTIAL
+    add constraint FKs256vl1hl22509qp947gh12pt
+        foreign key (USER_ID)
+            references PEROBOT.USER;
 
 alter table PEROBOT.ROLE_OPERATION
     add constraint FKj526ueay6dsf8uj48g6gygul0

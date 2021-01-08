@@ -11,4 +11,8 @@ public class StringTools {
     public static boolean isAlphaNumeric(@NonNull String str) {
         return str.chars().allMatch(StringTools::isAlphaNumeric);
     }
+
+    public static boolean hasData(@NonNull String str) {
+        return !str.isEmpty() && !str.isBlank();
+    }
 }

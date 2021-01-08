@@ -1,6 +1,8 @@
 <script lang='typescript'>
 
-    import "./GlobalCSS.svelte";
+    import "./css/GlobalCSS.svelte";
+    import "./css/TailwindCSS.svelte";
+    import "./css/VarCSS.svelte";
     import MainRouter from "./MainRouter.svelte";
 
     import {onDestroy, onMount} from 'svelte';
@@ -13,7 +15,6 @@
     const unsubscriber2 = authentication.subscribe(a => {
         console.log(a.getUser().map(u => u.login).orElse("no user"));
     })
-
 
     onMount(() => Authenticator.initialize())
     onDestroy(() => {
@@ -28,7 +29,6 @@
 
 
 </script>
-
 <div>
     <MainRouter/>
 </div>

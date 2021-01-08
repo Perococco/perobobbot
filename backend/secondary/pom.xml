@@ -21,6 +21,8 @@
     <modules>
 
         <!-- Module to handle data persistence -->
+        <module>perobobbot.persistence</module>
+
         <module>perobobbot.data/perobobbot.data.com</module>
         <module>perobobbot.data/perobobbot.data.domain</module>
         <module>perobobbot.data/perobobbot.data.service</module>

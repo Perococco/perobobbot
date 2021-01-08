@@ -3,6 +3,7 @@ import perobobbot.lang.Plugin;
 
 module perobobbot.data.security {
     requires static lombok;
+    requires java.desktop;
     requires perobobbot.data.service;
     requires spring.security.core;
     requires perobobbot.security;

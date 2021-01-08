@@ -1,6 +1,7 @@
 package perobobbot.data.domain;
 
 import lombok.*;
+import perobobbot.persistence.SimplePersistentObject;
 
 import javax.persistence.*;
 

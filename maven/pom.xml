@@ -191,6 +191,12 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-data-com</artifactId>
                 <version>${project.version}</version>
             </dependency>

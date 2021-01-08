@@ -147,7 +147,7 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     @NonNull
     private CompletionStage<ReceiptSlip<GlobalUserState>> performAuthentication(@NonNull AdvancedChatIO<MessageFromTwitch> advancedChatIO) {
         final Cap cap = new Cap(Capability.AllCapabilities());
-        final Pass pass = new Pass(credential.getPass());
+        final Pass pass = new Pass(credential.getSecret());
         final Nick nick = new Nick(credential.getNick());
         advancedChatIO.sendRequest(cap);
         return advancedChatIO.sendCommand(pass)
