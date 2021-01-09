@@ -5,5 +5,6 @@ module perobobbot.data.com {
 
     requires com.google.common;
 
+
     exports perobobbot.data.com;
 }

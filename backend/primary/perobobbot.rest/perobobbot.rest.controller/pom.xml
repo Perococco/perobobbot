@@ -35,4 +35,34 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <jsonLibrary>jackson2</jsonLibrary>
+                            <classPatterns>
+                                <pattern>perobobbot.rest.controller.*</pattern>
+                            </classPatterns>
+                            <outputFileType>implementationFile</outputFileType>
+                            <outputKind>module</outputKind>
+                            <classesFromAutomaticJaxrsApplication>true</classesFromAutomaticJaxrsApplication>
+                            <generateJaxrsApplicationClient>true</generateJaxrsApplicationClient>
+<!--                            <extensions>-->
+<!--                                <extension>cz.habarta.typescript.generator.ext.AxiosClientExtension</extension>-->
+<!--                            </extensions>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

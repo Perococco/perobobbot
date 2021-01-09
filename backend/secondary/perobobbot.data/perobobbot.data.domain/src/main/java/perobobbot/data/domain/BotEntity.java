@@ -2,66 +2,40 @@ package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import perobobbot.data.com.BotHasThisExtensionAlready;
+import perobobbot.data.domain.base.BotCredentialEntityBase;
+import perobobbot.data.domain.base.BotEntityBase;
+import perobobbot.data.domain.base.CredentialEntityBase;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Credential;
-import perobobbot.lang.MapTool;
 import perobobbot.lang.Platform;
-import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Entity
 @Table(name = "BOT")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
-@Getter
-public class BotEntity extends PersistentObjectWithUUID {
-
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private UserEntity owner;
-
-    @Column(name = "NAME",nullable = false,unique = true)
-    @NotBlank
-    @Setter
-    private String name;
-
-    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.JOIN)
-    @MapKey(name = "platform")
-    private Map<Platform,BotCredentialEntity> credentials = new HashMap<>();
-
-    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL,orphanRemoval = true)
-    @MapKey(name = "extension")
-    private Map<ExtensionEntity,BotExtensionEntity> extensions = new HashMap<>();
+@NoArgsConstructor
+public class BotEntity extends BotEntityBase {
 
     public BotEntity(UserEntity owner, @NonNull String name) {
-        super(UUID.randomUUID());
-        this.owner = owner;
-        this.name = name;
+        super(owner,name);
     }
 
     public @NonNull String getOwnerLogin() {
-        return owner.getLogin();
+        return getOwner().getLogin();
     }
 
     public @NonNull ImmutableMap<Platform, Credential> getCredentialsAsMap() {
-        return MapTool.unsafeMapValues(credentials, BotCredentialEntity::getCredential);
+        return credentials()
+                .collect(ImmutableMap.toImmutableMap(CredentialEntity::getPlatform, CredentialEntity::getCredential));
     }
 
     public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
-        if (extensions.containsKey(extension)) {
+        if (extensions().anyMatch(e -> e.equals(extension))) {
             throw new BotHasThisExtensionAlready(this.uuid,extension.getUuid());
         }
         final var botExtension = new BotExtensionEntity(this,extension);
-        this.extensions.put(extension,botExtension);
+        this.getBotExtensions().add(botExtension);
         return botExtension;
     }
 
@@ -69,7 +43,7 @@ public class BotEntity extends PersistentObjectWithUUID {
         return Bot.builder()
                   .id(uuid)
                   .ownerLogin(getOwnerLogin())
-                  .name(name)
+                  .name(getName())
                   .credentials(getCredentialsAsMap())
                   .build();
     }

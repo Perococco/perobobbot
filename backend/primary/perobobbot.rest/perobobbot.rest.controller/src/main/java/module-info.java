@@ -9,6 +9,7 @@ module perobobbot.rest.controller {
     requires perobobbot.lang;
     requires perobobbot.rest.com;
 
+
     requires com.google.common;
     requires org.apache.logging.log4j;
     requires spring.security.core;

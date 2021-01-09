@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/{login}/credentials")
     public @NonNull ImmutableList<RestCredentialInfo> getUserCredentials(@NonNull @PathVariable String login) {
-        return credentialService.getCredentials(login)
+        return credentialService.getUserCredentials(login)
                                 .stream()
                                 .filter(DataCredentialInfo::hasSecret)
                                 .map(CredentialInfoConverter.INSTANCE)

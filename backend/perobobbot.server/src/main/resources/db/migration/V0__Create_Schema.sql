@@ -15,10 +15,8 @@ create table PEROBOT.BOT (
 create table PEROBOT.BOT_CREDENTIAL (
                                         ID bigint not null,
                                         VERSION integer not null,
-                                        NICK varchar(255) not null,
-                                        PASS varchar(255) not null,
-                                        PLATFORM varchar(255) not null,
                                         BOT_ID bigint not null,
+                                        CREDENTIAL_ID bigint not null,
                                         primary key (ID)
 );
 
@@ -83,19 +81,19 @@ alter table PEROBOT.BOT
     add constraint UK_ievgedbgan6tu2f1ge01g5bit unique (NAME);
 
 alter table PEROBOT.BOT_CREDENTIAL
-    add constraint UKtm3l3u1ke4gv9m56657e302fg unique (BOT_ID, PLATFORM);
+    add constraint UK9nvc80q1ypfsewimmwnggsm98 unique (BOT_ID, CREDENTIAL_ID);
 
 alter table PEROBOT.BOT_EXTENSION
     add constraint UK9wsjqtkhhoqwugwia2jcnc4mm unique (BOT_ID, EXTENSION_ID);
 
 alter table PEROBOT.EXTENSION
-    add constraint UKdbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);
+    add constraint UK_dbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);
 
 alter table PEROBOT.ROLE
-    add constraint UK3lhyjfk8dr6wyuurwws7wxtdv unique (ROLE);
+    add constraint UK_3lhyjfk8dr6wyuurwws7wxtdv unique (ROLE);
 
 alter table PEROBOT.USER
-    add constraint UKm6gjtxi6t4thhq8x960qif5cy unique (LOGIN);
+    add constraint UK_m6gjtxi6t4thhq8x960qif5cy unique (LOGIN);
 
 alter table PEROBOT.BOT
     add constraint FKa7dtiy852v0u37blbl5x09mfs
@@ -106,6 +104,11 @@ alter table PEROBOT.BOT_CREDENTIAL
     add constraint FKgndm8ekog3rtpnxpnb0w2de15
         foreign key (BOT_ID)
             references PEROBOT.BOT;
+
+alter table PEROBOT.BOT_CREDENTIAL
+    add constraint FKsu5xbpb1uy08ihyahmp3w6jxc
+        foreign key (CREDENTIAL_ID)
+            references PEROBOT.CREDENTIAL;
 
 alter table PEROBOT.BOT_EXTENSION
     add constraint FKn88ochxnkla791syu1tkw9ol8

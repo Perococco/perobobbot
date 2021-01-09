@@ -1,74 +1,46 @@
 package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableSet;
-import lombok.*;
-import org.hibernate.annotations.Type;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.com.Operation;
 import perobobbot.data.com.Role;
 import perobobbot.data.com.RoleKind;
-import perobobbot.data.domain.converter.OperationConverter;
-import perobobbot.lang.SetTool;
-import perobobbot.lang.fp.Function1;
-import perobobbot.persistence.SimplePersistentObject;
+import perobobbot.data.domain.base.RoleEntityBase;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Stream;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Perococco
  */
 @Entity
-@Table(name = "ROLE", uniqueConstraints = {@UniqueConstraint(columnNames = {"ROLE"})})
-@Getter
-@Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(callSuper = false,of = "role")
+@Table(name = "ROLE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RoleEntity extends SimplePersistentObject {
-
-    @NonNull
-    @Column(name = "ROLE")
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    private RoleKind role = RoleKind.USER;
-
-    @ElementCollection
-    @CollectionTable(name = "ROLE_OPERATION",joinColumns = {@JoinColumn(name = "ROLE_ID")})
-    @Column(name = "OPERATION")
-    @Convert(converter = OperationConverter.class)
-    private final Set<Operation> allowedOperations = new HashSet<>();
+public class RoleEntity extends RoleEntityBase {
 
     public RoleEntity(@NonNull RoleKind role) {
-        this.role = role;
-    }
-
-    @NonNull
-    public <T> ImmutableSet<T> transformedAllowedOperations(Function1<? super Operation, ? extends T> transformer) {
-        return allowedOperations.stream().map(transformer).collect(SetTool.collector());
-    }
-
-    @NonNull
-    public Stream<Operation> allowedOperationStream() {
-        return allowedOperations.stream();
+        super(role);
     }
 
     @NonNull
     public RoleEntity allowOperation(@NonNull Operation operation) {
-        this.allowedOperations.add(operation);
+        this.getAllowedOperations().add(operation);
         return this;
     }
 
     @NonNull
     public RoleEntity forbidOperation(@NonNull Operation operation) {
-        this.allowedOperations.remove(operation);
+        this.getAllowedOperations().remove(operation);
         return this;
     }
 
     private boolean isAllowed(@NonNull Operation operation) {
-        return allowedOperations.contains(operation);
+        return getAllowedOperations().contains(operation);
     }
 
     public @NonNull Role toView() {
-        return new Role(this.role, ImmutableSet.copyOf(allowedOperations));
+        return new Role(this.getRole(), ImmutableSet.copyOf(getAllowedOperations()));
     }
 }

@@ -25,7 +25,7 @@ public class CredentialController {
 
     @GetMapping("")
     public @NonNull ImmutableList<RestCredentialInfo> getCredentials(@NonNull @AuthenticationPrincipal UserDetails principal) {
-        return credentialService.getCredentials(principal.getUsername())
+        return credentialService.getUserCredentials(principal.getUsername())
                           .stream()
                           .filter(DataCredentialInfo::hasSecret)
                           .map(CredentialInfoConverter.INSTANCE)

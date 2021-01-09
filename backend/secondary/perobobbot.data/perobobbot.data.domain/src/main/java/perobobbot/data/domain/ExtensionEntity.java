@@ -2,6 +2,7 @@ package perobobbot.data.domain;
 
 import lombok.*;
 import perobobbot.data.com.Extension;
+import perobobbot.data.domain.base.ExtensionEntityBase;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
@@ -12,30 +13,19 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
-@Table(name = "EXTENSION", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
+@Table(name = "EXTENSION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter(AccessLevel.PROTECTED)
-@Getter
-public class ExtensionEntity extends PersistentObjectWithUUID {
-
-    @Column(name = "NAME", nullable = false)
-    @NotBlank
-    private String name = "";
-
-    @Column(name = "ACTIVATED", nullable = false)
-    @Setter
-    private boolean activated = false;
-
-    @Column(name = "AVAILABLE", nullable = false)
-    @Setter
-    private boolean available = true;
+public class ExtensionEntity extends ExtensionEntityBase {
 
     public ExtensionEntity(@NonNull @NotBlank String name) {
-        super(UUID.randomUUID());
-        this.name = name;
+        super(name);
     }
 
     public @NonNull Extension toView() {
-        return Extension.builder().name(name).activated(activated).build();
+        return Extension.builder().name(getName()).activated(isActivated()).build();
+    }
+
+    public boolean isActiveAndAvailable() {
+        return isAvailable() && isActivated();
     }
 }

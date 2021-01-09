@@ -34,7 +34,7 @@ public class JWTokenManager {
     public @NonNull String createJWToken(@NonNull String login) {
         final var user = userProvider.getUser(login);
         final var now = Instant.now();
-        final var expiration = now.plus(7, ChronoUnit.DAYS);
+        final var expiration = now.plus(30, ChronoUnit.DAYS);
 
         final Claims claims = Jwts.claims();
         claims.setSubject(user.getLogin())

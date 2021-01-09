@@ -2,11 +2,9 @@ package perobobbot.data.com;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.DTO;
 import perobobbot.lang.PasswordEncoder;
 
 @Value
-@DTO
 public class CreateUserParameters {
 
     @NonNull String login;

@@ -14,11 +14,11 @@ import java.util.UUID;
 
 public interface CredentialService {
 
-    @NonNull ImmutableList<DataCredentialInfo> getCredentials(@NonNull String login);
+    @NonNull ImmutableList<DataCredentialInfo> getUserCredentials(@NonNull String login);
 
-    @NonNull Optional<DataCredentialInfo> getCredential(@NonNull String login, @NonNull Platform platform);
+    @NonNull DataCredentialInfo createCredential(@NonNull String login,@NonNull Platform platform);
 
-    @NonNull DataCredentialInfo updateCredential(@NonNull String login, @NonNull Platform platform, @NonNull Credential credential);
+    @NonNull DataCredentialInfo updateCredential(@NonNull UUID id, @NonNull Credential credential);
 
     @NonNull Optional<DataCredentialInfo> findCredential(@NonNull UUID uuid);
 

@@ -40,7 +40,7 @@ public class JPACredentialService implements CredentialService {
     private final CredentialRepository credentialRepository;
 
     @Override
-    public @NonNull ImmutableList<DataCredentialInfo> getCredentials(@NonNull String login) {
+    public @NonNull ImmutableList<DataCredentialInfo> getUserCredentials(@NonNull String login) {
         return userRepository.getByLogin(login)
                              .credentials()
                              .map(CredentialEntity::toView)
@@ -48,22 +48,24 @@ public class JPACredentialService implements CredentialService {
     }
 
     @Override
-    public @NonNull Optional<DataCredentialInfo> getCredential(@NonNull String login, @NonNull Platform platform) {
-        return credentialRepository.findByOwner_LoginAndPlatform(login, platform).map(CredentialEntity::toView);
+    public @NonNull DataCredentialInfo createCredential(@NonNull String login, @NonNull Platform platform) {
+        final var credentials = userRepository.getByLogin(login)
+                                              .addCredential(platform);
+        return credentialRepository.save(credentials).toView();
+    }
+
+    @Override
+    public @NonNull Optional<DataCredentialInfo> findCredential(@NonNull UUID id) {
+        return credentialRepository.findByUuid(id).map(CredentialEntity::toView);
     }
 
     @Override
     @Transactional
-    public @NonNull DataCredentialInfo updateCredential(@NonNull String login, @NonNull Platform platform, @NonNull Credential credential) {
-        final var credentialEntity = credentialRepository.findByOwner_LoginAndPlatformAndNick(login, platform, credential.getNick())
-                                                         .orElseGet(() -> createNewCredential(login, platform, credential.getNick()));
+    public @NonNull DataCredentialInfo updateCredential(@NonNull UUID id, @NonNull Credential credential) {
+        final var credentialEntity = credentialRepository.getByUuid(id);
+        credentialEntity.setNick(credential.getNick());
         credentialEntity.setSecret(credential.getSecret());
         return credentialRepository.save(credentialEntity).toView();
-    }
-
-    @Override
-    public @NonNull Optional<DataCredentialInfo> findCredential(@NonNull UUID uuid) {
-        return credentialRepository.findByUuid(uuid).map(CredentialEntity::toView);
     }
 
     @Override
@@ -71,10 +73,6 @@ public class JPACredentialService implements CredentialService {
     public void deleteCredential(@NonNull UUID id) {
         final var credential = credentialRepository.findByUuid(id);
         credential.ifPresent(credentialRepository::delete);
-    }
-
-    private @NonNull CredentialEntity createNewCredential(@NonNull String login, @NonNull Platform platform, @NonNull String nick) {
-        return userRepository.getByLogin(login).addCredential(platform,nick);
     }
 
 }

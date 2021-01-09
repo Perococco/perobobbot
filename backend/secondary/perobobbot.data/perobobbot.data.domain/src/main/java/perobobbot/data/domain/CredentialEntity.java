@@ -1,53 +1,31 @@
 package perobobbot.data.domain;
 
-import lombok.*;
-import org.hibernate.annotations.Type;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.com.DataCredentialInfo;
+import perobobbot.data.domain.base.CredentialEntityBase;
+import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
-import perobobbot.lang.StringTools;
-import perobobbot.persistence.PersistentObjectWithUUID;
-import perobobbot.data.domain.converter.SecretConvert;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.Optional;
 
 @Entity
 @Table(name = "CREDENTIAL")
-@NoArgsConstructor
-@Getter
-@Setter(AccessLevel.PROTECTED)
-public class CredentialEntity extends PersistentObjectWithUUID {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class CredentialEntity extends CredentialEntityBase {
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private UserEntity owner;
-
-    @Column(name = "PLATFORM")
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    private Platform platform;
-
-    @Column(name = "NICK", nullable = false)
-    private String nick = "";
-
-    @Column(name = "SECRET", nullable = false)
-    @Convert(converter = SecretConvert.class)
-    @Setter
-    private Secret secret = Secret.empty();
-
-    public CredentialEntity(@NotBlank UserEntity owner, @NonNull Platform platform, @NonNull String nick) {
-        this.owner = owner;
-        this.platform = platform;
-        this.nick = nick;
-        this.secret = new Secret("");
-    }
-
-    public @NonNull Optional<Secret> getSecret() {
-        return Optional.ofNullable(secret).filter(s -> StringTools.hasData(s.getValue()));
+    public CredentialEntity(@NotBlank UserEntity owner, @NonNull Platform platform) {
+        super(owner,platform);
     }
 
     public @NonNull DataCredentialInfo toView() {
-        return DataCredentialInfo.with(this.uuid, this.owner.getLogin(), this.platform, this.nick, this.secret);
+        return DataCredentialInfo.with(this.uuid, this.getOwner().getLogin(), this.getPlatform(), this.getNick(), this.getSecret());
+    }
+
+    public @NonNull Credential getCredential() {
+        return new Credential(getNick(),getSecret());
     }
 }

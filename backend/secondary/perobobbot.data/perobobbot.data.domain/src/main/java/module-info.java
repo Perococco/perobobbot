@@ -14,6 +14,7 @@ module perobobbot.data.domain {
     requires java.sql;
 
     opens perobobbot.data.domain to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
+    opens perobobbot.data.domain.base to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
     opens perobobbot.data.domain.converter to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
 
     exports perobobbot.data.domain;

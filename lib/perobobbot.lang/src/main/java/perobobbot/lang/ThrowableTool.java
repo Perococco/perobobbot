@@ -5,6 +5,7 @@ import lombok.NonNull;
 import java.io.InterruptedIOException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -16,7 +17,7 @@ public class ThrowableTool {
         if (isInterruption(throwable)) {
             return true;
         }
-        return isCausedByAnInterruption(throwable,new IdentityHashSet<>());
+        return isCausedByAnInterruption(throwable, new IdentityHashSet<>());
     }
 
     public static void interruptThreadIfCausedByInterruption(@NonNull Throwable throwable) {
@@ -44,5 +45,11 @@ public class ThrowableTool {
 
     private static boolean isInterruption(@NonNull Throwable throwable) {
         return throwable instanceof InterruptedException || throwable instanceof InterruptedIOException;
+    }
+
+    public static @NonNull String formCauseMessageChain(@NonNull Throwable throwable) {
+        return Stream.iterate(throwable, Objects::nonNull, Throwable::getCause)
+                     .map(Throwable::getMessage)
+                     .collect(Collectors.joining(" > "));
     }
 }
