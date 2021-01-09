@@ -15,7 +15,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Perococco Bot Parent</name>
+    <name>Perococco Bot: Parent</name>
 
     <properties>
         <application.name>Perococco Bot</application.name>

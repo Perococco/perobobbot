@@ -11,7 +11,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Svelte Frontend</submodule.name>

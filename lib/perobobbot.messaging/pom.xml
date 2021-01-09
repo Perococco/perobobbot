@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-messaging</artifactId>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Common Messaging</submodule.name>

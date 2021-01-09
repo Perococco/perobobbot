@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <root.name>Perococco Bot Primary</root.name>
+        <root.name>Perococco Bot: Primary</root.name>
     </properties>
 
     <modules>

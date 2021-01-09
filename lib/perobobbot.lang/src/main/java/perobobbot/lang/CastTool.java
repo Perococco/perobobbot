@@ -19,7 +19,7 @@ public class CastTool {
     private static final Marker CAST_MARKER = MarkerManager.getMarker("CAST_ERROR");
 
     @NonNull
-    public static <A> Function1<Object,Optional<A>> caster(@NonNull Class<A> type) {
+    public static <A> Caster<A> caster(@NonNull Class<A> type) {
         return o -> cast(type,o);
     }
 

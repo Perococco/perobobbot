@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-ext-greeter</artifactId>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Greeter</submodule.name>

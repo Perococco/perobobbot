@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-chat-websocket</artifactId>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Chat : Websocket</submodule.name>

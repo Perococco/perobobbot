@@ -9,7 +9,7 @@
         <relativePath>../maven/pom.xml</relativePath>
     </parent>
 
-    <name>${application.name} : ${module.name}</name>
+    <name>${application.name}: ${module.name}</name>
 
     <artifactId>perobobbot-extensions</artifactId>
     <packaging>pom</packaging>

@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-twitch-oauth</artifactId>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Twitch OAuth</submodule.name>

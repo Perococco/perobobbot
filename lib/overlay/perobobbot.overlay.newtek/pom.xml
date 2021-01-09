@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-overlay-newtek</artifactId>
 
-    <name>${application.name} : ${module.name} - ${submodule.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
         <submodule.name>Overlay : NewTek</submodule.name>

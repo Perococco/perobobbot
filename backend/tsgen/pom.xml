@@ -11,11 +11,11 @@
 
     <name>${root.name}</name>
 
-    <artifactId>perobobbot-secondary</artifactId>
+    <artifactId>perobobbot-tsgen</artifactId>
     <packaging>pom</packaging>
 
     <properties>
-        <root.name>Perococco Bot: Secondary</root.name>
+        <root.name>Typescript Generator</root.name>
     </properties>
 
     <modules>
