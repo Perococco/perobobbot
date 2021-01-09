@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DataCredentialInfo;
+import perobobbot.data.com.SimpleUser;
 import perobobbot.data.com.User;
 import perobobbot.data.service.CredentialService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
+import perobobbot.lang.ListTool;
 import perobobbot.rest.com.RestCredentialInfo;
 import perobobbot.rest.controller.converter.CredentialInfoConverter;
 
@@ -28,18 +30,18 @@ public class UserController {
 
 
     @GetMapping("")
-    public @NonNull ImmutableList<User> listAllUsers() {
-        return userService.listAllUser();
+    public @NonNull ImmutableList<SimpleUser> listAllUsers() {
+        return ListTool.map(userService.listAllUser(), User::simplify);
     }
 
     @PostMapping("")
-    public @NonNull User getUserByLogin(@NonNull @RequestBody CreateUserParameters parameters) {
-        return userService.createUser(parameters);
+    public @NonNull SimpleUser createUser(@NonNull @RequestBody CreateUserParameters parameters) {
+        return userService.createUser(parameters).simplify();
     }
 
     @GetMapping("/{login}")
-    public @NonNull User getUserByLogin(@NonNull @PathVariable String login) {
-        return userService.getUser(login);
+    public @NonNull SimpleUser getUserByLogin(@NonNull @PathVariable String login) {
+        return userService.getUser(login).simplify();
     }
 
     @GetMapping("/{login}/credentials")

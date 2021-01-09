@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.DTO;
+import perobobbot.lang.TypeScript;
 
 @Value
 @Builder
-@DTO
+@TypeScript
 @EqualsAndHashCode(of = "name")
 public class Extension {
 

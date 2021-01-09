@@ -1,7 +1,7 @@
 package perobobbot.server.config.security.controller;
 
 import lombok.Value;
-import perobobbot.lang.DTO;
+import perobobbot.lang.TypeScript;
 
 import javax.validation.constraints.NotBlank;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @version 15/04/2019
  */
 @Value
-@DTO
+@TypeScript
 public class Credential {
 
     @NotBlank String login;

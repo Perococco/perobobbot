@@ -25,6 +25,7 @@
         <module>perobobbot.server</module>
 
         <module>packaging</module>
+        <module>tsgen</module>
 
 
     </modules>

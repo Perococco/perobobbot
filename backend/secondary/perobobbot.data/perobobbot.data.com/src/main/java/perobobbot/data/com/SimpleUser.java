@@ -3,10 +3,10 @@ package perobobbot.data.com;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.DTO;
+import perobobbot.lang.TypeScript;
 
 @Value
-@DTO
+@TypeScript
 public class SimpleUser {
 
     @NonNull

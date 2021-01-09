@@ -373,6 +373,9 @@
                     <target>${java.version}</target>
                     <source>${java.version}</source>
                     <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <compilerArg>-parameters</compilerArg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <invalid-on-purpose>
                             <groupId>org.projectlombok</groupId>

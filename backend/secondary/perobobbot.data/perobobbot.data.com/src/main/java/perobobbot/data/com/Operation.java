@@ -1,11 +1,11 @@
 package perobobbot.data.com;
 
 import lombok.NonNull;
-import perobobbot.lang.DTO;
+import perobobbot.lang.TypeScript;
 import perobobbot.lang.IdentifiedEnum;
 
 
-@DTO
+@TypeScript
 public enum Operation implements IdentifiedEnum {
     ;
 

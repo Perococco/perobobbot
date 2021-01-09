@@ -4,11 +4,11 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.DTO;
+import perobobbot.lang.TypeScript;
 
+@TypeScript
 @Value
 @Builder
-@DTO
 public class User {
 
     @NonNull

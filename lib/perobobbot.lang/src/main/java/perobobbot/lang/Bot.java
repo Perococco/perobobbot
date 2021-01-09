@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.Optional;
 import java.util.UUID;
 
+@TypeScript
 @Builder
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
