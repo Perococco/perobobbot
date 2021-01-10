@@ -1,6 +1,5 @@
 package perococco.extension;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import lombok.NonNull;
@@ -35,10 +34,17 @@ public class SimpleExtensionManager implements ExtensionManager {
         }
 
         for (String name : toEnable) {
-            availableExtensions.find(name)
-                               .ifPresent(e -> {
-                                   this.subscriptions.put(e.getExtensionName(),commandRegistry.addCommandDefinitions(e.getCommandDefinitions()));
-                               });
+            availableExtensions.find(name).ifPresent(this::enabledExtension);
         }
+    }
+
+    private void enabledExtension(@NonNull ExtensionInfo extensionInfo) {
+        this.subscriptions.getOrDefault(extensionInfo.getExtensionName(),Subscription.NONE).unsubscribe();
+        final var subscription = Subscription.join(
+                extensionInfo::disable,
+                commandRegistry.addCommandDefinitions(extensionInfo.getCommandDefinitions())
+        );
+        extensionInfo.enabled();
+        this.subscriptions.put(extensionInfo.getExtensionName(),subscription);
     }
 }

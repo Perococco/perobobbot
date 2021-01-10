@@ -7,7 +7,7 @@ import perococco.perobobbot.access.PerococcoExecutionManager;
 import java.util.UUID;
 
 /**
- * Manager of policies (yes, this is not that informative...)
+ * Manage the execution of the command
  */
 public interface ExecutionManager {
 

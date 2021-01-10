@@ -10,6 +10,7 @@ import perobobbot.command.CommandExecutor;
 import perobobbot.command.MessageErrorResolver;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
+import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.ExecutionContext;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class CommandExecutorWithoutAccessRule implements CommandExecutor {
     private final @NonNull MessageErrorResolver messageErrorResolver;
 
     private final @NonNull
-    @EventService
+    @UnsecuredService
     ExtensionService extensionService;
 
     @Override

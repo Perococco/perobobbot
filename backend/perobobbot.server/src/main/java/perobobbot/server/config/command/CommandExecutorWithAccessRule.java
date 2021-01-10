@@ -3,7 +3,6 @@ package perobobbot.server.config.command;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.access.ExecutionManager;
@@ -34,7 +33,7 @@ public class CommandExecutorWithAccessRule implements CommandExecutor {
                 context.getMessageOwner());
 
         final Runnable action = () -> delegate.execute(command, context);
-        launcher.launch(accessRule, context.getReceptionTime(), action);
+        launcher.launch(action, accessRule, context.getReceptionTime());
     }
 
     private AccessRule retrieveAccessRule(@NonNull Command command) {

@@ -28,7 +28,7 @@ public class CommandExecutionLog {
     private @NonNull Duration maxCoolDownTime = Duration.ofDays(1);
 
     public @NonNull Launcher createLauncher(@NonNull ChatUser chatUser) {
-        return (accessRule, executionTime, runnable) -> {
+        return (runnable, accessRule, executionTime) -> {
             final var il = new InnerLauncher(chatUser, accessRule, executionTime, runnable);
             return lock.getLocked(il::launch);
         };

@@ -5,8 +5,8 @@ import lombok.NonNull;
 import java.util.Optional;
 
 /**
- * A RO command registry, only used to find registered commands, use {@link CommandRegistry} if you
- * have access to it to add command
+ * A RO command registry, only used to find registered commands, use a {@link CommandRegistry} if you
+ * want have to add commands
  */
 public interface ROCommandRegistry {
 

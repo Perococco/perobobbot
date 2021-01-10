@@ -12,6 +12,14 @@ public class ExtensionInfo {
     @Getter
     final @NonNull ImmutableList<CommandDefinition> commandDefinitions;
 
+    public void enabled() {
+        extension.enable();
+    }
+
+    public void disable() {
+        extension.disable();
+    }
+
     public @NonNull String getExtensionName() {
         return extension.getName();
     }

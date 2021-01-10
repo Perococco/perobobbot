@@ -23,11 +23,23 @@ public class CommandDefinition {
 
     }
 
+    /**
+     * The name of the extension the command belongs to
+     */
     private final @NonNull String extensionName;
 
+    /**
+     * The definition of the command used to create the parser (something like <code>play {x},{y} [arg3]</code>)
+     */
     private final @NonNull String definition;
 
+    /**
+     * The default access rule if none is provided by the bot launching the command
+     */
     private final @NonNull AccessRule defaultAccessRule;
 
+    /**
+     * The action associated with this definition
+     */
     private final @NonNull CommandAction commandAction;
 }

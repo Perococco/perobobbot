@@ -17,13 +17,14 @@ import perobobbot.lang.fp.TryResult;
 public class Command {
 
     @Getter
-    private @NonNull String extensionName;
+    private final @NonNull String extensionName;
 
-    private @NonNull CommandParsing parsing;
+    private final @NonNull CommandParsing parsing;
+
     @Getter
-    private @NonNull AccessRule defaultAccessRule;
+    private final @NonNull AccessRule defaultAccessRule;
 
-    private @NonNull CommandAction execution;
+    private final @NonNull CommandAction execution;
 
     public @NonNull String getCommandFullName() {
         return parsing.getFullName();
