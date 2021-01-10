@@ -1,4 +1,4 @@
-package perobobbot.server.config.security.jwt;
+package perobobbot.security.core.jwt;
 
 
 import org.springframework.security.core.AuthenticationException;

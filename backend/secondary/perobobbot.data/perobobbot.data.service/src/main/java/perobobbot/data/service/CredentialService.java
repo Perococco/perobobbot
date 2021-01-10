@@ -2,10 +2,9 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.com.UnknownCredential;
-import perobobbot.data.com.User;
+import perobobbot.security.com.User;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
 

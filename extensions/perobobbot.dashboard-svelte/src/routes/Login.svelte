@@ -25,6 +25,7 @@
     }
 
     function formErrorMessage(err:object):string {
+        console.log(err);
         const response:any = err.response;
         const status:number = response.status as number;
         if (status == 403) {

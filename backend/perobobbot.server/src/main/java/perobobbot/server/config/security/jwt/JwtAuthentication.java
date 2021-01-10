@@ -5,7 +5,7 @@ import lombok.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import perobobbot.data.com.User;
+import perobobbot.security.com.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
 
 /**

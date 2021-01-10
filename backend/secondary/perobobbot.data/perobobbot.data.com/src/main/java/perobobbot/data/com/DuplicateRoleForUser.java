@@ -2,6 +2,7 @@ package perobobbot.data.com;
 
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.security.com.RoleKind;
 
 @Getter
 public class DuplicateRoleForUser extends DataException {

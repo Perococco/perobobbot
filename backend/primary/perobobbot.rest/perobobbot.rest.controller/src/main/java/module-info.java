@@ -6,6 +6,7 @@ module perobobbot.rest.controller {
     requires java.desktop;
 
     requires perobobbot.data.service;
+    requires perobobbot.security.core;
     requires perobobbot.lang;
     requires perobobbot.rest.com;
 
@@ -14,6 +15,7 @@ module perobobbot.rest.controller {
     requires org.apache.logging.log4j;
     requires spring.security.core;
     requires spring.web;
+    requires java.validation;
 
     opens perobobbot.rest.controller to spring.core,spring.beans,spring.context,spring.web;
 

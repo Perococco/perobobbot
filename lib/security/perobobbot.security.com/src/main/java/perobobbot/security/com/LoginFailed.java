@@ -1,4 +1,4 @@
-package perobobbot.server.config.security.controller;
+package perobobbot.security.com;
 
 import perobobbot.lang.PerobobbotException;
 

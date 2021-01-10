@@ -1,6 +1,6 @@
 package perobobbot.data.domain.converter;
 
-import perobobbot.data.com.Operation;
+import perobobbot.security.com.Operation;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

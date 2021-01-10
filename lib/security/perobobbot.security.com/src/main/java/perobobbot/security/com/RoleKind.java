@@ -1,4 +1,4 @@
-package perobobbot.data.com;
+package perobobbot.security.com;
 
 import lombok.NonNull;
 import perobobbot.lang.TypeScript;

@@ -27,7 +27,6 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
     protected final TSInterface promiseInterface = new TSInterface("Promise", TypeMapper.systemModule);
     protected final TSType axiosResponseInterface;
     protected final TSType axiosRequestConfigInterface;
-    protected final TSType axiosInstance;
 
     public AxiosImplementationGenerator() {
         this(false);
@@ -38,7 +37,6 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
         final var axiosModule = new TSModule("axios", null, false);
         this.axiosResponseInterface = new TSInterface("AxiosResponse", axiosModule);
         this.axiosRequestConfigInterface = new TSInterface("AxiosRequestConfig", axiosModule);
-        this.axiosInstance = new TSElementAlias("axios", axiosModule, new TSInterface("AxiosStatic",axiosModule));
     }
 
     @Override
@@ -109,17 +107,15 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
 
         String parseFunction = "";
         if (actualType == TypeMapper.tsNumber) {
-            parseFunction = "res.text()).then(res => Number(res)";
+            parseFunction = "res.data).then(res => Number(res)";
         } else if (actualType == TypeMapper.tsBoolean) {
-            parseFunction = "res.text()).then(res => (res === 'true')";
+            parseFunction = "res.data).then(res => (res === 'true')";
         } else if (actualType == TypeMapper.tsString) {
-            parseFunction = "res.text()";
+            parseFunction = "res.data";
         } else if (actualType == TypeMapper.tsVoid) {
             return "";
         } else {
-            ModelSerializerExtension modelSerializerExtension = this.modelSerializerExtension;
-            parseFunction = modelSerializerExtension.generateDeserializationCode("res");
-            return ".then(res => res.data.text()).then(res =>  " + parseFunction + ")";
+            return ".then(res => res.data)";
         }
         return ".then(res =>  " + parseFunction + ")";
     }
@@ -200,7 +196,6 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
     public void addComplexTypeUsage(TSClass tsClass) {
         tsClass.addScopedTypeUsage(axiosResponseInterface);
         tsClass.addScopedTypeUsage(axiosRequestConfigInterface);
-        tsClass.addScopedTypeUsage(axiosInstance);
     }
 
     @Override

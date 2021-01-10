@@ -40,6 +40,7 @@ public abstract class Looper {
     }
 
 
+    @NoTypeScript
     public enum IterationCommand {
         CONTINUE,
         STOP

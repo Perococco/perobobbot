@@ -1,9 +1,8 @@
-package perobobbot.server.config.security.controller;
+package perobobbot.security.com;
 
 import lombok.Value;
 import perobobbot.lang.TypeScript;
 
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author Perococco
@@ -13,8 +12,8 @@ import javax.validation.constraints.NotBlank;
 @TypeScript
 public class Credential {
 
-    @NotBlank String login;
+    String login;
 
-    @NotBlank String password;
+    String password;
 
 }

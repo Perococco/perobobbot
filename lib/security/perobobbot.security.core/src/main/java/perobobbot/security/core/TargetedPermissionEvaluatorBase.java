@@ -1,4 +1,4 @@
-package perobobbot.security;
+package perobobbot.security.core;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

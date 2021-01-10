@@ -1,4 +1,4 @@
-package perobobbot.data.com;
+package perobobbot.security.com;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;

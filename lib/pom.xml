@@ -28,7 +28,8 @@
         <module>perobobbot.messaging</module>
         <module>perobobbot.command</module>
         <module>perobobbot.extension</module>
-        <module>perobobbot.security</module>
+        <module>security/perobobbot.security.com</module>
+        <module>security/perobobbot.security.core</module>
 
         <module>chat/perobobbot.chat.core</module>
         <module>chat/perobobbot.chat.advanced</module>

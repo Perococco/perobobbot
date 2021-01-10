@@ -19,17 +19,17 @@ module perobobbot.server {
     requires com.google.common;
 
     requires transitive perobobbot.lang;
+    requires perobobbot.access;
     requires perobobbot.chat.advanced;
+    requires perobobbot.chat.core;
+    requires perobobbot.command;
     requires perobobbot.data.com;
     requires perobobbot.data.service;
-    requires perobobbot.sound;
-    requires perobobbot.security;
-    requires perobobbot.chat.core;
-    requires perobobbot.messaging;
     requires perobobbot.extension;
+    requires perobobbot.messaging;
     requires perobobbot.overlay.api;
-    requires perobobbot.access;
-    requires perobobbot.command;
+    requires perobobbot.security.com;
+    requires perobobbot.sound;
 
 
     requires org.apache.logging.log4j;
@@ -55,7 +55,6 @@ module perobobbot.server {
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.config.security.controller to spring.core,spring.beans,spring.context, spring.web,com.fasterxml.jackson.databind,org.hibernate.validator;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
 
@@ -73,6 +72,7 @@ module perobobbot.server {
     requires java.sql;
     requires java.naming;
     requires com.h2database;
+    requires perobobbot.security.core;
 
     exports perobobbot.server;
     uses Plugin;

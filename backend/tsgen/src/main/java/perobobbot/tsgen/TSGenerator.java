@@ -33,6 +33,7 @@ public class TSGenerator {
         JacksonObjectMapper jacksonObjectMapper = new JacksonObjectMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);
 
+        generator.setEnumConverter(new JavaEnumToTsEnumConverter());
 
         var modelClassesConverter = new ModelClassesToTsInterfacesConverter(jacksonObjectMapper);
         generator.setModelClassesConverter(modelClassesConverter);
@@ -46,8 +47,9 @@ public class TSGenerator {
                 "perobobbot.lang",
                 "perobobbot.data.com",
                 "perobobbot.rest.com",
+                "perobobbot.security.com",
                 "perobobbot.rest.controller");
-        generator.generate(javaPackageSet, Paths.get("./extensions/perobobbot.dashboard-svelte/src/ts-code"));
+        generator.generate(javaPackageSet, Paths.get("./extensions/perobobbot.dashboard-svelte/src/server"));
     }
 
     private void setupClassFiltering() {

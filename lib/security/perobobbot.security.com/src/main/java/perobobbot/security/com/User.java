@@ -1,12 +1,13 @@
-package perobobbot.data.com;
+package perobobbot.security.com;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.NoTypeScript;
 import perobobbot.lang.TypeScript;
 
-@TypeScript
+@NoTypeScript
 @Value
 @Builder
 public class User {

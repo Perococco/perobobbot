@@ -1,4 +1,4 @@
-package perobobbot.server.config.security.controller;
+package perobobbot.rest.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +9,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.SimpleUser;
+import perobobbot.security.com.Credential;
+import perobobbot.security.com.EndPoints;
+import perobobbot.security.com.SimpleUser;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
-import perobobbot.server.config.security.EndPoints;
-import perobobbot.server.config.security.jwt.JWTokenManager;
+import perobobbot.security.core.LoginFromAuthentication;
+import perobobbot.security.core.jwt.JWTokenManager;
 
 import javax.validation.Valid;
 /**

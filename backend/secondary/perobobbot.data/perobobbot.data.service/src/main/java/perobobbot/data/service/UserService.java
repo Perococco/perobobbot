@@ -3,7 +3,7 @@ package perobobbot.data.service;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.User;
+import perobobbot.security.com.User;
 
 public interface UserService {
 

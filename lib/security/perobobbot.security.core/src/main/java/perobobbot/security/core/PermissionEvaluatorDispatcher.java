@@ -1,4 +1,4 @@
-package perobobbot.security;
+package perobobbot.security.core;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
@@ -25,10 +25,10 @@ public class PermissionEvaluatorDispatcher implements PermissionEvaluator {
                 .hasPermissionWithId(authentication,targetId,permission);
     }
 
-    private @NonNull perobobbot.security.PermissionEvaluator retrievePermissionEvaluator(@NonNull String targetType) {
+    private @NonNull perobobbot.security.core.PermissionEvaluator retrievePermissionEvaluator(@NonNull String targetType) {
         final var evaluator = evaluators.get(targetType);
         if (evaluator == null) {
-            return perobobbot.security.PermissionEvaluator.DENY_ALL;
+            return perobobbot.security.core.PermissionEvaluator.DENY_ALL;
         }
         return evaluator;
     }

@@ -22,6 +22,7 @@
         unsubscriber2();
     });
 
+    console.log(window.document.URL)
 
     function updateBackground(styles: Styles) {
         document.body.style.background = styles.getBackground();

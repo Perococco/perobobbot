@@ -6,10 +6,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import perobobbot.data.com.Operation;
-import perobobbot.data.com.RoleKind;
-import perobobbot.data.com.User;
 import perobobbot.lang.ListTool;
+import perobobbot.security.com.Operation;
+import perobobbot.security.com.RoleKind;
+import perobobbot.security.com.User;
 
 import java.util.stream.Stream;
 

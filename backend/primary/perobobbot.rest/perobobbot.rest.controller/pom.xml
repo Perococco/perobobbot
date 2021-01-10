@@ -24,6 +24,10 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-security-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-data-service</artifactId>
         </dependency>
         <dependency>

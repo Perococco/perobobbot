@@ -1,10 +1,11 @@
-package perobobbot.server.config.security.controller;
+package perobobbot.security.core;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.lang.Lazy;
+import perobobbot.security.com.LoginFailed;
 
 /**
  * @author Perococco

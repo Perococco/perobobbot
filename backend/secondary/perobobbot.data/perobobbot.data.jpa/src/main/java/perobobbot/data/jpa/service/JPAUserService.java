@@ -7,21 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DuplicateUser;
-import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.data.com.User;
-import perobobbot.data.domain.CredentialEntity;
+import perobobbot.security.com.User;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.data.jpa.repository.CredentialRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.data.service.UserProvider;
+import perobobbot.security.core.UserProvider;
 import perobobbot.data.service.UserService;
-import perobobbot.lang.Credential;
 import perobobbot.lang.PasswordEncoder;
-import perobobbot.lang.Platform;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author Perococco

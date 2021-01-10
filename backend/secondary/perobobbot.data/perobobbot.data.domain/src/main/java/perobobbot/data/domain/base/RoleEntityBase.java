@@ -2,10 +2,10 @@ package perobobbot.data.domain.base;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
-import perobobbot.data.com.Operation;
-import perobobbot.data.com.RoleKind;
 import perobobbot.data.domain.converter.OperationConverter;
 import perobobbot.persistence.SimplePersistentObject;
+import perobobbot.security.com.Operation;
+import perobobbot.security.com.RoleKind;
 
 import javax.persistence.*;
 import java.util.HashSet;

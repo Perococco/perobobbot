@@ -10,6 +10,7 @@ module perobobbot.data.jpa {
     requires spring.tx;
     requires spring.core;
 
+    requires perobobbot.security.core;
     requires perobobbot.data.service;
     requires perobobbot.data.domain;
     requires perobobbot.data.com;

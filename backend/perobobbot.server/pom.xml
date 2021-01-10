@@ -109,7 +109,7 @@
 
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-security</artifactId>
+            <artifactId>perobobbot-security-core</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

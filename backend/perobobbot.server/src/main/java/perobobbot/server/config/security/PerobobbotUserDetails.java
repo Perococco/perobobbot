@@ -2,7 +2,7 @@ package perobobbot.server.config.security;
 
 import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
-import perobobbot.data.com.User;
+import perobobbot.security.com.User;
 
 /**
  * @author Perococco

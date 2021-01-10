@@ -1,4 +1,4 @@
-package perobobbot.server.config.security.jwt;
+package perobobbot.security.core.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
-import perobobbot.data.com.User;
-import perobobbot.data.service.UserProvider;
+import perobobbot.security.com.User;
+import perobobbot.security.core.UserProvider;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -32,14 +32,14 @@ public class JWTokenManager {
     private final UserProvider userProvider;
 
     public @NonNull String createJWToken(@NonNull String login) {
-        final var user = userProvider.getUser(login);
+        final var jwtClaim = userProvider.getUserClaim(login);
         final var now = Instant.now();
         final var expiration = now.plus(30, ChronoUnit.DAYS);
 
         final Claims claims = Jwts.claims();
-        claims.setSubject(user.getLogin())
+        claims.setSubject(login)
               .setIssuedAt(Date.from(now))
-              .setId(user.getJwtClaim())
+              .setId(jwtClaim)
               .setIssuer(issuer)
               .setExpiration(Date.from(expiration));
 
@@ -77,7 +77,7 @@ public class JWTokenManager {
         }
     }
 
-    private @NonNull User checkUser(Claims claims) {
+    private @NonNull perobobbot.security.com.User checkUser(Claims claims) {
         final String login = claims.getSubject();
         final var user = userProvider.getUser(login);
 

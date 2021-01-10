@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import perobobbot.data.service.UserProvider;
+import perobobbot.security.core.UserProvider;
 
 /**
  * @author Perococco
