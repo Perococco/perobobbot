@@ -1,0 +1,5 @@
+
+export enum CredentialInfoConverter {
+INSTANCE
+}
+
