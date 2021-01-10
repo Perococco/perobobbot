@@ -6,8 +6,8 @@
         --orange2: hsl(10, 64%, 48%);
         --red: hsl(0, 100%, 36%);
 
-        --background-login: var(--red);
-        --background-welcome: var(--red);
-        --background-home: var(--yellow-dark);
+        --background-login: var(--orange1);
+        --background-welcome: var(--orange1);
+        --background-home: var(--yellow);
     }
 </style>

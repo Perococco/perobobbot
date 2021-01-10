@@ -1,6 +1,5 @@
-import {CredentialController, SecurityController} from "./rest-controller";
-import {Credential} from "./security-com";
-import {Authentication, Optional} from "../types/types";
+import {SecurityController} from "./rest-controller";
+import {Optional} from "../types/types";
 import {authentication} from "../stores/authentication";
 import axios from "axios";
 
@@ -24,10 +23,10 @@ function retrieveStoredJWToken(): Optional<string> {
 /**
  * Remove all authentications from web browser storage
  */
-function clearAuthentication(): void {
+export function clearAuthentication(): void {
     localStorage.removeItem(JWT_KEY);
     sessionStorage.removeItem(JWT_KEY);
-    authentication.set(Authentication.none());
+    authentication.set({});
 }
 
 /**
@@ -45,7 +44,8 @@ function storedJWToken(jwToken: string, local: boolean = false): void {
 /**
  * Add jwt token in header in each request for Spring authentication by the JwtAuthenticationFilter
  */
-export async function initialize(): Promise<void> {
+export async function initialize(): Promise<boolean> {
+    console.log("INITIALIZE AXIOS")
     axios.interceptors.request.use(
         config => {
             retrieveStoredJWToken().ifPresent(token => {
@@ -54,8 +54,7 @@ export async function initialize(): Promise<void> {
             return config;
         },
         err => Promise.reject(err));
-
-    await updateAuthenticationStore()
+    return updateAuthenticationStore()
 }
 
 /**
@@ -64,7 +63,7 @@ export async function initialize(): Promise<void> {
  * @param password the password
  * @param rememberMe if true, the JWT will be saved in the localstorage
  */
-export function authenticate(login: string, password: string, rememberMe: boolean = false): Promise<void> {
+export function authenticate(login: string, password: string, rememberMe: boolean = false): Promise<boolean> {
     clearAuthentication();
     return securityController.signIn({login, password})
         .then(jwt => storedJWToken(jwt, rememberMe))
@@ -76,14 +75,18 @@ export function authenticate(login: string, password: string, rememberMe: boolea
  * update the authorisation store by calling the Backend#getCurrentUser method (that uses
  * any JWT save in storage). If the authentication failed, any JWT will be cleared
  */
-function updateAuthenticationStore(): Promise<void> {
+export function updateAuthenticationStore(): Promise<boolean> {
     return securityController.getCurrentUser()
-        .then(user => authentication.set(Authentication.with(user)))
+        .then(user => {
+            authentication.set({user});
+            return true;
+        })
         .catch(err => {
             console.log(err)
             localStorage.removeItem(JWT_KEY);
             sessionStorage.removeItem(JWT_KEY);
-            authentication.set(Authentication.none());
+            authentication.set({});
+            return false;
         });
 }
 

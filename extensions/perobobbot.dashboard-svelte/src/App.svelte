@@ -13,16 +13,17 @@
 
     const unsubscriber1 = styles.subscribe(s => updateBackground(s))
     const unsubscriber2 = authentication.subscribe(a => {
-        console.log(a.getUser().map(u => u.login).orElse("no user"));
+        console.log(a);
+        console.log(a.user);
     })
 
-    onMount(() => Authenticator.initialize())
+    onMount(() => {
+        Authenticator.initialize();
+    });
     onDestroy(() => {
         unsubscriber1();
         unsubscriber2();
     });
-
-    console.log(window.document.URL)
 
     function updateBackground(styles: Styles) {
         document.body.style.background = styles.getBackground();

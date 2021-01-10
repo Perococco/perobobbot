@@ -25,9 +25,9 @@ export class Styles {
 
 function getBackground(route: string):Optional<string> {
     switch (route) {
-        case "/login": return Optional.of(backgroundWithPlainColor("var(--background-login)"));
-        case "/welcome": return Optional.of(backgroundWithPlainColor("var(--background-welcome)"));
-        case "/home": return Optional.of(backgroundWithPlainColor("var(--background-home)"));
+        case "%%/login": return Optional.of(backgroundWithPlainColor("var(--background-login)"));
+        case "%%/welcome": return Optional.of(backgroundWithPlainColor("var(--background-welcome)"));
+        case "%%/home": return Optional.of(backgroundWithPlainColor("var(--background-home)"));
     }
     return Optional.empty();
 }

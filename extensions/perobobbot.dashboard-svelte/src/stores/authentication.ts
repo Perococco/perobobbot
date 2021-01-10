@@ -1,6 +1,5 @@
-import {writable} from "svelte/store";
-import {Authentication} from "../types/authentication";
+import {Authentication, noAuthentication} from "../types/authentication";
+import {sessionWritable} from "./session-store";
 
 
-export let authentication = writable<Authentication>(Authentication.none());
-
+export let authentication = sessionWritable<Authentication>("authentication", noAuthentication());
