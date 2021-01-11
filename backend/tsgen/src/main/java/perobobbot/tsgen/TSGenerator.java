@@ -1,11 +1,11 @@
 package perobobbot.tsgen;
 
 import com.blueveery.springrest2ts.Rest2tsGenerator;
+import com.blueveery.springrest2ts.converters.JavaEnumToTsEnumConverter;
 import com.blueveery.springrest2ts.converters.*;
 import com.blueveery.springrest2ts.filters.AndFilterOperator;
 import com.blueveery.springrest2ts.filters.HasAnnotationJavaTypeFilter;
 import com.blueveery.springrest2ts.filters.NotJavaTypeFilter;
-import com.blueveery.springrest2ts.implgens.Angular4ImplementationGenerator;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.web.bind.annotation.RestController;
 import perobobbot.lang.NoTypeScript;
@@ -27,13 +27,11 @@ public class TSGenerator {
 
     private void generate() throws IOException {
         this.setupClassFiltering();
-        generator.setEnumConverter(new JavaEnumToTsEnumConverter());
+        generator.setEnumConverter(new JavaEnumToTsEnumConverter(false));
         generator.getCustomTypeMapping().put(UUID.class, TypeMapper.tsString);
 
         JacksonObjectMapper jacksonObjectMapper = new JacksonObjectMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);
-
-        generator.setEnumConverter(new JavaEnumToTsEnumConverter());
 
         var modelClassesConverter = new ModelClassesToTsInterfacesConverter(jacksonObjectMapper);
         generator.setModelClassesConverter(modelClassesConverter);

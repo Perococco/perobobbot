@@ -1,4 +1,4 @@
-import {Platform} from './perobobbot-lang';
+import type {Platform} from './perobobbot-lang';
 
 export interface CreateBotParameters {
   name: string;

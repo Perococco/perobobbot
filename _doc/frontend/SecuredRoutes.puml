@@ -1,0 +1,16 @@
+@startuml
+
+start
+:pop "Route";
+if (Route is secured?) then (yes)
+    if (Authenticated?) then (yes)
+        :Show Page;
+    else
+        :save requested route;
+        :display login;
+    endif
+else
+    :Show Page;
+endif
+
+@enduml

@@ -7,6 +7,7 @@ import perobobbot.lang.IdentifiedEnum;
 
 @TypeScript
 public enum Operation implements IdentifiedEnum {
+    READ_CREDENTIALS
     ;
 
 

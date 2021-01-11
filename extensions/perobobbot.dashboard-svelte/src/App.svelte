@@ -9,20 +9,15 @@
     import * as Authenticator from "./server/authenticator";
     import {Styles} from "./types/styles";
 
-    import {authentication, styles} from "./stores/stores";
+    import {styles} from "./stores/stores";
 
     const unsubscriber1 = styles.subscribe(s => updateBackground(s))
-    const unsubscriber2 = authentication.subscribe(a => {
-        console.log(a);
-        console.log(a.user);
-    })
 
     onMount(() => {
         Authenticator.initialize();
     });
     onDestroy(() => {
         unsubscriber1();
-        unsubscriber2();
     });
 
     function updateBackground(styles: Styles) {

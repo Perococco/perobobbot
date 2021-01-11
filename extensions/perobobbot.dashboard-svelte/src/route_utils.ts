@@ -18,7 +18,9 @@ function securedAsync(asyncComponent:AsyncSvelteComponent,
         asyncComponent: asyncComponent,
         userData: data,
         conditions: [
-            (detail => authenticated())
+            (detail => {
+                return authenticated()
+            })
         ]
     })
 }

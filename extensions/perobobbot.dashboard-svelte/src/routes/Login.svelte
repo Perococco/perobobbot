@@ -3,8 +3,9 @@
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
     import {styles} from "../stores/styles";
-    import {fade} from "svelte/transition";
+    import {routing, withoutRequestedRoute} from "../stores/routing";
     import * as Str from "../tools";
+    import {Optional} from "../types/optional";
 
 
     let error: string = "";
@@ -12,20 +13,27 @@
     let password: string = "";
     let rememberMe: boolean = false;
 
+    $: request = $routing;
     $: passwordInvalid = Str.isBlank(password);
     $: loginInvalid = Str.isBlank(login);
     $: invalid = passwordInvalid || loginInvalid;
 
     function submitForm(): void {
+        const nextRoute = Optional.ofNullable($routing)
+            .map(u => u.requestedRoute)
+            .map(r => r.location + "?" + r.querystring)
+            .orElse("/home");
         Authenticator.authenticate(login, password, rememberMe)
-            .then(() => replace("/home"))
+            .then(() => {
+                $routing = withoutRequestedRoute();
+                replace(nextRoute);
+            })
             .catch(err => {
                 error = formErrorMessage(err);
             });
     }
 
     function formErrorMessage(err: object): string {
-        console.log(err);
         const response: any = err.response;
         const status: number = response.status as number;
         if (status == 403) {

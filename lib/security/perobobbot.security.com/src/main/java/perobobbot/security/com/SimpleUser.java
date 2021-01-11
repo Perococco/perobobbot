@@ -15,6 +15,8 @@ public class SimpleUser {
     @NonNull
     ImmutableSet<RoleKind> roles;
 
+
+
 }
 
 

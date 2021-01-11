@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       colors: {
         "primary": colors.blue,
-        "secondary": colors.lime,
+        "secondary": colors.fuchsia,
         "neutral": colors.trueGray,
         "ok": colors.green,
         "warn": colors.yellow,

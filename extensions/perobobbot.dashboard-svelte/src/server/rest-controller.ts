@@ -1,8 +1,9 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {Extension} from './data-com';
-import {Bot} from './perobobbot-lang';
-import {CreateBotParameters, RestCredentialInfo} from './rest-com';
-import {Credential, SimpleUser} from './security-com';
+import type {AxiosRequestConfig, AxiosResponse} from 'axios';
+import type {Extension} from './data-com';
+import type {Bot} from './perobobbot-lang';
+import type {CreateBotParameters, RestCredentialInfo} from './rest-com';
+import type {Credential, SimpleUser} from './security-com';
+import axios from "axios";
 
 export class BotController {
     baseURL: URL;

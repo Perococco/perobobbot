@@ -1,5 +1,5 @@
 
 export enum CredentialInfoConverter {
-INSTANCE
+INSTANCE = 'INSTANCE'
 }
 

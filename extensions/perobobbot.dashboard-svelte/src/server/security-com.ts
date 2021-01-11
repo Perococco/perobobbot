@@ -5,6 +5,7 @@ export interface Credential {
 }
 
 export enum Operation {
+READ_CREDENTIALS = 'READ_CREDENTIALS'
 }
 
 export interface Role {
@@ -13,8 +14,8 @@ export interface Role {
 }
 
 export enum RoleKind {
-ADMIN,
-USER
+ADMIN = 'ADMIN',
+USER = 'USER'
 }
 
 export interface SimpleUser {

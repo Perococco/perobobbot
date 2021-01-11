@@ -1,4 +1,4 @@
-import {SimpleUser} from "../server/security-com";
+import type {SimpleUser} from "../server/security-com";
 
 export declare interface Authentication {
     user?:SimpleUser;

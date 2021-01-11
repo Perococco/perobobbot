@@ -14,6 +14,16 @@
         margin: 0;
     }
 
+    /* Remove outline for non-keyboard :focus */
+    .js-focus-visible :focus {
+        outline: none;
+    }
+
+    /* Optional: Customize .focus-visible */
+    .js-focus-visible .focus-visible {
+        box-shadow: inset 0 0 3px 2px theme('colors.primary.600');
+    }
+
     .full-screen {
         position: fixed;
         width: 100%;

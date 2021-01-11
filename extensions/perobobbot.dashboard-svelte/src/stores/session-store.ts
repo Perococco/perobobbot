@@ -1,7 +1,5 @@
 import {writable} from "svelte/store";
-import {Writable} from "svelte/types/runtime/store";
-import {Optional} from "../types/optional";
-import {empty} from "svelte/internal";
+import type {Writable} from "svelte/types/runtime/store";
 
 declare type Subscriber<T> = (value: T) => void;
 /** Unsubscribes from value updates. */
@@ -15,8 +13,10 @@ export function sessionWritable<T>(name: string, defaultValue: T, start?: StartS
     const val: T = retrieveValueInSession<T>(storeName,defaultValue);
 
     const store = writable(val, set => start && start(set));
-
-    store.subscribe(a => sessionStorage.setItem(storeName, JSON.stringify(a)))
+    store.subscribe(a => {
+        console.log("STORE VALUE "+a);
+        sessionStorage.setItem(storeName, JSON.stringify(a))
+    })
     return store;
 }
 

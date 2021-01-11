@@ -3,10 +3,11 @@
     import {push} from "svelte-spa-router";
     import {styles} from "../stores/styles";
 
-    function onViewer(event:object):void {
+    function onViewer(event: object): void {
         console.log("on viewer");
     }
-    function onStreamer(event:object):void {
+
+    function onStreamer(event: object): void {
         push("/home");
     }
 
@@ -18,8 +19,17 @@
 
 <div class="full-screen bg-neutral-200">
     <div class="mycenter flex flex-col place-content-evenly">
-            <button class="align-middle text-center m-4 p-2 bg-white  md:text-4xl lg:text-5xl  shadow-2xl border-2 rounded-md border-neutral-900" on:click={onStreamer}>Streamer</button>
-            <button class="align-middle text-center m-4 p-2 bg-white md:text-4xl lg:text-5xl  shadow-2xl border-2 rounded-md border-neutral-900" on:click={onViewer}>Viewer</button>
+        <button class="
+            align-middle text-center m-4 p-2
+            hover:bg-primary-600 bg-primary-700 text-white
+            md:text-4xl lg:text-5xl shadow-2xl border-2 rounded-md border-primary-700" on:click={onStreamer}>Streamer
+        </button>
+        <button class="
+            align-middle text-center m-4 p-2
+            hover:bg-primary-600 bg-primary-700 text-white
+            md:text-4xl lg:text-5xl shadow-2xl border-2 rounded-md border-primary-700"
+                on:click={onViewer}>Viewer
+        </button>
     </div>
 </div>
 
