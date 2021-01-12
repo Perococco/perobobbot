@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.domain.UserEntity;
-import perobobbot.data.domain.converter.SecretConvert;
+import perobobbot.data.domain.converter.SecretConverter;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 import perobobbot.persistence.PersistentObjectWithUUID;
@@ -32,7 +32,7 @@ public class CredentialEntityBase extends PersistentObjectWithUUID {
     private String nick = "";
 
     @Column(name = "SECRET", nullable = false)
-    @Convert(converter = SecretConvert.class)
+    @Convert(converter = SecretConverter.class)
     private Secret secret = Secret.empty();
 
     public CredentialEntityBase(@NotBlank UserEntity owner, @NonNull Platform platform) {

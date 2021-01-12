@@ -4,3 +4,7 @@ export interface Extension {
   name: string;
 }
 
+export interface UpdateUserParameters {
+  languageTag: string | string | null;
+}
+

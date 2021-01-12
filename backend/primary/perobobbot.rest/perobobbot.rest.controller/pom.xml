@@ -20,6 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-i18n</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-rest-com</artifactId>
         </dependency>
         <dependency>

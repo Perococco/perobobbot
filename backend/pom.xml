@@ -20,6 +20,7 @@
 
     <modules>
 
+        <module>perobobbot.i18n</module>
         <module>primary</module>
         <module>secondary</module>
         <module>perobobbot.server</module>

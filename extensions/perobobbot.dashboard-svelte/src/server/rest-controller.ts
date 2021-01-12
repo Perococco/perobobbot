@@ -1,5 +1,5 @@
 import type {AxiosRequestConfig, AxiosResponse} from 'axios';
-import type {Extension} from './data-com';
+import type {Extension, UpdateUserParameters} from './data-com';
 import type {Bot} from './perobobbot-lang';
 import type {CreateBotParameters, RestCredentialInfo} from './rest-com';
 import type {Credential, SimpleUser} from './security-com';
@@ -109,6 +109,36 @@ export class ExtensionController {
 
 }
 
+export class I18nController {
+    baseURL: URL;
+
+
+    public constructor(baseURL: URL = new URL(window.document.URL)) {
+        this.baseURL = baseURL;
+    }
+
+    public getAvailableLanguageTags(): Promise<string[]> {
+        const url = new URL('/api/dictionaries', this.baseURL);
+
+        const config: AxiosRequestConfig = {
+            method: 'get',
+            url: url.toString()
+        };
+        return axios(config).then(res => res.data);
+    }
+
+    public getDictionary(languageTag: string): Promise<{ [key: string]: string }> {
+        const url = new URL('/api/dictionaries/' + languageTag + '', this.baseURL);
+
+        const config: AxiosRequestConfig = {
+            method: 'get',
+            url: url.toString()
+        };
+        return axios(config).then(res => res.data);
+    }
+
+}
+
 export class SecurityController {
     baseURL: URL;
 
@@ -205,6 +235,20 @@ export class UserController {
         const config: AxiosRequestConfig = {
             method: 'get',
             url: url.toString()
+        };
+        return axios(config).then(res => res.data);
+    }
+
+    public updateUser(login: string, parameters: UpdateUserParameters): Promise<SimpleUser> {
+        const url = new URL('/api/users/' + login + '', this.baseURL);
+
+        const config: AxiosRequestConfig = {
+            method: 'patch',
+            url: url.toString(),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(parameters)
         };
         return axios(config).then(res => res.data);
     }

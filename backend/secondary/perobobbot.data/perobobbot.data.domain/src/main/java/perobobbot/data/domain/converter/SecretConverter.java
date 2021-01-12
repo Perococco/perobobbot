@@ -6,7 +6,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class SecretConvert implements AttributeConverter<Secret,String> {
+public class SecretConverter implements AttributeConverter<Secret,String> {
 
     @Override
     public String convertToDatabaseColumn(Secret attribute) {

@@ -10,14 +10,22 @@
     import {Styles} from "./types/styles";
 
     import {styles} from "./stores/stores";
+    import {initializeI18n, saveLocale} from "./i18nts";
+    import {locale} from "svelte-i18n";
 
-    const unsubscriber1 = styles.subscribe(s => updateBackground(s))
+
+    const localeUnsubscriber = locale.subscribe(l => saveLocale(l))
+    const styleUnsubscriber = styles.subscribe(s => updateBackground(s))
+
+
+    initializeI18n()
 
     onMount(() => {
         Authenticator.initialize();
     });
     onDestroy(() => {
-        unsubscriber1();
+        localeUnsubscriber()
+        styleUnsubscriber();
     });
 
     function updateBackground(styles: Styles) {

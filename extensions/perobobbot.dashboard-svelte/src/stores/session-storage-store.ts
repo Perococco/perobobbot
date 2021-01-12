@@ -14,7 +14,6 @@ export function sessionWritable<T>(name: string, defaultValue: T, start?: StartS
 
     const store = writable(val, set => start && start(set));
     store.subscribe(a => {
-        console.log("STORE VALUE "+a);
         sessionStorage.setItem(storeName, JSON.stringify(a))
     })
     return store;

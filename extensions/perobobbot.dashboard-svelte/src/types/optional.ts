@@ -36,7 +36,7 @@ export class Optional<T> {
         return this.value??undefined;
     }
 
-    public orElseGet(defaultValue:()=>T|undefined):T|undefined {
+    public orElseGet(defaultValue:()=>T):T {
         return this.value??defaultValue();
     }
 

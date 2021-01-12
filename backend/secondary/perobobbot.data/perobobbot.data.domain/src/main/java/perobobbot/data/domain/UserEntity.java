@@ -78,6 +78,7 @@ public class UserEntity extends UserEntityBase {
     public @NonNull User toView() {
         return User.builder()
                    .login(this.getLogin())
+                   .locale(getLocale())
                    .password(this.getPassword())
                    .jwtClaim(this.getJwtClaim())
                    .roles(this.roles().map(RoleEntity::getRole).collect(ImmutableSet.toImmutableSet()))

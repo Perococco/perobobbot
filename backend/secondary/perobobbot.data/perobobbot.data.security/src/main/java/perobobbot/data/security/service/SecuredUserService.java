@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.CreateUserParameters;
+import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.security.com.User;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
@@ -36,4 +37,9 @@ public class SecuredUserService implements UserService {
         return delegate.listAllUser();
     }
 
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull User updateUser(@NonNull String login, @NonNull UpdateUserParameters parameters) {
+        return delegate.updateUser(login,parameters);
+    }
 }

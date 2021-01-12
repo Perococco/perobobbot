@@ -7,6 +7,8 @@ import lombok.Value;
 import perobobbot.lang.NoTypeScript;
 import perobobbot.lang.TypeScript;
 
+import java.util.Locale;
+
 @NoTypeScript
 @Value
 @Builder
@@ -19,6 +21,9 @@ public class User {
     String password;
 
     @NonNull
+    Locale locale;
+
+    @NonNull
     String jwtClaim;
 
     @NonNull
@@ -28,7 +33,7 @@ public class User {
     ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login,roles);
+        return new SimpleUser(login,locale,roles);
     }
 
 }

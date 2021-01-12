@@ -6,6 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.CredentialEntity;
 import perobobbot.data.domain.RoleEntity;
+import perobobbot.data.domain.converter.LocaleConverter;
 import perobobbot.lang.RandomString;
 import perobobbot.persistence.SimplePersistentObject;
 
@@ -13,10 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -57,6 +55,10 @@ public class UserEntityBase extends SimplePersistentObject {
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
     private List<CredentialEntity> credentials = new ArrayList<>();
+
+    @Column(name = "LOCALE")
+    @Convert(converter = LocaleConverter.class)
+    private Locale locale = Locale.ENGLISH;
 
     @OneToMany(mappedBy = "owner")
     @Fetch(FetchMode.JOIN)

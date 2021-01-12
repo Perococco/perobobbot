@@ -2,6 +2,7 @@ import {SecurityController} from "./rest-controller";
 import {Optional} from "../types/types";
 import {authentication} from "../stores/authentication";
 import axios from "axios";
+import {locale} from "svelte-i18n";
 
 export function logout() {
     clearAuthentication()
@@ -75,10 +76,12 @@ export function authenticate(login: string, password: string, rememberMe: boolea
  * any JWT save in storage). If the authentication failed, any JWT will be cleared
  */
 export function updateAuthenticationStore(): Promise<boolean> {
-    console.log("UPDATE STORE")
     return securityController.getCurrentUser()
         .then(user => {
             authentication.set({user});
+            Optional.ofNullable(user)
+                .map(u => u.locale)
+                .ifPresent(l => locale.set(l))
             return true;
         })
         .catch(err => {

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DataCredentialInfo;
+import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.security.com.SimpleUser;
 import perobobbot.security.com.User;
 import perobobbot.data.service.CredentialService;
@@ -42,6 +43,11 @@ public class UserController {
     @GetMapping("/{login}")
     public @NonNull SimpleUser getUserByLogin(@NonNull @PathVariable String login) {
         return userService.getUser(login).simplify();
+    }
+
+    @PatchMapping ("/{login}")
+    public @NonNull SimpleUser updateUser(@NonNull @PathVariable String login, @RequestBody @NonNull UpdateUserParameters parameters) {
+        return userService.updateUser(login,parameters).simplify();
     }
 
     @GetMapping("/{login}/credentials")

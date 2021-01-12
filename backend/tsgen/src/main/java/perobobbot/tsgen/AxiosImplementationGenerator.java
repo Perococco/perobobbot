@@ -13,11 +13,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.blueveery.springrest2ts.spring.RequestMappingUtility.getRequestMapping;
 
 public class AxiosImplementationGenerator extends BaseImplementationGenerator {
+
+    public static final Set<String> VERB_WITH_BODY = Set.of("PUT","POST","PATCH");
 
 
     protected boolean useAsync;
@@ -138,7 +141,7 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
             String requestBodyVar, boolean isRequestBodyDefined, String httpMethod, String[] consumesContentType
     ) {
         List<TSProperty> requestOptionsList = new ArrayList<>();
-        if (("PUT".equals(httpMethod) || "POST".equals(httpMethod)) && isRequestBodyDefined) {
+        if (VERB_WITH_BODY.contains(httpMethod.toUpperCase()) && isRequestBodyDefined) {
             requestOptionsList.add(getContentTypeHeader(consumesContentType));
             requestOptionsList.add(new TSProperty("data",modelSerializerExtension.generateSerializationCode(requestBodyVar)));
         }

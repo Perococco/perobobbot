@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import {styles} from "../stores/styles";
     import {authentication} from "../stores/stores";
     import {logout} from "../server/authenticator";
@@ -10,17 +10,20 @@
     import * as Routes from "../route_list";
     import * as Utils from "../route_utils";
     import {UserData} from "../types/userData";
+    import {locales, locale} from "svelte-i18n";
+    import LanguageSelector from "./LanguageSelector.svelte";
 
     $: admin = Optional.ofNullable($authentication.user).map(u => u.roles.includes(RoleKind.ADMIN)).orElse(false)
     $: login = Optional.ofNullable($authentication.user).map(u => u.login).orElse("?")
 
+
     onMount(() => styles.update(g => g.withBackgroundForRoute("/home")));
     export let params = {}
 
-    function isLoggedIn():boolean {
+    function isLoggedIn(): boolean {
         const login = $authentication.user !== undefined;
         console.log($authentication)
-        console.log("####  "+login);
+        console.log("####  " + login);
         return login;
     }
 
@@ -32,9 +35,10 @@
         replace("/welcome");
     }
 
-    function createRoutes():Map<string|RegExp,WrappedComponent> {
-        const routes = new Map<string|RegExp,WrappedComponent>();
+    function createRoutes(): Map<string | RegExp, WrappedComponent> {
+        const routes = new Map<string | RegExp, WrappedComponent>();
         routes.set(Routes.REL_USERS, Utils.basicAsync(() => import("./home/Users.svelte")));
+        routes.set(Routes.REL_EXTENSIONS, Utils.basicAsync(() => import("./home/Extensions.svelte")));
         routes.set(Routes.REL_CREDENTIALS, Utils.basicAsync(() => import("./home/Credentials.svelte")));
         routes.set(Routes.REL_BOTS, Utils.basicAsync(() => import("./home/Bots.svelte")));
         return routes;
@@ -62,6 +66,7 @@
 <div class="flex flex-col w-full h-screen">
     <div class="w-full p-2 bg-neutral-100 top-panel">
         <div class="text-black text-2xl font-bold">{login}</div>
+        <LanguageSelector/>
     </div>
     <div class="flex flex-row h-full">
         <div class="bg-neutral-100 top 0 left-panel flex flex-col justify-between items-start p-2">
@@ -72,6 +77,7 @@
                 <div class="flex flex-col items-start">
                     {#if admin}
                         <button class="panel" on:click|preventDefault={() => push(Routes.USERS)}>Users</button>
+                        <button class="panel" on:click|preventDefault={() => push(Routes.EXTENSIONS)}>Extensions</button>
                     {/if}
                     <button class="panel" on:click|preventDefault={() => push(Routes.CREDENTIALS)}>Credentials</button>
                     <button class="panel" on:click|preventDefault={() => push(Routes.BOTS)}>Bots</button>
