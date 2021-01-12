@@ -19,7 +19,7 @@ USER = 'USER'
 }
 
 export interface SimpleUser {
-  locale: any;
+  locale: string;
   login: string;
   roles: RoleKind[];
 }

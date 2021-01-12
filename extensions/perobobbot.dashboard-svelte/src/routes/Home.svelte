@@ -1,31 +1,22 @@
 <script lang="ts">
-    import {onDestroy, onMount} from "svelte";
+    import {onMount} from "svelte";
     import {styles} from "../stores/styles";
     import {authentication} from "../stores/stores";
     import {logout} from "../server/authenticator";
-    import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
+    import type {WrappedComponent} from "svelte-spa-router";
     import Router, {push, replace} from "svelte-spa-router";
     import {Optional} from "../types/optional";
     import {RoleKind} from "../server/security-com";
     import * as Routes from "../route_list";
     import * as Utils from "../route_utils";
-    import {UserData} from "../types/userData";
-    import {locales, locale} from "svelte-i18n";
+    import { _ } from 'svelte-i18n'
     import LanguageSelector from "./LanguageSelector.svelte";
 
     $: admin = Optional.ofNullable($authentication.user).map(u => u.roles.includes(RoleKind.ADMIN)).orElse(false)
     $: login = Optional.ofNullable($authentication.user).map(u => u.login).orElse("?")
 
-
     onMount(() => styles.update(g => g.withBackgroundForRoute("/home")));
     export let params = {}
-
-    function isLoggedIn(): boolean {
-        const login = $authentication.user !== undefined;
-        console.log($authentication)
-        console.log("####  " + login);
-        return login;
-    }
 
     const prefix = Routes.HOME;
     const routes = createRoutes()
@@ -64,7 +55,7 @@
 </style>
 
 <div class="flex flex-col w-full h-screen">
-    <div class="w-full p-2 bg-neutral-100 top-panel">
+    <div class="w-full p-2 bg-neutral-100 top-panel flex flex-row justify-between items-center">
         <div class="text-black text-2xl font-bold">{login}</div>
         <LanguageSelector/>
     </div>
@@ -76,18 +67,17 @@
 
                 <div class="flex flex-col items-start">
                     {#if admin}
-                        <button class="panel" on:click|preventDefault={() => push(Routes.USERS)}>Users</button>
-                        <button class="panel" on:click|preventDefault={() => push(Routes.EXTENSIONS)}>Extensions</button>
+                        <button class="panel" on:click|preventDefault={() => push(Routes.USERS)}>{$_('_lit.Users')}</button>
+                        <button class="panel" on:click|preventDefault={() => push(Routes.EXTENSIONS)}>{$_('_lit.Extensions')}</button>
                     {/if}
-                    <button class="panel" on:click|preventDefault={() => push(Routes.CREDENTIALS)}>Credentials</button>
-                    <button class="panel" on:click|preventDefault={() => push(Routes.BOTS)}>Bots</button>
+                    <button class="panel" on:click|preventDefault={() => push(Routes.CREDENTIALS)}>{$_('_lit.Credentials')}</button>
+                    <button class="panel" on:click|preventDefault={() => push(Routes.BOTS)}>{$_('_lit.Bots')}</button>
                 </div>
             </div>
             <button
                     class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none"
-                    on:click|preventDefault={onLogout}
-            >
-                logout
+                    on:click|preventDefault={onLogout}>
+                {$_('_lit.Logout')}
             </button>
         </div>
         <div class="h-full w-full">

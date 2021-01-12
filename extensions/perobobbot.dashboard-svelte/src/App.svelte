@@ -14,14 +14,15 @@
     import {locale} from "svelte-i18n";
 
 
-    const localeUnsubscriber = locale.subscribe(l => saveLocale(l))
+    let localeUnsubscriber
     const styleUnsubscriber = styles.subscribe(s => updateBackground(s))
 
 
-    initializeI18n()
 
-    onMount(() => {
-        Authenticator.initialize();
+    onMount(async () => {
+        await initializeI18n()
+        localeUnsubscriber = locale.subscribe(l => saveLocale(l))
+        await Authenticator.initialize();
     });
     onDestroy(() => {
         localeUnsubscriber()

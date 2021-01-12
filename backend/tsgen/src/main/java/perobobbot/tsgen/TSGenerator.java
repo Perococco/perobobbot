@@ -14,6 +14,7 @@ import perobobbot.lang.TypeScript;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class TSGenerator {
         this.setupClassFiltering();
         generator.setEnumConverter(new JavaEnumToTsEnumConverter(false));
         generator.getCustomTypeMapping().put(UUID.class, TypeMapper.tsString);
+        generator.getCustomTypeMapping().put(Locale.class, TypeMapper.tsString);
 
         JacksonObjectMapper jacksonObjectMapper = new JacksonObjectMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);
