@@ -2,7 +2,7 @@ import type {AxiosRequestConfig, AxiosResponse} from 'axios';
 import type {Extension, UpdateUserParameters} from './data-com';
 import type {Bot} from './perobobbot-lang';
 import type {CreateBotParameters, RestCredentialInfo} from './rest-com';
-import type {Credential, SimpleUser} from './security-com';
+import type {Credential, JwtInfo, SimpleUser} from './security-com';
 import axios from "axios";
 
 export class BotController {
@@ -157,7 +157,7 @@ export class SecurityController {
         return axios(config).then(res => res.data);
     }
 
-    public signIn(credential: Credential): Promise<string> {
+    public signIn(credential: Credential): Promise<JwtInfo> {
         const url = new URL('/api/signin', this.baseURL);
 
         const config: AxiosRequestConfig = {

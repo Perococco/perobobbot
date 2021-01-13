@@ -16,7 +16,7 @@
 </script>
 
 <ul>
-    {#each users as {locale, login, roles}, i}
-        <li>{login} : {roles}  {locale}</li>
+    {#each users as {locale, deactivated, login, roles}, i}
+        <li>{login} : {deactivated} {roles}  {locale}</li>
     {/each}
 </ul>

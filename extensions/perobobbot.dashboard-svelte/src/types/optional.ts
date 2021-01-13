@@ -7,7 +7,7 @@ export class Optional<T> {
         this.value = value;
     }
 
-    public map<U>(mapper:(t:T) => U):Optional<U> {
+    public map<U>(mapper:(t:T) => U|undefined):Optional<U> {
         if (this.value == undefined) {
             return Optional.Empty;
         }

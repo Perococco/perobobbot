@@ -65,6 +65,7 @@ create table PEROBOT.ROLE_OPERATION (
 create table PEROBOT.USER (
                               ID bigint not null,
                               VERSION integer not null,
+                              DEACTIVATED boolean not null,
                               JWT_CLAIM varchar(255) not null,
                               LOCALE varchar(255),
                               LOGIN varchar(255),

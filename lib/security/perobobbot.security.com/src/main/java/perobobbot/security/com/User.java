@@ -20,6 +20,8 @@ public class User {
     @NonNull
     String password;
 
+    boolean deactivated;
+
     @NonNull
     Locale locale;
 
@@ -33,7 +35,7 @@ public class User {
     ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login,locale,roles);
+        return new SimpleUser(login,locale,deactivated,roles);
     }
 
 }

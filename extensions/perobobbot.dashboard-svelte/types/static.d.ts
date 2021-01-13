@@ -57,3 +57,14 @@ declare module '*.png' {
 }
 
 /* CUSTOM: ADD YOUR OWN HERE */
+declare namespace Intl {
+  function getCanonicalLocales(locales: string | string[]): string[];
+
+  declare class Locale {
+    baseName:string;
+    language:string;
+    region?:string;
+    script?:string;
+    constructor(tag?: string, options?: IntlLocaleOptions);
+  }
+}

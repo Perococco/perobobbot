@@ -11,7 +11,7 @@ const controller = new I18nController();
  */
 async function registerDictionaries(): Promise<string[]> {
     const languageTags = await controller.getAvailableLanguageTags();
-    languageTags.forEach((languageTag, index, _) => {
+    languageTags.forEach(languageTag => {
         register(languageTag, () => controller.getDictionary(languageTag))
     })
     return languageTags;
@@ -51,7 +51,7 @@ function matches(checked: string, available: string): boolean {
     const split: string[] = splitLocale(Intl.getCanonicalLocales(checked)[0]);
     const canonical: string = Intl.getCanonicalLocales(available)[0];
 
-    return split.find(s => s === canonical) !== undefined;
+    return split.find(s => s === canonical) != undefined;
 }
 
 export async function initializeI18n(): Promise<void> {

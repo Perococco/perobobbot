@@ -1,11 +1,12 @@
 <script lang="ts">
-    import * as Authenticator from "../server/authenticator";
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
     import {styles} from "../stores/styles";
     import {routing, withoutRequestedRoute} from "../stores/routing";
     import * as Str from "../tools";
     import {Optional} from "../types/optional";
+    import {authentication} from "../stores/authentication";
+    import {_} from "svelte-i18n"
 
 
     let error: string = "";
@@ -23,7 +24,7 @@
             .map(u => u.requestedRoute)
             .map(r => r.location + "?" + r.querystring)
             .orElse("/home");
-        Authenticator.authenticate(login, password, rememberMe)
+        authentication.signIn(login, password, rememberMe)
             .then(() => {
                 $routing = withoutRequestedRoute();
                 replace(nextRoute);
@@ -48,9 +49,30 @@
 
     onMount(() => styles.update(g => g.withBackgroundForRoute("/login")));
 
+    function inputChanged() {
+        error = "";
+    }
+
 </script>
 
 <style>
+    @keyframes disableAnime {
+        from {opacity: 1;}
+        to {opacity: 0.4;}
+    }
+    @keyframes enableAnime {
+        from {opacity: 0.4;}
+        to {opacity: 1;}
+    }
+
+    .disabled {
+        animation: disableAnime 0.5s;
+        opacity: 0.4;
+    }
+    .enabled {
+        animation: enableAnime 0.5s;
+        opacity: 1;
+    }
 
 </style>
 
@@ -59,28 +81,33 @@
         <form class="bg-white p-4 shadow-2xl rounded">
             <div class="relative">
                 <input class="relative p-1 m-2 bg-neutral-100 shadow-inner" type="text" bind:value={login}
-                       placeholder="Enter Username" name="uname" required>
+                       placeholder="{$_('login.username.placeholder')}" name="uname" required on:change="{inputChanged}">
                 {#if loginInvalid}
-                    <div class="absolute top-0 right-2 2xl:font-bold  text-error-500 p-1  rounded-3xl">!</div>
+                    <div class="absolute top-0 right-2 p-1 2xl:font-bold  text-error-500   rounded-3xl">!</div>
                 {/if}
             </div>
             <div class="relative">
                 <input class="relative p-1 m-2 bg-neutral-100 shadow-inner" type="password" bind:value={password}
-                       placeholder="Enter Password" name="psw" required>
+                       placeholder="{$_('login.password.placeholder')}" name="psw" required on:change="{inputChanged}">
                 {#if passwordInvalid}
                     <div class="absolute top-0 right-2 2xl:font-bold  text-error-500 p-1  rounded-3xl">!</div>
                 {/if}
             </div>
-            <div class="p-3 flex items-center justify-between">
-                <button class="bg-primary-500 text-primary-50 rounded pb-1 pt-1 pl-2 pr-2 shadow-xl" disabled={invalid}
-                        on:click|preventDefault={submitForm} type="submit">Login
-                </button>
+            <div>
                 <label>
-                    <input type="checkbox" bind:checked={rememberMe} name="remember"> Remember me
+                    <input class="m-2" type="checkbox" bind:checked={rememberMe} name="remember">{$_('login.Remember_me')}
                 </label>
             </div>
+            <div class="pt-1 pr-1 flex flex-col items-end">
+                <button class="bg-primary-500 text-primary-50 rounded pb-1 pt-1 pl-2 pr-2 shadow-xl" disabled={invalid}
+                        class:disabled="{invalid}"
+                        class:enabled="{!invalid}"
+                        on:click|preventDefault={submitForm} type="submit">{$_('Login')}</button>
+            </div>
             {#if error !== ""}
-                <p>An error occurred : {error}</p>
+            <div class="text-error-600">
+                <p>{error}</p>
+            </div>
             {/if}
         </form>
 

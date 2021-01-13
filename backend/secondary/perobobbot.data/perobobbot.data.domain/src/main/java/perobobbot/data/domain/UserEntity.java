@@ -74,9 +74,9 @@ public class UserEntity extends UserEntityBase {
         return this;
     }
 
-
     public @NonNull User toView() {
         return User.builder()
+                   .deactivated(this.isDeactivated())
                    .login(this.getLogin())
                    .locale(getLocale())
                    .password(this.getPassword())

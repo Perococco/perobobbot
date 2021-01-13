@@ -36,6 +36,10 @@ public class UserEntityBase extends SimplePersistentObject {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
+    @NonNull
+    @Column(name = "DEACTIVATED", nullable = false)
+    private boolean deactivated = false;
+
     @Column(name = "JWT_CLAIM", nullable = false)
     private String jwtClaim = "";
 

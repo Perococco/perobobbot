@@ -1,7 +1,8 @@
 <script lang="typescript">
     import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
     import Router, {replace} from "svelte-spa-router";
-    import {Optional, UserData} from "./types/types";
+    import {Optional} from "./types/types";
+    import type {RouteUserData} from "./types/routeUserData";
     import {authentication} from "./stores/stores";
     import {routing,withoutRequestedRoute,withRequestedRoute} from "./stores/routing";
     import * as Utils from "./route_utils";
@@ -21,7 +22,7 @@
     function onRouteDenied(event: ConditionsFailedEvent): void {
         $routing = withRequestedRoute(event.detail);
         Optional.ofNullable(event.detail)
-            .map(d => d.userData as UserData)
+            .map(d => d.userData as RouteUserData)
             .map(d => d.onDeniedRoute)
             .ifPresent(r => replace(r))
     }

@@ -17,6 +17,8 @@ public class SimpleUser {
     @NonNull
     Locale locale;
 
+    boolean deactivated;
+
     @NonNull
     ImmutableSet<RoleKind> roles;
 

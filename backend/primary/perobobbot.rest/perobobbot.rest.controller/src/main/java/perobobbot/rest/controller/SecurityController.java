@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
+import perobobbot.security.com.JwtInfo;
 import perobobbot.security.com.Credential;
 import perobobbot.security.com.EndPoints;
 import perobobbot.security.com.SimpleUser;
@@ -48,10 +49,10 @@ public class SecurityController {
      * @return a JWT for further authentication
      */
     @PostMapping(EndPoints.SIGN_IN)
-    public String signIn(@Valid @RequestBody Credential credential) {
+    public JwtInfo signIn(@Valid @RequestBody Credential credential) {
         final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credential.getLogin(), credential.getPassword()));
         final LoginFromAuthentication login = new LoginFromAuthentication(authentication);
-        return jwTokenManager.createJWToken(login.toString());
+        return jwTokenManager.createJwtInfo(login.toString());
     }
 
     /**

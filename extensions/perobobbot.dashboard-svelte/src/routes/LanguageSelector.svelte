@@ -1,24 +1,27 @@
 <script>
-    import {locale, locales} from "svelte-i18n";
     import {authentication} from "../stores/authentication";
-    import {onDestroy, onMount} from "svelte";
+    import {onMount} from "svelte";
     import {UserController} from "../server/rest-controller";
+    import {botLocale, botLocales} from "../stores/locale-store";
 
-    let subscription = () =>{}
-    let _locale = $locale
+    const userController = new UserController();
+
+    let _locale=$botLocale;
 
     onMount(() => {
-        _locale = $locale;
-        locale.subscribe(l => _locale = l)
+        return botLocale.subscribe(l => _locale = l)
     })
-    onDestroy(subscription);
 
     function onLanguageSelected() {
         const user = $authentication.user;
-        if (_locale !== undefined && user !== undefined) {
-            const userController = new UserController();
-            userController.updateUser(user.login, {languageTag: _locale})
-                .then(u => locale.set(u.locale))
+        if (_locale == null) {
+            return;
+        }
+        if (user != null) {
+            userController.updateUser(user.login, {languageTag: _locale.toString()})
+                .then(u => botLocale.set(u.locale))
+        } else {
+            botLocale.set(_locale)
         }
     }
 
@@ -27,7 +30,7 @@
 
 <label>
     <select bind:value={_locale} on:change={onLanguageSelected}>
-        {#each $locales as locale}
+        {#each $botLocales as locale}
             <option value={locale}>{locale}</option>
         {/each}
     </select>

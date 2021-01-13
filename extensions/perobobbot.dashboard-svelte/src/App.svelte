@@ -5,28 +5,32 @@
     import "./css/VarCSS.svelte";
     import MainRouter from "./MainRouter.svelte";
 
-    import {onDestroy, onMount} from 'svelte';
-    import * as Authenticator from "./server/authenticator";
+    import {onMount} from 'svelte';
     import {Styles} from "./types/styles";
 
-    import {styles} from "./stores/stores";
-    import {initializeI18n, saveLocale} from "./i18nts";
-    import {locale} from "svelte-i18n";
-
-
-    let localeUnsubscriber
-    const styleUnsubscriber = styles.subscribe(s => updateBackground(s))
-
+    import {authentication, styles} from "./stores/stores";
+    import {initializeAxiosSecurity} from "./axios";
+    import {botLocale} from "./stores/locale-store";
+    import {Optional} from "./types/optional";
 
 
     onMount(async () => {
-        await initializeI18n()
-        localeUnsubscriber = locale.subscribe(l => saveLocale(l))
-        await Authenticator.initialize();
-    });
-    onDestroy(() => {
-        localeUnsubscriber()
-        styleUnsubscriber();
+        await botLocale.initialize();
+        const userUnSubscriber = authentication.subscribe(auth => {
+            Optional.of(auth)
+                .map(a => a.user)
+                .map(a => a.locale)
+                .ifPresent(l => botLocale.set(l))
+        })
+        const styleUnSubscriber = styles.subscribe(s => updateBackground(s))
+
+        initializeAxiosSecurity();
+        await authentication.refresh();
+
+        return () => {
+            userUnSubscriber();
+            styleUnSubscriber();
+        }
     });
 
     function updateBackground(styles: Styles) {

@@ -12,7 +12,7 @@ public enum Dictionaries implements DictionaryProvider {
     INSTANCE,
     ;
 
-    private final DictionaryProvider provider = new CachedDictionaryProvider(new DictionaryFromResourceProvider());
+    private final DictionaryProvider provider = new DictionaryFromResourceProvider();
 
 
     @Override

@@ -10,7 +10,11 @@ import perobobbot.security.com.User;
 public class PerobobbotUserDetails extends org.springframework.security.core.userdetails.User {
 
     public PerobobbotUserDetails(@NonNull User user) {
-        super(user.getLogin(), user.getPassword(), ExtractorOfGrantedAuthorities.extract(user));
+        super(user.getLogin(),
+              user.getPassword(),
+              !user.isDeactivated(),
+              true,true,true,
+              ExtractorOfGrantedAuthorities.extract(user));
     }
 
     public static UserDetails with(@NonNull User user) {
