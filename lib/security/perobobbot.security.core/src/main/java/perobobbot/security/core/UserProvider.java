@@ -10,10 +10,10 @@ public interface UserProvider {
      * @return the user with the provided login
      */
     @NonNull
-    User getUser(@NonNull String login);
+    User getUserDetails(@NonNull String login);
 
     default @NonNull String getUserClaim(@NonNull String login) {
-        return getUser(login).getJwtClaim();
+        return getUserDetails(login).getJwtClaim();
     }
 
 }

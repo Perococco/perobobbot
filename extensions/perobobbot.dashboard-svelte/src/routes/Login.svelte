@@ -102,7 +102,7 @@
                 <button class="bg-primary-500 text-primary-50 rounded pb-1 pt-1 pl-2 pr-2 shadow-xl" disabled={invalid}
                         class:disabled="{invalid}"
                         class:enabled="{!invalid}"
-                        on:click|preventDefault={submitForm} type="submit">{$_('Login')}</button>
+                        on:click|preventDefault={submitForm} type="submit">{$_('SignIn')}</button>
             </div>
             {#if error !== ""}
             <div class="text-error-600">

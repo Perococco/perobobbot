@@ -5,7 +5,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.DynamicParameterizedType;
 import perobobbot.lang.IdentifiedEnum;
+import perobobbot.lang.IdentifiedEnumTools;
 
+import javax.persistence.Id;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,12 +66,6 @@ public class IdentifiedEnumType  extends ImmutableUserType implements DynamicPar
 
 
     public Object findEnum(@NonNull String id) {
-        for (IdentifiedEnum enumConstant : enumType.getEnumConstants()) {
-            if (id.equals(enumConstant.getIdentification())) {
-                return enumConstant;
-            }
-        }
-//        LOG.warn("Could not find enum type '"+enumType+"' for id='"+id+"' ");
-        return null;
+        return IdentifiedEnumTools.getEnum(id,enumType);
     }
 }

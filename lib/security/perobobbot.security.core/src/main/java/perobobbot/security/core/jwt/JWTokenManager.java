@@ -6,11 +6,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
 import perobobbot.security.com.JwtInfo;
 import perobobbot.security.com.User;
@@ -36,7 +34,7 @@ public class JWTokenManager {
     private final UserProvider userProvider;
 
     public @NonNull JwtInfo createJwtInfo(@NonNull String login) {
-        final var user = userProvider.getUser(login);
+        final var user = userProvider.getUserDetails(login);
         final var jwtClaim = user.getJwtClaim();
         final var now = Instant.now();
         final var expiration = now.plus(30, ChronoUnit.DAYS);
@@ -85,7 +83,7 @@ public class JWTokenManager {
 
     private @NonNull perobobbot.security.com.User checkUser(Claims claims) {
         final String login = claims.getSubject();
-        final var user = userProvider.getUser(login);
+        final var user = userProvider.getUserDetails(login);
 
         if (user.isDeactivated()) {
             throw new DisabledException("User has been deactivated");

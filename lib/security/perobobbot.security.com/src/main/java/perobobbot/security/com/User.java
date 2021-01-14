@@ -3,6 +3,7 @@ package perobobbot.security.com;
 import com.google.common.collect.ImmutableSet;
 import lombok.Builder;
 import lombok.NonNull;
+import lombok.Singular;
 import lombok.Value;
 import perobobbot.lang.NoTypeScript;
 import perobobbot.lang.TypeScript;
@@ -29,13 +30,15 @@ public class User {
     String jwtClaim;
 
     @NonNull
+    @Singular
     ImmutableSet<RoleKind> roles;
 
     @NonNull
+    @Singular
     ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login,locale,deactivated,roles);
+        return new SimpleUser(login, locale, deactivated, roles);
     }
 
 }

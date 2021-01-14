@@ -3,11 +3,18 @@ package perobobbot.data.jpa.service;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DuplicateUser;
+import perobobbot.data.com.UnknownUser;
 import perobobbot.data.com.UpdateUserParameters;
+import perobobbot.data.jpa.repository.UserDetailProjection;
+import perobobbot.lang.IdentifiedEnumTools;
+import perobobbot.lang.Todo;
+import perobobbot.security.com.Operation;
+import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.User;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.data.jpa.repository.CredentialRepository;
@@ -18,6 +25,7 @@ import perobobbot.data.service.UserService;
 import perobobbot.lang.PasswordEncoder;
 
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author Perococco
@@ -41,6 +49,38 @@ public class JPAUserService implements UserService, UserProvider {
     @Override
     public User getUser(@NonNull String login) {
         return userRepository.getByLogin(login).toView();
+    }
+
+    @Override
+    public @NonNull User getUserDetails(@NonNull String login) {
+        final var userInfo = userRepository.getUserDetail(login);
+        if (userInfo.isEmpty()) {
+            throw new UnknownUser(login);
+        }
+        final var builder = User.builder();
+        final var first = userInfo.get(0);
+        builder.login(first.getLogin())
+               .password(first.getPassword())
+               .deactivated(first.isDeactivated())
+               .locale(Locale.forLanguageTag(first.getLocale()))
+               .jwtClaim(first.getJwtClaim());
+
+        userInfo.stream()
+                .map(UserDetailProjection::getRoleKind)
+                .filter(Objects::nonNull)
+                .map(IdentifiedEnumTools.mapper(RoleKind.class))
+                .distinct()
+                .forEach(builder::role);
+
+        userInfo.stream()
+                .map(UserDetailProjection::getOperation)
+                .filter(Objects::nonNull)
+                .map(IdentifiedEnumTools.mapper(Operation.class))
+                .distinct()
+                .forEach(builder::operation);
+
+        final var user = builder.build();
+        return user;
     }
 
     @NonNull
