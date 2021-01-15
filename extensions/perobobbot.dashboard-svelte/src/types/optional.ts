@@ -1,4 +1,7 @@
-export class Optional<T> {
+export {Optional}
+
+
+class Optional<T> {
     private value?:T;
 
     private static Empty = new Optional<any>(undefined);
@@ -72,3 +75,4 @@ export class Optional<T> {
     }
 
 }
+

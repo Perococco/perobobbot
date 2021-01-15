@@ -6,12 +6,13 @@
     import MainRouter from "./MainRouter.svelte";
 
     import {onMount} from 'svelte';
-    import {Styles} from "./types/styles";
+    import {Styles} from "@types/styles";
 
-    import {authentication, styles} from "./stores/stores";
+    import {authentication} from "@stores/authentication";
+    import {styles} from "@stores/styles";
     import {initializeAxiosSecurity} from "./axios";
-    import {botLocale} from "./stores/locale-store";
-    import {Optional} from "./types/optional";
+    import {botLocale} from "@stores/locale-store";
+    import {Optional} from "@types/optional";
     import {isLoading} from "svelte-i18n";
 
     let isReady = false;

@@ -1,11 +1,11 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {styles} from "../stores/styles";
-    import {authentication} from "../stores/stores";
+    import {styles} from "@stores/styles";
+    import {authentication} from "@stores/authentication";
     import type {WrappedComponent} from "svelte-spa-router";
     import Router, {push, replace} from "svelte-spa-router";
     import {Optional} from "../types/optional";
-    import {RoleKind} from "../server/security-com";
+    import {RoleKind} from "@backend/security-com";
     import * as Routes from "../route_list";
     import * as Utils from "../route_utils";
     import {_} from 'svelte-i18n'

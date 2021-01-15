@@ -2,11 +2,11 @@
     import type {RouteDetail} from 'svelte-spa-router';
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
-    import {styles} from "../stores/styles";
-    import {routing, withoutRequestedRoute} from "../stores/routing";
-    import * as Str from "../tools";
+    import {styles} from "@stores/styles";
+    import {routing, withoutRequestedRoute} from "@stores/routing";
+    import * as Tools from "../tools";
     import {Optional} from "../types/optional";
-    import {authentication} from "../stores/authentication";
+    import {authentication} from "@stores/authentication";
     import {_} from "svelte-i18n"
 
 
@@ -16,8 +16,8 @@
     let rememberMe: boolean = false;
 
     $: request = $routing;
-    $: passwordInvalid = Str.isBlank(password);
-    $: loginInvalid = Str.isBlank(login);
+    $: passwordInvalid = Tools.isBlank(password);
+    $: loginInvalid = Tools.isBlank(login);
     $: invalid = passwordInvalid || loginInvalid;
 
     function formRouteFromRouteDetail(routeDetail:RouteDetail):string {
@@ -27,20 +27,18 @@
         return routeDetail.location+"?"+routeDetail.querystring;
     }
 
-    function submitForm(): void {
+    async function submitForm(): Promise<void> {
         const nextRoute = Optional.ofNullable($routing)
             .map(u => u.requestedRoute)
             .map(r => formRouteFromRouteDetail(r))
             .orElse("/home");
-        authentication.signIn(login, password, rememberMe)
-            .then(() => {
-                $routing = withoutRequestedRoute();
-                console.log("Next route "+nextRoute)
-                replace(nextRoute);
-            })
-            .catch(err => {
-                error = formErrorMessage(err);
-            });
+        try {
+            await authentication.signIn(login, password, rememberMe);
+            $routing = withoutRequestedRoute();
+            replace(nextRoute);
+        } catch (err) {
+            error = formErrorMessage(err);
+        }
     }
 
     function formErrorMessage(err: object): string {

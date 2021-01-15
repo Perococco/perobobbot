@@ -1,7 +1,7 @@
 import {sessionWritable} from "./session-storage-store";
 import type {Writable} from "svelte/types/runtime/store";
-import {SecurityController} from "../server/rest-controller";
-import type {JwtInfo, SimpleUser} from "../server/security-com";
+import {SecurityController} from "@backend/rest-controller";
+import type {JwtInfo, SimpleUser} from "@backend/security-com";
 import {Optional} from "../types/optional";
 
 const JWT_KEY = "jwt_token";
@@ -15,8 +15,10 @@ declare interface Authentication {
 
 declare interface Authenticator extends Writable<Authentication> {
     logout: () => void;
-    signIn: (login: string, password: string, rememberMe: boolean) => Promise<SimpleUser>;
+    signIn: (login: string, password: string, rememberMe: boolean) => Promise<void>;
     refresh: () => Promise<SimpleUser | undefined>;
+    isAuthenticated: () => boolean;
+
 }
 
 //
@@ -32,7 +34,6 @@ function clearBrowserStorage(): void {
 
 function updateBrowserStorage(jwt: string, rememberMe: boolean): void {
     clearBrowserStorage()
-    console.log("Store key: " + jwt)
     sessionStorage.setItem(JWT_KEY, jwt);
     if (rememberMe) {
         localStorage.setItem(JWT_KEY, jwt);
@@ -46,23 +47,24 @@ function createBrowserStoreUpdater(rememberMe: boolean): (jwtInfo: JwtInfo) => S
     };
 }
 
-function setAuthenticationStore(user: SimpleUser): SimpleUser {
-    console.log("Set user")
-    console.log(user)
-    _authentication.set({user});
-    return user;
-}
-
 function retrieveStoredJWToken(): Optional<string> {
     const inSession: string | null = sessionStorage.getItem(JWT_KEY);
     const jwToken: string | null = inSession ?? localStorage.getItem(JWT_KEY);
     return Optional.ofNullable(jwToken);
 }
 
+let local: Authentication = {}
+
 const authentication: Authenticator = {
     subscribe: _authentication.subscribe,
-    set: _authentication.set,
-    update: _authentication.update,
+    set: auth => {
+        local = auth;
+        _authentication.set(auth);
+    },
+    update: u => {
+        local = u(local);
+        _authentication.set(local);
+    },
 
     logout: async () => {
         clearBrowserStorage();
@@ -70,26 +72,26 @@ const authentication: Authenticator = {
     },
 
     signIn: async (login: string, password: string, rememberMe: boolean = false) => {
-        console.group("Authentication")
         const updateBrowserStorage = createBrowserStoreUpdater(rememberMe);
         authentication.logout();
-        try {
-            const user = await securityController.signIn({login, password})
-                .then(updateBrowserStorage)
-                .then(setAuthenticationStore)
-            return user;
-        } finally {
-            console.groupEnd();
-        }
+        return await securityController.signIn({login, password})
+            .then(updateBrowserStorage)
+            .then(user => authentication.set({user}));
     },
 
     refresh: async () => {
         return securityController.getCurrentUser()
-            .then(setAuthenticationStore)
+            .then(user => {
+                authentication.set({user})
+                return user;
+            })
             .catch(err => {
                 authentication.set({});
                 return undefined;
             })
+    },
+    isAuthenticated: () => {
+        return local.user != undefined;
     }
 
 }

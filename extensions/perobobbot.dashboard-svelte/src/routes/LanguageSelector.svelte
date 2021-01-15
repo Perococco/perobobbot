@@ -1,8 +1,8 @@
 <script>
-    import {authentication} from "../stores/authentication";
+    import {authentication} from "@stores/authentication";
     import {onMount} from "svelte";
-    import {UserController} from "../server/rest-controller";
-    import {botLocale, botLocales} from "../stores/locale-store";
+    import {UserController} from "@backend/rest-controller";
+    import {botLocale, botLocales} from "@stores/locale-store";
 
     const userController = new UserController();
 

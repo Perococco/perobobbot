@@ -1,7 +1,7 @@
 import * as Svelte from 'svelte-i18n';
 import {getLocaleFromNavigator, init, register} from 'svelte-i18n';
 import type {Readable, Writable} from "svelte/types/runtime/store";
-import {I18nController} from "../server/rest-controller";
+import {I18nController} from "@backend/rest-controller";
 import {Optional} from "../types/optional";
 import Locale = Intl.Locale;
 

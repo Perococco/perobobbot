@@ -47,7 +47,6 @@ function splitLocale(locale: string): string[] {
 }
 
 function matches(checked: string, available: string): boolean {
-    console.log("Checked = " + checked);
     const split: string[] = splitLocale(Intl.getCanonicalLocales(checked)[0]);
     const canonical: string = Intl.getCanonicalLocales(available)[0];
 

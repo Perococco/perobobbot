@@ -1,6 +1,6 @@
 
-import type {SimpleUser} from "../server/security-com";
-import {UserController} from "../server/rest-controller";
+import type {SimpleUser} from "@backend/security-com";
+import {UserController} from "@backend/rest-controller";
 import type {Readable} from "svelte/types/runtime/store";
 
 

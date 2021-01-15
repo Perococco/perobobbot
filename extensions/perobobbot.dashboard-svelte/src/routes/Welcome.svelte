@@ -1,7 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {push} from "svelte-spa-router";
-    import {styles} from "../stores/styles";
+    import {styles} from "@stores/styles";
 
     function onViewer(event: object): void {
         console.log("on viewer");
