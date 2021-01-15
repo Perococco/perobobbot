@@ -14,7 +14,7 @@
     }
 
     onMount(async () => {
-        loadAllUsers();
+        await loadAllUsers();
     });
 
     const table: Table<SimpleUser> = {
@@ -64,7 +64,7 @@
             <span class="header uppercase text-center">{$_(column.i18nKey)}</span>
         {/each}
 
-        {#each users as user}
+        {#each users as user (user.login)}
             {#each table.columns as column}
                 <span class="value">{column.getter(user)}</span>
             {/each}

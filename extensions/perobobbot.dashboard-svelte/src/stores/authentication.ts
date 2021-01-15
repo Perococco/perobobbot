@@ -16,8 +16,9 @@ declare interface Authentication {
 declare interface Authenticator extends Writable<Authentication> {
     logout: () => void;
     signIn: (login: string, password: string, rememberMe: boolean) => Promise<SimpleUser>;
-    refresh: () => Promise<SimpleUser|undefined>;
+    refresh: () => Promise<SimpleUser | undefined>;
 }
+
 //
 
 // Store declarations
@@ -31,6 +32,7 @@ function clearBrowserStorage(): void {
 
 function updateBrowserStorage(jwt: string, rememberMe: boolean): void {
     clearBrowserStorage()
+    console.log("Store key: " + jwt)
     sessionStorage.setItem(JWT_KEY, jwt);
     if (rememberMe) {
         localStorage.setItem(JWT_KEY, jwt);
@@ -45,6 +47,8 @@ function createBrowserStoreUpdater(rememberMe: boolean): (jwtInfo: JwtInfo) => S
 }
 
 function setAuthenticationStore(user: SimpleUser): SimpleUser {
+    console.log("Set user")
+    console.log(user)
     _authentication.set({user});
     return user;
 }
@@ -66,11 +70,17 @@ const authentication: Authenticator = {
     },
 
     signIn: async (login: string, password: string, rememberMe: boolean = false) => {
+        console.group("Authentication")
         const updateBrowserStorage = createBrowserStoreUpdater(rememberMe);
         authentication.logout();
-        return securityController.signIn({login, password})
-            .then(updateBrowserStorage)
-            .then(setAuthenticationStore)
+        try {
+            const user = await securityController.signIn({login, password})
+                .then(updateBrowserStorage)
+                .then(setAuthenticationStore)
+            return user;
+        } finally {
+            console.groupEnd();
+        }
     },
 
     refresh: async () => {
@@ -84,5 +94,5 @@ const authentication: Authenticator = {
 
 }
 
-export {retrieveStoredJWToken,authentication};
+export {retrieveStoredJWToken, authentication};
 export type {Authentication, Authenticator};

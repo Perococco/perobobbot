@@ -1,21 +1,38 @@
 <script lang="typescript">
     import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
-    import Router, {replace} from "svelte-spa-router";
+    import Router, {replace,location} from "svelte-spa-router";
     import {Optional} from "./types/types";
     import type {RouteUserData} from "./types/routeUserData";
     import {authentication} from "./stores/stores";
-    import {routing,withoutRequestedRoute,withRequestedRoute} from "./stores/routing";
+    import {routing, withoutRequestedRoute, withRequestedRoute} from "./stores/routing";
     import * as Utils from "./route_utils";
     import * as Routes from "./route_list";
+    import wrap from "svelte-spa-router/wrap";
 
-    const routes = createRoutes(() => $authentication.user !== undefined)
+    let authenticated;
+    $: authenticated = $authentication.user != undefined;
 
-    function createRoutes(authenticated:()=>boolean):Map<string|RegExp,WrappedComponent> {
-        const routes = new Map<string|RegExp,WrappedComponent>();
-        routes.set(Routes.WELCOME, Utils.basicAsync(() => import("./routes/Welcome.svelte")));
-        routes.set(Routes.LOGIN, Utils.basicAsync(() => import("./routes/Login.svelte")));
-        routes.set("/", Utils.securedAsync(() => import("./routes/Home.svelte"),authenticated, "/welcome"))
-        routes.set(/^\/home(\/(.*))?/, Utils.securedAsync(() => import("./routes/Home.svelte"),authenticated))
+    $: {
+        console.group("Authenticated")
+        console.log("authenticated : "+authenticated)
+        console.groupEnd();
+    }
+
+    const routes = createRoutes();
+
+    function createRoutes(): Map<string | RegExp, WrappedComponent> {
+        const routes = new Map<string | RegExp, WrappedComponent>();
+        routes.set(Routes.WELCOME, wrap({asyncComponent:() => import("./routes/Welcome.svelte")}));
+        routes.set(Routes.LOGIN, wrap({asyncComponent:() => import("./routes/Login.svelte")}));
+
+        routes.set("/", wrap(
+            {asyncComponent:() => import("./routes/Home.svelte"),
+                conditions:[() => authenticated], userData:{onDeniedRoute:"/welcome"}}
+                ));
+        routes.set(/^\/home(\/(.*))?/, wrap(
+            {asyncComponent:() => import("./routes/Home.svelte"),
+                conditions:[() => authenticated], userData:{onDeniedRoute:"/login"}}
+                ));
         return routes;
     }
 

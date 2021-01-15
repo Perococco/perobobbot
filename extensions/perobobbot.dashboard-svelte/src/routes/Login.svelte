@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type {RouteDetail} from 'svelte-spa-router';
     import {replace} from 'svelte-spa-router';
     import {onMount} from "svelte";
     import {styles} from "../stores/styles";
@@ -19,14 +20,22 @@
     $: loginInvalid = Str.isBlank(login);
     $: invalid = passwordInvalid || loginInvalid;
 
+    function formRouteFromRouteDetail(routeDetail:RouteDetail):string {
+        if (routeDetail.querystring.length == 0) {
+            return routeDetail.location;
+        }
+        return routeDetail.location+"?"+routeDetail.querystring;
+    }
+
     function submitForm(): void {
         const nextRoute = Optional.ofNullable($routing)
             .map(u => u.requestedRoute)
-            .map(r => r.location + "?" + r.querystring)
+            .map(r => formRouteFromRouteDetail(r))
             .orElse("/home");
         authentication.signIn(login, password, rememberMe)
             .then(() => {
                 $routing = withoutRequestedRoute();
+                console.log("Next route "+nextRoute)
                 replace(nextRoute);
             })
             .catch(err => {

@@ -12,10 +12,16 @@
     import {initializeAxiosSecurity} from "./axios";
     import {botLocale} from "./stores/locale-store";
     import {Optional} from "./types/optional";
+    import {isLoading} from "svelte-i18n";
 
+    let isReady = false;
+    let localeInitialized = false;
+
+    $: isReady = localeInitialized && !$isLoading
 
     onMount(async () => {
         await botLocale.initialize();
+        localeInitialized = true;
         const userUnSubscriber = authentication.subscribe(auth => {
             Optional.of(auth)
                 .map(a => a.user)
@@ -39,6 +45,11 @@
 
 
 </script>
-<div>
-    <MainRouter/>
-</div>
+
+{#if isReady}
+    <div>
+        <MainRouter/>
+    </div>
+{:else}
+    <div>LOADING</div>
+{/if}

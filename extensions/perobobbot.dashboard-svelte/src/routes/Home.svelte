@@ -9,7 +9,8 @@
     import * as Routes from "../route_list";
     import * as Utils from "../route_utils";
     import {_} from 'svelte-i18n'
-    import LanguageSelector from "./LanguageSelector.svelte";
+
+    let admin,login;
 
     $: admin = Optional.ofNullable($authentication.user).map(u => u.roles.includes(RoleKind.ADMIN)).orElse(false)
     $: login = Optional.ofNullable($authentication.user).map(u => u.login).orElse("?")
@@ -83,7 +84,6 @@
             </button>
         </div>
         <div class="h-full w-full">
-
             <Router {routes} {prefix}/>
         </div>
     </div>

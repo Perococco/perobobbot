@@ -19,7 +19,13 @@ function securedAsync(asyncComponent:AsyncSvelteComponent,
         userData: data,
         conditions: [
             (detail => {
-                return authenticated()
+                console.group("Route check");
+                console.log(detail);
+                try {
+                    return authenticated()
+                } finally {
+                    console.groupEnd();
+                }
             })
         ]
     })
