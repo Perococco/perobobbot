@@ -1,20 +1,18 @@
 <script>
-    import {UserController} from "../../server/rest-controller";
     import {onMount} from "svelte";
+    import {users,User} from "../../stores/users";
+    import {_} from "svelte-i18n"
     import type {Table} from "../../types/table";
     import type {SimpleUser} from "../../server/security-com";
-    import {_} from "svelte-i18n"
 
-    const userController = new UserController();
+    let _users:User[] = [];
 
-    let users = [];
-
-    async function loadAllUsers():Promise<void> {
-        users = await userController.listAllUsers()
-    }
-
-    onMount(async () => {
-        await loadAllUsers();
+    onMount(() => {
+        users.initialize();
+        return users.subscribe(u => {
+            _users = u;
+            console.log(_users)
+        })
     });
 
     const table: Table<SimpleUser> = {
@@ -26,12 +24,8 @@
         ]
     };
 
-    function onClick(): void {
-        const index = users.findIndex(u => u.login === "perococco")
-        if (index >= 0) {
-            users[index].deactivated = !users[index].deactivated;
-            users[index] = users[index]
-        }
+    function onClick(ev) {
+        console.log(ev)
     }
 
 
@@ -64,7 +58,7 @@
             <span class="header uppercase text-center">{$_(column.i18nKey)}</span>
         {/each}
 
-        {#each users as user (user.login)}
+        {#each _users as user (user.login)}
             {#each table.columns as column}
                 <span class="value">{column.getter(user)}</span>
             {/each}

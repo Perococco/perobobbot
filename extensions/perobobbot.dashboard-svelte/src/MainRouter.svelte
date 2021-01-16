@@ -1,6 +1,7 @@
 <script lang="typescript">
     import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
     import Router, {replace} from "svelte-spa-router";
+    import type {RouteDetail} from "svelte-spa-router";
     import {Optional} from "@types/optional";
     import type {RouteUserData} from "./types/routeUserData";
     import {authentication} from "@stores/authentication";
@@ -10,6 +11,15 @@
 
     const routes = createRoutes();
 
+    async function routeCondition(routeDetails:RouteDetail):Promise<boolean> {
+        console.group("Route condition",routeDetails.location)
+        try {
+            return await authentication.isAuthenticated();
+        } finally {
+            console.groupEnd();
+        }
+    }
+
     function createRoutes(): Map<string | RegExp, WrappedComponent> {
         const routes = new Map<string | RegExp, WrappedComponent>();
         routes.set(Routes.WELCOME, wrap({asyncComponent:() => import("./routes/Welcome.svelte")}));
@@ -17,11 +27,11 @@
 
         routes.set("/", wrap(
             {asyncComponent:() => import("./routes/Home.svelte"),
-                conditions:[() => authentication.isAuthenticated()], userData:{onDeniedRoute:"/welcome"}}
+                conditions:[d => routeCondition(d)], userData:{onDeniedRoute:"/welcome"}}
                 ));
         routes.set(/^\/home(\/(.*))?/, wrap(
             {asyncComponent:() => import("./routes/Home.svelte"),
-                conditions:[() => authentication.isAuthenticated()], userData:{onDeniedRoute:"/login"}}
+                conditions:[d => routeCondition(d)], userData:{onDeniedRoute:"/login"}}
                 ));
         return routes;
     }

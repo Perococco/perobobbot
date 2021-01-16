@@ -15,10 +15,13 @@
     import {Optional} from "@types/optional";
     import {isLoading} from "svelte-i18n";
 
+    import {users} from "@stores/users"
+
     let isReady = false;
     let localeInitialized = false;
 
     $: isReady = localeInitialized && !$isLoading
+
 
     onMount(async () => {
         await botLocale.initialize();
@@ -30,9 +33,7 @@
                 .ifPresent(l => botLocale.set(l))
         })
         const styleUnSubscriber = styles.subscribe(s => updateBackground(s))
-
         initializeAxiosSecurity();
-        await authentication.refresh();
 
         return () => {
             userUnSubscriber();

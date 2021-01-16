@@ -1,5 +1,5 @@
 import {sessionWritable} from "./session-storage-store";
-import type {Writable} from "svelte/types/runtime/store";
+import type {Readable, Writable} from "svelte/types/runtime/store";
 import {SecurityController} from "@backend/rest-controller";
 import type {JwtInfo, SimpleUser} from "@backend/security-com";
 import {Optional} from "../types/optional";
@@ -13,12 +13,40 @@ declare interface Authentication {
     user?: SimpleUser;
 }
 
-declare interface Authenticator extends Writable<Authentication> {
+declare interface Authenticator extends Readable<Authentication> {
     logout: () => void;
     signIn: (login: string, password: string, rememberMe: boolean) => Promise<void>;
-    refresh: () => Promise<SimpleUser | undefined>;
-    isAuthenticated: () => boolean;
+    isAuthenticated: () => Promise<boolean>;
+    currentUser: () => Promise<Optional<SimpleUser>>
+}
 
+declare interface InnerAuthenticator extends Authenticator, Writable<Authentication> {
+
+}
+
+class PP {
+    readonly promise: Promise<Optional<SimpleUser>>;
+    private resolver: (value: Optional<SimpleUser> | PromiseLike<Optional<SimpleUser>>) => void;
+    private rejecter: (reason?: any) => void;
+
+    constructor() {
+        this.resolver = o => {
+        };
+        this.rejecter = a => {
+        };
+        this.promise = new Promise<Optional<SimpleUser>>((resolve, reject) => {
+            this.resolver = resolve;
+            this.rejecter = reject;
+        })
+    }
+
+    public reject(reason?: any) {
+        this.rejecter(reason);
+    }
+
+    public resolve(value: Optional<SimpleUser> | PromiseLike<Optional<SimpleUser>>) {
+        this.resolver(value);
+    }
 }
 
 //
@@ -53,47 +81,59 @@ function retrieveStoredJWToken(): Optional<string> {
     return Optional.ofNullable(jwToken);
 }
 
-let local: Authentication = {}
+function loadCurrentUser(p:PP): Promise<void> {
+    return securityController.getCurrentUser()
+        .then(user => {
+            console.log("Got user", user)
+            authentication.set({user})
+            p.resolve(Optional.of(user))
+        })
+        .catch(err => {
+            authentication.set({});
+            p.resolve(Optional.empty())
+        })
+}
 
-const authentication: Authenticator = {
+
+let _promise: PP | undefined = undefined;
+
+
+const authentication: InnerAuthenticator = {
     subscribe: _authentication.subscribe,
-    set: auth => {
-        local = auth;
-        _authentication.set(auth);
-    },
-    update: u => {
-        local = u(local);
-        _authentication.set(local);
-    },
-
+    set: _authentication.set,
+    update: _authentication.update,
     logout: async () => {
+        Optional.ofNullable(_promise).ifPresent(p => p.reject("logout requested"));
+        _promise = undefined;
         clearBrowserStorage();
         authentication.set({});
     },
 
     signIn: async (login: string, password: string, rememberMe: boolean = false) => {
-        const updateBrowserStorage = createBrowserStoreUpdater(rememberMe);
         authentication.logout();
-        return await securityController.signIn({login, password})
-            .then(updateBrowserStorage)
-            .then(user => authentication.set({user}));
+        const p: PP = new PP();
+        _promise = p;
+        try {
+            const result = await securityController.signIn({login, password});
+            const token = result.token;
+            const user = result.user;
+            updateBrowserStorage(token, rememberMe);
+            authentication.set({user});
+            p.resolve(Optional.of(user));
+        } catch (err) {
+            p.resolve(Optional.empty());
+            throw err;
+        }
     },
-
-    refresh: async () => {
-        return securityController.getCurrentUser()
-            .then(user => {
-                authentication.set({user})
-                return user;
-            })
-            .catch(err => {
-                authentication.set({});
-                return undefined;
-            })
+    currentUser: async () => {
+        if (_promise == null) {
+            const p = new PP();
+            _promise = p;
+            await loadCurrentUser(p);
+        }
+        return _promise.promise;
     },
-    isAuthenticated: () => {
-        return local.user != undefined;
-    }
-
+    isAuthenticated: async function() {return await this.currentUser().then(o => o.isPresent());}
 }
 
 export {retrieveStoredJWToken, authentication};

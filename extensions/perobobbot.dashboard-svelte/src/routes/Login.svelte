@@ -9,7 +9,6 @@
     import {authentication} from "@stores/authentication";
     import {_} from "svelte-i18n"
 
-
     let error: string = "";
     let login: string = "";
     let password: string = "";

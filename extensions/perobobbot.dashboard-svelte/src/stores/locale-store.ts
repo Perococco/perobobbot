@@ -21,7 +21,7 @@ const LOCALE_KEY: string = "APP_LOCALE";
 
 const controller = new I18nController();
 
-function projectAndSet(locale:string,context:Context):string {
+function projectOnAvailableAndSet(locale:string,context:Context):string {
     const availableLocales = context.availableLocales;
     const fallbackLocale = context.fallbackLocale;
     const projectedLocale = bestMatch(locale, availableLocales).orElse(fallbackLocale);
@@ -54,12 +54,12 @@ function createBotLocale(context:Context): BotLocale {
     return {
         subscribe: Svelte.locale.subscribe,
         update(updater: (v: string) => string) {
-            Svelte.locale.update(u => projectAndSet(updater(u),context));
+            Svelte.locale.update(u => projectOnAvailableAndSet(updater(u),context));
         },
         set(value: string) {
-            const newValue:string = projectAndSet(value,context);
+            const newValue:string = projectOnAvailableAndSet(value,context);
             if (newValue !== _value) {
-                Svelte.locale.set(projectAndSet(value, context));
+                Svelte.locale.set(projectOnAvailableAndSet(value, context));
             }
         },
         initialize: async function():Promise<void> {
