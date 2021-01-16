@@ -84,7 +84,6 @@ function retrieveStoredJWToken(): Optional<string> {
 function loadCurrentUser(p:PP): Promise<void> {
     return securityController.getCurrentUser()
         .then(user => {
-            console.log("Got user", user)
             authentication.set({user})
             p.resolve(Optional.of(user))
         })

@@ -11,7 +11,6 @@
         users.initialize();
         return users.subscribe(u => {
             _users = u;
-            console.log(_users)
         })
     });
 

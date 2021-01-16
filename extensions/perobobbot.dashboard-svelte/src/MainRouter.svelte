@@ -12,7 +12,6 @@
     const routes = createRoutes();
 
     async function routeCondition(routeDetails:RouteDetail):Promise<boolean> {
-        console.group("Route condition",routeDetails.location)
         try {
             return await authentication.isAuthenticated();
         } finally {
