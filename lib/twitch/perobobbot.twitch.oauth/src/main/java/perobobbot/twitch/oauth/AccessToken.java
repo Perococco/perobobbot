@@ -1,23 +1,14 @@
 package perobobbot.twitch.oauth;
 
 import com.google.common.collect.ImmutableSet;
-import lombok.*;
+import lombok.NonNull;
 
 import java.time.Instant;
-import java.util.Optional;
 
-@Value
-@Builder
-public class AccessToken {
+public interface AccessToken {
 
-    @NonNull String value;
-    @Getter(AccessLevel.NONE)
-    String refresh;
-    @NonNull Instant expirationTime;
-    @NonNull ImmutableSet<Scope> scopes;
-    @NonNull String type;
-
-    public @NonNull Optional<String> getRefreshToken() {
-        return Optional.ofNullable(refresh);
-    }
+    @NonNull String getValue();
+    @NonNull Instant getExpirationTime();
+    @NonNull ImmutableSet<Scope> getScopes();
+    @NonNull String getType();
 }

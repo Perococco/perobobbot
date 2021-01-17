@@ -71,7 +71,7 @@ function createUserStore(): InnerUserStore {
 
 }
 
-const users: any = createUserStore();
+const users: UsersStore = createUserStore();
 
 export {users,User};
 

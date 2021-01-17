@@ -2,7 +2,8 @@ import {sessionWritable} from "./session-storage-store";
 import type {Readable, Writable} from "svelte/types/runtime/store";
 import {SecurityController} from "@backend/rest-controller";
 import type {JwtInfo, SimpleUser} from "@backend/security-com";
-import {Optional} from "../types/optional";
+import {Optional} from "@optional";
+import {PromiseHelper} from "../types/promiseHelper";
 
 const JWT_KEY = "jwt_token";
 const securityController = new SecurityController();
@@ -24,30 +25,6 @@ declare interface InnerAuthenticator extends Authenticator, Writable<Authenticat
 
 }
 
-class PP {
-    readonly promise: Promise<Optional<SimpleUser>>;
-    private resolver: (value: Optional<SimpleUser> | PromiseLike<Optional<SimpleUser>>) => void;
-    private rejecter: (reason?: any) => void;
-
-    constructor() {
-        this.resolver = o => {
-        };
-        this.rejecter = a => {
-        };
-        this.promise = new Promise<Optional<SimpleUser>>((resolve, reject) => {
-            this.resolver = resolve;
-            this.rejecter = reject;
-        })
-    }
-
-    public reject(reason?: any) {
-        this.rejecter(reason);
-    }
-
-    public resolve(value: Optional<SimpleUser> | PromiseLike<Optional<SimpleUser>>) {
-        this.resolver(value);
-    }
-}
 
 //
 
@@ -81,7 +58,7 @@ function retrieveStoredJWToken(): Optional<string> {
     return Optional.ofNullable(jwToken);
 }
 
-function loadCurrentUser(p:PP): Promise<void> {
+function loadCurrentUser(p:PromiseHelper<Optional<SimpleUser>>): Promise<void> {
     return securityController.getCurrentUser()
         .then(user => {
             authentication.set({user})
@@ -94,7 +71,7 @@ function loadCurrentUser(p:PP): Promise<void> {
 }
 
 
-let _promise: PP | undefined = undefined;
+let _promiseHelper: PromiseHelper<Optional<SimpleUser>> | undefined = undefined;
 
 
 const authentication: InnerAuthenticator = {
@@ -102,35 +79,35 @@ const authentication: InnerAuthenticator = {
     set: _authentication.set,
     update: _authentication.update,
     logout: async () => {
-        Optional.ofNullable(_promise).ifPresent(p => p.reject("logout requested"));
-        _promise = undefined;
+        Optional.ofNullable(_promiseHelper).ifPresent(p => p.reject("logout requested"));
+        _promiseHelper = undefined;
         clearBrowserStorage();
         authentication.set({});
     },
 
     signIn: async (login: string, password: string, rememberMe: boolean = false) => {
         authentication.logout();
-        const p: PP = new PP();
-        _promise = p;
+        const ph: PromiseHelper<Optional<SimpleUser>> = new PromiseHelper();
+        _promiseHelper = ph;
         try {
             const result = await securityController.signIn({login, password});
             const token = result.token;
             const user = result.user;
             updateBrowserStorage(token, rememberMe);
             authentication.set({user});
-            p.resolve(Optional.of(user));
+            ph.resolve(Optional.of(user));
         } catch (err) {
-            p.resolve(Optional.empty());
+            ph.resolve(Optional.empty());
             throw err;
         }
     },
     currentUser: async () => {
-        if (_promise == null) {
-            const p = new PP();
-            _promise = p;
+        if (_promiseHelper == null) {
+            const p = new PromiseHelper<Optional<SimpleUser>>();
+            _promiseHelper = p;
             await loadCurrentUser(p);
         }
-        return _promise.promise;
+        return _promiseHelper.promise;
     },
     isAuthenticated: async function() {return await this.currentUser().then(o => o.isPresent());}
 }

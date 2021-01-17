@@ -13,6 +13,7 @@
       "@backend/*": ["./src/server/*"],
       "@stores/*": ["./src/stores/*"],
       "@types/*": ["./src/types/*"],
+      "@optional": ["./src/types/optional"],
     },
     /* noEmit - Snowpack builds (emits) files, not tsc. */
     "noEmit": true,

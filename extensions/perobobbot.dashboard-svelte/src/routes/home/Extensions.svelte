@@ -1,21 +1,20 @@
 <script>
 
-    import {ExtensionController} from "../../server/rest-controller";
+    import {ExtensionController} from "@backend/rest-controller";
     import {onMount} from "svelte";
-    import type {Table} from "../../types/table";
-    import type {Extension} from "../../server/data-com";
     import {_} from "svelte-i18n";
+    import {extensions, FrontExtension} from "@stores/extensions";
+    import type {Table} from "@types/table";
+    import type {Extension} from "@backend/data-com";
 
     const extensionController = new ExtensionController();
 
-    let extensions:Extension[] = [];
+    let _extensions:FrontExtension[] = [];
 
-    async function loadAllExtension():Promise<void> {
-        extensions = await extensionController.listExtensions();
-    }
 
     onMount(() => {
-        loadAllExtension();
+        extensions.initialize();
+        return extensions.subscribe(e => _extensions = e);
     })
 
     const table: Table<Extension> = {
@@ -53,7 +52,7 @@
             <span class="header uppercase text-center">{$_(column.i18nKey)}</span>
         {/each}
 
-        {#each extensions as extension}
+        {#each _extensions as extension}
             {#each table.columns as column}
                 <span class="value">{column.getter(extension)}</span>
             {/each}

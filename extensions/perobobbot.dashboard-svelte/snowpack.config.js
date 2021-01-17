@@ -29,6 +29,7 @@ module.exports = {
         /* ... */
     },
     alias: {
+        "@optional": "./src/types/optional.ts",
         "@backend": "./src/server",
         "@stores": "./src/stores",
         "@types": "./src/types",
