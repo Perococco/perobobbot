@@ -30,6 +30,7 @@ module perobobbot.server {
     requires perobobbot.overlay.api;
     requires perobobbot.security.com;
     requires perobobbot.sound;
+    requires perobobbot.http;
 
 
     requires org.apache.logging.log4j;
@@ -39,6 +40,7 @@ module perobobbot.server {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
     requires spring.security.web;
+    requires spring.webflux;
     requires spring.data.jpa;
     requires spring.tx;
     requires jjwt;
@@ -53,6 +55,7 @@ module perobobbot.server {
     opens perobobbot.server.config.extension to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.command to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.config.externaluri to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
 
@@ -66,6 +69,7 @@ module perobobbot.server {
     requires java.validation;
     requires spring.webmvc;
     requires spring.integration.core;
+    requires reactor.core;
 
     requires spring.boot.actuator;
     requires org.eclipse.jetty.websocket.server;

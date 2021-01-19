@@ -5,26 +5,22 @@
     <parent>
         <groupId>perococco.bot</groupId>
         <artifactId>perobobbot-lib</artifactId>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-twitch-oauth</artifactId>
+    <artifactId>perobobbot-http</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Twitch OAuth</submodule.name>
+        <submodule.name>Http</submodule.name>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.vladimir-bukhtoyarov</groupId>
-            <artifactId>bucket4j-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>
@@ -34,16 +30,17 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
+            <artifactId>spring-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-http</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-webflux</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
+
 </project>
