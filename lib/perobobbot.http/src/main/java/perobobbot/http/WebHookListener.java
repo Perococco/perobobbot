@@ -11,6 +11,5 @@ public interface WebHookListener {
 
     void onCall(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException;
 
-
     WebHookListener NOP = (p,m,rq,rp) -> {};
 }

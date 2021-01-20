@@ -2,21 +2,20 @@ package perobobbot.server.config.externaluri;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.reactive.function.client.WebClient;
-import perobobbot.lang.Todo;
 
 import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
-import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 public class NgrokExternalURI implements ExternalURI {
 
     public static final String PUBLIC_URL_KEY = "public_url";
 
     private final @NonNull String ngrokTunnelName;
-
 
     @Override
     public @NonNull URI getURI() {
@@ -25,7 +24,8 @@ public class NgrokExternalURI implements ExternalURI {
                                  .uri(getNgrokURI())
                                  .retrieve()
                                  .bodyToMono(Map.class)
-                                 .block(Duration.ofSeconds(30));
+                                 .doOnError(t -> LOG.error("Fail to get ngrok public url. Is 'ngrok' launched ? err = '{}'",t.getMessage()))
+                                 .block(Duration.ofSeconds(10));
 
         final var publicUrl = map.get(PUBLIC_URL_KEY);
 

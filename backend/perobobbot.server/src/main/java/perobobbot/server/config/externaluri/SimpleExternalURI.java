@@ -14,4 +14,5 @@ public class SimpleExternalURI implements ExternalURI {
     public @NonNull URI getURI() {
         return uri;
     }
+
 }

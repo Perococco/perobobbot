@@ -2,16 +2,19 @@ package perobobbot.server.config;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.http.WebHookDispatcher;
+import perobobbot.lang.ThrowableTool;
 import perobobbot.server.config.externaluri.ExternalURI;
 
 import java.net.URI;
 
+@Log4j2
 @Configuration
 @RequiredArgsConstructor
 public class WebHookConfiguration {
@@ -28,9 +31,15 @@ public class WebHookConfiguration {
 
     @Bean
     public @NonNull WebHookDispatcher webHookDispatcher() {
-        var webHookURI = formFullURI(webHookExternalURI);
-        var oauthURI = formFullURI(oauthExternalURI);
-        return WebHookDispatcher.create(webHookURI, oauthURI);
+        try {
+            var webHookURI = formFullURI(webHookExternalURI);
+            var oauthURI = formFullURI(oauthExternalURI);
+            return WebHookDispatcher.create(webHookURI, oauthURI);
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            LOG.error("WebHook are disabled. Check your configuration.");
+            return WebHookDispatcher.disabled();
+        }
     }
 
     @Bean

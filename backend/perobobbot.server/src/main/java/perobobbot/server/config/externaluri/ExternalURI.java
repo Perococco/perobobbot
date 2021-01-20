@@ -7,4 +7,5 @@ import java.net.URI;
 public interface ExternalURI {
 
     @NonNull URI getURI();
+
 }

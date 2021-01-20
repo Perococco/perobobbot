@@ -26,6 +26,11 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
     private ImmutableMap<String, WebHookListener> listeners = ImmutableMap.of();
 
     @Override
+    public boolean isDisabled() {
+        return false;
+    }
+
+    @Override
     public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
         Exec.with(path.trim())
             .map(this::removeTrailingSlash)
