@@ -1,6 +1,8 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
+import perobobbot.lang.fp.Consumer1;
+import perobobbot.lang.fp.Function1;
 
 import java.util.concurrent.CompletionStage;
 
@@ -15,16 +17,28 @@ public interface AsyncIdentity<S> extends ReadOnlyAsyncIdentity<S> {
     }
 
     @NonNull
-    <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull GetterOnStates<? super S, ? extends T> getter);
-
-    @NonNull
-    default <T> CompletionStage<T> mutateAndGetFromOldState(@NonNull Mutation<S> mutation, @NonNull GetterOnOldState<? super S, ? extends T> mutatedStateGetter) {
-        return mutateAndGet(mutation, (o,n) -> mutatedStateGetter.getValue(o));
-    }
+    <T> CompletionStage<T> operate(@NonNull Operator<S,T> operator);
 
     @NonNull
     default CompletionStage<S> mutate(@NonNull Mutation<S> mutation) {
-        return mutateAndGet(mutation,(o,n) -> n);
+        return operate(mutation.asOperator());
     }
 
+    @Override
+    @NonNull
+    default CompletionStage<S> getRootState() {
+        return operate(Operator.getter(Function1.identity()));
+    }
+
+    @Override
+    @NonNull
+    default <T> CompletionStage<T> applyToRootState(@NonNull Function1<? super S, ? extends T> action) {
+        return operate(Operator.getter(action));
+    }
+
+    @Override
+    @NonNull
+    default CompletionStage<?> runWithRootState(@NonNull Consumer1<? super S> action) {
+        return operate(Operator.getter(s -> {action.accept(s);return Nil.NIL;}));
+    }
 }

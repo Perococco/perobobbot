@@ -3,11 +3,7 @@ package perococco.perobobbot.common.lang;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.lang.GetterOnStates;
-import perobobbot.lang.Mutation;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.lang.fp.Consumer1;
-import perobobbot.lang.fp.Function0;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.CompletableFuture;
@@ -22,10 +18,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Perococco
  */
 @RequiredArgsConstructor
-public class DefaultUpdater<R> implements Updater<R> {
+public class DefaultUpdater<S> implements Updater<S> {
 
     @NonNull
-    private final BlockingDeque<UpdateInformation<R,?>> updateInformationQueue = new LinkedBlockingDeque<>();
+    private final BlockingDeque<UpdateInformation<S,?>> updateInformationQueue = new LinkedBlockingDeque<>();
 
     private final Lock lock = new ReentrantLock();
     private final Condition done = lock.newCondition();
@@ -75,13 +71,8 @@ public class DefaultUpdater<R> implements Updater<R> {
     }
 
     @Override
-    public @NonNull <S> CompletionStage<UpdateResult<R, S>> offerUpdatingOperation(
-            @NonNull Mutation<R> mutation,
-            @NonNull Function0<? extends R> rootStateGetter,
-            @NonNull Consumer1<? super R> newRootStateConsumer,
-            @NonNull GetterOnStates<? super R, ? extends S> getterOnStates) {
-        final Update<R, S> update = new Update<>(rootStateGetter, newRootStateConsumer, mutation, getterOnStates);
-        final UpdateInformation<R,S> updateInformation = new UpdateInformation<>(update, new CompletableFuture<>());
+    public @NonNull <R> CompletionStage<UpdateResult<S, R>> offerUpdate(@NonNull Update<S,R> update) {
+        final UpdateInformation<S,R> updateInformation = new UpdateInformation<>(update, new CompletableFuture<>());
         runLocked(() -> {
             if (isRunning()) {
                 try {
@@ -107,7 +98,7 @@ public class DefaultUpdater<R> implements Updater<R> {
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    final UpdateInformation<R,?> updateInformation = updateInformationQueue.takeFirst();
+                    final UpdateInformation<S,?> updateInformation = updateInformationQueue.takeFirst();
                     updateInformation.performUpdate();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -128,13 +119,13 @@ public class DefaultUpdater<R> implements Updater<R> {
     }
 
     @Value
-    private static class UpdateInformation<R,S> {
+    private static class UpdateInformation<S, R> {
 
         @NonNull
-        private final Update<R,S> updater;
+        Update<S, R> update;
 
         @NonNull
-        private final CompletableFuture<UpdateResult<R,S>> completableFuture;
+        CompletableFuture<UpdateResult<S, R>> completableFuture;
 
         public void completeExceptionally(@NonNull Throwable error) {
             completableFuture.completeExceptionally(error);
@@ -142,7 +133,7 @@ public class DefaultUpdater<R> implements Updater<R> {
 
         public void performUpdate() {
             try {
-                final UpdateResult<R, S> result = updater.performMutation();
+                final UpdateResult<S, R> result = update.performMutation();
                 completableFuture.complete(result);
             } catch (Throwable t) {
                 t.printStackTrace();

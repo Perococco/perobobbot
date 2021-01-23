@@ -1,10 +1,8 @@
 package perococco.perobobbot.common.lang;
 
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.GetterOnStates;
-import perobobbot.lang.Mutation;
+import perobobbot.lang.Operator;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.fp.Function0;
 
@@ -14,6 +12,8 @@ import perobobbot.lang.fp.Function0;
 @RequiredArgsConstructor
 public class Update<S, R> {
 
+    private final Operator<S, ? extends R> operator;
+
     @NonNull
     private final Function0<? extends S> rootStateGetter;
 
@@ -21,21 +21,14 @@ public class Update<S, R> {
     private final Consumer1<? super S> newRootStateConsumer;
 
     @NonNull
-    @Getter
-    private final Mutation<S> mutation;
-
-    @NonNull
-    private final GetterOnStates<? super S, ? extends R> getter;
-
-    @NonNull
     public UpdateResult<S, R> performMutation() {
-        final S currentState = rootStateGetter.get();
-        final S newState = mutation.mutate(currentState);
+        final S oldState = rootStateGetter.get();
+        final S newState = operator.mutate(oldState);
 
         final UpdateResult<S, R> result = UpdateResult.<S, R>builder()
-                .oldRoot(currentState)
+                .oldRoot(oldState)
                 .newRoot(newState)
-                .result(getter.getValue(currentState,newState))
+                .result(operator.getValue(oldState,newState))
                 .build();
 
         newRootStateConsumer.accept(newState);

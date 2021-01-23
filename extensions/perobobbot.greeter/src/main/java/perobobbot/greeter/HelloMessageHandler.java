@@ -20,9 +20,12 @@ public class HelloMessageHandler implements MessageHandler {
                 messageContext.getChannelInfo()
         );
 
-        if (!hello.getRootState().hasBeenGreeted(value)) {
-            hello.greetUser(value);
-        }
+        hello.getRootState()
+             .thenAcceptAsync(s -> {
+                 if (!s.hasBeenGreeted(value)) {
+                     hello.greetUser(value);
+                 }
+             });
     }
 
 }

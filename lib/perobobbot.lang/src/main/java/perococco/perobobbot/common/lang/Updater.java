@@ -18,11 +18,8 @@ public interface Updater<S> {
     void stop();
 
     @NonNull
-    <R> CompletionStage<UpdateResult<S, R>> offerUpdatingOperation(
-            @NonNull Mutation<S> mutation,
-            @NonNull Function0<? extends S> rootStateGetter,
-            @NonNull Consumer1<? super S> newRootStateConsumer,
-            @NonNull GetterOnStates<? super S, ? extends R> getterOnStates
+    <R> CompletionStage<UpdateResult<S, R>> offerUpdate(
+            @NonNull Update<S,R> update
             );
 
 

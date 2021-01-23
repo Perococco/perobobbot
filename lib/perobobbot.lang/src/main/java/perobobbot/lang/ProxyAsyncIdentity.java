@@ -2,6 +2,8 @@ package perobobbot.lang;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.*;
+import perococco.perobobbot.common.lang.PerococcoAsyncIdentity;
 
 import java.util.concurrent.CompletionStage;
 
@@ -17,12 +19,12 @@ public class ProxyAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     @Override
-    public @NonNull <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull GetterOnStates<? super S, ? extends T> getter) {
-        return delegate.mutateAndGet(mutation,getter);
+    public @NonNull <T> CompletionStage<T> operate(@NonNull Operator<S, T> operator) {
+        return delegate.operate(operator);
     }
 
     @Override
-    public @NonNull S getRootState() {
+    public @NonNull CompletionStage<S> getRootState() {
         return delegate.getRootState();
     }
 

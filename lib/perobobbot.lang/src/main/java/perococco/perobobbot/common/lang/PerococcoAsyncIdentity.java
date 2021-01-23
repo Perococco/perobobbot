@@ -30,7 +30,7 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     public PerococcoAsyncIdentity(@NonNull S initialValue) {
-        this(initialValue,new DefaultUpdater<>());
+        this(initialValue, new DefaultUpdater<>());
     }
 
     void start() {
@@ -41,16 +41,23 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
         updater.stop();
     }
 
-    @NonNull
+
     @Override
-    public S getRootState() {
+    public @NonNull <T> CompletionStage<T> operate(@NonNull Operator<S, T> operator) {
+        return updater.offerUpdate(
+                new Update<>(operator, this::getState, this::setState)
+        ).thenApply(UpdateResult::getResult);
+    }
+
+    @NonNull
+    private S getState() {
         return value;
     }
 
-    private void setRootState(@NonNull S value) {
+    private void setState(@NonNull S value) {
         final S oldValue = this.value;
         this.value = value;
-        if (oldValue != value) {
+        if (!oldValue.equals(value)) {
             listeners.warnListeners(l -> l.onValueChange(oldValue, value));
         }
     }
@@ -62,18 +69,7 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
 
     @Override
     public void addWeakListener(@NonNull IdentityListener<S> listener) {
-        new WeakIdentityListener<>(this::addListener,listener);
+        new WeakIdentityListener<>(this::addListener, listener);
     }
-
-    @Override
-    public @NonNull <T> CompletionStage<T> mutateAndGet(@NonNull Mutation<S> mutation, @NonNull GetterOnStates<? super S, ? extends T> getter) {
-        return updater.<T>offerUpdatingOperation(
-                mutation,
-                this::getRootState,
-                this::setRootState,
-                getter
-        ).thenApply(UpdateResult::getResult);
-    }
-
 
 }

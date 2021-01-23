@@ -19,11 +19,11 @@ public class HelloIdentity {
     }
 
     @NonNull
-    public HelloState getRootState() {
+    public CompletionStage<HelloState> getRootState() {
         return identity.getRootState();
     }
 
-    public @NonNull <T> CompletionStage<T> mutateAndGetFromOldState(@NonNull Mutation<HelloState> mutation, @NonNull GetterOnOldState<? super HelloState, ? extends T> mutatedStateGetter) {
-        return identity.mutateAndGetFromOldState(mutation, mutatedStateGetter);
+    public @NonNull <T> CompletionStage<T> mutateAndGetFromOldState(@NonNull Mutation<HelloState> mutation, @NonNull GetterOnOldState<? super HelloState, ? extends T> getter) {
+        return identity.operate(mutation.thenGet(getter));
     }
 }

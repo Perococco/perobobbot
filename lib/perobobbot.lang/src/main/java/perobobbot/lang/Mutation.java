@@ -17,8 +17,8 @@ public interface Mutation<S> {
         return s -> after.mutate(this.mutate(s));
     }
 
-    default @NonNull <T> Operator<S, T> thenGet(@NonNull Function1<? super S, ? extends T> action) {
-        return new SimpleOperator<>(this, (oldState, newState) -> action.f(newState));
+    default @NonNull <T> Operator<S, T> thenGet(@NonNull GetterOnStates<? super S, ? extends T> action) {
+        return new SimpleOperator<>(this, action);
     }
 
     default @NonNull Operator<S,S> asOperator() {
