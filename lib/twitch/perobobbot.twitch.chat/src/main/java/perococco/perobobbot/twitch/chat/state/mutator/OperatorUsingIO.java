@@ -12,10 +12,11 @@ public interface OperatorUsingIO<T> extends Operator<ConnectionState,T> {
     default ConnectionState mutate(ConnectionState state) {
         return state;
     }
+
     @Override
     @NonNull
-    default T apply(@NonNull ConnectionState state) {
-        return withIO(state.getTwitchIO());
+    default T getValue(@NonNull ConnectionState oldState, @NonNull ConnectionState newState) {
+        return withIO(newState.getTwitchIO());
     }
 
     T withIO(@NonNull TwitchIO io);

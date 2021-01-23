@@ -15,6 +15,7 @@ public interface Identity<S> extends ReadOnlyIdentity<S> {
         return new PerococcoIdentity<>(initialState);
     }
 
+
     @NonNull
     <T> T operate(@NonNull Operator<S,T> operator);
 
@@ -25,7 +26,7 @@ public interface Identity<S> extends ReadOnlyIdentity<S> {
 
     @NonNull
     default S mutate(@NonNull Mutation<S> mutation) {
-        return operate(Operator.mutator(mutation));
+        return operate(mutation.asOperator());
     }
 
 }

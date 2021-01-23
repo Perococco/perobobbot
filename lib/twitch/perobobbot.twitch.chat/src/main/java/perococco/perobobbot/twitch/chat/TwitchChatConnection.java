@@ -83,7 +83,7 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
         return operate(new JoinChannel(credential.getNick(), channel))
                 .thenApply(s -> {
                     final var twitchChannelIO = new TwitchMessageChannelIO(channel,this, new ChannelInfo(getPlatform(),channelName));
-                    this.operate(Operator.mutator(new ChanelAdder(twitchChannelIO)));
+                    this.operate(new ChanelAdder(twitchChannelIO).asOperator());
                     return twitchChannelIO;
                 });
     }

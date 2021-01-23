@@ -2,6 +2,7 @@ package perobobbot.lang;
 
 import lombok.NonNull;
 import perobobbot.lang.fp.Function1;
+import perococco.perobobbot.common.lang.SimpleOperator;
 
 public interface Mutation<S> {
 
@@ -16,7 +17,11 @@ public interface Mutation<S> {
         return s -> after.mutate(this.mutate(s));
     }
 
-    default @NonNull <T> Operator<S,T> thenGet(@NonNull Function1<? super S, ? extends T> action) {
-        return Operator.mutatorGetter(this,action);
+    default @NonNull <T> Operator<S, T> thenGet(@NonNull Function1<? super S, ? extends T> action) {
+        return new SimpleOperator<>(this, (oldState, newState) -> action.f(newState));
+    }
+
+    default @NonNull Operator<S,S> asOperator() {
+        return new SimpleOperator<>(this,GetterOnStates.newStateGetter());
     }
 }

@@ -45,9 +45,10 @@ public class PerococcoIdentity<S> implements Identity<S> {
     @Override
     @Synchronized
     public <T> @NonNull T operate(@NonNull Operator<S, T> operator) {
-        final S newState = operator.mutate(this.getState());
+        final S oldState = this.getState();
+        final S newState = operator.mutate(oldState);
         this.setState(newState);
-        return operator.apply(newState);
+        return operator.getValue(oldState, newState);
     }
 
 }
