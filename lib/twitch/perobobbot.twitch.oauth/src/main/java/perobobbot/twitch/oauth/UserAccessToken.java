@@ -13,6 +13,8 @@ public class UserAccessToken implements AccessToken {
 
     @NonNull String value;
 
+    @NonNull String refreshToken;
+
     @NonNull Instant expirationTime;
 
     @NonNull ImmutableSet<Scope> scopes;

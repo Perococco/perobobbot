@@ -1,13 +1,20 @@
 package perobobbot.twitch.oauth;
 
+import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.MapTool;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @RequiredArgsConstructor
+@Getter
 public enum Scope {
     ANALYTICS_READ_EXTENSIONS("analytics:read:extensions", "View analytics data for your extensions."),
     ANALYTICS_READ_GAMES("analytics:read:games", "View analytics data for your games."),
-    BITS_READ_TO_DELETE("bits:read:to_delete", "View Bits information for your channel."),
+    BITS_READ("bits:read", "View Bits information for your channel."),
     CHANNEL_EDIT_COMMERCIAL("channel:edit:commercial", "Run commercials on a channel."),
     CHANNEL_MANAGE_BROADCAST("channel:manage:broadcast", "Manage your channel’s broadcast configuration, including updating channel configuration and managing stream markers and stream tags."),
     CHANNEL_MANAGE_EXTENSIONS("channel:manage:extensions", "Manage your channel’s extension configuration, including activating extensions."),
@@ -25,5 +32,15 @@ public enum Scope {
 
     private final @NonNull String id;
     private final @NonNull String description;
+
+    public static @NonNull Optional<Scope> findById(@NonNull String scopeId) {
+        return Optional.ofNullable(Holder.SCOPES_BY_ID.get(scopeId));
+    }
+
+
+    private static class Holder {
+
+        private static final ImmutableMap<String,Scope> SCOPES_BY_ID = Arrays.stream(Scope.values()).collect(MapTool.collector(Scope::getId));
+    }
 
 }
