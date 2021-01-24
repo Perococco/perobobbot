@@ -35,6 +35,7 @@
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
 
         <hibernate.version>5.4.25.Final</hibernate.version>
+        <javafx.version>15.0.1</javafx.version>
 
         <vuejs.resource-directory>${project.basedir}/../frontend/vuejs/target/dist</vuejs.resource-directory>
     </properties>
@@ -247,6 +248,13 @@
                 <artifactId>perobobbot-extension</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-frontfx-gui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-twitch-chat</artifactId>
@@ -355,6 +363,34 @@
                 <artifactId>flyway-core</artifactId>
                 <version>7.3.1</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-graphics</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-fxml</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-base</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-web</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${javafx.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

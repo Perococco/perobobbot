@@ -11,6 +11,10 @@ CONTINUE = 'CONTINUE',
 STOP = 'STOP'
 }
 
+export enum Nil {
+NIL = 'NIL'
+}
+
 export enum Platform {
 TWITCH = 'TWITCH',
 LOCAL = 'LOCAL'

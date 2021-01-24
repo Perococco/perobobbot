@@ -22,15 +22,7 @@
         <module>lib</module>
         <module>extensions</module>
 
-<!--        <module>lib/perobobbot.lang</module>-->
-        <!-- API and implementation to easily create Chat -->
-
-        <!-- extensions. The scope of the dependencies
-to these modules should be runtime -->
-
-
-
-        <module>backend</module>
-<!--        <module>frontend</module>-->
+        <module>back</module>
+<!--        <module>frontfx</module>-->
     </modules>
 </project>
