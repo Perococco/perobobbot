@@ -1,16 +1,16 @@
 package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.*;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.com.BotHasThisExtensionAlready;
-import perobobbot.data.domain.base.BotCredentialEntityBase;
 import perobobbot.data.domain.base.BotEntityBase;
-import perobobbot.data.domain.base.CredentialEntityBase;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "BOT")

@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.com.UnknownCredential;
-import perobobbot.security.com.User;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
 

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
-import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.StandardInputProvider;
 import perobobbot.localio.LocalChatPlatform;

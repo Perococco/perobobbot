@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContextInitializer;
 import perobobbot.fx.FXProperties;
-import perococco.perobobbot.fxspring.SpringLauncher;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.Plugin;
 import perobobbot.lang.fp.TryResult;
 import perobobbot.spring.AddSingletonToApplicationContext;
+import perococco.perobobbot.fxspring.SpringLauncher;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

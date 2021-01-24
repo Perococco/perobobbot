@@ -15,8 +15,6 @@
     import {Optional} from "@types/optional";
     import {isLoading} from "svelte-i18n";
 
-    import {users} from "@stores/users"
-
     let isReady = false;
     let localeInitialized = false;
 

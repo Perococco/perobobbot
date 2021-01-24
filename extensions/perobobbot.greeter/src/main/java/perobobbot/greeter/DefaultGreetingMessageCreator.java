@@ -7,7 +7,6 @@ import lombok.NonNull;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.ChatUser;
 import perobobbot.lang.CollectionTool;
-import perobobbot.lang.ChatUser;
 import perobobbot.lang.fp.Function1;
 
 import java.util.HashSet;

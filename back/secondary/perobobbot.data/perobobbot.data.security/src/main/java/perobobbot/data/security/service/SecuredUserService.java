@@ -7,10 +7,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
-import perobobbot.security.com.User;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
+import perobobbot.security.com.User;
 
 @Service
 @SecuredService

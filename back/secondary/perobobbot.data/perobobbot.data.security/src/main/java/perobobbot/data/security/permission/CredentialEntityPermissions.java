@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
 import perobobbot.data.service.CredentialService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.data.service.UserService;
 
 import java.io.Serializable;
 import java.util.UUID;

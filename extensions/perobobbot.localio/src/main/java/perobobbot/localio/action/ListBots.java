@@ -3,9 +3,6 @@ package perobobbot.localio.action;
 import lombok.NonNull;
 import perobobbot.data.service.BotService;
 import perobobbot.lang.Bot;
-import perobobbot.localio.LocalAction;
-
-import java.util.Locale;
 
 public class ListBots extends LocalActionBase {
 

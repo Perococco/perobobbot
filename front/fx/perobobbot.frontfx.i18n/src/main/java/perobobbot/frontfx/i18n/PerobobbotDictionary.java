@@ -5,9 +5,6 @@ import perobobbot.i18n.BaseDictionary;
 import perobobbot.i18n.BaseResourceBundleProvider;
 import perobobbot.i18n.Dictionary;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 public enum PerobobbotDictionary implements Dictionary {
     INSTANCE,
     ;

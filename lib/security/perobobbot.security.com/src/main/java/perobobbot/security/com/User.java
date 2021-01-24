@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
 import perobobbot.lang.NoTypeScript;
-import perobobbot.lang.TypeScript;
 
 import java.util.Locale;
 

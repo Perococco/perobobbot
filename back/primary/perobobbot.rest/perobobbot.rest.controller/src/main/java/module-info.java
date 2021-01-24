@@ -1,7 +1,7 @@
 import perobobbot.lang.Plugin;
 import perobobbot.rest.controller.ControllerConfig;
 
-module perobobbot.rest.controller {
+open module perobobbot.rest.controller {
     requires static lombok;
     requires java.desktop;
 
@@ -18,7 +18,7 @@ module perobobbot.rest.controller {
     requires java.validation;
     requires perobobbot.backend.i18n;
 
-    opens perobobbot.rest.controller to spring.core,spring.beans,spring.context,spring.web;
+//    opens perobobbot.rest.controller to spring.core,spring.beans,spring.context,spring.web;
 
     exports perobobbot.rest.controller;
 

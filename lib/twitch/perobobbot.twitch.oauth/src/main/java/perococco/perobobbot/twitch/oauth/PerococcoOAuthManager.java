@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 import perobobbot.http.WebHookObservable;
 import perobobbot.lang.PerobobbotException;
 import perobobbot.lang.Todo;

@@ -1,6 +1,5 @@
 package perobobbot.localio;
 
-import lombok.NonNull;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.lang.ChannelInfo;
 import perobobbot.lang.ChatUser;

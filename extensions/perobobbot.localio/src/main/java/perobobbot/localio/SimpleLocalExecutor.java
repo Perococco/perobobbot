@@ -9,7 +9,6 @@ import perobobbot.lang.fp.Value2;
 
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Optional;
 
 @RequiredArgsConstructor

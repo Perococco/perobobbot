@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.security.com.User;
 import perobobbot.data.domain.CredentialEntity;
 import perobobbot.data.jpa.repository.CredentialRepository;
 import perobobbot.data.jpa.repository.UserRepository;

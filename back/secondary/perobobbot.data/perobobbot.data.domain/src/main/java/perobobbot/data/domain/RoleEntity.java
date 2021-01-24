@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import perobobbot.data.domain.base.RoleEntityBase;
 import perobobbot.security.com.Operation;
 import perobobbot.security.com.Role;
 import perobobbot.security.com.RoleKind;
-import perobobbot.data.domain.base.RoleEntityBase;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

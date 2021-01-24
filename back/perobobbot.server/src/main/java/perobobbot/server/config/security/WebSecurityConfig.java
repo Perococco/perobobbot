@@ -17,9 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import perobobbot.security.com.EndPoints;
-import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.PermissionEvaluatorDispatcher;
 import perobobbot.security.core.TargetedPermissionEvaluator;
+import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 

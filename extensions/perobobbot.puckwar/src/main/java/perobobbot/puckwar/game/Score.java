@@ -4,9 +4,9 @@ package perobobbot.puckwar.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.ChatUser;
 import perobobbot.lang.EllipsedString;
 import perobobbot.lang.Lazy;
-import perobobbot.lang.ChatUser;
 
 import java.time.Instant;
 import java.util.Comparator;

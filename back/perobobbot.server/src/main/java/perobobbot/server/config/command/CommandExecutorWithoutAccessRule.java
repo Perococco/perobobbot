@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import perobobbot.command.Command;
 import perobobbot.command.CommandExecutor;
 import perobobbot.command.MessageErrorResolver;
-import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.ExecutionContext;

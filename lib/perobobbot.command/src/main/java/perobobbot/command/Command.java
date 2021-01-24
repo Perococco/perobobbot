@@ -7,7 +7,6 @@ import perobobbot.access.AccessRule;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.lang.Nil;
 import perobobbot.lang.fp.Consumer1;
-import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.TryResult;
 
 /**

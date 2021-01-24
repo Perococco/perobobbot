@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.com.UpdateUserParameters;
-import perobobbot.security.com.SimpleUser;
-import perobobbot.security.com.User;
 import perobobbot.data.service.CredentialService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.ListTool;
 import perobobbot.rest.com.RestCredentialInfo;
 import perobobbot.rest.controller.converter.CredentialInfoConverter;
+import perobobbot.security.com.SimpleUser;
+import perobobbot.security.com.User;
 
 @RestController
 @RequestMapping("/api/users")

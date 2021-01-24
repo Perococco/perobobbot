@@ -6,7 +6,6 @@ import perobobbot.command.CommandAction;
 import perobobbot.command.CommandParsing;
 import perobobbot.echo.EchoExtension;
 import perobobbot.lang.ExecutionContext;
-import perobobbot.lang.fp.Consumer1;
 
 @RequiredArgsConstructor
 public class EchoExecutor implements CommandAction {

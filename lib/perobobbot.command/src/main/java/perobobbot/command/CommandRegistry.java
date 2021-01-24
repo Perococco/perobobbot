@@ -3,7 +3,6 @@ package perobobbot.command;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.access.AccessRule;
 import perobobbot.lang.Subscription;
 import perococco.command.PeroCommandRegistry;
 

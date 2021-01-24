@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.GetterOnStates;
 import perobobbot.lang.Mutation;
 import perobobbot.lang.Operator;
-import perobobbot.lang.fp.Function1;
 
 @RequiredArgsConstructor
 public class SimpleOperator<S,T> implements Operator<S,T> {

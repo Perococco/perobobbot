@@ -1,7 +1,6 @@
 package perobobbot.tsgen;
 
 import com.blueveery.springrest2ts.Rest2tsGenerator;
-import com.blueveery.springrest2ts.converters.JavaEnumToTsEnumConverter;
 import com.blueveery.springrest2ts.converters.*;
 import com.blueveery.springrest2ts.filters.AndFilterOperator;
 import com.blueveery.springrest2ts.filters.HasAnnotationJavaTypeFilter;

@@ -2,7 +2,6 @@ package perobobbot.lang.fp;
 
 import lombok.NonNull;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface Function0<R> extends Supplier<R> {

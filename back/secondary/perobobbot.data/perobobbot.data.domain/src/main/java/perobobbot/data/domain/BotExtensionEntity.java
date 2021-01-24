@@ -1,10 +1,12 @@
 package perobobbot.data.domain;
 
-import lombok.*;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.domain.base.BotExtensionEntityBase;
-import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "BOT_EXTENSION",uniqueConstraints = {@UniqueConstraint(columnNames = {"BOT_ID","EXTENSION_ID"})})

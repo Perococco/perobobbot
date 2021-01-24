@@ -9,12 +9,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.security.com.JwtInfo;
-import perobobbot.security.com.Credential;
-import perobobbot.security.com.EndPoints;
-import perobobbot.security.com.SimpleUser;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
+import perobobbot.security.com.Credential;
+import perobobbot.security.com.EndPoints;
+import perobobbot.security.com.JwtInfo;
+import perobobbot.security.com.SimpleUser;
 import perobobbot.security.core.LoginFromAuthentication;
 import perobobbot.security.core.jwt.JWTokenManager;
 

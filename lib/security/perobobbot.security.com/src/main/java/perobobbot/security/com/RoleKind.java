@@ -1,8 +1,8 @@
 package perobobbot.security.com;
 
 import lombok.NonNull;
-import perobobbot.lang.TypeScript;
 import perobobbot.lang.IdentifiedEnum;
+import perobobbot.lang.TypeScript;
 
 @TypeScript
 public enum RoleKind implements IdentifiedEnum {

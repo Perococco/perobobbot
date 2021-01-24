@@ -1,6 +1,6 @@
 <script>
     import {onMount} from "svelte";
-    import {users,User} from "../../stores/users";
+    import {User, users} from "../../stores/users";
     import {_} from "svelte-i18n"
     import type {Table} from "../../types/table";
     import type {SimpleUser} from "../../server/security-com";

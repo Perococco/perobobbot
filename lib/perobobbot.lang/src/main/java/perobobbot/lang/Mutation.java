@@ -1,7 +1,6 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
-import perobobbot.lang.fp.Function1;
 import perococco.perobobbot.common.lang.SimpleOperator;
 
 public interface Mutation<S> {

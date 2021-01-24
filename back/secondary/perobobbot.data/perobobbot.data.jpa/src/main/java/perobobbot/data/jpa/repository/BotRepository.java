@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import perobobbot.data.com.UnknownBot;
 import perobobbot.data.domain.BotEntity;
-import perobobbot.lang.Bot;
 
 import java.util.Optional;
 import java.util.UUID;

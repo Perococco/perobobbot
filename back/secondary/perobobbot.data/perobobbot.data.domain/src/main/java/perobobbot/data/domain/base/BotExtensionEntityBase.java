@@ -1,11 +1,17 @@
 package perobobbot.data.domain.base;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.ExtensionEntity;
 import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @NoArgsConstructor

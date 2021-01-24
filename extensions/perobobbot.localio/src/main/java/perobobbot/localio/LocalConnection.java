@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.MessageChannelIO;
-import perobobbot.lang.*;
+import perobobbot.lang.ChatConnectionInfo;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

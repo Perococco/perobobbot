@@ -2,7 +2,6 @@ package perobobbot.data.com;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.lang.PerobobbotException;
 
 public class UnknownUser extends DataException {
 

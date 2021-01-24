@@ -1,15 +1,15 @@
 package perobobbot.data.domain.base;
 
-import lombok.*;
-import org.hibernate.annotations.Type;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.CredentialEntity;
-import perobobbot.lang.Credential;
-import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
 import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.*;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @NoArgsConstructor

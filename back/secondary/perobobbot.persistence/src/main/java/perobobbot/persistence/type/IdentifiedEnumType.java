@@ -7,7 +7,6 @@ import org.hibernate.usertype.DynamicParameterizedType;
 import perobobbot.lang.IdentifiedEnum;
 import perobobbot.lang.IdentifiedEnumTools;
 
-import javax.persistence.Id;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

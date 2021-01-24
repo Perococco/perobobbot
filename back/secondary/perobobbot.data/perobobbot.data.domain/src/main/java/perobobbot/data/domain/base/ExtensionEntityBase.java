@@ -1,13 +1,13 @@
 package perobobbot.data.domain.base;
 
-import lombok.*;
-import perobobbot.data.com.Extension;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 

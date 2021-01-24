@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.access.AccessRule;
 import perobobbot.command.*;

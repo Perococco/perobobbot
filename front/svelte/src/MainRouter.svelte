@@ -1,7 +1,6 @@
 <script lang="typescript">
-    import type {ConditionsFailedEvent, WrappedComponent} from "svelte-spa-router";
+    import type {ConditionsFailedEvent, RouteDetail, WrappedComponent} from "svelte-spa-router";
     import Router, {replace} from "svelte-spa-router";
-    import type {RouteDetail} from "svelte-spa-router";
     import {Optional} from "@types/optional";
     import type {RouteUserData} from "./types/routeUserData";
     import {authentication} from "@stores/authentication";

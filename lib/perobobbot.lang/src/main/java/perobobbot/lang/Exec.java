@@ -3,7 +3,6 @@ package perobobbot.lang;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.fp.Consumer1;
-import perobobbot.lang.fp.Function0;
 import perobobbot.lang.fp.Function1;
 
 import java.util.Set;
