@@ -33,6 +33,7 @@
         <junit-jupiter.version>5.6.1</junit-jupiter.version>
         <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
+        <controlsfx.version>11.0.1</controlsfx.version>
 
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
@@ -112,7 +113,27 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-backend-i18n</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-lang</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-state</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -133,6 +154,21 @@
             <dependency>
                 <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-sound</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-fx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-fxspring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -251,7 +287,7 @@
 
             <dependency>
                 <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-ext-frontfx-gui</artifactId>
+                <artifactId>perobobbot-frontfx-gui</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -389,6 +425,11 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-controls</artifactId>
                 <version>${javafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.controlsfx</groupId>
+                <artifactId>controlsfx</artifactId>
+                <version>${controlsfx.version}</version>
             </dependency>
 
 

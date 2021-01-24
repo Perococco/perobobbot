@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import perobobbot.i18n.Dictionaries;
+import perobobbot.backend.i18n.Dictionaries;
 import perobobbot.lang.ListTool;
-import perococco.i18n.DictionaryProvider;
+import perococco.backend.i18n.DictionaryProvider;
 
 import java.util.Locale;
 

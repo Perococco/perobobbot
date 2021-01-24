@@ -12,7 +12,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-ext-frontfx-gui</artifactId>
+    <artifactId>perobobbot-frontfx-gui</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
@@ -26,12 +26,29 @@
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
         <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-fxspring</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-frontfx-i18n</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-frontfx-action</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-frontfx-model</artifactId>
         </dependency>
 
         <dependency>

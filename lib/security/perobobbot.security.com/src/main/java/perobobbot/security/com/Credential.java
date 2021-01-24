@@ -6,7 +6,6 @@ import perobobbot.lang.TypeScript;
 
 /**
  * @author Perococco
- * @version 15/04/2019
  */
 @Value
 @TypeScript

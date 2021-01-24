@@ -13,9 +13,8 @@ public class ProxyAsyncIdentity<S> implements AsyncIdentity<S> {
     @NonNull
     private final AsyncIdentity<S> delegate;
 
-    @NonNull
-    public static <S1> AsyncIdentity<S1> create(@NonNull S1 initialValue) {
-        return AsyncIdentity.create(initialValue);
+    public ProxyAsyncIdentity(@NonNull S initialValue) {
+        this.delegate = AsyncIdentity.create(initialValue);
     }
 
     @Override

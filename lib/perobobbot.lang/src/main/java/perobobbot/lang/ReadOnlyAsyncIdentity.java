@@ -20,9 +20,9 @@ public interface ReadOnlyAsyncIdentity<S> {
 
     void addWeakListener(@NonNull IdentityListener<S> listener);
 
-    @NonNull <T> CompletionStage<T> applyToRootState(@NonNull Function1<? super S, ? extends T> getter);
+    @NonNull <T> CompletionStage<T> applyToState(@NonNull Function1<? super S, ? extends T> getter);
 
-    @NonNull CompletionStage<?> runWithRootState(@NonNull Consumer1<? super S> getter);
+    @NonNull CompletionStage<?> runWithState(@NonNull Consumer1<? super S> getter);
 
 
 }

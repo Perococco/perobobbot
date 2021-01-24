@@ -1,22 +1,29 @@
-import perobobbot.frontfx.gui.spring.GUIConfiguration;
-import perobobbot.lang.Plugin;
-
-module perobobbot.ext.frontfx.gui {
+module perobobbot.frontfx.gui {
     requires static lombok;
     requires java.desktop;
 
     requires org.apache.logging.log4j;
     requires perobobbot.lang;
+    requires perobobbot.fxspring;
     requires spring.boot;
     requires spring.beans;
     requires spring.context;
     requires spring.core;
     requires javafx.graphics;
     requires javafx.controls;
-
-    provides Plugin with GUIConfiguration;
+    requires com.google.common;
+    requires perobobbot.fx;
+    requires perobobbot.frontfx.model;
+    requires perobobbot.i18n;
+    requires perobobbot.frontfx.i18n;
+    requires perobobbot.frontfx.action;
 
     opens perobobbot.frontfx.gui to javafx.graphics;
-    opens perobobbot.frontfx.gui.spring to spring.context, spring.beans, spring.core;
+
+    opens perococco.perobobbot.frontfx.gui to spring.core, spring.beans, spring.context;
+    opens perococco.perobobbot.frontfx.gui.dialog to spring.core, spring.beans, spring.context;
+    opens perococco.perobobbot.frontfx.gui.fxml to spring.core, spring.beans, spring.context, javafx.fxml, perobobbot.fx, perobobbot.fxspring;
+    opens perococco.perobobbot.frontfx.gui.style to spring.core, spring.beans, spring.context;
+    opens perococco.perobobbot.frontfx.gui.action to spring.core, spring.beans, spring.context;
 
 }

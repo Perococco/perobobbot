@@ -20,6 +20,7 @@
 
     <modules>
         <module>perobobbot.lang</module>
+        <module>perobobbot.state</module>
         <module>perobobbot.physics</module>
         <module>perobobbot.rendering</module>
         <module>perobobbot.sound</module>
@@ -29,6 +30,12 @@
         <module>perobobbot.command</module>
         <module>perobobbot.extension</module>
         <module>perobobbot.http</module>
+        <module>perobobbot.i18n</module>
+        <module>perobobbot.validation</module>
+        <module>perobobbot.action</module>
+        <module>perobobbot.fx</module>
+        <module>perobobbot.spring</module>
+        <module>perobobbot.fxspring</module>
         <module>security/perobobbot.security.com</module>
         <module>security/perobobbot.security.core</module>
 

@@ -16,7 +16,7 @@ module perobobbot.rest.controller {
     requires spring.security.core;
     requires spring.web;
     requires java.validation;
-    requires perobobbot.i18n;
+    requires perobobbot.backend.i18n;
 
     opens perobobbot.rest.controller to spring.core,spring.beans,spring.context,spring.web;
 

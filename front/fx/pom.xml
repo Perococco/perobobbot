@@ -22,8 +22,30 @@
     </properties>
 
     <modules>
-        <module>perobobbot.frontfx.state</module>
+        <module>perobobbot.frontfx.action</module>
+        <module>perobobbot.frontfx.i18n</module>
+        <module>perobobbot.frontfx.model</module>
         <module>perobobbot.frontfx.gui</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-frontfx-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-frontfx-action</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-frontfx-i18n</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

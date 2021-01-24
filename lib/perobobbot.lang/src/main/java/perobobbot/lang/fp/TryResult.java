@@ -57,6 +57,10 @@ public class TryResult<T extends Throwable, R> {
         either.accept(leftConsumer, rightConsumer);
     }
 
+    public void acceptIfFailure(@NonNull Consumer<? super T> leftConsumer) {
+        either.accept(leftConsumer, r -> {});
+    }
+
     @NonNull
     public <M> M merge(@NonNull Function1<? super T, ? extends M> leftFunction, @NonNull Function1<? super R, ? extends M> rightFunction) {
         return either.merge(leftFunction, rightFunction);
@@ -67,4 +71,7 @@ public class TryResult<T extends Throwable, R> {
         return either.tryMerge(leftFunction, rightFunction);
     }
 
+    public @NonNull R getOr(@NonNull R valueIfFailed) {
+        return either.right().orElse(valueIfFailed);
+    }
 }
