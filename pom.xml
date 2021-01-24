@@ -23,6 +23,7 @@
         <module>extensions</module>
 
         <module>back</module>
-<!--        <module>frontfx</module>-->
+        <module>front/svelte</module>
+        <module>front/fx</module>
     </modules>
 </project>

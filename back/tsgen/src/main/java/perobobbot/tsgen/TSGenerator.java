@@ -49,7 +49,7 @@ public class TSGenerator {
                 "perobobbot.rest.com",
                 "perobobbot.security.com",
                 "perobobbot.rest.controller");
-        generator.generate(javaPackageSet, Paths.get("./extensions/perobobbot.dashboard-svelte/src/server"));
+        generator.generate(javaPackageSet, Paths.get("./front/svelte/src/server"));
     }
 
     private void setupClassFiltering() {

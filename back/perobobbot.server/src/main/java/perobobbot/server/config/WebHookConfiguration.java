@@ -25,8 +25,6 @@ public class WebHookConfiguration {
     private final @NonNull ExternalURI webHookExternalURI;
     @Qualifier("oauth")
     private final @NonNull ExternalURI oauthExternalURI;
-    @Value("${server.servlet.context-path}")
-    private final String serverContextPath;
 
 
     @Bean
@@ -53,7 +51,7 @@ public class WebHookConfiguration {
     }
 
     private @NonNull URI formFullURI(@NonNull ExternalURI externalURI) {
-        return externalURI.getURI().resolve(serverContextPath+WEBHOOK_PATH);
+        return externalURI.getURI().resolve(WEBHOOK_PATH);
     }
 
 }

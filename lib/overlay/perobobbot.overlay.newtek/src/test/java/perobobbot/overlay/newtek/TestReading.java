@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class TestReading {
 
     @Test
-    void name() throws IOException, UnsupportedAudioFileException {
+    public void name() throws IOException, UnsupportedAudioFileException {
 
         final URL url = TestReading.class.getResource("tone_24b_PCM.wav");
 
