@@ -1,4 +1,4 @@
-package perococco.perobobbot.fxspring;
+package perobobbot.spring;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +10,10 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.Plugin;
-import perobobbot.lang.fp.Function1;
+import perobobbot.lang.fp.Predicate1;
 
-import java.util.Arrays;
+import java.awt.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.ServiceLoader;
 
 /**
@@ -28,17 +27,24 @@ public class SpringLauncher {
     private final List<String> arguments;
 
     @NonNull
-    private final Class<?> applicationClass;
+    private final Class<?>[] applicationClasses;
 
     @NonNull
     private final ApplicationContextInitializer<?>[] initializers;
 
     @NonNull
-    private final Function1<? super Plugin, ? extends Optional<Plugin>> pluginProcessor;
+    private final Predicate1<? super Plugin> pluginFilter;
 
     @NonNull
     public ApplicationCloser launch() {
         return new Execution().launch();
+    }
+
+    public SpringLauncher(@NonNull List<String> arguments,
+                          @NonNull Class<?> applicationClass,
+                          @NonNull ApplicationContextInitializer<?>[] initializers,
+                          @NonNull Predicate1<? super Plugin> pluginFilter) {
+        this(arguments,new Class<?>[]{applicationClass},initializers,pluginFilter);
     }
 
     private class Execution {
@@ -58,7 +64,12 @@ public class SpringLauncher {
         }
 
         private void createSpringApplication() {
-            application = new SpringApplication(FXSpringConfiguration.class, applicationClass);
+            final boolean headless = GraphicsEnvironment.isHeadless();
+            application = new SpringApplication(applicationClasses);
+            application.setHeadless(headless);
+            application.addInitializers(app -> {
+                app.getBeanFactory().registerSingleton("__closer", createCloser(app));
+            });
             application.addInitializers(initializers);
             application.setBannerMode(Banner.Mode.OFF);
         }
@@ -67,14 +78,11 @@ public class SpringLauncher {
             extraPackagesToScan = ServiceLoader.load(Plugin.class)
                                                .stream()
                                                .map(ServiceLoader.Provider::get)
-                                               .map(pluginProcessor)
-                                               .flatMap(Optional::stream)
+                                               .filter(pluginFilter)
+                                               .sorted(Plugin.COMPARE_TYPE_THEN_NAME)
+                                               .peek(p -> LOG.info("Plugin : [{}] {}", p.type(), p.name()))
                                                .flatMap(Plugin::packageStream)
                                                .toArray(String[]::new);
-            if (extraPackagesToScan.length == 0) {
-                System.out.println("NO EXTRA");
-            }
-            Arrays.stream(extraPackagesToScan).forEach(s -> System.out.println("  Extra : "+s));
         }
 
         private void setupSpringApplicationInitializerToTakeIntoAccountExtraPackages() {
@@ -94,7 +102,15 @@ public class SpringLauncher {
 
         private void launchTheApplicationAndConstructTheCloser() {
             final ApplicationContext app = application.run(arguments.toArray(String[]::new));
-            closer = () -> SpringApplication.exit(app);
+            this.closer = createCloser(app);
+        }
+
+        private ApplicationCloser createCloser(@NonNull ApplicationContext context) {
+            return () -> {
+                final int exitCode = SpringApplication.exit(context);
+                System.exit(exitCode);
+            };
+
         }
 
     }

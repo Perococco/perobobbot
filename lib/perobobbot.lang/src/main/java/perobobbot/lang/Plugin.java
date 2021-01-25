@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public interface Plugin {
 
-    Comparator<Plugin> TYPE_THEN_NAME = Comparator.comparing(Plugin::type).thenComparing(Plugin::name);
+    Comparator<Plugin> COMPARE_TYPE_THEN_NAME = Comparator.comparing(Plugin::type).thenComparing(Plugin::name);
 
     @NonNull PluginType type();
 

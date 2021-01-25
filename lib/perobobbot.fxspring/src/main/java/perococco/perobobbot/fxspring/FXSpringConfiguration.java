@@ -25,10 +25,6 @@ public class FXSpringConfiguration {
     @NonNull
     private final Dictionary dictionary;
 
-    @Bean
-    public ApplicationCloser closer() {
-        return new Closer()::close;
-    }
 
     @Bean
     public FXLoaderFactory fxLoader() {
@@ -40,16 +36,4 @@ public class FXSpringConfiguration {
         return new SpringControllerFactory(applicationContext);
     }
 
-    private class Closer {
-
-        private final AtomicBoolean alreadyClosed = new AtomicBoolean(false);
-
-        public int close() {
-            if (!alreadyClosed.getAndSet(true)) {
-                Platform.exit();
-                return SpringApplication.exit(applicationContext);
-            }
-            return -1;
-        }
-    }
 }

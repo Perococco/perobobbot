@@ -10,27 +10,28 @@ import perococco.perobobbot.frontfx.gui.PerobobbotGUI;
 
 import java.util.Optional;
 
-public class Launcher extends FXSpringApplication {
+public class BotGui extends FXSpringApplication {
 
     public static void main(String[] args) {
         launch(args);
     }
 
 
-    public Launcher() {
+    public BotGui() {
         super(PerobobbotGUI.class);
     }
 
     @Override
     protected void beforeLaunchingSpring(@NonNull Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Perobobbot");
+        final var properties = PerobobbotProperties.create();
+        primaryStage.setTitle(properties.getTitle());
     }
 
     @Override
-    protected @NonNull Optional<Plugin> processPluginBeforeIncludingThemIntoSpring(@NonNull Plugin plugin) {
+    protected @NonNull boolean shouldUsePlugin(@NonNull Plugin plugin) {
         if (plugin.type() == PluginType.FRONT_FX) {
-            return Optional.of(plugin);
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 }

@@ -464,7 +464,7 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <delimiters>
-                        <delimiter>@</delimiter>
+                        <delimiter>${*}</delimiter>
                     </delimiters>
                 </configuration>
             </plugin>

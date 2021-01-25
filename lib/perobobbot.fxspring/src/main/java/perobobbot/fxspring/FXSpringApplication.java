@@ -12,9 +12,9 @@ import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.Plugin;
 import perobobbot.lang.fp.TryResult;
 import perobobbot.spring.AddSingletonToApplicationContext;
-import perococco.perobobbot.fxspring.SpringLauncher;
+import perobobbot.spring.SpringLauncher;
+import perococco.perobobbot.fxspring.FXSpringConfiguration;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -25,16 +25,17 @@ public abstract class FXSpringApplication extends Application {
     @NonNull
     private final Class<?> applicationClass;
 
-    private ApplicationCloser contextCloser = () -> {};
+    private ApplicationCloser contextCloser = () -> {
+    };
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             beforeLaunchingSpring(primaryStage);
             this.launchSpring(new AddSingletonToApplicationContext("fxProperties", createFxProperties(primaryStage)))
-                .whenComplete((r,t) -> handleSpringLaunchCompletion(primaryStage,r,t));
+                .whenComplete((r, t) -> handleSpringLaunchCompletion(primaryStage, r, t));
         } catch (Throwable e) {
-            LOG.error("Launch failed ",e);
+            LOG.error("Launch failed ", e);
             try {
                 contextCloser.execute();
             } catch (Throwable se) {
@@ -45,8 +46,8 @@ public abstract class FXSpringApplication extends Application {
     }
 
     @NonNull
-    protected Optional<Plugin> processPluginBeforeIncludingThemIntoSpring(@NonNull Plugin plugins) {
-        return Optional.of(plugins);
+    protected boolean shouldUsePlugin(@NonNull Plugin plugins) {
+        return true;
     }
 
     @NonNull
@@ -55,11 +56,11 @@ public abstract class FXSpringApplication extends Application {
     }
 
     private void handleSpringLaunchCompletion(@NonNull Stage primaryStage, ApplicationCloser applicationCloser, Throwable error) {
-        final TryResult<Throwable,ApplicationCloser> result = error==null?TryResult.success(applicationCloser):TryResult.failure(error);
-        this.afterLaunchingSpring(primaryStage,result);
+        final TryResult<Throwable, ApplicationCloser> result = error == null ? TryResult.success(applicationCloser) : TryResult.failure(error);
+        this.afterLaunchingSpring(primaryStage, result);
 
         result.acceptIfFailure(e -> {
-            LOG.error("Launch failed ",e);
+            LOG.error("Launch failed ", e);
             Platform.exit();
             System.exit(1);
         });
@@ -71,17 +72,22 @@ public abstract class FXSpringApplication extends Application {
     @NonNull
     private CompletionStage<ApplicationCloser> launchSpring(
             ApplicationContextInitializer<?>... initializers) {
-        final SpringLauncher springLauncher = new SpringLauncher(getParameters().getRaw(),
-                                                                 applicationClass,
-                                                                 initializers,
-                                                                 this::processPluginBeforeIncludingThemIntoSpring);
+        final var springLauncher = new SpringLauncher(getParameters().getRaw(),
+                                                      new Class[]{FXSpringConfiguration.class, applicationClass},
+                                                      initializers,
+                                                      this::shouldUsePlugin);
         return CompletableFuture.supplyAsync(springLauncher::launch);
     }
 
 
-    protected void beforeLaunchingSpring(@NonNull Stage primaryStage) throws Exception {}
+    protected void beforeLaunchingSpring(@NonNull Stage primaryStage) throws Exception {
+
+    }
 
     protected void afterLaunchingSpring(
             @NonNull Stage primaryStage,
-            @NonNull TryResult<Throwable,ApplicationCloser> result) {};
+            @NonNull TryResult<Throwable, ApplicationCloser> result) {
+    }
+
+    ;
 }

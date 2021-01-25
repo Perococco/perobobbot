@@ -26,6 +26,7 @@ module perobobbot.server {
     requires perobobbot.data.com;
     requires perobobbot.data.service;
     requires perobobbot.extension;
+    requires perobobbot.spring;
     requires perobobbot.messaging;
     requires perobobbot.overlay.api;
     requires perobobbot.security.com;
