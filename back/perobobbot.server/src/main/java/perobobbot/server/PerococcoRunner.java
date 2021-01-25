@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Component
 @Log4j2
 @RequiredArgsConstructor
 public class PerococcoRunner implements ApplicationRunner {
@@ -49,12 +50,10 @@ public class PerococcoRunner implements ApplicationRunner {
                   LOG.error("Could not connect to perococco chat",error);
               }
           });
-
-
     }
 
     private void whenJoined(@NonNull MessageChannelIO messageChannelIO) {
-        messageChannelIO.send("Ready!!");
+        //messageChannelIO.send("Ready!!");
     }
 
     private Bot getOrCreateBot(String login) throws IOException {

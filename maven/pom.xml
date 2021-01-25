@@ -328,6 +328,11 @@
             </dependency>
             <dependency>
                 <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-ext-connect4</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
                 <artifactId>perobobbot-ext-pause</artifactId>
                 <version>${project.version}</version>
             </dependency>

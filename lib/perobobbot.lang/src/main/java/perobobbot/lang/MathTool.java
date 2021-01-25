@@ -18,4 +18,7 @@ public class MathTool {
     }
 
 
+    public static int roundedToInt(double value) {
+        return (int)Math.round(value);
+    }
 }
