@@ -20,6 +20,9 @@ public interface BotRepository extends JpaRepository<BotEntity, Long> {
 
     void deleteByUuid(@NonNull UUID uuid);
 
+    @Query("select b from BotEntity as b where b.name = :name and b.owner.login = :login")
+    @NonNull Optional<BotEntity> findByNameAndOwnerLogin(@NonNull @Param("name") String name, @NonNull @Param("login") String login);
+
     @NonNull Optional<BotEntity> findByUuid(@NonNull UUID uuid);
 
     default @NonNull BotEntity getByUuid(@NonNull UUID uuid) {

@@ -1,6 +1,7 @@
 package perobobbot.data.domain;
 
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.domain.base.BotCredentialEntityBase;
 
 import javax.persistence.Entity;
@@ -14,4 +15,7 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor
 public class BotCredentialEntity extends BotCredentialEntityBase {
 
+    public BotCredentialEntity(@NonNull BotEntity bot, @NonNull CredentialEntity credentialEntity) {
+        super(bot, credentialEntity);
+    }
 }

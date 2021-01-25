@@ -27,11 +27,16 @@ public interface BotService {
      */
     @NonNull Bot createBot(@NonNull String login, @NonNull String botName);
 
+    @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
+
+    @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId);
+    
     /**
      * @param botId the id of the bot to find
      * @return an optional containing the bot with the provided id if found, an empty optional otherwise
      */
     @NonNull Optional<Bot> findBot(@NonNull UUID botId);
+
 
     /**
      * @param login the login of the user

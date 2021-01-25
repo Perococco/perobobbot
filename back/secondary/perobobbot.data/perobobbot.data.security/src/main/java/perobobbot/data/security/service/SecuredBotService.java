@@ -40,6 +40,18 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName) {
+        return super.findBotByName(login,botName);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','UPDATE')")
+    public @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
+        super.attachCredential(botId, credentialId);
+    }
+
+    @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','READ')")
     public @NonNull Optional<Bot> findBot(@NonNull UUID botId) {
         return super.findBot(botId);

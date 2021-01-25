@@ -8,12 +8,16 @@ import org.hibernate.annotations.Type;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.data.domain.converter.SecretConverter;
+import perobobbot.lang.Bot;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -36,6 +40,7 @@ public class CredentialEntityBase extends PersistentObjectWithUUID {
     private Secret secret = Secret.empty();
 
     public CredentialEntityBase(@NotBlank UserEntity owner, @NonNull Platform platform) {
+        super(UUID.randomUUID());
         this.owner = owner;
         this.platform = platform;
         this.nick = "";

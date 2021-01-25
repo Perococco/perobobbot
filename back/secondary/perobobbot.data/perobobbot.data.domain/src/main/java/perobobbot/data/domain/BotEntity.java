@@ -30,6 +30,20 @@ public class BotEntity extends BotEntityBase {
                 .collect(ImmutableMap.toImmutableMap(CredentialEntity::getPlatform, CredentialEntity::getCredential));
     }
 
+    public void attachCredential(@NonNull CredentialEntity credentialEntity) {
+        if (!credentialEntity.getOwner().equals(this.getOwner())) {
+            throw new IllegalArgumentException("Invalid credential. Does not belong to the bot owner");
+        }
+        if (isAlreadyAttachedToThisCredential(credentialEntity)) {
+            throw new IllegalArgumentException("Credential already used");
+        }
+        this.getBotCredentials().add(new BotCredentialEntity(this,credentialEntity));
+     }
+
+     public boolean isAlreadyAttachedToThisCredential(@NonNull CredentialEntity credentialEntity) {
+         return getBotCredentials().stream().anyMatch(e -> e.getCredentialEntity().equals(credentialEntity));
+     }
+
     public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
         if (extensions().anyMatch(e -> e.equals(extension))) {
             throw new BotHasThisExtensionAlready(this.uuid,extension.getUuid());

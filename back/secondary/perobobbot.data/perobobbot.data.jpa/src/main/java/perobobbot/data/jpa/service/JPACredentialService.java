@@ -41,6 +41,7 @@ public class JPACredentialService implements CredentialService {
     }
 
     @Override
+    @Transactional
     public @NonNull DataCredentialInfo createCredential(@NonNull String login, @NonNull Platform platform) {
         final var credentials = userRepository.getByLogin(login)
                                               .addCredential(platform);

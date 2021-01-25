@@ -27,4 +27,8 @@ public class BotCredentialEntityBase extends SimplePersistentObject {
     @JoinColumn(name = CREDENTIAL_COLUMN_NAME,nullable = false)
     private CredentialEntity credentialEntity;
 
+    public BotCredentialEntityBase(BotEntity bot, CredentialEntity credentialEntity) {
+        this.bot = bot;
+        this.credentialEntity = credentialEntity;
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.jpa.repository.BotRepository;
+import perobobbot.data.jpa.repository.CredentialRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
@@ -25,6 +26,9 @@ public class JPABotService implements BotService {
     private final BotRepository botRepository;
 
     @NonNull
+    private final CredentialRepository credentialRepository;
+
+    @NonNull
     private final UserRepository userRepository;
 
     @Override
@@ -36,6 +40,21 @@ public class JPABotService implements BotService {
     @Override
     public @NonNull Optional<Bot> findBot(@NonNull UUID botId) {
         return botRepository.findByUuid(botId).map(BotEntity::toView);
+    }
+
+    @Override
+    public @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName) {
+        return botRepository.findByNameAndOwnerLogin(botName,login).map(BotEntity::toView);
+    }
+
+    @Override
+    @Transactional
+    public @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
+        final var bot = botRepository.getByUuid(botId);
+        final var credential = credentialRepository.getByUuid(credentialId);
+        bot.attachCredential(credential);
+
+        botRepository.save(bot);
     }
 
     @Override
