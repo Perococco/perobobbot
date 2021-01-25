@@ -89,18 +89,18 @@ public class CommandExecutionLog {
         }
 
         private boolean userCanLaunchTheCommand() {
-            return !chatUser.canActAs(accessRule.getRequiredRole());
+            return chatUser.canActAs(accessRule.getRequiredRole());
         }
 
         private boolean commandNotOnCoolDown() {
             final Instant lastExecutionTime = getLastExecutionTime(chatUser.getUserId());
             if (lastExecutionTime == null) {
-                return false;
+                return true;
             }
             final Duration durationSinceLastExecution = Duration.between(lastExecutionTime, executionTime);
             final Duration userCoolDown = accessRule.findForUserOrGlobalCoolDown(chatUser);
 
-            return durationSinceLastExecution.compareTo(userCoolDown) < 0;
+            return durationSinceLastExecution.compareTo(userCoolDown) >= 0;
         }
 
         private Instant getLastExecutionTime(@NonNull String userId) {

@@ -38,7 +38,7 @@ public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> 
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO);
 
         return ImmutableList.of(
-                factory.create("pause {param}",accessRule,new ExecuteCommand(parameters.getIo(), extension))
+                factory.create("pause {param} [duration]",accessRule,new ExecuteCommand(parameters.getIo(), extension))
         );
     }
 

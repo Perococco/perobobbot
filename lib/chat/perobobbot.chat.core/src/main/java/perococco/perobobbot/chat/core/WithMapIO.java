@@ -26,7 +26,7 @@ public class WithMapIO implements DisposableIO {
 
     @Override
     public void dispose() {
-        ioByPlatform.forEach((p,c) -> c.dispose());
+        ioByPlatform.forEach((p, c) -> c.dispose());
     }
 
     @Override
@@ -37,11 +37,20 @@ public class WithMapIO implements DisposableIO {
 
         if (chatPlatform != null) {
             return chatPlatform.getChannelIO(chatConnectionInfo, channelName)
-                               .thenCompose(c -> c.send(messageBuilder));
+                               .thenCompose(c -> c.send(messageBuilder))
+                               .whenComplete((dispatchSlip, error) -> {
+                                   if (error != null) {
+                                       displaySendingError(platform, channelName, error);
+                                   }
+                               });
         } else {
             LOG.warn("No IO for platform {}", chatConnectionInfo.getPlatform());
             return CompletableFuture.failedFuture(new UnknownChatPlatform(platform));
         }
+    }
+
+    private void displaySendingError(@NonNull Platform platform, @NonNull String channelName, @NonNull Throwable error) {
+        LOG.error("Could not send message to channel {} on platform {}", channelName, platform, error);
     }
 
     @Override

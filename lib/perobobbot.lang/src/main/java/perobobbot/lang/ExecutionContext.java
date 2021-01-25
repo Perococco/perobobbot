@@ -20,22 +20,10 @@ public class ExecutionContext {
     private final @NonNull MessageContext messageContext;
 
     /**
-     * @return the name of the command
+     * @return the full command without the prefix
      */
     @Getter
-    private final @NonNull String commandName;
-
-    /**
-     * @return the rest of the content after the command name
-     */
-    @Getter
-    private final @NonNull String parameters;
-
-    @NonNull
-    public Optional<ExecutionContext> withSubCommands() {
-        return splitCommandParameters(messageContext, parameters);
-    }
-
+    private final @NonNull String command;
 
     @NonNull
     public static Optional<ExecutionContext> createFrom(char prefix, @NonNull MessageContext messageContext) {
@@ -47,17 +35,11 @@ public class ExecutionContext {
 
 
     @NonNull
-    private static Optional<ExecutionContext> splitCommandParameters(@NonNull MessageContext messageContext, String source) {
-        final String[] content = source.split(" ",2);
-
-        final String command = content.length>0?content[0]:"";
-        final String parameters = content.length>1?content[1]:"";
-
+    private static Optional<ExecutionContext> splitCommandParameters(@NonNull MessageContext messageContext, String command) {
         if (command.isEmpty()) {
             return Optional.empty();
         }
-
-        return Optional.of(new ExecutionContext(messageContext, command, parameters));
+        return Optional.of(new ExecutionContext(messageContext, command));
     }
 
     public @NonNull UUID getBotId() {

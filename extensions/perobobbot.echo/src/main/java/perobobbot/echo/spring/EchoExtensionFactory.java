@@ -34,7 +34,7 @@ public class EchoExtensionFactory extends ExtensionFactoryBase<EchoExtension> {
     protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull EchoExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
         final var accessRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10));
         return ImmutableList.of(
-                factory.create("echo",accessRule,new EchoExecutor(extension))
+                factory.create("echo {message}",accessRule,new EchoExecutor(extension))
         );
     }
 

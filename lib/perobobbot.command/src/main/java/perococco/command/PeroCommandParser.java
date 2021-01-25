@@ -3,6 +3,7 @@ package perococco.command;
 import lombok.NonNull;
 import perobobbot.command.CommandParser;
 import perobobbot.command.CommandParsing;
+import perobobbot.command.ParameterDefinition;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.fp.Value2;
 
@@ -38,7 +39,7 @@ public class PeroCommandParser implements CommandParser {
         }
         final var parameters = parsingResult.getParameters()
                                             .stream()
-                                            .map(p -> p.getName())
+                                            .map(ParameterDefinition::getName)
                                             .map(n -> Optional.ofNullable(matcher.group(n)).map(v -> Value2.of(n, v)))
                                             .flatMap(Optional::stream)
                                             .collect(MapTool.value2Collector());

@@ -57,7 +57,7 @@ public class TwitchChatPlatform implements ChatPlatform {
     @Override
     @Synchronized
     public @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
-        return Optional.ofNullable(connections.get(chatConnectionInfo))
+        return Optional.ofNullable(connections.get(chatConnectionInfo.getNick()))
                        .map(ConnectionData::getConnection);
     }
 

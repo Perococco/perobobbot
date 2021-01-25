@@ -84,7 +84,7 @@ public class PeroCommandController implements CommandController {
 
         private void findCommandFromRegistry() {
             assert command == null;
-            this.command = commandRegistry.findCommand(context.getCommandName()).orElse(null);
+            this.command = commandRegistry.findCommand(context.getCommand()).orElse(null);
         }
 
         private boolean commandHasBeenFound() {
