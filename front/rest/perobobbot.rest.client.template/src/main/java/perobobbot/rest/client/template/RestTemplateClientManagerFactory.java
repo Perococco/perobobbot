@@ -5,10 +5,10 @@ import perobobbot.rest.client.ClientManager;
 import perobobbot.rest.client.ClientManagerFactory;
 import perococco.perobobbot.rest.client.template.PeroRestTemplateClientManager;
 
-public interface RestTemplateClientManagerFactory extends ClientManagerFactory {
+public class RestTemplateClientManagerFactory implements ClientManagerFactory {
 
     @Override
-    default @NonNull ClientManager create(@NonNull String baseUrl) {
+    public @NonNull ClientManager create(@NonNull String baseUrl) {
         return new PeroRestTemplateClientManager(baseUrl);
     }
 }

@@ -1,3 +1,6 @@
+import perobobbot.rest.client.ClientManagerFactory;
+import perobobbot.rest.client.template.RestTemplateClientManagerFactory;
+
 module perobobbot.rest.client.template {
     requires static lombok;
     requires java.desktop;
@@ -14,4 +17,6 @@ module perobobbot.rest.client.template {
     requires spring.core;
 
     exports perobobbot.rest.client.template;
+
+    provides ClientManagerFactory with RestTemplateClientManagerFactory;
 }
