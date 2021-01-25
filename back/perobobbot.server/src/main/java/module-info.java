@@ -6,6 +6,7 @@ module perobobbot.server {
     requires java.desktop;
     requires spring.context;
     requires spring.web;
+    requires spring.core;
     requires spring.security.core;
     requires spring.security.config;
     requires spring.messaging;

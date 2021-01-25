@@ -43,4 +43,6 @@ public interface BotService {
      * @return all the bots for the user with the given login
      */
     @NonNull ImmutableList<Bot> listBots(@NonNull String login);
+
+    void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
 }

@@ -6,9 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.BotEntity;
-import perobobbot.data.jpa.repository.BotRepository;
-import perobobbot.data.jpa.repository.CredentialRepository;
-import perobobbot.data.jpa.repository.UserRepository;
+import perobobbot.data.domain.BotExtensionEntity;
+import perobobbot.data.jpa.repository.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
@@ -22,19 +21,37 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JPABotService implements BotService {
 
-    @NonNull
-    private final BotRepository botRepository;
+    private final @NonNull BotRepository botRepository;
 
-    @NonNull
-    private final CredentialRepository credentialRepository;
+    private final @NonNull ExtensionRepository extensionRepository;
 
-    @NonNull
-    private final UserRepository userRepository;
+    private final @NonNull BotExtensionRepository botExtensionRepository;
+
+    private final @NonNull CredentialRepository credentialRepository;
+
+    private final @NonNull UserRepository userRepository;
 
     @Override
     public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
         final var user = userRepository.getByLogin(login);
         return user.getBots().stream().map(BotEntity::toView).collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
+    @Transactional
+    public void enableExtension(@NonNull UUID botId, @NonNull String extensionName) {
+        final var botExtension = botExtensionRepository.findByBot_UuidAndExtension_Name(botId,extensionName)
+                .orElseGet(() -> createBotExtension(botId,extensionName));
+
+        botExtension.setEnabled(true);
+
+        botExtensionRepository.save(botExtension);
+    }
+
+    private @NonNull BotExtensionEntity createBotExtension(@NonNull UUID botId, @NonNull String extensionName) {
+        final var bot = botRepository.getByUuid(botId);
+        final var extension = extensionRepository.getByName(extensionName);
+        return bot.addExtension(extension);
     }
 
     @Override

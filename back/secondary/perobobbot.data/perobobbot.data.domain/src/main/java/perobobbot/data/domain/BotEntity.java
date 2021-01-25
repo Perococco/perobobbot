@@ -11,6 +11,7 @@ import perobobbot.lang.Platform;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Optional;
 
 @Entity
 @Table(name = "BOT")
@@ -45,12 +46,20 @@ public class BotEntity extends BotEntityBase {
      }
 
     public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
-        if (extensions().anyMatch(e -> e.equals(extension))) {
+        if (hasExtension(extension)) {
             throw new BotHasThisExtensionAlready(this.uuid,extension.getUuid());
         }
         final var botExtension = new BotExtensionEntity(this,extension);
         this.getBotExtensions().add(botExtension);
         return botExtension;
+    }
+
+    public @NonNull Optional<BotExtensionEntity> findBotExtension(@NonNull String extensionName) {
+        return botExtensions().filter(e -> e.getExtension().getName().equals(extensionName)).findAny();
+    }
+
+    public boolean hasExtension(@NonNull ExtensionEntity extension) {
+        return findBotExtension(extension.getName()).isPresent();
     }
 
     public @NonNull Bot toView() {

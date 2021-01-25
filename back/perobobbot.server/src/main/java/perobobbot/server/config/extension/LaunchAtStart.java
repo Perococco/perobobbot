@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
@@ -11,6 +12,7 @@ import perobobbot.extension.AvailableExtensions;
 
 @Component
 @RequiredArgsConstructor
+@Order(-100)
 public class LaunchAtStart implements ApplicationRunner {
 
     private final @NonNull AvailableExtensions availableExtensions;
