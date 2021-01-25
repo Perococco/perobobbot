@@ -12,7 +12,7 @@ module perobobbot.ext.connect4 {
     requires perobobbot.access;
     requires perobobbot.command;
     requires perobobbot.lang;
-
+    requires perobobbot.physics;
 
     exports perobobbot.connect4;
 

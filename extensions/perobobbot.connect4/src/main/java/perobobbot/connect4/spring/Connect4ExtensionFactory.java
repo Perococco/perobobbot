@@ -18,7 +18,7 @@ import java.time.Duration;
 public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Extension> {
 
     public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Connect 4", Connect4ExtensionFactory.class);
+        return Plugin.with(PluginType.EXTENSION, "Connect 4", Connect4ExtensionFactory.class);
     }
 
     public Connect4ExtensionFactory(@NonNull Parameters parameters) {
@@ -39,8 +39,8 @@ public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Exten
         final var moveProposalRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10));
         return ImmutableList.of(
                 factory.create("c4 start", accessRule, extension::start),
-                factory.create("c4 stop",accessRule,extension::stop),
-                factory.create("c4 play {column}",moveProposalRule, new MoveProposal(extension))
+                factory.create("c4 stop", accessRule, extension::stop),
+                factory.create("c4 play {column}", moveProposalRule, new MoveProposal(extension))
         );
     }
 

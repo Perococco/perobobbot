@@ -1,12 +1,11 @@
-package perobobbot.connect4.grid;
+package perobobbot.connect4.drawing;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.physics.Vector2D;
 
 import java.awt.geom.Point2D;
-import java.util.IntSummaryStatistics;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -24,6 +23,11 @@ public class Connect4Geometry {
 
     public static final int NUMBER_OF_COLUMNS = 7;
     public static final int NUMBER_OF_ROWS = 6;
+
+    @Getter
+    private final int numberOfColumns = NUMBER_OF_COLUMNS;
+    @Getter
+    private final int numberOfRows = NUMBER_OF_ROWS;
 
     @Getter
     private final int positionRadius;
@@ -46,9 +50,13 @@ public class Connect4Geometry {
         return 2 * margin + NUMBER_OF_ROWS * (positionRadius * 2 + spacing) - spacing;
     }
 
-    public @NonNull Point2D computePositionOnImage(@NonNull Position position) {
+    public @NonNull Vector2D computePositionAboveColumn(int columnIndex) {
+        return computePositionOnImage(new Position(columnIndex,numberOfRows));
+    }
+
+    public @NonNull Vector2D computePositionOnImage(@NonNull Position position) {
         final var x = margin + positionRadius + position.getColumnIdx() * (positionRadius * 2 + spacing);
         final var y = margin + positionRadius + (NUMBER_OF_ROWS - position.getRowIdx()-1) * (positionRadius * 2 + spacing);
-        return new Point2D.Double(x, y);
+        return Vector2D.create(x, y);
     }
 }

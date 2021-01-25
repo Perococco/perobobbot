@@ -1,4 +1,4 @@
-package perobobbot.connect4.grid;
+package perobobbot.connect4.drawing;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

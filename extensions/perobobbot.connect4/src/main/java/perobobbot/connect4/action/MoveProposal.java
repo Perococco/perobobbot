@@ -6,7 +6,6 @@ import perobobbot.command.CommandAction;
 import perobobbot.command.CommandParsing;
 import perobobbot.connect4.Connect4Extension;
 import perobobbot.lang.ExecutionContext;
-import perobobbot.lang.Todo;
 
 @RequiredArgsConstructor
 public class MoveProposal implements CommandAction  {
@@ -15,6 +14,7 @@ public class MoveProposal implements CommandAction  {
 
     @Override
     public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
-        Todo.TODO();
+        final int columnIndex = parsing.getIntParameter("column");
+        extension.playAt(columnIndex);
     }
 }
