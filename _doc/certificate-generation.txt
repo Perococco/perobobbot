@@ -1,3 +1,7 @@
 #create a self signed certificate
 
 keytool -genkeypair -alias perobobbot -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore keystore.p12 -validity 3650
+
+
+#add certificate to jdk
+keytool -import -alias perobobbot -keystore ~/.jdks/adopt-openjdk-15.0.2/lib/security/cacerts -file perobobbot.pem

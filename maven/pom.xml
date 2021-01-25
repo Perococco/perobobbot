@@ -341,6 +341,16 @@
                 <artifactId>perobobbot-front-svelte</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-rest-client-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco.bot</groupId>
+                <artifactId>perobobbot-rest-client-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <dependency>

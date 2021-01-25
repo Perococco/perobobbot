@@ -8,7 +8,7 @@ open module perobobbot.rest.controller {
     requires perobobbot.data.service;
     requires perobobbot.security.core;
     requires perobobbot.lang;
-    requires perobobbot.rest.com;
+    requires transitive perobobbot.rest.com;
 
 
     requires com.google.common;

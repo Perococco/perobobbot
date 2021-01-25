@@ -1,16 +1,26 @@
 package perobobbot.fx.dialog;
 
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import lombok.NonNull;
+import perobobbot.lang.Subscription;
 
 public interface DialogController<I,O> extends DialogResultHandler<O> {
 
     /**
+     * @return a string property that will be used to set the title of the dialog
+     */
+    @NonNull ObservableStringValue titleProperty();
+
+    /**
      * Called before the dialog is shown
      * @param input the data to use to initialize the dialog
+     * @return a subscription that will be unsubscribed by the caller when the dialog is closed or
+     * if an error occurred while trying to display the dialog
      */
-    void initializeDialog(@NonNull I input);
+    @NonNull
+    Subscription initializeDialog(@NonNull I input);
 
     /**
      * @return an observable containing the current result (valid or invalid) of the dialog
