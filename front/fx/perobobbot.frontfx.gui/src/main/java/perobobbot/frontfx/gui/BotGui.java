@@ -7,8 +7,10 @@ import perobobbot.fxspring.FXSpringApplication;
 import perobobbot.lang.Plugin;
 import perobobbot.lang.PluginType;
 import perococco.perobobbot.frontfx.gui.PerobobbotGUI;
+import perococco.perobobbot.frontfx.gui.assets.Resource;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BotGui extends FXSpringApplication {
 
@@ -24,14 +26,21 @@ public class BotGui extends FXSpringApplication {
     @Override
     protected void beforeLaunchingSpring(@NonNull Stage primaryStage) throws Exception {
         final var properties = PerobobbotProperties.create();
+        this.initializeIconsOfThePrimaryStage(primaryStage);
         primaryStage.setTitle(properties.getTitle());
     }
 
+    private void initializeIconsOfThePrimaryStage(@NonNull Stage primaryStage) {
+        final var icons = Resource.streamFilteredByName(n -> n.startsWith("logo_"))
+                                  .map(Resource::getAsFXImage)
+                                  .collect(Collectors.toList());
+
+        primaryStage.getIcons().setAll(icons);
+    }
+
+
     @Override
     protected @NonNull boolean shouldUsePlugin(@NonNull Plugin plugin) {
-        if (plugin.type() == PluginType.FRONT_FX) {
-            return true;
-        }
-        return false;
+        return plugin.type() == PluginType.FRONT_FX;
     }
 }

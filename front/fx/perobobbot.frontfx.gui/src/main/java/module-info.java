@@ -9,6 +9,7 @@ module perobobbot.frontfx.gui {
     requires spring.beans;
     requires spring.context;
     requires spring.core;
+    requires javafx.swing;
     requires javafx.graphics;
     requires javafx.controls;
     requires com.google.common;
