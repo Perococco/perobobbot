@@ -7,16 +7,18 @@ import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.rest.com.RestCredentialInfo;
 import perobobbot.security.com.SimpleUser;
 
+import java.util.concurrent.CompletionStage;
+
 public interface UserClient {
 
-    @NonNull ImmutableList<SimpleUser> listAllUsers();
+    @NonNull CompletionStage<ImmutableList<SimpleUser>> listAllUsers();
 
-    @NonNull SimpleUser createUser(@NonNull CreateUserParameters parameters);
+    @NonNull CompletionStage<SimpleUser> createUser(@NonNull CreateUserParameters parameters);
 
-    @NonNull SimpleUser getUserByLogin(@NonNull String login);
+    @NonNull CompletionStage<SimpleUser> getUserByLogin(@NonNull String login);
 
-    @NonNull SimpleUser updateUser(@NonNull String login, @NonNull UpdateUserParameters parameters);
+    @NonNull CompletionStage<SimpleUser> updateUser(@NonNull String login, @NonNull UpdateUserParameters parameters);
 
-    @NonNull ImmutableList<RestCredentialInfo> getUserCredentials(@NonNull String login);
+    @NonNull CompletionStage<ImmutableList<RestCredentialInfo>> getUserCredentials(@NonNull String login);
 
 }

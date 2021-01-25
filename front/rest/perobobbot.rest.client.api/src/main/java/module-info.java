@@ -1,4 +1,5 @@
 module perobobbot.rest.client.api {
+    uses perobobbot.rest.client.ClientManager;
     requires static lombok;
     requires java.desktop;
     requires com.google.common;

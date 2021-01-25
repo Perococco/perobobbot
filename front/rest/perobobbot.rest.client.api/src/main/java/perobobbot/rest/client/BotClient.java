@@ -6,13 +6,14 @@ import perobobbot.lang.Bot;
 import perobobbot.rest.com.CreateBotParameters;
 
 import java.util.UUID;
+import java.util.concurrent.CompletionStage;
 
 public interface BotClient {
 
-    void deleteBot(@NonNull UUID id);
+    @NonNull CompletionStage<?> deleteBot(@NonNull UUID id);
 
-    @NonNull ImmutableList<Bot> listBots();
+    @NonNull CompletionStage<ImmutableList<Bot>> listBots();
 
-    @NonNull Bot createBot(@NonNull CreateBotParameters parameters);
+    @NonNull CompletionStage<Bot> createBot(@NonNull CreateBotParameters parameters);
 
 }
