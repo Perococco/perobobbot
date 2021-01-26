@@ -14,6 +14,8 @@ import java.util.concurrent.*;
 @RequiredArgsConstructor
 public class PeroTimedPoll implements TimedPoll {
 
+    public static final long ONE_SECOND_IN_NANO = Duration.ofSeconds(1).toNanos();
+
     private final @NonNull Poll poll;
 
     private final Listeners<PollListener> listeners = new Listeners<>();
@@ -85,10 +87,13 @@ public class PeroTimedPoll implements TimedPoll {
             while (!Thread.interrupted()) {
                 var remainingTime = endingTime - System.nanoTime();
                 if (remainingTime > 0) {
-                    retrievePendingVotes(remainingTime).forEach(poll::addVote);
+                    retrievePendingVotes(Math.min(remainingTime,ONE_SECOND_IN_NANO)).forEach(poll::addVote);
                     remainingTime = endingTime - System.nanoTime();
                 }
-                warnOnNewPollResult(Duration.ofNanos(remainingTime));
+                warnOnNewPollResult(Duration.ofNanos(Math.max(0,remainingTime)));
+                if (remainingTime<=0) {
+                    break;
+                }
             }
 
             onPollDoneFuture.complete(poll.getCurrentCount());

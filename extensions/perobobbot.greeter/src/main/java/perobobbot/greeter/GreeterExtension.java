@@ -32,6 +32,7 @@ public class GreeterExtension implements Extension {
     @NonNull
     private final IO io;
 
+    //TODO use {@link perobobbot.lang.MessageDispatcher} instead of more specific {@link ChatController}
     @NonNull
     private final ChatController chatController;
 

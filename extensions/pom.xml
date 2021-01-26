@@ -26,6 +26,7 @@
         <module>perobobbot.greeter</module>
         <module>perobobbot.benchmark</module>
         <module>perobobbot.pause</module>
+        <module>perobobbot.chatpoll</module>
         <module>perobobbot.play</module>
         <module>perobobbot.connect4</module>
 <!--        <module>perobobbot.dashboard-svelte</module>-->
