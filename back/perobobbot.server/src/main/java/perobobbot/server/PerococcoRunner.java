@@ -40,6 +40,10 @@ public class PerococcoRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         final Bot bot = getOrCreateBot("perococco");
 
+
+        io.getPlatform(Platform.LOCAL)
+          .connect(bot);
+
         io.getPlatform(Platform.TWITCH)
           .connect(bot)
           .thenCompose(c -> c.join("perococco"))
@@ -56,6 +60,14 @@ public class PerococcoRunner implements ApplicationRunner {
         //messageChannelIO.send("Ready!!");
     }
 
+    private void updateCredential(String login) {
+        final var bot = botService.findBotByName(login,"perobobbot").get();
+
+        final var cred = credentialService.createCredential(login,Platform.LOCAL);
+        credentialService.updateCredential(cred.getId(), new Credential("perobobbot",Secret.of("local")));
+        botService.attachCredential(bot.getId(),cred.getId());
+    }
+
     private Bot getOrCreateBot(String login) throws IOException {
         final var existing = botService.findBotByName(login,"perobobbot");
         if (existing.isPresent()) {
@@ -63,11 +75,17 @@ public class PerococcoRunner implements ApplicationRunner {
         }
 
         final var bot = botService.createBot(login,"perobobbot");
-        final var cred = credentialService.createCredential(login, Platform.TWITCH);
-        credentialService.updateCredential(cred.getId(),new Credential("perobobbot", readSecret()));
+        {
+            final var cred = credentialService.createCredential(login, Platform.TWITCH);
+            credentialService.updateCredential(cred.getId(), new Credential("perobobbot", readSecret()));
+            botService.attachCredential(bot.getId(), cred.getId());
+        }
 
-        botService.attachCredential(bot.getId(),cred.getId());
-
+        {
+            final var cred = credentialService.createCredential(login, Platform.LOCAL);
+            credentialService.updateCredential(cred.getId(), new Credential("perobobbot", Secret.of("local")));
+            botService.attachCredential(bot.getId(), cred.getId());
+        }
         enableAllExtensions(bot);
 
         return botService.findBot(bot.getId()).orElseThrow(() -> new UnknownBot(bot.getId()));
