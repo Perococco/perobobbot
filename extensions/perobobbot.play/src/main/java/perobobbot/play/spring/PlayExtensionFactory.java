@@ -32,7 +32,7 @@ public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
 
     @Override
     protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull PlayExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
-        final var accessRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(30));
+        final var accessRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(30), Role.THE_BOSS.cooldown(Duration.ZERO));
         return ImmutableList.of(
                 factory.create("play {soundName}", accessRule, new PlaySound(extension))
         );
