@@ -9,7 +9,8 @@ public interface PollFactory {
 
     @NonNull Poll createPoll(@NonNull ImmutableSet<String> pollOptions, @NonNull PollConfiguration configuration);
 
-    @NonNull TimedPoll createTimedPoll(@NonNull ImmutableSet<String> pollOptions, @NonNull PollConfiguration configuration);
+    @NonNull Poll createOpenPoll(@NonNull PollConfiguration configuration);
+
 
     static @NonNull PollFactory getFactory() {
         return new PeroPollFactory();

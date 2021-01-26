@@ -69,6 +69,7 @@ public class PeroTimedPoll implements TimedPoll {
         @Override
         public void run() {
             try {
+                poll.clear();
                 doRun();
             } catch (Throwable t) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(t);

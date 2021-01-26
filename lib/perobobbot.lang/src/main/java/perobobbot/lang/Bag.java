@@ -1,7 +1,9 @@
 package perobobbot.lang;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 
+import java.util.Set;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
@@ -26,4 +28,6 @@ public interface Bag<T> extends Iterable<CountedValue<T>>{
     void clear();
 
     int size();
+
+    @NonNull Set<T> KeySet();
 }

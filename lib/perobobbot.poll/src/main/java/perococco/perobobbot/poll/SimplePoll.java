@@ -2,27 +2,36 @@ package perococco.perobobbot.poll;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Bag;
 import perobobbot.lang.HashBag;
+import perobobbot.lang.StringTools;
 import perobobbot.poll.Poll;
 import perobobbot.poll.PollResult;
+import perobobbot.poll.TimedPoll;
 import perobobbot.poll.Voter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SimplePoll implements Poll {
 
-    public static @NonNull Poll create(@NonNull ImmutableSet<String> availableOptions, @NonNull PollConfiguration configuration) {
-        return new SimplePoll(availableOptions, configuration);
+    public static @NonNull Poll createClosed(@NonNull ImmutableSet<String> availableOptions, @NonNull PollConfiguration configuration) {
+        return new SimplePoll(availableOptions, availableOptions::contains, configuration);
     }
 
+    public static @NonNull Poll createOpen(@NonNull PollConfiguration configuration) {
+        return new SimplePoll(null, StringTools::hasData, configuration);
+    }
 
-    private final @NonNull ImmutableSet<String> availableOptions;
+    private final ImmutableSet<String> availableOptions;
+
+    private final @NonNull Predicate<String> idValidChoice;
 
     private final @NonNull PollConfiguration configuration;
 
@@ -38,10 +47,12 @@ public class SimplePoll implements Poll {
 
     @Override
     public @NonNull PollResult getCurrentCount() {
+        final var availableOptions = Optional.ofNullable(this.availableOptions)
+                                             .orElseGet(() -> ImmutableSet.copyOf(voteCounts.KeySet()));
         final var votes = votePerVoter.entrySet()
                                       .stream()
                                       .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> e.getValue().toImmutable()));
-        return new PollResult(availableOptions,votes,voteCounts.toImmutable());
+        return new PollResult(availableOptions, votes, voteCounts.toImmutable());
     }
 
     @Override
@@ -50,7 +61,7 @@ public class SimplePoll implements Poll {
             return;
         }
         if (availableOptions.contains(idVoted)) {
-            voteCounts.add(idVoted,1);
+            voteCounts.add(idVoted, 1);
             votePerVoter.computeIfAbsent(voter, k -> new HashBag<>()).add(idVoted, 1);
         }
     }
@@ -61,5 +72,10 @@ public class SimplePoll implements Poll {
 
     private boolean voterHasVotedAlready(Voter voter) {
         return votePerVoter.containsKey(voter);
+    }
+
+    @Override
+    public @NonNull TimedPoll createTimedFromThis() {
+        return new PeroTimedPoll(this);
     }
 }

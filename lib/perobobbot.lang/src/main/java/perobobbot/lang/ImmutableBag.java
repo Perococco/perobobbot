@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
@@ -67,5 +68,10 @@ public class ImmutableBag<T> implements Bag<T> {
     @Override
     public int size() {
         return content.size();
+    }
+
+    @Override
+    public @NonNull Set<T> KeySet() {
+        return content.keySet();
     }
 }

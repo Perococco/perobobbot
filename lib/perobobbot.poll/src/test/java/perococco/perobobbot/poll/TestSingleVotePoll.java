@@ -41,7 +41,7 @@ public class TestSingleVotePoll {
     @BeforeEach
     public void setUp() {
         this.options = ImmutableSet.of("A","B","C","D","E");
-        final var poll = SimplePoll.create(this.options, new PollConfiguration(false));
+        final var poll = SimplePoll.createClosed(this.options, new PollConfiguration(false));
 
         poll.addVote(batman,"A");
         poll.addVote(superman,"B");

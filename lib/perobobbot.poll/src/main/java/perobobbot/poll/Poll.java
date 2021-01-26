@@ -19,5 +19,7 @@ public interface Poll {
 
     @NonNull PollResult getCurrentCount();
 
+    @NonNull TimedPoll createTimedFromThis();
+
 
 }

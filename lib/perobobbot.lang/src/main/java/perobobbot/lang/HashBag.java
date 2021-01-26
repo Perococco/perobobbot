@@ -8,6 +8,7 @@ import lombok.NonNull;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.IntUnaryOperator;
 import java.util.stream.Stream;
 
@@ -54,5 +55,10 @@ public class HashBag<T> implements Bag<T> {
     @Override
     public int size() {
         return content.size();
+    }
+
+    @Override
+    public @NonNull Set<T> KeySet() {
+        return content.keySet();
     }
 }
