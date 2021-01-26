@@ -1,11 +1,10 @@
-package perobobbot.connect4.drawing;
+package perobobbot.connect4.game;
 
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.physics.Vector2D;
 
-import java.awt.geom.Point2D;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -36,10 +35,10 @@ public class Connect4Geometry {
 
     private final int margin;
 
-    public @NonNull Stream<Position> streamPositions() {
+    public @NonNull Stream<GridPosition> streamPositions() {
         return IntStream.range(0, NUMBER_OF_COLUMNS)
                         .boxed()
-                        .flatMap(c -> IntStream.range(0, NUMBER_OF_ROWS).mapToObj(r ->  new Position(c, r)));
+                        .flatMap(c -> IntStream.range(0, NUMBER_OF_ROWS).mapToObj(r ->  new GridPosition(c, r)));
     }
 
     public int computeImageWidth() {
@@ -51,10 +50,10 @@ public class Connect4Geometry {
     }
 
     public @NonNull Vector2D computePositionAboveColumn(int columnIndex) {
-        return computePositionOnImage(new Position(columnIndex,numberOfRows));
+        return computePositionOnImage(new GridPosition(columnIndex, numberOfRows));
     }
 
-    public @NonNull Vector2D computePositionOnImage(@NonNull Position position) {
+    public @NonNull Vector2D computePositionOnImage(@NonNull GridPosition position) {
         final var x = margin + positionRadius + position.getColumnIdx() * (positionRadius * 2 + spacing);
         final var y = margin + positionRadius + (NUMBER_OF_ROWS - position.getRowIdx()-1) * (positionRadius * 2 + spacing);
         return Vector2D.create(x, y);

@@ -1,4 +1,4 @@
-package perobobbot.connect4.drawing;
+package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

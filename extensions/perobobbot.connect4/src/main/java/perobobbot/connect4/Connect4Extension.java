@@ -1,7 +1,8 @@
 package perobobbot.connect4;
 
 import lombok.NonNull;
-import perobobbot.connect4.drawing.TokenType;
+import perobobbot.connect4.game.Connect4Game;
+import perobobbot.connect4.game.TokenType;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
 
@@ -11,7 +12,7 @@ public class Connect4Extension extends OverlayExtension {
 
     public static final String NAME = "Connect 4";
 
-    private  Connect4Game connect4Game = null;
+    private Connect4Game connect4Game = null;
 
     public Connect4Extension(@NonNull Overlay overlay) {
         super(NAME, overlay);
