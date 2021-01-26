@@ -13,6 +13,10 @@ public class ImmutableVector2D implements ROVector2D {
         return new ImmutableVector2D(x,y);
     }
 
+    public static @NonNull ImmutableVector2D radialInDegree(double norm, double angleInDegree) {
+        return radial(norm,Math.toRadians(angleInDegree));
+    }
+
     public static @NonNull ImmutableVector2D radial(double norm, double angle) {
         final double x= norm*Math.cos(angle);
         final double y= norm*Math.sin(angle);

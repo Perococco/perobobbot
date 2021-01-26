@@ -25,7 +25,7 @@ public class ThrowPuck implements CommandAction {
 
         final var thrower = context.getMessageOwner();
 
-        OptionalTools.map(speed, angle, ImmutableVector2D::radial)
+        OptionalTools.map(speed, angle, ImmutableVector2D::radialInDegree)
                      .ifPresent(velocity -> {
                          final var throwInstant = context.getReceptionTime();
                          final var puckThrow = new Throw(thrower, throwInstant, velocity);
