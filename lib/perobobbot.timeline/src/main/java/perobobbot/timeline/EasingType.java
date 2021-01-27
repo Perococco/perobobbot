@@ -45,9 +45,9 @@ public enum EasingType {
     EASE_OUT_ELASTIC(new EaseElasticIn().reverse()),
     EASE_IN_OUT_ELASTIC(new EaseElasticIn().symmetrize()),
 
-    EASE_IN_BOUNCE(new EaseExpoIn()),
-    EASE_OUT_BOUNCE(new EaseExpoIn().reverse()),
-    EASE_IN_OUT_BOUNCE(new EaseExpoIn().symmetrize()),
+    EASE_IN_BOUNCE(new EaseBounceIn()),
+    EASE_OUT_BOUNCE(new EaseBounceIn().reverse()),
+    EASE_IN_OUT_BOUNCE(new EaseBounceIn().symmetrize()),
     ;
 
     @Getter

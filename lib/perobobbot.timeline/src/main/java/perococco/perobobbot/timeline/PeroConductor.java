@@ -13,8 +13,11 @@ public class PeroConductor implements Conductor {
 
     private List<Reference<PeroProperty>> properties = new LinkedList<>();
 
+    private double time;
+
     @Override
     public void setTime(double time) {
+        this.time = time;
         var itr = properties.iterator();
         while(itr.hasNext()) {
             var prop = itr.next().get();
@@ -29,6 +32,7 @@ public class PeroConductor implements Conductor {
     @Override
     public @NonNull Property createProperty() {
         final PeroProperty property = new PeroProperty();
+        property.setTime(this.time);
         properties.add(new WeakReference<>(property));
         return property;
     }

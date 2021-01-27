@@ -8,57 +8,37 @@ import java.time.Duration;
 
 public class PeroProperty implements Property {
 
-    private double value = 0;
-
-    private double time = 0;
-    private Easing easing = null;
-
-    private double start = 0;
-    private double delta = 0;
-    private double target = 0;
-
+    private @NonNull ValueHolder valueHolder = new BasicValueHolder();
 
     @Override
-    public void clearEasing() {
-        easing = null;
+    public PeroProperty clearEasing() {
+        this.valueHolder = valueHolder.clearEasing();
+        return this;
     }
 
     public void setTime(double time) {
-        this.time = time;
-        if (easing == null) {
-            this.value = this.target;
-        } else {
-            this.value = easing.getValue(time)*delta+start;
-        }
+        this.valueHolder.setTime(time);
     }
 
     @Override
-    public void setEasing(@NonNull EasingType easingType, @NonNull Duration easingDuration) {
+    public PeroProperty setEasing(@NonNull EasingType easingType, @NonNull Duration easingDuration) {
         final double durationInSecond = easingDuration.toSeconds();
         if (durationInSecond<=0) {
-            clearEasing();
+            this.valueHolder = valueHolder.clearEasing();
         } else {
-            easing = new Easing(1./durationInSecond,easingType.getEasingOperator());
+            this.valueHolder = this.valueHolder.withEasing(new Easing(1./durationInSecond, easingType.getEasingOperator()));
         }
+        return this;
     }
 
     @Override
-    public void set(double value) {
-        if (easing == null) {
-            this.start = value;
-            this.value = value;
-            this.target = value;
-            this.delta = 0;
-        } else {
-            this.start = this.value;
-            this.target = value;
-            this.delta = value - this.start;
-            this.easing.reset(time);
-        }
+    public PeroProperty set(double value) {
+        this.valueHolder.set(value);
+        return this;
     }
 
     @Override
     public double get() {
-        return value;
+        return valueHolder.get();
     }
 }

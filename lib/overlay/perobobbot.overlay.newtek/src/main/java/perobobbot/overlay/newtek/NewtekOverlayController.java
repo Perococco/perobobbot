@@ -145,6 +145,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
                                          .deltaTime(dt)
                                          .iterationCount(iterationCount)
                                          .time(time)
+                                         .propertyFactory(conductor)
                                          .soundContext(ndiData.getSoundContext())
                                          .renderer(ndiData.createOverlayRenderer())
                                          .build();

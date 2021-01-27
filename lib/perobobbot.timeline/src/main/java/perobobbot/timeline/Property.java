@@ -6,11 +6,25 @@ import java.time.Duration;
 
 public interface Property {
 
-    void clearEasing();
+    /**
+     * Clear the easing and return this
+     * @return this
+     */
+    Property clearEasing();
 
-    void setEasing(@NonNull EasingType easing, @NonNull Duration easingDuration);
+    /**
+     * Set the easing and return this
+     * @param easingType the type of easing
+     * @param easingDuration the duration of the easing
+     * @return this
+     */
+    Property setEasing(@NonNull EasingType easingType, @NonNull Duration easingDuration);
 
-    void set(double value);
+    /**
+     * @param value the value to set
+     * @return this
+     */
+    Property set(double value);
 
     double get();
 }
