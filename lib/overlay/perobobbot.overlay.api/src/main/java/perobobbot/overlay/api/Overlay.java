@@ -4,11 +4,12 @@ import lombok.NonNull;
 import perobobbot.lang.Subscription;
 import perobobbot.rendering.Size;
 import perobobbot.sound.SoundRegistry;
+import perobobbot.timeline.PropertyFactory;
 
 /**
  * WARNING!! Overlay is shared amongst all users. A user specific overlay might be needed
  */
-public interface Overlay extends SoundRegistry {
+public interface Overlay extends SoundRegistry, PropertyFactory {
 
     /**
      * Add a client to this overlay

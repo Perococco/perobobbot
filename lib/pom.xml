@@ -23,6 +23,7 @@
         <module>perobobbot.state</module>
         <module>perobobbot.physics</module>
         <module>perobobbot.rendering</module>
+        <module>perobobbot.timeline</module>
         <module>perobobbot.sound</module>
         <module>perobobbot.poll</module>
         <module>perobobbot.access</module>

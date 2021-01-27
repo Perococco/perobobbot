@@ -5,19 +5,19 @@
     <parent>
         <groupId>perococco.bot</groupId>
         <artifactId>perobobbot-lib</artifactId>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-overlay-api</artifactId>
+    <artifactId>perobobbot-timeline</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Overlay : API</submodule.name>
+        <submodule.name>Timeline</submodule.name>
     </properties>
 
     <dependencies>
@@ -25,17 +25,6 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-timeline</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-sound</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-rendering</artifactId>
-        </dependency>
     </dependencies>
+
 </project>

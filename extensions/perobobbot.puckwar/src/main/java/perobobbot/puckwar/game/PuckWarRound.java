@@ -127,7 +127,7 @@ public class PuckWarRound implements Renderable {
 
         this.invTargetRadius = 2./target.getWidth();
 
-        this.help = new Sprite("Help",StartPointImage.create(overlaySize.getMinLength()/4));
+        this.help = new Sprite("Help", StartPointImage.create(overlaySize.getMinLength()/4));
         this.help.setFixed(true);
         this.help.getPosition().setTo(initialPosition.subtract(help.getWidth()*0.5,help.getHeight()*0.5));
 

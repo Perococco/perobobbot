@@ -4,9 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.overlay.api.SoundContext;
 import perobobbot.rendering.Renderer;
+import perobobbot.timeline.PropertyFactory;
 
 @RequiredArgsConstructor
 @Builder
@@ -26,5 +28,8 @@ public class SimpleOverlayIteration implements OverlayIteration {
 
     @Getter
     private final @NonNull SoundContext soundContext;
+
+    @Delegate
+    private final @NonNull PropertyFactory propertyFactory;
 
 }

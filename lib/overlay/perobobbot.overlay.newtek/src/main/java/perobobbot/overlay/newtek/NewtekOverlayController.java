@@ -15,6 +15,8 @@ import perobobbot.overlay.api.*;
 import perobobbot.rendering.Size;
 import perobobbot.sound.SoundManager;
 import perobobbot.sound.SoundRegistry;
+import perobobbot.timeline.Conductor;
+import perobobbot.timeline.PropertyFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -44,6 +46,9 @@ public class NewtekOverlayController implements OverlayController, Overlay {
     @Delegate(types = {SoundRegistry.class})
     private final @NonNull SoundManager soundManager;
 
+    @Delegate(types = {PropertyFactory.class})
+    private final @NonNull Conductor conductor;
+
     private ImmutableList<OverlayClient> drawers = ImmutableList.of();
 
 
@@ -53,6 +58,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         this.frameRate = frameRate;
         this.ndiName = ndiName;
         this.soundManager = soundManager;
+        this.conductor = Conductor.create();
         final NDIConfig ndiConfig = new NDIConfig(overlaySize, DevolayFrameFourCCType.RGBA, frameRate, soundManager.getSampleRate(), soundManager.getNbChannels());
         final NDIData ndiData = new NDIData(ndiConfig, soundManager, 3);
 
@@ -102,6 +108,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
             LOG.info("Start overlay controller '{}'", ndiName);
             super.beforeLooping();
             this.time = 0;
+            conductor.setTime(0);
             this.iterationCount = 0;
         }
 
@@ -115,6 +122,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
             this.time += dt;
+            conductor.setTime(this.time);
             this.iterationCount++;
             final ImmutableList<OverlayClient> clients = drawers;
             final OverlayIteration iteration = this.createOverlayIteration();

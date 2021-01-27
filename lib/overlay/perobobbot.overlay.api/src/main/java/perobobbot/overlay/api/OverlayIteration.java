@@ -2,8 +2,9 @@ package perobobbot.overlay.api;
 
 import lombok.NonNull;
 import perobobbot.rendering.Renderer;
+import perobobbot.timeline.PropertyFactory;
 
-public interface OverlayIteration {
+public interface OverlayIteration extends PropertyFactory {
 
     /**
      * @return the iteration count

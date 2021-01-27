@@ -5,7 +5,8 @@ module perobobbot.overlay.api {
 
     requires transitive perobobbot.sound;
     requires transitive perobobbot.rendering;
-    requires perobobbot.lang;
+    requires transitive perobobbot.lang;
+    requires transitive perobobbot.timeline;
 
     requires com.google.common;
     requires org.apache.logging.log4j;
