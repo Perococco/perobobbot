@@ -21,11 +21,4 @@ public interface ChatController extends MessageDispatcher {
      */
     void handleMessage(@NonNull MessageContext messageContext);
 
-    /**
-     * @param handler a listener that is called with all incoming from the chats
-     * @return a subscription that can be used to remove this message from this chat controller
-     */
-    @NonNull
-    Subscription addListener(@NonNull MessageHandler handler);
-
 }

@@ -24,7 +24,7 @@ public class NgrokExternalURI implements ExternalURI {
                                  .uri(getNgrokURI())
                                  .retrieve()
                                  .bodyToMono(Map.class)
-                                 .doOnError(t -> LOG.error("Fail to get ngrok public url. Is 'ngrok' launched ? err = '{}'",t.getMessage()))
+                                 .doOnError(t -> LOG.warn("Fail to get ngrok public url. Is 'ngrok' launched ? err = '{}'",t.getMessage()))
                                  .block(Duration.ofSeconds(10));
 
         final var publicUrl = map.get(PUBLIC_URL_KEY);

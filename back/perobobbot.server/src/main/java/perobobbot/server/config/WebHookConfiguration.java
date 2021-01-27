@@ -34,7 +34,7 @@ public class WebHookConfiguration {
             return WebHookDispatcher.create(webHookURI, oauthURI);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.error("WebHook are disabled. Check your configuration.");
+            LOG.warn("WebHook are disabled. Check your configuration.");
             return WebHookDispatcher.disabled();
         }
     }

@@ -14,6 +14,7 @@ module perobobbot.play {
     requires org.apache.logging.log4j;
     requires spring.context;
     requires com.google.common;
+    requires perobobbot.chat.core;
 
     exports perobobbot.play;
     provides Plugin with PlayExtensionFactory;

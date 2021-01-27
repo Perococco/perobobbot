@@ -101,11 +101,16 @@ public class CommandRegexpParser {
     }
 
     private void appendChar(char c) {
-        switch (c) {
-            case '.', '*', '?', '-' -> regexpBuilder.append("\\");
-        }
-        regexpBuilder.append(c);
+        regexpBuilder.append(escapeChar(c));
     }
+
+    private String escapeChar(char c) {
+        return switch (c) {
+            case '.', '*', '?', '-' -> "\\"+c;
+            default -> ""+c;
+        };
+    }
+
 
     private void parseParameter(boolean optional) {
         final var parameterName = extractParameterName(optional ? ']' : '}');
@@ -132,7 +137,7 @@ public class CommandRegexpParser {
     }
 
     private boolean isValidChar(int c) {
-        return c == '-' || c == '.' || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+        return c == '-' || c == '.' || c == '?' || (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
     }
 
     private @NonNull String requiredParameter(@NonNull String name) {

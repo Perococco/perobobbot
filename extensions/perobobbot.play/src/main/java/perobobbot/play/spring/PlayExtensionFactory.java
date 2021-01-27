@@ -10,7 +10,9 @@ import perobobbot.lang.Plugin;
 import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.play.PlayExtension;
+import perobobbot.play.action.ListSound;
 import perobobbot.play.action.PlaySound;
+import perobobbot.sound.Sound;
 
 import java.time.Duration;
 
@@ -27,14 +29,15 @@ public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
 
     @Override
     protected PlayExtension createExtension(@NonNull Parameters parameters) {
-        return new PlayExtension(parameters.getOverlay(), parameters.getSoundResolver());
+        return new PlayExtension(parameters.getOverlay(), parameters.getChatController(), parameters.getSoundResolver());
     }
 
     @Override
     protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull PlayExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
         final var accessRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(30), Role.THE_BOSS.cooldown(Duration.ZERO));
         return ImmutableList.of(
-                factory.create("play {soundName}", accessRule, new PlaySound(extension))
+                factory.create("play {soundName}", accessRule, new PlaySound(extension)),
+                factory.create("play?", accessRule, new ListSound(extension, parameters.getIo()))
         );
     }
 }

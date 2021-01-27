@@ -1,5 +1,6 @@
 package perobobbot.sound;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perococco.perobobbot.sound.SoundFileResolver;
 
@@ -14,4 +15,6 @@ public interface SoundResolver {
     }
 
     @NonNull Optional<URL> resolveSound(@NonNull String name);
+
+    @NonNull ImmutableSet<String> getAvailableSounds();
 }

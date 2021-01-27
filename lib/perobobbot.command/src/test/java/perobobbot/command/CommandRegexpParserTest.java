@@ -30,6 +30,7 @@ public class CommandRegexpParserTest {
 
     public static Stream<Arguments> validSamples() {
         return Stream.of(
+                Arguments.of("play?", "play?",0, "^play\\?$"),
                 Arguments.of("play stop", "play|stop",0, "^play\s+stop$"),
                 Arguments.of("play {title}", "play", 1,"^play"+requiredParameter("title")+"$"),
                 Arguments.of("play {title} [volume]","play",2,"^play"+requiredParameter("title")+optionalParameter("volume")+"$"),

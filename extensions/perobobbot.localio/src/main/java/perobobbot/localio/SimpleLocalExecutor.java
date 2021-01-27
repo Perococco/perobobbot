@@ -20,7 +20,7 @@ public class SimpleLocalExecutor implements LocalExecutor {
 
     private final @NonNull Consumer1<? super LocalMessage> defaultHandler;
 
-    public SimpleLocalExecutor(@NonNull PrintStream output, @NonNull Consumer1<? super LocalMessage> defaultHandler, @NonNull LocalAction...actions) {
+    public SimpleLocalExecutor(@NonNull PrintStream output, @NonNull Consumer1<? super LocalMessage> defaultHandler, @NonNull LocalAction... actions) {
         this.output = output;
         this.defaultHandler = defaultHandler;
         this.actions = Arrays.stream(actions).collect(ImmutableMap.toImmutableMap(LocalAction::getName, a -> a));
@@ -40,41 +40,38 @@ public class SimpleLocalExecutor implements LocalExecutor {
                 t.printStackTrace(System.err);
             }
         } else {
-            formLocalMessage(line).ifPresentOrElse(defaultHandler, () -> output.println("[ERROR] Invalid message '"+line+"'"));
+            formLocalMessage(line).ifPresentOrElse(defaultHandler, () -> output.println("[ERROR] Invalid message '" + line + "'"));
         }
     }
 
-    public @NonNull Value2<String,String[]> parse(@NonNull String line) {
+    public @NonNull Value2<String, String[]> parse(@NonNull String line) {
         final var idx = line.indexOf(" ");
         if (idx < 0) {
             return Value2.of(line.toLowerCase(), new String[0]);
         } else {
-            return Value2.of(line.substring(0,idx).toLowerCase(), line.substring(idx+1).split(" "));
+            return Value2.of(line.substring(0, idx).toLowerCase(), line.substring(idx + 1).split(" "));
         }
     }
 
     private void showHelp() {
         final var width = actions.keySet().stream().mapToInt(String::length).max().orElse(0);
-        if (width<=0) {
+        if (width <= 0) {
             return;
         }
         final var format = "%%-%ds -> %%s%%n".formatted(width);
         actions.keySet()
                .stream()
                .sorted()
-               .forEach(k -> output.printf(format,k,actions.get(k).getDescription()));
+               .forEach(k -> output.printf(format, k, actions.get(k).getDescription()));
     }
 
     private @NonNull Optional<LocalMessage> formLocalMessage(@NonNull String line) {
         final String botName;
         final String message;
-        if (line.startsWith("#")) {
-            int idx = line.indexOf(' ');
-            if (idx<2 || idx+1 >= line.length()) {
-                return Optional.empty();
-            }
-            botName = line.substring(1,idx);
-            message = line.substring(idx+1).trim();
+        final int idxOfFirstSpace = line.indexOf(' ');
+        if (line.startsWith("#") && idxOfFirstSpace >= 2 && idxOfFirstSpace + 1 < line.length()) {
+            botName = line.substring(1, idxOfFirstSpace);
+            message = line.substring(idxOfFirstSpace + 1).trim();
         } else {
             botName = "";
             message = line.trim();

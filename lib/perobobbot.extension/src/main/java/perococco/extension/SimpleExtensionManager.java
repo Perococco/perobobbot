@@ -34,11 +34,11 @@ public class SimpleExtensionManager implements ExtensionManager {
         }
 
         for (String name : toEnable) {
-            availableExtensions.find(name).ifPresent(this::enabledExtension);
+            availableExtensions.find(name).ifPresent(this::enableExtension);
         }
     }
 
-    private void enabledExtension(@NonNull ExtensionInfo extensionInfo) {
+    private void enableExtension(@NonNull ExtensionInfo extensionInfo) {
         this.subscriptions.getOrDefault(extensionInfo.getExtensionName(),Subscription.NONE).unsubscribe();
         final var subscription = Subscription.join(
                 extensionInfo::disable,

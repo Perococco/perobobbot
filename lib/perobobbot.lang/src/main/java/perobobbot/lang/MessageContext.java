@@ -5,10 +5,17 @@ import lombok.NonNull;
 import lombok.Value;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Value
-@Builder
+@Builder(toBuilder = true)
 public class MessageContext {
+
+    /**
+     * This message might have been created by a {@link MessagePreprocessor} from a source message.
+     * this property contains the latter if any.
+     */
+    MessageContext source;
 
     /**
      * @return true if the user that is at the origin of
@@ -75,4 +82,14 @@ public class MessageContext {
     public boolean doesContentStartWith(char prefix) {
         return !content.isEmpty() && content.charAt(0) == prefix;
     }
+
+    public @NonNull Optional<MessageContext> getSource() {
+        return Optional.ofNullable(source);
+    }
+
+    public MessageContextBuilder forPreprocessor() {
+        return toBuilder().source(this);
+    }
+
+
 }

@@ -16,7 +16,7 @@ public class PeroCommandController implements CommandController {
 
     @Override
     public int priority() {
-        return 100;
+        return DEFAULT_PRIORITY+100;
     }
 
 
