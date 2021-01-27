@@ -5,10 +5,9 @@ import lombok.Synchronized;
 import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.overlay.api.OverlayClient;
 
 public class BenchmarkExtension extends OverlayExtension {
-
-    private BenchmarkOverlay benchmarkOverlay = null;
 
     public BenchmarkExtension(@NonNull Overlay overlay) {
         super(BenchmarkExtensionFactory.NAME,overlay);
@@ -16,17 +15,16 @@ public class BenchmarkExtension extends OverlayExtension {
 
     @Synchronized
     public void start(int nbPuck, int radius) {
-        if (!this.isEnabled() || benchmarkOverlay != null) {
+        if (!this.isEnabled() || this.isClientAttached()) {
             return;
         }
-        this.benchmarkOverlay = BenchmarkOverlay.create(nbPuck, radius, this.getOverlaySize());
-        this.attachClient(this.benchmarkOverlay);
+        var overlayClient = BenchmarkOverlay.create(nbPuck, radius, this.getOverlaySize());
+        this.attachClient(overlayClient);
     }
 
     @Synchronized
     public void stop() {
         this.detachClient();
-        this.benchmarkOverlay = null;
     }
 
 }
