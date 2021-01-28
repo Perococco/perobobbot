@@ -24,11 +24,10 @@ public class ValueHolderWithEasing implements ValueHolder {
     }
 
     @Override
-    public ValueHolderWithEasing set(double target) {
+    public void set(double target) {
         easing.reset(time);
         start = this.value;
         delta = target-start;
-        return this;
     }
 
     @Override
@@ -37,14 +36,13 @@ public class ValueHolderWithEasing implements ValueHolder {
     }
 
     @Override
-    public ValueHolderWithEasing setTime(double time) {
+    public void setTime(double time) {
         this.time = time;
         this.value = start + easing.getValue(time)*delta;
-        return this;
     }
 
     @Override
-    public BasicValueHolder clearEasing() {
+    public BasicValueHolder withoutEasing() {
         return new BasicValueHolder(value, time);
     }
 

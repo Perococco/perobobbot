@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 import java.time.Duration;
 
-public interface Property {
+public interface Property extends ReadOnlyProperty {
 
     /**
      * Clear the easing and return this

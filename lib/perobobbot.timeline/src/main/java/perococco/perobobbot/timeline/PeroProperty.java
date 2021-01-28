@@ -3,16 +3,17 @@ package perococco.perobobbot.timeline;
 import lombok.NonNull;
 import perobobbot.timeline.EasingType;
 import perobobbot.timeline.Property;
+import perobobbot.timeline.ReadOnlyProperty;
 
 import java.time.Duration;
 
-public class PeroProperty implements Property {
+public class PeroProperty implements Property, TimedItem {
 
     private @NonNull ValueHolder valueHolder = new BasicValueHolder();
 
     @Override
     public PeroProperty clearEasing() {
-        this.valueHolder = valueHolder.clearEasing();
+        this.valueHolder = valueHolder.withoutEasing();
         return this;
     }
 
@@ -24,7 +25,7 @@ public class PeroProperty implements Property {
     public PeroProperty setEasing(@NonNull EasingType easingType, @NonNull Duration easingDuration) {
         final double durationInSecond = easingDuration.toSeconds();
         if (durationInSecond<=0) {
-            this.valueHolder = valueHolder.clearEasing();
+            this.valueHolder = valueHolder.withoutEasing();
         } else {
             this.valueHolder = this.valueHolder.withEasing(new Easing(1./durationInSecond, easingType.getEasingOperator()));
         }
@@ -40,5 +41,10 @@ public class PeroProperty implements Property {
     @Override
     public double get() {
         return valueHolder.get();
+    }
+
+    @Override
+    public @NonNull ReadOnlyProperty withTransformation(int factor, int offset) {
+        return new TransformedProperty(this,factor,offset);
     }
 }

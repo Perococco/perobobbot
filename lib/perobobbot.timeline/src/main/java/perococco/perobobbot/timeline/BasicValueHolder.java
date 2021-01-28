@@ -17,9 +17,8 @@ public class BasicValueHolder implements ValueHolder {
     }
 
     @Override
-    public BasicValueHolder set(double value) {
+    public void set(double value) {
         this.value = value;
-        return this;
     }
 
     @Override
@@ -28,18 +27,19 @@ public class BasicValueHolder implements ValueHolder {
     }
 
     @Override
-    public BasicValueHolder setTime(double time) {
+    public void setTime(double time) {
         this.time = time;
-        return this;
     }
 
     @Override
-    public BasicValueHolder clearEasing() {
+    public BasicValueHolder withoutEasing() {
         return this;
     }
 
     @Override
     public ValueHolderWithEasing withEasing(@NonNull Easing easing) {
-        return new ValueHolderWithEasing(easing, value).setTime(time);
+        final var newValue = new ValueHolderWithEasing(easing, value);
+        newValue.setTime(time);
+        return newValue;
     }
 }

@@ -6,11 +6,11 @@ public interface ValueHolder {
 
     double get();
 
-    ValueHolder setTime(double time);
+    void setTime(double time);
 
-    ValueHolder set(double value);
+    void set(double value);
 
-    ValueHolder clearEasing();
+    ValueHolder withoutEasing();
 
     ValueHolder withEasing(@NonNull Easing easing);
 }
