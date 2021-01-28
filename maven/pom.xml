@@ -38,7 +38,6 @@
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
 
-        <vuejs.resource-directory>${project.basedir}/../frontend/vuejs/target/dist</vuejs.resource-directory>
     </properties>
 
     <dependencies>
