@@ -5,6 +5,7 @@ module perobobbot.rendering {
 
     requires com.google.common;
     requires perobobbot.physics;
+    requires perobobbot.timeline;
 
     exports perobobbot.rendering;
     exports perobobbot.rendering.graphics2d.element;

@@ -38,4 +38,8 @@ public class Size {
     public int getMinLength() {
         return Math.min(width,height);
     }
+
+    public @NonNull Size flipHeightWithWidth() {
+        return with(height,width);
+    }
 }

@@ -61,6 +61,12 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public @NonNull Renderer setPaint(@NonNull Paint paint) {
+        graphics2D.setPaint(paint);
+        return this;
+    }
+
+    @Override
     public @NonNull Renderer fillCircle(int xc, int yc, int radius) {
         graphics2D.fillOval(xc-radius,yc-radius,radius*2,radius*2);
         return this;

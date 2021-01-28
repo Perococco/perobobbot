@@ -1,5 +1,6 @@
 package perococco.perobobbot.poll;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
@@ -25,6 +26,10 @@ public class SimplePoll implements Poll {
         return new SimplePoll(availableOptions, availableOptions::contains, configuration);
     }
 
+    public static Poll createCloseOrdered(@NonNull  ImmutableList<String> pollOptions, @NonNull PollConfiguration configuration) {
+        return createClosed(ImmutableSet.copyOf(pollOptions),configuration);
+    }
+
     public static @NonNull Poll createOpen(@NonNull PollConfiguration configuration) {
         return new SimplePoll(null, StringTools::hasData, configuration);
     }
@@ -38,6 +43,7 @@ public class SimplePoll implements Poll {
     private final @NonNull Map<Voter, Bag<String>> votePerVoter = new HashMap<>();
 
     private final @NonNull Bag<String> voteCounts = new HashBag<>();
+
 
     @Override
     public void clear() {

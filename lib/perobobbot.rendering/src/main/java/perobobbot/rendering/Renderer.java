@@ -36,6 +36,8 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Renderer setColor(@NonNull Color color);
 
+    @NonNull Renderer setPaint(@NonNull Paint paint);
+
     @NonNull Renderer fillCircle(int xc, int yc, int radius);
 
     @NonNull Renderer withPrivateContext(@NonNull Consumer1<? super Renderer> drawer);
@@ -94,4 +96,5 @@ public interface Renderer extends AutoCloseable {
     void rotate(double angle);
 
     void rotate(double angle, double xc, double yc);
+
 }

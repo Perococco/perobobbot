@@ -1,6 +1,7 @@
 package perococco.perobobbot.timeline;
 
 import lombok.NonNull;
+import lombok.Synchronized;
 import perobobbot.lang.fp.Function0;
 import perobobbot.timeline.Conductor;
 import perobobbot.timeline.Property;
@@ -17,6 +18,7 @@ public class PeroConductor implements Conductor {
     private double time;
 
     @Override
+    @Synchronized
     public void setTime(double time) {
         this.time = time;
         var itr = items.iterator();
@@ -35,6 +37,7 @@ public class PeroConductor implements Conductor {
         return addTimedItem(PeroProperty::new);
     }
 
+    @Synchronized
     private @NonNull <T extends TimedItem> T addTimedItem(@NonNull Function0<T> itemSupplier) {
         final T item = itemSupplier.get();
         item.setTime(time);

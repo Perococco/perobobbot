@@ -10,6 +10,8 @@ public class ValueHolderWithEasing implements ValueHolder {
 
     private double time;
 
+    private double target;
+
     private double value;
 
     private double start;
@@ -25,9 +27,13 @@ public class ValueHolderWithEasing implements ValueHolder {
 
     @Override
     public void set(double target) {
+        if (Double.compare(target,this.target) == 0) {
+            return;
+        }
         easing.reset(time);
         start = this.value;
         delta = target-start;
+        this.target = target;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class PeroProperty implements Property, TimedItem {
 
     @Override
     public PeroProperty setEasing(@NonNull EasingType easingType, @NonNull Duration easingDuration) {
-        final double durationInSecond = easingDuration.toSeconds();
+        final double durationInSecond = easingDuration.toMillis()/1000.;
         if (durationInSecond<=0) {
             this.valueHolder = valueHolder.withoutEasing();
         } else {
