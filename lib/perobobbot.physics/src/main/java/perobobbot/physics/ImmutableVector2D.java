@@ -34,7 +34,6 @@ public class ImmutableVector2D implements ROVector2D {
     private final AtomicReference<Double> norm = new AtomicReference<>(null);;
     private final AtomicReference<Double> manhattanNorm = new AtomicReference<>(null);;
 
-
     @Override
     public double squaredNorm() {
         return normSquared.updateAndGet(d -> d==null?x*x+y*y:d);
@@ -71,6 +70,10 @@ public class ImmutableVector2D implements ROVector2D {
     }
 
     public @NonNull ImmutableVector2D scale(double scale) {
-        return cartesian(x*scale,y*scale);
+        return scale(scale,scale);
+    }
+
+    public @NonNull ImmutableVector2D scale(double scaleX, double scaleY) {
+        return cartesian(x*scaleX,y*scaleY);
     }
 }

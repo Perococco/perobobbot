@@ -13,7 +13,6 @@ import java.util.Random;
 public class PositionsPicker {
 
     public static Result pick(@NonNull Size overlaySize, int targetSize) {
-        final var minimalDistance = Math.min(overlaySize.getHeight(), overlaySize.getWidth()) * 0.1;
         return new PositionsPicker(overlaySize, targetSize).pick();
     }
 
@@ -69,7 +68,7 @@ public class PositionsPicker {
     }
 
     private ImmutableVector2D computePosition(double distance, double angle) {
-        return ImmutableVector2D.cartesian(overlaySize.getWidth() - distance * Math.cos(angle), overlaySize.getHeight() - distance * Math.sin(angle));
+        return ImmutableVector2D.cartesian(distance * Math.cos(angle), overlaySize.getHeight() - distance * Math.sin(angle));
     }
 
 }

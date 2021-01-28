@@ -28,7 +28,7 @@ public class PuckWarRound implements Renderable {
     public static @NonNull PuckWarRound create(@NonNull Duration duration,
                                                @NonNull Size overlaySize,
                                                int puckSize) {
-        final var initialPosition = ImmutableVector2D.cartesian(overlaySize.getWidth(), overlaySize.getHeight());
+        final var initialPosition = ImmutableVector2D.cartesian(0, overlaySize.getHeight());
 
         final int targetRadius = (int) Math.round(overlaySize.getMinLength() / 6.);
         final var targetImage = TargetImage.create(2*targetRadius);
@@ -62,7 +62,7 @@ public class PuckWarRound implements Renderable {
                 target,
                 blackHole,
                 initialPosition,
-                v -> v.scale(-5),
+                v -> v.scale(5,-5),
                 overlaySize);
     }
 
@@ -129,7 +129,7 @@ public class PuckWarRound implements Renderable {
 
         this.help = new Sprite("Help", StartPointImage.create(overlaySize.getMinLength()/4));
         this.help.setFixed(true);
-        this.help.getPosition().setTo(initialPosition.subtract(help.getWidth()*0.5,help.getHeight()*0.5));
+        this.help.getPosition().setTo(initialPosition.subtract(-help.getWidth()*0.5,help.getHeight()*0.5));
 
         this.universe.addEntity(help);
         this.universe.addEntity(target);

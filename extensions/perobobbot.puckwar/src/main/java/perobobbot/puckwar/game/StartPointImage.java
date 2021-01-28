@@ -55,15 +55,13 @@ public class StartPointImage {
         for (double angle : angles) {
             final Graphics2D g2 = (Graphics2D) graphics2D.create();
             try {
-                g2.rotate(angle, areaSize - 1, areaSize - 1);
-                final var dx = (int) Math.round(radius * Math.cos(angle));
-                final var dy = (int) Math.round(radius * Math.sin(angle));
+                g2.rotate(-angle, 1, areaSize - 1);
 
-                final var x = areaSize - 1;
+                final var x = 1;
                 final var y = areaSize - 1;
 
                 g2.setColor(Color.WHITE);
-                g2.drawLine(x, y, x-radius, y);
+                g2.drawLine(x, y, x+radius, y);
 
                 final var angleInDegree =  Math.toDegrees(angle);
 
@@ -71,7 +69,7 @@ public class StartPointImage {
                 final Rectangle2D bounds = tx.getBounds();
                 final var yOffset = angleInDegree>10? y+bounds.getHeight()+tx.getDescent() : y-tx.getDescent();
 
-                tx.draw(g2,(float)(x -radius*0.9),(float)(yOffset));
+                tx.draw(g2,(float)(x  +radius*0.8),(float)(yOffset));
 
             } finally {
                 g2.dispose();
@@ -81,7 +79,7 @@ public class StartPointImage {
 
     private void drawArc() {
         graphics2D.translate(areaSize -0.5, areaSize -0.5);
-        graphics2D.drawArc(-radius-1, -radius-1,2*radius+1, 2*radius+1, -180, -90);
+        graphics2D.drawArc(-2*radius-1, -radius-1,2*radius+1, 2*radius+1, 0, 90);
     }
 
 
