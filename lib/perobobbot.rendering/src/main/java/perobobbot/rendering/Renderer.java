@@ -93,6 +93,12 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Color getColor();
 
+    default void scale(double scale) {
+        scale(scale,scale);
+    }
+
+    void scale(double sx, double sy);
+
     void rotate(double angle);
 
     void rotate(double angle, double xc, double yc);

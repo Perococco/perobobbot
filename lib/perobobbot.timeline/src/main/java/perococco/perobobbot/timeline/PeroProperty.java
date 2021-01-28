@@ -44,6 +44,11 @@ public class PeroProperty implements Property, TimedItem {
     }
 
     @Override
+    public double getTarget() {
+        return valueHolder.getTarget();
+    }
+
+    @Override
     public @NonNull ReadOnlyProperty withTransformation(int factor, int offset) {
         return new TransformedProperty(this,factor,offset);
     }

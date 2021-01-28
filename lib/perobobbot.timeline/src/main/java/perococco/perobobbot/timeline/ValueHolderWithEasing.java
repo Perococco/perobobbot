@@ -1,5 +1,6 @@
 package perococco.perobobbot.timeline;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +11,7 @@ public class ValueHolderWithEasing implements ValueHolder {
 
     private double time;
 
+    @Getter
     private double target;
 
     private double value;

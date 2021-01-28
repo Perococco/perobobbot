@@ -71,7 +71,7 @@ public class ImmutableBag<T> implements Bag<T> {
     }
 
     @Override
-    public @NonNull Set<T> KeySet() {
+    public @NonNull Set<T> keySet() {
         return content.keySet();
     }
 }

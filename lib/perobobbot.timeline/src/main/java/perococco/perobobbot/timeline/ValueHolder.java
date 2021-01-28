@@ -13,4 +13,7 @@ public interface ValueHolder {
     ValueHolder withoutEasing();
 
     ValueHolder withEasing(@NonNull Easing easing);
+
+    double getTarget();
+
 }

@@ -19,7 +19,7 @@ public interface CommandRegistry extends ROCommandRegistry {
     @NonNull Subscription addCommandDefinition(@NonNull CommandDefinition commandDefinition);
 
     default @NonNull Subscription addCommandDefinitions(@NonNull ImmutableCollection<CommandDefinition> commandDefinitions) {
-        return Subscription.join(
+        return Subscription.multi(
                 commandDefinitions.stream().map(this::addCommandDefinition).collect(ImmutableList.toImmutableList())
         );
     }

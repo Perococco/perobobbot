@@ -29,5 +29,5 @@ public interface Bag<T> extends Iterable<CountedValue<T>>{
 
     int size();
 
-    @NonNull Set<T> KeySet();
+    @NonNull Set<T> keySet();
 }

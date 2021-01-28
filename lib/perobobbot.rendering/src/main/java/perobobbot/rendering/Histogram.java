@@ -14,6 +14,8 @@ import java.util.stream.IntStream;
 
 public class Histogram {
 
+    public static final double DEFAULT_HIST_SIZE = 100;
+
     private final @NonNull ImmutableList<Property> values;
 
     private final @NonNull Histogram.Style style;
@@ -47,22 +49,27 @@ public class Histogram {
         renderer.rotate(orientation.getAngle());
         renderer.translate(-drawingSize.getWidth()*0.5,-drawingSize.getHeight()*0.5);
 
-        final double width = drawingSize.getWidth();
-        final double height = drawingSize.getHeight();
+        final var scaleX = drawingSize.getWidth()/(DEFAULT_HIST_SIZE *(double)values.size());
+        final var scaleY = drawingSize.getHeight()/ DEFAULT_HIST_SIZE;
 
 
-        final int barWidth = MathTool.roundedToInt(((width-style.getMargin()*2)+style.getSpacing())/values.size()-style.getSpacing());
+        renderer.scale(scaleX,scaleY);
+
+        final double width = drawingSize.getWidth()/scaleX;
+        final double height = drawingSize.getHeight()/scaleY;
+
+
+
+
+        final int barWidth = MathTool.roundedToInt((width+style.getSpacing())/values.size()-style.getSpacing());
 
         if (barWidth <= 0) {
             return;
         }
 
 
-        renderer.translate(style.getMargin(), 0);
-
-
         for (Property value : orientation.prepareList(values)) {
-            double fraction = MathTool.roundedToInt(value.get())/maxValue;
+            double fraction = value.get()/maxValue;
             int barHeight = MathTool.roundedToInt(height*fraction);
 
             renderer.fillRect(0,0,barWidth,barHeight);
@@ -101,7 +108,6 @@ public class Histogram {
         @NonNull Duration easingDuration;
         @NonNull Paint paint;
         int spacing;
-        int margin;
 
         public static @NonNull StyleBuilder builder() {
             return new StyleBuilder()
@@ -109,8 +115,7 @@ public class Histogram {
                     .easingType(EasingType.EASE_OUT_SINE)
                     .easingDuration(Duration.ofSeconds(1))
                     .paint(Color.BLUE)
-                    .spacing(0)
-                    .margin(0);
+                    .spacing(0);
         }
 
     }

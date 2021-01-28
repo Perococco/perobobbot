@@ -1,5 +1,6 @@
 package perobobbot.poll;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import perobobbot.lang.ImmutableBag;
 @Getter
 public class PollResult {
 
-    private final @NonNull ImmutableSet<String> availableOptions;
+    private final @NonNull ImmutableList<String> availableOptions;
 
     /**
      * Who votes for what

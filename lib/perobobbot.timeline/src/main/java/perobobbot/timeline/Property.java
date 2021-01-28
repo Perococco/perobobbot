@@ -27,4 +27,6 @@ public interface Property extends ReadOnlyProperty {
     Property set(double value);
 
     double get();
+
+    double getTarget();
 }

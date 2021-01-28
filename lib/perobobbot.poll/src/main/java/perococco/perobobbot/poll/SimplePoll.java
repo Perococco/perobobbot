@@ -53,8 +53,13 @@ public class SimplePoll implements Poll {
 
     @Override
     public @NonNull PollResult getCurrentCount() {
-        final var availableOptions = Optional.ofNullable(this.availableOptions)
-                                             .orElseGet(() -> ImmutableSet.copyOf(voteCounts.KeySet()));
+        final ImmutableList<String> availableOptions;
+        if (this.availableOptions != null) {
+            availableOptions = ImmutableList.copyOf(this.availableOptions);
+        } else {
+            availableOptions = ImmutableList.copyOf(voteCounts.keySet());
+        }
+
         final var votes = votePerVoter.entrySet()
                                       .stream()
                                       .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> e.getValue().toImmutable()));

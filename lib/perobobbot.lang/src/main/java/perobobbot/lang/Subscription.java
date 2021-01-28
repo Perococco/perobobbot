@@ -17,12 +17,12 @@ public interface Subscription {
     void unsubscribe();
 
     @NonNull
-    static Subscription join(@NonNull Subscription... subscriptions) {
-        return join(ImmutableList.copyOf(subscriptions));
+    static Subscription multi(@NonNull Subscription... subscriptions) {
+        return multi(ImmutableList.copyOf(subscriptions));
     }
 
     @NonNull
-    static Subscription join(@NonNull ImmutableCollection<Subscription> subscriptions) {
+    static Subscription multi(@NonNull ImmutableCollection<Subscription> subscriptions) {
         return switch (subscriptions.size()) {
             case 0, 1 -> subscriptions.stream().findAny().orElse(NONE);
             default -> () -> subscriptions.forEach(Subscription::unsubscribe);
@@ -31,7 +31,7 @@ public interface Subscription {
 
     Collector<Subscription, ?, Subscription> COLLECTOR = Collectors.collectingAndThen(
             ImmutableList.toImmutableList(),
-            Subscription::join
+            Subscription::multi
     );
 
 }

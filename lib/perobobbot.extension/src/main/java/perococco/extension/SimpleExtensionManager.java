@@ -40,7 +40,7 @@ public class SimpleExtensionManager implements ExtensionManager {
 
     private void enableExtension(@NonNull ExtensionInfo extensionInfo) {
         this.subscriptions.getOrDefault(extensionInfo.getExtensionName(),Subscription.NONE).unsubscribe();
-        final var subscription = Subscription.join(
+        final var subscription = Subscription.multi(
                 extensionInfo::disable,
                 commandRegistry.addCommandDefinitions(extensionInfo.getCommandDefinitions())
         );

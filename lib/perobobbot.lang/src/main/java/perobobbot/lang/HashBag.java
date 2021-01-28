@@ -58,7 +58,7 @@ public class HashBag<T> implements Bag<T> {
     }
 
     @Override
-    public @NonNull Set<T> KeySet() {
+    public @NonNull Set<T> keySet() {
         return content.keySet();
     }
 }

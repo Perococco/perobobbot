@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import perobobbot.lang.MathTool;
 
 @Value
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -41,5 +42,9 @@ public class Size {
 
     public @NonNull Size flipHeightWithWidth() {
         return with(height,width);
+    }
+
+    public @NonNull Size scale(double scale) {
+        return with(MathTool.roundedToInt(width*scale), MathTool.roundedToInt(height*scale) );
     }
 }

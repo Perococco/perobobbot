@@ -43,14 +43,14 @@ public class RendererUsingGraphics2D implements Renderer {
     public @NonNull Renderer clearOverlay() {
         final Color backup = graphics2D.getBackground();
         graphics2D.setBackground(Renderer.TRANSPARENT);
-        graphics2D.clearRect(0,0,drawingSize.getWidth(),drawingSize.getHeight());
+        graphics2D.clearRect(0, 0, drawingSize.getWidth(), drawingSize.getHeight());
         graphics2D.setBackground(backup);
         return this;
     }
 
     @Override
     public @NonNull Renderer translate(double x, double y) {
-        graphics2D.translate(x,y);
+        graphics2D.translate(x, y);
         return this;
     }
 
@@ -68,13 +68,13 @@ public class RendererUsingGraphics2D implements Renderer {
 
     @Override
     public @NonNull Renderer fillCircle(int xc, int yc, int radius) {
-        graphics2D.fillOval(xc-radius,yc-radius,radius*2,radius*2);
+        graphics2D.fillOval(xc - radius, yc - radius, radius * 2, radius * 2);
         return this;
     }
 
     @Override
     public @NonNull Renderer withPrivateContext(Consumer1<? super Renderer> drawer) {
-        try (Renderer r = new RendererUsingGraphics2D((Graphics2D)graphics2D.create(), drawingSize)) {
+        try (Renderer r = new RendererUsingGraphics2D((Graphics2D) graphics2D.create(), drawingSize)) {
             drawer.f(r);
         }
         return this;
@@ -93,19 +93,19 @@ public class RendererUsingGraphics2D implements Renderer {
 
     @Override
     public @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y) {
-        graphics2D.drawImage(image,x,y,null);
+        graphics2D.drawImage(image, x, y, null);
         return this;
     }
 
     @Override
     public @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y, @NonNull Color bkgColor) {
-        graphics2D.drawImage(image,x,y,bkgColor,null);
+        graphics2D.drawImage(image, x, y, bkgColor, null);
         return this;
     }
 
     @Override
     public @NonNull Renderer fillRect(int x, int y, int width, int height) {
-        graphics2D.fillRect(x,y,width,height);
+        graphics2D.fillRect(x, y, width, height);
         return this;
     }
 
@@ -152,13 +152,18 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public void scale(double sx, double sy) {
+        graphics2D.scale(sx, sy);
+    }
+
+    @Override
     public void rotate(double angle) {
         graphics2D.rotate(angle);
     }
 
     @Override
     public void rotate(double angle, double xc, double yc) {
-        graphics2D.rotate(angle,xc,yc);
+        graphics2D.rotate(angle, xc, yc);
     }
 
     @Override
@@ -170,12 +175,12 @@ public class RendererUsingGraphics2D implements Renderer {
             @NonNull VAlignment vAlignment) {
         final Font font = graphics2D.getFont();
         final FontRenderContext frc = graphics2D.getFontRenderContext();
-        final TextLayout textLayout = new TextLayout(string,font,frc);
+        final TextLayout textLayout = new TextLayout(string, font, frc);
         final Rectangle2D bounds = textLayout.getBounds();
         final var dx = hAlignment.getPosition(bounds.getWidth());
         final var dy = vAlignment.getPosition(textLayout.getAscent());
 
-        textLayout.draw(graphics2D,(float)(x-dx),(float)(y-dy));
+        textLayout.draw(graphics2D, (float) (x - dx), (float) (y - dy));
         return this;
     }
 }

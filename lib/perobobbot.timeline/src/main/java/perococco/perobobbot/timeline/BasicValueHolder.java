@@ -27,6 +27,11 @@ public class BasicValueHolder implements ValueHolder {
     }
 
     @Override
+    public double getTarget() {
+        return value;
+    }
+
+    @Override
     public void setTime(double time) {
         this.time = time;
     }
