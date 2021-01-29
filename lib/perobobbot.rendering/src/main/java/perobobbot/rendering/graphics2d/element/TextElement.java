@@ -3,6 +3,7 @@ package perobobbot.rendering.graphics2d.element;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.rendering.HAlignment;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 
 import java.awt.*;
@@ -41,7 +42,7 @@ public class TextElement implements BlockElement {
     @Override
     public void draw(@NonNull Graphics2D graphics2D, @NonNull Size size) {
 
-        final float margin = (float) (alignment.getPosition(size.getWidth()-bounds.getWidth()));
+        final float margin = (float)alignment.getPosition(size.getWidth()-bounds.getWidth());
 
         graphics2D.setColor(color);
         textLayout.draw(graphics2D, margin, textLayout.getAscent());

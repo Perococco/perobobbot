@@ -3,6 +3,9 @@ package perobobbot.rendering.graphics2d.element;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.MapTool;
+import perobobbot.lang.MathTool;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 
 import java.awt.*;
@@ -36,13 +39,13 @@ public class SeparatorElement implements BlockElement {
 
     @Override
     public void draw(@NonNull Graphics2D graphics2D, @NonNull Size size) {
-        final var length = Math.round(size.getWidth()*widthFraction);
+        final var length = size.getWidth()*widthFraction;
         final var margin = (size.getWidth()-length)/2;
         final Stroke backupStroke = graphics2D.getStroke();
         try {
             graphics2D.setStroke(stroke);
             graphics2D.setColor(color);
-            graphics2D.drawLine(margin, 0, margin+length,0);
+            graphics2D.drawLine(MathTool.roundedToInt(margin), 0, MathTool.roundedToInt(margin+length), 0);
         } finally {
             graphics2D.setStroke(backupStroke);
         }

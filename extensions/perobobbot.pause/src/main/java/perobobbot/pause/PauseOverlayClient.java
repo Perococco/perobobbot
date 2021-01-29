@@ -7,7 +7,7 @@ import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.rendering.HAlignment;
 import perobobbot.rendering.Renderer;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.VAlignment;
 
 import java.awt.*;
@@ -20,7 +20,7 @@ public class PauseOverlayClient implements OverlayClient {
 
     private long overlayStartInstant;
 
-    private Size size;
+    private ScreenSize size;
 
     @Override
     public void initialize(@NonNull Overlay overlay) {

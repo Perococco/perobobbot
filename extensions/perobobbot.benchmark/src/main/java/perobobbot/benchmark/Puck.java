@@ -7,7 +7,7 @@ import perobobbot.lang.MathTool;
 import perobobbot.physics.ImmutableVector2D;
 import perobobbot.physics.Vector2D;
 import perobobbot.rendering.Renderer;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 
 import java.awt.*;
 
@@ -35,7 +35,7 @@ public class Puck {
         return this;
     }
 
-    public Puck wrap(Size overlaySize) {
+    public Puck wrap(ScreenSize overlaySize) {
         final var xm = modulate(this.position.getX(),overlaySize.getWidth());
         final var ym = modulate(this.position.getY(),overlaySize.getHeight());
         this.position.setX(xm);

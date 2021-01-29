@@ -1,50 +1,42 @@
 package perobobbot.rendering;
 
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import perobobbot.lang.MathTool;
 
 @Value
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Size {
 
-    public static Size with(int width, int height) {
-        if (width == 1920 && height == 1080) {
-            return _1920_1080;
-        }
-        if (width == 1600 && height == 900) {
-            return _1600_900;
-        }
-        return new Size(width,height);
+    public static Size _0_0 = new Size(0,0);
+
+    public static @NonNull Size with(double width, double height) {
+        return new Size(width, height);
     }
 
-    public static final Size _1920_1080 = new Size(1920,1080);
-    public static final Size _1600_900 = new Size(1600,900);
+    double width;
 
-    public static final Size _0_0 = new Size(0,0);
+    double height;
 
-    int width;
-    int height;
-
-    public int numberOfPixels() {
-        return width*height;
-    }
-
-    public @NonNull Size addMargin(int margin) {
-        return with(width+margin,height+margin);
-    }
-
-    public int getMinLength() {
-        return Math.min(width,height);
-    }
 
     public @NonNull Size flipHeightWithWidth() {
-        return with(height,width);
+        return with(height, width);
     }
 
     public @NonNull Size scale(double scale) {
-        return with(MathTool.roundedToInt(width*scale), MathTool.roundedToInt(height*scale) );
+        return with(width * scale, height * scale);
     }
+
+
+    public Size addMargin(int margin) {
+        return with(width+margin,height+margin);
+    }
+
+    public int getWidthAsInt() {
+        return MathTool.roundedToInt(width);
+    }
+
+    public int getHeightAsInt() {
+        return MathTool.roundedToInt(height);
+    }
+
 }

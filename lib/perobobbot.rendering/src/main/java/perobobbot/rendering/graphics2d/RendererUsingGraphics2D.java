@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.MathTool;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.rendering.*;
 
@@ -17,11 +18,15 @@ import java.awt.image.BufferedImage;
 @RequiredArgsConstructor
 public class RendererUsingGraphics2D implements Renderer {
 
+    public static final int d2i(double value) {
+        return MathTool.roundedToInt(value);
+    }
+
     @Getter(AccessLevel.PACKAGE)
     private final @NonNull Graphics2D graphics2D;
 
     @Getter
-    private final @NonNull Size drawingSize;
+    private final @NonNull ScreenSize drawingSize;
 
     @Override
     public void dispose() {
@@ -67,8 +72,8 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public @NonNull Renderer fillCircle(int xc, int yc, int radius) {
-        graphics2D.fillOval(xc - radius, yc - radius, radius * 2, radius * 2);
+    public @NonNull Renderer fillCircle(double xc, double yc, double radius) {
+        graphics2D.fillOval(d2i(xc - radius), d2i(yc - radius), d2i(radius * 2), d2i(radius * 2));
         return this;
     }
 
@@ -92,20 +97,20 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y) {
-        graphics2D.drawImage(image, x, y, null);
+    public @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y) {
+        graphics2D.drawImage(image, d2i(x), d2i(y), null);
         return this;
     }
 
     @Override
-    public @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y, @NonNull Color bkgColor) {
-        graphics2D.drawImage(image, x, y, bkgColor, null);
+    public @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y, @NonNull Color bkgColor) {
+        graphics2D.drawImage(image, d2i(x), d2i(y), bkgColor, null);
         return this;
     }
 
     @Override
-    public @NonNull Renderer fillRect(int x, int y, int width, int height) {
-        graphics2D.fillRect(x, y, width, height);
+    public @NonNull Renderer fillRect(double x, double y, double width, double height) {
+        graphics2D.fillRect(d2i(x), d2i(y), d2i(width), d2i(height));
         return this;
     }
 

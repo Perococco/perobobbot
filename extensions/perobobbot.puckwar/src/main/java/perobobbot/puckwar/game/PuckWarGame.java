@@ -6,14 +6,14 @@ import lombok.Synchronized;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.rendering.Renderable;
 import perobobbot.rendering.Renderer;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PuckWarGame implements Renderable {
 
-    private final @NonNull Size overlaySize;
+    private final @NonNull ScreenSize overlaySize;
 
     private final @NonNull GameOptions gameOptions;
 

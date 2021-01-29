@@ -26,7 +26,7 @@ public class PuckWarRound implements Renderable {
     public static final double WINNER_DISPLAY_DURATION_IN_SEC = 10;
 
     public static @NonNull PuckWarRound create(@NonNull Duration duration,
-                                               @NonNull Size overlaySize,
+                                               @NonNull ScreenSize overlaySize,
                                                int puckSize) {
         final var initialPosition = ImmutableVector2D.cartesian(0, overlaySize.getHeight());
 
@@ -116,7 +116,7 @@ public class PuckWarRound implements Renderable {
                         @NonNull Sprite blackHole,
                         @NonNull ImmutableVector2D initialPosition,
                         @NonNull UnaryOperator1<ImmutableVector2D> velocityModifier,
-                        @NonNull Size overlaySize) {
+                        @NonNull ScreenSize overlaySize) {
         this.puckSize = puckSize;
         this.target = target;
         this.blackHole = blackHole;
@@ -185,7 +185,7 @@ public class PuckWarRound implements Renderable {
     }
 
     private void drawWinner(@NonNull Renderer renderer, @NonNull Score score) {
-        final Size size = renderer.getDrawingSize();
+        final ScreenSize size = renderer.getDrawingSize();
         renderer.withPrivateContext(r -> {
             r.blockBuilder()
              .setBackgroundColor(BACKGROUND_COLOR)
@@ -201,7 +201,7 @@ public class PuckWarRound implements Renderable {
 
     private void drawRemainingTime(@NonNull Renderer renderer) {
         renderer.withPrivateContext(r -> {
-            final Size size = r.getDrawingSize();
+            final ScreenSize size = r.getDrawingSize();
             final String remainingTimeText = Messager.formRemainingTimeMessage(remainingTime);
             r.setColor(Color.WHITE);
             r.setFontSize(28);

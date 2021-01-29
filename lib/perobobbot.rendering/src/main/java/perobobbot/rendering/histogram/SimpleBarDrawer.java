@@ -16,11 +16,11 @@ public class SimpleBarDrawer implements BarDrawer {
     private final PaintComputer paintComputer;
 
     @Override
-    public void drawBar(@NonNull Renderer renderer, int barWidth, int barHeight, double percent) {
+    public void drawBar(@NonNull Renderer renderer, double barWidth, double barHeight, double percent) {
         if (barHeight <= 0) {
             return;
         }
-        final var paint = paintComputer.compute(barWidth,barHeight,100*barHeight/(float)percent);
+        final var paint = paintComputer.compute(barWidth,barHeight,100*barHeight/percent);
         renderer.setPaint(paint);
         renderer.fillRect(0,0,barWidth,barHeight);
     }

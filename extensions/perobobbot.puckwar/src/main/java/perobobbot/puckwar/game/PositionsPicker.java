@@ -5,14 +5,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import perobobbot.physics.ImmutableVector2D;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 
 import java.util.Random;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class PositionsPicker {
 
-    public static Result pick(@NonNull Size overlaySize, int targetSize) {
+    public static Result pick(@NonNull ScreenSize overlaySize, int targetSize) {
         return new PositionsPicker(overlaySize, targetSize).pick();
     }
 
@@ -26,7 +26,7 @@ public class PositionsPicker {
 
     private final Random random = new Random();
 
-    private final Size overlaySize;
+    private final ScreenSize overlaySize;
     private final int size;
 
     private @NonNull Result pick() {

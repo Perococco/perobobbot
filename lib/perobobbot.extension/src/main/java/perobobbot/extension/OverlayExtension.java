@@ -6,7 +6,7 @@ import lombok.NonNull;
 import perobobbot.lang.SubscriptionHolder;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 
 public abstract class OverlayExtension extends ExtensionBase {
 
@@ -20,7 +20,7 @@ public abstract class OverlayExtension extends ExtensionBase {
         this.overlay = overlay;
     }
 
-    protected @NonNull Size getOverlaySize() {
+    protected @NonNull ScreenSize getOverlaySize() {
         return overlay.getOverlaySize();
     }
 

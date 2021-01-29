@@ -3,7 +3,7 @@ package perobobbot.overlay.newtek;
 import lombok.NonNull;
 import perobobbot.overlay.api.SoundContext;
 import perobobbot.rendering.Renderer;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class NDIData {
 
     private final @NonNull NDIImage image;
 
-    private final @NonNull Size overlaySize;
+    private final @NonNull ScreenSize overlaySize;
 
     private final @NonNull NDISoundContext soundContext;
 

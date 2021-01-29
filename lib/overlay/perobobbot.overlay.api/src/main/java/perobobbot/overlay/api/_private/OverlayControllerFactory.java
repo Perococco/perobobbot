@@ -3,7 +3,7 @@ package perobobbot.overlay.api._private;
 import lombok.NonNull;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 
 public class OverlayControllerFactory implements OverlayController.Factory {
@@ -25,7 +25,7 @@ public class OverlayControllerFactory implements OverlayController.Factory {
     }
 
     @Override
-    public @NonNull OverlayController create(@NonNull String name, @NonNull Size size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
+    public @NonNull OverlayController create(@NonNull String name, @NonNull ScreenSize size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
         return delegate.create(name, size, frameRate, soundManager);
     }
 }

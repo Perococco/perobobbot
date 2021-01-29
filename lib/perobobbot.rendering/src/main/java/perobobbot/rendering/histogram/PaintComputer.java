@@ -6,6 +6,6 @@ import java.awt.*;
 
 public interface PaintComputer {
 
-    @NonNull Paint compute(int barWidth, int barHeight, float histogramHeight);
+    @NonNull Paint compute(double barWidth, double barHeight, double histogramHeight);
 
 }

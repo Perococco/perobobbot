@@ -34,7 +34,7 @@ public class ChatPollOverlay implements OverlayClient, PollListener {
         }
 
         iteration.getRenderer().withPrivateContext(r -> {
-            histogram.render(r, r.getDrawingSize().scale(0.25));
+            histogram.render(r, r.getDrawingSize().toSize().scale(0.25));
         });
     }
 

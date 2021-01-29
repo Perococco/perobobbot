@@ -6,7 +6,7 @@ import com.walker.devolay.DevolayVideoFrame;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.overlay.api.FrameRate;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,7 +17,7 @@ public class NDIConfig {
     public static final int PIXEL_DEPTH = 4;
 
     @Getter
-    private final @NonNull Size overlaySize;
+    private final @NonNull ScreenSize overlaySize;
 
     private final @NonNull DevolayFrameFourCCType ccType;
     private final @NonNull FrameRate frameRate;
@@ -28,7 +28,7 @@ public class NDIConfig {
     private final AudioBufferSizeComputer audioBufferSizeComputer;
 
 
-    public NDIConfig(@NonNull Size size, @NonNull DevolayFrameFourCCType ccType, @NonNull FrameRate frameRate, int audioSampleRate, int nbChannels) {
+    public NDIConfig(@NonNull ScreenSize size, @NonNull DevolayFrameFourCCType ccType, @NonNull FrameRate frameRate, int audioSampleRate, int nbChannels) {
         this.overlaySize = size;
         this.ccType = ccType;
         this.frameRate = frameRate;

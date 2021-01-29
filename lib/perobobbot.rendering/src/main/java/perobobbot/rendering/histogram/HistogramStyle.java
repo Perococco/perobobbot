@@ -28,7 +28,7 @@ public class HistogramStyle {
                 .spacing(0);
     }
 
-    public void drawBar(Renderer renderer, int barWidth, int barHeight, double valueInPercent) {
+    public void drawBar(Renderer renderer, double barWidth, double barHeight, double valueInPercent) {
         barDrawer.drawBar(renderer, barWidth, barHeight, valueInPercent);
     }
 }

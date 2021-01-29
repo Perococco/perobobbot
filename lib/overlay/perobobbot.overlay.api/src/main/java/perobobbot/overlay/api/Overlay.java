@@ -2,7 +2,7 @@ package perobobbot.overlay.api;
 
 import lombok.NonNull;
 import perobobbot.lang.Subscription;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundRegistry;
 import perobobbot.timeline.PropertyFactory;
 
@@ -22,7 +22,7 @@ public interface Overlay extends SoundRegistry, PropertyFactory {
     /**
      * @return the size of the overlay
      */
-    Size getOverlaySize();
+    ScreenSize getOverlaySize();
 
     /**
      * @return the frame rate at which the overlay is redrawed

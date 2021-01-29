@@ -1,9 +1,10 @@
 package perobobbot.rendering.histogram;
 
 import com.google.common.collect.ImmutableList;
-import lombok.*;
+import lombok.NonNull;
 import perobobbot.lang.MathTool;
 import perobobbot.rendering.Renderer;
+import perobobbot.rendering.RenderingTools;
 import perobobbot.rendering.Size;
 import perobobbot.timeline.Property;
 import perobobbot.timeline.PropertyFactory;
@@ -47,7 +48,7 @@ public class Histogram {
         final double height = drawingSize.getHeight();
 
 
-        final int barWidth = MathTool.roundedToInt((width+style.getMargin()+style.getSpacing())/values.size()-style.getSpacing());
+        final double barWidth = RenderingTools.computeCellSize(width,values.size(),style.getMargin(),style.getSpacing());
 
         if (barWidth <= 0) {
             return;

@@ -12,13 +12,13 @@ import java.awt.image.BufferedImage;
 
 public interface Renderer extends AutoCloseable {
 
-    static @NonNull Renderer withGraphics2D(@NonNull Graphics2D graphics2D, @NonNull Size renderingSize) {
+    static @NonNull Renderer withGraphics2D(@NonNull Graphics2D graphics2D, @NonNull ScreenSize renderingSize) {
         return new RendererUsingGraphics2D(graphics2D, renderingSize);
     }
 
     Color TRANSPARENT = new Color(0,0,0,0);
 
-    @NonNull Size getDrawingSize();
+    @NonNull ScreenSize getDrawingSize();
 
     void dispose();
 
@@ -38,19 +38,19 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Renderer setPaint(@NonNull Paint paint);
 
-    @NonNull Renderer fillCircle(int xc, int yc, int radius);
+    @NonNull Renderer fillCircle(double xc, double yc, double radius);
 
     @NonNull Renderer withPrivateContext(@NonNull Consumer1<? super Renderer> drawer);
 
     @NonNull Renderer withPrivateTransform(@NonNull Consumer1<? super Renderer> drawer);
 
-    @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y);
+    @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y);
 
-    @NonNull Renderer drawImage(@NonNull BufferedImage image, int x, int y, @NonNull Color bkgColor);
+    @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y, @NonNull Color bkgColor);
 
-    @NonNull Renderer fillRect(int x, int y, int width, int height);
+    @NonNull Renderer fillRect(double x, double y, double width, double height);
 
-    default @NonNull Renderer fillRect(int x, int y, Size size) {
+    default @NonNull Renderer fillRect(double x, double y, ScreenSize size) {
         return fillRect(x,y,size.getWidth(),size.getHeight());
     }
 

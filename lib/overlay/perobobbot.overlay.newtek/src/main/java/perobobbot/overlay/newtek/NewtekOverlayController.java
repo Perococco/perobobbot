@@ -12,7 +12,7 @@ import perobobbot.lang.ListTool;
 import perobobbot.lang.Looper;
 import perobobbot.lang.Subscription;
 import perobobbot.overlay.api.*;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 import perobobbot.sound.SoundRegistry;
 import perobobbot.timeline.Conductor;
@@ -38,7 +38,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
     private final @NonNull String ndiName;
 
     @Getter
-    private final @NonNull Size overlaySize;
+    private final @NonNull ScreenSize overlaySize;
 
     @Getter
     private final @NonNull FrameRate frameRate;
@@ -52,7 +52,7 @@ public class NewtekOverlayController implements OverlayController, Overlay {
     private ImmutableList<OverlayClient> drawers = ImmutableList.of();
 
 
-    public NewtekOverlayController(@NonNull String ndiName, @NonNull Size overlaySize, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
+    public NewtekOverlayController(@NonNull String ndiName, @NonNull ScreenSize overlaySize, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
         this.auto = false;
         this.overlaySize = overlaySize;
         this.frameRate = frameRate;

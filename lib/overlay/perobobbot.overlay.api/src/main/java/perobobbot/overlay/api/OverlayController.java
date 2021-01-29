@@ -2,7 +2,7 @@ package perobobbot.overlay.api;
 
 import lombok.NonNull;
 import perobobbot.overlay.api._private.OverlayControllerFactory;
-import perobobbot.rendering.Size;
+import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 
 /**
@@ -16,15 +16,15 @@ public interface OverlayController extends Overlay {
 
         @NonNull String getImplementationName();
 
-        @NonNull OverlayController create(@NonNull String name, @NonNull Size size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager);
+        @NonNull OverlayController create(@NonNull String name, @NonNull ScreenSize size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager);
     }
 
     @NonNull
-    static OverlayController create(@NonNull String name, @NonNull Size size, @NonNull SoundManager soundManager) {
+    static OverlayController create(@NonNull String name, @NonNull ScreenSize size, @NonNull SoundManager soundManager) {
         return create(name,size,FrameRate.FPS_30,soundManager);
     }
 
-    static OverlayController create(@NonNull String name, @NonNull Size size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
+    static OverlayController create(@NonNull String name, @NonNull ScreenSize size, @NonNull FrameRate frameRate, @NonNull SoundManager soundManager) {
         return new OverlayControllerFactory().create(name, size, frameRate, soundManager);
     }
 

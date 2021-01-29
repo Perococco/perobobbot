@@ -5,6 +5,6 @@ import perobobbot.rendering.Renderer;
 
 public interface BarDrawer {
 
-    void drawBar(@NonNull Renderer renderer, int barWidth, int barHeight, double percent);
+    void drawBar(@NonNull Renderer renderer, double barWidth, double barHeight, double percent);
 
 }
