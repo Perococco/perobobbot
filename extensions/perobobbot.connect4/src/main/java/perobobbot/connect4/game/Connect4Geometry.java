@@ -3,6 +3,7 @@ package perobobbot.connect4.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.connect4.GridPosition;
 import perobobbot.physics.Vector2D;
 
 import java.util.stream.IntStream;
@@ -38,7 +39,7 @@ public class Connect4Geometry {
     public @NonNull Stream<GridPosition> streamPositions() {
         return IntStream.range(0, NUMBER_OF_COLUMNS)
                         .boxed()
-                        .flatMap(c -> IntStream.range(0, NUMBER_OF_ROWS).mapToObj(r ->  new GridPosition(c, r)));
+                        .flatMap(c -> IntStream.range(0, NUMBER_OF_ROWS).mapToObj(r ->  new GridPosition(r, c)));
     }
 
     public int computeImageWidth() {
@@ -50,7 +51,7 @@ public class Connect4Geometry {
     }
 
     public @NonNull Vector2D computePositionAboveColumn(int columnIndex) {
-        return computePositionOnImage(new GridPosition(columnIndex, numberOfRows));
+        return computePositionOnImage(new GridPosition(numberOfRows, columnIndex));
     }
 
     public @NonNull Vector2D computePositionOnImage(@NonNull GridPosition position) {

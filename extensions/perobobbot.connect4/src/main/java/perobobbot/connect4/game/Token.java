@@ -2,6 +2,7 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.connect4.TokenType;
 import perobobbot.physics.ROVector2D;
 import perobobbot.physics.Vector2D;
 

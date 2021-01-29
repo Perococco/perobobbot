@@ -2,7 +2,6 @@ package perobobbot.connect4;
 
 import lombok.NonNull;
 import perobobbot.connect4.game.Connect4Game;
-import perobobbot.connect4.game.TokenType;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
 
@@ -31,6 +30,7 @@ public class Connect4Extension extends OverlayExtension {
 
     public void playAt(int columnIndex) {
         final var type = TokenType.RED;
-        Optional.ofNullable(connect4Game).ifPresent(g -> g.addTokenToGame(type,columnIndex));
+        Optional.ofNullable(connect4Game)
+                .ifPresent(g -> g.addTokenToGame(type,columnIndex).ifPresent(w -> System.out.println(w)));
     }
 }

@@ -1,4 +1,4 @@
-package perobobbot.connect4.game;
+package perobobbot.connect4;
 
 import lombok.Getter;
 import lombok.NonNull;
