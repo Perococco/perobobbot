@@ -7,7 +7,8 @@ import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.poll.PollListener;
 import perobobbot.poll.PollResult;
-import perobobbot.rendering.Histogram;
+import perobobbot.rendering.histogram.Histogram;
+import perobobbot.rendering.histogram.HistogramStyle;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class ChatPollOverlay implements OverlayClient, PollListener {
 
     private final int nbValues;
 
-    private final @NonNull Histogram.Style style;
+    private final @NonNull HistogramStyle style;
 
     private Histogram histogram;
 

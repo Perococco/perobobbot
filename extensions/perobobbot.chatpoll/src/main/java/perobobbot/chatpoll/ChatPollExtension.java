@@ -7,7 +7,7 @@ import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.*;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.poll.*;
-import perobobbot.rendering.Histogram;
+import perobobbot.rendering.histogram.HistogramStyle;
 import perococco.perobobbot.poll.PollConfiguration;
 
 import java.awt.*;
@@ -35,10 +35,10 @@ public class ChatPollExtension extends OverlayExtension implements MessageHandle
                                .createPoll(options, configuration)
                                .createTimedFromThis();
 
-        var overlay = new ChatPollOverlay(options.size(), Histogram.Style.builder()
-                                                                         .paint(new Color(244, 0, 92, 128))
-                                                                         .spacing(0)
-                                                                         .build());
+        var overlay = new ChatPollOverlay(options.size(), HistogramStyle.builder()
+                                                                        .margin(10)
+                                                                        .spacing(2)
+                                                                        .build());
         attachClient(overlay);
         subscriptionHolder.replaceWith(
                 () -> Subscription.multi(
