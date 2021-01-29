@@ -22,6 +22,11 @@ public class BasicValueHolder implements ValueHolder {
     }
 
     @Override
+    public void forceSet(double value) {
+        this.value = value;
+    }
+
+    @Override
     public double get() {
         return this.value;
     }

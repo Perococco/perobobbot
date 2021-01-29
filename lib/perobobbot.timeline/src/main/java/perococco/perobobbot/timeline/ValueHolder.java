@@ -16,4 +16,5 @@ public interface ValueHolder {
 
     double getTarget();
 
+    void forceSet(double value);
 }

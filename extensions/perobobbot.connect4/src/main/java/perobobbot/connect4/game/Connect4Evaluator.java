@@ -3,6 +3,7 @@ package perobobbot.connect4.game;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
 import perobobbot.connect4.TokenType;
 
@@ -15,8 +16,6 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connect4Evaluator {
-
-    public static final int NB_IN_A_ROW_TO_WIN = 4;
 
     public static Optional<Connected4> evaluate(@NonNull TokenType[] data, int nbRows, int nbColumns, int referenceRowIdx, int referenceColumnIdx) {
         return new Connect4Evaluator(data, nbRows, nbColumns, referenceRowIdx, referenceColumnIdx).testDirection();
@@ -67,7 +66,7 @@ public class Connect4Evaluator {
     private Connected4 testDirection(int dx, int dy) {
         final var n1 = nbSameInDirection(dx, dy);
         final var n2 = nbSameInDirection(-dx, -dy);
-        if (n1 + n2 + 1 >= NB_IN_A_ROW_TO_WIN) {
+        if (n1 + n2 + 1 >= Connect4Constants.NB_IN_A_ROW_TO_WIN) {
             return new Connected4(reference,
                                   new GridPosition(rowIdx + n1 * dx, columnIdx + n1 * dy),
                                   new GridPosition(rowIdx - n2 * dx, columnIdx - n2 * dy)

@@ -13,8 +13,8 @@ module perobobbot.ext.connect4 {
     requires perobobbot.command;
     requires perobobbot.lang;
     requires perobobbot.physics;
+    requires perobobbot.poll;
 
-    exports perobobbot.connect4;
 
     provides Plugin with Connect4ExtensionFactory;
 

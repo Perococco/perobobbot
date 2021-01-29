@@ -9,12 +9,14 @@ import perobobbot.connect4.TokenType;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connect4State {
 
     public static @NonNull Connect4State empty(int nbRows, int nbColumns) {
-        final var freePositions = new int[nbRows];
+        final var freePositions = new int[nbColumns];
         Arrays.fill(freePositions, 0);
         return new Connect4State(nbRows, nbColumns, new TokenType[nbRows * nbColumns], freePositions, null);
     }
@@ -24,12 +26,45 @@ public class Connect4State {
     private final @NonNull TokenType[] data;
     private final int[] freePositions;
     private final Connected4 winningPosition;
+    private final int[] freeColumns;
 
-    
+
     public boolean hasWinner() {
         return winningPosition != null;
     }
-    
+
+    public Connect4State(int nbRows, int nbColumns, @NonNull TokenType[] data, int[] freePositions, Connected4 winningPosition) {
+        this.nbRows = nbRows;
+        this.nbColumns = nbColumns;
+        this.data = data;
+        this.freePositions = freePositions;
+        this.winningPosition = winningPosition;
+        this.freeColumns = IntStream.range(0,nbColumns).filter(c -> freePositions[c]<nbRows).toArray();
+    }
+
+    public boolean isFull() {
+        return freeColumns.length == 0;
+    }
+
+    public boolean onlyOneColumnLeft() {
+        return freeColumns.length == 1;
+    }
+
+    public @NonNull IntStream getIndexOfFreeColumns() {
+        return Arrays.stream(freeColumns);
+    }
+
+    public int pickOneColumn(@NonNull Random random) {
+        if (freeColumns.length == 0) {
+            return -1;
+        }
+        return freeColumns[random.nextInt(freeColumns.length)];
+    }
+
+    public int pickOneColumn() {
+        return pickOneColumn(new Random());
+    }
+
     public @NonNull Optional<Connected4> getWinningPosition() {
         return Optional.ofNullable(winningPosition);
     }
@@ -67,8 +102,6 @@ public class Connect4State {
     public boolean canPlayAt(int columnIndex) {
         return freePositions[columnIndex] < nbRows;
     }
-
-
 
 
 }

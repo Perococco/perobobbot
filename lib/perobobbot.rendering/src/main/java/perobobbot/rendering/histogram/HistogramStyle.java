@@ -15,8 +15,8 @@ public class HistogramStyle {
     @NonNull Orientation orientation;
     @NonNull EasingType easingType;
     @NonNull Duration easingDuration;
-    int margin;
-    int spacing;
+    double margin;
+    double spacing;
     @NonNull BarDrawer barDrawer;
 
     public static @NonNull Builder builder() {

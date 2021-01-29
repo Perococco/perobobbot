@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.time.Duration;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Condition;
 
@@ -11,16 +12,16 @@ import java.util.concurrent.locks.Condition;
  * Basically a thread but with start, stop methods.
  * Extends this class and implement the method {@link #performOneIteration()} with the operation
  * that needs to be done in an iteration.
- *
+ * <p>
  * The method returns either {@link IterationCommand#CONTINUE} or {@link IterationCommand#STOP} to continue
  * or stop the loop.
- *
+ * <p>
  * If an exception occurs in the {@link #performOneIteration()} method, the exception will be logged and
  * the loop will be stopped only if the exception is du to a thread interruption (like {@link InterruptedException}).
- *
+ * <p>
  * The methods {@link #beforeLooping()} and {@link #afterLooping()} are called
  * before and after the loop and in the same thread than the loop.
- *
+ * <p>
  * If the method {@link #beforeLooping()} throws an exception, the loop is cancelled
  * and the exception will be bubble up to the {@link #start()} method.
  *
@@ -38,7 +39,6 @@ public abstract class Looper {
             }
         };
     }
-
 
     @NoTypeScript
     public enum IterationCommand {
@@ -68,6 +68,7 @@ public abstract class Looper {
 
     /**
      * Perform on iteration of the loop
+     *
      * @return the command for the next iteration
      * @throws Exception if an error occurred
      */
@@ -99,9 +100,9 @@ public abstract class Looper {
             Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
             if (e.getCause() instanceof RuntimeException) {
-                throw (RuntimeException)e.getCause();
+                throw (RuntimeException) e.getCause();
             }
-            throw new RuntimeException("Expected only runtime exception",e.getCause());
+            throw new RuntimeException("Expected only runtime exception", e.getCause());
         }
     }
 
@@ -118,13 +119,24 @@ public abstract class Looper {
         });
     }
 
+    protected void sleep(Duration duration) {
+        try {
+            Thread.sleep(duration.toMillis());
+        } catch (InterruptedException e) {
+            throw new MyInterruptedException(e);
+        }
+    }
+
+
     private boolean currentIsRunning() {
         return current != null && !current.isDone();
     }
 
-    protected void beforeLooping() {}
+    protected void beforeLooping() {
+    }
 
-    protected void afterLooping() {}
+    protected void afterLooping() {
+    }
 
     @RequiredArgsConstructor
     private class Loop implements Runnable {
@@ -135,7 +147,7 @@ public abstract class Looper {
         @Override
         public void run() {
             try {
-                Thread.currentThread().setName("➰ "+Looper.this.getClass().getSimpleName());
+                Thread.currentThread().setName("➰ " + Looper.this.getClass().getSimpleName());
                 beforeLooping();
                 starting.complete(Nil.NIL);
             } catch (RuntimeException e) {
@@ -167,6 +179,13 @@ public abstract class Looper {
                     Thread.currentThread().interrupt();
                 }
             }
+        }
+    }
+
+
+    private static class MyInterruptedException extends RuntimeException {
+        public MyInterruptedException(Throwable cause) {
+            super(cause);
         }
     }
 

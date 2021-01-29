@@ -3,6 +3,7 @@ package perobobbot.connect4.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
 import perobobbot.physics.Vector2D;
 
@@ -21,13 +22,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class Connect4Geometry {
 
-    public static final int NUMBER_OF_COLUMNS = 7;
-    public static final int NUMBER_OF_ROWS = 6;
-
-    @Getter
-    private final int numberOfColumns = NUMBER_OF_COLUMNS;
-    @Getter
-    private final int numberOfRows = NUMBER_OF_ROWS;
+    private final int numberOfColumns ;
+    private final int numberOfRows;
 
     @Getter
     private final int positionRadius;
@@ -37,17 +33,17 @@ public class Connect4Geometry {
     private final int margin;
 
     public @NonNull Stream<GridPosition> streamPositions() {
-        return IntStream.range(0, NUMBER_OF_COLUMNS)
+        return IntStream.range(0, numberOfColumns)
                         .boxed()
-                        .flatMap(c -> IntStream.range(0, NUMBER_OF_ROWS).mapToObj(r ->  new GridPosition(r, c)));
+                        .flatMap(c -> IntStream.range(0, numberOfRows).mapToObj(r ->  new GridPosition(r, c)));
     }
 
     public int computeImageWidth() {
-        return 2 * margin + NUMBER_OF_COLUMNS * (positionRadius * 2 + spacing) - spacing;
+        return 2 * margin + numberOfColumns * (positionRadius * 2 + spacing) - spacing;
     }
 
     public int computeImageHeight() {
-        return 2 * margin + NUMBER_OF_ROWS * (positionRadius * 2 + spacing) - spacing;
+        return 2 * margin + numberOfRows * (positionRadius * 2 + spacing) - spacing;
     }
 
     public @NonNull Vector2D computePositionAboveColumn(int columnIndex) {
@@ -56,7 +52,7 @@ public class Connect4Geometry {
 
     public @NonNull Vector2D computePositionOnImage(@NonNull GridPosition position) {
         final var x = margin + positionRadius + position.getColumnIdx() * (positionRadius * 2 + spacing);
-        final var y = margin + positionRadius + (NUMBER_OF_ROWS - position.getRowIdx()-1) * (positionRadius * 2 + spacing);
+        final var y = margin + positionRadius + (numberOfRows - position.getRowIdx()-1) * (positionRadius * 2 + spacing);
         return Vector2D.create(x, y);
     }
 }

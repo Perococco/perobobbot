@@ -28,6 +28,14 @@ public class ValueHolderWithEasing implements ValueHolder {
     }
 
     @Override
+    public void forceSet(double value) {
+        this.value = value;
+        this.target = value;
+        this.start = value;
+        this.delta = 0;
+    }
+
+    @Override
     public void set(double target) {
         if (Double.compare(target,this.target) == 0) {
             return;

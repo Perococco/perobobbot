@@ -44,6 +44,12 @@ public class PeroProperty implements Property, TimedItem {
     }
 
     @Override
+    public Property forceSet(double value) {
+        valueHolder.forceSet(value);
+        return this;
+    }
+
+    @Override
     public double getTarget() {
         return valueHolder.getTarget();
     }

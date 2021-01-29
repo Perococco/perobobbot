@@ -22,7 +22,7 @@ public class Connect4GridDrawer {
     }
 
     private void fillImageBackground(BufferedImage image) {
-        final var graphics = image.createGraphics();
+        final var graphics = setupGraphics2D(image.createGraphics());
         try {
             graphics.setBackground(backgroundColor);
             graphics.clearRect(0,0,image.getWidth(),image.getHeight());
@@ -31,8 +31,16 @@ public class Connect4GridDrawer {
         }
     }
 
+    private Graphics2D setupGraphics2D(@NonNull Graphics2D graphics2D) {
+        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        return graphics2D;
+    }
+
     private void clearPositions(BufferedImage image) {
-        final var graphics = image.createGraphics();
+        final var graphics = setupGraphics2D(image.createGraphics());
         graphics.setColor(new Color(0,0,0,0));
         graphics.setComposite(AlphaComposite.Src);
 

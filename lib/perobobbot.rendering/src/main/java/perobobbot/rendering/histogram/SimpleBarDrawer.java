@@ -13,7 +13,12 @@ public class SimpleBarDrawer implements BarDrawer {
         return new SimpleBarDrawer((barWidth, barHeight, histogramHeight) -> paint);
     }
 
-    private final PaintComputer paintComputer;
+    public static BarDrawer withPaintComputer(@NonNull RoundBrighter paintComputer) {
+        return new SimpleBarDrawer(paintComputer);
+    }
+
+    private final @NonNull PaintComputer paintComputer;
+
 
     @Override
     public void drawBar(@NonNull Renderer renderer, double barWidth, double barHeight, double percent) {

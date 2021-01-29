@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.connect4.Connect4Extension;
-import perobobbot.connect4.action.MoveProposal;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Plugin;
 import perobobbot.lang.PluginType;
@@ -27,7 +26,7 @@ public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Exten
 
     @Override
     protected @NonNull Connect4Extension createExtension(@NonNull Parameters parameters) {
-        return new Connect4Extension(parameters.getOverlay());
+        return new Connect4Extension(parameters.getOverlay(), parameters.getChatController());
     }
 
     @Override
@@ -39,8 +38,7 @@ public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Exten
         final var moveProposalRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(10));
         return ImmutableList.of(
                 factory.create("c4 start", accessRule, extension::start),
-                factory.create("c4 stop", accessRule, extension::stop),
-                factory.create("c4 play {column}", moveProposalRule, new MoveProposal(extension))
+                factory.create("c4 stop", accessRule, extension::stop)
         );
     }
 
