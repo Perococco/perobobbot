@@ -1,7 +1,6 @@
 package perobobbot.connect4;
 
 import lombok.NonNull;
-import perobobbot.overlay.api.Overlay;
 
 public class GridIsFull extends Connect4Exception {
 

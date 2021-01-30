@@ -2,18 +2,14 @@ package perobobbot.connect4;
 
 import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.connect4.game.AI;
-import perobobbot.connect4.game.Connect4Game;
-import perobobbot.connect4.game.Connect4Grid;
-import perobobbot.connect4.game.TwitchViewers;
+import perobobbot.connect4.game.*;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.Looper;
+import perobobbot.lang.MathTool;
 import perobobbot.lang.MessageDispatcher;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.rendering.Region;
-import perobobbot.rendering.Size;
 
-import java.time.Duration;
 import java.util.Optional;
 
 public class Connect4Extension extends OverlayExtension {
@@ -22,15 +18,12 @@ public class Connect4Extension extends OverlayExtension {
 
     private Connect4Game game;
 
-    private final MessageDispatcher messageDispatcher;
-
-    public Connect4Extension(@NonNull Overlay overlay, @NonNull MessageDispatcher messageDispatcher) {
+    public Connect4Extension(@NonNull Overlay overlay) {
         super(NAME, overlay);
-        this.messageDispatcher = messageDispatcher;
     }
 
     @Synchronized
-    public void start() {
+    public void start(@NonNull Player.Factory player1Factory, @NonNull Player.Factory player2Factory) {
         if (game != null) {
             return;
         }
@@ -39,24 +32,30 @@ public class Connect4Extension extends OverlayExtension {
         final Connect4Overlay overlay = new Connect4Overlay(grid,computeSmallRegion());
         attachClient(overlay);
 
-        final var player1 = new AI(TokenType.RED);
-        final var player2 = new TwitchViewers(TokenType.YELLOW, overlay, messageDispatcher,Duration.ofSeconds(20));
+        final var tokens = MathTool.shuffle(TokenType.RED,TokenType.YELLOW);
 
-        this.game = new Connect4Game(overlay, player1,player2, grid);
+        final var players = MathTool.shuffle(
+                player1Factory.create(tokens.getFirst(), overlay),
+                player2Factory.create(tokens.getSecond(), overlay)
+        );
+
+        this.game = new Connect4Game(overlay, players.getFirst(), players.getSecond(), grid);
         this.game.start();
     }
 
     @Synchronized
     public void stop() {
-        Optional.ofNullable(this.game).ifPresent(Looper::requestStop);
+        Optional.ofNullable(this.game)
+                .ifPresent(Looper::requestStop);
         this.game = null;
         detachClient();
     }
 
     public Region computeSmallRegion() {
-        int w = 318;
-        int h = 660;
+        var size = getOverlaySize();
+        int w = 318*size.getWidth()/1600;
+        int h = 660*size.getHeight()/900;
 
-        return new Region(1600-w, 900-h, w, h);
+        return new Region(size.getWidth()-w, size.getHeight()-h, w, h);
     }
 }

@@ -8,7 +8,7 @@ public class Value3<A,B,C> {
 
     @NonNull
     public static <A,B,C> Value3<A,B,C> flatten(@NonNull Value2<A,Value2<B,C>> value) {
-        return Value3.of(value.getA(),value.getB().getA(),value.getB().getB());
+        return Value3.of(value.getFirst(), value.getSecond().getFirst(), value.getSecond().getSecond());
     }
 
     @NonNull

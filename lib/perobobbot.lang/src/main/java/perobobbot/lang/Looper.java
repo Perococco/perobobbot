@@ -183,7 +183,7 @@ public abstract class Looper {
     }
 
 
-    private static class MyInterruptedException extends RuntimeException {
+    public static class MyInterruptedException extends RuntimeException {
         public MyInterruptedException(Throwable cause) {
             super(cause);
         }

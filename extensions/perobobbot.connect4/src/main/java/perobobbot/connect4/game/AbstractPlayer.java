@@ -1,11 +1,9 @@
 package perobobbot.connect4.game;
 
-import lombok.NonNull;
-import lombok.Synchronized;
+import lombok.*;
 import perobobbot.connect4.GridIsFull;
 import perobobbot.lang.Looper;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.lang.fp.Value2;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingDeque;
@@ -15,20 +13,16 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public abstract class AbstractPlayer implements Player {
 
-    private Runner runner = null;
+    private PlayerRunner runner = null;
 
     @Override
     @Synchronized
     public @NonNull CompletionStage<Integer> getPlayerMove(@NonNull Connect4State currentState) {
-        if (runner == null) {
-            runner = new Runner();
-            runner.start();
-        }
+        this.startIfNotRunning();
         final CompletableFuture<Integer> result = new CompletableFuture<>();
         runner.offer(currentState, result);
         return result;
     }
-
 
     @Override
     @Synchronized
@@ -39,31 +33,37 @@ public abstract class AbstractPlayer implements Player {
         }
     }
 
-    private class Runner extends Looper {
+    private void startIfNotRunning() {
+        if (runner == null || !runner.isRunning()) {
+            runner = new PlayerRunner();
+            runner.start();
+        }
+    }
 
-        private final BlockingDeque<Value2<Connect4State, CompletableFuture<Integer>>> queue = new LinkedBlockingDeque<>();
+    private class PlayerRunner extends Looper {
+
+        private final BlockingDeque<MoveData> queue = new LinkedBlockingDeque<>();
 
         public void offer(@NonNull Connect4State currentState, @NonNull CompletableFuture<Integer> result) {
-            queue.addLast(Value2.of(currentState, result));
+            queue.addLast(new MoveData(currentState, result));
         }
 
         @Override
         protected @NonNull IterationCommand performOneIteration() throws Exception {
-            final var v = queue.take();
-            final var state = v.getA();
-            final var result = v.getB();
+            final var data = queue.take();
+            final var state = data.getState();
 
             try {
                 if (state.isFull()) {
                     throw new GridIsFull(getTeam());
                 } else if (state.onlyOneColumnLeft()) {
-                    result.complete(state.pickOneColumn());
+                    data.complete(state.pickOneColumn());
                 } else {
-                    result.complete(getNextMove(state));
+                    data.complete(getNextMove(state));
                 }
             } catch (Throwable t) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(t);
-                result.completeExceptionally(t);
+                data.completeExceptionally(t);
             }
 
             return IterationCommand.CONTINUE;
@@ -71,11 +71,28 @@ public abstract class AbstractPlayer implements Player {
 
         @Override
         protected void afterLooping() {
-            final var list = new ArrayList<Value2<Connect4State, CompletableFuture<Integer>>>(queue.size() + 10);
+            final var list = new ArrayList<MoveData>(queue.size() + 10);
             queue.drainTo(list);
-            list.forEach(v -> v.getB().completeExceptionally(new InterruptedException("Player interrupted")));
+            list.forEach(v -> v.completeExceptionally(new InterruptedException("Player interrupted")));
         }
     }
 
     protected abstract int getNextMove(@NonNull Connect4State state) throws Throwable;
+
+
+    @RequiredArgsConstructor
+    private static class MoveData {
+
+        @Getter
+        private final @NonNull Connect4State state;
+        private final @NonNull CompletableFuture<Integer> future;
+
+        public void completeExceptionally(@NonNull Throwable throwable) {
+            this.future.completeExceptionally(throwable);
+        }
+
+        public void complete(int nextMove) {
+            this.future.complete(nextMove);
+        }
+    }
 }

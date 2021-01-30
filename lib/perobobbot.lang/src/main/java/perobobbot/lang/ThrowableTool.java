@@ -39,7 +39,7 @@ public class ThrowableTool {
                 Stream.of(throwable.getSuppressed())
         )
                      .filter(Objects::nonNull)
-                     .filter(checked::contains)
+                     .filter(e -> !checked.contains(e))
                      .anyMatch(t -> isCausedByAnInterruption(t, checked));
     }
 

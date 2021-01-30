@@ -103,8 +103,8 @@ public class GreeterExtension implements Extension {
     private @NonNull Stream<Greeter> createGreeter(@NonNull ChannelInfo channelInfo, @NonNull ImmutableSet<Value2<ChatConnectionInfo, ChatUser>> botAndUser) {
         final Map<ChatConnectionInfo, ImmutableSet<ChatUser>> userPerBot = botAndUser.stream()
                                                                                  .collect(
-                                                                          Collectors.groupingBy(Value2::getA,
-                                                                                                Collectors.mapping(Value2::getB,
+                                                                          Collectors.groupingBy(Value2::getFirst,
+                                                                                                Collectors.mapping(Value2::getSecond,
                                                                                                                    ImmutableSet.toImmutableSet())
                                                                           ));
 

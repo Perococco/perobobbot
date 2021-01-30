@@ -1,7 +1,6 @@
 package perobobbot.connect4.game;
 
 import lombok.NonNull;
-import perobobbot.connect4.Connect4OverlayController;
 import perobobbot.lang.Looper;
 
 import java.time.Duration;

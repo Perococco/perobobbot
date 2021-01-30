@@ -1,9 +1,25 @@
 package perobobbot.lang;
 
+import lombok.NonNull;
+import perobobbot.lang.fp.Value2;
+
+import java.util.Random;
+
 public class MathTool {
 
-    public static final double DEGREE_TO_RADIAN_FACTOR = Math.PI/180;
-    public static final double RADIAN_TO_DEGREE_FACTOR = 180/Math.PI;
+    private static final Random RANDOM = new Random();
+
+
+    public static <T> @NonNull Value2<T,T> shuffle(@NonNull T v1, @NonNull T v2) {
+        if (RANDOM.nextInt(2) == 0) {
+            return Value2.of(v1,v2);
+        } else {
+            return Value2.of(v2,v1);
+        }
+    }
+
+
+
 
     public static int clamp(int value, int minValue, int maxValue) {
         return Math.min(maxValue, Math.max(minValue,value));

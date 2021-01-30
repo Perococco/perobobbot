@@ -6,23 +6,19 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.connect4.TokenType;
 
 @RequiredArgsConstructor
-public class AI extends AbstractPlayer {
+public class RandomMove extends AbstractPlayer {
 
-    public static Player.Factory factory(int strength) {
-        return (team, controller) -> strength<=0?new RandomMove(team):new AI(team, strength);
+    public static @NonNull Player.Factory factory() {
+        return (team, controller) -> new RandomMove(team);
     }
-
 
     @Getter
     private final @NonNull TokenType team;
 
-    private final int strength;
-
     @Override
     protected int getNextMove(@NonNull Connect4State state) throws InterruptedException {
-        Thread.sleep(1000);
+//        Thread.sleep(0);
         return state.pickOneColumn();
     }
-
 
 }

@@ -3,6 +3,8 @@ package perobobbot.lang;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
+import perobobbot.lang.fp.Function0;
+import perobobbot.lang.fp.Try0;
 
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -15,6 +17,7 @@ public interface Subscription {
     Subscription NONE = () -> { };
 
     void unsubscribe();
+
 
     @NonNull
     static Subscription multi(@NonNull Subscription... subscriptions) {
@@ -34,4 +37,39 @@ public interface Subscription {
             Subscription::multi
     );
 
+    default void run(@NonNull Runnable runnable) {
+        try {
+            runnable.run();
+        } finally {
+            this.unsubscribe();
+        }
+    }
+
+
+    static void subscribeAndRun(@NonNull Function0<Subscription> subscriber, @NonNull Runnable runnable) {
+        var subscription = subscriber.f();
+        try {
+            runnable.run();
+        } finally {
+            subscription.unsubscribe();
+        }
+    }
+
+    static <T> @NonNull T subscribeAndCall(@NonNull Function0<Subscription> subscriber, @NonNull Function0<T> call) {
+        var subscription = subscriber.f();
+        try {
+            return call.f();
+        } finally {
+            subscription.unsubscribe();
+        }
+    }
+
+    static <T,E extends Throwable> @NonNull T subscribeAndTry(@NonNull Function0<Subscription> subscriber, @NonNull Try0<T,E> call) throws E {
+        var subscription = subscriber.f();
+        try {
+            return call.f();
+        } finally {
+            subscription.unsubscribe();
+        }
+    }
 }

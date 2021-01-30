@@ -20,7 +20,8 @@ public class CommandParserTest {
                 Arguments.of("list {arg1} {title} {volume}","list oups chut 10",Map.of("arg1","oups","title","chut","volume","10")),
                 Arguments.of("play [arg1] {arg2} [arg3]","play chut",Map.of("arg2","chut")),
                 Arguments.of("play {x},{y} [arg3]","play 120,23",Map.of("x","120","y","23")),
-                Arguments.of("play {x},[y],{z}","play 120,,23",Map.of("x","120","z","23"))
+                Arguments.of("play {x},[y],{z}","play 120,,23",Map.of("x","120","z","23")),
+                Arguments.of("c4 start [player1] [player2]","c4 start a4", Map.of("player1","c4"))
         );
     }
 

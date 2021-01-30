@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.connect4.Connect4OverlayController;
 import perobobbot.connect4.TokenType;
 import perobobbot.lang.MessageContext;
 import perobobbot.lang.MessageDispatcher;
@@ -14,9 +13,23 @@ import perobobbot.poll.*;
 import perococco.perobobbot.poll.PollConfiguration;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class TwitchViewers extends AbstractPlayer implements Player {
+
+    public static final Duration DEFAULT_POLL_DURATION = Duration.ofSeconds(30);
+
+    public static @NonNull Player.Factory factory(@NonNull MessageDispatcher messageDispatcher, @NonNull int duration) {
+        final Duration pollDuration;
+        if (duration <= 0) {
+            pollDuration = DEFAULT_POLL_DURATION;
+        } else {
+            pollDuration = Duration.ofSeconds(duration);
+        }
+
+        return (team, controller) -> new TwitchViewers(team, controller, messageDispatcher, pollDuration);
+    }
 
     @Getter
     private final @NonNull TokenType team;
@@ -30,13 +43,11 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
     @Override
     protected int getNextMove(@NonNull Connect4State state) throws Throwable {
-        return new NextMoveGetter(getTeam(), state).getNextMove();
+        return new NextMoveGetter(state).getNextMove();
     }
 
     @RequiredArgsConstructor
     private class NextMoveGetter implements @NonNull PollListener, @NonNull MessageHandler {
-
-        private final @NonNull TokenType team;
 
         private final @NonNull Connect4State state;
 
@@ -47,36 +58,34 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         public int getNextMove() throws Throwable {
             this.createOptionList();
             this.createPoll();
-            return this.launchPollAndWait();
+            return this.launchPollAndWaitForChoice();
         }
 
-        private int launchPollAndWait() throws Throwable {
-            final Subscription subscription = Subscription.multi(
-                    messageDispatcher.addListener(this),
-                    poll.addPollListener(this)
-            );
+        private int launchPollAndWaitForChoice() throws Throwable {
+            return Subscription.subscribeAndTry(
+                    () -> Subscription.multi(
+                            messageDispatcher.addListener(this),
+                            poll.addPollListener(this),
+                            controller.setPollStarted(team, pollDuration)),
+                    () -> poll.start(pollDuration)
+                          .thenApply(this::findOptionWithMostVotes)
+                          .thenApply(o -> o.orElseGet(state::pickOneColumn))
+                          .toCompletableFuture()
+                          .get());
+        }
 
-            var result = -1;
-            try {
-                controller.setPollStarted(getTeam(), pollDuration);
-                int indexOfMax = -1;
-                final PollResult pollResult = this.poll.start(pollDuration).toCompletableFuture().get();
-                int valueOfMax = -1;
-                for (int i = 0; i < optionList.size(); i++) {
-                    var value = pollResult.numberOfVotesFor(optionList.get(i));
-                    if (valueOfMax < value) {
-                        indexOfMax = i;
-                        valueOfMax = value;
-                    }
+        private Optional<Integer> findOptionWithMostVotes(@NonNull PollResult pollResult) {
+            int indexOfMax = -1;
+            int valueOfMax = -1;
+            for (int i = 0; i < optionList.size(); i++) {
+                var value = pollResult.numberOfVotesFor(optionList.get(i));
+                if (valueOfMax < value) {
+                    indexOfMax = i;
+                    valueOfMax = value;
                 }
-                result = indexOfMax < 0 ? state.pickOneColumn() : indexOfMax;
-                return result;
-            } finally {
-                controller.setPollDone();
-                subscription.unsubscribe();
             }
+            return Optional.of(indexOfMax).filter(i -> i>=0);
         }
-
 
         private void createOptionList() {
             this.optionList = state.getIndexOfFreeColumns()
@@ -87,7 +96,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
         private void createPoll() {
             this.poll = PollFactory.getFactory()
-                                   .createOrderedPoll(optionList, new PollConfiguration(true))
+                                   .createOrderedPoll(optionList, new PollConfiguration(false))
                                    .createTimedFromThis();
         }
 
@@ -103,8 +112,9 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         }
 
         private void updateHistogram(@NonNull PollResult result) {
-            final var votes = optionList.stream().mapToInt(result::numberOfVotesFor).toArray();
-            controller.setHistogramValues(votes);
+            for (int i = 0; i < optionList.size(); i++) {
+                controller.setHistogramValues(i,result.numberOfVotesFor(optionList.get(i)));
+            }
         }
 
         @Override

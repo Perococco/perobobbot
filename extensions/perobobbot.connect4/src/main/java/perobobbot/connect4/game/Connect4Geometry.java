@@ -3,7 +3,6 @@ package perobobbot.connect4.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
 import perobobbot.physics.Vector2D;
 

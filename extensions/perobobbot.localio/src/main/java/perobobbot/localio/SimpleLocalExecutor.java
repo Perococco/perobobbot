@@ -28,13 +28,13 @@ public class SimpleLocalExecutor implements LocalExecutor {
 
     public void handleMessage(@NonNull String line) {
         final var cleanedLine = parse(line.trim());
-        if (cleanedLine.getA().equals("help")) {
+        if (cleanedLine.getFirst().equals("help")) {
             this.showHelp();
         }
-        final LocalAction localAction = actions.get(cleanedLine.getA());
+        final LocalAction localAction = actions.get(cleanedLine.getFirst());
         if (localAction != null) {
             try {
-                localAction.execute(cleanedLine.getB());
+                localAction.execute(cleanedLine.getSecond());
             } catch (Throwable t) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(t);
                 t.printStackTrace(System.err);

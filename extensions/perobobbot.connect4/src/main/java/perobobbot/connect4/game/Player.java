@@ -12,4 +12,8 @@ public interface Player {
     @NonNull CompletionStage<Integer> getPlayerMove(@NonNull Connect4State currentState);
 
     void dispose();
+
+    interface Factory {
+        @NonNull Player create(@NonNull TokenType team, @NonNull Connect4OverlayController controller);
+    }
 }

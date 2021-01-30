@@ -1,10 +1,10 @@
-package perobobbot.connect4;
+package perobobbot.connect4.game;
 
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.connect4.game.Connected4;
+import perobobbot.connect4.TokenType;
 import perobobbot.rendering.histogram.HistogramStyle;
 import perobobbot.rendering.histogram.Orientation;
 import perobobbot.rendering.histogram.RoundBrighter;

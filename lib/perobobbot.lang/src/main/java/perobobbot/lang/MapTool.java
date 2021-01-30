@@ -41,7 +41,7 @@ public class MapTool {
 
     @NonNull
     public static <K,V> Collector<Value2<K,V>,?,ImmutableMap<K,V>> value2Collector() {
-        return ImmutableMap.toImmutableMap(Value2::getA,Value2::getB);
+        return ImmutableMap.toImmutableMap(Value2::getFirst, Value2::getSecond);
     }
 
     @NonNull

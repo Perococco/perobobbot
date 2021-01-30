@@ -9,7 +9,6 @@ import perobobbot.lang.ListTool;
 import perobobbot.lang.fp.Consumer1;
 
 import java.awt.image.BufferedImage;
-import java.util.Optional;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connect4Grid {

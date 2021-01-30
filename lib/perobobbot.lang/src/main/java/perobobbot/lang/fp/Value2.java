@@ -18,31 +18,31 @@ public class Value2<A,B> {
         return new Value2<>(a,b);
     }
 
-    @NonNull A a;
+    @NonNull A first;
 
-    @NonNull B b;
+    @NonNull B second;
 
     @NonNull
     public <C,D> Value2<C,D> map(
             @NonNull Function1<? super A, ? extends C> aMapper,
             @NonNull Function1<? super B, ? extends D> bMapper) {
-        return of(aMapper.f(a),bMapper.f(b));
+        return of(aMapper.f(first), bMapper.f(second));
     }
 
     @NonNull
     public <C> Value2<C,B> mapA(
             @NonNull Function1<? super A, ? extends C> aMapper) {
-        return of(aMapper.f(a),b);
+        return of(aMapper.f(first), second);
     }
 
     @NonNull
     public <C> Value2<A,C> mapB(
             @NonNull Function1<? super B, ? extends C> bMapper) {
-        return of(a, bMapper.f(b));
+        return of(first, bMapper.f(second));
     }
 
     @NonNull
     public Value2<B,A> swap() {
-        return of(b,a);
+        return of(second, first);
     }
 }
