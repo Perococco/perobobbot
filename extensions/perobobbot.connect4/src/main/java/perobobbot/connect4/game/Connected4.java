@@ -22,7 +22,7 @@ public class Connected4 {
 
     }
 
-    @NonNull TokenType winnerType;
+    @NonNull TokenType winningTeam;
     @NonNull GridPosition start;
     @NonNull GridPosition end;
 }

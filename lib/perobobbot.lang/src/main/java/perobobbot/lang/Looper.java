@@ -106,6 +106,12 @@ public abstract class Looper {
         }
     }
 
+    protected void checkNotInterrupted() {
+        if (Thread.interrupted()) {
+            throw new MyInterruptedException();
+        }
+    }
+
     public void requestStop() {
         lock.runLocked(() -> this.current.cancel(true));
     }
@@ -186,6 +192,10 @@ public abstract class Looper {
     public static class MyInterruptedException extends RuntimeException {
         public MyInterruptedException(Throwable cause) {
             super(cause);
+        }
+
+        public MyInterruptedException() {
+            super(new InterruptedException());
         }
     }
 

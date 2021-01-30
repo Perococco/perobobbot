@@ -18,28 +18,41 @@ public class Connect4State {
     public static @NonNull Connect4State empty(int nbRows, int nbColumns) {
         final var freePositions = new int[nbColumns];
         Arrays.fill(freePositions, 0);
-        return new Connect4State(nbRows, nbColumns, new TokenType[nbRows * nbColumns], freePositions, null);
+        return new Connect4State(nbRows, nbColumns, null, new TokenType[nbRows * nbColumns], freePositions, null);
     }
 
     private final int nbRows;
     private final int nbColumns;
+    private final Move lastMove;
     private final @NonNull TokenType[] data;
     private final int[] freePositions;
     private final Connected4 winningPosition;
     private final int[] freeColumns;
 
-
     public boolean hasWinner() {
         return winningPosition != null;
     }
 
-    public Connect4State(int nbRows, int nbColumns, @NonNull TokenType[] data, int[] freePositions, Connected4 winningPosition) {
+    public Connect4State(int nbRows, int nbColumns, Move lastMove, @NonNull TokenType[] data, int[] freePositions, Connected4 winningPosition) {
         this.nbRows = nbRows;
         this.nbColumns = nbColumns;
+        this.lastMove = lastMove;
         this.data = data;
         this.freePositions = freePositions;
         this.winningPosition = winningPosition;
         this.freeColumns = IntStream.range(0,nbColumns).filter(c -> freePositions[c]<nbRows).toArray();
+    }
+
+    public @NonNull Optional<Move> getLastMove() {
+        return Optional.ofNullable(lastMove);
+    }
+
+    public @NonNull Optional<Integer> getLastMoveColumnIndex() {
+        return Optional.ofNullable(lastMove).map(Move::getColumnIndex);
+    }
+
+    public @NonNull Optional<TokenType> getLastMoveTeam() {
+        return Optional.ofNullable(lastMove).map(Move::getTeam);
     }
 
     public boolean isFull() {
@@ -73,15 +86,19 @@ public class Connect4State {
         return Optional.ofNullable(winningPosition);
     }
     
+    public @NonNull Optional<TokenType> getWinningTeam() {
+        return Optional.ofNullable(winningPosition).map(Connected4::getWinningTeam);
+    }
+
     public @NonNull GridPosition getFinalPosition(int columnIndex) {
-        if (!canPlayAt(columnIndex)) {
+        if (cannotPlayAt(columnIndex)) {
             throw new ColumnFull(columnIndex);
         }
         return new GridPosition(freePositions[columnIndex],columnIndex);
     }
     
     public Connect4State withPlayAt(@NonNull TokenType type, int columnIndex) {
-        if (!canPlayAt(columnIndex)) {
+        if (cannotPlayAt(columnIndex)) {
             throw new ColumnFull(columnIndex);
         }
         final var newData = data.clone();
@@ -100,11 +117,11 @@ public class Connect4State {
             newWinningPosition = Connect4Evaluator.evaluate(newData, nbRows, nbColumns, rowIndex, columnIndex).orElse(null);
         }
 
-        return new Connect4State(nbRows, nbColumns, newData, newFreePositions, newWinningPosition);
+        return new Connect4State(nbRows, nbColumns, new Move(type,columnIndex), newData, newFreePositions, newWinningPosition);
     }
 
-    public boolean canPlayAt(int columnIndex) {
-        return freePositions[columnIndex] < nbRows;
+    public boolean cannotPlayAt(int columnIndex) {
+        return freePositions[columnIndex] >= nbRows;
     }
 
 

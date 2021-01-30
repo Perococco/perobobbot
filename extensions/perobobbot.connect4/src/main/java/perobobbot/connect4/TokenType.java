@@ -14,4 +14,12 @@ public enum TokenType {
 
     @Getter
     private final @NonNull Color color;
+
+    public @NonNull TokenType getOtherType() {
+        return switch (this) {
+            case YELLOW -> RED;
+            case RED -> YELLOW;
+        };
+
+    }
 }

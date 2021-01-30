@@ -116,8 +116,9 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         }
 
         private void updateHistogram(@NonNull PollResult result) {
+            final var columnIndices = state.getIndicesOfFreeColumns();
             for (int i = 0; i < optionList.size(); i++) {
-                controller.setHistogramValues(i,result.numberOfVotesFor(optionList.get(i)));
+                controller.setHistogramValues(columnIndices[i],result.numberOfVotesFor(optionList.get(i)));
             }
         }
 

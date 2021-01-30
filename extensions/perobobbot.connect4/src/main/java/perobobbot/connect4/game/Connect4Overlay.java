@@ -101,6 +101,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
     @Override
     public void setWinner(@NonNull Connected4 w) {
+        System.out.println("Winner is "+w.getWinningTeam());
         winnerProperty.forceSet(0);
         identity.mutate(s -> s.withWinner(w));
     }
