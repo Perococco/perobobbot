@@ -50,8 +50,12 @@ public class Connect4State {
         return freeColumns.length == 1;
     }
 
-    public @NonNull IntStream getIndexOfFreeColumns() {
+    public @NonNull IntStream streamIndicesOfFreeColumns() {
         return Arrays.stream(freeColumns);
+    }
+
+    public @NonNull int[] getIndicesOfFreeColumns() {
+        return freeColumns.clone();
     }
 
     public int pickOneColumn(@NonNull Random random) {

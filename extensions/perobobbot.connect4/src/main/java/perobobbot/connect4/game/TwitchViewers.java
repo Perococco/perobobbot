@@ -79,16 +79,20 @@ public class TwitchViewers extends AbstractPlayer implements Player {
             int valueOfMax = -1;
             for (int i = 0; i < optionList.size(); i++) {
                 var value = pollResult.numberOfVotesFor(optionList.get(i));
-                if (valueOfMax < value) {
+                if (value != 0 && valueOfMax < value) {
                     indexOfMax = i;
                     valueOfMax = value;
                 }
             }
-            return Optional.of(indexOfMax).filter(i -> i>=0);
+            if (indexOfMax>=0) {
+                return Optional.of(state.getIndicesOfFreeColumns()[indexOfMax]);
+            }
+
+            return Optional.empty();
         }
 
         private void createOptionList() {
-            this.optionList = state.getIndexOfFreeColumns()
+            this.optionList = state.streamIndicesOfFreeColumns()
                                    .map(i -> i + 1)
                                    .mapToObj(Integer::toString)
                                    .collect(ImmutableList.toImmutableList());
