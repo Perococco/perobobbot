@@ -2,6 +2,8 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.connect4.Connect4Constants;
+import perobobbot.connect4.GridPosition;
 import perobobbot.connect4.TokenType;
 import perobobbot.lang.Identity;
 import perobobbot.lang.MathTool;
@@ -9,15 +11,24 @@ import perobobbot.lang.Subscription;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
+import perobobbot.rendering.HAlignment;
 import perobobbot.rendering.Region;
 import perobobbot.rendering.Renderer;
+import perobobbot.rendering.VAlignment;
 import perobobbot.rendering.histogram.Histogram;
+import perobobbot.timeline.EasingType;
 import perobobbot.timeline.Property;
 
+import java.awt.*;
 import java.time.Duration;
+
+import static perobobbot.connect4.Connect4Constants.NB_COLUMNS;
+import static perobobbot.connect4.Connect4Constants.NB_ROWS;
 
 @RequiredArgsConstructor
 public class Connect4Overlay implements OverlayClient, Connect4OverlayController {
+
+    public static final float COLUMN_NUMBER_FONT_SIZE = 0.8f;
 
     private final @NonNull Connect4Grid connect4Grid;
     private final @NonNull Region region;
@@ -50,7 +61,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
         this.timerRegion = new Region(0, histogramHeight, imgWidth, lineHeight);
         this.gridRegion = new Region(0, lineHeight, imgWidth, imgHeight);
 
-        this.winnerProperty = overlay.createProperty();
+        this.winnerProperty = overlay.createProperty().setEasing(EasingType.EASE_OUT_EXPO,Duration.ofMillis(250));
         this.histogram = new Histogram(connect4Grid.getNumberOfColumns(), overlay);
         this.identity.mutate(o -> o.withMargin(connect4Grid.getMargin() * scale).withSpacing(4 * scale));
 
@@ -84,7 +95,29 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
             r.translate(gridRegion.getX(), gridRegion.getY());
             r.scale(scale);
+
+            for (int columnIndex = 0; columnIndex < NB_COLUMNS; columnIndex++) {
+                final var pos = connect4Grid.computePositionOnImage(new GridPosition(NB_ROWS-1, columnIndex));
+
+                r.setTextAntialiasing(true);
+                r.setColor(Color.WHITE);
+                r.setFontSize((float)(COLUMN_NUMBER_FONT_SIZE/scale*connect4Grid.getPositionRadius()));
+                r.drawString(String.valueOf(columnIndex+1), pos.getX(), pos.getY(), HAlignment.MIDDLE, VAlignment.MIDDLE);
+
+            }
+
             new Drawing(connect4Grid, r).draw();
+
+            currentState.getWinner().ifPresent(c -> {
+                final var start = connect4Grid.computePositionOnImage(c.getStart());
+                final var delta = connect4Grid.computePositionOnImage(c.getEnd()).subtract(start);
+                final var end = start.duplicate().addScaled(delta,winnerProperty.get());
+
+                r.setStoke(new BasicStroke(MathTool.roundedToInt(5/scale)));
+                r.setColor(Color.BLACK);
+                r.drawLine(start, end);
+            });
+
         });
     }
 
@@ -103,6 +136,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     public void setWinner(@NonNull Connected4 w) {
         System.out.println("Winner is "+w.getWinningTeam());
         winnerProperty.forceSet(0);
+        winnerProperty.set(1);
         identity.mutate(s -> s.withWinner(w));
     }
 
@@ -118,6 +152,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
     @Override
     public void resetForNewGame() {
+        this.winnerProperty.forceSet(0);
         this.identity.mutate(OverlayState::resetForNewGame);
     }
 

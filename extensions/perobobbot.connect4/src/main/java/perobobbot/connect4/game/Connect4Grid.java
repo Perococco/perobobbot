@@ -7,6 +7,7 @@ import perobobbot.connect4.GridPosition;
 import perobobbot.connect4.TokenType;
 import perobobbot.lang.ListTool;
 import perobobbot.lang.fp.Consumer1;
+import perobobbot.physics.Vector2D;
 
 import java.awt.image.BufferedImage;
 
@@ -45,6 +46,14 @@ public class Connect4Grid {
 
     public int getMargin() {
         return margin;
+    }
+
+    public @NonNull Vector2D computePositionOnImage(@NonNull GridPosition position) {
+        return geometry.computePositionOnImage(position);
+    }
+
+    public int getPositionRadius() {
+        return geometry.getPositionRadius();
     }
 
     /**

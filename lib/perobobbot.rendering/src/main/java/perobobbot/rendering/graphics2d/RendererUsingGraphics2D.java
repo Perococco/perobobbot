@@ -45,6 +45,13 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public @NonNull Renderer setTextAntialiasing(boolean enable) {
+        final var value = enable?RenderingHints.VALUE_TEXT_ANTIALIAS_ON:RenderingHints.VALUE_TEXT_ANTIALIAS_OFF;
+        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,value);
+        return this;
+    }
+
+    @Override
     public @NonNull Renderer clearOverlay() {
         final Color backup = graphics2D.getBackground();
         graphics2D.setBackground(Renderer.TRANSPARENT);
@@ -86,6 +93,12 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public @NonNull Renderer setStoke(@NonNull Stroke stoke) {
+        graphics2D.setStroke(stoke);
+        return this;
+    }
+
+    @Override
     public @NonNull Renderer withPrivateTransform(Consumer1<? super Renderer> drawer) {
         final AffineTransform backup = graphics2D.getTransform();
         try {
@@ -93,6 +106,12 @@ public class RendererUsingGraphics2D implements Renderer {
         } finally {
             graphics2D.setTransform(backup);
         }
+        return this;
+    }
+
+    @Override
+    public @NonNull Renderer drawLine(double x0, double y0, double x1, double y1) {
+        graphics2D.drawLine(d2i(x0),d2i(y0),d2i(x1),d2i(y1));
         return this;
     }
 
