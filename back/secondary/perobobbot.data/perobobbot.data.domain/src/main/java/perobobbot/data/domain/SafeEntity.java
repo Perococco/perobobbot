@@ -3,12 +3,13 @@ package perobobbot.data.domain;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import perobobbot.data.com.PointType;
+import perobobbot.lang.PointType;
 import perobobbot.data.domain.base.SafeEntityBase;
 import perobobbot.lang.Platform;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.time.Instant;
 
 @Entity
 @Table(name = "SAFE")
@@ -22,6 +23,12 @@ public class SafeEntity extends SafeEntityBase {
         super(platform, channelName, userChatId, type);
     }
 
+    public @NonNull TransactionEntity startTransaction(long requestedAmount, @NonNull Instant expirationDate) {
+        this.checkEnoughBalance(requestedAmount);
+        final var transaction = new TransactionEntity(this, requestedAmount, expirationDate);
+        this.getTransactions().add(transaction);
+        return transaction;
+    }
 
 
 

@@ -28,7 +28,7 @@ public class BotExtensionEntityBase extends SimplePersistentObject {
 
     @Setter
     @Column(name = "ENABLED",nullable = false)
-    private boolean enabled;
+    private boolean enabled = true;
 
     public BotExtensionEntityBase(@NonNull BotEntity bot, @NonNull ExtensionEntity extension) {
         this.bot = bot;

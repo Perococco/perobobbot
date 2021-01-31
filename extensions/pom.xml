@@ -30,6 +30,7 @@
         <module>perobobbot.play</module>
         <module>perobobbot.connect4</module>
         <module>perobobbot.sandbox</module>
+        <module>perobobbot.store</module>
     </modules>
 
 </project>

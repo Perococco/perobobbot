@@ -1,4 +1,4 @@
-package perobobbot.data.com;
+package perobobbot.lang;
 
 import lombok.Getter;
 import lombok.NonNull;

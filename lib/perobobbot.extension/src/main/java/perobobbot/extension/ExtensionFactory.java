@@ -17,6 +17,7 @@ public interface ExtensionFactory {
         @NonNull IO getIo();
         @NonNull Overlay getOverlay();
         @NonNull SoundResolver getSoundResolver();
+        @NonNull StoreController getStoreController();
     }
 
 }
