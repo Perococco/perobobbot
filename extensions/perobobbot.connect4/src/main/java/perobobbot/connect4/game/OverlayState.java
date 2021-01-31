@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.rendering.histogram.HistogramStyle;
 import perobobbot.rendering.histogram.Orientation;
 import perobobbot.rendering.histogram.RoundBrighter;
@@ -51,7 +51,7 @@ public class OverlayState {
     }
 
 
-    private @NonNull HistogramStyle createStyle(@NonNull TokenType type) {
+    private @NonNull HistogramStyle createStyle(@NonNull Team type) {
         return HistogramStyle.builder()
                              .margin(margin)
                              .spacing(spacing)
@@ -74,7 +74,7 @@ public class OverlayState {
         return toBuilder().winner(null).draw(false).histogramStyle(null).build();
     }
 
-    public OverlayState withPollStarted(@NonNull TokenType team, double startingTime, Duration duration) {
+    public OverlayState withPollStarted(@NonNull Team team, double startingTime, Duration duration) {
         final var durationInSeconds = duration.toMillis()*1e-3;
         return toBuilder().timerInfo(new TimerInfo(team,startingTime+durationInSeconds,1./durationInSeconds))
                           .histogramStyle(createStyle(team))
@@ -91,7 +91,7 @@ public class OverlayState {
 
     @Value
     public static class TimerInfo {
-        @NonNull TokenType team;
+        @NonNull Team team;
         double endingTime;
         double invDuration;
     }

@@ -93,7 +93,7 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public @NonNull Renderer setStoke(@NonNull Stroke stoke) {
+    public @NonNull Renderer setStroke(@NonNull Stroke stoke) {
         graphics2D.setStroke(stoke);
         return this;
     }

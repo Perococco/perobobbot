@@ -6,7 +6,6 @@ import perobobbot.connect4.game.*;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.Looper;
 import perobobbot.lang.MathTool;
-import perobobbot.lang.MessageDispatcher;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.rendering.Region;
 
@@ -23,16 +22,16 @@ public class Connect4Extension extends OverlayExtension {
     }
 
     @Synchronized
-    public void start(@NonNull Player.Factory player1Factory, @NonNull Player.Factory player2Factory) {
+    public void start(@NonNull Player.Factory player1Factory, @NonNull Player.Factory player2Factory, boolean bigMode) {
         if (game != null) {
             return;
         }
 
         final Connect4Grid grid = new Connect4Grid(40);
-        final Connect4Overlay overlay = new Connect4Overlay(grid,computeSmallRegion());
+        final Connect4Overlay overlay = new Connect4Overlay(grid,bigMode?computeBigRegion():computeSmallRegion());
         attachClient(overlay);
 
-        final var tokens = MathTool.shuffle(TokenType.RED,TokenType.YELLOW);
+        final var tokens = MathTool.shuffle(Team.RED, Team.YELLOW);
 
         final var players = MathTool.shuffle(
                 player1Factory.create(tokens.getFirst(), overlay),
@@ -57,5 +56,13 @@ public class Connect4Extension extends OverlayExtension {
         int h = 660*size.getHeight()/900;
 
         return new Region(size.getWidth()-w, size.getHeight()-h, w, h);
+    }
+
+    public Region computeBigRegion() {
+        var size = getOverlaySize();
+        int w = size.getWidth()/3;
+        int h = size.getHeight();
+
+        return new Region((size.getWidth()-w)*0.5, 0, w, h);
     }
 }

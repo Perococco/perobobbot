@@ -2,7 +2,7 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.physics.ROVector2D;
 import perobobbot.physics.Vector2D;
 
@@ -13,7 +13,7 @@ public class Token {
 
     private static final ROVector2D ACCELERATION = Vector2D.create(0,5000);
 
-    @NonNull TokenType type;
+    @NonNull Team type;
 
     @NonNull int radius;
 

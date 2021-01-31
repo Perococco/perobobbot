@@ -47,7 +47,7 @@ public interface Renderer extends AutoCloseable {
 
     @NonNull Renderer withPrivateTransform(@NonNull Consumer1<? super Renderer> drawer);
 
-    @NonNull Renderer setStoke(@NonNull Stroke stoke);
+    @NonNull Renderer setStroke(@NonNull Stroke stoke);
 
     @NonNull Renderer drawLine(double x0, double y0, double x1, double y1);
 
@@ -66,6 +66,10 @@ public interface Renderer extends AutoCloseable {
     }
 
     @NonNull Renderer drawString(@NonNull String string, double x, double y, @NonNull HAlignment hAlignment, @NonNull VAlignment vAlignment);
+
+    default @NonNull Renderer drawString(@NonNull String string, Vector2D position, @NonNull HAlignment hAlignment, @NonNull VAlignment vAlignment) {
+        return drawString(string,position.getX(),position.getY(),hAlignment,vAlignment);
+    }
 
     @NonNull Renderer setFontSize(float fontSize);
 

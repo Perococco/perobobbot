@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.awt.*;
 
 @RequiredArgsConstructor
-public enum TokenType {
+public enum Team {
     YELLOW(new Color(224, 196, 23, 255)),
     RED(new Color(184, 20, 20, 255)),
     ;
@@ -15,7 +15,7 @@ public enum TokenType {
     @Getter
     private final @NonNull Color color;
 
-    public @NonNull TokenType getOtherType() {
+    public @NonNull Team getOtherType() {
         return switch (this) {
             case YELLOW -> RED;
             case RED -> YELLOW;

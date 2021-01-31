@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.MessageContext;
 import perobobbot.lang.MessageDispatcher;
 import perobobbot.lang.MessageHandler;
@@ -32,7 +32,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
     }
 
     @Getter
-    private final @NonNull TokenType team;
+    private final @NonNull Team team;
 
     private final @NonNull Connect4OverlayController controller;
 

@@ -2,28 +2,22 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.Identity;
 import perobobbot.lang.MathTool;
 import perobobbot.lang.Subscription;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
-import perobobbot.rendering.HAlignment;
-import perobobbot.rendering.Region;
-import perobobbot.rendering.Renderer;
-import perobobbot.rendering.VAlignment;
+import perobobbot.rendering.*;
 import perobobbot.rendering.histogram.Histogram;
 import perobobbot.timeline.EasingType;
 import perobobbot.timeline.Property;
 
 import java.awt.*;
 import java.time.Duration;
-
-import static perobobbot.connect4.Connect4Constants.NB_COLUMNS;
-import static perobobbot.connect4.Connect4Constants.NB_ROWS;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class Connect4Overlay implements OverlayClient, Connect4OverlayController {
@@ -32,6 +26,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
     private final @NonNull Connect4Grid connect4Grid;
     private final @NonNull Region region;
+    private final @NonNull String[] columnNumbers;
 
 
     private final Identity<OverlayState> identity = Identity.create(OverlayState.initial());
@@ -43,29 +38,44 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     private Region gridRegion;
 
     private Histogram histogram;
-
     private Property winnerProperty;
 
+    private Stroke lineStroke;
     private double time;
+
+    private float numberFontSize;
+
+    public Connect4Overlay(@NonNull Connect4Grid connect4Grid, @NonNull Region region) {
+        this.connect4Grid = connect4Grid;
+        this.region = region;
+        this.columnNumbers = IntStream.range(0,connect4Grid.getNumberOfColumns())
+                                      .map(i -> i+1)
+                                      .mapToObj(Integer::toString)
+                                      .toArray(String[]::new);
+    }
 
     @Override
     public void initialize(@NonNull Overlay overlay) {
         final var imgWidth = region.getWidth();
-        this.scale = imgWidth / connect4Grid.getGridImage().getWidth();
+        scale = imgWidth / connect4Grid.getGridImage().getWidth();
+
         final var imgHeight = scale * connect4Grid.getGridImage().getHeight();
-        final var lineHeight = 5;
-        final var histogramHeight = Math.min(100, region.getHeight() - imgHeight - lineHeight);
-        final var offset = region.getHeight() - histogramHeight - imgHeight - lineHeight;
+        final var timerHeight = 5;
+        final var histogramHeight = Math.min(100, region.getHeight() - imgHeight - timerHeight);
+        final var offset = region.getHeight() - histogramHeight - imgHeight - timerHeight;
 
-        this.histogramRegion = new Region(0, offset, imgWidth, histogramHeight);
-        this.timerRegion = new Region(0, histogramHeight, imgWidth, lineHeight);
-        this.gridRegion = new Region(0, lineHeight, imgWidth, imgHeight);
+        lineStroke = new BasicStroke(MathTool.roundedToInt(5/scale));
+        histogramRegion = new Region(0, offset, imgWidth, histogramHeight);
+        timerRegion = new Region(0, histogramHeight, imgWidth, timerHeight);
+        gridRegion = new Region(0, timerHeight, imgWidth, imgHeight);
 
-        this.winnerProperty = overlay.createProperty().setEasing(EasingType.EASE_OUT_EXPO,Duration.ofMillis(250));
-        this.histogram = new Histogram(connect4Grid.getNumberOfColumns(), overlay);
-        this.identity.mutate(o -> o.withMargin(connect4Grid.getMargin() * scale).withSpacing(4 * scale));
+        winnerProperty = overlay.createProperty().setEasing(EasingType.EASE_OUT_EXPO,Duration.ofMillis(250));
+        histogram = new Histogram(connect4Grid.getNumberOfColumns(), overlay);
+        identity.mutate(o -> o.withMargin(connect4Grid.getMargin() * scale).withSpacing(4 * scale));
 
-        this.time = 0;
+        numberFontSize = (float)(COLUMN_NUMBER_FONT_SIZE/scale*connect4Grid.getPositionRadius());
+
+        time = 0;
     }
 
     @Override
@@ -77,52 +87,23 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
         iteration.getRenderer().withPrivateContext(r -> {
 
             r.translate(region.getX(), region.getY());
-
             r.translate(histogramRegion.getX(), histogramRegion.getY());
-            currentState.getHistogramStyle().ifPresent(s -> {
-                histogram.setStyle(s);
-                histogram.render(r, histogramRegion.getSize());
-            });
+            new HistogramDrawer(r,currentState,histogramRegion.getSize()).draw();
 
             r.translate(timerRegion.getX(), timerRegion.getY());
-
-            currentState.getTimerInfo().ifPresent(t -> {
-                final var factor = Math.max(0, t.getEndingTime() - time) * t.getInvDuration();
-                r.setColor(t.getTeam().getColor());
-                r.fillRect(currentState.getMargin() / 2, 0, timerRegion.getWidth() * factor, timerRegion.getHeight());
-            });
-
-
+            new TimerDrawer(r,currentState).draw();
+            
             r.translate(gridRegion.getX(), gridRegion.getY());
             r.scale(scale);
-
-            for (int columnIndex = 0; columnIndex < NB_COLUMNS; columnIndex++) {
-                final var pos = connect4Grid.computePositionOnImage(new GridPosition(NB_ROWS-1, columnIndex));
-
-                r.setTextAntialiasing(true);
-                r.setColor(Color.WHITE);
-                r.setFontSize((float)(COLUMN_NUMBER_FONT_SIZE/scale*connect4Grid.getPositionRadius()));
-                r.drawString(String.valueOf(columnIndex+1), pos.getX(), pos.getY(), HAlignment.MIDDLE, VAlignment.MIDDLE);
-
-            }
-
-            new Drawing(connect4Grid, r).draw();
-
-            currentState.getWinner().ifPresent(c -> {
-                final var start = connect4Grid.computePositionOnImage(c.getStart());
-                final var delta = connect4Grid.computePositionOnImage(c.getEnd()).subtract(start);
-                final var end = start.duplicate().addScaled(delta,winnerProperty.get());
-
-                r.setStoke(new BasicStroke(MathTool.roundedToInt(5/scale)));
-                r.setColor(Color.BLACK);
-                r.drawLine(start, end);
-            });
+            new ColumnNumberDrawer(r).draw();
+            new GridDrawer(r).draw();
+            new WinnerDrawer(r,currentState).draw();;
 
         });
     }
 
     @Override
-    public Subscription setPollStarted(@NonNull TokenType team, @NonNull Duration pollDuration) {
+    public Subscription setPollStarted(@NonNull Team team, @NonNull Duration pollDuration) {
         identity.mutate(s -> s.withPollStarted(team, time, pollDuration));
         return this::setPollDone;
     }
@@ -134,8 +115,6 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
     @Override
     public void setWinner(@NonNull Connected4 w) {
-        System.out.println("Winner is "+w.getWinningTeam());
-        winnerProperty.forceSet(0);
         winnerProperty.set(1);
         identity.mutate(s -> s.withWinner(w));
     }
@@ -152,14 +131,87 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
     @Override
     public void resetForNewGame() {
-        this.winnerProperty.forceSet(0);
-        this.identity.mutate(OverlayState::resetForNewGame);
+        winnerProperty.forceSet(0);
+        identity.mutate(OverlayState::resetForNewGame);
+    }
+
+
+    @RequiredArgsConstructor
+    private class HistogramDrawer {
+        private final @NonNull Renderer renderer;
+        private final @NonNull OverlayState state;
+        private final @NonNull Size size;
+
+        public void draw() {
+            final var style = state.getHistogramStyle().orElse(null);
+            if (style == null) {
+                return;
+            }
+            histogram.setStyle(style);
+            histogram.render(renderer, size);
+        }
+    }
+    
+    @RequiredArgsConstructor
+    private class TimerDrawer {
+        private final @NonNull Renderer renderer;
+        private final @NonNull OverlayState state;
+        
+        public void draw() {
+            final var timeInfo = state.getTimerInfo().orElse(null);
+            if (timeInfo == null) {
+                return;
+            }
+            final var factor = Math.max(0, timeInfo.getEndingTime() - time) * timeInfo.getInvDuration();
+            renderer.setColor(timeInfo.getTeam().getColor());
+            renderer.fillRect(state.getMargin() / 2, 0, timerRegion.getWidth() * factor, timerRegion.getHeight());
+        }
+
     }
 
     @RequiredArgsConstructor
-    private static class Drawing {
+    private class ColumnNumberDrawer {
 
-        private final @NonNull Connect4Grid connect4Grid;
+        private final @NonNull Renderer renderer;
+
+        public void draw() {
+            renderer.setTextAntialiasing(true);
+            renderer.setColor(Color.WHITE);
+            renderer.setFontSize(numberFontSize);
+
+            for (int columnIndex = 0; columnIndex < columnNumbers.length; columnIndex++) {
+                final var gridPosition = new GridPosition(connect4Grid.getNumberOfRows()-1,columnIndex);
+                final var imagePosition = connect4Grid.computePositionOnImage(gridPosition);
+
+                renderer.drawString(columnNumbers[columnIndex],imagePosition,HAlignment.MIDDLE, VAlignment.MIDDLE);
+            }
+        }
+    }
+
+    @RequiredArgsConstructor
+    private class WinnerDrawer {
+
+        private final @NonNull Renderer renderer;
+        private final @NonNull OverlayState state;
+
+        public void draw() {
+            final var connected4 = state.getWinner().orElse(null);
+            if (connected4 == null) {
+                return;
+            }
+            final var start = connect4Grid.computePositionOnImage(connected4.getStart());
+            final var delta = connect4Grid.computePositionOnImage(connected4.getEnd()).subtract(start);
+            final var end = start.duplicate().addScaled(delta,winnerProperty.get());
+
+            renderer.setStroke(lineStroke);//new BasicStroke(MathTool.roundedToInt(5/scale)));
+            renderer.setPaint(Color.BLACK);
+            renderer.drawLine(start, end);
+        }
+    }
+
+
+    @RequiredArgsConstructor
+    private class GridDrawer {
 
         private final @NonNull Renderer renderer;
 

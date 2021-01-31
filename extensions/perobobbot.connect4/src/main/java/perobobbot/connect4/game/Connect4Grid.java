@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.ListTool;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.physics.Vector2D;
@@ -62,7 +62,7 @@ public class Connect4Grid {
      * @param type        the type of the token to add
      * @param columnIndex the index of the column to token should be played
      */
-    public void addTokenToGrid(@NonNull TokenType type, int columnIndex, @NonNull GridPosition finalPosition) {
+    public void addTokenToGrid(@NonNull Team type, int columnIndex, @NonNull GridPosition finalPosition) {
         final var token = new Token(type,
                                     geometry.getPositionRadius()+2,
                                     geometry.computePositionAboveColumn(columnIndex),

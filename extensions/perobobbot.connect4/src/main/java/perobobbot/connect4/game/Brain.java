@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.connect4.Connect4Constants;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.Looper;
 import perobobbot.lang.fp.Either;
 
@@ -22,7 +22,7 @@ public class Brain extends Looper {
     public static final int SCORE_FOR_LOSING_STATE = -1000;
 
 
-    private final TokenType myTeam;
+    private final Team myTeam;
 
     private final int depthMax;
 
@@ -108,7 +108,7 @@ public class Brain extends Looper {
         return node;
     }
 
-    private @NonNull TokenType getTeamForState(@NonNull Connect4State state) {
+    private @NonNull Team getTeamForState(@NonNull Connect4State state) {
         return state.getLastMoveTeam().orElseThrow(() -> new RuntimeException("Bug: a team is epected"));
     }
 

@@ -1,7 +1,7 @@
 package perobobbot.connect4.game;
 
 import lombok.NonNull;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.Subscription;
 
 import java.time.Duration;
@@ -15,6 +15,6 @@ public interface Connect4OverlayController {
 
     void resetForNewGame();
 
-    @NonNull Subscription setPollStarted(@NonNull TokenType team, @NonNull Duration pollDuration);
+    @NonNull Subscription setPollStarted(@NonNull Team team, @NonNull Duration pollDuration);
 
 }

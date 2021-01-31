@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.connect4.ColumnFull;
 import perobobbot.connect4.GridPosition;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -18,13 +18,13 @@ public class Connect4State {
     public static @NonNull Connect4State empty(int nbRows, int nbColumns) {
         final var freePositions = new int[nbColumns];
         Arrays.fill(freePositions, 0);
-        return new Connect4State(nbRows, nbColumns, null, new TokenType[nbRows * nbColumns], freePositions, null);
+        return new Connect4State(nbRows, nbColumns, null, new Team[nbRows * nbColumns], freePositions, null);
     }
 
     private final int nbRows;
     private final int nbColumns;
     private final Move lastMove;
-    private final @NonNull TokenType[] data;
+    private final @NonNull Team[] data;
     private final int[] freePositions;
     private final Connected4 winningPosition;
     private final int[] freeColumns;
@@ -33,7 +33,7 @@ public class Connect4State {
         return winningPosition != null;
     }
 
-    public Connect4State(int nbRows, int nbColumns, Move lastMove, @NonNull TokenType[] data, int[] freePositions, Connected4 winningPosition) {
+    public Connect4State(int nbRows, int nbColumns, Move lastMove, @NonNull Team[] data, int[] freePositions, Connected4 winningPosition) {
         this.nbRows = nbRows;
         this.nbColumns = nbColumns;
         this.lastMove = lastMove;
@@ -51,7 +51,7 @@ public class Connect4State {
         return Optional.ofNullable(lastMove).map(Move::getColumnIndex);
     }
 
-    public @NonNull Optional<TokenType> getLastMoveTeam() {
+    public @NonNull Optional<Team> getLastMoveTeam() {
         return Optional.ofNullable(lastMove).map(Move::getTeam);
     }
 
@@ -86,7 +86,7 @@ public class Connect4State {
         return Optional.ofNullable(winningPosition);
     }
     
-    public @NonNull Optional<TokenType> getWinningTeam() {
+    public @NonNull Optional<Team> getWinningTeam() {
         return Optional.ofNullable(winningPosition).map(Connected4::getWinningTeam);
     }
 
@@ -97,7 +97,7 @@ public class Connect4State {
         return new GridPosition(freePositions[columnIndex],columnIndex);
     }
     
-    public Connect4State withPlayAt(@NonNull TokenType type, int columnIndex) {
+    public Connect4State withPlayAt(@NonNull Team type, int columnIndex) {
         if (cannotPlayAt(columnIndex)) {
             throw new ColumnFull(columnIndex);
         }

@@ -2,12 +2,12 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 
 @Value
 public class Move {
 
-    @NonNull TokenType team;
+    @NonNull Team team;
 
     int columnIndex;
 

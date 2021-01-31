@@ -3,7 +3,7 @@ package perobobbot.connect4.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 
 @RequiredArgsConstructor
 public class AI extends AbstractPlayer {
@@ -14,11 +14,11 @@ public class AI extends AbstractPlayer {
 
 
     @Getter
-    private final @NonNull TokenType team;
+    private final @NonNull Team team;
 
     private final Brain brain;
 
-    public AI(@NonNull TokenType team, int strength) {
+    public AI(@NonNull Team team, int strength) {
         System.out.println("Team:"+team+"  strength:"+strength);
         this.team = team;
         this.brain = new Brain(team,strength);

@@ -4,13 +4,13 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.connect4.GridPosition;
 import perobobbot.connect4.NotAConnect4;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 import perobobbot.lang.fp.Function1;
 
 @Value
 public class Connected4 {
 
-    public static @NonNull Connected4 create(@NonNull TokenType type,
+    public static @NonNull Connected4 create(@NonNull Team type,
                                              @NonNull GridPosition start,
                                              @NonNull GridPosition end) {
         final Function1<Function1<GridPosition,Integer>,Integer> distance = f -> Math.abs(f.f(start)-f.f(end));
@@ -22,7 +22,7 @@ public class Connected4 {
 
     }
 
-    @NonNull TokenType winningTeam;
+    @NonNull Team winningTeam;
     @NonNull GridPosition start;
     @NonNull GridPosition end;
 }

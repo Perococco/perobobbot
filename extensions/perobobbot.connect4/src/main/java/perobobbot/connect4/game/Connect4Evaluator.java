@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.GridPosition;
-import perobobbot.connect4.TokenType;
+import perobobbot.connect4.Team;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -17,17 +17,17 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connect4Evaluator {
 
-    public static Optional<Connected4> evaluate(@NonNull TokenType[] data, int nbRows, int nbColumns, int referenceRowIdx, int referenceColumnIdx) {
+    public static Optional<Connected4> evaluate(@NonNull Team[] data, int nbRows, int nbColumns, int referenceRowIdx, int referenceColumnIdx) {
         return new Connect4Evaluator(data, nbRows, nbColumns, referenceRowIdx, referenceColumnIdx).testDirection();
     }
 
-    private final @NonNull TokenType[] data;
+    private final @NonNull Team[] data;
     private final int nbRows;
     private final int nbColumns;
     private final int rowIdx;
     private final int columnIdx;
 
-    private TokenType reference;
+    private Team reference;
 
 
     private @NonNull Optional<Connected4> testDirection() {
@@ -81,7 +81,7 @@ public class Connect4Evaluator {
         return (int) (IntStream.iterate(1, isSameAsReference::test, i -> i + 1).count());
     }
 
-    private TokenType getTokenType(int rowIdx, int columnIdx) {
+    private Team getTokenType(int rowIdx, int columnIdx) {
         if (rowIdx < 0 || rowIdx >= nbRows) {
             return null;
         } else if (columnIdx < 0 || columnIdx >= nbColumns) {
