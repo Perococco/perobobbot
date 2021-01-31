@@ -24,7 +24,7 @@ public class OverlayState {
     private final double margin;
     private final double spacing;
     private final boolean draw;
-    private final Connected4 winner;
+    private final WinningPosition winner;
     private final HistogramStyle histogramStyle;
     private final TimerInfo timerInfo;
 
@@ -33,7 +33,7 @@ public class OverlayState {
         return Optional.ofNullable(timerInfo);
     }
 
-    public @NonNull Optional<Connected4> getWinner() {
+    public @NonNull Optional<WinningPosition> getWinner() {
         return Optional.ofNullable(winner);
     }
 
@@ -62,7 +62,7 @@ public class OverlayState {
                              .build();
     }
 
-    public OverlayState withWinner(@NonNull Connected4 winner) {
+    public OverlayState withWinner(@NonNull WinningPosition winner) {
         return toBuilder().winner(winner).draw(false).build();
     }
 

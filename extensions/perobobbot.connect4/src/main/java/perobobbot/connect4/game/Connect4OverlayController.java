@@ -10,7 +10,7 @@ public interface Connect4OverlayController {
 
     void setHistogramValues(int index, int value);
 
-    void setWinner(@NonNull Connected4 w);
+    void setWinner(@NonNull WinningPosition w);
     void setDraw();
 
     void resetForNewGame();

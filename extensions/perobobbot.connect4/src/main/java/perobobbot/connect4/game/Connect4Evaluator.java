@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Connect4Evaluator {
 
-    public static Optional<Connected4> evaluate(@NonNull Team[] data, int nbRows, int nbColumns, int referenceRowIdx, int referenceColumnIdx) {
+    public static Optional<WinningPosition> evaluate(@NonNull Team[] data, int nbRows, int nbColumns, int referenceRowIdx, int referenceColumnIdx) {
         return new Connect4Evaluator(data, nbRows, nbColumns, referenceRowIdx, referenceColumnIdx).testDirection();
     }
 
@@ -30,13 +30,13 @@ public class Connect4Evaluator {
     private Team reference;
 
 
-    private @NonNull Optional<Connected4> testDirection() {
+    private @NonNull Optional<WinningPosition> testDirection() {
         this.reference = getTokenType(rowIdx, columnIdx);
         if (this.reference == null) {
             return Optional.empty();
         }
 
-        return Stream.<Supplier<Connected4>>of(
+        return Stream.<Supplier<WinningPosition>>of(
                 this::testVertical,
                 this::testHorizontal,
                 this::testDiagonal1,
@@ -46,30 +46,30 @@ public class Connect4Evaluator {
                 .findAny();
     }
 
-    private Connected4 testVertical() {
+    private WinningPosition testVertical() {
         return testDirection(0, 1);
     }
 
-    private Connected4 testHorizontal() {
+    private WinningPosition testHorizontal() {
         return testDirection(1, 0);
     }
 
-    private Connected4 testDiagonal1() {
+    private WinningPosition testDiagonal1() {
         return testDirection(-1, 1);
     }
 
-    private Connected4 testDiagonal2() {
+    private WinningPosition testDiagonal2() {
         return testDirection(1, 1);
     }
 
 
-    private Connected4 testDirection(int dx, int dy) {
+    private WinningPosition testDirection(int dx, int dy) {
         final var n1 = nbSameInDirection(dx, dy);
         final var n2 = nbSameInDirection(-dx, -dy);
         if (n1 + n2 + 1 >= Connect4Constants.NB_IN_A_ROW_TO_WIN) {
-            return new Connected4(reference,
-                                  new GridPosition(rowIdx + n1 * dx, columnIdx + n1 * dy),
-                                  new GridPosition(rowIdx - n2 * dx, columnIdx - n2 * dy)
+            return new WinningPosition(reference,
+                                       new GridPosition(rowIdx + n1 * dx, columnIdx + n1 * dy),
+                                       new GridPosition(rowIdx - n2 * dx, columnIdx - n2 * dy)
             );
         }
         return null;

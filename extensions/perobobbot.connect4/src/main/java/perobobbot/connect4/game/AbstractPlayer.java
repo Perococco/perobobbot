@@ -56,7 +56,7 @@ public abstract class AbstractPlayer implements Player {
             try {
                 if (state.isFull()) {
                     throw new GridIsFull(getTeam());
-                } else if (state.onlyOneColumnLeft()) {
+                } else if (state.onlyOneFreeColumnLeft()) {
                     data.complete(state.pickOneColumn());
                 } else {
                     data.complete(getNextMove(state));

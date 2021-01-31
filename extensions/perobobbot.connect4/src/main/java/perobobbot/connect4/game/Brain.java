@@ -8,10 +8,7 @@ import perobobbot.connect4.Team;
 import perobobbot.lang.Looper;
 import perobobbot.lang.fp.Either;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.SynchronousQueue;
 import java.util.stream.Stream;
 
@@ -39,7 +36,7 @@ public class Brain extends Looper {
     protected @NonNull IterationCommand performOneIteration() throws Exception {
         final var state = takeConnectedState();
 
-        if (state.getLastMoveTeam().isEmpty()) {
+        if (state.isEmpty()) {
             exchangeQueue.put(Either.right(Connect4Constants.INDEX_OF_MIDDLE_COLUMN));
             return IterationCommand.CONTINUE;
         }
@@ -52,8 +49,7 @@ public class Brain extends Looper {
         this.evaluateScores();
         final var bestMove = this.evaluateBestMove();
 
-        final var columnIndex = bestMove.getLastMoveColumnIndex()
-                                        .orElseGet(state::pickOneColumn);
+        final var columnIndex = bestMove.getColumnIndexOfLastMove();
 
         this.exchangeQueue.put(Either.right(columnIndex));
 
@@ -109,7 +105,7 @@ public class Brain extends Looper {
     }
 
     private @NonNull Team getTeamForState(@NonNull Connect4State state) {
-        return state.getLastMoveTeam().orElseThrow(() -> new RuntimeException("Bug: a team is epected"));
+        return state.getTeamOfLastMove();
     }
 
 
@@ -151,7 +147,7 @@ public class Brain extends Looper {
         }
 
         public boolean isForState(@NonNull Connect4State state) {
-            return this.state.getLastMove().equals(state.getLastMove());
+            return Objects.equals(this.state.findLastMove(),state.findLastMove());
         }
 
         public boolean hasNoChildren() {
