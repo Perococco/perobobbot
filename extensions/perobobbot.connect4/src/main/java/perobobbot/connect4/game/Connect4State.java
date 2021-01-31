@@ -5,6 +5,7 @@ import perobobbot.connect4.GridPosition;
 import perobobbot.connect4.Team;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 public interface Connect4State {
@@ -21,7 +22,7 @@ public interface Connect4State {
     /**
      * @return true if the grid is full
      */
-    boolean isFull();
+    boolean isGridFull();
 
     /**
      * @return an optional containing the last move
@@ -83,6 +84,8 @@ public interface Connect4State {
      * @return a random index among the free colun indices
      */
     int pickOneColumn();
+
+    int pickOneColumn(@NonNull Random random);
 
     /**
      * @return a copy of the indices of the free columns

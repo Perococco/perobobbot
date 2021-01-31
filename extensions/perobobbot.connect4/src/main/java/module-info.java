@@ -15,6 +15,8 @@ module perobobbot.ext.connect4 {
     requires perobobbot.physics;
     requires perobobbot.poll;
 
+    requires org.apache.logging.log4j;
+
 
     provides Plugin with Connect4ExtensionFactory;
 

@@ -3,126 +3,133 @@ package perobobbot.connect4.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.connect4.Connect4Constants;
 import perobobbot.connect4.Team;
+import perobobbot.lang.ExchangePoint;
 import perobobbot.lang.Looper;
-import perobobbot.lang.fp.Either;
+import perobobbot.lang.ThrowableTool;
+import perobobbot.lang.fp.Function1;
 
 import java.util.*;
-import java.util.concurrent.SynchronousQueue;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Log4j2
 @RequiredArgsConstructor
 public class Brain extends Looper {
 
     public static final int SCORE_FOR_WINNING_STATE = 1000;
     public static final int SCORE_FOR_LOSING_STATE = -1000;
 
+    private static final Random RANDOM = new Random();
+
+    private static final Function1<IntStream, OptionalInt> MIN_FROM_STREAM = IntStream::min;
+    private static final Function1<IntStream, OptionalInt> MAX_FROM_STREAM = IntStream::max;
+
+
+    private static final Comparator<Node> HIGHEST_SCORE_COMPARATOR = (o1, o2) -> {
+        int result = o1.score - o2.score;
+        if (result == 0) {
+            result = Double.compare(o1.avgScore, o2.avgScore);
+        }
+        if (result == 0) {
+            result = Double.compare(o1.salt, o2.salt);
+        }
+        return result;
+    };
+
 
     private final Team myTeam;
 
     private final int depthMax;
 
-    private Node root;
+    private Node backup;
 
-    private SynchronousQueue<Either<Connect4State, Integer>> exchangeQueue = new SynchronousQueue<>();
+    private ExchangePoint<Connect4State, Integer> exchangePoint = new ExchangePoint<>();
 
     public int computeNextMove(@NonNull Connect4State state) throws InterruptedException {
-        this.exchangeQueue.put(Either.left(state));
-        return takeMoveIndex();
+        return exchangePoint.pushInputAndWaitOutput(state);
     }
 
     @Override
     protected @NonNull IterationCommand performOneIteration() throws Exception {
-        final var state = takeConnectedState();
+        final var state = exchangePoint.takeInput();
 
-        if (state.isEmpty()) {
-            exchangeQueue.put(Either.right(Connect4Constants.INDEX_OF_MIDDLE_COLUMN));
-            return IterationCommand.CONTINUE;
+        int nextMove = -1;
+        try {
+            nextMove = evaluateNextMove(state);
+        } catch (Throwable t) {
+            if (ThrowableTool.isCausedByAnInterruption(t)) {
+                throw t;
+            } else {
+                LOG.warn("Brain fart: pick a random move",t);
+                nextMove = state.pickOneColumn(RANDOM);
+            }
         }
-
-        this.root = Optional.ofNullable(this.root)
-                            .map(r -> this.trimTree(r, state))
-                            .map(this::completeTree)
-                            .orElseGet(() -> buildTree(state));
-
-        this.evaluateScores();
-        final var bestMove = this.evaluateBestMove();
-
-        final var columnIndex = bestMove.getColumnIndexOfLastMove();
-
-        this.exchangeQueue.put(Either.right(columnIndex));
-
-        trimTree(root, bestMove);
+        exchangePoint.putOutput(nextMove);
 
         return IterationCommand.CONTINUE;
     }
 
-    private @NonNull Node buildTree(Connect4State currentState) {
-        return buildNode(currentState, 0);
+    private int evaluateNextMove(@NonNull Connect4State state) {
+        if (state.isEmpty()) {
+            this.backup = null;
+            return Connect4Constants.INDEX_OF_MIDDLE_COLUMN;
+        }
+
+        final var root = Optional.ofNullable(this.backup)
+                                 .map(n -> this.trimTree(n, state))
+                                 .orElseGet(() -> new Node(state, myTeam,depthMax));
+        final var bestMove = findBestMove(root);
+
+        final int columnIndex = bestMove.map(Node::getState)
+                                        .map(Connect4State::getColumnIndexOfLastMove)
+                                        .orElseGet(() -> state.pickOneColumn(RANDOM));
+
+        this.backup = bestMove.filter(Node::isMovePossible).orElse(null);
+
+        return columnIndex;
     }
+
+
+    private @NonNull Optional<Node> findBestMove(Node root) {
+        if (root.isAWinningPosition() || root.isGridFull()) {
+            throw new IllegalStateException("The game is already over");
+        }
+        root.depth = -1;
+        final Stream<Node> streamOfChildren;
+        if (root.children == null) {
+            streamOfChildren = root.streamOfNewChildren();
+        } else {
+            streamOfChildren = root.streamChildren();
+        }
+
+        return streamOfChildren.parallel()
+                               .map(n -> n.complete(0, depthMax))
+                               .max(HIGHEST_SCORE_COMPARATOR);
+    }
+
 
     private @NonNull Node trimTree(@NonNull Node root, @NonNull Connect4State state) {
         if (root.isAWinningPosition() || root.hasNoChildren()) {
             return root;
         }
-        final var node = root.streamChildren()
-                             .filter(n -> n.isForState(state))
-                             .findAny()
-                             .orElse(null);
-        if (node != null) {
-            node.updateDepth(0);
-        }
-        return node;
-    }
-
-    private Node completeTree(@NonNull Node node) {
-        return node.complete(depthMax);
-    }
-
-    private void evaluateScores() {
-        this.root.evaluateScores();
-    }
-
-    private @NonNull Connect4State evaluateBestMove() {
         return root.streamChildren()
-                   .max(Comparator.comparingDouble(Node::getScore)
-                                  .thenComparingDouble(Node::getAvgScore)
-                                    .thenComparingDouble(Node::getSalt)
-                   )
-                   .map(Node::getState)
-                   .orElseThrow(() -> new RuntimeException("BUG in children building. Some were expected"));
+                   .filter(n -> n.isForState(state))
+                   .findAny()
+                   .orElse(null);
     }
 
 
-    private Node buildNode(Connect4State state, int currentDepth) {
-        final var node = new Node(state, currentDepth);
-        if (state.hasWinner() || currentDepth >= depthMax) {
-            return node;
-        }
-        node.buildChildren();
-        return node;
-    }
-
-    private @NonNull Team getTeamForState(@NonNull Connect4State state) {
-        return state.getTeamOfLastMove();
-    }
-
-
-    private @NonNull Connect4State takeConnectedState() throws InterruptedException {
-        return exchangeQueue.take().left().orElseThrow(() -> new RuntimeException("BUG: a connect4state was expected"));
-    }
-
-    private @NonNull int takeMoveIndex() throws InterruptedException {
-        return exchangeQueue.take().right().orElseThrow(() -> new RuntimeException("BUG: a connect4state was expected"));
-    }
-
-    private final Random random = new Random();
-
-    private class Node {
+    private static class Node {
 
         @Getter
         private final @NonNull Connect4State state;
+
+        private final @NonNull Team myTeam;
+
+        private final int depthMax;
 
         private int depth;
 
@@ -137,9 +144,14 @@ public class Brain extends Looper {
         @Getter
         private double salt;
 
-        public Node(@NonNull Connect4State state, int depth) {
+        public Node(@NonNull Connect4State state, @NonNull Team myTeam, int depthMax) {
             this.state = state;
-            this.depth = depth;
+            this.myTeam = myTeam;
+            this.depthMax = depthMax;
+        }
+
+        private @NonNull Node createForState(@NonNull Connect4State state) {
+            return new Node(state,myTeam,depthMax);
         }
 
         public boolean isAWinningPosition() {
@@ -147,7 +159,7 @@ public class Brain extends Looper {
         }
 
         public boolean isForState(@NonNull Connect4State state) {
-            return Objects.equals(this.state.findLastMove(),state.findLastMove());
+            return Objects.equals(this.state.findLastMove(), state.findLastMove());
         }
 
         public boolean hasNoChildren() {
@@ -163,59 +175,62 @@ public class Brain extends Looper {
             streamChildren().forEach(n -> n.updateDepth(current + 1));
         }
 
-        public Node complete(int depthMax) {
-            if (depth >= depthMax) {
-                return this;
+        public Node complete(int depth, int depthMax) {
+            checkNotInterrupted();
+
+            this.depth = depth;
+            if (depth < depthMax && isMovePossible()) {
+                if (children == null) {
+                    buildChildren();
+                } else {
+                    streamChildren().forEach(n -> n.complete(depth + 1, depthMax));
+                }
             }
-            if (children == null) {
-                this.buildChildren();
+            this.salt = RANDOM.nextDouble();
+            if (children == null || children.length == 0) {
+                avgScore = score = scoreWithoutChildren();
             } else {
-                streamChildren().forEach(n -> n.complete(depthMax));
+                avgScore = streamChildren().mapToDouble(n -> n.avgScore).average().orElse(0);
+                final var evaluator = (state.getTeamOfLastMove() != myTeam) ? MAX_FROM_STREAM : MIN_FROM_STREAM;
+                score = evaluator.f(streamChildren().mapToInt(Node::getScore).filter(s -> s!=0)).orElse(0);
             }
             return this;
         }
 
-        public void buildChildren() {
-            checkNotInterrupted();
-            final var nextTeam = getTeamForState(state).getOtherType();
-            this.children = state.streamIndicesOfFreeColumns()
-                                 .mapToObj(i -> state.withPlayAt(nextTeam, i))
-                                 .map(s -> buildNode(s, depth + 1))
-                                 .toArray(Node[]::new);
+        private boolean isMovePossible() {
+            return !state.isGridFull() && !state.hasWinner();
         }
 
-        public void evaluateScores() {
+        private void buildChildren() {
             checkNotInterrupted();
-            this.salt = random.nextDouble();
+            this.children = streamOfNewChildren().map(n -> n.complete(depth + 1, depthMax))
+                                                 .toArray(Node[]::new);
+        }
+
+        public @NonNull Stream<Node> streamOfNewChildren() {
+            final var nextTeam = state.getTeamOfLastMove().getOtherType();
+            return state.streamIndicesOfFreeColumns()
+                        .mapToObj(i -> state.withPlayAt(nextTeam, i))
+                        .map(this::createForState);
+        }
+
+        private int scoreWithoutChildren() {
             final var winningTeam = state.getWinningTeam().orElse(null);
             if (winningTeam == myTeam) {
-                avgScore = score = SCORE_FOR_WINNING_STATE;
+                return SCORE_FOR_WINNING_STATE;
             } else if (winningTeam != null) {
-                avgScore = score = SCORE_FOR_LOSING_STATE;
-            } else if (children == null) {
-                avgScore = score = evaluateStateScore(state);
+                return SCORE_FOR_LOSING_STATE;
             } else {
-                streamChildren().forEach(Node::evaluateScores);
-
-                avgScore = streamChildren().mapToDouble(n -> n.avgScore).average().orElse(0);
-
-                final var amIPlaying = getTeamForState(state) == myTeam;
-                if (amIPlaying) {
-                    score = streamChildren().mapToInt(Node::getScore)
-                                            .filter(v->v!=0)
-                                            .min()
-                                            .orElse(0);
-                } else {
-                    score = streamChildren().mapToInt(Node::getScore)
-                                            .filter(v->v!=0)
-                                            .max()
-                                            .orElse(0);
-                }
+                return evaluateStateScore(state);
             }
         }
 
         private int evaluateStateScore(Connect4State state) {
             return 0;
+        }
+
+        public boolean isGridFull() {
+            return state.isGridFull();
         }
     }
 

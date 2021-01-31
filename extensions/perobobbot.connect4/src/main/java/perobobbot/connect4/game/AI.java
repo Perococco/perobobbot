@@ -9,7 +9,7 @@ import perobobbot.connect4.Team;
 public class AI extends AbstractPlayer {
 
     public static Player.Factory factory(int strength) {
-        return (team, controller) -> strength<=0?new RandomMove(team):new AI(team, strength);
+        return SimplePlayerFactor.forAI((team, controller) -> strength<=0?new RandomMove(team):new AI(team, strength));
     }
 
 

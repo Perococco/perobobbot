@@ -1,9 +1,13 @@
 package perobobbot.connect4.game;
 
 import lombok.NonNull;
+import perobobbot.connect4.Team;
 import perobobbot.lang.Looper;
 
 import java.time.Duration;
+import java.time.temporal.Temporal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Connect4Game extends Looper {
 
@@ -14,6 +18,8 @@ public class Connect4Game extends Looper {
     private final @NonNull Player player1;
     private final @NonNull Player player2;
     private Player currentPlayer;
+
+    private final Map<Team,Integer> scores = new HashMap<>();
 
     public Connect4Game(@NonNull Connect4OverlayController controller,
                         @NonNull Player player1,
@@ -40,12 +46,17 @@ public class Connect4Game extends Looper {
         grid.addTokenToGrid(this.currentPlayer.getTeam(), move, finalPosition);
         state = state.withPlayAt(this.currentPlayer.getTeam(), move);
 
-        if (!state.hasWinner() && !state.isFull()) {
+        if (!state.hasWinner() && !state.isGridFull()) {
             return IterationCommand.CONTINUE;
         }
 
 
+        state.getWinningPosition().ifPresent(p -> scores.merge(p.getWinningTeam(), 1, Integer::sum));
         state.getWinningPosition().ifPresentOrElse(controller::setWinner, controller::setDraw);
+
+        System.out.format("%s : %3d   %s : %3d%n",Team.RED, scores.getOrDefault(Team.RED,0),
+                           Team.YELLOW, scores.getOrDefault(Team.YELLOW,0));
+
         sleep(Duration.ofSeconds(5));
 
 

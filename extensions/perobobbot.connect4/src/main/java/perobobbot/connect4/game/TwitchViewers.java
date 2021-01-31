@@ -28,7 +28,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
             pollDuration = Duration.ofSeconds(duration);
         }
 
-        return (team, controller) -> new TwitchViewers(team, controller, messageDispatcher, pollDuration);
+        return SimplePlayerFactor.forViewer((team, controller) -> new TwitchViewers(team, controller, messageDispatcher, pollDuration));
     }
 
     @Getter

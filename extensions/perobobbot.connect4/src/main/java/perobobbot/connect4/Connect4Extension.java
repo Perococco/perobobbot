@@ -31,11 +31,12 @@ public class Connect4Extension extends OverlayExtension {
         final Connect4Overlay overlay = new Connect4Overlay(grid,bigMode?computeBigRegion():computeSmallRegion());
         attachClient(overlay);
 
-        final var tokens = MathTool.shuffle(Team.RED, Team.YELLOW);
+        final var teamPlayer1 = (player1Factory.isAI()?Team.RED:Team.YELLOW);
+        final var teamPlayer2 = teamPlayer1.getOtherType();
 
         final var players = MathTool.shuffle(
-                player1Factory.create(tokens.getFirst(), overlay),
-                player2Factory.create(tokens.getSecond(), overlay)
+                player1Factory.create(teamPlayer1, overlay),
+                player2Factory.create(teamPlayer2, overlay)
         );
 
         this.game = new Connect4Game(overlay, players.getFirst(), players.getSecond(), grid);

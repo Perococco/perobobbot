@@ -106,7 +106,7 @@ public abstract class Looper {
         }
     }
 
-    protected void checkNotInterrupted() {
+    protected static void checkNotInterrupted() {
         if (Thread.interrupted()) {
             throw new MyInterruptedException();
         }

@@ -2,6 +2,7 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import perobobbot.connect4.Team;
+import perobobbot.lang.fp.Function2;
 
 import java.util.concurrent.CompletionStage;
 
@@ -15,5 +16,7 @@ public interface Player {
 
     interface Factory {
         @NonNull Player create(@NonNull Team team, @NonNull Connect4OverlayController controller);
+
+        boolean isAI();
     }
 }

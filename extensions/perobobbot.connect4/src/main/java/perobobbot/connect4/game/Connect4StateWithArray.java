@@ -72,7 +72,7 @@ public class Connect4StateWithArray implements Connect4State {
         return getLastMove().getTeam();
     }
 
-    public boolean isFull() {
+    public boolean isGridFull() {
         return freeColumns.length == 0;
     }
 
