@@ -4,23 +4,24 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.com.PointType;
-import perobobbot.data.domain.base.PointEntityBase;
+import perobobbot.data.domain.base.SafeEntityBase;
 import perobobbot.lang.Platform;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "POINT")
+@Table(name = "SAFE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PointEntity extends PointEntityBase {
+public class SafeEntity extends SafeEntityBase {
 
-    public PointEntity(@NonNull Platform platform,
-                       @NonNull String channelName,
-                       @NonNull String userChatId,
-                       @NonNull PointType type) {
+    public SafeEntity(@NonNull Platform platform,
+                      @NonNull String channelName,
+                      @NonNull String userChatId,
+                      @NonNull PointType type) {
         super(platform, channelName, userChatId, type);
     }
+
 
 
 

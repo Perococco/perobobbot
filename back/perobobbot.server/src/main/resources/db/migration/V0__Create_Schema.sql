@@ -55,7 +55,7 @@ create table PEROBOT.EXTENSION
     primary key (ID)
 );
 
-create table PEROBOT.POINT
+create table PEROBOT.SAFE
 (
     ID           bigint       not null,
     VERSION      integer      not null,
@@ -178,4 +178,4 @@ alter table PEROBOT.USER_ROLE
 alter table PEROBOT.WITHDRAW
     add constraint FKoorvbnw5q6wrloptb8ov3yf90
         foreign key (TARGET_ID)
-            references PEROBOT.POINT;
+            references PEROBOT.SAFE;

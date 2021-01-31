@@ -16,7 +16,7 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor
 @Getter @Setter
-public class PointEntityBase extends PersistentObjectWithUUID {
+public class SafeEntityBase extends PersistentObjectWithUUID {
 
 
     @Column(name = "PLATFORM", nullable = false)
@@ -36,7 +36,7 @@ public class PointEntityBase extends PersistentObjectWithUUID {
     @Column(name = "AMOUNT")
     private @NonNull long amount;
 
-    public PointEntityBase(@NonNull Platform platform, @NonNull String channelName, @NonNull String userChatId, @NonNull PointType type) {
+    public SafeEntityBase(@NonNull Platform platform, @NonNull String channelName, @NonNull String userChatId, @NonNull PointType type) {
         super(UUID.randomUUID());
         this.platform = platform;
         this.channelName = channelName;

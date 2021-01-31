@@ -14,7 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WithdrawEntity extends WithdrawEntityBase {
 
-    public WithdrawEntity(@NonNull PointEntity target, long amount, @NonNull Instant expirationTime) {
+    public WithdrawEntity(@NonNull SafeEntity target, long amount, @NonNull Instant expirationTime) {
         super(target, amount, expirationTime);
     }
 
