@@ -34,9 +34,9 @@ public class AddGreeter implements Mutation<HelloState> {
 
         newAlreadyGreeted = SetTool.add(current.getAlreadyGreeted(), greetingInfo);
 
-        newGreeters = MapTool.add(current.getGreetersPerChannel(),
-                                  greetingInfo.getC(),
-                                  () -> ImmutableSet.of(greetingInfo.dropC()),
+        newGreeters = MapTool.update(current.getGreetersPerChannel(),
+                                     greetingInfo.getC(),
+                                     () -> ImmutableSet.of(greetingInfo.dropC()),
                                    set -> SetTool.add(set, greetingInfo.dropC()));
 
         return new HelloState(newAlreadyGreeted, newGreeters);

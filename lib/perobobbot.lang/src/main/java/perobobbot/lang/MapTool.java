@@ -3,10 +3,7 @@ package perobobbot.lang;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.lang.fp.Function0;
-import perobobbot.lang.fp.Function1;
-import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.lang.fp.Value2;
+import perobobbot.lang.fp.*;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -46,7 +43,7 @@ public class MapTool {
 
     @NonNull
     public static <K,V> UnaryOperator<ImmutableMap<K,V>> adder(@NonNull K keyToAdd, @NonNull V valueToAdd) {
-        return s -> add(s,keyToAdd,valueToAdd);
+        return s -> add(s, keyToAdd, valueToAdd);
     }
 
     @NonNull
@@ -66,10 +63,19 @@ public class MapTool {
     }
 
     @NonNull
-    public static <K,V> ImmutableMap<K,V> add(@NonNull ImmutableMap<K,V> source,
-                                              @NonNull K keyToAdd,
-                                              @NonNull Function0<? extends V> valueSupplier,
-                                              @NonNull UnaryOperator1<V> valueMutator) {
+    public static <K,V> ImmutableMap<K,V> update(@NonNull ImmutableMap<K,V> source,
+                                                 @NonNull K keyToAdd,
+                                                 @NonNull Function0<? extends V> valueSupplier,
+                                                 @NonNull UnaryOperator1<V> valueMutator) {
+        return update(source,keyToAdd,valueSupplier,valueMutator,t -> false);
+    }
+
+
+    public static <K,V> ImmutableMap<K,V> update(@NonNull ImmutableMap<K,V> source,
+                                                 @NonNull K keyToAdd,
+                                                 @NonNull Function0<? extends V> valueSupplier,
+                                                 @NonNull UnaryOperator1<V> valueMutator,
+                                                 @NonNull Predicate1<? super V> emptyTester) {
         if (source.isEmpty()) {
             return ImmutableMap.of(keyToAdd,valueSupplier.f());
         }
@@ -88,8 +94,15 @@ public class MapTool {
             final ImmutableMap.Builder<K,V> builder = ImmutableMap.builder();
             for (Map.Entry<K, V> entry : source.entrySet()) {
                 final K key = entry.getKey();
-                final V value = key.equals(keyToAdd)?newValue:entry.getValue();
-                builder.put(key,value);
+                final V value;
+                if (key.equals(keyToAdd)) {
+                    value = emptyTester.test(newValue)?null:newValue;
+                } else {
+                    value = entry.getValue();
+                }
+                if (value != null) {
+                    builder.put(key, value);
+                }
             }
             return builder.build();
         }
@@ -97,15 +110,7 @@ public class MapTool {
 
     @NonNull
     public static <K,V> ImmutableMap<K,V> add(@NonNull ImmutableMap<K,V> source, @NonNull K keyToAdd, @NonNull V valueToAdd) {
-        return add(source,keyToAdd,() -> valueToAdd, v -> valueToAdd);
-    }
-
-    @NonNull
-    public static <S> ImmutableSet<S> remove(@NonNull ImmutableSet<S> source, @NonNull S elementToRemove) {
-        if (!source.contains(elementToRemove)) {
-            return source;
-        }
-        return source.stream().filter(e -> !e.equals(elementToRemove)).collect(ImmutableSet.toImmutableSet());
+        return update(source, keyToAdd, () -> valueToAdd, v -> valueToAdd);
     }
 
     @NonNull

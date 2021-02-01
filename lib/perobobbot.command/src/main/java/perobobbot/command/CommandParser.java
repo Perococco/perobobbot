@@ -30,10 +30,15 @@ public interface CommandParser {
 
     @NonNull String getFullCommandName();
 
+    @NonNull String getCommandDefinition();
+
     /**
      * Parse a command
      * @param command a command coming from the chat
      * @return an optional containing the parsing on success, an empty option otherwise
      */
     @NonNull Optional<CommandParsing> parse(@NonNull String command);
+
+    boolean isInConflictWith(@NonNull CommandParser other);
+
 }

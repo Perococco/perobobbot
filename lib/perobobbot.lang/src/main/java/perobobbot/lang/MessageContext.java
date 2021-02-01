@@ -6,6 +6,7 @@ import lombok.Value;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 
 @Value
 @Builder(toBuilder = true)
@@ -91,5 +92,7 @@ public class MessageContext {
         return toBuilder().source(this);
     }
 
-
+    public @NonNull UUID getBotId() {
+        return chatConnectionInfo.getBotId();
+    }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.fp.UnaryOperator1;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import java.util.stream.Collector;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SetTool {
 
+
     @NonNull
     public static <T> Collector<T,?, ImmutableSet<T>> collector() {
         return ImmutableSet.toImmutableSet();
@@ -28,7 +30,7 @@ public class SetTool {
     }
 
     @NonNull
-    public static <S> UnaryOperator<ImmutableSet<S>> remover(@NonNull S elementToRemove) {
+    public static <S> UnaryOperator1<ImmutableSet<S>> remover(@NonNull S elementToRemove) {
         return s -> remove(s,elementToRemove);
     }
 

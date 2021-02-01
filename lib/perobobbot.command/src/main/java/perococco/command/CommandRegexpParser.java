@@ -169,12 +169,33 @@ public class CommandRegexpParser {
     @Value
     public static class Result {
 
+        public Result(@NonNull String regexp, @NonNull String firstCommand, @NonNull String fullCommand, @NonNull ImmutableSet<ParameterDefinition> parameters) {
+            this.regexp = regexp;
+            this.firstCommand = firstCommand;
+            this.fullCommand = fullCommand;
+            this.parameters = parameters;
+            this.maxNumberOfParameters = parameters.size();
+            this.minNumberOfParameters = (int)parameters.stream().filter(p -> !p.isOptional()).count();
+        }
+
         @NonNull String regexp;
 
         @NonNull String firstCommand;
 
         @NonNull String fullCommand;
 
+        int minNumberOfParameters;
+
+        int maxNumberOfParameters;
+
         @NonNull ImmutableSet<ParameterDefinition> parameters;
+
+        public boolean isInConflictWith(Result r2) {
+            if (!this.fullCommand.equals(r2.fullCommand)) {
+                return false;
+            }
+
+            return this.minNumberOfParameters <= r2.maxNumberOfParameters && this.maxNumberOfParameters >= r2.minNumberOfParameters;
+        }
     }
 }

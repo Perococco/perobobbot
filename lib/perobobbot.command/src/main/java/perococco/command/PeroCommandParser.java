@@ -1,5 +1,6 @@
 package perococco.command;
 
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.command.CommandParser;
 import perobobbot.command.CommandParsing;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 
 public class PeroCommandParser implements CommandParser {
 
+    @Getter
     private final @NonNull String commandDefinition;
     private final @NonNull CommandRegexpParser.Result parsingResult;
     private final @NonNull Pattern pattern;
@@ -44,5 +46,22 @@ public class PeroCommandParser implements CommandParser {
                                             .flatMap(Optional::stream)
                                             .collect(MapTool.value2Collector());
         return Optional.of(new PeroCommandParsing(parsingResult.getFullCommand(), parameters));
+    }
+
+    @Override
+    public boolean isInConflictWith(@NonNull CommandParser other) {
+        if (other == this) {
+            return false;
+        }
+        if (!other.getFullCommandName().equals(this.getFullCommandName())) {
+            return false;
+        }
+        if (!(other instanceof PeroCommandParser)) {
+            return false;
+        }
+        final var r1 = this.parsingResult;
+        final var r2 = ((PeroCommandParser) other).parsingResult;
+
+        return r1.isInConflictWith(r2);
     }
 }

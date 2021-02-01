@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,21 +13,17 @@ import java.util.UUID;
  * Information about the context the execution
  * is performed in
  */
-@RequiredArgsConstructor
-public class ExecutionContext {
+public interface ExecutionContext {
 
-    @Getter
-    @Delegate
-    private final @NonNull MessageContext messageContext;
+    @NonNull MessageContext getMessageContext();
 
     /**
      * @return the full command without the prefix
      */
-    @Getter
-    private final @NonNull String command;
+    @NonNull String getCommand();
 
     @NonNull
-    public static Optional<ExecutionContext> createFrom(char prefix, @NonNull MessageContext messageContext) {
+    static Optional<ExecutionContext> createFrom(char prefix, @NonNull MessageContext messageContext) {
         if (!messageContext.doesContentStartWith(prefix)) {
             return Optional.empty();
         }
@@ -39,10 +36,42 @@ public class ExecutionContext {
         if (command.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(new ExecutionContext(messageContext, command));
+        return Optional.of(new BasicExecutionContext(messageContext, command));
     }
 
-    public @NonNull UUID getBotId() {
-        return getChatConnectionInfo().getBotId();
+    default @NonNull UUID getBotId() {
+        return getMessageContext().getBotId();
+    }
+
+    default @NonNull ChatUser getMessageOwner() {
+        return getMessageContext().getMessageOwner();
+    }
+
+    default @NonNull String getChannelName() {
+        return getMessageContext().getChannelName();
+    }
+
+    default @NonNull Platform getPlatform() {
+        return getMessageContext().getPlatform();
+    }
+
+    default @NonNull Instant getReceptionTime() {
+        return getMessageContext().getReceptionTime();
+    }
+
+    default @NonNull ChatConnectionInfo getChatConnectionInfo() {
+        return getMessageContext().getChatConnectionInfo();
+    }
+
+    default @NonNull ChannelInfo getChannelInfo() {
+        return getMessageContext().getChannelInfo();
+    }
+
+    default boolean isMessageFromMe() {
+        return getMessageContext().isMessageFromMe();
+    }
+
+    default @NonNull String getContent() {
+        return getMessageContext().getContent();
     }
 }
