@@ -27,21 +27,15 @@ public class JPABankService implements BankService {
 
     @Override
     @Transactional
-    public @NonNull Safe findSafe(@NonNull String userId, @NonNull Platform platform, @NonNull String channelName, @NonNull PointType pointType) {
-        var safe = safeRepository.findByPlatformAndChannelNameAndUserChatIdAndType(platform,channelName,userId,pointType)
-                .orElse(null);
-        if (safe == null) {
-            safe = safeRepository.save(new SafeEntity(platform,channelName,userId,pointType));
-        }
-
-        return safe.toView();
+    public @NonNull Safe findSafe(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType) {
+        return getOrCreateSafe(userOnChannel, pointType).toView();
     }
 
     @Override
     @Transactional
     public @NonNull void cleanTransactions() {
         final var now = instantProvider.getNow();
-        final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING,now);
+        final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING, now);
         transactions.forEach(t -> t.rollback().removeFromSafe());
         transactionRepository.deleteInBatch(transactions);
     }
@@ -49,12 +43,17 @@ public class JPABankService implements BankService {
     @Override
     public @NonNull Balance getBalance(@NonNull UUID safeId) {
         var safe = safeRepository.getByUuid(safeId);
-        return new Balance(safe.toView(),safe.getAmount());
+        return new Balance(safe.toView(), safe.getAmount());
+    }
+
+    @Override
+    public @NonNull Balance getBalance(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType) {
+        return getOrCreateSafe(userOnChannel,pointType).toBalance();
     }
 
     @Override
     @Transactional
-    public @NonNull Transaction createTransaction(@NonNull UUID safeId, long requestedAmount, @NonNull Duration duration) {
+    public @NonNull TransactionInfo createTransaction(@NonNull UUID safeId, long requestedAmount, @NonNull Duration duration) {
         final var now = instantProvider.getNow();
         final var safe = safeRepository.getByUuid(safeId);
         final var transaction = safe.createTransaction(requestedAmount, now.plus(duration));
@@ -82,6 +81,19 @@ public class JPABankService implements BankService {
     public @NonNull Balance addPoints(@NonNull UUID safeId, int amount) {
         final var safe = safeRepository.getByUuid(safeId);
         safeRepository.save(safe);
-        return new Balance(safe.toView(),safe.getAmount());
+        return new Balance(safe.toView(), safe.getAmount());
+    }
+
+    private @NonNull SafeEntity getOrCreateSafe(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType) {
+        var safe = safeRepository.findByPlatformAndChannelNameAndUserChatIdAndType(
+                userOnChannel.getPlatform(),
+                userOnChannel.getChannelName(),
+                userOnChannel.getUserId(),
+                pointType)
+                                 .orElse(null);
+        if (safe == null) {
+            return safeRepository.save(new SafeEntity(userOnChannel, pointType));
+        }
+        return safe;
     }
 }

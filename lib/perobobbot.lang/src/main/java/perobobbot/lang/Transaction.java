@@ -1,21 +1,11 @@
 package perobobbot.lang;
 
-import lombok.NonNull;
-import lombok.Value;
+public interface Transaction {
 
-import java.time.Instant;
-import java.util.UUID;
+    long amount();
 
-@Value
-public class Transaction {
+    void complete();
 
-    @NonNull UUID id;
+    void rollback();
 
-    @NonNull UUID safeId;
-
-    long requestedAmount;
-
-    @NonNull TransactionState state;
-
-    @NonNull Instant expirationTime;
 }

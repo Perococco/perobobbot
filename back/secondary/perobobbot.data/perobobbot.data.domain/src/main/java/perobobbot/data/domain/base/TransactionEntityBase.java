@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.domain.SafeEntity;
-import perobobbot.lang.Transaction;
+import perobobbot.lang.TransactionInfo;
 import perobobbot.lang.TransactionState;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
@@ -42,7 +42,7 @@ public class TransactionEntityBase extends PersistentObjectWithUUID {
         this.expirationTime = expirationTime;
     }
 
-    public @NonNull Transaction toView() {
-        return new Transaction(getUuid(),target.getUuid(),amount,getState(),expirationTime);
+    public @NonNull TransactionInfo toView() {
+        return new TransactionInfo(getUuid(), target.getUuid(), amount, getState(), expirationTime);
     }
 }

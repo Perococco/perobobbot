@@ -1,5 +1,5 @@
 import perobobbot.lang.Plugin;
-import perobobbot.store.spring.StoreExtensionFactory;
+import perobobbot.store.spring.BankExtensionFactory;
 
 module perobobbot.ext.store {
     requires static lombok;
@@ -13,7 +13,7 @@ module perobobbot.ext.store {
     requires com.google.common;
     requires spring.context;
 
-    provides Plugin with StoreExtensionFactory;
+    provides Plugin with BankExtensionFactory;
 
     opens perobobbot.store.spring to spring.core, spring.beans, spring.context;
 }

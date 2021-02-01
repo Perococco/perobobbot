@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.ExecutionManager;
 import perobobbot.chat.core.IO;
 import perobobbot.extension.ExtensionFactory;
-import perobobbot.extension.StoreController;
+import perobobbot.lang.Bank;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.sound.SoundResolver;
@@ -22,5 +22,5 @@ public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
     private final @NonNull ExecutionManager executionManager;
     private final @NonNull Overlay overlay;
     private final @NonNull SoundResolver soundResolver;
-    private final @NonNull StoreController storeController;
+    private final @NonNull Bank bank;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.com.NotEnoughPoints;
 import perobobbot.data.domain.TransactionEntity;
+import perobobbot.lang.Balance;
 import perobobbot.lang.PointType;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Safe;
@@ -75,6 +76,10 @@ public class SafeEntityBase extends PersistentObjectWithUUID {
                    .userChatId(userChatId)
                    .type(type)
                    .build();
+    }
+
+    public @NonNull Balance toBalance() {
+        return new Balance(this.toView(),this.amount);
     }
 
     public void addToAmount(long amountToAdd) {

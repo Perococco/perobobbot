@@ -6,6 +6,7 @@ import lombok.NonNull;
 import perobobbot.lang.PointType;
 import perobobbot.data.domain.base.SafeEntityBase;
 import perobobbot.lang.Platform;
+import perobobbot.lang.UserOnChannel;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -21,6 +22,11 @@ public class SafeEntity extends SafeEntityBase {
                       @NonNull String userChatId,
                       @NonNull PointType type) {
         super(platform, channelName, userChatId, type);
+    }
+
+    public SafeEntity(@NonNull UserOnChannel userOnChannel,
+                      @NonNull PointType type) {
+        super(userOnChannel.getPlatform(), userOnChannel.getChannelName(), userOnChannel.getUserId(), type);
     }
 
     public @NonNull TransactionEntity createTransaction(long requestedAmount, @NonNull Instant expirationDate) {
