@@ -12,12 +12,12 @@
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-ext-store</artifactId>
+    <artifactId>perobobbot-ext-bank</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Store</submodule.name>
+        <submodule.name>Bank</submodule.name>
     </properties>
 
     <dependencies>
