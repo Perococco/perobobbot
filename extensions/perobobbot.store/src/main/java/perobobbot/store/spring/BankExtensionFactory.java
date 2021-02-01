@@ -38,7 +38,7 @@ public class BankExtensionFactory extends ExtensionFactoryBase<BankExtension> {
         final var writeBalance = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
         return ImmutableList.of(
                 factory.create("points",readBalance, new ReadBalance(extension)),
-                factory.create("addpoints {%s} {%s}".formatted(WriteToBalance.USERID_PARAMETER, WriteToBalance.AMOUNT_PARAMETER), writeBalance, new WriteToBalance(extension))
+                factory.create("points {%s} {%s}".formatted(WriteToBalance.USERID_PARAMETER, WriteToBalance.AMOUNT_PARAMETER), writeBalance, new WriteToBalance(extension))
         );
     }
 }

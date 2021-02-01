@@ -80,6 +80,7 @@ public class JPABankService implements BankService {
     @Transactional
     public @NonNull Balance addPoints(@NonNull UUID safeId, int amount) {
         final var safe = safeRepository.getByUuid(safeId);
+        safe.addToAmount(amount);
         safeRepository.save(safe);
         return new Balance(safe.toView(), safe.getAmount());
     }
