@@ -3,12 +3,12 @@ package perobobbot.data.service.proxy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
-import perobobbot.data.service.PointService;
+import perobobbot.data.service.BankService;
 
 
 @RequiredArgsConstructor
-public class ProxyPointService implements PointService {
+public class ProxyBankService implements BankService {
 
     @Delegate
-    private final @NonNull PointService delegate;
+    private final @NonNull BankService delegate;
 }

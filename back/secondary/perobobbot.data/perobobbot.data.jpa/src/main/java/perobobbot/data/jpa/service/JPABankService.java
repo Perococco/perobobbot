@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.SafeEntity;
 import perobobbot.data.jpa.repository.SafeRepository;
 import perobobbot.data.jpa.repository.TransactionRepository;
-import perobobbot.data.service.PointService;
+import perobobbot.data.service.BankService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 @UnsecuredService
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class JPAPointService implements PointService {
+public class JPABankService implements BankService {
 
     private final @NonNull InstantProvider instantProvider;
 
@@ -38,6 +38,15 @@ public class JPAPointService implements PointService {
     }
 
     @Override
+    @Transactional
+    public @NonNull void cleanTransactions() {
+        final var now = instantProvider.getNow();
+        final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING,now);
+        transactions.forEach(t -> t.rollback().removeFromSafe());
+        transactionRepository.deleteInBatch(transactions);
+    }
+
+    @Override
     public @NonNull Balance getBalance(@NonNull UUID safeId) {
         var safe = safeRepository.getByUuid(safeId);
         return new Balance(safe.toView(),safe.getAmount());
@@ -48,40 +57,30 @@ public class JPAPointService implements PointService {
     public @NonNull Transaction createTransaction(@NonNull UUID safeId, long requestedAmount, @NonNull Duration duration) {
         final var now = instantProvider.getNow();
         final var safe = safeRepository.getByUuid(safeId);
-        final var transaction = safe.startTransaction(requestedAmount,now.plus(duration));
+        final var transaction = safe.createTransaction(requestedAmount, now.plus(duration));
 
-        safeRepository.save(safe);
-
-        return transaction.toView();
+        return transactionRepository.save(transaction).toView();
     }
 
     @Override
     @Transactional
     public @NonNull void cancelTransaction(@NonNull UUID transactionId) {
         final var transaction = transactionRepository.getByUuid(transactionId);
-        transaction.cancel();
-        transaction.removeFromSafe();
-
-        transactionRepository.save(transaction);
-
+        transactionRepository.delete(transaction.rollback().removeFromSafe());
     }
 
     @Override
     @Transactional
-    public @NonNull void performTransaction(@NonNull UUID transactionId) {
+    public @NonNull void completeTransaction(@NonNull UUID transactionId) {
+        final var now = instantProvider.getNow();
         final var transaction = transactionRepository.getByUuid(transactionId);
-        transaction.perform(instantProvider.getNow());
-        transaction.removeFromSafe();
-
-        transactionRepository.save(transaction);
-
+        transactionRepository.delete(transaction.complete(now).removeFromSafe());
     }
 
     @Override
     @Transactional
     public @NonNull Balance addPoints(@NonNull UUID safeId, int amount) {
         final var safe = safeRepository.getByUuid(safeId);
-        safe.addToAmount(Math.abs(amount));
         safeRepository.save(safe);
         return new Balance(safe.toView(),safe.getAmount());
     }

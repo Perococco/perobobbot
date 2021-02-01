@@ -6,9 +6,11 @@ import perobobbot.lang.*;
 import java.time.Duration;
 import java.util.UUID;
 
-public interface PointService {
+public interface BankService {
 
     @NonNull Safe findSafe(@NonNull String userId, @NonNull Platform platform, @NonNull String channelName, @NonNull PointType pointType);
+
+    @NonNull void cleanTransactions();
 
     @NonNull Balance getBalance(@NonNull UUID safeId);
 
@@ -16,7 +18,7 @@ public interface PointService {
 
     @NonNull void cancelTransaction(@NonNull UUID transactionId);
 
-    @NonNull void performTransaction(@NonNull UUID transactionId);
+    @NonNull void completeTransaction(@NonNull UUID transactionId);
 
     @NonNull Balance addPoints(@NonNull UUID safeId, int amount);
 

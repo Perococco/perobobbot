@@ -3,9 +3,9 @@ package perobobbot.data.security.service;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import perobobbot.data.service.EventService;
-import perobobbot.data.service.PointService;
+import perobobbot.data.service.BankService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.data.service.proxy.ProxyPointService;
+import perobobbot.data.service.proxy.ProxyBankService;
 import perobobbot.lang.*;
 
 import java.time.Duration;
@@ -13,9 +13,9 @@ import java.util.UUID;
 
 @Service
 @SecuredService
-public class SecuredPointService extends ProxyPointService {
+public class SecuredBankService extends ProxyBankService {
 
-    public SecuredPointService(@NonNull @EventService PointService delegate) {
+    public SecuredBankService(@NonNull @EventService BankService delegate) {
         super(delegate);
     }
 
@@ -40,7 +40,7 @@ public class SecuredPointService extends ProxyPointService {
     }
 
     @Override
-    public @NonNull void performTransaction(@NonNull UUID transactionId) {
-        super.performTransaction(transactionId);
+    public @NonNull void completeTransaction(@NonNull UUID transactionId) {
+        super.completeTransaction(transactionId);
     }
 }

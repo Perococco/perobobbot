@@ -77,7 +77,7 @@ public class SafeEntityBase extends PersistentObjectWithUUID {
                    .build();
     }
 
-    public void addToAmount(int amountToAdd) {
+    public void addToAmount(long amountToAdd) {
         this.amount += amountToAdd;
     }
 }

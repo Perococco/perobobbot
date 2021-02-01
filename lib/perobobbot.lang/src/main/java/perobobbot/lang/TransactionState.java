@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum TransactionState implements IdentifiedEnum {
     PENDING("pending"),
     CANCELLED("cancelled"),
-    PERFORMED("performed"),
+    COMPLETED("completed"),
     DETACHED("detached"),
     ;
 

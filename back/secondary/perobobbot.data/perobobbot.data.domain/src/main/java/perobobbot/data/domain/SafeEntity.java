@@ -23,8 +23,8 @@ public class SafeEntity extends SafeEntityBase {
         super(platform, channelName, userChatId, type);
     }
 
-    public @NonNull TransactionEntity startTransaction(long requestedAmount, @NonNull Instant expirationDate) {
-        this.checkEnoughBalance(requestedAmount);
+    public @NonNull TransactionEntity createTransaction(long requestedAmount, @NonNull Instant expirationDate) {
+        this.performWithdraw(requestedAmount);
         final var transaction = new TransactionEntity(this, requestedAmount, expirationDate);
         this.getTransactions().add(transaction);
         return transaction;

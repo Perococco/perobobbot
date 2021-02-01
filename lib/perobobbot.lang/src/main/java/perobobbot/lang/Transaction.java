@@ -15,7 +15,7 @@ public class Transaction {
 
     long requestedAmount;
 
-    TransactionState state;
+    @NonNull TransactionState state;
 
     @NonNull Instant expirationTime;
 }

@@ -22,21 +22,24 @@ public class TransactionEntity extends TransactionEntityBase {
         super(target, amount, expirationTime);
     }
 
-    public void cancel() {
+    public @NonNull TransactionEntity rollback() {
         this.checkIsInState(TransactionState.PENDING);
         this.setState(TransactionState.CANCELLED);
+        this.getTarget().addToAmount(this.getAmount());
+        return this;
     }
 
-    public void perform(@NonNull Instant executionTime) {
+    public @NonNull TransactionEntity  complete(@NonNull Instant executionTime) {
         this.checkIsInState(TransactionState.PENDING);
         this.checkNotExpired(executionTime);
-        getTarget().performWithdraw(getAmount());
-        this.setState(TransactionState.PERFORMED);
+        this.setState(TransactionState.COMPLETED);
+        return this;
     }
 
-    public void removeFromSafe() {
+    public @NonNull TransactionEntity removeFromSafe() {
         getTarget().getTransactions().remove(this);
         this.setState(TransactionState.DETACHED);
+        return this;
     }
 
     public boolean isExpired(@NonNull Instant now) {
