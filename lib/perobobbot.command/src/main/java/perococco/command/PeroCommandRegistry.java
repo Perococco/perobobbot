@@ -1,26 +1,29 @@
 package perococco.command;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.access.AccessRule;
 import perobobbot.command.*;
-import perobobbot.lang.MapTool;
-import perobobbot.lang.SetTool;
-import perobobbot.lang.Subscription;
-import perobobbot.lang.ThrowableTool;
+import perobobbot.lang.*;
 
 import java.util.AbstractCollection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2
 public class PeroCommandRegistry implements CommandRegistry {
 
-    private ImmutableMap<UUID, Value> commands = ImmutableMap.of();
+    private static final Comparator<Value> LONGEST_COMMAND_NAME_FIRST = Comparator.comparing(Value::getFullCommandName).reversed();
+
+
+    private ImmutableList<Value> commands = ImmutableList.of();
 
     private ImmutableMap<String, ImmutableSet<Value>> valuesByCommandName = ImmutableMap.of();
 
@@ -39,10 +42,9 @@ public class PeroCommandRegistry implements CommandRegistry {
     private @NonNull Subscription doAddCommandDefinition(@NonNull CommandDefinition commandDefinition) {
         final var value = Value.from(commandDefinition);
         this.checkForConflict(value);
-        final var key = UUID.randomUUID();
-        this.commands = MapTool.add(this.commands, key, value);
+        this.commands = ListTool.addInOrderedList(this.commands, value, LONGEST_COMMAND_NAME_FIRST);
         this.valuesByCommandName = MapTool.update(this.valuesByCommandName, value.getFullCommandName(), () -> ImmutableSet.of(value), values -> SetTool.add(values, value));
-        return () -> removeCommandDefinition(key);
+        return () -> removeCommandDefinition(value);
     }
 
     private void checkForConflict(@NonNull Value value) {
@@ -57,12 +59,8 @@ public class PeroCommandRegistry implements CommandRegistry {
     }
 
     @Synchronized
-    private void removeCommandDefinition(@NonNull UUID key) {
-        final var value = this.commands.get(key);
-        if (value == null) {
-            return;
-        }
-        this.commands = MapTool.remove(this.commands, key);
+    private void removeCommandDefinition(@NonNull Value value) {
+        this.commands = ListTool.removeFirst(this.commands,value);
         this.valuesByCommandName = MapTool.update(this.valuesByCommandName,
                                                   value.getFullCommandName(),
                                                   ImmutableSet::of,
@@ -73,14 +71,14 @@ public class PeroCommandRegistry implements CommandRegistry {
 
     @Override
     public @NonNull Optional<Command> findCommand(@NonNull String message) {
-        return commands.values()
-                       .stream()
+        return commands.stream()
                        .map(v -> v.parse(message))
                        .flatMap(Optional::stream)
                        .findFirst();
     }
 
     @RequiredArgsConstructor
+    @EqualsAndHashCode(of = "id")
     private static class Value {
 
         public static @NonNull Value from(@NonNull CommandDefinition commandDefinition) {
@@ -91,6 +89,7 @@ public class PeroCommandRegistry implements CommandRegistry {
             );
         }
 
+        private final UUID id = UUID.randomUUID();
 
         private final @NonNull String extensionName;
         private final @NonNull CommandParser commandParser;

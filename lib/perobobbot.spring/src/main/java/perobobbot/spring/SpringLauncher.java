@@ -71,7 +71,7 @@ public class SpringLauncher {
                 app.getBeanFactory().registerSingleton("__closer", createCloser(app));
             });
             application.addInitializers(initializers);
-            application.setBannerMode(Banner.Mode.OFF);
+//            application.setBannerMode(Banner.Mode.OFF);
         }
 
         private void retrieveAllExtraPackagesToScan() {
