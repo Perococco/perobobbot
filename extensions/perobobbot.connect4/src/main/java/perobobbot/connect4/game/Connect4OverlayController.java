@@ -15,6 +15,8 @@ public interface Connect4OverlayController {
 
     void resetForNewGame();
 
-    @NonNull Subscription setPollStarted(@NonNull Team team, @NonNull Duration pollDuration);
+    @NonNull Subscription onPollStarted(@NonNull Team team);
+
+    @NonNull void onPollTimerStarted(@NonNull Team team, @NonNull Duration pollDuration);
 
 }

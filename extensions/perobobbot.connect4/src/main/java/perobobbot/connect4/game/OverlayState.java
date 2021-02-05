@@ -10,6 +10,7 @@ import perobobbot.rendering.histogram.Orientation;
 import perobobbot.rendering.histogram.RoundBrighter;
 import perobobbot.timeline.EasingType;
 
+import java.awt.*;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -18,16 +19,21 @@ import java.util.Optional;
 public class OverlayState {
 
     public static @NonNull OverlayState initial() {
-        return new OverlayState(0,0,false,null,null,null);
+        return new OverlayState(0,0,false,null,null,null,null);
     }
 
     private final double margin;
     private final double spacing;
     private final boolean draw;
+    private final Team pollTeam;
     private final WinningPosition winner;
     private final HistogramStyle histogramStyle;
     private final TimerInfo timerInfo;
 
+
+    public @NonNull Optional<Team> getPollTeam() {
+        return Optional.ofNullable(pollTeam);
+    }
 
     public @NonNull Optional<TimerInfo> getTimerInfo() {
         return Optional.ofNullable(timerInfo);
@@ -45,6 +51,9 @@ public class OverlayState {
         return toBuilder().spacing(spacing).build();
     }
 
+    public @NonNull OverlayState withPollTeam(@NonNull Team pollTeam) {
+        return toBuilder().pollTeam(pollTeam).build();
+    }
 
     public @NonNull Optional<HistogramStyle> getHistogramStyle() {
         return Optional.ofNullable(histogramStyle);
@@ -71,18 +80,23 @@ public class OverlayState {
     }
 
     public OverlayState resetForNewGame() {
-        return toBuilder().winner(null).draw(false).histogramStyle(null).build();
+        return toBuilder().winner(null).pollTeam(null).draw(false).histogramStyle(null).build();
     }
 
-    public OverlayState withPollStarted(@NonNull Team team, double startingTime, Duration duration) {
+    public OverlayState withPollStarted(@NonNull Team team) {
+        return toBuilder().histogramStyle(createStyle(team))
+                          .pollTeam(team)
+                          .build();
+    }
+
+    public OverlayState withPollTimerStarted(@NonNull Team team, double startingTime, Duration duration) {
         final var durationInSeconds = duration.toMillis()*1e-3;
         return toBuilder().timerInfo(new TimerInfo(team,startingTime+durationInSeconds,1./durationInSeconds))
-                          .histogramStyle(createStyle(team))
                           .build();
     }
 
     public OverlayState withPollEnded() {
-        return toBuilder().timerInfo(null).histogramStyle(null).build();
+        return toBuilder().timerInfo(null).pollTeam(null).histogramStyle(null).build();
     }
 
     public double getMargin() {

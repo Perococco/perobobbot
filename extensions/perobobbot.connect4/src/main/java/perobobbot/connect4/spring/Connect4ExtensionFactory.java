@@ -37,7 +37,7 @@ public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Exten
             @NonNull CommandDefinition.Factory factory) {
         final var accessRule = AccessRule.create(Role.TRUSTED_USER, Duration.ofSeconds(1));
         return ImmutableList.of(
-                factory.create("c4 start [%s] [%s]".formatted(LaunchGame.PLAYER1,LaunchGame.PLAYER2), accessRule, new LaunchGame(extension,parameters.getChatController(),false)),
+                factory.create("c4 [%s] [%s]".formatted(LaunchGame.PLAYER1,LaunchGame.PLAYER2), accessRule, new LaunchGame(extension,parameters.getChatController(),false)),
                 factory.create("c4 start-big [%s] [%s]".formatted(LaunchGame.PLAYER1,LaunchGame.PLAYER2), accessRule, new LaunchGame(extension,parameters.getChatController(),true)),
                 factory.create("c4 stop", accessRule, extension::stop)
         );

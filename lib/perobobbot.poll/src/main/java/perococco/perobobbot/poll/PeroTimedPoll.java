@@ -27,14 +27,14 @@ public class PeroTimedPoll implements TimedPoll {
 
     @Override
     @Synchronized
-    public @NonNull CompletionStage<PollResult> start(@NonNull Duration duration) {
+    public @NonNull CompletionStage<PollResult> start(@NonNull Duration duration, boolean startTimerOnFirstVote) {
         if (runnerThread != null) {
             runnerThread.interrupt();
             runnerThread = null;
         }
         final var onPollDoneFuture = new CompletableFuture<PollResult>();
 
-        runnerThread = ThreadFactories.daemon("Timed Poll Thread %d").newThread(new Runner(duration,onPollDoneFuture));
+        runnerThread = ThreadFactories.daemon("Timed Poll Thread %d").newThread(new Runner(duration, startTimerOnFirstVote, onPollDoneFuture));
         runnerThread.start();
         return onPollDoneFuture;
     }
@@ -63,6 +63,8 @@ public class PeroTimedPoll implements TimedPoll {
 
         private final @NonNull Duration duration;
 
+        private final boolean startTimerOfFirstVote;
+
         private final @NonNull CompletableFuture<PollResult> onPollDoneFuture;
 
         private final List<Vote> buffer = new ArrayList<>();
@@ -71,6 +73,7 @@ public class PeroTimedPoll implements TimedPoll {
         @Override
         public void run() {
             try {
+                listeners.warnListeners(PollListener::onPollStarted);
                 poll.clear();
                 doRun();
             } catch (Throwable t) {
@@ -82,16 +85,21 @@ public class PeroTimedPoll implements TimedPoll {
         }
 
         public void doRun() throws InterruptedException {
-            final long endingTime = System.nanoTime() + duration.toNanos();
+            if (startTimerOfFirstVote) {
+                listenForVotesAndUpdatePoll(-1);
+                warnOnNewPollResult(duration);
+            }
+            listeners.warnListeners(PollListener::onPollTimerStarted);
 
+            final long endingTime = System.nanoTime() + duration.toNanos();
             while (!Thread.interrupted()) {
                 var remainingTime = endingTime - System.nanoTime();
                 if (remainingTime > 0) {
-                    retrievePendingVotes(Math.min(remainingTime,ONE_SECOND_IN_NANO)).forEach(poll::addVote);
+                    listenForVotesAndUpdatePoll(Math.min(remainingTime, ONE_SECOND_IN_NANO));
                     remainingTime = endingTime - System.nanoTime();
                 }
-                warnOnNewPollResult(Duration.ofNanos(Math.max(0,remainingTime)));
-                if (remainingTime<=0) {
+                warnOnNewPollResult(Duration.ofNanos(Math.max(0, remainingTime)));
+                if (remainingTime <= 0) {
                     break;
                 }
             }
@@ -104,9 +112,18 @@ public class PeroTimedPoll implements TimedPoll {
             listeners.warnListeners(l -> l.onPollResult(pollResult, remainingTime.isZero(), remainingTime));
         }
 
-        private List<Vote> retrievePendingVotes(long remainingTime) throws InterruptedException {
+        private void listenForVotesAndUpdatePoll(long durationToWaitForVote) throws InterruptedException {
+            retrievePendingVotes(durationToWaitForVote).forEach(poll::addVote);
+        }
+
+        private List<Vote> retrievePendingVotes(long durationToWaitForVote) throws InterruptedException {
             buffer.clear();
-            final var vote = pendingVotes.poll(remainingTime, TimeUnit.NANOSECONDS);
+            final Vote vote;
+            if (durationToWaitForVote <= 0) {
+                vote = pendingVotes.take();
+            } else {
+                vote = pendingVotes.poll(durationToWaitForVote, TimeUnit.NANOSECONDS);
+            }
             if (vote != null) {
                 buffer.add(vote);
                 pendingVotes.drainTo(buffer);

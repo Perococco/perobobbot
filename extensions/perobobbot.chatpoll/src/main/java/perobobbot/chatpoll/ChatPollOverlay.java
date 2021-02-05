@@ -39,6 +39,16 @@ public class ChatPollOverlay implements OverlayClient, PollListener {
     }
 
     @Override
+    public void onPollStarted() {
+        //nothing
+    }
+
+    @Override
+    public void onPollTimerStarted() {
+        //nothing
+    }
+
+    @Override
     public void onPollResult(@NonNull PollResult result, boolean isFinal, @NonNull Duration remainingTime) {
         updateHistogram(result);
     }

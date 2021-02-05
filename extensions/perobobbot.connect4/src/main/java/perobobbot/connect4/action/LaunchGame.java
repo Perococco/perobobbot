@@ -13,7 +13,7 @@ import perobobbot.lang.MessageDispatcher;
 public class LaunchGame implements CommandAction {
 
     public static final String DEFAULT_AI = "a4";
-    public static final String DEFAULT_CHAT = "c30";
+    public static final String DEFAULT_CHAT = "c10";
 
     public static final String PLAYER1 = "player1";
     public static final String PLAYER2 = "player2";

@@ -66,8 +66,8 @@ public class TwitchViewers extends AbstractPlayer implements Player {
                     () -> Subscription.multi(
                             messageDispatcher.addListener(this),
                             poll.addPollListener(this),
-                            controller.setPollStarted(team, pollDuration)),
-                    () -> poll.start(pollDuration)
+                            controller.onPollStarted(team)),
+                    () -> poll.start(pollDuration,true)
                           .thenApply(this::findOptionWithMostVotes)
                           .thenApply(o -> o.orElseGet(state::pickOneColumn))
                           .toCompletableFuture()
@@ -104,6 +104,15 @@ public class TwitchViewers extends AbstractPlayer implements Player {
                                    .createTimedFromThis();
         }
 
+        @Override
+        public void onPollStarted() {
+            //
+        }
+
+        @Override
+        public void onPollTimerStarted() {
+            controller.onPollTimerStarted(team,pollDuration);
+        }
 
         @Override
         public void onPollResult(@NonNull PollResult result, boolean isFinal, @NonNull Duration remainingTime) {

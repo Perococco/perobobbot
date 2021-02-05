@@ -37,6 +37,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     private Region timerRegion;
     private Region gridRegion;
 
+    private boolean waitingForVoteShown = false;
     private Histogram histogram;
     private Property winnerProperty;
 
@@ -88,6 +89,15 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
             r.translate(region.getX(), region.getY());
             r.translate(histogramRegion.getX(), histogramRegion.getY());
+            if (waitingForVoteShown) {
+                currentState.getPollTeam()
+                            .ifPresent(t -> {
+                                r.setColor(t.getColor());
+                                r.setFontSize(24);
+                                r.drawString("1,2,...,7 pour jouer",histogramRegion.getSize().getWidth()*0.5, histogramRegion.getSize().getHeight()*0.5, HAlignment.MIDDLE,VAlignment.MIDDLE);
+
+                            });
+            }
             new HistogramDrawer(r,currentState,histogramRegion.getSize()).draw();
 
             r.translate(timerRegion.getX(), timerRegion.getY());
@@ -103,9 +113,16 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     }
 
     @Override
-    public Subscription setPollStarted(@NonNull Team team, @NonNull Duration pollDuration) {
-        identity.mutate(s -> s.withPollStarted(team, time, pollDuration));
+    public Subscription onPollStarted(@NonNull Team team) {
+        waitingForVoteShown = true;
+        identity.mutate(s -> s.withPollStarted(team));
         return this::setPollDone;
+    }
+
+    @Override
+    public @NonNull void onPollTimerStarted(@NonNull Team team, @NonNull Duration pollDuration) {
+        waitingForVoteShown = false;
+        identity.mutate(s -> s.withPollTimerStarted(team, time, pollDuration));
     }
 
     private void setPollDone() {

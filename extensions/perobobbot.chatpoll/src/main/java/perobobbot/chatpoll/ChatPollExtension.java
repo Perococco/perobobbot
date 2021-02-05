@@ -46,7 +46,7 @@ public class ChatPollExtension extends OverlayExtension implements MessageHandle
                 timedPoll.addPollListener(overlay))
         );
 
-        timedPoll.start(duration).whenComplete((result,error) -> {
+        timedPoll.start(duration,true).whenComplete((result,error) -> {
             if (error != null) {
                 LOG.error("Poll complete exceptionally",error);
             }

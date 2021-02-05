@@ -8,7 +8,7 @@ import java.util.concurrent.CompletionStage;
 
 public interface TimedPoll {
 
-    @NonNull CompletionStage<PollResult> start(@NonNull Duration duration);
+    @NonNull CompletionStage<PollResult> start(@NonNull Duration duration, boolean startTimerOnFirstVote);
 
     void stop();
 
