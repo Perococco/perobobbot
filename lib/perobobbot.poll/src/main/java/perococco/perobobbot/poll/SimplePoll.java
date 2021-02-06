@@ -66,14 +66,16 @@ public class SimplePoll implements Poll {
     }
 
     @Override
-    public void addVote(@NonNull Voter voter, @NonNull String idVoted) {
+    public boolean addVote(@NonNull Voter voter, @NonNull String idVoted) {
         if (userCannotVote(voter)) {
-            return;
+            return false;
         }
         if (availableOptions.contains(idVoted)) {
             voteCounts.add(idVoted, 1);
             votePerVoter.computeIfAbsent(voter, k -> new HashBag<>()).add(idVoted, 1);
+            return true;
         }
+        return false;
     }
 
     private boolean userCannotVote(@NonNull Voter voter) {

@@ -10,11 +10,12 @@ public interface Poll {
      * Add a vote
      * @param user the user that voted
      * @param idVoted the id of the option used by the user
+     * @return true if the vote is valid, false otherwise
      */
-    void addVote(@NonNull Voter user, @NonNull String idVoted);
+    boolean addVote(@NonNull Voter user, @NonNull String idVoted);
 
-    default void addVote(@NonNull Vote vote) {
-        addVote(vote.getVoter(),vote.getChoice());
+    default boolean addVote(@NonNull Vote vote) {
+        return addVote(vote.getVoter(),vote.getChoice());
     }
 
     @NonNull PollResult getCurrentCount();

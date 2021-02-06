@@ -66,7 +66,7 @@ public class PeroTimedPoll implements TimedPoll {
 
         private final @NonNull Duration duration;
 
-        private final boolean startTimerOfFirstVote;
+        private final boolean startTimerOnFirstVote;
 
         private final @NonNull CompletableFuture<PollResult> onPollDoneFuture;
 
@@ -88,8 +88,11 @@ public class PeroTimedPoll implements TimedPoll {
         }
 
         public void doRun() throws InterruptedException {
-            if (startTimerOfFirstVote) {
-                listenForVotesAndUpdatePoll(-1);
+            if (startTimerOnFirstVote) {
+                boolean validVotes;
+                do  {
+                    validVotes = listenForVotesAndUpdatePoll(-1);
+                } while (!validVotes && !Thread.currentThread().isInterrupted());
                 warnOnNewPollResult(duration);
             }
             listeners.warnListeners(PollListener::onPollTimerStarted);
@@ -115,8 +118,12 @@ public class PeroTimedPoll implements TimedPoll {
             listeners.warnListeners(l -> l.onPollResult(pollResult, remainingTime.isZero(), remainingTime));
         }
 
-        private void listenForVotesAndUpdatePoll(long durationToWaitForVote) throws InterruptedException {
-            retrievePendingVotes(durationToWaitForVote).forEach(poll::addVote);
+        private boolean listenForVotesAndUpdatePoll(long durationToWaitForVote) throws InterruptedException {
+            final var nbValidVotes = retrievePendingVotes(durationToWaitForVote).stream()
+                                                                                .map(poll::addVote)
+                                                                                .filter(t -> t)
+                                                                                .count();
+            return nbValidVotes>=1;
         }
 
         private List<Vote> retrievePendingVotes(long durationToWaitForVote) throws InterruptedException {
