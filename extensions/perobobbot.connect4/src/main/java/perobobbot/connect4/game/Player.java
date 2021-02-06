@@ -2,7 +2,6 @@ package perobobbot.connect4.game;
 
 import lombok.NonNull;
 import perobobbot.connect4.Team;
-import perobobbot.lang.fp.Function2;
 
 import java.util.concurrent.CompletionStage;
 

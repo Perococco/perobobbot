@@ -3,9 +3,9 @@ package perobobbot.data.domain;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import perobobbot.lang.PointType;
 import perobobbot.data.domain.base.SafeEntityBase;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PointType;
 import perobobbot.lang.UserOnChannel;
 
 import javax.persistence.Entity;

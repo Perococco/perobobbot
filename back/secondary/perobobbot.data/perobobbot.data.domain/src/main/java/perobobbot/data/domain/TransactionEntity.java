@@ -3,7 +3,6 @@ package perobobbot.data.domain;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import perobobbot.data.com.CancelledTransaction;
 import perobobbot.data.com.ExpiredTransaction;
 import perobobbot.data.com.InvalidTransactionState;
 import perobobbot.data.domain.base.TransactionEntityBase;

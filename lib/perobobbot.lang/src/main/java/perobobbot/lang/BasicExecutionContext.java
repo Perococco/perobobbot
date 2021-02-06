@@ -3,10 +3,6 @@ package perobobbot.lang;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Information about the context the execution

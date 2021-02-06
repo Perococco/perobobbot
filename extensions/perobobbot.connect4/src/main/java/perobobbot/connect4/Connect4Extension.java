@@ -2,7 +2,10 @@ package perobobbot.connect4;
 
 import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.connect4.game.*;
+import perobobbot.connect4.game.Connect4Game;
+import perobobbot.connect4.game.Connect4Grid;
+import perobobbot.connect4.game.Connect4Overlay;
+import perobobbot.connect4.game.Player;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.Looper;
 import perobobbot.lang.MathTool;

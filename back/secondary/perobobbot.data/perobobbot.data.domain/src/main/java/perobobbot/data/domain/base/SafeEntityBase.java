@@ -8,8 +8,8 @@ import org.hibernate.annotations.Type;
 import perobobbot.data.com.NotEnoughPoints;
 import perobobbot.data.domain.TransactionEntity;
 import perobobbot.lang.Balance;
-import perobobbot.lang.PointType;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PointType;
 import perobobbot.lang.Safe;
 import perobobbot.persistence.PersistentObjectWithUUID;
 

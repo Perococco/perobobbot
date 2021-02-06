@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 import perobobbot.timeline.Property;
 

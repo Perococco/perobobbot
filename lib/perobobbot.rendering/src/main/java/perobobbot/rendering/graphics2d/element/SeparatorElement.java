@@ -3,9 +3,7 @@ package perobobbot.rendering.graphics2d.element;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.MapTool;
 import perobobbot.lang.MathTool;
-import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 
 import java.awt.*;

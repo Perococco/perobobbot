@@ -1,7 +1,6 @@
 package perobobbot.rendering.graphics2d.element;
 
 import lombok.NonNull;
-import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 
 import java.awt.*;

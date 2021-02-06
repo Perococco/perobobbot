@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.MathTool;
-import perobobbot.rendering.*;
+import perobobbot.rendering.Block;
+import perobobbot.rendering.HAlignment;
+import perobobbot.rendering.Size;
+import perobobbot.rendering.VAlignment;
 import perobobbot.rendering.graphics2d.element.BlockElement;
 
 import java.awt.*;

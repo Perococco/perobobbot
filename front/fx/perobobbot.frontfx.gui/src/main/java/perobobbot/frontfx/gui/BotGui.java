@@ -9,7 +9,6 @@ import perobobbot.lang.PluginType;
 import perococco.perobobbot.frontfx.gui.PerobobbotGUI;
 import perococco.perobobbot.frontfx.gui.assets.Resource;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BotGui extends FXSpringApplication {

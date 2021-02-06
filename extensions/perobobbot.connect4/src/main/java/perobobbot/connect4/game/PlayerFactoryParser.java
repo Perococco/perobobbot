@@ -1,6 +1,5 @@
 package perobobbot.connect4.game;
 
-import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandException;

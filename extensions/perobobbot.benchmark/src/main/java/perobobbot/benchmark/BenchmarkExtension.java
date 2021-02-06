@@ -5,7 +5,6 @@ import lombok.Synchronized;
 import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
-import perobobbot.overlay.api.OverlayClient;
 
 public class BenchmarkExtension extends OverlayExtension {
 

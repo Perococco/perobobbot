@@ -1,7 +1,9 @@
 package perobobbot.messaging;
 
 import lombok.NonNull;
-import perobobbot.lang.*;
+import perobobbot.lang.ChannelInfo;
+import perobobbot.lang.MessageContext;
+import perobobbot.lang.MessageDispatcher;
 import perococco.messaging.PerococcoChatController;
 
 /**

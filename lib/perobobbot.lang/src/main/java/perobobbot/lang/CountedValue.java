@@ -1,6 +1,5 @@
 package perobobbot.lang;
 
-import com.google.common.base.Function;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.fp.Function1;

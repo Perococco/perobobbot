@@ -1,6 +1,9 @@
 package perobobbot.connect4.game;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import perobobbot.connect4.GridIsFull;
 import perobobbot.lang.Looper;
 import perobobbot.lang.ThrowableTool;

@@ -3,7 +3,6 @@ package perococco.perobobbot.rest.client.template;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.client.RestOperations;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Todo;
 import perobobbot.rest.client.BotClient;

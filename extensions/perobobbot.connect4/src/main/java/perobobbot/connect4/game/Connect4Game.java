@@ -5,7 +5,6 @@ import perobobbot.connect4.Team;
 import perobobbot.lang.Looper;
 
 import java.time.Duration;
-import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.Map;
 

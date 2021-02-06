@@ -1,7 +1,5 @@
 package perococco.perobobbot.timeline.easing;
 
-import perobobbot.lang.Todo;
-
 public class EaseElasticIn implements EasingOperator {
 
     private static final double C4 = Math.PI*2/3;

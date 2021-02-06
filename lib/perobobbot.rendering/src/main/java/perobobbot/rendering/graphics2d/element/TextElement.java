@@ -3,7 +3,6 @@ package perobobbot.rendering.graphics2d.element;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.rendering.HAlignment;
-import perobobbot.rendering.ScreenSize;
 import perobobbot.rendering.Size;
 
 import java.awt.*;

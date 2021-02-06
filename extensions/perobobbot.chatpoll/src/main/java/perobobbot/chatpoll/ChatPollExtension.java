@@ -6,11 +6,12 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.lang.*;
 import perobobbot.overlay.api.Overlay;
-import perobobbot.poll.*;
+import perobobbot.poll.PollFactory;
+import perobobbot.poll.TimedPoll;
+import perobobbot.poll.Voter;
 import perobobbot.rendering.histogram.HistogramStyle;
 import perococco.perobobbot.poll.PollConfiguration;
 
-import java.awt.*;
 import java.time.Duration;
 
 @Log4j2

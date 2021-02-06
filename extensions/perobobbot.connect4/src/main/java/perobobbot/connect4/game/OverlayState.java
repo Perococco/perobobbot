@@ -10,7 +10,6 @@ import perobobbot.rendering.histogram.Orientation;
 import perobobbot.rendering.histogram.RoundBrighter;
 import perobobbot.timeline.EasingType;
 
-import java.awt.*;
 import java.time.Duration;
 import java.util.Optional;
 

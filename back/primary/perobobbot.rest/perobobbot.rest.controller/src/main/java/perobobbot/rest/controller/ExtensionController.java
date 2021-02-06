@@ -10,8 +10,6 @@ import perobobbot.data.com.Extension;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/extensions")
 @RequiredArgsConstructor
