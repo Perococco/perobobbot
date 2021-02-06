@@ -63,7 +63,7 @@ public class CommandRegexpParser {
     private String getFullCommand() {
         final var fullCommand = this.fullCommandBuilder.toString();
         if (!fullCommand.chars().allMatch(c -> c == '|' || isValidChar(c))) {
-            throw createError("Command must start with an alpha-numeric word");
+            throw createError("Command contains invalid character : '"+fullCommand+"'");
         }
         return fullCommand;
     }
