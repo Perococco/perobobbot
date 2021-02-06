@@ -33,7 +33,7 @@ public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtensi
     protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull DVDLogoExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
         return ImmutableList.of(
-                factory.create("dl start",accessRule,extension::startOverlay),
+                factory.create("dl",accessRule,extension::startOverlay),
                 factory.create("dl stop",accessRule,extension::stopOverlay)
         );
     }

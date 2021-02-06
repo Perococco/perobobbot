@@ -10,7 +10,7 @@ import perobobbot.lang.Plugin;
 import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.pause.PauseExtension;
-import perobobbot.pause.action.ExecuteCommand;
+import perobobbot.pause.action.LaunchPause;
 
 import java.time.Duration;
 
@@ -38,7 +38,8 @@ public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> 
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO);
 
         return ImmutableList.of(
-                factory.create("pause {param} [duration]",accessRule,new ExecuteCommand(parameters.getIo(), extension))
+                factory.create("pause [duration]",accessRule,new LaunchPause(parameters.getIo(), extension)),
+                factory.create("pause stop",accessRule,extension::stopPause)
         );
     }
 

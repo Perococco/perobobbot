@@ -32,7 +32,7 @@ public class SandboxExtensionFactory extends ExtensionFactoryBase<SandboxExtensi
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
 
         return ImmutableList.of(
-                factory.create("sb start",accessRule,extension::start),
+                factory.create("sb",accessRule,extension::start),
                 factory.create("sb stop",accessRule,extension::stop)
         );
     }

@@ -42,7 +42,7 @@ public class BenchmarkExtensionFactory extends ExtensionFactoryBase<BenchmarkExt
             @NonNull CommandDefinition.Factory factory) {
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
         return ImmutableList.of(
-                factory.create("bm start [%s] [%s]".formatted(NB_PUCKS_PARAMETER, RADIUS_PARAMETER), accessRule, new StartBenchmark(extension)),
+                factory.create("bm [%s] [%s]".formatted(NB_PUCKS_PARAMETER, RADIUS_PARAMETER), accessRule, new StartBenchmark(extension)),
                 factory.create("bm stop",accessRule,extension::stop)
         );
     }

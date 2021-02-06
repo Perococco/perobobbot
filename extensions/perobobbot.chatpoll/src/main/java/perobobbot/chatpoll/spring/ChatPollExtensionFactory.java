@@ -37,7 +37,7 @@ public class ChatPollExtensionFactory extends ExtensionFactoryBase<ChatPollExten
             @NonNull CommandDefinition.Factory factory) {
         final var accessRule = AccessRule.create(Role.TRUSTED_USER, Duration.ofSeconds(1));
         return ImmutableList.of(
-                factory.create("poll start", accessRule, new PollLauncher(extension,parameters.getIo())),
+                factory.create("poll", accessRule, new PollLauncher(extension,parameters.getIo())),
                 factory.create("poll stop", accessRule, extension::stop)
         );
     }

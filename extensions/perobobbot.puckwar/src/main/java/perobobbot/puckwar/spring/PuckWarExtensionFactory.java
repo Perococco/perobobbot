@@ -41,7 +41,7 @@ public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtensi
                 applyTo(Role.ANY_USER).aCDof(10));
 
         return ImmutableList.of(
-            factory.create("pw start [duration] [puckSize]",accessRule, new LaunchGame(extension)),
+            factory.create("pw [duration] [puckSize]",accessRule, new LaunchGame(extension)),
             factory.create("pw stop",accessRule,extension::requestStop),
             factory.create("pw stop now",accessRule,extension::stopGame),
             factory.create("throw {speed} {angle}",throwAccessRule,new ThrowPuck(extension))

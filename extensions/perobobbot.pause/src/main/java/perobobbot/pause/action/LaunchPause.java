@@ -12,7 +12,7 @@ import java.time.Duration;
 
 @NonNull
 @RequiredArgsConstructor
-public class ExecuteCommand implements CommandAction {
+public class LaunchPause implements CommandAction {
 
     private final @NonNull IO io;
 
@@ -20,15 +20,10 @@ public class ExecuteCommand implements CommandAction {
 
     @Override
     public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
-        final String param = parsing.getParameter("param");
-        if (param.equals("stop")) {
-            pauseExtension.stopPause();
-        } else {
-            final double durationInSeconds = Math.max(0, parsing.getDoubleParameter("duration") * 60);
-            final Duration duration = Duration.ofSeconds((int) (durationInSeconds + 0.5));
-            pauseExtension.startPause(duration);
-            io.send(context.getChatConnectionInfo(), context.getChannelName(), formPauseMessage(context));
-        }
+        final double durationInSeconds = Math.max(0, parsing.getDoubleParameter("duration") * 60);
+        final Duration duration = Duration.ofSeconds((int) (durationInSeconds + 0.5));
+        pauseExtension.startPause(duration);
+        io.send(context.getChatConnectionInfo(), context.getChannelName(), formPauseMessage(context));
     }
 
     private @NonNull String formPauseMessage(@NonNull ExecutionContext executionContext) {
