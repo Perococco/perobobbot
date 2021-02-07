@@ -164,8 +164,16 @@ public class PuckWarRound implements Renderable {
         }
     }
 
+    private final Color TEXT_COLOR = new Color(106, 106, 106, 60);
+
     private void drawHelp(Renderer renderer) {
         this.help.drawWith(renderer);
+        renderer.blockBuilder()
+                .setFontSize(24)
+                .addString("!throw <speed> <angle>",HAlignment.LEFT)
+                .setBackgroundColor(TEXT_COLOR)
+                .setBackgroundMargin(5)
+                .build().draw(help.getWidth()+10, renderer.getDrawingSize().getHeight(),HAlignment.LEFT, VAlignment.BOTTOM);
     }
 
     private void drawHighScoreTable(@NonNull Renderer renderer) {
