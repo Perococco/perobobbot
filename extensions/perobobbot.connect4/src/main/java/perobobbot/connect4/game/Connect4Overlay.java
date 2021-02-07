@@ -39,7 +39,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     private Region gridRegion;
 
     private boolean waitingForVoteShown = false;
-    private ImmutableList<String> optionList = ImmutableList.of();
+    private ImmutableList<String> columnNames = ImmutableList.of();
     private Histogram histogram;
     private Property winnerProperty;
 
@@ -91,12 +91,12 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
             r.translate(region.getX(), region.getY());
             r.translate(histogramRegion.getX(), histogramRegion.getY());
-            if (waitingForVoteShown && optionList.size()>=2) {
+            if (waitingForVoteShown && columnNames.size()>=2) {
                 currentState.getPollTeam()
                             .ifPresent(t -> {
                                 r.setColor(t.getColor());
                                 r.setFontSize(25);
-                                r.drawString(optionList.get(0)+",...,"+optionList.get(optionList.size()-1)+" pour jouer",histogramRegion.getSize().getWidth()*0.5, histogramRegion.getSize().getHeight()*0.5, HAlignment.MIDDLE,VAlignment.MIDDLE);
+                                r.drawString(columnNames.get(0)+",...,"+ columnNames.get(columnNames.size()-1)+" pour jouer", histogramRegion.getSize().getWidth()*0.5, histogramRegion.getSize().getHeight()*0.5, HAlignment.MIDDLE, VAlignment.MIDDLE);
 
                             });
             }
@@ -115,9 +115,9 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     }
 
     @Override
-    public Subscription onPollStarted(@NonNull Team team, @NonNull ImmutableList<String> optionList) {
+    public Subscription onPollStarted(@NonNull Team team, @NonNull ImmutableList<String> columnNames) {
         waitingForVoteShown = true;
-        this.optionList = optionList;
+        this.columnNames = columnNames;
         identity.mutate(s -> s.withPollStarted(team));
         return this::setPollDone;
     }
@@ -199,11 +199,11 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
             renderer.setColor(new Color(128, 128, 128, 255));
             renderer.setFontSize(numberFontSize);
 
-            for (int columnIndex = 0; columnIndex < optionList.size(); columnIndex++) {
+            for (int columnIndex = 0; columnIndex < columnNames.size(); columnIndex++) {
                 final var gridPosition = new GridPosition(connect4Grid.getNumberOfRows()-1,columnIndex);
                 final var imagePosition = connect4Grid.computePositionOnImage(gridPosition);
 
-                renderer.drawString(optionList.get(columnIndex),imagePosition,HAlignment.MIDDLE, VAlignment.MIDDLE);
+                renderer.drawString(columnNames.get(columnIndex), imagePosition, HAlignment.MIDDLE, VAlignment.MIDDLE);
             }
         }
     }
@@ -219,6 +219,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
             if (connected4 == null) {
                 return;
             }
+
             final var start = connect4Grid.computePositionOnImage(connected4.getStart());
             final var delta = connect4Grid.computePositionOnImage(connected4.getEnd()).subtract(start);
             final var end = start.duplicate().addScaled(delta,winnerProperty.get());

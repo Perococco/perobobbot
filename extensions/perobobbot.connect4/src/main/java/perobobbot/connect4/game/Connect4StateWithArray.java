@@ -88,6 +88,11 @@ public class Connect4StateWithArray implements Connect4State {
         return freeColumns.clone();
     }
 
+    @Override
+    public int getNumberOfColumns() {
+        return nbColumns;
+    }
+
     public int pickOneColumn(@NonNull Random random) {
         if (freeColumns.length == 0) {
             return -1;

@@ -76,4 +76,5 @@ public class Connect4Grid {
     public void forEachTokens(@NonNull Consumer1<? super Token> action) {
         tokens.forEach(action);
     }
+
 }

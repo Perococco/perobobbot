@@ -91,4 +91,6 @@ public interface Connect4State {
      * @return a copy of the indices of the free columns
      */
     @NonNull int[] getIndicesOfFreeColumns();
+
+    int getNumberOfColumns();
 }

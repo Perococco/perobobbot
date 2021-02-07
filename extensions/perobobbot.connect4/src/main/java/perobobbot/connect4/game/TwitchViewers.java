@@ -14,12 +14,13 @@ import perococco.perobobbot.poll.PollConfiguration;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class TwitchViewers extends AbstractPlayer implements Player {
 
 
-    public static final String[] ROUND_IDS = {"A","B"};
+    public static final String[] ROUND_IDS = {"A", "B"};
 
     public static final Duration DEFAULT_POLL_DURATION = Duration.ofSeconds(30);
 
@@ -56,6 +57,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
         private final @NonNull Connect4State state;
 
+        private ImmutableList<String> columnNames;
         private ImmutableList<String> optionList;
 
         private TimedPoll poll;
@@ -63,7 +65,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         public int getNextMove() throws Throwable {
             this.createOptionList();
             this.createPoll();
-            roundIndex = (roundIndex+1)%ROUND_IDS.length;
+            roundIndex = (roundIndex + 1) % ROUND_IDS.length;
             return this.launchPollAndWaitForChoice();
         }
 
@@ -72,12 +74,12 @@ public class TwitchViewers extends AbstractPlayer implements Player {
                     () -> Subscription.multi(
                             messageDispatcher.addListener(this),
                             poll.addPollListener(this),
-                            controller.onPollStarted(team,optionList)),
-                    () -> poll.start(pollDuration,true)
-                          .thenApply(this::findOptionWithMostVotes)
-                          .thenApply(o -> o.orElseGet(state::pickOneColumn))
-                          .toCompletableFuture()
-                          .get());
+                            controller.onPollStarted(team, columnNames)),
+                    () -> poll.start(pollDuration, true)
+                              .thenApply(this::findOptionWithMostVotes)
+                              .thenApply(o -> o.orElseGet(state::pickOneColumn))
+                              .toCompletableFuture()
+                              .get());
         }
 
         private Optional<Integer> findOptionWithMostVotes(@NonNull PollResult pollResult) {
@@ -90,7 +92,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
                     valueOfMax = value;
                 }
             }
-            if (indexOfMax>=0) {
+            if (indexOfMax >= 0) {
                 return Optional.of(state.getIndicesOfFreeColumns()[indexOfMax]);
             }
 
@@ -99,14 +101,17 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
         private void createOptionList() {
             final String prefix = ROUND_IDS[roundIndex];
+            this.columnNames = IntStream.rangeClosed(1, state.getNumberOfColumns())
+                                        .mapToObj(i -> prefix + i)
+                                        .collect(ImmutableList.toImmutableList());
             this.optionList = state.streamIndicesOfFreeColumns()
-                                   .mapToObj(i -> prefix+(i + 1))
+                                   .mapToObj(i -> prefix + (i + 1))
                                    .collect(ImmutableList.toImmutableList());
         }
 
         private void createPoll() {
             this.poll = PollFactory.getFactory()
-                                   .createOrderedPoll(optionList, new PollConfiguration(false,false))
+                                   .createOrderedPoll(optionList, new PollConfiguration(false, false))
                                    .createTimedFromThis();
         }
 
@@ -117,7 +122,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
         @Override
         public void onPollTimerStarted() {
-            controller.onPollTimerStarted(team,pollDuration);
+            controller.onPollTimerStarted(team, pollDuration);
         }
 
         @Override
@@ -133,7 +138,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         private void updateHistogram(@NonNull PollResult result) {
             final var columnIndices = state.getIndicesOfFreeColumns();
             for (int i = 0; i < optionList.size(); i++) {
-                controller.setHistogramValues(columnIndices[i],result.numberOfVotesFor(optionList.get(i)));
+                controller.setHistogramValues(columnIndices[i], result.numberOfVotesFor(optionList.get(i)));
             }
         }
 
