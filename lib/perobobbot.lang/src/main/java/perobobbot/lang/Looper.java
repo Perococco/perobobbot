@@ -173,7 +173,8 @@ public abstract class Looper {
                             LOG.warn("Loop interrupted");
                             Thread.currentThread().interrupt();
                         } else {
-                            LOG.error("Iteration failed : ", e);
+                            LOG.error("Iteration failed : {}", e.getMessage());
+                            LOG.debug("stack-trace",e);
                         }
                     }
                 }
