@@ -22,7 +22,7 @@ public class LaunchGame implements CommandAction {
     }
 
     private @NonNull GameOptions parseGameOptions(@NonNull CommandParsing parsing) {
-        final var duration = Duration.ofSeconds(parsing.findIntParameter("duration").orElse(60));
+        final var duration = Duration.ofSeconds(parsing.findIntParameter("duration").orElse(180));
         final var puckSize = parsing.findIntParameter("puckSize").orElse(20);
 
         return new GameOptions(puckSize, duration);
