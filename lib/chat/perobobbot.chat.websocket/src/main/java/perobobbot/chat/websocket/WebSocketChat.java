@@ -130,6 +130,7 @@ public class WebSocketChat extends ChatIOBase implements Chat {
                 waitStrategy.waitFor(duration);
                 connected = tryToConnect();
             }
+            LOG.warn("Reconnection successful.");
             return IterationCommand.CONTINUE;
         }
 
