@@ -1,5 +1,6 @@
 package perobobbot.connect4.game;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.connect4.GridPosition;
@@ -22,7 +23,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class Connect4Overlay implements OverlayClient, Connect4OverlayController {
 
-    public static final float COLUMN_NUMBER_FONT_SIZE = 0.8f;
+    public static final float COLUMN_NUMBER_FONT_SIZE = 0.5f;
 
     private final @NonNull Connect4Grid connect4Grid;
     private final @NonNull Region region;
@@ -38,6 +39,7 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     private Region gridRegion;
 
     private boolean waitingForVoteShown = false;
+    private ImmutableList<String> optionList = ImmutableList.of();
     private Histogram histogram;
     private Property winnerProperty;
 
@@ -89,12 +91,12 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
             r.translate(region.getX(), region.getY());
             r.translate(histogramRegion.getX(), histogramRegion.getY());
-            if (waitingForVoteShown) {
+            if (waitingForVoteShown && optionList.size()>=2) {
                 currentState.getPollTeam()
                             .ifPresent(t -> {
                                 r.setColor(t.getColor());
-                                r.setFontSize(24);
-                                r.drawString("1,2,...,7 pour jouer",histogramRegion.getSize().getWidth()*0.5, histogramRegion.getSize().getHeight()*0.5, HAlignment.MIDDLE,VAlignment.MIDDLE);
+                                r.setFontSize(25);
+                                r.drawString(optionList.get(0)+",...,"+optionList.get(optionList.size()-1)+" pour jouer",histogramRegion.getSize().getWidth()*0.5, histogramRegion.getSize().getHeight()*0.5, HAlignment.MIDDLE,VAlignment.MIDDLE);
 
                             });
             }
@@ -113,8 +115,9 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
     }
 
     @Override
-    public Subscription onPollStarted(@NonNull Team team) {
+    public Subscription onPollStarted(@NonNull Team team, @NonNull ImmutableList<String> optionList) {
         waitingForVoteShown = true;
+        this.optionList = optionList;
         identity.mutate(s -> s.withPollStarted(team));
         return this::setPollDone;
     }
@@ -193,14 +196,14 @@ public class Connect4Overlay implements OverlayClient, Connect4OverlayController
 
         public void draw() {
             renderer.setTextAntialiasing(true);
-            renderer.setColor(Color.WHITE);
+            renderer.setColor(new Color(128, 128, 128, 255));
             renderer.setFontSize(numberFontSize);
 
-            for (int columnIndex = 0; columnIndex < columnNumbers.length; columnIndex++) {
+            for (int columnIndex = 0; columnIndex < optionList.size(); columnIndex++) {
                 final var gridPosition = new GridPosition(connect4Grid.getNumberOfRows()-1,columnIndex);
                 final var imagePosition = connect4Grid.computePositionOnImage(gridPosition);
 
-                renderer.drawString(columnNumbers[columnIndex],imagePosition,HAlignment.MIDDLE, VAlignment.MIDDLE);
+                renderer.drawString(optionList.get(columnIndex),imagePosition,HAlignment.MIDDLE, VAlignment.MIDDLE);
             }
         }
     }

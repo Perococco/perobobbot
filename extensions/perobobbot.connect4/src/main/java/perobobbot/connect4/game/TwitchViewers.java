@@ -18,6 +18,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TwitchViewers extends AbstractPlayer implements Player {
 
+
+    public static final String[] ROUND_IDS = {"A","B"};
+
     public static final Duration DEFAULT_POLL_DURATION = Duration.ofSeconds(30);
 
     public static @NonNull Player.Factory factory(@NonNull MessageDispatcher messageDispatcher, @NonNull int duration) {
@@ -40,6 +43,8 @@ public class TwitchViewers extends AbstractPlayer implements Player {
 
     private final @NonNull Duration pollDuration;
 
+    private int roundIndex = 0;
+
 
     @Override
     protected int getNextMove(@NonNull Connect4State state) throws Throwable {
@@ -58,6 +63,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         public int getNextMove() throws Throwable {
             this.createOptionList();
             this.createPoll();
+            roundIndex = (roundIndex+1)%ROUND_IDS.length;
             return this.launchPollAndWaitForChoice();
         }
 
@@ -66,7 +72,7 @@ public class TwitchViewers extends AbstractPlayer implements Player {
                     () -> Subscription.multi(
                             messageDispatcher.addListener(this),
                             poll.addPollListener(this),
-                            controller.onPollStarted(team)),
+                            controller.onPollStarted(team,optionList)),
                     () -> poll.start(pollDuration,true)
                           .thenApply(this::findOptionWithMostVotes)
                           .thenApply(o -> o.orElseGet(state::pickOneColumn))
@@ -92,15 +98,15 @@ public class TwitchViewers extends AbstractPlayer implements Player {
         }
 
         private void createOptionList() {
+            final String prefix = ROUND_IDS[roundIndex];
             this.optionList = state.streamIndicesOfFreeColumns()
-                                   .map(i -> i + 1)
-                                   .mapToObj(Integer::toString)
+                                   .mapToObj(i -> prefix+(i + 1))
                                    .collect(ImmutableList.toImmutableList());
         }
 
         private void createPoll() {
             this.poll = PollFactory.getFactory()
-                                   .createOrderedPoll(optionList, new PollConfiguration(false))
+                                   .createOrderedPoll(optionList, new PollConfiguration(false,false))
                                    .createTimedFromThis();
         }
 

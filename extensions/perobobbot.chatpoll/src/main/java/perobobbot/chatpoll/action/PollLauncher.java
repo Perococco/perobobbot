@@ -21,7 +21,7 @@ public class PollLauncher implements CommandAction {
 
     @Override
     public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
-        pollExtension.start(ImmutableSet.of("A", "B", "C"), new PollConfiguration(true), Duration.ofSeconds(30));
+        pollExtension.start(ImmutableSet.of("A", "B", "C"), new PollConfiguration(true,true), Duration.ofSeconds(30));
         io.send(context.getChatConnectionInfo(), context.getChannelName(), "Poll started");
     }
 }

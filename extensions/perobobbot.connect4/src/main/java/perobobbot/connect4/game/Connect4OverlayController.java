@@ -1,5 +1,6 @@
 package perobobbot.connect4.game;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.connect4.Team;
 import perobobbot.lang.Subscription;
@@ -15,7 +16,7 @@ public interface Connect4OverlayController {
 
     void resetForNewGame();
 
-    @NonNull Subscription onPollStarted(@NonNull Team team);
+    @NonNull Subscription onPollStarted(@NonNull Team team, @NonNull ImmutableList<String> options);
 
     @NonNull void onPollTimerStarted(@NonNull Team team, @NonNull Duration pollDuration);
 

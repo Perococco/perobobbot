@@ -1,5 +1,6 @@
 package perococco.perobobbot.poll;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -9,20 +10,26 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Bag;
 import perobobbot.lang.HashBag;
 import perobobbot.lang.StringTools;
+import perobobbot.lang.fp.Function1;
+import perobobbot.lang.fp.Predicate1;
+import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.poll.Poll;
 import perobobbot.poll.PollResult;
 import perobobbot.poll.TimedPoll;
 import perobobbot.poll.Voter;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SimplePoll implements Poll {
 
     public static @NonNull Poll createClosed(@NonNull ImmutableSet<String> availableOptions, @NonNull PollConfiguration configuration) {
-        return new SimplePoll(availableOptions, availableOptions::contains, configuration);
+
+        return new SimplePoll(availableOptions,createOptionModifier(availableOptions,configuration), configuration);
     }
 
     public static Poll createCloseOrdered(@NonNull  ImmutableList<String> pollOptions, @NonNull PollConfiguration configuration) {
@@ -30,12 +37,26 @@ public class SimplePoll implements Poll {
     }
 
     public static @NonNull Poll createOpen(@NonNull PollConfiguration configuration) {
-        return new SimplePoll(null, StringTools::hasData, configuration);
+        final Function1<String,Optional<String>> modifier;
+        if (configuration.isCaseSensitive()) {
+            modifier = Optional::of;
+        }
+        else {
+            modifier = s -> Optional.of(s.toLowerCase());
+        }
+        return new SimplePoll(null, modifier, configuration);
+    }
+
+    private static Function1<String,Optional<String>> createOptionModifier(@NonNull ImmutableCollection<String> options, @NonNull PollConfiguration configuration) {
+        if (configuration.isCaseSensitive()) {
+            return s-> Optional.of(s).filter(options::contains);
+        }
+        return s -> options.stream().filter(s::equalsIgnoreCase).findFirst();
     }
 
     private final ImmutableSet<String> availableOptions;
 
-    private final @NonNull Predicate<String> idValidChoice;
+    private final @NonNull Function1<String, Optional<String>> idVoteProcessor;
 
     private final @NonNull PollConfiguration configuration;
 
@@ -70,12 +91,15 @@ public class SimplePoll implements Poll {
         if (userCannotVote(voter)) {
             return false;
         }
-        if (availableOptions.contains(idVoted)) {
-            voteCounts.add(idVoted, 1);
-            votePerVoter.computeIfAbsent(voter, k -> new HashBag<>()).add(idVoted, 1);
-            return true;
-        }
-        return false;
+
+        final var vote = idVoteProcessor.f(idVoted);
+
+        vote.ifPresent(v -> {
+            voteCounts.add(v, 1);
+            votePerVoter.computeIfAbsent(voter, k -> new HashBag<>()).add(v, 1);
+        });
+
+        return vote.isPresent();
     }
 
     private boolean userCannotVote(@NonNull Voter voter) {
