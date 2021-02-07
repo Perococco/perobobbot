@@ -170,7 +170,7 @@ public class PuckWarRound implements Renderable {
         this.help.drawWith(renderer);
         renderer.blockBuilder()
                 .setFontSize(24)
-                .addString("!throw <speed> <angle>",HAlignment.LEFT)
+                .addString("!throw <speed> <angle> (ex. !throw 180 30)",HAlignment.LEFT)
                 .setBackgroundColor(TEXT_COLOR)
                 .setBackgroundMargin(5)
                 .build().draw(help.getWidth()+10, renderer.getDrawingSize().getHeight(),HAlignment.LEFT, VAlignment.BOTTOM);
