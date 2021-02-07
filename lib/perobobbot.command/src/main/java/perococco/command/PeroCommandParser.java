@@ -8,6 +8,7 @@ import perobobbot.command.ParameterDefinition;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.fp.Value2;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -39,13 +40,22 @@ public class PeroCommandParser implements CommandParser {
         if (!matcher.matches()) {
             return Optional.empty();
         }
+
+        final String fullParameters;
+        if (matcher.groupCount()>=1) {
+            fullParameters = matcher.group(1).trim();
+        } else {
+            fullParameters = "";
+        }
+
+
         final var parameters = parsingResult.getParameters()
                                             .stream()
                                             .map(ParameterDefinition::getName)
                                             .map(n -> Optional.ofNullable(matcher.group(n)).map(v -> Value2.of(n, v)))
                                             .flatMap(Optional::stream)
                                             .collect(MapTool.value2Collector());
-        return Optional.of(new PeroCommandParsing(parsingResult.getFullCommand(), parameters));
+        return Optional.of(new PeroCommandParsing(parsingResult.getFullCommand(), fullParameters, parameters));
     }
 
     @Override

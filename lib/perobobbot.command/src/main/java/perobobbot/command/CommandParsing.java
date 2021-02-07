@@ -15,6 +15,11 @@ public interface CommandParsing {
     @NonNull String getFullName();
 
     /**
+     * @return the part of the command containing all the parameters
+     */
+    @NonNull String getFullParameters();
+
+    /**
      * @return the values associated with the parsed parameters
      */
     @NonNull ImmutableMap<String,String> getParameterValues();

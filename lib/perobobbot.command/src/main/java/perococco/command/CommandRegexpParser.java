@@ -73,6 +73,9 @@ public class CommandRegexpParser {
     }
 
     private void closePattern() {
+        if (!inFullCommand) {
+            regexpBuilder.append(")");
+        }
         this.regexpBuilder.append("$");
     }
 
@@ -80,6 +83,9 @@ public class CommandRegexpParser {
         final char c = commandDefinition.charAt(index++);
         switch (c) {
             case '[','{' -> {
+                if (inFullCommand) {
+                    regexpBuilder.append("(");
+                }
                 inFullCommand = false;
                 parseParameter(c=='[');
             }
@@ -166,6 +172,10 @@ public class CommandRegexpParser {
     }
 
 
+    /**
+     * Contains the information that can be used to
+     * parse a chat command.
+     */
     @Value
     public static class Result {
 

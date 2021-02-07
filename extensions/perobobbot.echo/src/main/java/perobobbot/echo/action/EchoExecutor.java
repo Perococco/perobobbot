@@ -21,6 +21,6 @@ public class EchoExecutor implements CommandAction {
                 ctx.getChatConnectionInfo(),
                 ctx.getChannelName(),
                 ctx.getMessageOwner(),
-                ctx.getContent());
+                parsing.getFullParameters());
     }
 }

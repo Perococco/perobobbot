@@ -13,6 +13,9 @@ public class PeroCommandParsing implements CommandParsing {
     private final @NonNull String fullName;
 
     @Getter
+    private final @NonNull String fullParameters;
+
+    @Getter
     private final @NonNull ImmutableMap<String,String> parameterValues;
 
 }
