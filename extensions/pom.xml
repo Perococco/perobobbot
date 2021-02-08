@@ -31,6 +31,7 @@
         <module>perobobbot.connect4</module>
         <module>perobobbot.sandbox</module>
         <module>perobobbot.bank</module>
+        <module>perobobbot.dungeon</module>
     </modules>
 
 </project>
