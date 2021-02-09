@@ -4,6 +4,8 @@ import perobobbot.lang.Plugin;
 module perobobbot.ext.dungeon {
     requires static lombok;
     requires java.desktop;
+
+    requires org.apache.logging.log4j;
     requires perobobbot.lang;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
