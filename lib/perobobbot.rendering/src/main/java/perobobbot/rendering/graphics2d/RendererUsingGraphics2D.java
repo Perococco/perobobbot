@@ -122,6 +122,15 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
+    public @NonNull Renderer drawImage(@NonNull BufferedImage image,
+                                       double dx, double dy, double dwitdh, double dheight,
+                                       int sx, int sy, int width, int height) {
+        graphics2D.drawImage(image,d2i(dx),d2i(dy),d2i(dx+dwitdh),d2i(dy+dheight),
+                             sx,sy,sx+width,sy+height,null);
+        return this;
+    }
+
+    @Override
     public @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y, @NonNull Color bkgColor) {
         graphics2D.drawImage(image, d2i(x), d2i(y), bkgColor, null);
         return this;

@@ -2,10 +2,12 @@ package perobobbot.dungeon;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.dungeon.game.DungeonCell;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.rendering.Region;
 import perococco.gen.generator.DungeonGenerator;
+import perococco.jdgen.api.CellFactory;
 import perococco.jdgen.api.JDGenConfiguration;
 import perococco.jdgen.api.Map;
 
@@ -29,7 +31,7 @@ public class DungeonExtension extends OverlayExtension {
                 .ifPresentOrElse(this::attachOverlayClient, this::warnForMapGenerationFailure);
     }
 
-    private void attachOverlayClient(@NonNull Map map) {
+    private void attachOverlayClient(@NonNull Map<DungeonCell> map) {
         final var overlay = new DungeonOverlay(map,computeSmallRegion());
         attachClient(overlay);
     }
@@ -43,10 +45,10 @@ public class DungeonExtension extends OverlayExtension {
         detachClient();
     }
 
-    private @NonNull Optional<Map> generateMap(JDGenConfiguration configuration) {
+    private @NonNull Optional<Map<DungeonCell>> generateMap(JDGenConfiguration configuration) {
         for (int i = 0; i < 10 && !Thread.currentThread().isInterrupted(); i++) {
             try {
-                var map = generator.generate(configuration);
+                var map = generator.generate(configuration, CellFactory.with(DungeonCell::new, DungeonCell[]::new));
                 return Optional.of(map);
             } catch (RuntimeException ignored) {
                 LOG.debug("Fail to generate dungeon : {}",ignored.getMessage());

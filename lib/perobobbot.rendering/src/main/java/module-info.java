@@ -8,6 +8,7 @@ module perobobbot.rendering {
     requires perobobbot.timeline;
 
     exports perobobbot.rendering;
+    exports perobobbot.rendering.tile;
     exports perobobbot.rendering.histogram;
     exports perobobbot.rendering.graphics2d.element;
 }

@@ -20,5 +20,4 @@ module perobobbot.ext.dungeon {
 
     opens perobobbot.dungeon.spring to spring.core, spring.beans, spring.context;
 
-
 }

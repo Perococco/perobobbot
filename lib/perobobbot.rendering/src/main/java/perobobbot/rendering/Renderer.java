@@ -5,6 +5,7 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.physics.ROVector2D;
 import perobobbot.physics.Vector2D;
 import perobobbot.rendering.graphics2d.RendererUsingGraphics2D;
+import perobobbot.rendering.tile.TileSet;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -56,6 +57,15 @@ public interface Renderer extends AutoCloseable {
     }
 
     @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y);
+
+    default @NonNull Renderer drawImage(@NonNull BufferedImage image, double dx, double dy,
+                                int sx, int sy, int width,int height) {
+        return drawImage(image,dx,dy,width,height,sx,sy,width,height);
+    }
+
+    @NonNull Renderer drawImage(@NonNull BufferedImage image,
+                                double dx, double dy, double dwitdh, double dheight,
+                                int sx, int sy, int swidth,int sheight);
 
     @NonNull Renderer drawImage(@NonNull BufferedImage image, double x, double y, @NonNull Color bkgColor);
 
