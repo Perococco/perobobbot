@@ -7,6 +7,7 @@ import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.rendering.Region;
+import perococco.jdgen.api.Cell;
 import perococco.jdgen.api.IntPoint;
 import perococco.jdgen.api.Map;
 
@@ -43,7 +44,7 @@ public class DungeonOverlay implements OverlayClient {
 
     @RequiredArgsConstructor
     private static class ImageDrawer implements Runnable {
-        private final @NonNull Map map;
+        private final @NonNull Map<Cell> map;
         private final AtomicReference<BufferedImage> mapAsImage;
 
         private final int tileSize=5;

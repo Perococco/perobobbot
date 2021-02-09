@@ -49,7 +49,7 @@ public class DungeonExtension extends OverlayExtension {
                 var map = generator.generate(configuration);
                 return Optional.of(map);
             } catch (RuntimeException ignored) {
-                ignored.printStackTrace();
+                LOG.debug("Fail to generate dungeon : {}",ignored.getMessage());
             }
         }
         return Optional.empty();
