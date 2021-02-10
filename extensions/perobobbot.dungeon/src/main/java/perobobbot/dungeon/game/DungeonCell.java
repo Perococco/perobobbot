@@ -2,6 +2,7 @@ package perobobbot.dungeon.game;
 
 import lombok.Getter;
 import lombok.NonNull;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
 import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Cell;
 import perococco.jdgen.api.CellType;
@@ -14,27 +15,24 @@ public class DungeonCell implements Cell {
     @Getter
     private final @NonNull CellType type;
 
-    private List<Tile> centralTiles = new ArrayList<>();
-    private Map<Direction, List<Tile>> neighbourTile = new HashMap<>();
+    private Map<Layer,List<Tile>> tiles = new HashMap<>();
 
     public DungeonCell(@NonNull CellType type) {
         this.type = type;
     }
 
-    public @NonNull Stream<Tile> getCentralTiles() {
-        return centralTiles.stream();
+    public void addTile(@NonNull Layer layer, @NonNull Tile tile) {
+        tiles.computeIfAbsent(layer, l -> new ArrayList<>()).add(tile);
     }
 
-    public @NonNull Stream<Tile> getTiles(@NonNull Direction direction) {
-        return neighbourTile.getOrDefault(direction,List.of()).stream();
+    public void addFirstTile(@NonNull Layer layer, Tile tile) {
+        tiles.computeIfAbsent(layer, l -> new ArrayList<>()).add(0,tile);
     }
 
-    public void addCentralTile(@NonNull Tile tile) {
-        this.centralTiles.add(tile);
-    }
-
-    public void addNeighbourTile(@NonNull Direction direction, @NonNull Tile tile) {
-        this.neighbourTile.computeIfAbsent(direction,d -> new ArrayList<>()).add(tile);
+    public @NonNull Stream<Tile> getTile(@NonNull Layer layer) {
+        return Optional.ofNullable(tiles.get(layer))
+                       .stream()
+                       .flatMap(Collection::stream);
     }
 
 }

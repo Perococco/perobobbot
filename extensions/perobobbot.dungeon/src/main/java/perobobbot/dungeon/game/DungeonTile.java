@@ -39,7 +39,7 @@ public enum DungeonTile implements Tile {
     WALL_BANNER_YELLOW(32, 48, 16, 16),
     COLUMN_TOP(80, 80, 16, 16),
     COLUMN_MID(80, 96, 16, 16),
-    COULMN_BASE(80, 112, 16, 16),
+    COLUMN_BASE(80, 112, 16, 16),
     WALL_COLUMN_TOP(96, 80, 16, 16),
     WALL_COLUMN_MID(96, 96, 16, 16),
     WALL_COULMN_BASE(96, 112, 16, 16),

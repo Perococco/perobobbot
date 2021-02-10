@@ -28,7 +28,7 @@ public class DungeonOverlay implements OverlayClient {
 
         renderer.translate(region.getX(),region.getY());
         DungeonDrawer.render(map,
-                             new Position(map.getSize().getWidth() / 2, map.getSize().getHeight() / 2),
+                             new Position(map.getSize().getWidth() / 2-3, map.getSize().getHeight() / 2-1),
                              renderer,
                              region.getSize()
         );

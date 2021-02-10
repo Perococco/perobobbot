@@ -8,6 +8,7 @@ import perococco.jdgen.api.Map;
 import perococco.jdgen.api.Position;
 import perococco.jdgen.api.Transformation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -45,7 +46,10 @@ public class DungeonDrawer {
         this.computeScale();
         this.translateRenderer();
         this.scaleRenderer();
-        Holder.POSITIONS_TO_DRAW.forEach(this::drawTile);
+        Arrays.stream(Layer.values())
+              .forEach(l -> {
+                  Holder.POSITIONS_TO_DRAW.forEach(p -> drawTile(l,p));
+              });
     }
 
     private void computeScale() {
@@ -67,25 +71,18 @@ public class DungeonDrawer {
         renderer.scale(scale);
     }
 
-    private void drawTile(Position position) {
+    private void drawTile(@NonNull Layer layer, @NonNull Position position) {
         final var cell = map.getCellAt(position);
-        cell.getCentralTiles()
+
+        cell.getTile(layer)
             .forEach(tile -> {
                 tile.render(renderer, position.getX() * tileSize, position.getY() * tileSize, tileSize, tileSize);
             });
-
-        for (Direction direction : Direction.allDirections()) {
-            cell.getTiles(direction).forEach(tile -> {
-                final Position p = direction.moveByOne(position);
-                tile.render(renderer, p.getX() * tileSize, p.getY() * tileSize, tileSize, tileSize);
-            });
-        }
 
     }
 
 
     private static class Holder {
-
 
         private static final List<Position> POSITIONS_TO_DRAW;
 

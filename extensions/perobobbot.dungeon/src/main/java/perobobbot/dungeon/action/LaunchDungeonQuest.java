@@ -22,7 +22,7 @@ public class LaunchDungeonQuest implements CommandAction {
         final var size = parsing.findIntParameter("size").orElse(10);
         final var minRoomSize = 2;
         final var maxRoomSize = 6;
-        final var configuration = new JDGenConfiguration(random.nextLong(),size,minRoomSize,maxRoomSize,1.25);
+        final var configuration = new JDGenConfiguration(4,size,minRoomSize,maxRoomSize,1.25);
         extension.start(configuration);
     }
 }
