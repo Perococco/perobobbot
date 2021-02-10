@@ -4,12 +4,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.dungeon.game.DungeonCell;
 import perobobbot.dungeon.game.DungeonDrawer;
-import perobobbot.dungeon.game.Position;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayClient;
 import perobobbot.overlay.api.OverlayIteration;
 import perobobbot.rendering.Region;
 import perococco.jdgen.api.Map;
+import perococco.jdgen.api.Position;
 
 @RequiredArgsConstructor
 public class DungeonOverlay implements OverlayClient {
@@ -28,7 +28,7 @@ public class DungeonOverlay implements OverlayClient {
 
         renderer.translate(region.getX(),region.getY());
         DungeonDrawer.render(map,
-                             new Position(map.getSize().getWidth()/2, map.getSize().getHeight()/2),
+                             new Position(map.getSize().getWidth() / 2, map.getSize().getHeight() / 2),
                              renderer,
                              region.getSize()
         );

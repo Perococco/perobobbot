@@ -6,8 +6,10 @@ import lombok.experimental.Delegate;
 import perobobbot.rendering.tile.Tile;
 import perobobbot.rendering.tile.TileGeometry;
 
+import java.util.Optional;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 public enum DungeonTile implements Tile {
     WALL_TOP_LEFT(16, 0, 16, 16),
@@ -344,6 +346,16 @@ public enum DungeonTile implements Tile {
 
     public static @NonNull Tile pickOneFloor() {
         return Holder.FLOORS[RANDOM.nextInt(Holder.FLOORS.length)];
+    }
+
+    public static @NonNull Optional<DungeonTile> pickOneWall(@NonNull Direction direction) {
+        return switch (direction) {
+            case EAST -> Optional.of(WALL_SIDE_MID_RIGHT);
+            case WEST -> Optional.of(WALL_SIDE_MID_LEFT);
+            case SOUTH, NORTH -> Optional.of(WALL_COLUMN_TOP);
+            default -> Optional.empty();
+        };
+
     }
 
     private static class Holder {

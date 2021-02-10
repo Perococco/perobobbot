@@ -3,32 +3,34 @@ package perobobbot.dungeon.game;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.lang.fp.Function2;
+import perococco.jdgen.api.Position;
+
+import java.util.function.UnaryOperator;
 
 @RequiredArgsConstructor
 public enum Direction {
-    NORTH(Position::moveNorth),
-    SOUTH(Position::moveSouth),
-    WEST(Position::moveWest),
-    EAST(Position::moveEast),
-    NORTH_WEST(Position::moveNorthWest),
-    NORTH_EAST(Position::moveNorthEast),
-    SOUTH_WEST(Position::moveSouthWest),
-    SOUTH_EAST(Position::moveSouthEast),
+    NORTH(0, -1),
+    SOUTH(0, +1),
+    WEST(-1, 0),
+    EAST(+1, 0),
+    NORTH_WEST(-1, -1),
+    NORTH_EAST(+1, -1),
+    SOUTH_WEST(-1, +1),
+    SOUTH_EAST(+1, +1),
     ;
 
-    private final @NonNull Function2<? super Position, ? super Integer, ? extends Position> mover;
+    private final @NonNull UnaryOperator<Position> mover;
 
-    public @NonNull Position computeDestination(@NonNull Position origin, int amount) {
-        return mover.apply(origin,amount);
+    Direction(int dx, int dy) {
+        this.mover = p -> p.translate(dx,dy);
     }
 
     public @NonNull Position moveByOne(@NonNull Position origin) {
-        return mover.apply(origin,1);
+        return mover.apply(origin);
     }
 
     public @NonNull Movement createMovement(int amount) {
-        return new Movement(this,amount);
+        return new Movement(this, amount);
     }
 
     public static @NonNull ImmutableList<Direction> allDirections() {

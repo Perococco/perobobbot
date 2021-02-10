@@ -4,8 +4,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.Size;
-import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Map;
+import perococco.jdgen.api.Position;
+import perococco.jdgen.api.Transformation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,9 +29,7 @@ public class DungeonDrawer {
         final var dx = centerPosition.getX() - HALF_WIDTH_IN_TILES;
         final var dy = centerPosition.getY() - HALF_HEIGHT_IN_TILES;
 
-        final Map<DungeonCell> offsetedMap = new OffsetedMap<>(map,
-                                                               x -> x + dx,
-                                                               y -> y + dy);
+        final Map<DungeonCell> offsetedMap = map.setTransformation(Transformation.offset(dx,dy));
 
         renderer.withPrivateTransform(r -> new DungeonDrawer(offsetedMap, r, size).render());
     }
@@ -38,7 +37,6 @@ public class DungeonDrawer {
     private final @NonNull Map<DungeonCell> map;
     private final @NonNull Renderer renderer;
     private final @NonNull Size size;
-    private final @NonNull DungeonTileSet tileSet = DungeonTileSet.INSTANCE;
 
     private double tileSize = MAX_TILE_SIZE;
     private double scale;
@@ -71,13 +69,13 @@ public class DungeonDrawer {
 
     private void drawTile(Position position) {
         final var cell = map.getCellAt(position);
-        cell.getCentralTile()
-            .ifPresent(tile -> {
+        cell.getCentralTiles()
+            .forEach(tile -> {
                 tile.render(renderer, position.getX() * tileSize, position.getY() * tileSize, tileSize, tileSize);
             });
 
         for (Direction direction : Direction.allDirections()) {
-            cell.getTile(direction).ifPresent(tile -> {
+            cell.getTiles(direction).forEach(tile -> {
                 final Position p = direction.moveByOne(position);
                 tile.render(renderer, p.getX() * tileSize, p.getY() * tileSize, tileSize, tileSize);
             });

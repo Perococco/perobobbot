@@ -3,6 +3,7 @@ package perobobbot.dungeon;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.dungeon.game.DungeonCell;
+import perobobbot.dungeon.game.DungeonTileInitializer;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.rendering.Region;
@@ -49,6 +50,7 @@ public class DungeonExtension extends OverlayExtension {
         for (int i = 0; i < 10 && !Thread.currentThread().isInterrupted(); i++) {
             try {
                 var map = generator.generate(configuration, CellFactory.with(DungeonCell::new, DungeonCell[]::new));
+                DungeonTileInitializer.initializeTiles(map);
                 return Optional.of(map);
             } catch (RuntimeException ignored) {
                 LOG.debug("Fail to generate dungeon : {}",ignored.getMessage());

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.jdgen.api.CellType;
 import perococco.jdgen.api.Map;
+import perococco.jdgen.api.Position;
 
 @RequiredArgsConstructor
 public class MovementExecutor {

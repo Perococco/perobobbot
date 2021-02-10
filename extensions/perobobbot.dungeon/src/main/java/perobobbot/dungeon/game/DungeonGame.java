@@ -2,6 +2,7 @@ package perobobbot.dungeon.game;
 
 import lombok.NonNull;
 import perococco.jdgen.api.Map;
+import perococco.jdgen.api.Position;
 
 public class DungeonGame {
 
