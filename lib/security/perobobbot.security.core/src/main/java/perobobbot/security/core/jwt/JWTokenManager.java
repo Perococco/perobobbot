@@ -10,11 +10,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
+import perobobbot.lang.Instants;
 import perobobbot.security.com.JwtInfo;
 import perobobbot.security.com.User;
 import perobobbot.security.core.UserProvider;
 
-import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -33,10 +33,13 @@ public class JWTokenManager {
     @NonNull
     private final UserProvider userProvider;
 
+    @NonNull
+    private final Instants instants;
+
     public @NonNull JwtInfo createJwtInfo(@NonNull String login) {
         final var user = userProvider.getUserDetails(login);
         final var jwtClaim = user.getJwtClaim();
-        final var now = Instant.now();
+        final var now = instants.now();
         final var expiration = now.plus(30, ChronoUnit.DAYS);
 
         final Claims claims = Jwts.claims();
@@ -75,7 +78,7 @@ public class JWTokenManager {
     }
 
     private void checkExpirationDate(Claims claims) {
-        final Date now = Date.from(Instant.now());
+        final Date now = Date.from(instants.now());
         if (claims.getExpiration().before(now)) {
             throw new CredentialsExpiredException("JWT token has expired");
         }

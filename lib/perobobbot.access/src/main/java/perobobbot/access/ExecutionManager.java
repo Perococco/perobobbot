@@ -2,6 +2,7 @@ package perobobbot.access;
 
 import lombok.NonNull;
 import perobobbot.lang.ChatUser;
+import perobobbot.lang.Instants;
 import perococco.perobobbot.access.PerococcoExecutionManager;
 
 import java.util.UUID;
@@ -12,8 +13,8 @@ import java.util.UUID;
 public interface ExecutionManager {
 
     @NonNull
-    static ExecutionManager create() {
-        return new PerococcoExecutionManager();
+    static ExecutionManager create(@NonNull Instants instants) {
+        return new PerococcoExecutionManager(instants);
     }
 
     /**

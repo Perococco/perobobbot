@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 import java.time.Instant;
 
-public interface InstantProvider {
+public interface Instants {
 
-    @NonNull Instant getNow();
+    @NonNull Instant now();
 }

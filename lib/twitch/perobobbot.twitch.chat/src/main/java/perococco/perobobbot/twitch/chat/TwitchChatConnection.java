@@ -52,19 +52,20 @@ public class TwitchChatConnection implements ChatConnection, AdvancedChatListene
     private final @NonNull EventBridge eventBridge;
 
     public TwitchChatConnection(@NonNull ChatConnectionInfo chatConnectionInfo,
-                                @NonNull Listeners<TwitchChatListener> listeners) {
+                                @NonNull Listeners<TwitchChatListener> listeners,
+                                @NonNull Instants instants) {
         this.chatConnectionInfo = chatConnectionInfo;
         this.credential = chatConnectionInfo.getCredential();
         this.connectionIdentity = Identity.create(ConnectionState.disconnected(chatConnectionInfo));
-        this.chat = createChat(connectionIdentity);
+        this.chat = createChat(connectionIdentity, instants);
         this.listeners = listeners;
         this.eventBridge = new EventBridge(this::onTwitchChatEvent, new StateUpdater(connectionIdentity));
     }
 
-    private static @NonNull AdvancedChat<MessageFromTwitch> createChat(@NonNull Identity<ConnectionState> identity) {
-        final var simpleChat = ChatFactory.getInstance().create(TwitchConstants.TWITCH_CHAT_URI, new TwitchReconnectionPolicy());
+    private static @NonNull AdvancedChat<MessageFromTwitch> createChat(@NonNull Identity<ConnectionState> identity, @NonNull Instants instants) {
+        final var simpleChat = ChatFactory.getInstance().create(TwitchConstants.TWITCH_CHAT_URI, new TwitchReconnectionPolicy(), instants);
         final var throttledChat = new ThrottledChat(simpleChat);
-        return AdvancedChatFactory.createAdvancedChatBasedOn(throttledChat, new TwitchMatcher(identity), new TwitchMessageConverter());
+        return AdvancedChatFactory.createAdvancedChatBasedOn(throttledChat, new TwitchMatcher(identity), new TwitchMessageConverter(), instants);
     }
 
     @Override

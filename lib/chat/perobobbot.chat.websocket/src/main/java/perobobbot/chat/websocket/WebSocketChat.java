@@ -8,16 +8,13 @@ import perobobbot.chat.core.event.Connection;
 import perobobbot.chat.core.event.Disconnection;
 import perobobbot.chat.core.event.Error;
 import perobobbot.chat.core.event.ReceivedMessage;
-import perobobbot.lang.Looper;
-import perobobbot.lang.SmartLock;
-import perobobbot.lang.ThrowableTool;
-import perobobbot.lang.WaitStrategy;
+import perobobbot.lang.*;
 
 import javax.websocket.*;
+import javax.websocket.MessageHandler;
 import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Condition;
@@ -30,30 +27,34 @@ public class WebSocketChat extends ChatIOBase implements Chat {
 
     private final Looper looper;
 
+    private final @NonNull Instants instants;
+
     private final AtomicReference<Session> sessionReference = new AtomicReference<>(null);
 
     private final SmartLock lock = SmartLock.reentrant();
 
     private final Condition disconnection = lock.newCondition();
 
-    public WebSocketChat(@NonNull URI uri) {
-        this(uri, ReconnectionPolicy.NO_RECONNECTION);
+    public WebSocketChat(@NonNull URI uri, @NonNull Instants instants) {
+        this(uri, ReconnectionPolicy.NO_RECONNECTION, instants);
     }
 
-    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy) {
-        this(uri, policy, WaitStrategy.create());
+    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy, @NonNull Instants instants) {
+        this(uri, policy, WaitStrategy.create(), instants);
     }
 
-    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy, @NonNull WaitStrategy waitStrategy) {
-        this(ContainerProvider.getWebSocketContainer(), uri, policy, waitStrategy);
+    public WebSocketChat(@NonNull URI uri, @NonNull ReconnectionPolicy policy, @NonNull WaitStrategy waitStrategy, @NonNull Instants instants) {
+        this(ContainerProvider.getWebSocketContainer(), uri, policy, waitStrategy, instants);
     }
 
     public WebSocketChat(
             @NonNull WebSocketContainer webSocketContainer,
             @NonNull URI uri,
             @NonNull ReconnectionPolicy policy,
-            @NonNull WaitStrategy waitStrategy) {
+            @NonNull WaitStrategy waitStrategy,
+            @NonNull Instants instants) {
         this.looper = new ChatLooper(webSocketContainer, uri, policy, waitStrategy);
+        this.instants = instants;
     }
 
     @Override
@@ -191,7 +192,7 @@ public class WebSocketChat extends ChatIOBase implements Chat {
 
         @Override
         public void onMessage(String message) {
-            warnListeners(new ReceivedMessage(Instant.now(), message));
+            warnListeners(new ReceivedMessage(instants.now(), message));
         }
     }
 

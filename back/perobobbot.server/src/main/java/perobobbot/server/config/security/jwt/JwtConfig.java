@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import perobobbot.lang.Instants;
 import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.jwt.JWTokenManager;
 
@@ -22,7 +23,7 @@ public class JwtConfig {
     }
 
     @Bean
-    public JWTokenManager jwtTokenManager(@NonNull UserProvider userProvider) {
-        return new JWTokenManager(key, ISSUER, userProvider);
+    public JWTokenManager jwtTokenManager(@NonNull UserProvider userProvider, @NonNull Instants instants) {
+        return new JWTokenManager(key, ISSUER, userProvider, instants);
     }
 }

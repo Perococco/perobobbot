@@ -10,7 +10,6 @@ import perobobbot.lang.*;
 import perobobbot.localio.action.*;
 
 import java.io.PrintStream;
-import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -18,17 +17,21 @@ import java.util.concurrent.CompletionStage;
 
 public class LocalChatPlatform implements ChatPlatform {
 
-    private final @NonNull LocalSender localSender = new ToStandardOutputSender();
+    private final @NonNull LocalSender localSender;
 
     private final SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
     private volatile @NonNull ImmutableMap<ChatConnectionInfo, LocalConnection> localConnections = ImmutableMap.of();
     private final @NonNull Listeners<MessageListener> listeners = new Listeners<>();
+    private final @NonNull Instants instants;
     private final SimpleLocalExecutor localExecutor;
 
     private final PrintStream output = System.out;
 
 
-    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser, @NonNull BotService botService, @NonNull StandardInputProvider standardInputProvider) {
+    public LocalChatPlatform(@NonNull ApplicationCloser applicationCloser,
+                             @NonNull BotService botService,
+                             @NonNull StandardInputProvider standardInputProvider,
+                             @NonNull Instants instants) {
         final GuiContext guiContext = new GuiContext(new LazyLocalExecutor(this::getLocalExecutor));
         final ApplicationCloser closer = () -> {subscriptionHolder.unsubscribe();applicationCloser.execute();};
 
@@ -40,7 +43,9 @@ public class LocalChatPlatform implements ChatPlatform {
                                                      new HideGui(guiContext),
                                                      new SqlLog()
         );
+        this.instants = instants;
         this.subscriptionHolder.replaceWith(() -> standardInputProvider.addListener(localExecutor::handleMessage));
+        this.localSender = new ToStandardOutputSender(instants);
     }
 
     private LocalExecutor getLocalExecutor() {
@@ -64,7 +69,7 @@ public class LocalChatPlatform implements ChatPlatform {
                                                                         .content(localMessage.getMessage())
                                                                         .rawPayload(localMessage.getMessage())
                                                                         .messageOwner(LocalChat.LOCAL_USER)
-                                                                        .receptionTime(Instant.now())
+                                                                        .receptionTime(instants.now())
                                                                         .channelInfo(LocalChat.CONSOLE_CHANNEL_INFO)
                                                                         .build();
                                listeners.warnListeners(l -> l.onMessage(ctx));

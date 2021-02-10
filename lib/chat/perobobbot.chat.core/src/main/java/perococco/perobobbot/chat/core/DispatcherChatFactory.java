@@ -5,6 +5,7 @@ import lombok.NonNull;
 import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.ChatFactory;
 import perobobbot.chat.core.ReconnectionPolicy;
+import perobobbot.lang.Instants;
 import perobobbot.lang.ServiceLoaderHelper;
 
 import java.net.URI;
@@ -26,12 +27,12 @@ public class DispatcherChatFactory extends ChatFactory {
     }
 
     @Override
-    public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy) {
+    public @NonNull Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy, @NonNull Instants instants) {
         return factories.stream()
                         .filter(f -> f.canHandle(address,reconnectionPolicy))
                         .findFirst()
                         .orElseThrow(() -> buildCannotHandleException(address,reconnectionPolicy))
-                        .create(address,reconnectionPolicy);
+                        .create(address, reconnectionPolicy, instants);
     }
 
     @Override

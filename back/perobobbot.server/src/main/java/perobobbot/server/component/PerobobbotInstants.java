@@ -2,15 +2,15 @@ package perobobbot.server.component;
 
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
-import perobobbot.lang.InstantProvider;
+import perobobbot.lang.Instants;
 
 import java.time.Instant;
 
 @Component
-public class PerobobbotInstantProvider implements InstantProvider {
+public class PerobobbotInstants implements Instants {
 
     @Override
-    public @NonNull Instant getNow() {
+    public @NonNull Instant now() {
         return Instant.now();
     }
 }

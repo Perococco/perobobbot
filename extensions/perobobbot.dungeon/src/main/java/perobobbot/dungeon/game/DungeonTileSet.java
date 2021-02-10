@@ -1,9 +1,7 @@
 package perobobbot.dungeon.game;
 
-import lombok.NonNull;
 import lombok.experimental.Delegate;
 import perobobbot.rendering.tile.ImageBasedTileSet;
-import perobobbot.rendering.tile.Tile;
 import perobobbot.rendering.tile.TileSet;
 
 import javax.imageio.ImageIO;

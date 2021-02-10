@@ -13,6 +13,7 @@ import perobobbot.chat.core.ChatNotConnected;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.Listeners;
 import perobobbot.lang.Looper;
+import perobobbot.lang.Instants;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -53,6 +54,8 @@ public class ChatSender<M> extends Looper {
     @NonNull
     private final BlockingDeque<PostData<?,M>> postQueue = new LinkedBlockingDeque<>();
 
+    private final @NonNull Instants instants;
+
     private final Timer timer = new Timer("Request timeout", true);
 
     @NonNull
@@ -75,7 +78,7 @@ public class ChatSender<M> extends Looper {
 
         try {
             postData.asRequestPostData().ifPresent(this::handleRequestPostData);
-            final Instant dispatchingTime = Instant.now();
+            final Instant dispatchingTime = instants.now();
             this.postMessageToChat(postData);
             this.performActionsAfterSuccessfulPost(postData,dispatchingTime);
         } catch (Throwable t) {
@@ -106,7 +109,7 @@ public class ChatSender<M> extends Looper {
     }
 
     private void postMessageToChat(@NonNull PostData<?,M> postData) {
-        final DispatchContext dispatchContext = new AdvancedDispatchContext(Instant.now());
+        final DispatchContext dispatchContext = new AdvancedDispatchContext(instants.now());
         chat.postMessage(postData.messagePayload(dispatchContext));
     }
 

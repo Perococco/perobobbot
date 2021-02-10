@@ -8,6 +8,7 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.Instants;
 import perobobbot.lang.StandardInputProvider;
 import perobobbot.localio.LocalChatPlatform;
 
@@ -24,10 +25,11 @@ public class LocalIOConfiguration {
     BotService botService;
 
     @Bean(destroyMethod = "dispose")
-    public LocalChatPlatform console() {
+    public LocalChatPlatform console(@NonNull Instants instants) {
         return new LocalChatPlatform(applicationCloser,
                                      botService,
-                                     standardInputProvider);
+                                     standardInputProvider,
+                                     instants);
     }
 
 }

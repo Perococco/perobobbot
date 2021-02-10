@@ -2,6 +2,7 @@ package perobobbot.chat.advanced;
 
 import lombok.NonNull;
 import perobobbot.chat.core.Chat;
+import perobobbot.lang.Instants;
 import perobobbot.lang.ServiceLoaderHelper;
 
 import java.util.ServiceLoader;
@@ -25,7 +26,8 @@ public abstract class AdvancedChatFactory {
     public abstract <M> AdvancedChat<M> createBasedOn(
             @NonNull Chat chat,
             @NonNull RequestAnswerMatcher<M> matcher,
-            @NonNull MessageConverter<M> messageConverter
+            @NonNull MessageConverter<M> messageConverter,
+            @NonNull Instants instants
     );
 
     /**
@@ -35,9 +37,10 @@ public abstract class AdvancedChatFactory {
     public static <M> AdvancedChat<M> createAdvancedChatBasedOn(
             @NonNull Chat chat,
             @NonNull RequestAnswerMatcher<M> matcher,
-            @NonNull MessageConverter<M> messageConverter
+            @NonNull MessageConverter<M> messageConverter,
+            @NonNull Instants instants
     ) {
-        return getInstance().createBasedOn(chat,matcher,messageConverter);
+        return getInstance().createBasedOn(chat, matcher, messageConverter, instants);
     }
 
     @NonNull

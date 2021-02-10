@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.access.AccessRule;
 import perobobbot.access.Launcher;
 import perobobbot.lang.ChatUser;
+import perobobbot.lang.Instants;
 import perobobbot.lang.SmartLock;
 
 import java.time.Duration;
@@ -12,6 +13,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class CommandExecutionLog {
 
     private final SmartLock lock = SmartLock.reentrant();
@@ -20,6 +22,7 @@ public class CommandExecutionLog {
      */
     private Instant lastExecutionTime = Instant.MIN;
 
+    private final @NonNull Instants instants;
     /**
      * The last execution per user
      */
@@ -36,7 +39,7 @@ public class CommandExecutionLog {
 
     public boolean cleanUp() {
         return lock.getLocked(() -> {
-            final Instant nowMinusCoolDown = Instant.now().minus(maxCoolDownTime);
+            final Instant nowMinusCoolDown = instants.now().minus(maxCoolDownTime);
             if (lastExecutionTime.isBefore(nowMinusCoolDown)) {
                 this.lastExecutionTimePerUserId.clear();
                 return true;

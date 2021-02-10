@@ -16,7 +16,10 @@ import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 @Log4j2
+@RequiredArgsConstructor
 public class TwitchChatPlatform implements ChatPlatform {
+
+    private final @NonNull Instants instants;
 
     private final Listeners<TwitchChatListener> listeners = new Listeners<>();
 
@@ -77,7 +80,7 @@ public class TwitchChatPlatform implements ChatPlatform {
         public ConnectionData(@NonNull ChatConnectionInfo chatConnectionInfo) {
             final var nick = chatConnectionInfo.getNick();
             this.chatConnectionInfo = chatConnectionInfo;
-            this.connection = new TwitchChatConnection(chatConnectionInfo, listeners)
+            this.connection = new TwitchChatConnection(chatConnectionInfo, listeners, instants)
                     .start()
                     .whenComplete((result, error) -> {
                         if (error != null) {

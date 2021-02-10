@@ -348,16 +348,6 @@ public enum DungeonTile implements Tile {
         return Holder.FLOORS[RANDOM.nextInt(Holder.FLOORS.length)];
     }
 
-    public static @NonNull Optional<DungeonTile> pickOneWall(@NonNull Direction direction) {
-        return switch (direction) {
-            case EAST -> Optional.of(WALL_SIDE_MID_RIGHT);
-            case WEST -> Optional.of(WALL_SIDE_MID_LEFT);
-            case SOUTH, NORTH -> Optional.of(WALL_COLUMN_TOP);
-            default -> Optional.empty();
-        };
-
-    }
-
     private static class Holder {
         private static final Tile[] FLOORS = {FLOOR_1, FLOOR_2, FLOOR_3, FLOOR_4, FLOOR_5, FLOOR_6, FLOOR_7, FLOOR_8};
     }

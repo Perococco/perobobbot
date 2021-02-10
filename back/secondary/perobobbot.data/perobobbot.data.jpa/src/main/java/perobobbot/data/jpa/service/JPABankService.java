@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JPABankService implements BankService {
 
-    private final @NonNull InstantProvider instantProvider;
+    private final @NonNull Instants instants;
 
     private final @NonNull SafeRepository safeRepository;
     private final @NonNull TransactionRepository transactionRepository;
@@ -34,7 +34,7 @@ public class JPABankService implements BankService {
     @Override
     @Transactional
     public @NonNull void cleanTransactions() {
-        final var now = instantProvider.getNow();
+        final var now = instants.now();
         final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING, now);
         transactions.forEach(t -> t.rollback().removeFromSafe());
         transactionRepository.deleteInBatch(transactions);
@@ -54,7 +54,7 @@ public class JPABankService implements BankService {
     @Override
     @Transactional
     public @NonNull TransactionInfo createTransaction(@NonNull UUID safeId, long requestedAmount, @NonNull Duration duration) {
-        final var now = instantProvider.getNow();
+        final var now = instants.now();
         final var safe = safeRepository.getByUuid(safeId);
         final var transaction = safe.createTransaction(requestedAmount, now.plus(duration));
 
@@ -71,7 +71,7 @@ public class JPABankService implements BankService {
     @Override
     @Transactional
     public @NonNull void completeTransaction(@NonNull UUID transactionId) {
-        final var now = instantProvider.getNow();
+        final var now = instants.now();
         final var transaction = transactionRepository.getByUuid(transactionId);
         transactionRepository.delete(transaction.complete(now).removeFromSafe());
     }

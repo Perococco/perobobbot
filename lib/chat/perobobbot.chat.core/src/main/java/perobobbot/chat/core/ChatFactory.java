@@ -1,6 +1,7 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
+import perobobbot.lang.Instants;
 import perococco.perobobbot.chat.core.DispatcherChatFactory;
 
 import java.net.URI;
@@ -19,10 +20,11 @@ public abstract class ChatFactory {
      * Create a chat manager with the provided parameter
      * @param address the address of the chat
      * @param reconnectionPolicy the reconnection policy
+     * @param instants a provider of the instant now
      * @return the newly create chat with the provided parameters
      */
     @NonNull
-    public abstract Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy);
+    public abstract Chat create(@NonNull URI address, @NonNull ReconnectionPolicy reconnectionPolicy, @NonNull Instants instants);
 
 
 

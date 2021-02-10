@@ -8,6 +8,7 @@ import perobobbot.chat.core.Chat;
 import perobobbot.chat.core.event.Error;
 import perobobbot.chat.core.event.*;
 import perobobbot.lang.Listeners;
+import perobobbot.lang.Instants;
 import perobobbot.lang.Subscription;
 
 import java.time.Duration;
@@ -47,12 +48,13 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
     public PerococcoAdvancedChat(
             @NonNull Chat chat,
             @NonNull RequestAnswerMatcher<M> matcher,
-            @NonNull MessageConverter<M> messageConverter) {
+            @NonNull MessageConverter<M> messageConverter,
+            @NonNull Instants instants) {
         this.chat = chat;
         this.messageConverter = messageConverter;
         this.matcher = matcher;
         final BlockingDeque<RequestPostData<?, M>> postDataQueue = new LinkedBlockingDeque<>();
-        this.chatSender = new ChatSender<>(chat, listeners, postDataQueue);
+        this.chatSender = new ChatSender<>(chat, listeners, postDataQueue, instants);
         this.chatReceiver = new ChatReceiver<>(matcher::shouldPerformMatching, postDataQueue);
     }
 

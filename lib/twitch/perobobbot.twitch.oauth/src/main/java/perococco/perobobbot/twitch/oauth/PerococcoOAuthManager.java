@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.client.RestTemplate;
 import perobobbot.http.WebHookObservable;
+import perobobbot.lang.Instants;
 import perobobbot.lang.PerobobbotException;
 import perobobbot.lang.Todo;
 import perobobbot.twitch.oauth.AppAccessToken;
@@ -12,7 +13,6 @@ import perobobbot.twitch.oauth.ClientInfo;
 import perobobbot.twitch.oauth.OAuthManager;
 import perobobbot.twitch.oauth.Scope;
 
-import java.time.Instant;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -30,11 +30,13 @@ public class PerococcoOAuthManager implements OAuthManager {
 
     private final @NonNull WebHookObservable webHookObservable;
 
+    private final @NonNull Instants instants;
+
     private final @NonNull RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public @NonNull AppAccessToken getAppAccessToken(@NonNull ImmutableSet<Scope> scopes) {
-        final var now = Instant.now();
+        final var now = instants.now();
         final var clientId = clientInfo.getId();
         final var clientSecret = clientInfo.getSecret();
         final var scope = scopes.stream().map(Scope::getId).collect(Collectors.joining(" "));
