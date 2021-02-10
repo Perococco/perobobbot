@@ -14,10 +14,19 @@ public interface Plugin {
 
     Comparator<Plugin> COMPARE_TYPE_THEN_NAME = Comparator.comparing(Plugin::type).thenComparing(Plugin::name);
 
+    /**
+     * @return the type of the plugin
+     */
     @NonNull PluginType type();
 
+    /**
+     * @return the name of the plugin
+     */
     @NonNull String name();
 
+    /**
+     * @return a stream of all the packages to includes in the spring configuration
+     */
     @NonNull Stream<String> packageStream();
 
     @NonNull

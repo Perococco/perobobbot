@@ -30,6 +30,7 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-extension</artifactId>
         </dependency>
+
         <!-- extension dependencies. Should be runtime scope -->
         <dependency>
             <groupId>perococco.bot</groupId>
@@ -131,6 +132,9 @@
             <artifactId>perobobbot-rest-controller</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+
+
 
         <dependency>
             <groupId>perococco.bot</groupId>
