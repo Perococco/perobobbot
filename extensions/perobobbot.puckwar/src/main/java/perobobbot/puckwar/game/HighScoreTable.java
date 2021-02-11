@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class HighScoreTable implements Renderable {
+public class HighScoreTable implements SimpleRenderable {
 
     public static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 92);
     public static final int BACKGROUND_MARGIN = 20;
@@ -67,7 +67,7 @@ public class HighScoreTable implements Renderable {
     }
 
     @Override
-    public void drawWith(@NonNull Renderer renderer) {
+    public void render(@NonNull Renderer renderer) {
         renderer.withPrivateContext(r -> {
             final BlockBuilder blockBuilder = r.blockBuilder()
                                                .setBackgroundColor(BACKGROUND_COLOR)

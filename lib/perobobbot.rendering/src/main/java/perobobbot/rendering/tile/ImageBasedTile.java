@@ -13,15 +13,25 @@ public class ImageBasedTile implements Tile {
     private final TileGeometry tileGeometry;
 
     public void render(@NonNull Renderer renderer, double x, double y) {
+        final var width = tileGeometry.getWidth();
+        final var height = tileGeometry.getHeight();
         renderer.drawImage(image,x,y,
                            tileGeometry.getX(),tileGeometry.getY(),
-                           tileGeometry.getWidth(), tileGeometry.getHeight());
+                           width,height);
     }
 
     @Override
-    public void render(@NonNull Renderer renderer, double x, double y, double width, double height) {
-        renderer.drawImage(image,x,y,width,height,
+    public void render(@NonNull Renderer renderer, double x, double y, double scale) {
+        final var width = tileGeometry.getWidth();
+        final var height = tileGeometry.getHeight();
+
+        renderer.drawImage(image,x,y,width*scale,height*scale,
                            tileGeometry.getX(),tileGeometry.getY(),
-                           tileGeometry.getWidth(), tileGeometry.getHeight());
+                           width, height);
+    }
+
+    @Override
+    public void render(@NonNull Renderer renderer) {
+        render(renderer,0,0);
     }
 }

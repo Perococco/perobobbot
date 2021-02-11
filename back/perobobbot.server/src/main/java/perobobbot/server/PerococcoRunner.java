@@ -51,7 +51,8 @@ public class PerococcoRunner implements ApplicationRunner {
               if (messageChannelIO != null) {
                   whenJoined(messageChannelIO);
               } else {
-                  LOG.error("Could not connect to perococco chat",error);
+                  LOG.error("Could not connect to perococco chat {}",error.getMessage());
+                  LOG.debug(error);
               }
           });
     }

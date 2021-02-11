@@ -2,6 +2,7 @@ package perobobbot.dungeon.game;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Cell;
@@ -12,9 +13,18 @@ import java.util.stream.Stream;
 
 public class DungeonCell implements Cell {
 
+    /**
+     * The type of the cell, Set by the dungeon generator
+     */
     @Getter
     private final @NonNull CellType type;
 
+    @Getter @Setter
+    private int flag;
+
+    /**
+     * The list of the tiles used to draw this cell
+     */
     private Map<Layer,List<Tile>> tiles = new HashMap<>();
 
     public DungeonCell(@NonNull CellType type) {

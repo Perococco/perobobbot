@@ -1,7 +1,8 @@
-package perobobbot.dungeon.game;
+package perobobbot.dungeon.game.entity;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.dungeon.game.DungeonCell;
 import perococco.jdgen.api.CellType;
 import perococco.jdgen.api.Map;
 import perococco.jdgen.api.Position;

@@ -1,4 +1,4 @@
-package perobobbot.dungeon.game;
+package perobobbot.dungeon.game.entity;
 
 import lombok.NonNull;
 import lombok.Value;

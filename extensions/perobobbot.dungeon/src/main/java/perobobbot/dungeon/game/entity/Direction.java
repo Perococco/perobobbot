@@ -1,32 +1,43 @@
-package perobobbot.dungeon.game;
+package perobobbot.dungeon.game.entity;
 
 import com.google.common.collect.ImmutableList;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.fp.Function2;
 import perococco.jdgen.api.Position;
 
+import java.util.function.ToIntBiFunction;
 import java.util.function.UnaryOperator;
 
 @RequiredArgsConstructor
 public enum Direction {
-    NORTH(0, -1),
-    SOUTH(0, +1),
-    WEST(-1, 0),
-    EAST(+1, 0),
-    NORTH_WEST(-1, -1),
-    NORTH_EAST(+1, -1),
-    SOUTH_WEST(-1, +1),
-    SOUTH_EAST(+1, +1),
+    NORTH_WEST(-1, -1,8),
+    NORTH(0, -1,7),
+    NORTH_EAST(+1, -1,6),
+    WEST(-1, 0,5),
+    EAST(+1, 0,3),
+    SOUTH_WEST(-1, +1,2),
+    SOUTH(0, +1,1),
+    SOUTH_EAST(+1, +1,0),
     ;
 
-    private final @NonNull UnaryOperator<Position> mover;
+    private final @NonNull Function2<Position,Integer,Position> mover;
 
-    Direction(int dx, int dy) {
-        this.mover = p -> p.translate(dx,dy);
+    @Getter
+    private final int mask;
+
+    Direction(int dx, int dy,int bit) {
+        this.mover = (p,a) -> p.translate(dx*a,dy*a);
+        this.mask = 1<<bit;
     }
 
     public @NonNull Position moveByOne(@NonNull Position origin) {
-        return mover.apply(origin);
+        return mover.apply(origin,1);
+    }
+
+    public @NonNull Position moveBy(@NonNull Position origin, int amount) {
+        return mover.apply(origin,amount);
     }
 
     public @NonNull Movement createMovement(int amount) {

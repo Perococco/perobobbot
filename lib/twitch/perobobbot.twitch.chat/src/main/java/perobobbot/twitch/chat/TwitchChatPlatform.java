@@ -84,7 +84,8 @@ public class TwitchChatPlatform implements ChatPlatform {
                     .start()
                     .whenComplete((result, error) -> {
                         if (error != null) {
-                            LOG.warn("Could not connect to twitch chat for nick {}", nick, error);
+                            LOG.warn("Could not connect to twitch chat for nick {} : {}", nick, error.getMessage());
+                            LOG.debug(error);
                             removeConnection(nick);
                         }
                     });

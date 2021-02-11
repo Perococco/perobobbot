@@ -4,14 +4,14 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.lang.fp.Consumer1;
-import perobobbot.rendering.Renderable;
+import perobobbot.rendering.SimpleRenderable;
 import perobobbot.rendering.Renderer;
 import perobobbot.rendering.ScreenSize;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class PuckWarGame implements Renderable {
+public class PuckWarGame implements SimpleRenderable {
 
     private final @NonNull ScreenSize overlaySize;
 
@@ -66,8 +66,8 @@ public class PuckWarGame implements Renderable {
     }
 
     @Override
-    public void drawWith(@NonNull Renderer renderer) {
-        executeWithCurrentRound(r -> r.drawWith(renderer));
+    public void render(@NonNull Renderer renderer) {
+        executeWithCurrentRound(r -> r.render(renderer));
     }
 
     public void addThrow(@NonNull Throw puckThrow) {

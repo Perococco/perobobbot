@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.dungeon.DungeonExtension;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
+import perobobbot.dungeon.action.DebugDungeon;
 import perobobbot.dungeon.action.LaunchDungeonQuest;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Plugin;
@@ -35,7 +36,8 @@ public class DungeonExtensionFactory extends ExtensionFactoryBase<DungeonExtensi
         final var accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ZERO);
         return ImmutableList.of(
                 factory.create("dg [size]",accessRule, new LaunchDungeonQuest(extension)),
-                factory.create("dg stop",accessRule, extension::stop)
+                factory.create("dg stop",accessRule, extension::stop),
+                factory.create("dg debug [size]",accessRule, new DebugDungeon(extension))
         );
     }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.function.Predicate;
 
-public class PuckWarRound implements Renderable {
+public class PuckWarRound implements SimpleRenderable {
 
     public static final Color BACKGROUND_COLOR = new Color(0, 0, 0, 169);
     public static final int BACKGROUND_MARGIN = 20;
@@ -150,7 +150,7 @@ public class PuckWarRound implements Renderable {
     }
 
     @Override
-    public void drawWith(@NonNull Renderer renderer) {
+    public void render(@NonNull Renderer renderer) {
         this.drawHelp(renderer);
         this.drawTarget(renderer);
         this.drawBlackHole(renderer);
@@ -167,7 +167,7 @@ public class PuckWarRound implements Renderable {
     private final Color TEXT_COLOR = new Color(106, 106, 106, 60);
 
     private void drawHelp(Renderer renderer) {
-        this.help.drawWith(renderer);
+        this.help.render(renderer);
         renderer.blockBuilder()
                 .setFontSize(24)
                 .addString("!throw <speed> <angle> (ex. !throw 180 30)",HAlignment.LEFT)
@@ -177,15 +177,15 @@ public class PuckWarRound implements Renderable {
     }
 
     private void drawHighScoreTable(@NonNull Renderer renderer) {
-        highScoreTable.drawWith(renderer);
+        highScoreTable.render(renderer);
     }
 
     private void drawTarget(@NonNull Renderer renderer) {
-        target.drawWith(renderer);
+        target.render(renderer);
     }
 
     private void drawBlackHole(@NonNull Renderer renderer) {
-        blackHole.drawWith(renderer);
+        blackHole.render(renderer);
     }
 
     private void drawPucks(@NonNull Renderer renderer) {

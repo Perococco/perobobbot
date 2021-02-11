@@ -6,7 +6,7 @@ import perobobbot.physics.Entity2DBase;
 
 import java.awt.image.BufferedImage;
 
-public class Sprite extends Entity2DBase implements Renderable {
+public class Sprite extends Entity2DBase implements SimpleRenderable {
 
     private final @NonNull BufferedImage image;
 
@@ -30,7 +30,7 @@ public class Sprite extends Entity2DBase implements Renderable {
     }
 
     @Override
-    public void drawWith(@NonNull Renderer renderer) {
+    public void render(@NonNull Renderer renderer) {
         renderer.withPrivateTransform(r -> {
                     final var xOffset = width*0.5;
                     final var yOffset = height*0.5;
