@@ -13,8 +13,9 @@ public class Todo {
         throw new PerobobbotException("Not implemented yet");
     }
 
-    public static <T> void exec(@NonNull T value, Consumer1<? super T> action) {
-
+    public static <T> T TO_REMOVE() {
+        throw new PerobobbotException("This must be removed");
     }
+
 
 }

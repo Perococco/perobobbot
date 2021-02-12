@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 public class Movement {
     @NonNull Direction direction;
-    @NonNull int amount;
+    int amount;
 
 }

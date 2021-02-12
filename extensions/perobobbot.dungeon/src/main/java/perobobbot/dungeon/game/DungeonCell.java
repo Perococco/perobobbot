@@ -22,6 +22,9 @@ public class DungeonCell implements Cell {
     @Getter @Setter
     private int flag;
 
+    @Getter @Setter
+    private ExtraFlag extraFlag;
+
     /**
      * The list of the tiles used to draw this cell
      */

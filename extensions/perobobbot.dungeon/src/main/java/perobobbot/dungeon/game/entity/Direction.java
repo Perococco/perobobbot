@@ -9,6 +9,7 @@ import perococco.jdgen.api.Position;
 
 import java.util.function.ToIntBiFunction;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public enum Direction {
@@ -44,8 +45,8 @@ public enum Direction {
         return new Movement(this, amount);
     }
 
-    public static @NonNull ImmutableList<Direction> allDirections() {
-        return Holder.DIRECTIONS;
+    public static @NonNull Stream<Direction> allDirections() {
+        return Holder.DIRECTIONS.stream();
     }
 
     private static class Holder {

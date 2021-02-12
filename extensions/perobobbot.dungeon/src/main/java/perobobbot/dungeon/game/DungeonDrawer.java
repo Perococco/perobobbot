@@ -20,9 +20,9 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class DungeonDrawer {
 
-    public static final int HALF_WIDTH_IN_TILES = 8;
+    public static final int HALF_WIDTH_IN_TILES = 15;
     public static final int WIDTH_IN_TILES = 2 * HALF_WIDTH_IN_TILES + 1;
-    public static final int HALF_HEIGHT_IN_TILES = 10;
+    public static final int HALF_HEIGHT_IN_TILES = 19;
     public static final int HEIGHT_IN_TILES = 2 * HALF_HEIGHT_IN_TILES + 1;
     public static final int MAX_TILE_SIZE = 64;
 
@@ -32,8 +32,8 @@ public class DungeonDrawer {
 
         final var centerPosition = dungeon.getPlayerPosition();
 
-        final var dx = centerPosition.getX() - HALF_WIDTH_IN_TILES;
-        final var dy = centerPosition.getY() - HALF_HEIGHT_IN_TILES;
+        final var dx = centerPosition.getX() - HALF_WIDTH_IN_TILES-1;
+        final var dy = centerPosition.getY() - HALF_HEIGHT_IN_TILES-1;
 
         final Map<DungeonCell> offsetedMap = dungeon.getMap().setTransformation(Transformation.offset(dx,dy));
 
@@ -86,6 +86,14 @@ public class DungeonDrawer {
         Stream.of(Layer.FLOOR, Layer.WALL)
               .flatMap(cell::getTile)
               .forEach(t -> drawTile(t,position));
+        final var color = switch (cell.getType()) {
+            case CELL_FLOOR, CORRIDOR_FLOOR, DOOR, ROOM_FLOOR -> Color.BLUE;
+            case WALL -> Color.RED;
+            case EMPTY -> Color.GREEN;
+        };
+        renderer.setPaint(color);
+        renderer.fillRect(position.getX()*tileSize, position.getY()*tileSize,tileSize/5,tileSize/5);
+
     }
 
     private void drawTile(@NonNull Tile tile, @NonNull Position position) {

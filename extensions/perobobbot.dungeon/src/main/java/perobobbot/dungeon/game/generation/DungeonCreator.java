@@ -79,9 +79,9 @@ public class DungeonCreator {
 
     private void pickPlayerPosition() {
         final var size = map.getSize();
-        this.playPosition = new Position(28,30);
-
+        this.playPosition = new Position(33,33);
     }
+
     private void pickPlayerGraphic() {
         this.playerGraphic = DungeonTile.animationContaining(DungeonTile.BIG_DEMON_RUN_ANIM_0);
     }

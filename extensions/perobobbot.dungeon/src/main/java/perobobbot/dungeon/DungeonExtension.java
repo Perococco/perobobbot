@@ -61,7 +61,7 @@ public class DungeonExtension extends OverlayExtension {
         int w = size.getWidth();
         int h = size.getHeight();
 
-        return new Region(w-w/2, 0, w/2, h);
+        return new Region(0, 0, w, h);
     }
 
 }
