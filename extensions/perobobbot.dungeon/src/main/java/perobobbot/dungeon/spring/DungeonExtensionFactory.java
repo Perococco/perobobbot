@@ -37,7 +37,7 @@ public class DungeonExtensionFactory extends ExtensionFactoryBase<DungeonExtensi
         return ImmutableList.of(
                 factory.create("dg [size]",accessRule, new LaunchDungeonQuest(extension)),
                 factory.create("dg stop",accessRule, extension::stop),
-                factory.create("dg debug [size]",accessRule, new DebugDungeon(extension))
+                factory.create("dg debug [size] [seed]",accessRule, new DebugDungeon(extension))
         );
     }
 }

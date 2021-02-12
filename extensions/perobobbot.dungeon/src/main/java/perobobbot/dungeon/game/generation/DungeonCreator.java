@@ -79,7 +79,7 @@ public class DungeonCreator {
 
     private void pickPlayerPosition() {
         final var size = map.getSize();
-        this.playPosition = new Position(size.getWidth()/2+3,size.getHeight()/2-30);
+        this.playPosition = new Position(28,30);
 
     }
     private void pickPlayerGraphic() {

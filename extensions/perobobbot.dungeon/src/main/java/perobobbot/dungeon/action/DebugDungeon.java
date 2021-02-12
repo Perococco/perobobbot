@@ -22,18 +22,20 @@ public class DebugDungeon implements CommandAction {
         if (thread != null) {
             thread.interrupt();
             thread = null;
-        } else {
-            final var size = parsing.findIntParameter("size").orElse(10);
-            this.thread = new Thread(new Runner(size),"Dungeon Debug");
-            this.thread.setDaemon(true);
-            this.thread.start();
         }
+        final var size = parsing.findIntParameter("size").orElse(10);
+        final var seed = parsing.findIntParameter("seed").orElse(4);
+        this.thread = new Thread(new Runner(size, seed), "Dungeon Debug");
+        this.thread.setDaemon(true);
+        this.thread.start();
+
     }
 
     @RequiredArgsConstructor
     private class Runner implements Runnable {
 
         private final int size;
+        private final int seed;
 
         @Override
         public void run() {
@@ -54,7 +56,7 @@ public class DebugDungeon implements CommandAction {
         private void startDungeon() {
             final var minRoomSize = 2;
             final var maxRoomSize = 6;
-            final var configuration = new JDGenConfiguration(4, size, minRoomSize, maxRoomSize, 1.25);
+            final var configuration = new JDGenConfiguration(seed, size, minRoomSize, maxRoomSize, 1.25);
             extension.start(configuration);
         }
 
