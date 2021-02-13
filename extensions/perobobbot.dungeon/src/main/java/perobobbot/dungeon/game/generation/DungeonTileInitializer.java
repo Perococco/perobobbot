@@ -7,21 +7,26 @@ import perobobbot.dungeon.game.DungeonTile;
 import perobobbot.dungeon.game.Layer;
 import perococco.jdgen.api.Position;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @RequiredArgsConstructor
 public class DungeonTileInitializer {
 
-    public static void initializeTiles(@NonNull DungeonMap map, @NonNull Random random) {
-        new DungeonTileInitializer(map,random).initializeTiles();
+    public static List<MissingPosition> initializeTiles(@NonNull DungeonMap map, @NonNull Random random) {
+        return new DungeonTileInitializer(map,random).initializeTiles();
     }
 
     private final @NonNull DungeonMap map;
     private final @NonNull Random random;
 
-    private void initializeTiles() {
+    private final List<MissingPosition> missingPositions = new ArrayList<>();
+
+    private List<MissingPosition> initializeTiles() {
         map.allMapPositions()
            .forEach(this::setTilesForOnePosition);
+        return missingPositions;
     }
 
     private void setTilesForOnePosition(@NonNull Position position) {
@@ -36,18 +41,18 @@ public class DungeonTileInitializer {
     private void setFloorTiles(@NonNull Position p) {
         final var cell = map.getCellAt(p);
         cell.addTile(Layer.FLOOR, DungeonTile.pickOneFloor(random));
-        WallTileOnFloor.getWallTiles(map,p).forEach(t -> cell.addTile(Layer.WALL, t));
+        WallTileOnFloor.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL, t));
     }
 
 
     private void setEmptyTiles(Position p) {
         final var cell = map.getCellAt(p);
-        WallTileOnEmpty.getWallTiles(map,p).forEach(t -> cell.addTile(Layer.WALL, t));
+        WallTileOnEmpty.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL, t));
     }
 
     private void setWallTiles(Position p) {
         final var cell = map.getCellAt(p);
-        WallTileOnWall.getWallTiles(map,p).forEach(t -> cell.addTile(Layer.WALL,t));
+        WallTileOnWall.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL,t));
     }
 
 }

@@ -11,12 +11,13 @@ import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.CellType;
 import perococco.jdgen.api.Position;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class WallTileOnEmpty extends WallTileBase {
 
-    public static @NonNull Stream<Tile> getWallTiles(@NonNull DungeonMap dungeonMap, @NonNull Position position) {
-        return new WallTileOnEmpty(dungeonMap, position).getWallTiles();
+    public static @NonNull Stream<Tile> getWallTiles(@NonNull DungeonMap dungeonMap, @NonNull Position position, @NonNull List<MissingPosition> missingPositions) {
+        return new WallTileOnEmpty(dungeonMap, position, missingPositions).getWallTiles();
     }
 
     @Getter
@@ -24,8 +25,8 @@ public class WallTileOnEmpty extends WallTileBase {
     @Getter
     private final @NonNull Position position;
 
-    public WallTileOnEmpty(@NonNull DungeonMap dungeonMap, @NonNull Position position) {
-        super(DungeonTile.CRATE, DungeonTile.FLASK_BIG_GREEN);
+    public WallTileOnEmpty(@NonNull DungeonMap dungeonMap, @NonNull Position position, @NonNull List<MissingPosition> missingPositions) {
+        super(DungeonTile.CRATE, DungeonTile.FLASK_BIG_GREEN, missingPositions);
         this.dungeonMap = dungeonMap;
         this.position = position;
     }
@@ -67,30 +68,81 @@ public class WallTileOnEmpty extends WallTileBase {
             case 0b100_100_101 -> Stream.empty();
             case 0b100_101_101 -> Stream.empty();
             case 0b111_000_001 -> Stream.empty();
+            case 0b111_000_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
+            case 0b100_000_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
+            case 0b000_100_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
+            case 0b110_000_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
+            case 0b001_001_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
+            case 0b000_000_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
 
             case 0b110_100_110 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
+            case 0b011_001_000 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder()
+            );
+            case 0b001_000_011 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder()
+            );
+            case 0b110_000_100 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder()
+            );
+            case 0b100_001_001 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder()
+            );
+            case 0b100_100_001 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder()
+            );
 
-            case 0b111_000_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
 
-            case 0b111_100_111 -> switch (cell.getExtraFlag()) {
-                case WW -> Stream.empty();
-                case W_ -> Stream.of(DungeonTile.WALL_INNER_CORNER_T_TOP_RIGHT);
-                case __, _W -> Stream.of(DungeonTile.WALL_TOP_MID);
-            };
+            case 0b111_100_111 -> extraCases(cell,
+                                             with(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             with(DungeonTile.WALL_TOP_MID),
+                                             with(DungeonTile.WALL_TOP_MID)
+            );
 
             case 0b011_000_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
+            case 0b110_001_001 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b111_000_101 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b111_100_011 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder());
             case 0b111_000_111 -> extraCases(cell,
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
             case 0b001_001_101 -> extraCases(cell,
@@ -98,7 +150,17 @@ public class WallTileOnEmpty extends WallTileBase {
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder());
+            case 0b111_101_000 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
             case 0b101_001_000 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b101_001_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
@@ -121,16 +183,71 @@ public class WallTileOnEmpty extends WallTileBase {
             case 0b011_001_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
+            case 0b101_100_110 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b011_000_100 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b100_101_001 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
             case 0b100_101_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
             case 0b111_001_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b110_100_101 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b001_000_101 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b001_001_110 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b001_101_100 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b011_100_111 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b011_001_011 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b001_000_110 -> extraCases(cell,
+                                             with(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder());
+            case 0b100_000_011 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              placeHolder(),
                                              placeHolder());
             case 0b000_001_111 -> extraCases(cell,
@@ -139,90 +256,89 @@ public class WallTileOnEmpty extends WallTileBase {
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
 
-            case 0b100_000_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
             case 0b100_100_111 -> extraCases(cell,
                                              placeHolder(),
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID)
-                                             );
+            );
             case 0b111_101_111 -> extraCases(cell,
+                                             with(),
                                              placeHolder(),
-                                             placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID)
-                                             );
+            );
             case 0b101_001_111 -> extraCases(cell,
+                                             with(),
                                              placeHolder(),
-                                             placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID)
-                                             );
+            );
             case 0b001_101_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder(),
                                              with(DungeonTile.WALL_TOP_MID)
-                                             );
+            );
+            case 0b101_000_111 -> extraCases(cell,
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_TOP_LEFT)
+            );
             case 0b000_001_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b111_000_110 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b111_100_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b111_101_001 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b000_101_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b101_100_100 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b000_000_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b001_000_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder(),
                                              with(DungeonTile.WALL_TOP_MID)
-                                             );
+            );
             case 0b001_001_111 -> extraCases(cell,
                                              with(),
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
-            case 0b000_100_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
-            case 0b110_000_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
-
-
-            case 0b001_001_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
-            case 0b000_000_011 -> Stream.of(DungeonTile.WALL_SIDE_TOP_LEFT);
 
             case 0b000_000_111 -> extraCases(cell,
                                              with(),
@@ -231,13 +347,13 @@ public class WallTileOnEmpty extends WallTileBase {
                                              with(DungeonTile.WALL_TOP_MID)
             );
             case 0b101_101_111 -> extraCases(cell,
-                                             placeHolder(),
+                                             with(),
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
             case 0b110_100_111 -> extraCases(cell,
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              with(DungeonTile.WALL_CORNER_TOP_RIGHT),
                                              with(DungeonTile.WALL_TOP_MID));
 
@@ -246,65 +362,75 @@ public class WallTileOnEmpty extends WallTileBase {
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
 
             case 0b101_000_100 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b110_000_001 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b011_000_011 -> extraCases(cell,
                                              placeHolder(),
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b001_000_001 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b101_100_000 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b101_101_100 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b001_101_101 -> extraCases(cell,
                                              with(),
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
             case 0b101_001_011 -> extraCases(cell,
                                              placeHolder(),
                                              with(DungeonTile.WALL_SIDE_TOP_LEFT),
                                              placeHolder(),
                                              placeHolder()
-                                             );
+            );
 
-
-            case 0b111_001_111 -> Stream.of(DungeonTile.WALL_TOP_MID);
+            case 0b111_001_111 -> extraCases(cell,
+                                             with(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             with(DungeonTile.WALL_CORNER_TOP_RIGHT),
+                                             with(DungeonTile.WALL_TOP_MID)
+            );
 
             case 0b101_100_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
                                              placeHolder(),
                                              with(DungeonTile.WALL_TOP_MID)
+            );
+            case 0b110_000_011 -> extraCases(cell,
+                                             placeHolder(),
+                                             with(DungeonTile.WALL_SIDE_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder()
             );
 
             case 0b101_001_001,

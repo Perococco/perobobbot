@@ -15,6 +15,8 @@ import perococco.jdgen.api.CellFactory;
 import perococco.jdgen.api.JDGenConfiguration;
 import perococco.jdgen.api.Position;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -35,6 +37,8 @@ public class DungeonCreator {
     private Animation playerGraphic;
     private Dungeon dungeon;
 
+    private List<MissingPosition> missingPositions;
+
     private @NonNull Optional<Dungeon> create() {
         createRandomGenerator();
         createGenerator();
@@ -50,7 +54,7 @@ public class DungeonCreator {
     }
 
     private void createRandomGenerator() {
-        this.random = new Random(configuration.getSeed()*31+112);
+        this.random = new Random(configuration.getSeed() * 31 + 112);
     }
 
     private void createGenerator() {
@@ -58,11 +62,13 @@ public class DungeonCreator {
     }
 
     private void generateMap() {
-        for (int i = 0; i < 10 && !Thread.currentThread().isInterrupted() && map==null; i++) {
+        for (int i = 0; i < 10 && !Thread.currentThread().isInterrupted() && map == null; i++) {
             try {
-                this.map = new DungeonMap(generator.generate(configuration, CellFactory.with(DungeonCell::new, DungeonCell[]::new)));
+                this.map = new DungeonMap(
+                        generator.generate(configuration, CellFactory.with(DungeonCell::new, DungeonCell[]::new)));
+                break;
             } catch (RuntimeException error) {
-                LOG.debug("Fail to generate dungeon : {}",error.getMessage());
+                LOG.debug("Fail to generate dungeon : {}", error.getMessage());
             }
         }
     }
@@ -74,12 +80,45 @@ public class DungeonCreator {
     private void initializeTiles() {
         assert map != null;
         DungeonFlagComputer.compute(map);
-        DungeonTileInitializer.initializeTiles(map,random);
+        missingPositions = DungeonTileInitializer.initializeTiles(map, random);
     }
+
+    private static int counter = 1;
+    private static MissingPosition p = null;
 
     private void pickPlayerPosition() {
         final var size = map.getSize();
-        this.playPosition = new Position(33,33);
+        final MissingPosition missingPosition;
+
+        if (missingPositions.isEmpty()) {
+            missingPosition = null;
+        } else {
+            missingPosition = missingPositions.get(missingPositions.size() - 1);
+        }
+
+        if (p == null || Objects.equals(missingPosition, p)) {
+            if (missingPosition != null) {
+                System.out.println(
+                        missingPosition.getClassInfo() + " " + missingPosition.getFlags() + " (" + missingPositions.size() + ")");
+            }
+            counter = 1;
+            p = missingPosition;
+        } else {
+            System.out.println("COUNTER : "+counter);
+            if (counter < 0) {
+                p = missingPosition;
+                counter = 1;
+            } else {
+                counter--;
+            }
+        }
+
+        if (p == null) {
+            this.playPosition = new Position(30, 25);
+        } else {
+            this.playPosition = p.getPosition().translate(0, -10);
+        }
+
     }
 
     private void pickPlayerGraphic() {
@@ -88,7 +127,7 @@ public class DungeonCreator {
 
 
     private void createDungeon() {
-        this.dungeon = Dungeon.create(map, Player.create(playPosition,Renderable.NOP));
+        this.dungeon = Dungeon.create(map, Player.create(playPosition, Renderable.NOP));
     }
 
 }

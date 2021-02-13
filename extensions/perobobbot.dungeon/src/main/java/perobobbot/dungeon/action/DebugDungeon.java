@@ -47,6 +47,7 @@ public class DebugDungeon implements CommandAction {
                     Thread.currentThread().interrupt();
                     break;
                 } catch (Throwable e) {
+                    e.printStackTrace();
                     //ignored
                 }
             } while (!Thread.currentThread().isInterrupted());

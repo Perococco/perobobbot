@@ -9,6 +9,7 @@ import perobobbot.lang.fp.Function0;
 import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Position;
 
+import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,9 +20,12 @@ public abstract class WallTileBase {
     private final @NonNull DungeonTile defaultTile;
     private final @NonNull DungeonTile placeholderTile;
 
-    public WallTileBase(@NonNull DungeonTile defaultTile, @NonNull DungeonTile placeholderTile) {
+    private final List<MissingPosition> missingPositions;
+
+    public WallTileBase(@NonNull DungeonTile defaultTile, @NonNull DungeonTile placeholderTile, @NonNull List<MissingPosition> missingPositions) {
         this.defaultTile = defaultTile;
         this.placeholderTile = placeholderTile;
+        this.missingPositions = missingPositions;
     }
 
     protected abstract Position getPosition();
@@ -42,7 +46,8 @@ public abstract class WallTileBase {
 
     protected void showPosition(String header) {
         final var cell = getDungeonMap().getCellAt(getPosition());
-        System.out.printf("[%s] %-21s -> %s %s%n", header, getClass().getSimpleName(), getPosition(), flagToString(cell));
+        final var pi = new MissingPosition(getClass().getSimpleName(),getPosition(),flagToString(cell));
+        this.missingPositions.add(pi);
     }
 
     protected String flagToString(DungeonCell cell) {
@@ -73,9 +78,10 @@ public abstract class WallTileBase {
                                                @NonNull Function0<Stream<Tile>> case10,
                                                @NonNull Function0<Stream<Tile>> case11
     ) {
-        if (cell.getFlag() == 0b110_100_010 && false && cell.getExtraFlag() == ExtraFlag._W) {
+        if (cell.getFlag() == 0b100_001_001 && false && cell.getExtraFlag() == ExtraFlag.W_) {
             System.out.println("#### "+getPosition());
         }
+
         return switch (cell.getExtraFlag()) {
             case WW -> case00.f();
             case W_ -> case01.f();
