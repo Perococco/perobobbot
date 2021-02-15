@@ -38,7 +38,12 @@ public class WallTileOnFloor extends WallTileBase {
         final var cell = dungeonMap.getCellAt(position);
         final var flag = cell.getFlag();
         return switch (flag) {
-            case 0b110_101_100 -> Stream.of(WALL_TOP_MID);
+            case 0b110_101_100 -> extraCases(cell,
+                                             with(WALL_TOP_LEFT),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(WALL_TOP_MID)
+            );
             case 0b111_000_010 -> Stream.of(WALL_SIDE_MID_LEFT);
             case 0b011_101_001 -> Stream.empty();
             case 0b011_001_011 -> Stream.empty();
@@ -67,9 +72,14 @@ public class WallTileOnFloor extends WallTileBase {
             case 0b100_101_011 -> Stream.empty();
             case 0b001_101_100 -> Stream.of(WALL_TOP_MID);
             case 0b111_000_011 -> Stream.of(WALL_SIDE_FRONT_LEFT);
+            case 0b100_101_101 -> Stream.of(WALL_CORNER_TOP_RIGHT);
+            case 0b001_101_101 -> Stream.of(WALL_CORNER_TOP_RIGHT);
+
+            case 0b011_101_100 -> Stream.of(WALL_TOP_MID);
+            case 0b001_101_110 -> Stream.of(WALL_SIDE_TOP_LEFT);
 
             case 0b110_000_011 -> extraCases(cell,
-                                             placeHolder(),
+                                             with(WALL_SIDE_FRONT_LEFT),
                                              with(WALL_SIDE_FRONT_LEFT),
                                              placeHolder(),
                                              with(WALL_SIDE_FRONT_LEFT));
@@ -80,11 +90,6 @@ public class WallTileOnFloor extends WallTileBase {
                                              placeHolder(),
                                              placeHolder());
 
-            case 0b100_101_101 -> Stream.of(WALL_CORNER_TOP_RIGHT);
-            case 0b001_101_101 -> Stream.of(WALL_CORNER_TOP_RIGHT);
-
-            case 0b011_101_100 -> Stream.of(WALL_TOP_MID);
-            case 0b001_101_110 -> Stream.of(WALL_SIDE_TOP_LEFT);
             case 0b110_100_100 -> extraCases(cell,
                                              with(WALL_CORNER_BOTTOM_RIGHT),
                                              placeHolder(),
@@ -117,6 +122,12 @@ public class WallTileOnFloor extends WallTileBase {
                                              placeHolder(),
                                              placeHolder(),
                                              with(WALL_SIDE_TOP_LEFT),
+                                             placeHolder()
+            );
+            case 0b001_100_111 -> extraCases(cell,
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(WALL_SIDE_FRONT_LEFT),
                                              placeHolder()
             );
             case 0b111_001_001 -> extraCases(cell,
@@ -153,7 +164,7 @@ public class WallTileOnFloor extends WallTileBase {
                                              placeHolder(),
                                              placeHolder(),
                                              with(WALL_SIDE_MID_LEFT),
-                                             placeHolder()
+                                             with(WALL_SIDE_MID_LEFT)
             );
             case 0b110_101_010 -> extraCases(cell,
                                              placeHolder(),
@@ -185,10 +196,16 @@ public class WallTileOnFloor extends WallTileBase {
                                              with(WALL_SIDE_MID_LEFT)
             );
             case 0b011_001_100 -> extraCases(cell,
+                                             with(WALL_TOP_LEFT),
                                              placeHolder(),
-                                             with(WALL_CORNER_TOP_RIGHT),
                                              placeHolder(),
-                                             placeHolder()
+                                             with(WALL_TOP_LEFT)
+            );
+            case 0b011_001_101 -> extraCases(cell,
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(WALL_TOP_RIGHT)
             );
             case 0b011_000_011 -> extraCases(cell,
                                              placeHolder(),
@@ -230,7 +247,8 @@ public class WallTileOnFloor extends WallTileBase {
                                              with(WALL_SIDE_MID_LEFT),
                                              placeHolder(),
                                              with(WALL_SIDE_MID_LEFT),
-                                             placeHolder());
+                                             with(WALL_SIDE_MID_LEFT));
+
             case 0b000_100_110 -> Stream.of(WALL_SIDE_MID_LEFT);
             case 0b110_100_110 -> Stream.of(WALL_SIDE_MID_LEFT);
             case 0b111_100_110 -> Stream.of(WALL_SIDE_MID_LEFT);
@@ -291,8 +309,13 @@ public class WallTileOnFloor extends WallTileBase {
             case 0b110_000_111 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(WALL_SIDE_FRONT_LEFT),
                                              with(WALL_SIDE_FRONT_LEFT));
+            case 0b011_100_010 -> extraCases(cell,
+                                             placeHolder(),
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(WALL_SIDE_MID_LEFT));
             case 0b000_001_010 -> extraCases(cell,
                                              placeHolder(),
                                              placeHolder(),
@@ -307,7 +330,7 @@ public class WallTileOnFloor extends WallTileBase {
                                              placeHolder(),
                                              placeHolder(),
                                              with(WALL_SIDE_TOP_LEFT),
-                                             placeHolder());
+                                             with(WALL_SIDE_TOP_LEFT));
             case 0b110_101_101 -> extraCases(cell,
                                              placeHolder(),
                                              with(WALL_CORNER_TOP_RIGHT),
@@ -379,7 +402,7 @@ public class WallTileOnFloor extends WallTileBase {
                                              placeHolder(),
                                              with(WALL_CORNER_TOP_RIGHT),
                                              placeHolder(),
-                                             placeHolder()
+                                             with(WALL_CORNER_TOP_RIGHT)
             );
             case 0b010_001_000 -> extraCases(cell,
                                              with(WALL_TOP_LEFT),
@@ -389,8 +412,14 @@ public class WallTileOnFloor extends WallTileBase {
             );
             case 0b000_101_100 -> extraCases(cell,
                                              with(WALL_TOP_LEFT),
-                                             placeHolder(),
                                              with(WALL_CORNER_TOP_RIGHT),
+                                             with(WALL_CORNER_TOP_RIGHT),
+                                             placeHolder()
+            );
+            case 0b110_001_010 -> extraCases(cell,
+                                             placeHolder(),
+                                             placeHolder(),
+                                             with(WALL_SIDE_TOP_LEFT),
                                              placeHolder()
             );
             case 0b110_001_000 -> extraCases(cell,
@@ -402,8 +431,8 @@ public class WallTileOnFloor extends WallTileBase {
             case 0b000_101_000 -> extraCases(cell,
                                              with(WALL_TOP_MID),
                                              placeHolder(),
-                                             placeHolder(),
-                                             placeHolder()
+                                             with(WALL_INNER_CORNER_T_TOP_RIGHT),
+                                             with(WALL_TOP_MID)
             );
             case 0b101_001_101 -> extraCases(cell,
                                              with(WALL_TOP_MID),
@@ -420,7 +449,7 @@ public class WallTileOnFloor extends WallTileBase {
             case 0b100_101_000 -> extraCases(cell,
                                              with(WALL_TOP_MID),
                                              placeHolder(),
-                                             placeHolder(),
+                                             with(WALL_INNER_CORNER_T_TOP_RIGHT),
                                              with(WALL_TOP_MID)
             );
             case 0b100_100_010 -> extraCases(cell,

@@ -23,7 +23,12 @@ public class DebugDungeon implements CommandAction {
             thread.interrupt();
             thread = null;
         }
-        final var size = parsing.findIntParameter("size").orElse(10);
+        final var size = parsing.findIntParameter("size").orElse(-1);
+
+        if (size<=0) {
+            return;
+        }
+
         final var seed = parsing.findIntParameter("seed").orElse(4);
         this.thread = new Thread(new Runner(size, seed), "Dungeon Debug");
         this.thread.setDaemon(true);
