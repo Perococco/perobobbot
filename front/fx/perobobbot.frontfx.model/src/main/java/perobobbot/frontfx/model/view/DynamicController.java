@@ -7,9 +7,13 @@ import lombok.extern.log4j.Log4j2;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A dynamic controller is a controller that provides slot
+ * that can by "dynamically" filled with {@link FXView}
+ */
 @Log4j2
 @RequiredArgsConstructor
-public abstract class DynamicController {
+public abstract class DynamicController{
 
     private Map<String, ViewSlot> slots = new HashMap<>();
 
@@ -19,6 +23,10 @@ public abstract class DynamicController {
     @NonNull
     private final FXViewProvider fxViewProvider;
 
+    /**
+     * used by FXMLLoader.
+     */
+    @SuppressWarnings("unused")
     public void initialize() {
         this.initializeSlots(slotMapperFactory.create(slots));
         this.performControllerInitialization();

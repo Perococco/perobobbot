@@ -13,6 +13,7 @@ import perobobbot.frontfx.model.dialog.DialogModel;
 import perobobbot.frontfx.model.state.ActionState;
 import perobobbot.frontfx.model.state.ApplicationState;
 import perobobbot.frontfx.model.state.StyleState;
+import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.fx.FXDictionary;
 import perobobbot.fx.FXProperties;
 import perobobbot.fx.KeyTracker;
@@ -83,6 +84,7 @@ public class PerobobbotGUI  {
     @NonNull
     private ApplicationState initialApplicationState() {
         return ApplicationState.builder()
+                               .fxViewType(EmptyFXView.class)
                                .actionState(ActionState.allEnabled())
                                .styleState(initialStyleState())
                                .build();

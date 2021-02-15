@@ -7,6 +7,9 @@ import perobobbot.lang.AsyncIdentity;
 import perobobbot.lang.fp.Function1;
 import perococco.perobobbot.frontfx.model.DefaultApplicationIdentity;
 
+/**
+ * Alias class to {@link AsyncIdentity} for the state {@link ApplicationState}
+ */
 public interface ApplicationIdentity extends AsyncIdentity<ApplicationState>, ApplicationIdentityOperation {
 
     static @NonNull ApplicationIdentity with(@NonNull ApplicationState applicationState) {
