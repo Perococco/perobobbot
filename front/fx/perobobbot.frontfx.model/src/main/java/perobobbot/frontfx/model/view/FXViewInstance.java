@@ -20,8 +20,14 @@ public interface FXViewInstance {
     @NonNull
     Optional<Node> node();
 
+    /**
+     * Called when showing this view
+     */
     void  showing();
 
+    /**
+     * Called when hiding this view
+     */
     void  hiding();
 
 

@@ -9,9 +9,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FXLoadingResult {
 
+    /**
+     * The controller
+     */
     @NonNull
     private final Object controller;
 
+    /**
+     * The root node
+     */
     @NonNull
     private final Object root;
 

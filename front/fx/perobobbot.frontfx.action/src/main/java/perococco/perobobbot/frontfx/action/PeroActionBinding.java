@@ -15,7 +15,7 @@ public class PeroActionBinding implements ActionBinding {
     private final BooleanProperty filteredProperty = new SimpleBooleanProperty();
 
     @NonNull
-    private final ItemInfo itemInfo;
+    private final ItemActionInfo itemActionInfo;
 
     @NonNull
     private final Consumer0 executable;
@@ -30,12 +30,12 @@ public class PeroActionBinding implements ActionBinding {
 
     @Override
     public void bind() {
-        this.itemInfo.bindDisable(filteredProperty.or(disabledProperty));
-        this.itemInfo.bindAction(this::executeAction);
+        this.itemActionInfo.bindDisable(filteredProperty.or(disabledProperty));
+        this.itemActionInfo.bindAction(this::executeAction);
     }
 
     private void executeAction() {
-        if (this.itemInfo.isDisabled() || filteredProperty.get()) {
+        if (this.itemActionInfo.isDisabled() || filteredProperty.get()) {
             return;
         }
         executable.f();
@@ -43,7 +43,7 @@ public class PeroActionBinding implements ActionBinding {
 
     @Override
     public void unbind() {
-        this.itemInfo.unbindAction();
-        this.itemInfo.unbindDisable();
+        this.itemActionInfo.unbindAction();
+        this.itemActionInfo.unbindDisable();
     }
 }

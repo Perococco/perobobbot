@@ -12,7 +12,7 @@ public interface ActionLauncher {
      * @param actionType the class of the action to execute
      * @param parameter the parameter to pass to the action
      * @param <P> the parameter type
-     * @return a completion state that completes when the action is done
+     * @return an action ticket
      */
     @NonNull
     <P,R> ActionTicket<R> pushAction(@NonNull Launchable<P,R> actionType, @NonNull P parameter);
@@ -22,7 +22,7 @@ public interface ActionLauncher {
      * @param actionType the class of the action to execute
      * @param parameter the parameter to pass to the action
      * @param <P> the parameter type
-     * @return a completion state that completes when the action is done
+     * @return n action ticket
      */
     @NonNull
     default <P,R> ActionTicket<R> pushAction(@NonNull Class<? extends Action<P,R>> actionType, @NonNull P parameter) {

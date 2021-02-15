@@ -3,10 +3,10 @@ package perococco.perobobbot.frontfx.action.iteminfo;
 import javafx.beans.value.ObservableValue;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perococco.perobobbot.frontfx.action.ItemInfo;
+import perococco.perobobbot.frontfx.action.ItemActionInfo;
 
 @RequiredArgsConstructor
-public abstract class ItemInfoBase<I> implements ItemInfo {
+public abstract class ItemActionInfoBase<I> implements ItemActionInfo {
 
     @NonNull
     private final I item;

@@ -4,9 +4,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import lombok.NonNull;
 
-public abstract class NodeBaseItemInfo<N extends Node> extends ItemInfoBase<N> {
+public abstract class NodeBaseItemActionInfo<N extends Node> extends ItemActionInfoBase<N> {
 
-    public NodeBaseItemInfo(@NonNull N item) {
+    public NodeBaseItemActionInfo(@NonNull N item) {
         super(item);
     }
 

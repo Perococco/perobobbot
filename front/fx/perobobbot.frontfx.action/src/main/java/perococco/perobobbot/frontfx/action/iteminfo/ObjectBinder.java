@@ -4,8 +4,11 @@ import javafx.beans.value.ObservableValue;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * Binder on an object. Method with not bind anything, only warn that the binding is not possible
+ */
 @Log4j2
-public class ObjectBinder extends ItemInfoBase<Object> {
+public class ObjectBinder extends ItemActionInfoBase<Object> {
 
     public ObjectBinder(@NonNull Object item) {
         super(item);

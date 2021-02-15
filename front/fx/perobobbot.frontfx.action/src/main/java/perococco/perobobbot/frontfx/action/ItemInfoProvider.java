@@ -4,13 +4,16 @@ import javafx.scene.control.ButtonBase;
 import javafx.scene.control.MenuItem;
 import lombok.NonNull;
 import perococco.perobobbot.frontfx.action.iteminfo.ButtonBaseBinder;
-import perococco.perobobbot.frontfx.action.iteminfo.MenuItemBinder;
+import perococco.perobobbot.frontfx.action.iteminfo.MenuItemActionBinder;
 import perococco.perobobbot.frontfx.action.iteminfo.ObjectBinder;
 
+/**
+ *
+ */
 public class ItemInfoProvider {
 
     @NonNull
-    public ItemInfo createInfo(@NonNull Object item) {
+    public ItemActionInfo createInfo(@NonNull Object item) {
         if (item instanceof ButtonBase) {
             return forButtonBase(((ButtonBase) item));
         }
@@ -23,12 +26,12 @@ public class ItemInfoProvider {
     }
 
     @NonNull
-    private ItemInfo forButtonBase(@NonNull ButtonBase buttonBase) {
+    private ItemActionInfo forButtonBase(@NonNull ButtonBase buttonBase) {
         return new ButtonBaseBinder(buttonBase);
     }
 
     @NonNull
-    private ItemInfo forMenuItem(@NonNull MenuItem menuItem) {
-        return new MenuItemBinder(menuItem);
+    private ItemActionInfo forMenuItem(@NonNull MenuItem menuItem) {
+        return new MenuItemActionBinder(menuItem);
     }
 }

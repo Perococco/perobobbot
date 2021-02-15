@@ -29,6 +29,11 @@ public class FXTools {
 
     private static final PseudoClass NOT_EDITING = PseudoClass.getPseudoClass("not-editing");
 
+    /**
+     * @param stage a stage to wrap
+     * @param <C> the type of the result of the stage
+     * @return a {@link CompletionStage} that will complete when the provided one is completed but in the FX Thread
+     */
     @NonNull
     public static <C> CompletionStage<C> completeLater(@NonNull CompletionStage<C> stage) {
         final CompletableFuture<C> future = new CompletableFuture<>();
@@ -64,7 +69,8 @@ public class FXTools {
     }
 
     @NonNull
-    public static <T> BooleanBinding anyOf(@NonNull Collection<T> items, Function1<? super T, ? extends ObservableBooleanValue> observableGetter) {
+    public static <T> BooleanBinding anyOf(@NonNull Collection<T> items,
+                                           Function1<? super T, ? extends ObservableBooleanValue> observableGetter) {
         final ObservableBooleanValue[] observables = items.stream().map(observableGetter).toArray(ObservableBooleanValue[]::new);
         return Bindings.createBooleanBinding(() -> Arrays.stream(observables).anyMatch(ObservableBooleanValue::get),observables);
     }

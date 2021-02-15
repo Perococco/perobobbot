@@ -11,8 +11,6 @@ import java.util.concurrent.CompletionStage;
 
 /**
  * A {@link Launchable} is an objet that can be "launched" with the {@link ActionExecutor}.
- * Initially, <code>ActionExecutor</code> could only use classes of Action. This has been
- * extended to be able to launch a succession of actions (with {@link ActionChain}).
  *
  * @param <P> the type of the input parameter
  * @param <R> the type of the ouput parameter

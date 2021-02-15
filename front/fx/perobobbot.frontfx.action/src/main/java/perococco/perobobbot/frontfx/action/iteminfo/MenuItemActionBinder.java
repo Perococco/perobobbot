@@ -4,9 +4,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.MenuItem;
 import lombok.NonNull;
 
-public class MenuItemBinder extends ItemInfoBase<MenuItem> {
+public class MenuItemActionBinder extends ItemActionInfoBase<MenuItem> {
 
-    public MenuItemBinder(@NonNull MenuItem item) {
+    public MenuItemActionBinder(@NonNull MenuItem item) {
         super(item);
     }
 

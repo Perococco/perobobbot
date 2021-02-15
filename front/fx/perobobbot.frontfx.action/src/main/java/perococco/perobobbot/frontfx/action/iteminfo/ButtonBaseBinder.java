@@ -3,7 +3,7 @@ package perococco.perobobbot.frontfx.action.iteminfo;
 import javafx.scene.control.ButtonBase;
 import lombok.NonNull;
 
-public class ButtonBaseBinder extends NodeBaseItemInfo<ButtonBase> {
+public class ButtonBaseBinder extends NodeBaseItemActionInfo<ButtonBase> {
 
     public ButtonBaseBinder(@NonNull ButtonBase item) {
         super(item);

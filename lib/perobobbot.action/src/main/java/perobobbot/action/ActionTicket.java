@@ -8,6 +8,11 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * This a completion stage (that can be retrieve with {@link #asCompletionStage()} extended
+ * with the action mechanism to be able to chain actions.
+ * @param <R> the type of the result
+ */
 public interface ActionTicket<R> {
 
     @NonNull

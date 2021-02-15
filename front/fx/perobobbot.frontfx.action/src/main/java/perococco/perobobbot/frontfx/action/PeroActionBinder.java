@@ -30,9 +30,9 @@ public class PeroActionBinder<P,R> implements ActionBinder<P> {
     @Override
     public @NonNull ActionBinding createBinding(@NonNull Object item,
                                                 @NonNull Function0<? extends Optional<? extends P>> parameterSupplier) {
-        final ItemInfo itemInfo = itemInfoProvider.createInfo(item);
+        final ItemActionInfo itemActionInfo = itemInfoProvider.createInfo(item);
         final Consumer0 executable = createExecutable(parameterSupplier);
-        return new PeroActionBinding(itemInfo, executable, fxApplicationIdentity.disabledProperty(launchable.getInitialAction()));
+        return new PeroActionBinding(itemActionInfo, executable, fxApplicationIdentity.disabledProperty(launchable.getInitialAction()));
     }
 
     @NonNull

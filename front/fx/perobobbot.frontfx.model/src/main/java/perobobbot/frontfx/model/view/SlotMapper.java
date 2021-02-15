@@ -12,10 +12,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SlotMapper implements SlotRegistry {
 
+    /**
+     * The slots by their names
+     */
     private final Map<String, ViewSlot> mapping;
 
+    /**
+     * A function that will be call with the node associated
+     * with the view. This can be used to modify the node
+     * before adding it to the scene.
+     */
     @NonNull
-    private final Function2<FXView, Node,Node> nodeMapper;
+    private final Function2<? super FXView, ? super Node, ? extends Node> nodeMapper;
 
     @Override
     public @NonNull void register(@NonNull String name,

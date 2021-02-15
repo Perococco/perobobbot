@@ -5,6 +5,11 @@ import perobobbot.lang.Nil;
 
 import java.util.Optional;
 
+/**
+ * An action chain returning an optional
+ * @param <P>
+ * @param <R>
+ */
 public interface ActionChainOpt<P,R> extends Launchable<P,Optional<R>> {
 
     @NonNull
