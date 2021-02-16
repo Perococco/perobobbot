@@ -8,6 +8,7 @@ import perobobbot.frontfx.model.state.ApplicationStateTool;
 import perobobbot.frontfx.model.state.StyleState;
 import perobobbot.frontfx.model.view.FXView;
 import perobobbot.security.com.LoginFailed;
+import perobobbot.security.com.SimpleUser;
 import perococco.perobobbot.frontfx.gui.view.LoginFXView;
 
 @RequiredArgsConstructor
@@ -28,7 +29,6 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
 
     @Override
     public @NonNull Class<? extends FXView> getMainFXView() {
-        System.out.println("GET MAIN FXVIEW");
         if (this.isAuthenticated()) {
             return applicationState.getFxViewType();
         } else {
@@ -49,5 +49,10 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
     @Override
     public @NonNull boolean isAuthenticated() {
         return applicationState.getUser().isPresent();
+    }
+
+    @Override
+    public @NonNull String getUserLogin() {
+        return applicationState.getUser().map(SimpleUser::getLogin).orElse("???");
     }
 }

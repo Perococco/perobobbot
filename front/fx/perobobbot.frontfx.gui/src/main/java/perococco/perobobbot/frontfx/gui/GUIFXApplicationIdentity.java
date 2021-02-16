@@ -30,10 +30,7 @@ public class GUIFXApplicationIdentity implements FXApplicationIdentity {
     private final ApplicationIdentityOperation operation;
 
     public GUIFXApplicationIdentity(@NonNull ApplicationIdentity operation) {
-        this.applicationStateObservable = operation.asFXObservable(EmptyApplicationStateTool.create(), BasicApplicationStateTool::new);
-        this.applicationStateObservable.addListener((l,o,n) -> {
-            System.out.println("NEW STATE "+n.isAuthenticated());
-        });
+        this.applicationStateObservable = operation.asFXObservable(BasicApplicationStateTool::new);
         this.operation = operation;
     }
 

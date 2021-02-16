@@ -20,6 +20,7 @@ import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.fx.*;
 import perobobbot.lang.ThrowableTool;
 import perococco.perobobbot.frontfx.gui.fxml.MainWindowController;
+import perococco.perobobbot.frontfx.gui.view.DashboardFXView;
 import perococco.perobobbot.frontfx.gui.view.LoginFXView;
 
 import java.util.Optional;
@@ -63,7 +64,7 @@ public class GUILauncher implements ApplicationRunner {
             try {
                 e.consume();
                 actionManager.pushAction(Quit.class);
-                Optional.ofNullable(mainWindowController).ifPresent(m -> m.dispose());
+                Optional.ofNullable(mainWindowController).ifPresent(MainWindowController::dispose);
             } catch (Exception ex) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(ex);
                 LOG.warn("Fail on hiding {}",ex.getMessage());
@@ -88,7 +89,7 @@ public class GUILauncher implements ApplicationRunner {
         dialogModel.setMainScene(scene);
         styleManager.addStylable(scene);
 
-        applicationIdentity.mutate(new ChangeView(EmptyFXView.class));
+        applicationIdentity.mutate(new ChangeView(DashboardFXView.class));
         fxProperties.getPrimaryStage().setScene(scene);
         fxProperties.getPrimaryStage().centerOnScreen();
         fxProperties.getPrimaryStage().show();

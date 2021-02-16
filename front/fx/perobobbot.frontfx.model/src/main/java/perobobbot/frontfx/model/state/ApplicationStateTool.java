@@ -17,4 +17,6 @@ public interface ApplicationStateTool {
     @NonNull String getServerBaseURL();
 
     @NonNull boolean isAuthenticated();
+
+    @NonNull String getUserLogin();
 }

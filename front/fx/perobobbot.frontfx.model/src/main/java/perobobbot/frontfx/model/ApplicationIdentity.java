@@ -16,5 +16,5 @@ public interface ApplicationIdentity extends AsyncIdentity<ApplicationState>, Ap
         return new DefaultApplicationIdentity(applicationState);
     }
 
-    @NonNull <T> ObservableValue<T> asFXObservable(@NonNull T initialValue, @NonNull Function1<? super ApplicationState, ? extends T> getter);
+    @NonNull <T> ObservableValue<T> asFXObservable(@NonNull Function1<? super ApplicationState, ? extends T> getter);
 }
