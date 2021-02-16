@@ -7,11 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
+import org.springframework.core.SpringProperties;
 import perobobbot.lang.ApplicationCloser;
+import perobobbot.lang.OSInfo;
 import perobobbot.lang.Plugin;
 import perobobbot.lang.fp.Predicate1;
 
 import java.awt.*;
+import java.io.ObjectStreamField;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -24,6 +27,8 @@ public class SpringLauncher {
 
     @NonNull
     private final List<String> arguments;
+
+    private final String applicationName = "perobobbot";
 
     @NonNull
     private final Class<?>[] applicationClasses;
@@ -55,11 +60,17 @@ public class SpringLauncher {
         private ApplicationCloser closer;
 
         private ApplicationCloser launch() {
+            this.setupConfigDirectory();
             this.createSpringApplication();
             this.retrieveAllExtraPackagesToScan();
             this.setupSpringApplicationInitializerToTakeIntoAccountExtraPackages();
             this.launchTheApplicationAndConstructTheCloser();
             return closer;
+        }
+
+        private void setupConfigDirectory() {
+            System.setProperty("config.dir", OSInfo.INSTANCE.getConfigDirectory());
+            System.setProperty("app.config.dir", OSInfo.INSTANCE.getAppConfigDirectory(applicationName));
         }
 
         private void createSpringApplication() {
