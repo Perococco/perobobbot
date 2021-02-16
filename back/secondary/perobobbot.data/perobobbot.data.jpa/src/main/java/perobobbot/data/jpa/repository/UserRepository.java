@@ -35,10 +35,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                     "u.JWT_CLAIM as jwtClaim, " +
                     "r.ROLE as roleKind, " +
                     "ro.OPERATION as operation " +
-                    "from PEROBOT.USER as u " +
-                    "left join PEROBOT.USER_ROLE as ur on ur.USER_ID = u.ID " +
-                    "left join PEROBOT.ROLE as r on r.ID = ur.ROLE_ID " +
-                    "left join PEROBOT.ROLE_OPERATION as ro on ro.ROLE_ID = r.ID " +
+                    "from PEROBOBBOT.USER as u " +
+                    "left join PEROBOBBOT.USER_ROLE as ur on ur.USER_ID = u.ID " +
+                    "left join PEROBOBBOT.ROLE as r on r.ID = ur.ROLE_ID " +
+                    "left join PEROBOBBOT.ROLE_OPERATION as ro on ro.ROLE_ID = r.ID " +
                     "where u.login = :login")
     List<UserDetailProjection> getUserDetail(String login);
 }
