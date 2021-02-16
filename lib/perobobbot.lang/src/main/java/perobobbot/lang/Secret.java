@@ -48,4 +48,7 @@ public class Secret {
     }
 
 
+    public boolean isBlank() {
+        return value.isBlank();
+    }
 }

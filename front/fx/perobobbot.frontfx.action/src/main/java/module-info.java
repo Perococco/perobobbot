@@ -14,6 +14,7 @@ module perobobbot.frontfx.action {
     requires javafx.controls;
 
     requires org.apache.logging.log4j;
+    requires perobobbot.validation;
 
     exports perobobbot.frontfx.action;
     exports perobobbot.frontfx.action.list;

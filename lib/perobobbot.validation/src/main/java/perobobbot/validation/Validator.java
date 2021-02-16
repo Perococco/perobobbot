@@ -9,6 +9,10 @@ import java.util.Optional;
 
 public interface Validator<O,V extends Validator<O,V>> {
 
+    /**
+     * Check if the value is not null, add an error to the validation if this is case
+     * @return this;
+     */
     @NonNull
     V isNotNull();
 
@@ -27,7 +31,7 @@ public interface Validator<O,V extends Validator<O,V>> {
     Optional<O> getValidValue();
 
     /**
-     * @return the the validated value if it is valid and not null
+     * @return the validated value if it is valid and not null
      * @throws IllegalStateException if the value is null or invalid
      */
     @NonNull

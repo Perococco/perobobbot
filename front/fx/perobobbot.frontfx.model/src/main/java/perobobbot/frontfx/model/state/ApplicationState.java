@@ -11,6 +11,8 @@ import perobobbot.frontfx.model.view.FXView;
 @Getter
 public class ApplicationState {
 
+    private final @NonNull ConnectionState connectionState;
+
     /**
      * The enabled/disabled state of the actions.
      */

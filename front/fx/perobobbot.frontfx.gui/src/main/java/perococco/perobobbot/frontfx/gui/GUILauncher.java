@@ -85,7 +85,6 @@ public class GUILauncher implements ApplicationRunner {
         applicationIdentity.mutate(new ChangeView(EmptyFXView.class));
         fxProperties.getPrimaryStage().setScene(scene);
         fxProperties.getPrimaryStage().centerOnScreen();
-//        fxProperties.getPrimaryStage().setMaximized(true);
         fxProperties.getPrimaryStage().show();
     }
 
