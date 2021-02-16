@@ -16,10 +16,19 @@ public class ApplicationState {
      */
     private final @NonNull ActionState actionState;
 
+    /**
+     * list of styles and current style
+     */
     private final @NonNull StyleState styleState;
 
+    /**
+     * information regarding the server
+     */
     private final @NonNull Configuration configuration;
 
+    /**
+     * The main view
+     */
     private final @NonNull Class<? extends FXView> fxViewType;
 
 }
