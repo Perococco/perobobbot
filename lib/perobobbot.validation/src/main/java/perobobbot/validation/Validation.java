@@ -35,5 +35,9 @@ public interface Validation {
     @NonNull
     ValidationResult getResult();
 
+    /**
+     * Does nothing if this validation is valid, otherwise throws a {@link ValidationFailure}.
+     */
+    Validation checkIsValid();
 
 }

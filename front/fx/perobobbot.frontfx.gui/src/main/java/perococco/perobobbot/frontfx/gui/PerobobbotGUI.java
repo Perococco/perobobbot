@@ -27,6 +27,7 @@ import perobobbot.fx.dialog.DefaultDialogPreparer;
 import perobobbot.fx.dialog.ValidatableField;
 import perobobbot.i18n.Dictionary;
 import perococco.perobobbot.frontfx.gui.style.StyleConfiguration;
+import perococco.perobobbot.frontfx.gui.view.LoginFXView;
 
 import java.net.URI;
 

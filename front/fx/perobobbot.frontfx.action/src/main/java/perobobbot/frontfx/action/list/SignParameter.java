@@ -16,6 +16,15 @@ public class SignParameter implements Validatable {
     @NonNull String login;
     @NonNull Secret password;
 
+    public SignParameter(@NonNull String login, @NonNull Secret password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public SignParameter(@NonNull String login, @NonNull String password) {
+        this(login,Secret.with(password));
+    }
+
     @Override
     public @NonNull Validation validate(@NonNull Validation validation) {
         validation.with(LOGIN_FIELD,login).isNotBlank();

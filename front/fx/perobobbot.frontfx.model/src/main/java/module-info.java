@@ -11,6 +11,7 @@ module perobobbot.frontfx.model {
     requires perobobbot.i18n;
 
     requires org.apache.logging.log4j;
+    requires perobobbot.security.com;
 
     exports perobobbot.frontfx.model;
     exports perobobbot.frontfx.model.state;

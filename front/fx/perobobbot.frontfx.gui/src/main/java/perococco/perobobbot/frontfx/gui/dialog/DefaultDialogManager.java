@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import perobobbot.frontfx.model.dialog.DialogHelper;
+import perobobbot.frontfx.model.dialog.DialogKind;
 import perobobbot.frontfx.model.dialog.DialogManager;
 import perobobbot.frontfx.model.dialog.DialogModel;
 import perobobbot.fx.FXDictionary;
@@ -14,8 +15,10 @@ import perobobbot.fx.dialog.AlertInfo;
 import perobobbot.fx.dialog.AlertShower;
 import perobobbot.i18n.Dictionary;
 import perobobbot.lang.AsyncCallback;
+import perobobbot.lang.Nil;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.Todo;
+import perococco.perobobbot.frontfx.gui.fxml.ThemeSelectorController;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
@@ -46,7 +49,7 @@ public class DefaultDialogManager implements DialogManager {
 
     @Override
     public void showThemeSelector() {
-        Todo.TODO();
+        dialogHelper.showDialog(DialogKind.THEME_SELECTOR, loaderFactory.create(ThemeSelectorController.class), Nil.NIL);
     }
 
     @NonNull

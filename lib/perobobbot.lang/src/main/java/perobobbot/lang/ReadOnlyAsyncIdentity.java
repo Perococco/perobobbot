@@ -11,9 +11,17 @@ import java.util.concurrent.CompletionStage;
  **/
 public interface ReadOnlyAsyncIdentity<S> {
 
+    /**
+     * @return a completion stage than will complete after any mutation in progress when
+     * calling this method
+     */
     @NonNull
     CompletionStage<S> getRootState();
 
+    /**
+     * @return the current state which might be out date because of in progress mutations
+     */
+    @NonNull S getState();
 
     @NonNull
     Subscription addListener(@NonNull IdentityListener<S> listener);

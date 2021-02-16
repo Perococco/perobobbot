@@ -1,15 +1,18 @@
 package perobobbot.frontfx.model.state;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import perobobbot.frontfx.model.view.FXView;
+import perobobbot.security.com.SimpleUser;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
 @Getter
 public class ApplicationState {
+
+    @Getter(AccessLevel.NONE)
+    private final SimpleUser user;
 
     private final @NonNull ConnectionState connectionState;
 
@@ -32,5 +35,9 @@ public class ApplicationState {
      * The main view
      */
     private final @NonNull Class<? extends FXView> fxViewType;
+
+    public @NonNull Optional<SimpleUser> getUser() {
+        return Optional.ofNullable(this.user);
+    }
 
 }

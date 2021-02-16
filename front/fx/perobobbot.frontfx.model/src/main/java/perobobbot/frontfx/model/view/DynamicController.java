@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Log4j2
 @RequiredArgsConstructor
-public abstract class DynamicController{
+public abstract class DynamicController {
 
     private Map<String, ViewSlot> slots = new HashMap<>();
 

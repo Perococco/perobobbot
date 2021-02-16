@@ -50,4 +50,13 @@ public class PeroValidation implements Validation {
     public @NonNull ValidationResult getResult() {
         return context.getResult();
     }
+
+    @Override
+    public @NonNull Validation checkIsValid() {
+        if (isValid()) {
+            return this;
+        }
+        throw new ValidationFailure(context.getResult());
+
+    }
 }

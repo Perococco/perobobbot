@@ -50,7 +50,7 @@ public class PerococcoAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     @NonNull
-    private S getState() {
+    public S getState() {
         return value;
     }
 

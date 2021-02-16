@@ -12,4 +12,9 @@ public interface ApplicationStateTool {
 
     @NonNull Class<? extends FXView> getMainFXView();
 
+    @NonNull StyleState getStyleState();
+
+    @NonNull String getServerBaseURL();
+
+    @NonNull boolean isAuthenticated();
 }

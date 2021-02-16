@@ -14,7 +14,7 @@ public class ValidationContext {
 
     private static final Collector<Map.Entry<String, Set<ValidationError>>, ?, ImmutableMap<String, ImmutableList<ValidationError>>> COLLECTOR
             = ImmutableMap.toImmutableMap(
-            e -> e.getKey(),
+            Map.Entry::getKey,
             e -> ImmutableList.copyOf(e.getValue())
     );
 

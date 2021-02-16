@@ -10,6 +10,14 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TryResult<T extends Throwable, R> {
 
+    public static <T extends Throwable, R> TryResult<T,R> fromCompletionStage(R result, T error) {
+        if (error != null) {
+            return TryResult.failure(error);
+        } else {
+            return TryResult.success(result);
+        }
+    }
+
     @NonNull
     public static <T extends Throwable, R> TryResult<T, R> success(@NonNull R result) {
         return new TryResult<>(Either.right(result));
@@ -64,6 +72,11 @@ public class TryResult<T extends Throwable, R> {
     @NonNull
     public <M> M merge(@NonNull Function1<? super T, ? extends M> leftFunction, @NonNull Function1<? super R, ? extends M> rightFunction) {
         return either.merge(leftFunction, rightFunction);
+    }
+
+    @NonNull
+    public <M> M merge(@NonNull Function0<? extends M> leftFunction, @NonNull Function1<? super R, ? extends M> rightFunction) {
+        return either.merge(t -> leftFunction.f(), rightFunction);
     }
 
     @NonNull

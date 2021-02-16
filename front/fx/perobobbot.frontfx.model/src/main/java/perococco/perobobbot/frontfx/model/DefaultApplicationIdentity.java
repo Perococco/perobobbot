@@ -16,7 +16,7 @@ public class DefaultApplicationIdentity extends ProxyAsyncIdentity<ApplicationSt
 
     @Override
     public @NonNull <T> ObservableValue<T> asFXObservable(@NonNull T initialValue, @NonNull Function1<? super ApplicationState, ? extends T> getter) {
-        final ObservableIdentityValue<ApplicationState,T> observable = new ObservableIdentityValue<>(initialValue, getter);
+        final ObservableIdentityValue<ApplicationState,T> observable = new ObservableIdentityValue<>(getter.apply(this.getState()), getter);
         addWeakListener(observable);
         return observable;
     }

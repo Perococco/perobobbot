@@ -29,4 +29,12 @@ public class StyleState {
         return Optional.ofNullable(themes.get(nameOfSelectedTheme));
     }
 
+    public @NonNull StyleState withNewSelectedTheme(@NonNull String themeName) {
+        final var theme = themes.get(themeName);
+        if (theme == null) {
+            return this;
+        }
+        return toBuilder().nameOfSelectedTheme(themeName).build();
+    }
+
 }

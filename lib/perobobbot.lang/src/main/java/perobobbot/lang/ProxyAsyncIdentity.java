@@ -26,6 +26,11 @@ public class ProxyAsyncIdentity<S> implements AsyncIdentity<S> {
     }
 
     @Override
+    public @NonNull S getState() {
+        return delegate.getState();
+    }
+
+    @Override
     @NonNull
     public Subscription addListener(@NonNull IdentityListener<S> listener) {
         return delegate.addListener(listener);

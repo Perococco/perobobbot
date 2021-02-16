@@ -53,7 +53,12 @@ public class PeroRestTemplateClientManager implements ClientManager {
     public @NonNull CompletionStage<SimpleUser> login(@NonNull Credential credential) {
         return securityClient().signIn(credential)
                                .whenComplete((r, t) -> this.token.set(r))
-                               .thenApply(JwtInfo::getUser);
+                               .thenApply(JwtInfo::getUser)
+                .whenComplete((r,t) -> {
+                    if (t !=null) {
+                        t.printStackTrace();
+                    }
+                });
     }
 
     public void logout() {

@@ -4,11 +4,13 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import org.controlsfx.control.textfield.CustomPasswordField?>
 <HBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="perococco.perobobbot.frontfx.gui.fxml.LoginViewController">
     <VBox styleClass="login-box">
         <TextField fx:id="login" styleClass="login" promptText="%_lit.Login"/>
-        <TextField fx:id="password" styleClass="password" promptText="%_lit.Password"/>
+        <PasswordField fx:id="password" styleClass="password" promptText="%_lit.Password"/>
+        <Label fx:id="error" styleClass="error" visible="false"/>
         <HBox>
             <children>
                 <Button fx:id="signIn" styleClass="sign-in" text="%_lit.Sign-In"/>

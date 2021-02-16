@@ -8,6 +8,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import perobobbot.action.ActionExecutor;
 import perobobbot.action.ActionFilter;
 import perobobbot.action.ActionManager;
 import perobobbot.frontfx.action.FxClientActionTool;
@@ -40,6 +41,11 @@ public class ActionConfiguration implements DisposableBean {
     @Bean
     public ActionManager actionManager() {
         return fxClientActionTool.getActionManager();
+    }
+
+    @Bean
+    public ActionExecutor actionExecutor() {
+        return fxClientActionTool.getActionExecutor();
     }
 
     @NonNull

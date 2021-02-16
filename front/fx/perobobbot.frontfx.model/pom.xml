@@ -33,6 +33,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-fx</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-security-com</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -8,6 +8,8 @@ import perobobbot.frontfx.model.view.DynamicController;
 import perobobbot.frontfx.model.view.FXViewProvider;
 import perobobbot.frontfx.model.view.SlotMapperFactory;
 import perobobbot.frontfx.model.view.SlotRegistry;
+import perobobbot.lang.Subscription;
+import perobobbot.lang.SubscriptionHolder;
 import perobobbot.lang.fp.Consumer1;
 
 @FXMLController
@@ -17,6 +19,8 @@ public class MainWindowController extends DynamicController {
 
     @NonNull
     private final FXApplicationIdentity fxApplicationIdentity;
+
+    private SubscriptionHolder subscriptionHolder = new SubscriptionHolder();
 
     public BorderPane root;
 
@@ -31,9 +35,14 @@ public class MainWindowController extends DynamicController {
 
     @Override
     protected void performControllerInitialization() {
-       fxApplicationIdentity.addWeakListener(listener);
+       subscriptionHolder.replaceWith(() -> fxApplicationIdentity.addListener(listener));
        listener.accept(fxApplicationIdentity.getState());
     }
+
+    public void dispose() {
+        subscriptionHolder.unsubscribe();
+    }
+
 
     private void onApplicationStateChange(@NonNull ApplicationStateTool tool) {
         setSlotView(MAIN_SLOT,tool.getMainFXView());

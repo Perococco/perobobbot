@@ -21,7 +21,4 @@ public interface ClientManager {
     @NonNull SecurityClient securityClient();
     @NonNull UserClient userClient();
 
-    public static ClientManager create(@NonNull String baseUrl) {
-        return ServiceLoaderHelper.getService(ServiceLoader.load(ClientManager.class));
-    }
 }

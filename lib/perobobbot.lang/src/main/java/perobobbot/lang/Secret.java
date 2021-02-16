@@ -43,7 +43,12 @@ public class Secret {
         return StringTools.hasData(value);
     }
 
+    @Deprecated
     public static @NonNull Secret of(@NonNull String value) {
+        return with(value);
+    }
+
+    public static @NonNull Secret with(@NonNull String value) {
         return new Secret(value);
     }
 

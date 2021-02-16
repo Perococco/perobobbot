@@ -20,7 +20,9 @@ import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.fx.*;
 import perobobbot.lang.ThrowableTool;
 import perococco.perobobbot.frontfx.gui.fxml.MainWindowController;
+import perococco.perobobbot.frontfx.gui.view.LoginFXView;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -37,6 +39,8 @@ public class GUILauncher implements ApplicationRunner {
     private final @NonNull ActionManager actionManager;
     private final @NonNull FXLoaderFactory fxLoaderFactory;
     private final @NonNull ApplicationIdentity applicationIdentity;
+
+    private MainWindowController mainWindowController;
 
 
     @Override
@@ -59,6 +63,7 @@ public class GUILauncher implements ApplicationRunner {
             try {
                 e.consume();
                 actionManager.pushAction(Quit.class);
+                Optional.ofNullable(mainWindowController).ifPresent(m -> m.dispose());
             } catch (Exception ex) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(ex);
                 LOG.warn("Fail on hiding {}",ex.getMessage());
@@ -74,6 +79,7 @@ public class GUILauncher implements ApplicationRunner {
     private void displayMainWindow() {
         final FXLoader fxLoader = fxLoaderFactory.create(MainWindowController.class);
         final FXLoadingResult result = fxLoader.load();
+        this.mainWindowController = result.getController();
         final Parent root = result.getRoot();
 
         keyTracker.addKeyCatcher(root,mainRootKeyCatcher);

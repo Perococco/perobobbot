@@ -72,6 +72,16 @@
             <artifactId>spring-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-rest-client-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-rest-client-template</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

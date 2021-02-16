@@ -14,8 +14,6 @@ import perobobbot.frontfx.model.ApplicationIdentityOperation;
 import perobobbot.frontfx.model.FXApplicationIdentity;
 import perobobbot.frontfx.model.state.ApplicationState;
 import perobobbot.frontfx.model.state.ApplicationStateTool;
-import perobobbot.frontfx.model.state.BasicApplicationStateTool;
-import perobobbot.frontfx.model.state.EmptyApplicationStateTool;
 import perobobbot.lang.Operator;
 import perobobbot.lang.Subscription;
 import perobobbot.lang.fp.Function1;
@@ -33,6 +31,9 @@ public class GUIFXApplicationIdentity implements FXApplicationIdentity {
 
     public GUIFXApplicationIdentity(@NonNull ApplicationIdentity operation) {
         this.applicationStateObservable = operation.asFXObservable(EmptyApplicationStateTool.create(), BasicApplicationStateTool::new);
+        this.applicationStateObservable.addListener((l,o,n) -> {
+            System.out.println("NEW STATE "+n.isAuthenticated());
+        });
         this.operation = operation;
     }
 
