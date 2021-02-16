@@ -9,7 +9,7 @@ import perobobbot.spring.SpringLauncher;
 import java.util.Arrays;
 
 @SpringBootApplication
-@PropertySource(value = "file:${app.config.dir}/config/application.properties",ignoreResourceNotFound = true)
+@PropertySource(value = "file:${app.config.dir}/server/application.properties",ignoreResourceNotFound = true)
 @Log4j2
 public class BotServer {
 

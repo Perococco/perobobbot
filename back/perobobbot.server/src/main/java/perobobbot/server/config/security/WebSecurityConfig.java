@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
             .antMatchers("/actuator/**").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/ping").permitAll()
             .antMatchers(HttpMethod.GET,"/api/dictionaries/**").permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_IN)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()

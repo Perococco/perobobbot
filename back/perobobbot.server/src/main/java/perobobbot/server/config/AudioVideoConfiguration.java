@@ -42,7 +42,7 @@ public class AudioVideoConfiguration {
     }
 
     @Bean
-    public SoundResolver soundResolver(@Value("${perobot.sound.directory}") String soundDirectory) {
+    public SoundResolver soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
         return SoundResolver.soundFileResolver(Path.of(soundDirectory));
     }
 

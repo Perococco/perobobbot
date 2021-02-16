@@ -18,6 +18,8 @@ public class ApplicationState {
 
     private final @NonNull StyleState styleState;
 
+    private final @NonNull Configuration configuration;
+
     private final @NonNull Class<? extends FXView> fxViewType;
 
 }

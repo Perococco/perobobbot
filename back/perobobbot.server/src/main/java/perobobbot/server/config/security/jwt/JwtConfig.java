@@ -18,7 +18,7 @@ public class JwtConfig {
 
     private final String key;
 
-    public JwtConfig(@Value("${perobot.jwtconfig.key:shouldBeSetThroughtProperty}") String key) {
+    public JwtConfig(@Value("${perobobbot.jwtconfig.key:shouldBeSetThroughtProperty}") String key) {
         this.key = key;
     }
 
