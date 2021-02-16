@@ -13,10 +13,7 @@ import perobobbot.frontfx.model.ApplicationIdentity;
 import perobobbot.frontfx.model.dialog.DefaultDialogHelper;
 import perobobbot.frontfx.model.dialog.DialogHelper;
 import perobobbot.frontfx.model.dialog.DialogModel;
-import perobobbot.frontfx.model.state.ActionState;
-import perobobbot.frontfx.model.state.ApplicationState;
-import perobobbot.frontfx.model.state.Configuration;
-import perobobbot.frontfx.model.state.StyleState;
+import perobobbot.frontfx.model.state.*;
 import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.fx.FXDictionary;
 import perobobbot.fx.FXProperties;
@@ -103,6 +100,7 @@ public class PerobobbotGUI {
     private ApplicationState initialApplicationState() {
         return ApplicationState.builder()
                                .fxViewType(EmptyFXView.class)
+                               .connectionState(ConnectionState.CONNECTED)
                                .actionState(ActionState.allEnabled())
                                .configuration(initialConfiguration())
                                .styleState(initialStyleState())
