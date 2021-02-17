@@ -14,9 +14,15 @@ public interface ApplicationStateTool {
 
     @NonNull StyleState getStyleState();
 
+    @NonNull DashboardState getDashboardState();
+
     @NonNull String getServerBaseURL();
 
     @NonNull boolean isAuthenticated();
 
     @NonNull String getUserLogin();
+
+    boolean canSeeUsers();
+
+    Class<? extends FXView> getDashboardMainView();
 }

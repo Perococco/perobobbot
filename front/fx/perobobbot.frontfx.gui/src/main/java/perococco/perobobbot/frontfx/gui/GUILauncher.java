@@ -12,6 +12,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import perobobbot.action.ActionManager;
 import perobobbot.frontfx.action.list.Quit;
+import perobobbot.frontfx.action.list.SignIn;
+import perobobbot.frontfx.action.list.SignParameter;
 import perobobbot.frontfx.model.ApplicationIdentity;
 import perobobbot.frontfx.model.dialog.DialogKind;
 import perobobbot.frontfx.model.dialog.DialogModel;
@@ -93,6 +95,8 @@ public class GUILauncher implements ApplicationRunner {
         fxProperties.getPrimaryStage().setScene(scene);
         fxProperties.getPrimaryStage().centerOnScreen();
         fxProperties.getPrimaryStage().show();
+
+        actionManager.pushAction(SignIn.class, new SignParameter("admin","admin"));
     }
 
 }

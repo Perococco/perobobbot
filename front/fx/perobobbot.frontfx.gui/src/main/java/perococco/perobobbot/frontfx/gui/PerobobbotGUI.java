@@ -100,6 +100,7 @@ public class PerobobbotGUI {
     private ApplicationState initialApplicationState() {
         return ApplicationState.builder()
                                .fxViewType(EmptyFXView.class)
+                               .dashboardState(DashboardState.initialState())
                                .connectionState(ConnectionState.CONNECTED)
                                .actionState(ActionState.allEnabled())
                                .configuration(initialConfiguration())

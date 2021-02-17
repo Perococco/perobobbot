@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<VBox styleClass="dashboard-menu" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="perococco.perobobbot.frontfx.gui.fxml.DashboardMenuController">
+    <fx:define>
+        <ToggleGroup fx:id="dashboardViewGroup"/>
+    </fx:define>
+
+    <ToggleButton toggleGroup="${dashboardViewGroup}" fx:id="usersButton" text="%_lit.Users" onAction="#showUsers"/>
+    <ToggleButton toggleGroup="${dashboardViewGroup}" fx:id="credentialsButton" text="%_lit.Credentials" onAction="#showCredentials"/>
+    <ToggleButton toggleGroup="${dashboardViewGroup}" fx:id="botsButton" text="%_lit.Bots" onAction="#showBots"/>
+    <ToggleButton toggleGroup="${dashboardViewGroup}" fx:id="extensionsButton" text="%_lit.Extensions" onAction="#showExtensions"/>
+
+</VBox>

@@ -25,7 +25,9 @@ public class ApplicationState {
      * list of styles and current style
      */
     private final @NonNull StyleState styleState;
-
+    
+    private final @NonNull DashboardState dashboardState;
+    
     /**
      * information regarding the server
      */
