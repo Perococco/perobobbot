@@ -8,7 +8,7 @@ import perobobbot.frontfx.model.state.mutation.ClearAuthenticatedUser;
 
 @Component
 @RequiredArgsConstructor
-public class SignOut extends ActionOnNilNoResult {
+public class LogOut extends ActionOnNilNoResult {
 
     private final @NonNull ApplicationIdentity applicationIdentity;
 

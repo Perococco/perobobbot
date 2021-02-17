@@ -8,7 +8,7 @@
    <left>
        <VBox>
            <Label fx:id="userLogin" text="" BorderPane.alignment="CENTER" />
-           <Button fx:id="logoutButton" text="%_lit.SignOut" onAction="#signOut"/>
+           <Button fx:id="logoutButton" text="%_lit.Log-Out" onAction="#logOut"/>
        </VBox>
    </left>
 </BorderPane>

@@ -1,15 +1,12 @@
 package perococco.perobobbot.frontfx.gui.fxml;
 
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.action.ActionExecutor;
-import perobobbot.frontfx.action.list.SignOut;
+import perobobbot.frontfx.action.list.LogOut;
 import perobobbot.frontfx.model.FXApplicationIdentity;
 import perobobbot.frontfx.model.state.ApplicationStateTool;
-import perobobbot.frontfx.model.view.DynamicController;
 import perobobbot.frontfx.model.view.PluggableController;
 import perobobbot.lang.Nil;
 
@@ -33,7 +30,7 @@ public class DashboardController implements PluggableController {
         userLogin.textProperty().unbind();
     }
 
-    public void signOut() {
-        actionExecutor.pushAction(SignOut.class, Nil.NIL);
+    public void logOut() {
+        actionExecutor.pushAction(LogOut.class, Nil.NIL);
     }
 }
