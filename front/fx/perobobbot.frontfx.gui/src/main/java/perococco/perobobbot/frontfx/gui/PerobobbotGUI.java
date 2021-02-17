@@ -1,5 +1,6 @@
 package perococco.perobobbot.frontfx.gui;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,6 +101,7 @@ public class PerobobbotGUI {
     private ApplicationState initialApplicationState() {
         return ApplicationState.builder()
                                .fxViewType(EmptyFXView.class)
+                               .dataState(DataState.empty())
                                .dashboardState(DashboardState.initialState())
                                .connectionState(ConnectionState.CONNECTED)
                                .actionState(ActionState.allEnabled())

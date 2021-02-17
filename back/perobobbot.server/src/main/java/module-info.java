@@ -80,6 +80,9 @@ module perobobbot.server {
     requires java.naming;
     requires com.h2database;
     requires perobobbot.security.core;
+    requires com.fasterxml.jackson.datatype.jdk8;
+    requires com.fasterxml.jackson.datatype.jsr310;
+    requires com.fasterxml.jackson.datatype.guava;
 
     exports perobobbot.server;
     uses Plugin;

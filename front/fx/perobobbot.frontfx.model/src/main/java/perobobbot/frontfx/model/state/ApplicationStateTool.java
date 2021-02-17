@@ -1,8 +1,11 @@
 package perobobbot.frontfx.model.state;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.action.Action;
 import perobobbot.frontfx.model.view.FXView;
+import perobobbot.lang.Bot;
+import perobobbot.security.com.SimpleUser;
 
 public interface ApplicationStateTool {
 
@@ -22,7 +25,11 @@ public interface ApplicationStateTool {
 
     @NonNull String getUserLogin();
 
+    @NonNull ImmutableList<Bot> getBots();
+
     boolean canSeeUsers();
 
     Class<? extends FXView> getDashboardMainView();
+
+    @NonNull ImmutableList<SimpleUser> getUsers();
 }

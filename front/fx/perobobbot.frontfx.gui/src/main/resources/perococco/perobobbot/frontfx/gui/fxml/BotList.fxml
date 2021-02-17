@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane styleClass="bot-view" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="perococco.perobobbot.frontfx.gui.fxml.BotListController">
+    <center>
+        <TableView fx:id="botTable" styleClass="bot-table" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="ownerColumn" prefWidth="75.0" text="%bot-table.owner-column-name" />
+            <TableColumn fx:id="nameColumn" prefWidth="75.0" text="%bot-table.name-column-name" />
+            <TableColumn fx:id="credentialColumn" prefWidth="75.0" text="%bot-table.credential-column-name" />
+         </columns>
+        </TableView>
+    </center>
+</BorderPane>

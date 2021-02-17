@@ -17,6 +17,7 @@ module perobobbot.frontfx.action {
     requires perobobbot.validation;
     requires perobobbot.fx;
     requires perobobbot.rest.client.api;
+    requires spring.core;
 
     exports perobobbot.frontfx.action;
     exports perobobbot.frontfx.action.list;

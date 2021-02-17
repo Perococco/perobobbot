@@ -1,5 +1,6 @@
 package perococco.perobobbot.frontfx.gui;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,12 @@ import perobobbot.frontfx.model.state.DashboardState;
 import perobobbot.frontfx.model.state.StyleState;
 import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.frontfx.model.view.FXView;
-import perobobbot.security.com.LoginFailed;
+import perobobbot.lang.Bot;
 import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.SimpleUser;
+import perococco.perobobbot.frontfx.gui.view.BotListView;
 import perococco.perobobbot.frontfx.gui.view.LoginFXView;
+import perococco.perobobbot.frontfx.gui.view.UserListView;
 
 @RequiredArgsConstructor
 public class BasicApplicationStateTool implements ApplicationStateTool {
@@ -41,6 +44,16 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
     }
 
     @Override
+    public @NonNull ImmutableList<SimpleUser> getUsers() {
+        return applicationState.getDataState().getUsers();
+    }
+
+    @Override
+    public @NonNull ImmutableList<Bot> getBots() {
+        return applicationState.getDataState().getBots();
+    }
+
+    @Override
     public boolean canSeeUsers() {
         return applicationState.getUser()
                                .map(SimpleUser::getRoles)
@@ -50,8 +63,11 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
 
     @Override
     public Class<? extends FXView> getDashboardMainView() {
-        System.out.println(" Get view for "+applicationState.getDashboardState().getViewType());
-        return EmptyFXView.class;
+        return switch (applicationState.getDashboardState().getViewType()) {
+            case USERS -> UserListView.class;
+            case BOTS -> BotListView.class;
+            default -> EmptyFXView.class;
+        };
     }
 
     @Override

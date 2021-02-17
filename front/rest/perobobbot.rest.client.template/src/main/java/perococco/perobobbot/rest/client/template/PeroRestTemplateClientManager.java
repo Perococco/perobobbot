@@ -75,7 +75,7 @@ public class PeroRestTemplateClientManager implements ClientManager {
     }
 
     private static RestTemplate setupRestTemplate(@NonNull String apiBaseUrl) {
-        final var mapper = new ObjectMapper().registerModules(new GuavaModule(), new JavaTimeModule(), new Jdk8Module());
+        final var mapper = RestObjectMapper.create();
 
         final var restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(apiBaseUrl));

@@ -19,4 +19,6 @@ module perobobbot.lang {
     uses FactoryProvider.WithLifeCycle;
     uses FactoryProvider.Basic;
     provides AsyncIdentityFactory with PerococcoAsyncIdentity;
+
+    opens perobobbot.lang to com.fasterxml.jackson.databind;
 }

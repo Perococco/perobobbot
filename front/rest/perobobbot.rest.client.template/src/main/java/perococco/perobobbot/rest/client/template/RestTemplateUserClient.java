@@ -3,6 +3,9 @@ package perococco.perobobbot.rest.client.template;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.lang.Todo;
@@ -15,11 +18,18 @@ import java.util.concurrent.CompletionStage;
 @RequiredArgsConstructor
 public class RestTemplateUserClient implements UserClient {
 
+
     private final @NonNull AsyncRestOperations operations;
 
     @Override
     public @NonNull CompletionStage<ImmutableList<SimpleUser>> listAllUsers() {
-        return operations.getForObject("/users",ImmutableList.class).thenApply(l -> (ImmutableList<SimpleUser>) l);
+        return operations.exchange("/users", HttpMethod.GET, null,
+                                   new ParameterizedTypeReference<ImmutableList<SimpleUser>>() {
+                                   })
+                         .thenApply(HttpEntity::getBody);
+//        })
+//        return operations.getForObject("/users",ImmutableList.class)
+//                         .thenApply(l -> (ImmutableList<SimpleUser>) l);
     }
 
     @Override

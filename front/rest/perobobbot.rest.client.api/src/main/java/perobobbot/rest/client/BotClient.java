@@ -10,9 +10,9 @@ import java.util.concurrent.CompletionStage;
 
 public interface BotClient {
 
-    @NonNull CompletionStage<?> deleteBot(@NonNull UUID id);
-
     @NonNull CompletionStage<ImmutableList<Bot>> listBots();
+
+    @NonNull CompletionStage<?> deleteBot(@NonNull UUID id);
 
     @NonNull CompletionStage<Bot> createBot(@NonNull CreateBotParameters parameters);
 

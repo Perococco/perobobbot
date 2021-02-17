@@ -7,10 +7,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.action.ActionExecutor;
 import perobobbot.frontfx.action.list.ChangeDashboardMainView;
+import perobobbot.frontfx.action.list.RefreshBotList;
+import perobobbot.frontfx.action.list.RefreshUserList;
 import perobobbot.frontfx.model.FXApplicationIdentity;
 import perobobbot.frontfx.model.state.ApplicationStateTool;
 import perobobbot.frontfx.model.state.DashboardMainViewType;
 import perobobbot.frontfx.model.view.PluggableController;
+import perobobbot.lang.Nil;
 import perobobbot.lang.SubscriptionHolder;
 
 import java.util.HashMap;
@@ -44,7 +47,7 @@ public class DashboardMenuController implements PluggableController {
 
     @Override
     public void onShowing() {
-        subscriptionHolder.replaceWith(() -> applicationIdentity.addListener(this::onApplicationStateChanged));
+        subscriptionHolder.replaceWith(() -> applicationIdentity.addListenerAndCall(this::onApplicationStateChanged));
     }
 
     @Override
@@ -54,7 +57,6 @@ public class DashboardMenuController implements PluggableController {
 
     private void onApplicationStateChanged(@NonNull ApplicationStateTool tool) {
         final var viewType = tool.getDashboardState().getViewType();
-        System.out.println("### "+viewType);
         usersButton.setVisible(tool.canSeeUsers());
         dashboardViewGroup.selectToggle(buttonByViewType.get(viewType));
     }
@@ -69,6 +71,7 @@ public class DashboardMenuController implements PluggableController {
 
     public void showBots(ActionEvent actionEvent) {
         this.changeView(DashboardMainViewType.BOTS);
+        this.actionExecutor.pushAction(RefreshBotList.class, Nil.NIL);
     }
 
     public void showCredentials(ActionEvent actionEvent) {
@@ -77,5 +80,6 @@ public class DashboardMenuController implements PluggableController {
 
     public void showUsers(ActionEvent actionEvent) {
         this.changeView(DashboardMainViewType.USERS);
+        this.actionExecutor.pushAction(RefreshUserList.class, Nil.NIL);
     }
 }
