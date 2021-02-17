@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletionStage;
 
+/**
+ * The {@link org.springframework.web.client.RestOperations} in asynchronous mode
+ */
 public interface AsyncRestOperations  {
     <T> CompletionStage<T> getForObject(String url, Class<T> responseType, Object... uriVariables) throws RestClientException;
     <T> CompletionStage<T> getForObject(String url, Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
