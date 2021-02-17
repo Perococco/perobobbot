@@ -1,0 +1,4 @@
+== Tasks
+
+.Greeter
+* [ ] Remove bot from user to greet (WizeBot)

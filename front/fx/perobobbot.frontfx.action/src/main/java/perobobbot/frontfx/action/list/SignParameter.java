@@ -3,6 +3,7 @@ package perobobbot.frontfx.action.list;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.Secret;
+import perobobbot.security.com.Credential;
 import perobobbot.validation.ErrorType;
 import perobobbot.validation.Validatable;
 import perobobbot.validation.Validation;
@@ -23,6 +24,10 @@ public class SignParameter implements Validatable {
 
     public SignParameter(@NonNull String login, @NonNull String password) {
         this(login,Secret.with(password));
+    }
+
+    public @NonNull Credential toCredential() {
+        return new Credential(login,password.getValue());
     }
 
     @Override

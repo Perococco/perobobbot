@@ -9,6 +9,7 @@ import perobobbot.action.ActionExecutor;
 import perobobbot.frontfx.action.list.SignOut;
 import perobobbot.frontfx.model.FXApplicationIdentity;
 import perobobbot.frontfx.model.state.ApplicationStateTool;
+import perobobbot.frontfx.model.view.DynamicController;
 import perobobbot.frontfx.model.view.PluggableController;
 import perobobbot.lang.Nil;
 

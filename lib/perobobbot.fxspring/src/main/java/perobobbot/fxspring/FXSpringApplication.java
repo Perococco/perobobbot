@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.Banner;
 import org.springframework.context.ApplicationContextInitializer;
 import perobobbot.fx.FXProperties;
 import perobobbot.lang.ApplicationCloser;
@@ -75,7 +76,8 @@ public abstract class FXSpringApplication extends Application {
         final var springLauncher = new SpringLauncher(getParameters().getRaw(),
                                                       new Class[]{FXSpringConfiguration.class, applicationClass},
                                                       initializers,
-                                                      this::shouldUsePlugin);
+                                                      this::shouldUsePlugin,
+                                                      Banner.Mode.OFF);
         return CompletableFuture.supplyAsync(springLauncher::launch);
     }
 
@@ -89,5 +91,4 @@ public abstract class FXSpringApplication extends Application {
             @NonNull TryResult<Throwable, ApplicationCloser> result) {
     }
 
-    ;
 }

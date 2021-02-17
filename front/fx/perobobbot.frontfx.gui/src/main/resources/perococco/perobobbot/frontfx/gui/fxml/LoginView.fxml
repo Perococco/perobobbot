@@ -4,18 +4,14 @@
 <?import javafx.scene.layout.*?>
 
 
-<?import org.controlsfx.control.textfield.CustomPasswordField?>
-<HBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="perococco.perobobbot.frontfx.gui.fxml.LoginViewController">
-    <VBox styleClass="login-box">
-        <TextField fx:id="login" styleClass="login" promptText="%_lit.Login"/>
-        <PasswordField fx:id="password" styleClass="password" promptText="%_lit.Password"/>
-        <Label fx:id="error" styleClass="error" visible="false"/>
-        <HBox>
-            <children>
-                <Button fx:id="signIn" styleClass="sign-in" text="%_lit.Sign-In"/>
-                <Button fx:id="signUp" scaleShape="sign-up" text="%_lit.Sign-Up"/>
-            </children>
+<HBox fx:id="root" alignment="CENTER" fillHeight="false" styleClass="login-hbox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="perococco.perobobbot.frontfx.gui.fxml.LoginViewController">
+    <VBox fillWidth="false" styleClass="login-vbox">
+        <TextField fx:id="login" promptText="%_lit.Login" styleClass="login" />
+        <PasswordField fx:id="password" promptText="%_lit.Password" styleClass="password" />
+        <Label fx:id="error" styleClass="error" visible="false" />
+        <HBox styleClass="button-bar">
+            <Button fx:id="signInButton" styleClass="sign-in" text="%_lit.Sign-In" onAction="#signIn"/>
+            <Button fx:id="signUpButton" scaleShape="sign-up" text="%_lit.Sign-Up" onAction="#signUp"/>
         </HBox>
     </VBox>
 </HBox>

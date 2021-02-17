@@ -31,7 +31,7 @@ import java.net.URI;
 @SpringBootConfiguration
 @ComponentScan
 @PropertySources({
-        @PropertySource(value = "${app.config.dir}/server/application.properties", ignoreResourceNotFound = true),
+        @PropertySource(value = "file:${app.config.dir}/frontfx/application.properties", ignoreResourceNotFound = true),
         @PropertySource("classpath:/configuration.properties")
 })
 @RequiredArgsConstructor

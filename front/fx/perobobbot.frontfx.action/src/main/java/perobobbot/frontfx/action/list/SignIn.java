@@ -15,6 +15,8 @@ import perobobbot.rest.client.ClientManager;
 import perobobbot.security.com.Credential;
 import perobobbot.security.com.SimpleUser;
 
+import java.util.concurrent.ExecutionException;
+
 @Log4j2
 @Component
 @RequiredArgsConstructor
@@ -25,13 +27,16 @@ public class SignIn extends ActionNoResult<SignParameter> {
     private final @NonNull ApplicationIdentity applicationIdentity;
 
     @Override
-    protected void doExecute(@NonNull SignParameter parameter) {
+    protected void doExecute(@NonNull SignParameter parameter) throws Exception {
         parameter.validateAndCheck();
 
-        clientManager.login(new Credential(parameter.getLogin(), parameter.getPassword().getValue()))
-                     .handle(TryResult::fromCompletionStage)
-                     .thenApply(r -> r.merge(ClearAuthenticatedUser::create, SetAuthenticatedUser::create))
-                     .thenAccept(applicationIdentity::mutate);
+        final var mutation = clientManager.login(parameter.toCredential())
+                                          .handle(TryResult::fromCompletionStage)
+                                          .toCompletableFuture()
+                                          .get()
+                                          .merge(ClearAuthenticatedUser::create, SetAuthenticatedUser::create);
+
+        applicationIdentity.mutate(mutation);
 
     }
 

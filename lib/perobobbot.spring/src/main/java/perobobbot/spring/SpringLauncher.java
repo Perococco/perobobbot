@@ -3,10 +3,12 @@ package perobobbot.spring;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.SpringProperties;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.OSInfo;
@@ -39,6 +41,8 @@ public class SpringLauncher {
     @NonNull
     private final Predicate1<? super Plugin> pluginFilter;
 
+    private final Banner.Mode bannerMode;
+
     @NonNull
     public ApplicationCloser launch() {
         return new Execution().launch();
@@ -47,8 +51,16 @@ public class SpringLauncher {
     public SpringLauncher(@NonNull List<String> arguments,
                           @NonNull Class<?> applicationClass,
                           @NonNull ApplicationContextInitializer<?>[] initializers,
+                          @NonNull Predicate1<? super Plugin> pluginFilter,
+                          @NonNull Banner.Mode bannerMode) {
+        this(arguments,new Class<?>[]{applicationClass},initializers,pluginFilter,bannerMode);
+    }
+
+    public SpringLauncher(@NonNull List<String> arguments,
+                          @NonNull Class<?> applicationClass,
+                          @NonNull ApplicationContextInitializer<?>[] initializers,
                           @NonNull Predicate1<? super Plugin> pluginFilter) {
-        this(arguments,new Class<?>[]{applicationClass},initializers,pluginFilter);
+        this(arguments, new Class<?>[]{applicationClass}, initializers, pluginFilter, Banner.Mode.CONSOLE);
     }
 
     private class Execution {
@@ -81,7 +93,7 @@ public class SpringLauncher {
                 app.getBeanFactory().registerSingleton("__closer", createCloser(app));
             });
             application.addInitializers(initializers);
-//            application.setBannerMode(Banner.Mode.OFF);
+            application.setBannerMode(bannerMode);
         }
 
         private void retrieveAllExtraPackagesToScan() {
