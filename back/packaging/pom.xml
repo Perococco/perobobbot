@@ -33,10 +33,10 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-server</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-frontend-svelte</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-front-svelte</artifactId>
+        </dependency>
 
     </dependencies>
 

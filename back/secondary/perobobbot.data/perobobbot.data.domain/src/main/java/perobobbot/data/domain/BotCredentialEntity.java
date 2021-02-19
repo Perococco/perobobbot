@@ -15,7 +15,7 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor
 public class BotCredentialEntity extends BotCredentialEntityBase {
 
-    public BotCredentialEntity(@NonNull BotEntity bot, @NonNull CredentialEntity credentialEntity) {
+    public BotCredentialEntity(@NonNull BotEntity bot, @NonNull TokenEntity credentialEntity) {
         super(bot, credentialEntity);
     }
 }

@@ -3,15 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="perococco.perobobbot.frontfx.gui.fxml.StatusBarController">
-    <Label fx:id="loginLabel">
-        <contextMenu>
-            <ContextMenu>
-                <items>
-                    <MenuItem text="%_lit.Log-Out" onAction="#logOut"></MenuItem>
-                </items>
-            </ContextMenu>
-        </contextMenu>
-    </Label>
-</HBox>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="perococco.perobobbot.frontfx.gui.fxml.StatusBarController">
+   <left>
+      <HBox BorderPane.alignment="CENTER">
+          <Label fx:id="loginLabel">
+              <contextMenu>
+                  <ContextMenu>
+                      <items>
+                          <MenuItem onAction="#logOut" text="%_lit.Log-Out" />
+                      </items>
+                  </ContextMenu>
+              </contextMenu>
+          </Label>
+      </HBox>
+   </left>
+</BorderPane>

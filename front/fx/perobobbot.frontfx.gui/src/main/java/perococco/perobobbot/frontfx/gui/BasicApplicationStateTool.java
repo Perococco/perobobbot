@@ -14,9 +14,9 @@ import perobobbot.frontfx.model.view.FXView;
 import perobobbot.lang.Bot;
 import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.SimpleUser;
-import perococco.perobobbot.frontfx.gui.view.BotListView;
-import perococco.perobobbot.frontfx.gui.view.LoginFXView;
-import perococco.perobobbot.frontfx.gui.view.UserListView;
+import perococco.perobobbot.frontfx.gui.view.BotView;
+import perococco.perobobbot.frontfx.gui.view.LoginView;
+import perococco.perobobbot.frontfx.gui.view.UserView;
 
 @RequiredArgsConstructor
 public class BasicApplicationStateTool implements ApplicationStateTool {
@@ -39,7 +39,7 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
         if (this.isAuthenticated()) {
             return applicationState.getFxViewType();
         } else {
-            return LoginFXView.class;
+            return LoginView.class;
         }
     }
 
@@ -64,8 +64,8 @@ public class BasicApplicationStateTool implements ApplicationStateTool {
     @Override
     public Class<? extends FXView> getDashboardMainView() {
         return switch (applicationState.getDashboardState().getViewType()) {
-            case USERS -> UserListView.class;
-            case BOTS -> BotListView.class;
+            case USERS -> UserView.class;
+            case BOTS -> BotView.class;
             default -> EmptyFXView.class;
         };
     }

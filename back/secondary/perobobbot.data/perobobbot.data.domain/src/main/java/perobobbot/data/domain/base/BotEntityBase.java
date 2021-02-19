@@ -52,7 +52,7 @@ public class BotEntityBase extends PersistentObjectWithUUID {
         return botExtensions().map(BotExtensionEntityBase::getExtension);
     }
 
-    public @NonNull Stream<CredentialEntity> credentials() {
+    public @NonNull Stream<TokenEntity> credentials() {
         return botCredentials().map(BotCredentialEntityBase::getCredentialEntity);
     }
 }

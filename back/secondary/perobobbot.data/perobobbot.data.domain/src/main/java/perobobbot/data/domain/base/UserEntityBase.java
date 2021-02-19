@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import perobobbot.data.domain.BotEntity;
-import perobobbot.data.domain.CredentialEntity;
+import perobobbot.data.domain.TokenEntity;
 import perobobbot.data.domain.RoleEntity;
 import perobobbot.data.domain.converter.LocaleConverter;
 import perobobbot.lang.RandomString;
@@ -58,7 +58,7 @@ public class UserEntityBase extends SimplePersistentObject {
     @OneToMany(mappedBy = "owner")
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    private List<CredentialEntity> credentials = new ArrayList<>();
+    private List<TokenEntity> credentials = new ArrayList<>();
 
     @Column(name = "LOCALE")
     @Convert(converter = LocaleConverter.class)
@@ -84,7 +84,7 @@ public class UserEntityBase extends SimplePersistentObject {
         return roles.stream();
     }
 
-    public @NonNull Stream<CredentialEntity> credentials() {
+    public @NonNull Stream<TokenEntity> credentials() {
         return credentials.stream();
     }
 

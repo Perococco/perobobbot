@@ -7,9 +7,9 @@ import perobobbot.fx.FXLoaderFactory;
 import perococco.perobobbot.frontfx.gui.fxml.StatusBarController;
 
 @Component
-public class StatusBarFXView extends FXViewWithController {
+public class StatusBarView extends FXViewWithController {
 
-    public StatusBarFXView(@NonNull FXLoaderFactory fxLoaderFactory) {
+    public StatusBarView(@NonNull FXLoaderFactory fxLoaderFactory) {
         super(fxLoaderFactory, StatusBarController.class);
     }
 }

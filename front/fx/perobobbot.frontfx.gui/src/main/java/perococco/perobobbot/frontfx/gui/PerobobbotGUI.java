@@ -1,6 +1,5 @@
 package perococco.perobobbot.frontfx.gui;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +21,8 @@ import perobobbot.fx.KeyTracker;
 import perobobbot.fx.LocaleProperty;
 import perobobbot.fx.dialog.AlertShower;
 import perobobbot.fx.dialog.DefaultDialogPreparer;
-import perobobbot.fx.dialog.ValidatableField;
 import perobobbot.i18n.Dictionary;
 import perococco.perobobbot.frontfx.gui.style.StyleConfiguration;
-import perococco.perobobbot.frontfx.gui.view.LoginFXView;
 
 import java.net.URI;
 

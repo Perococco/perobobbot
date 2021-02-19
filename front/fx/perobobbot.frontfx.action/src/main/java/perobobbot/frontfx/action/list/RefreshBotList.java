@@ -24,7 +24,7 @@ public class RefreshBotList extends ActionOnNilNoResult {
                          if (error != null) {
                              errorHandler.handleError(error);
                          } else {
-                             applicationIdentity.mutateDataState(new SetBotList(botList));
+                             applicationIdentity.mutateDataState(SetBotList.with(botList));
                          }
                      });
     }

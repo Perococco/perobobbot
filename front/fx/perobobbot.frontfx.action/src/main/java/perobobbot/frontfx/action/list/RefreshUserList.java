@@ -24,7 +24,7 @@ public class RefreshUserList extends ActionOnNilNoResult {
                          if (error != null) {
                              errorHandler.handleError(error);
                          } else {
-                             applicationIdentity.mutateDataState(new SetUserList(userList));
+                             applicationIdentity.mutateDataState(SetUserList.with(userList));
                          }
                      });
     }

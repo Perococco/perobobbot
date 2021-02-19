@@ -1,9 +1,9 @@
 import type {AxiosRequestConfig, AxiosResponse} from 'axios';
-import axios from "axios";
 import type {Extension, UpdateUserParameters} from './data-com';
 import type {Bot} from './perobobbot-lang';
 import type {CreateBotParameters, RestCredentialInfo} from './rest-com';
 import type {Credential, JwtInfo, SimpleUser} from './security-com';
+import axios from "axios";
 
 export class BotController {
     baseURL: URL;
@@ -114,7 +114,6 @@ export class I18nController {
 
 
     public constructor(baseURL: URL = new URL(window.document.URL)) {
-        console.log("Base URL", baseURL);
         this.baseURL = baseURL;
     }
 

@@ -7,9 +7,9 @@ import perobobbot.fx.FXLoaderFactory;
 import perococco.perobobbot.frontfx.gui.fxml.LoginViewController;
 
 @Component
-public class LoginFXView extends FXViewWithController {
+public class LoginView extends FXViewWithController {
 
-    public LoginFXView(@NonNull FXLoaderFactory fxLoaderFactory) {
+    public LoginView(@NonNull FXLoaderFactory fxLoaderFactory) {
         super(fxLoaderFactory, LoginViewController.class);
     }
 }

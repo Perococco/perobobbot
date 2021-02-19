@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.data.domain.CredentialEntity;
+import perobobbot.data.domain.TokenEntity;
 import perobobbot.data.jpa.repository.CredentialRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.service.CredentialService;
@@ -36,7 +36,7 @@ public class JPACredentialService implements CredentialService {
     public @NonNull ImmutableList<DataCredentialInfo> getUserCredentials(@NonNull String login) {
         return userRepository.getByLogin(login)
                              .credentials()
-                             .map(CredentialEntity::toView)
+                             .map(TokenEntity::toView)
                              .collect(ImmutableList.toImmutableList());
     }
 
@@ -50,7 +50,7 @@ public class JPACredentialService implements CredentialService {
 
     @Override
     public @NonNull Optional<DataCredentialInfo> findCredential(@NonNull UUID id) {
-        return credentialRepository.findByUuid(id).map(CredentialEntity::toView);
+        return credentialRepository.findByUuid(id).map(TokenEntity::toView);
     }
 
     @Override

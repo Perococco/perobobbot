@@ -18,12 +18,10 @@ import perobobbot.frontfx.model.ApplicationIdentity;
 import perobobbot.frontfx.model.dialog.DialogKind;
 import perobobbot.frontfx.model.dialog.DialogModel;
 import perobobbot.frontfx.model.state.mutation.ChangeView;
-import perobobbot.frontfx.model.view.EmptyFXView;
 import perobobbot.fx.*;
 import perobobbot.lang.ThrowableTool;
 import perococco.perobobbot.frontfx.gui.fxml.MainWindowController;
-import perococco.perobobbot.frontfx.gui.view.DashboardFXView;
-import perococco.perobobbot.frontfx.gui.view.LoginFXView;
+import perococco.perobobbot.frontfx.gui.view.DashboardView;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -91,12 +89,12 @@ public class GUILauncher implements ApplicationRunner {
         dialogModel.setMainScene(scene);
         styleManager.addStylable(scene);
 
-        applicationIdentity.mutate(new ChangeView(DashboardFXView.class));
+        applicationIdentity.mutate(new ChangeView(DashboardView.class));
         fxProperties.getPrimaryStage().setScene(scene);
         fxProperties.getPrimaryStage().centerOnScreen();
         fxProperties.getPrimaryStage().show();
 
-        actionManager.pushAction(SignIn.class, new SignParameter("admin","admin"));
+        actionManager.pushAction(SignIn.class, new SignParameter("perococco","admin"));
     }
 
 }

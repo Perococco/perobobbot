@@ -1,6 +1,5 @@
 package perobobbot.frontfx.model.state;
 
-import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perobobbot.frontfx.model.view.FXView;
 import perobobbot.security.com.SimpleUser;

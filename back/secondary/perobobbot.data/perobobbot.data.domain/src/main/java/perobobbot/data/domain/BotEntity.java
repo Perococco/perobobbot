@@ -28,10 +28,10 @@ public class BotEntity extends BotEntityBase {
 
     public @NonNull ImmutableMap<Platform, Credential> getCredentialsAsMap() {
         return credentials()
-                .collect(ImmutableMap.toImmutableMap(CredentialEntity::getPlatform, CredentialEntity::getCredential));
+                .collect(ImmutableMap.toImmutableMap(TokenEntity::getPlatform, TokenEntity::getCredential));
     }
 
-    public void attachCredential(@NonNull CredentialEntity credentialEntity) {
+    public void attachCredential(@NonNull TokenEntity credentialEntity) {
         if (!credentialEntity.getOwner().equals(this.getOwner())) {
             throw new IllegalArgumentException("Invalid credential. Does not belong to the bot owner");
         }
@@ -41,7 +41,7 @@ public class BotEntity extends BotEntityBase {
         this.getBotCredentials().add(new BotCredentialEntity(this,credentialEntity));
      }
 
-     public boolean isAlreadyAttachedToThisCredential(@NonNull CredentialEntity credentialEntity) {
+     public boolean isAlreadyAttachedToThisCredential(@NonNull TokenEntity credentialEntity) {
          return getBotCredentials().stream().anyMatch(e -> e.getCredentialEntity().equals(credentialEntity));
      }
 

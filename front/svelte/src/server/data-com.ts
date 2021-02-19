@@ -5,6 +5,6 @@ export interface Extension {
 }
 
 export interface UpdateUserParameters {
-  languageTag: string | string | null;
+  languageTag: string | null;
 }
 

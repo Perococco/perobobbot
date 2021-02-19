@@ -48,8 +48,6 @@ if [ -z $JDK ]; then
    exit 1
 fi
 
-config_dir=~/.perobot/config/
-
-"$JAVA_HOME/bin/java" -Dspring.config.additional-location="${config_dir}" @options/launch_options @options/mem_options
+"$JAVA_HOME/bin/java" @options/launch_options @options/mem_options
 
 exit $?

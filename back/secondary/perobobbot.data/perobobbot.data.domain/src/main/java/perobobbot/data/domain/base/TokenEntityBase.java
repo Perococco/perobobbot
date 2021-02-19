@@ -19,7 +19,7 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor
 @Getter @Setter
-public class CredentialEntityBase extends PersistentObjectWithUUID {
+public class TokenEntityBase extends PersistentObjectWithUUID {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
@@ -36,7 +36,7 @@ public class CredentialEntityBase extends PersistentObjectWithUUID {
     @Convert(converter = SecretConverter.class)
     private Secret secret = Secret.empty();
 
-    public CredentialEntityBase(@NotBlank UserEntity owner, @NonNull Platform platform) {
+    public TokenEntityBase(@NotBlank UserEntity owner, @NonNull Platform platform) {
         super(UUID.randomUUID());
         this.owner = owner;
         this.platform = platform;

@@ -7,9 +7,9 @@ import perobobbot.fx.FXLoaderFactory;
 import perococco.perobobbot.frontfx.gui.fxml.DashboardController;
 
 @Component
-public class DashboardFXView extends FXViewWithController {
+public class DashboardView extends FXViewWithController {
 
-    public DashboardFXView(@NonNull FXLoaderFactory fxLoaderFactory) {
+    public DashboardView(@NonNull FXLoaderFactory fxLoaderFactory) {
         super(fxLoaderFactory, DashboardController.class);
     }
 }

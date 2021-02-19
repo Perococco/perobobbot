@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import perobobbot.data.domain.BotEntity;
-import perobobbot.data.domain.CredentialEntity;
+import perobobbot.data.domain.TokenEntity;
 import perobobbot.persistence.SimplePersistentObject;
 
 import javax.persistence.JoinColumn;
@@ -25,9 +25,9 @@ public class BotCredentialEntityBase extends SimplePersistentObject {
 
     @ManyToOne
     @JoinColumn(name = CREDENTIAL_COLUMN_NAME,nullable = false)
-    private CredentialEntity credentialEntity;
+    private TokenEntity credentialEntity;
 
-    public BotCredentialEntityBase(BotEntity bot, CredentialEntity credentialEntity) {
+    public BotCredentialEntityBase(BotEntity bot, TokenEntity credentialEntity) {
         this.bot = bot;
         this.credentialEntity = credentialEntity;
     }

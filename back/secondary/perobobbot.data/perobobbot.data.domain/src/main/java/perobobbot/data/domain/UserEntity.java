@@ -39,8 +39,8 @@ public class UserEntity extends UserEntityBase {
      * @param platform the platform the credential is associated to
      * @return the created entity
      */
-    public @NonNull CredentialEntity addCredential(@NonNull Platform platform) {
-        final var credential = new CredentialEntity(this, platform);
+    public @NonNull TokenEntity addCredential(@NonNull Platform platform) {
+        final var credential = new TokenEntity(this, platform);
         this.getCredentials().add(credential);
         return credential;
     }

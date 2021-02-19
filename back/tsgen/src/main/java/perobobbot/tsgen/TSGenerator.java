@@ -11,11 +11,15 @@ import perobobbot.lang.NoTypeScript;
 import perobobbot.lang.TypeScript;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 public class TSGenerator {
 
@@ -48,7 +52,22 @@ public class TSGenerator {
                 "perobobbot.rest.com",
                 "perobobbot.security.com",
                 "perobobbot.rest.controller");
-        generator.generate(javaPackageSet, Paths.get("./front/svelte/src/server"));
+        var outputDirectory = findOutputPath();
+        generator.generate(javaPackageSet, outputDirectory);
+    }
+
+    private Path findOutputPath() {
+        final UnaryOperator<Path> createTarget = p -> Stream.of("front", "svelte", "src", "server").sequential().reduce(
+                p,
+                Path::resolve,
+                Path::resolve);
+
+        return Stream.iterate(Path.of(".").toAbsolutePath(), p -> !Files.isDirectory(p.resolve("bot")), Path::getParent)
+                     .peek(p -> System.out.println(p))
+                     .map(createTarget)
+                     .filter(Files::isDirectory)
+                     .findFirst().orElseThrow(() -> new IllegalStateException("Could not find output directory"));
+
     }
 
     private void setupClassFiltering() {

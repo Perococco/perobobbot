@@ -8,7 +8,7 @@ import perobobbot.frontfx.model.state.ApplicationStateTool;
 import perobobbot.frontfx.model.view.*;
 import perobobbot.lang.SubscriptionHolder;
 import perococco.perobobbot.frontfx.gui.view.DashboardMenuView;
-import perococco.perobobbot.frontfx.gui.view.StatusBarFXView;
+import perococco.perobobbot.frontfx.gui.view.StatusBarView;
 
 @FXMLController
 public class DashboardController extends DynamicController implements PluggableController {
@@ -55,7 +55,7 @@ public class DashboardController extends DynamicController implements PluggableC
 
 
     private void updateViews(@NonNull ApplicationStateTool tool) {
-        setSlotView(STATUS_BAR, StatusBarFXView.class);
+        setSlotView(STATUS_BAR, StatusBarView.class);
         setSlotView(COORDINATOR, DashboardMenuView.class);
         setSlotView(MAIN, tool.getDashboardMainView());
     }

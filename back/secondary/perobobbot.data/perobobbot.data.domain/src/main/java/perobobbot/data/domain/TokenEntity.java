@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.data.domain.base.CredentialEntityBase;
+import perobobbot.data.domain.base.TokenEntityBase;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
 
@@ -15,9 +15,9 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "CREDENTIAL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CredentialEntity extends CredentialEntityBase {
+public class TokenEntity extends TokenEntityBase {
 
-    public CredentialEntity(@NotBlank UserEntity owner, @NonNull Platform platform) {
+    public TokenEntity(@NotBlank UserEntity owner, @NonNull Platform platform) {
         super(owner,platform);
     }
 

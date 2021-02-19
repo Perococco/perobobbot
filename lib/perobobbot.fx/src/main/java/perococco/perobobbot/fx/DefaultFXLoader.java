@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.util.BuilderFactory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.xml.sax.ErrorHandler;
 import perobobbot.fx.ControllerFactory;
 import perobobbot.fx.FXLoader;
 import perobobbot.fx.FXLoadingResult;
@@ -34,7 +35,7 @@ public class DefaultFXLoader implements FXLoader {
             loader.load();
             return new FXLoadingResult(loader.getController(), loader.getRoot());
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            e.printStackTrace();throw new UncheckedIOException(e);
         }
     }
 
