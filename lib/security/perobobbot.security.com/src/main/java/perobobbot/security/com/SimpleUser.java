@@ -25,10 +25,6 @@ public class SimpleUser {
     @NonNull
     ImmutableSet<RoleKind> roles;
 
-    public @NonNull String getRolesAsString() {
-        return roles.stream().map(Enum::name).collect(Collectors.joining(","));
-    }
-
 
 }
 

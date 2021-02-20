@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import perobobbot.lang.NoTypeScript;
 
 @NoTypeScript
+@RequestMapping("/api")
 @RestController
 @Log4j2
 public class MiscController {
@@ -20,7 +21,7 @@ public class MiscController {
         return "forward:/";
     }
 
-    @RequestMapping(value = "/api/ping")
+    @RequestMapping(value = "/ping")
     public @NonNull String ping(@RequestParam(name = "secret") @NonNull String secret) {
         return secret;
     }

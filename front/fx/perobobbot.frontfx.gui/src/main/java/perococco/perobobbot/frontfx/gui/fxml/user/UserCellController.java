@@ -1,9 +1,12 @@
 package perococco.perobobbot.frontfx.gui.fxml.user;
 
 import javafx.scene.control.Label;
+import lombok.NonNull;
 import perobobbot.fx.CellController;
 import perobobbot.lang.Bot;
 import perobobbot.security.com.SimpleUser;
+
+import java.util.stream.Collectors;
 
 public class UserCellController implements CellController<SimpleUser> {
 
@@ -20,7 +23,7 @@ public class UserCellController implements CellController<SimpleUser> {
             roles.setText("");
         } else {
             login.setText(item.getLogin());
-            roles.setText(item.getRolesAsString());
+            roles.setText(item.getRoles().stream().map(Enum::name).collect(Collectors.joining(",")));
         }
     }
 }

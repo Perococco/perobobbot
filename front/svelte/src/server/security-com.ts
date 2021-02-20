@@ -27,6 +27,5 @@ export interface SimpleUser {
     locale: string;
     login: string;
     roles: RoleKind[];
-    readonly   rolesAsString: string;
 }
 
