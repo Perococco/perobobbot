@@ -9,6 +9,9 @@ import perococco.jdgen.api.Cell;
 import perococco.jdgen.api.CellType;
 
 import java.util.*;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class DungeonCell implements Cell {
@@ -48,4 +51,12 @@ public class DungeonCell implements Cell {
                        .flatMap(Collection::stream);
     }
 
+
+    public String getFlagAsString() {
+        final IntFunction<String> toBin = v -> Integer.toString((v&0b111)+8, 2).substring(1);
+        return IntStream.of(flag>>6, flag>>3, flag)
+                        .mapToObj(toBin)
+                        .collect(Collectors.joining("_", "0b", " "+extraFlag.name()));
+
+    }
 }

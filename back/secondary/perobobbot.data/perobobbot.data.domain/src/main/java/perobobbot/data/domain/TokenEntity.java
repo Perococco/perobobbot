@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "CREDENTIAL")
+@Table(name = "TOKEN")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TokenEntity extends TokenEntityBase {
 

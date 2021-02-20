@@ -23,7 +23,7 @@ public class DebugDungeon implements CommandAction {
             thread.interrupt();
             thread = null;
         }
-        final var size = parsing.findIntParameter("size").orElse(-1);
+        final int size = parsing.findIntParameter("size").orElse(-1);
 
         if (size<=0) {
             return;

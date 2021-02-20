@@ -10,6 +10,7 @@ import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Position;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -17,38 +18,25 @@ import java.util.stream.Stream;
 
 public abstract class WallTileBase {
 
-    private final @NonNull DungeonTile defaultTile;
-    private final @NonNull DungeonTile placeholderTile;
+    private final @NonNull WallTiles placeHolder;
 
-    private final List<MissingPosition> missingPositions;
-
-    public WallTileBase(@NonNull DungeonTile defaultTile, @NonNull DungeonTile placeholderTile, @NonNull List<MissingPosition> missingPositions) {
-        this.defaultTile = defaultTile;
-        this.placeholderTile = placeholderTile;
-        this.missingPositions = missingPositions;
-    }
-
-    protected abstract Position getPosition();
-    protected abstract DungeonMap getDungeonMap();
-
-    public @NonNull Function0<Stream<Tile>> placeHolder() {
-        return () -> {
-            showPosition("P");
-            return Stream.of(placeholderTile);
-        };
-    }
-
-    public Stream<Tile> getDefault() {
-        showPosition("D");
-        return Stream.of(defaultTile);
+    protected WallTileBase(DungeonTile placeHolderTile) {
+        this.placeHolder = WallTiles.placeHolder(placeHolderTile);
     }
 
 
-    protected void showPosition(String header) {
-        final var cell = getDungeonMap().getCellAt(getPosition());
-        final var pi = new MissingPosition(getClass().getSimpleName(),getPosition(),flagToString(cell));
-        this.missingPositions.add(pi);
+    public @NonNull Function0<WallTiles> placeHolder() {
+        return () -> placeHolder;
     }
+
+
+    protected abstract @NonNull DungeonCell getCell();
+
+//    protected void showPosition(String header) {
+//        final var cell = getDungeonMap().getCellAt(getPosition());
+//        final var pi = new MissingPosition(getClass().getSimpleName(),getPosition(),flagToString(cell));
+//        this.missingPositions.add(pi);
+//    }
 
     protected String flagToString(DungeonCell cell) {
         final IntFunction<String> toBin = v -> Integer.toString((v&0b111)+8,2).substring(1);
@@ -58,31 +46,26 @@ public abstract class WallTileBase {
                         .collect(Collectors.joining("_","0b"," "+cell.getExtraFlag().name()));
     }
 
-    protected @NonNull Function0<Stream<Tile>> with(@NonNull Tile... tiles) {
-        return () -> Stream.of(tiles);
+    protected @NonNull Function0<WallTiles> with(@NonNull Tile... tiles) {
+        return () -> WallTiles.with(tiles);
     }
 
-    protected @NonNull Stream<Tile> extraCases(@NonNull DungeonCell cell,
-                                               @NonNull Function0<Stream<Tile>> case00,
-                                               @NonNull Function0<Stream<Tile>> case01,
-                                               @NonNull Function0<Stream<Tile>> case10,
-                                               @NonNull Function0<Stream<Tile>> case11,
-                                               @NonNull Function0<Stream<Tile>> override
+    protected @NonNull WallTiles extraCases(@NonNull Function0<WallTiles> case00,
+                                            @NonNull Function0<WallTiles> case01,
+                                            @NonNull Function0<WallTiles> case10,
+                                            @NonNull Function0<WallTiles> case11,
+                                            @NonNull Function0<WallTiles> override
     ) {
         return override.f();
     }
 
-    protected @NonNull Stream<Tile> extraCases(@NonNull DungeonCell cell,
-                                               @NonNull Function0<Stream<Tile>> case00,
-                                               @NonNull Function0<Stream<Tile>> case01,
-                                               @NonNull Function0<Stream<Tile>> case10,
-                                               @NonNull Function0<Stream<Tile>> case11
+    protected @NonNull WallTiles extraCases(@NonNull Function0<WallTiles> case00,
+                                            @NonNull Function0<WallTiles> case01,
+                                            @NonNull Function0<WallTiles> case10,
+                                            @NonNull Function0<WallTiles> case11
     ) {
-        if (cell.getFlag() == 0b100_001_001 && false && cell.getExtraFlag() == ExtraFlag.W_) {
-            System.out.println("#### "+getPosition());
-        }
-
-        return switch (cell.getExtraFlag()) {
+        final var flag = getCell().getExtraFlag();
+        return switch (flag) {
             case WW -> case00.f();
             case W_ -> case01.f();
             case __ -> case11.f();
@@ -90,12 +73,4 @@ public abstract class WallTileBase {
         };
     }
 
-    protected @NonNull Stream<Tile> extraCases(@NonNull DungeonCell cell,
-                                               @NonNull Function0<Stream<Tile>> case00,
-                                               @NonNull Function0<Stream<Tile>> case01,
-                                               @NonNull Function0<Stream<Tile>> case1X
-    ) {
-        return extraCases(cell, case00, case01, case1X, case1X);
-
-    }
 }

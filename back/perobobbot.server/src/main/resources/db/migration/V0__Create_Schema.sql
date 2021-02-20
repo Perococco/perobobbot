@@ -3,103 +3,114 @@ create schema if not exists PEROBOBBOT;
 
 create sequence PEROBOBBOT.hibernate_sequence start with 1 increment by 1;
 
-create table PEROBOBBOT.BOT (
-                             ID bigint not null,
-                             VERSION integer not null,
-                             EXTERNAL_ID binary not null,
-                             NAME varchar(255) not null,
-                             USER_ID bigint not null,
-                             primary key (ID)
+create table PEROBOBBOT.BOT
+(
+    ID          bigint       not null,
+    VERSION     integer      not null,
+    EXTERNAL_ID binary       not null,
+    NAME        varchar(255) not null,
+    USER_ID     bigint       not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.BOT_CREDENTIAL (
-                                        ID bigint not null,
-                                        VERSION integer not null,
-                                        BOT_ID bigint not null,
-                                        CREDENTIAL_ID bigint not null,
-                                        primary key (ID)
+create table PEROBOBBOT.BOT_CREDENTIAL
+(
+    ID            bigint  not null,
+    VERSION       integer not null,
+    BOT_ID        bigint  not null,
+    CREDENTIAL_ID bigint  not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.BOT_EXTENSION (
-                                       ID bigint not null,
-                                       VERSION integer not null,
-                                       ENABLED boolean not null,
-                                       BOT_ID bigint not null,
-                                       EXTENSION_ID bigint not null,
-                                       primary key (ID)
+create table PEROBOBBOT.BOT_EXTENSION
+(
+    ID           bigint  not null,
+    VERSION      integer not null,
+    ENABLED      boolean not null,
+    BOT_ID       bigint  not null,
+    EXTENSION_ID bigint  not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.CREDENTIAL (
-                                    ID bigint not null,
-                                    VERSION integer not null,
-                                    EXTERNAL_ID binary not null,
-                                    NICK varchar(255) not null,
-                                    PLATFORM varchar(255),
-                                    SECRET varchar(255) not null,
-                                    USER_ID bigint not null,
-                                    primary key (ID)
+create table PEROBOBBOT.EXTENSION
+(
+    ID          bigint       not null,
+    VERSION     integer      not null,
+    EXTERNAL_ID binary       not null,
+    ACTIVATED   boolean      not null,
+    AVAILABLE   boolean      not null,
+    NAME        varchar(255) not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.EXTENSION (
-                                   ID bigint not null,
-                                   VERSION integer not null,
-                                   EXTERNAL_ID binary not null,
-                                   ACTIVATED boolean not null,
-                                   AVAILABLE boolean not null,
-                                   NAME varchar(255) not null,
-                                   primary key (ID)
+create table PEROBOBBOT.ROLE
+(
+    ID      bigint  not null,
+    VERSION integer not null,
+    ROLE    varchar(255),
+    primary key (ID)
 );
 
-create table PEROBOBBOT.ROLE (
-                              ID bigint not null,
-                              VERSION integer not null,
-                              ROLE varchar(255),
-                              primary key (ID)
+create table PEROBOBBOT.ROLE_OPERATION
+(
+    ROLE_ID   bigint not null,
+    OPERATION varchar(255)
 );
 
-create table PEROBOBBOT.ROLE_OPERATION (
-                                        ROLE_ID bigint not null,
-                                        OPERATION varchar(255)
+create table PEROBOBBOT.SAFE
+(
+    ID           bigint       not null,
+    VERSION      integer      not null,
+    EXTERNAL_ID  binary       not null,
+    AMOUNT       bigint,
+    CHANNEL_NAME varchar(255) not null,
+    PLATFORM     varchar(255) not null,
+    POINT_TYPE   varchar(255) not null,
+    USER_CHAT_ID varchar(255) not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.SAFE (
-                              ID bigint not null,
-                              VERSION integer not null,
-                              EXTERNAL_ID binary not null,
-                              AMOUNT bigint,
-                              CHANNEL_NAME varchar(255) not null,
-                              PLATFORM varchar(255) not null,
-                              POINT_TYPE varchar(255) not null,
-                              USER_CHAT_ID varchar(255) not null,
-                              primary key (ID)
+create table PEROBOBBOT.TOKEN
+(
+    ID          bigint       not null,
+    VERSION     integer      not null,
+    EXTERNAL_ID binary       not null,
+    NICK        varchar(255) not null,
+    PLATFORM    varchar(255),
+    SECRET      varchar(255) not null,
+    USER_ID     bigint       not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.TRANSACTION (
-                                     ID bigint not null,
-                                     VERSION integer not null,
-                                     EXTERNAL_ID binary not null,
-                                     AMOUNT bigint,
-                                     EXPIRATION_DATE timestamp not null,
-                                     STATE varchar(255) not null,
-                                     TARGET_ID bigint not null,
-                                     primary key (ID)
+create table PEROBOBBOT.TRANSACTION
+(
+    ID              bigint       not null,
+    VERSION         integer      not null,
+    EXTERNAL_ID     binary       not null,
+    AMOUNT          bigint,
+    EXPIRATION_DATE timestamp    not null,
+    STATE           varchar(255) not null,
+    TARGET_ID       bigint       not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.USER (
-                              ID bigint not null,
-                              VERSION integer not null,
-                              DEACTIVATED boolean not null,
-                              JWT_CLAIM varchar(255) not null,
-                              LOCALE varchar(255),
-                              LOGIN varchar(255),
-                              PASSWORD varchar(255) not null,
-                              primary key (ID)
+create table PEROBOBBOT.USER
+(
+    ID          bigint       not null,
+    VERSION     integer      not null,
+    DEACTIVATED boolean      not null,
+    JWT_CLAIM   varchar(255) not null,
+    LOCALE      varchar(255),
+    LOGIN       varchar(255),
+    PASSWORD    varchar(255) not null,
+    primary key (ID)
 );
 
-create table PEROBOBBOT.USER_ROLE (
-                                   USER_ID bigint not null,
-                                   ROLE_ID bigint not null,
-                                   primary key (USER_ID, ROLE_ID)
+create table PEROBOBBOT.USER_ROLE
+(
+    USER_ID bigint not null,
+    ROLE_ID bigint not null,
+    primary key (USER_ID, ROLE_ID)
 );
 
 alter table PEROBOBBOT.BOT
@@ -131,9 +142,9 @@ alter table PEROBOBBOT.BOT_CREDENTIAL
             references PEROBOBBOT.BOT;
 
 alter table PEROBOBBOT.BOT_CREDENTIAL
-    add constraint FKsu5xbpb1uy08ihyahmp3w6jxc
+    add constraint FKgse85a253k2fow1bhw17yenj8
         foreign key (CREDENTIAL_ID)
-            references PEROBOBBOT.CREDENTIAL;
+            references PEROBOBBOT.TOKEN;
 
 alter table PEROBOBBOT.BOT_EXTENSION
     add constraint FKn88ochxnkla791syu1tkw9ol8
@@ -145,15 +156,15 @@ alter table PEROBOBBOT.BOT_EXTENSION
         foreign key (EXTENSION_ID)
             references PEROBOBBOT.EXTENSION;
 
-alter table PEROBOBBOT.CREDENTIAL
-    add constraint FKs256vl1hl22509qp947gh12pt
-        foreign key (USER_ID)
-            references PEROBOBBOT.USER;
-
 alter table PEROBOBBOT.ROLE_OPERATION
     add constraint FKj526ueay6dsf8uj48g6gygul0
         foreign key (ROLE_ID)
             references PEROBOBBOT.ROLE;
+
+alter table PEROBOBBOT.TOKEN
+    add constraint FKll9q0agujcw87vld082dde2w2
+        foreign key (USER_ID)
+            references PEROBOBBOT.USER;
 
 alter table PEROBOBBOT.TRANSACTION
     add constraint FK4yfgkx6vo4ce9nx0nyrntd28v

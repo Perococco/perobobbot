@@ -2,9 +2,11 @@ package perobobbot.dungeon.game.generation;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.dungeon.game.DungeonCell;
 import perobobbot.dungeon.game.DungeonMap;
 import perobobbot.dungeon.game.DungeonTile;
 import perobobbot.dungeon.game.Layer;
+import perobobbot.lang.fp.Function1;
 import perococco.jdgen.api.Position;
 
 import java.util.ArrayList;
@@ -41,18 +43,26 @@ public class DungeonTileInitializer {
     private void setFloorTiles(@NonNull Position p) {
         final var cell = map.getCellAt(p);
         cell.addTile(Layer.FLOOR, DungeonTile.pickOneFloor(random));
-        WallTileOnFloor.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL, t));
+        completeWallTiles(WallTileOnFloor::getWallTiles,p);
     }
 
 
     private void setEmptyTiles(Position p) {
-        final var cell = map.getCellAt(p);
-        WallTileOnEmpty.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL, t));
+        completeWallTiles(WallTileOnEmpty::getWallTiles,p);
     }
 
     private void setWallTiles(Position p) {
-        final var cell = map.getCellAt(p);
-        WallTileOnWall.getWallTiles(map,p,missingPositions).forEach(t -> cell.addTile(Layer.WALL,t));
+        completeWallTiles(WallTileOnWall::getWallTiles,p);
+    }
+
+    private void completeWallTiles(@NonNull Function1<DungeonCell,WallTiles> wallTilesGetter,
+                                   @NonNull Position position) {
+        final var cell = map.getCellAt(position);
+        final var tiles = wallTilesGetter.apply(cell);
+        if (tiles.isPlaceHolder()) {
+            missingPositions.add(new MissingPosition(cell.getType().name(),position,cell.getFlagAsString()));
+        }
+        tiles.tileStream().forEach(t -> cell.addTile(Layer.WALL,t));
     }
 
 }
