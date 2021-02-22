@@ -22,7 +22,8 @@
         <button class="
             align-middle text-center m-4 p-2
             hover:bg-primary-600 bg-primary-700 text-white
-            md:text-4xl lg:text-5xl shadow-2xl border-2 rounded-md border-primary-700" on:click={onStreamer}>Streamer
+            md:text-4xl lg:text-5xl shadow-2xl border-2 rounded-md border-primary-700"
+                on:click={onStreamer}>Streamer
         </button>
         <button class="
             align-middle text-center m-4 p-2

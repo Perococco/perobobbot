@@ -15,7 +15,7 @@ public class DictionaryFromResource implements Dictionary {
 
     public DictionaryFromResource(Locale locale) {
         this.locale = locale;
-        final var rb = ResourceBundle.getBundle("perococco/i18n/perobobbot", locale);
+        final var rb = ResourceBundle.getBundle("perococco/backend/i18n/perobobbot", locale);
         this.values = rb.keySet()
                         .stream()
                         .collect(ImmutableMap.toImmutableMap(k -> k, rb::getString));
@@ -32,8 +32,8 @@ public class DictionaryFromResource implements Dictionary {
     }
 
     @Override
-    public @NonNull String getValue(@NonNull String value) {
-        return values.get(value);
+    public @NonNull String getValue(@NonNull String key) {
+        return values.get(key);
     }
 
     @Override

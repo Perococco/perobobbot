@@ -21,8 +21,8 @@ public class EmptyDictionary implements Dictionary {
     }
 
     @Override
-    public @NonNull String getValue(@NonNull String value) {
-        return value;
+    public @NonNull String getValue(@NonNull String key) {
+        return key;
     }
 
     @Override
