@@ -27,7 +27,7 @@
         <module>perobobbot.chatpoll</module>
         <module>perobobbot.connect4</module>
         <module>perobobbot.dungeon</module>
-        <!--        <module>perobobbot.dvdlogo</module>-->
+                <module>perobobbot.dvdlogo</module>
         <!--        <module>perobobbot.puckwar</module>-->
         <!--        <module>perobobbot.greeter</module>-->
         <!--        <module>perobobbot.pause</module>-->

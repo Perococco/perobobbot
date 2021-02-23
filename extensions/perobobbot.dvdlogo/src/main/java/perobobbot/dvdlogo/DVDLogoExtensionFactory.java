@@ -1,27 +1,18 @@
-package perobobbot.dvdlogo.spring;
+package perobobbot.dvdlogo;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
-import perobobbot.dvdlogo.DVDLogoExtension;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
 
-@Component
 public class DVDLogoExtensionFactory extends ExtensionFactoryBase<DVDLogoExtension> {
 
-    public static Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"DVD Logo", DVDLogoExtensionFactory.class);
-    }
-
-    public DVDLogoExtensionFactory( @NonNull Parameters parameters) {
-        super(DVDLogoExtension.NAME, parameters);
+    public DVDLogoExtensionFactory() {
+        super(DVDLogoExtension.NAME);
     }
 
     @Override
