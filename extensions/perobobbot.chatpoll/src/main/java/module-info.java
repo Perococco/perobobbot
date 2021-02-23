@@ -1,5 +1,5 @@
-import perobobbot.chatpoll.spring.ChatPollExtensionFactory;
-import perobobbot.lang.Plugin;
+import perobobbot.chatpoll.ChatPollExtensionFactory;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.ext.chatpoll {
     requires static lombok;
@@ -12,6 +12,7 @@ module perobobbot.ext.chatpoll {
 
     requires perobobbot.poll;
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires perobobbot.chat.core;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
@@ -23,7 +24,5 @@ module perobobbot.ext.chatpoll {
     exports perobobbot.chatpoll;
 
     provides Plugin with ChatPollExtensionFactory;
-
-    opens perobobbot.chatpoll.spring to spring.core, spring.beans,spring.context;
 
 }

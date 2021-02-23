@@ -1,4 +1,4 @@
-package perobobbot.chatpoll.spring;
+package perobobbot.chatpoll;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
@@ -8,21 +8,15 @@ import perobobbot.chatpoll.ChatPollExtension;
 import perobobbot.chatpoll.action.PollLauncher;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
 
-@Component
 public class ChatPollExtensionFactory extends ExtensionFactoryBase<ChatPollExtension> {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION, "Chat Poll", ChatPollExtensionFactory.class);
-    }
 
-    public ChatPollExtensionFactory(@NonNull Parameters parameters) {
-        super(ChatPollExtension.NAME, parameters);
+    public ChatPollExtensionFactory() {
+        super(ChatPollExtension.NAME);
     }
 
     @Override
