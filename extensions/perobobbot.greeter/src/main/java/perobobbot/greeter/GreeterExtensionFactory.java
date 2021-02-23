@@ -1,8 +1,7 @@
-package perobobbot.greeter.spring;
+package perobobbot.greeter;
 
 import lombok.NonNull;
 import perobobbot.extension.ExtensionWithoutCommandFactory;
-import perobobbot.greeter.GreeterExtension;
 import perobobbot.plugin.Extension;
 
 public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {

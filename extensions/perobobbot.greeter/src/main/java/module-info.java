@@ -1,4 +1,4 @@
-import perobobbot.greeter.spring.GreeterExtensionFactory;
+import perobobbot.greeter.GreeterExtensionFactory;
 import perobobbot.plugin.Plugin;
 
 module perobobbot.greeter {

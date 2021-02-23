@@ -9,7 +9,6 @@ import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.IO;
 import perobobbot.greeter.mutation.ClearGreetingIssuers;
-import perobobbot.greeter.spring.GreeterExtensionFactory;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Value2;
 import perobobbot.messaging.ChatController;
