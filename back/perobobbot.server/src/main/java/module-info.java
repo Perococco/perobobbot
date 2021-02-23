@@ -61,6 +61,7 @@ module perobobbot.server {
     opens perobobbot.server.config.externaluri to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.plugin to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
 
