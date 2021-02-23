@@ -10,11 +10,6 @@ import perobobbot.sound.SoundResolver;
 public interface ExtensionPlugin extends Plugin {
 
     /**
-     * @return the name of the extension
-     */
-    @NonNull String getExtensionName();
-
-    /**
      * @param parameters parameters provided by the server
      * @return the extension and some information about it
      */

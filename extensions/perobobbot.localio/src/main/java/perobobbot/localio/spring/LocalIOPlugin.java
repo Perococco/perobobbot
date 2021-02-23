@@ -8,7 +8,7 @@ import perobobbot.plugin.ChatPlatformPlugin;
 public class LocalIOPlugin implements ChatPlatformPlugin {
 
     @Override
-    public @NonNull String name() {
+    public @NonNull String getName() {
         return "Local IO";
     }
 

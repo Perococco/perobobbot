@@ -47,11 +47,11 @@
             <artifactId>perobobbot-ext-localio</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-echo</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-echo</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>perococco.bot</groupId>-->
 <!--            <artifactId>perobobbot-ext-dvdlogo</artifactId>-->

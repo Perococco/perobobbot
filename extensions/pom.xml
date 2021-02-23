@@ -19,7 +19,7 @@
     </properties>
 
     <modules>
-<!--        <module>perobobbot.echo</module>-->
+        <module>perobobbot.echo</module>
         <module>perobobbot.localio</module>
 <!--        <module>perobobbot.dvdlogo</module>-->
 <!--        <module>perobobbot.puckwar</module>-->

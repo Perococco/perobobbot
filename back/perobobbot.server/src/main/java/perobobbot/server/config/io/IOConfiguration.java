@@ -3,14 +3,12 @@ package perobobbot.server.config.io;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
-import perobobbot.lang.Instants;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.plugin.ChatPlatformPlugin;
 import perobobbot.plugin.PluginList;
@@ -51,7 +49,7 @@ public class IOConfiguration {
             return Optional.of(plugin.create(parameters));
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn("Could create Chatplatform {} : {}", plugin.name(),e.getMessage());
+            LOG.warn("Could create Chatplatform {} : {}", plugin.getName(), e.getMessage());
             LOG.debug(e);
             return Optional.empty();
         }

@@ -1,6 +1,5 @@
 package perobobbot.spring;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,15 +9,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
 import perobobbot.lang.ApplicationCloser;
-import perobobbot.lang.CastTool;
-import perobobbot.lang.Caster;
 import perobobbot.lang.OSInfo;
 import perobobbot.plugin.*;
 import perobobbot.lang.fp.Predicate1;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Perococco
@@ -94,7 +90,7 @@ public class SpringLauncher {
             if (LOG.isInfoEnabled()) {
                 this.pluginList.streamAllPlugins()
                                .sorted(Plugin.COMPARE_NAME)
-                               .forEach(p -> LOG.info("Plugin : [{}] {}", p.getClass().getSimpleName(), p.name()));
+                               .forEach(p -> LOG.info("Plugin : [{}] {}", p.getClass().getSimpleName(), p.getName()));
             }
         }
 

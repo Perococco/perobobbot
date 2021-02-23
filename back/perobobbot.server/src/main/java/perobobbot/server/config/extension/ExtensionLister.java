@@ -33,7 +33,7 @@ public class ExtensionLister {
 
     private @NonNull ImmutableMap<String, ExtensionInfo> gatherAllExtensions() {
         final var factoriesByName = pluginList.streamPlugins(ExtensionPlugin.class)
-                                              .collect(Collectors.groupingBy(ExtensionPlugin::getExtensionName));
+                                              .collect(Collectors.groupingBy(ExtensionPlugin::getName));
 
         return factoriesByName.entrySet()
                               .stream()
@@ -49,7 +49,7 @@ public class ExtensionLister {
             return Optional.of(plugin.create(parameters));
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn("Could not create extension plugin : {} : {}",plugin.getExtensionName(), e.getMessage());
+            LOG.warn("Could not create extension plugin : {} : {}",plugin.getName(), e.getMessage());
             LOG.debug(e);
             return Optional.empty();
         }

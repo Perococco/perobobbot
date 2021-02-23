@@ -25,7 +25,7 @@ public interface FunctionalPlugin extends Plugin {
         return new FunctionalPlugin() {
 
             @Override
-            public @NonNull String name() {
+            public @NonNull String getName() {
                 return context;
             }
 

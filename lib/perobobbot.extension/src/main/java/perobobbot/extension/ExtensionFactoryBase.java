@@ -14,7 +14,7 @@ import perobobbot.plugin.ExtensionPlugin;
 public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionPlugin {
 
     @Getter(AccessLevel.PUBLIC)
-    private final @NonNull String extensionName;
+    private final @NonNull String name;
 
     @Override
     public @NonNull ExtensionInfo create(@NonNull Parameters parameters) {

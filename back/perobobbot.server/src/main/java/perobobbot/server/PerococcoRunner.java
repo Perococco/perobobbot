@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Component
 @Log4j2
 @RequiredArgsConstructor
 public class PerococcoRunner implements ApplicationRunner {
@@ -40,20 +41,21 @@ public class PerococcoRunner implements ApplicationRunner {
         final Bot bot = getOrCreateBot("perococco");
 
 
-        io.getPlatform(Platform.LOCAL)
-          .connect(bot);
+        io.findPlatform(Platform.LOCAL)
+          .ifPresent(p -> p.connect(bot));
 
-        io.getPlatform(Platform.TWITCH)
-          .connect(bot)
-          .thenCompose(c -> c.join("perococco"))
-          .whenComplete((messageChannelIO,error) -> {
-              if (messageChannelIO != null) {
-                  whenJoined(messageChannelIO);
-              } else {
-                  LOG.error("Could not connect to perococco chat {}",error.getMessage());
-                  LOG.debug(error);
-              }
-          });
+        io.findPlatform(Platform.TWITCH)
+          .ifPresent(p -> p.connect(bot)
+                           .thenCompose(c -> c.join("perococco"))
+                           .whenComplete((messageChannelIO, error) -> {
+                               if (messageChannelIO != null) {
+                                   whenJoined(messageChannelIO);
+                               } else {
+                                   LOG.error("Could not connect to perococco chat {}", error.getMessage());
+                                   LOG.debug(error);
+                               }
+                           })
+          );
     }
 
     private void whenJoined(@NonNull MessageChannelIO messageChannelIO) {
@@ -61,20 +63,20 @@ public class PerococcoRunner implements ApplicationRunner {
     }
 
     private void updateCredential(String login) {
-        final var bot = botService.findBotByName(login,"perobobbot").get();
+        final var bot = botService.findBotByName(login, "perobobbot").get();
 
-        final var cred = credentialService.createCredential(login,Platform.LOCAL);
-        credentialService.updateCredential(cred.getId(), new Credential("perobobbot",Secret.of("local")));
-        botService.attachCredential(bot.getId(),cred.getId());
+        final var cred = credentialService.createCredential(login, Platform.LOCAL);
+        credentialService.updateCredential(cred.getId(), new Credential("perobobbot", Secret.of("local")));
+        botService.attachCredential(bot.getId(), cred.getId());
     }
 
     private Bot getOrCreateBot(String login) throws IOException {
-        final var existing = botService.findBotByName(login,"perobobbot");
+        final var existing = botService.findBotByName(login, "perobobbot");
         if (existing.isPresent()) {
             return existing.get();
         }
 
-        final var bot = botService.createBot(login,"perobobbot");
+        final var bot = botService.createBot(login, "perobobbot");
         {
             final var cred = credentialService.createCredential(login, Platform.TWITCH);
             credentialService.updateCredential(cred.getId(), new Credential("perobobbot", readSecret()));
@@ -93,7 +95,7 @@ public class PerococcoRunner implements ApplicationRunner {
 
     private void enableAllExtensions(Bot bot) {
         var extensions = extensionService.listAllExtensions();
-        extensions.forEach(e -> botService.enableExtension(bot.getId(),e.getName()));
+        extensions.forEach(e -> botService.enableExtension(bot.getId(), e.getName()));
     }
 
     private Secret readSecret() throws IOException {
