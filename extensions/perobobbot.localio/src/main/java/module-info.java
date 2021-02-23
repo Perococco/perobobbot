@@ -1,5 +1,5 @@
 import perobobbot.plugin.Plugin;
-import perobobbot.localio.spring.LocalIOPlugin;
+import perobobbot.localio.spring.LocalIOChatPlugin;
 
 module perobobbot.consoleio {
     requires static lombok;
@@ -17,5 +17,5 @@ module perobobbot.consoleio {
     requires com.google.common;
     requires perobobbot.plugin;
 
-    provides Plugin with LocalIOPlugin;
+    provides Plugin with LocalIOChatPlugin;
 }

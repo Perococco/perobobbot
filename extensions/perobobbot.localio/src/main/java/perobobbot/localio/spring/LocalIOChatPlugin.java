@@ -3,9 +3,9 @@ package perobobbot.localio.spring;
 import lombok.NonNull;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.localio.LocalChatPlatform;
-import perobobbot.plugin.ChatPlatformPlugin;
+import perobobbot.plugin.PlatformChatPlugin;
 
-public class LocalIOPlugin implements ChatPlatformPlugin {
+public class LocalIOChatPlugin implements PlatformChatPlugin {
 
     @Override
     public @NonNull String getName() {

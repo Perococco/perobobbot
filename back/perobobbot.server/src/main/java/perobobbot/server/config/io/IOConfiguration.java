@@ -10,7 +10,7 @@ import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.IOBuilder;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.plugin.ChatPlatformPlugin;
+import perobobbot.plugin.PlatformChatPlugin;
 import perobobbot.plugin.PluginList;
 import perobobbot.server.component.MessageGateway;
 
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Log4j2
 public class IOConfiguration {
 
-    private final @NonNull ChatPlatformPlugin.Parameters parameters;
+    private final @NonNull PlatformChatPlugin.Parameters parameters;
 
     private final @NonNull PluginList pluginList;
 
@@ -33,9 +33,10 @@ public class IOConfiguration {
 
         final IOBuilder builder = IO.builder();
 
-        pluginList.streamPlugins(ChatPlatformPlugin.class)
+        pluginList.streamPlugins(PlatformChatPlugin.class)
                   .map(this::createChatPlatform)
                   .flatMap(Optional::stream)
+                  .peek(p -> System.out.println(p.getPlatform()))
                   .forEach(pio -> {
                       pio.addMessageListener(messageGateway::sendPlatformMessage);
                       builder.add(pio.getPlatform(), pio);
@@ -44,12 +45,12 @@ public class IOConfiguration {
         return builder.build();
     }
 
-    private @NonNull Optional<ChatPlatform> createChatPlatform(@NonNull ChatPlatformPlugin plugin) {
+    private @NonNull Optional<ChatPlatform> createChatPlatform(@NonNull PlatformChatPlugin plugin) {
         try {
             return Optional.of(plugin.create(parameters));
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn("Could create Chatplatform {} : {}", plugin.getName(), e.getMessage());
+            LOG.warn("Could create Chat Platform {} : {}", plugin.getName(), e.getMessage());
             LOG.debug(e);
             return Optional.empty();
         }

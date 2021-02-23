@@ -1,5 +1,5 @@
-import perobobbot.lang.Plugin;
-import perobobbot.twitch.chat.spring.TwitchConfiguration;
+import perobobbot.plugin.Plugin;
+import perobobbot.twitch.chat.spring.TwitchChatPlugin;
 
 /**
  * @author perococco
@@ -10,12 +10,12 @@ module perobobbot.twitch.chat {
 
     requires perobobbot.chat.core;
     requires perobobbot.chat.advanced;
+    requires perobobbot.plugin;
     requires transitive perobobbot.irc;
 
     requires io.github.bucket4j.core;
     requires org.apache.logging.log4j;
     requires com.google.common;
-    requires spring.context;
 
     exports perobobbot.twitch.chat;
     exports perobobbot.twitch.chat.event;
@@ -25,6 +25,6 @@ module perobobbot.twitch.chat {
 
     opens perobobbot.twitch.chat.spring to spring.core,spring.beans,spring.context;
 
-    provides Plugin with TwitchConfiguration;
+    provides Plugin with TwitchChatPlugin;
 
 }

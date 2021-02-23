@@ -7,7 +7,7 @@ import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.Instants;
 import perobobbot.lang.StandardInputProvider;
 
-public interface ChatPlatformPlugin extends Plugin {
+public interface PlatformChatPlugin extends Plugin {
 
     @NonNull ChatPlatform create(@NonNull Parameters parameters);
 
