@@ -1,5 +1,5 @@
 import perobobbot.data.event.DataEventConfiguration;
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.data.event {
     requires static lombok;
@@ -11,6 +11,7 @@ module perobobbot.data.event {
 
     requires spring.integration.core;
     requires spring.messaging;
+    requires perobobbot.plugin;
 
     opens perobobbot.data.event to spring.core,spring.context,spring.beans;
     opens perobobbot.data.event.service to spring.core,spring.context,spring.beans;

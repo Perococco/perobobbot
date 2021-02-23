@@ -6,17 +6,18 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandDefinition;
+import perobobbot.plugin.Extension;
+import perobobbot.plugin.ExtensionInfo;
+import perobobbot.plugin.ExtensionPlugin;
 
 @RequiredArgsConstructor
-public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionFactory {
+public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionPlugin {
 
     @Getter(AccessLevel.PUBLIC)
     private final @NonNull String extensionName;
 
-    private final @NonNull Parameters parameters;
-
     @Override
-    public @NonNull ExtensionInfo create() {
+    public @NonNull ExtensionInfo create(@NonNull Parameters parameters) {
         final var instance = createExtension(parameters);
         final var factory = CommandDefinition.factory(instance.getName());
         final var commandDefinitions = createCommandDefinitions(instance, parameters, factory);

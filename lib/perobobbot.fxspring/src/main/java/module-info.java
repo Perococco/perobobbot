@@ -1,5 +1,5 @@
 module perobobbot.fxspring {
-    uses perobobbot.lang.Plugin;
+    uses perobobbot.plugin.Plugin;
     requires static lombok;
     requires java.desktop;
     requires javafx.graphics;
@@ -12,6 +12,7 @@ module perobobbot.fxspring {
     requires perobobbot.i18n;
 
     requires org.apache.logging.log4j;
+    requires perobobbot.plugin;
 
     exports perobobbot.fxspring;
 

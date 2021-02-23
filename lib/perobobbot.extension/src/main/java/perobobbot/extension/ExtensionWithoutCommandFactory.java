@@ -3,11 +3,12 @@ package perobobbot.extension;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.command.CommandDefinition;
+import perobobbot.plugin.Extension;
 
 public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBase<Extension> {
 
-    public ExtensionWithoutCommandFactory(@NonNull String extensionName, @NonNull Parameters parameters) {
-        super(extensionName, parameters);
+    public ExtensionWithoutCommandFactory(@NonNull String extensionName) {
+        super(extensionName);
     }
 
     @Override

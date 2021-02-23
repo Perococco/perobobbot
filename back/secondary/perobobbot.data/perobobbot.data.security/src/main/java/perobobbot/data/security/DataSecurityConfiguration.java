@@ -2,14 +2,15 @@ package perobobbot.data.security;
 
 import lombok.NonNull;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.FunctionalPlugin;
+import perobobbot.plugin.Plugin;
 import perobobbot.lang.PluginType;
 
 @Configuration
 public class DataSecurityConfiguration {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.SECONDARY,"Data Security", DataSecurityConfiguration.class);
+    public static @NonNull FunctionalPlugin provider() {
+        return FunctionalPlugin.with("Data Security", DataSecurityConfiguration.class);
     }
 
 }

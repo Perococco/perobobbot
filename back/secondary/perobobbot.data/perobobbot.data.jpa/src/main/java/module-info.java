@@ -1,5 +1,5 @@
 import perobobbot.data.jpa.JpaConfiguration;
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.data.jpa {
     requires static lombok;
@@ -17,6 +17,7 @@ module perobobbot.data.jpa {
     requires spring.boot.autoconfigure;
     requires spring.data.commons;
     requires com.google.common;
+    requires perobobbot.plugin;
 
     opens perobobbot.data.jpa to spring.core;
     opens perobobbot.data.jpa.service to spring.core,spring.beans,spring.context;

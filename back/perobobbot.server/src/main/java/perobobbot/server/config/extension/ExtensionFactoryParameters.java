@@ -10,12 +10,13 @@ import perobobbot.extension.ExtensionFactory;
 import perobobbot.lang.Bank;
 import perobobbot.messaging.ChatController;
 import perobobbot.overlay.api.Overlay;
+import perobobbot.plugin.ExtensionPlugin;
 import perobobbot.sound.SoundResolver;
 
 @RequiredArgsConstructor
 @Getter
 @Component
-public class ExtensionFactoryParameters implements ExtensionFactory.Parameters {
+public class ExtensionFactoryParameters implements ExtensionPlugin.Parameters {
 
     private final @NonNull IO io;
     private final @NonNull ChatController chatController;

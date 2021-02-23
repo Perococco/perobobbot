@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import perobobbot.command.CommandRegistry;
 import perobobbot.extension.AvailableExtensions;
-import perobobbot.extension.ExtensionInfo;
+import perobobbot.plugin.ExtensionInfo;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.Subscription;
 

@@ -26,6 +26,7 @@
         <module>perobobbot.timeline</module>
         <module>perobobbot.sound</module>
         <module>perobobbot.poll</module>
+        <module>perobobbot.plugin</module>
         <module>perobobbot.access</module>
         <module>perobobbot.irc</module>
         <module>perobobbot.messaging</module>
@@ -45,8 +46,8 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>twitch/perobobbot.twitch.chat</module>
-        <module>twitch/perobobbot.twitch.oauth</module>
+<!--        <module>twitch/perobobbot.twitch.chat</module>-->
+<!--        <module>twitch/perobobbot.twitch.oauth</module>-->
 
         <module>overlay/perobobbot.overlay.api</module>
         <module>overlay/perobobbot.overlay.newtek</module>

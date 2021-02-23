@@ -1,4 +1,4 @@
-package perobobbot.extension;
+package perobobbot.plugin;
 
 import lombok.NonNull;
 import perobobbot.lang.ThreadFactories;

@@ -1,4 +1,4 @@
-package perobobbot.extension;
+package perobobbot.plugin;
 
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;

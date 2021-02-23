@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import perobobbot.data.domain.DataDomainPackageMarker;
 import perobobbot.data.jpa.repository.DataRepositoryMarker;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
+import perobobbot.plugin.FunctionalPlugin;
 
 @Configuration
 @EntityScan(basePackageClasses = {DataDomainPackageMarker.class})
@@ -20,8 +19,8 @@ import perobobbot.lang.PluginType;
 @EnableTransactionManagement
 public class JpaConfiguration {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.SECONDARY,"Data JPA", JpaConfiguration.class);
+    public static @NonNull FunctionalPlugin provider() {
+        return FunctionalPlugin.with("Data JPA", JpaConfiguration.class);
     }
 
 }

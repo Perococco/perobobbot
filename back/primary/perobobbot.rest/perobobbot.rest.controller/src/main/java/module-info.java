@@ -1,4 +1,4 @@
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.Plugin;
 import perobobbot.rest.controller.ControllerConfig;
 
 open module perobobbot.rest.controller {
@@ -8,6 +8,7 @@ open module perobobbot.rest.controller {
     requires perobobbot.data.service;
     requires perobobbot.security.core;
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires transitive perobobbot.rest.com;
 
 

@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Plugin
+
+class FunctionPlugin {
+    List<Package> extraPackagesToScan;
+}
+class WebPlugin {
+    Controller: controller;
+}
+class Extension {
+    List<CommandDefinition>: commandDefinition;
+}
+
+class ChatPlatform {
+  ChatPlatform
+}
+
+FunctionPlugin <|-- Plugin
+WebPlugin <|-- Plugin
+Extension <|-- Plugin
+ChatPlatform <|--Plugin
+
+
+
+@enduml

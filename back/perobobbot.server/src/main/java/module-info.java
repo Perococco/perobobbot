@@ -1,4 +1,3 @@
-import perobobbot.lang.Plugin;
 
 module perobobbot.server {
     requires static lombok;
@@ -21,6 +20,7 @@ module perobobbot.server {
 
     requires transitive perobobbot.lang;
     requires perobobbot.access;
+    requires perobobbot.plugin;
     requires perobobbot.chat.advanced;
     requires perobobbot.chat.core;
     requires perobobbot.command;
@@ -85,5 +85,4 @@ module perobobbot.server {
     requires com.fasterxml.jackson.datatype.guava;
 
     exports perobobbot.server;
-    uses Plugin;
 }

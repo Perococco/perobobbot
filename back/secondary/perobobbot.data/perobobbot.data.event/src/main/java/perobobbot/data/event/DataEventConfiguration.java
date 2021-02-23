@@ -3,15 +3,14 @@ package perobobbot.data.event;
 import lombok.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.config.EnablePublisher;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
+import perobobbot.plugin.FunctionalPlugin;
 
 @Configuration
 @EnablePublisher
 public class DataEventConfiguration {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.SECONDARY,"Data Event", DataEventConfiguration.class);
+    public static @NonNull FunctionalPlugin provider() {
+        return FunctionalPlugin.with("Data Event", DataEventConfiguration.class);
     }
 
 }

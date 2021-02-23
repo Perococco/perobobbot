@@ -9,17 +9,21 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.command.CommandRegistry;
 import perobobbot.extension.AvailableExtensions;
 import perobobbot.extension.ExtensionManager;
+import perobobbot.plugin.ExtensionPlugin;
+import perobobbot.plugin.PluginList;
 
 @Configuration
 @RequiredArgsConstructor
 @Log4j2
 public class ExtensionConfiguration {
 
-    private final @NonNull ApplicationContext applicationContext;
+    private final @NonNull PluginList pluginList;
+
+    private final @NonNull ExtensionPlugin.Parameters parameters;
 
     @Bean
     public AvailableExtensions availableExtensions() {
-        final var extensions = ExtensionLister.gatherAllExtensions(applicationContext);
+        final var extensions = ExtensionLister.gatherAllExtensions(pluginList,parameters);
         return new AvailableExtensions(extensions);
     }
 

@@ -9,6 +9,7 @@ module perobobbot.extension {
     requires perobobbot.access;
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
+    requires perobobbot.plugin;
 
     exports perobobbot.extension;
 }

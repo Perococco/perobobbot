@@ -1,5 +1,4 @@
 module perobobbot.spring {
-    uses perobobbot.lang.Plugin;
     requires static lombok;
     requires java.desktop;
     requires spring.context;
@@ -8,9 +7,11 @@ module perobobbot.spring {
     requires perobobbot.lang;
 
 
+    requires com.google.common;
 
     requires org.apache.logging.log4j;
     requires spring.boot;
+    requires perobobbot.plugin;
 
     exports perobobbot.spring;
 }

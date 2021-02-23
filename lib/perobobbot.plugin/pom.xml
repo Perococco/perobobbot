@@ -4,44 +4,43 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>perococco.bot</groupId>
-        <artifactId>perobobbot-secondary</artifactId>
-        <relativePath>../../pom.xml</relativePath>
+        <artifactId>perobobbot-lib</artifactId>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-data-security</artifactId>
+    <artifactId>perobobbot-plugin</artifactId>
 
-    <name>${root.name} - ${module.name}</name>
+    <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <module.name>Data - Security Layer</module.name>
+        <submodule.name>Plugin API</submodule.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-security-core</artifactId>
+            <artifactId>perobobbot-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-plugin</artifactId>
+            <artifactId>perobobbot-sound</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-com</artifactId>
+            <artifactId>perobobbot-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
-            <artifactId>perobobbot-data-service</artifactId>
+            <artifactId>perobobbot-overlay-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>
