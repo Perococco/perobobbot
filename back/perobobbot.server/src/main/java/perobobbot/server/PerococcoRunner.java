@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Component
 @Log4j2
 @RequiredArgsConstructor
 public class PerococcoRunner implements ApplicationRunner {
