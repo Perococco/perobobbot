@@ -1,13 +1,10 @@
-package perobobbot.puckwar.spring;
+package perobobbot.puckwar;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.action.LaunchGame;
@@ -17,15 +14,10 @@ import java.time.Duration;
 
 import static perobobbot.lang.RoleCoolDown.applyTo;
 
-@Component
 public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtension> {
 
-    public static Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Puck War", PuckWarExtensionFactory.class);
-    }
-
-    public PuckWarExtensionFactory(@NonNull Parameters parameters) {
-        super(PuckWarExtension.NAME, parameters);
+    public PuckWarExtensionFactory() {
+        super(PuckWarExtension.NAME);
     }
 
     @Override

@@ -1,5 +1,5 @@
-import perobobbot.lang.Plugin;
-import perobobbot.puckwar.spring.PuckWarExtensionFactory;
+import perobobbot.plugin.Plugin;
+import perobobbot.puckwar.PuckWarExtensionFactory;
 
 module perobobbot.ext.puckwar {
     requires static lombok;
@@ -7,6 +7,7 @@ module perobobbot.ext.puckwar {
 
     requires perobobbot.overlay.api;
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires perobobbot.extension;
     requires perobobbot.command;
     requires perobobbot.access;
@@ -16,10 +17,7 @@ module perobobbot.ext.puckwar {
     requires org.apache.logging.log4j;
     requires com.google.common;
 
-    requires spring.context;
-
 
     provides Plugin with PuckWarExtensionFactory;
 
-    opens perobobbot.puckwar.spring to spring.core, spring.beans, spring.context;
 }
