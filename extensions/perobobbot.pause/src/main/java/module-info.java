@@ -16,6 +16,4 @@ module perobobbot.pause {
 
     exports perobobbot.pause;
     provides Plugin with PauseExtensionFactory;
-
-    opens perobobbot.pause.spring to spring.context,spring.beans,spring.core;
 }

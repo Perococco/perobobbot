@@ -13,8 +13,5 @@ module perobobbot.greeter {
     requires perobobbot.messaging;
     requires perobobbot.extension;
 
-
-    opens perobobbot.greeter.spring to spring.core,spring.beans,spring.context;
-
     provides Plugin with GreeterExtensionFactory;
 }
