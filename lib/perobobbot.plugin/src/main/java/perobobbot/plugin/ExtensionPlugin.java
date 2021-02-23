@@ -32,6 +32,7 @@ public interface ExtensionPlugin extends Plugin {
         @NonNull SoundResolver getSoundResolver();
 
         @NonNull Bank getBank();
+
     }
 
 

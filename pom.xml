@@ -20,7 +20,7 @@
     <modules>
         <module>maven</module>
         <module>lib</module>
-<!--        <module>extensions</module>-->
+        <module>extensions</module>
 
         <module>back</module>
         <module>front/rest</module>

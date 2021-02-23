@@ -1,17 +1,11 @@
 package perobobbot.localio.spring;
 
 import lombok.NonNull;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
+import perobobbot.chat.core.ChatPlatform;
+import perobobbot.localio.LocalChatPlatform;
+import perobobbot.plugin.ChatPlatformPlugin;
 
-import java.util.stream.Stream;
-
-public class LocalIOPlugin implements Plugin {
-
-    @Override
-    public @NonNull PluginType type() {
-        return PluginType.EXTENSION;
-    }
+public class LocalIOPlugin implements ChatPlatformPlugin {
 
     @Override
     public @NonNull String name() {
@@ -19,7 +13,10 @@ public class LocalIOPlugin implements Plugin {
     }
 
     @Override
-    public @NonNull Stream<String> packageStream() {
-        return Stream.of(LocalIOPlugin.class.getPackageName());
+    public @NonNull ChatPlatform create(@NonNull Parameters parameters) {
+        return new LocalChatPlatform(parameters.getApplicationCloser(),
+                                     parameters.getBotService(),
+                                     parameters.getStandardInputProvider(),
+                                     parameters.getInstants());
     }
 }

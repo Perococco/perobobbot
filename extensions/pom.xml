@@ -19,19 +19,19 @@
     </properties>
 
     <modules>
-        <module>perobobbot.echo</module>
+<!--        <module>perobobbot.echo</module>-->
         <module>perobobbot.localio</module>
-        <module>perobobbot.dvdlogo</module>
-        <module>perobobbot.puckwar</module>
-        <module>perobobbot.greeter</module>
-        <module>perobobbot.benchmark</module>
-        <module>perobobbot.pause</module>
-        <module>perobobbot.chatpoll</module>
-        <module>perobobbot.play</module>
-        <module>perobobbot.connect4</module>
-        <module>perobobbot.sandbox</module>
-        <module>perobobbot.bank</module>
-        <module>perobobbot.dungeon</module>
+<!--        <module>perobobbot.dvdlogo</module>-->
+<!--        <module>perobobbot.puckwar</module>-->
+<!--        <module>perobobbot.greeter</module>-->
+<!--        <module>perobobbot.benchmark</module>-->
+<!--        <module>perobobbot.pause</module>-->
+<!--        <module>perobobbot.chatpoll</module>-->
+<!--        <module>perobobbot.play</module>-->
+<!--        <module>perobobbot.connect4</module>-->
+<!--        <module>perobobbot.sandbox</module>-->
+<!--        <module>perobobbot.bank</module>-->
+<!--        <module>perobobbot.dungeon</module>-->
     </modules>
 
 </project>

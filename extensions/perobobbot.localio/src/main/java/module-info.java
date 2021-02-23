@@ -1,10 +1,9 @@
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.Plugin;
 import perobobbot.localio.spring.LocalIOPlugin;
 
 module perobobbot.consoleio {
     requires static lombok;
     requires java.desktop;
-    requires spring.context;
 
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
@@ -16,9 +15,7 @@ module perobobbot.consoleio {
     requires perobobbot.access;
 
     requires com.google.common;
-
-    opens perobobbot.localio.spring to spring.core,spring.beans,spring.context;
-    opens perobobbot.localio to spring.beans;
+    requires perobobbot.plugin;
 
     provides Plugin with LocalIOPlugin;
 }

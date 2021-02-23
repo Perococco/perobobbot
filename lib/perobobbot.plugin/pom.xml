@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-data-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-overlay-api</artifactId>
         </dependency>
     </dependencies>

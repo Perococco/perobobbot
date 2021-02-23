@@ -23,7 +23,7 @@ import java.util.Optional;
 @Log4j2
 public class IOConfiguration {
 
-    private final @NonNull Instants instants;
+    private final @NonNull ChatPlatformPlugin.Parameters parameters;
 
     private final @NonNull PluginList pluginList;
 
@@ -48,7 +48,7 @@ public class IOConfiguration {
 
     private @NonNull Optional<ChatPlatform> createChatPlatform(@NonNull ChatPlatformPlugin plugin) {
         try {
-            return Optional.of(plugin.create(instants));
+            return Optional.of(plugin.create(parameters));
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
             LOG.warn("Could create Chatplatform {} : {}", plugin.name(),e.getMessage());

@@ -16,7 +16,7 @@ import perobobbot.sound.SoundResolver;
 @RequiredArgsConstructor
 @Getter
 @Component
-public class ExtensionFactoryParameters implements ExtensionPlugin.Parameters {
+public class ExtensionPluginParameters implements ExtensionPlugin.Parameters {
 
     private final @NonNull IO io;
     private final @NonNull ChatController chatController;

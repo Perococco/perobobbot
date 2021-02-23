@@ -7,6 +7,7 @@ module perobobbot.plugin {
 
     requires com.google.common;
     requires perobobbot.command;
+    requires perobobbot.data.service;
 
     exports perobobbot.plugin;
 
