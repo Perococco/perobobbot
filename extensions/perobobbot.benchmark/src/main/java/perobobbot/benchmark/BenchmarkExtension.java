@@ -2,7 +2,6 @@ package perobobbot.benchmark;
 
 import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.benchmark.spring.BenchmarkExtensionFactory;
 import perobobbot.extension.OverlayExtension;
 import perobobbot.overlay.api.Overlay;
 
