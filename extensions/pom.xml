@@ -31,8 +31,7 @@
         <module>perobobbot.greeter</module>
         <module>perobobbot.pause</module>
         <module>perobobbot.puckwar</module>
-        <!--        <module>perobobbot.play</module>-->
-        <!--        <module>perobobbot.sandbox</module>-->
+        <module>perobobbot.play</module>
     </modules>
 
 </project>

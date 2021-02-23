@@ -1,13 +1,10 @@
-package perobobbot.play.spring;
+package perobobbot.play;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.play.PlayExtension;
 import perobobbot.play.action.ListSound;
@@ -15,15 +12,10 @@ import perobobbot.play.action.PlaySound;
 
 import java.time.Duration;
 
-@Component
 public class PlayExtensionFactory extends ExtensionFactoryBase<PlayExtension> {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Play", PlayExtensionFactory.class);
-    }
-
-    public PlayExtensionFactory(@NonNull Parameters parameters) {
-        super(PlayExtension.NAME, parameters);
+    public PlayExtensionFactory() {
+        super(PlayExtension.NAME);
     }
 
     @Override
