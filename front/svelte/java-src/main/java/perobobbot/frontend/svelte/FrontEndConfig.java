@@ -1,4 +1,4 @@
-package perobobbot.frontend.spring;
+package perobobbot.frontend.svelte;
 
 import lombok.NonNull;
 import perobobbot.plugin.WebPlugin;

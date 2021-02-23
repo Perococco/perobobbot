@@ -1,4 +1,4 @@
-import perobobbot.frontend.spring.FrontEndConfig;
+import perobobbot.frontend.svelte.FrontEndConfig;
 import perobobbot.plugin.Plugin;
 
 module perobobbot.frontend {
