@@ -1,32 +1,26 @@
 package perobobbot.frontend.spring;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
+import lombok.NonNull;
+import perobobbot.plugin.WebPlugin;
 
-@Component
-public class FrontEndConfig implements WebMvcConfigurer {
+public class FrontEndConfig implements WebPlugin {
 
     public static final String CONTEXT = "/dashboard";
 
-    public static Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Frontend", FrontEndConfig.class);
+
+    @Override
+    public @NonNull String getName() {
+        return "Svelte FrontEnd";
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(CONTEXT).setViewName("redirect:"+CONTEXT+"/index.html");
-        registry.addViewController(CONTEXT+"/").setViewName("redirect:"+CONTEXT+"/index.html");
+    public void registerView(@NonNull ViewControllerRegistry viewControllerRegistry) {
+        viewControllerRegistry.registerView(CONTEXT,"redirect:"+CONTEXT+"/index.html");
+        viewControllerRegistry.registerView(CONTEXT+"/","redirect:"+CONTEXT+"/index.html");
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(CONTEXT+"/**")
-                .addResourceLocations("classpath:/dashboard-svelte/public/");
+    public void registerResources(@NonNull ResourceHandlerRegistry resourceHandlerRegistry) {
+        resourceHandlerRegistry.addResourceLocation(CONTEXT+"/**", "classpath:/dashboard-svelte/public/");
     }
-
-
 }

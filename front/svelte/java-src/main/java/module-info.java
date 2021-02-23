@@ -1,10 +1,12 @@
 import perobobbot.frontend.spring.FrontEndConfig;
-import perobobbot.lang.Plugin;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.frontend {
-    requires spring.context;
-    requires spring.webmvc;
+    requires static lombok;
+
     requires perobobbot.lang;
+
+    requires perobobbot.plugin;
 
     opens perobobbot.frontend.spring;
 

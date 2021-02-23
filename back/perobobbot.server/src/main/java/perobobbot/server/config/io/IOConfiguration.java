@@ -36,7 +36,6 @@ public class IOConfiguration {
         pluginList.streamPlugins(PlatformChatPlugin.class)
                   .map(this::createChatPlatform)
                   .flatMap(Optional::stream)
-                  .peek(p -> System.out.println(p.getPlatform()))
                   .forEach(pio -> {
                       pio.addMessageListener(messageGateway::sendPlatformMessage);
                       builder.add(pio.getPlatform(), pio);

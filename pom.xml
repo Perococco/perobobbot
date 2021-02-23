@@ -24,7 +24,7 @@
 
         <module>back</module>
         <module>front/rest</module>
-<!--        <module>front/svelte</module>-->
+        <module>front/svelte</module>
 <!--        <module>front/fx</module>-->
     </modules>
 </project>

@@ -102,11 +102,11 @@
 <!--            <artifactId>perobobbot-ext-sandbox</artifactId>-->
 <!--            <scope>runtime</scope>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-front-svelte</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-front-svelte</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-overlay-newtek</artifactId>
