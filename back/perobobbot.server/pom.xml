@@ -92,11 +92,11 @@
 <!--            <artifactId>perobobbot-ext-chatpoll</artifactId>-->
 <!--            <scope>runtime</scope>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-bank</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-bank</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>perococco.bot</groupId>-->
 <!--            <artifactId>perobobbot-ext-sandbox</artifactId>-->

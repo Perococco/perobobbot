@@ -8,7 +8,6 @@ module perobobbot.frontend {
 
     requires perobobbot.plugin;
 
-    opens perobobbot.frontend.spring;
 
     provides Plugin with FrontEndConfig;
 }

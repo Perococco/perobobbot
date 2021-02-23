@@ -1,11 +1,12 @@
-import perobobbot.lang.Plugin;
-import perobobbot.store.spring.BankExtensionFactory;
+import perobobbot.plugin.Plugin;
+import perobobbot.store.BankExtensionFactory;
 
 module perobobbot.ext.store {
     requires static lombok;
     requires java.desktop;
 
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires perobobbot.extension;
     requires perobobbot.chat.core;
     requires perobobbot.command;
@@ -15,5 +16,4 @@ module perobobbot.ext.store {
 
     provides Plugin with BankExtensionFactory;
 
-    opens perobobbot.store.spring to spring.core, spring.beans, spring.context;
 }

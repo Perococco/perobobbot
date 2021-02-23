@@ -1,4 +1,4 @@
-package perobobbot.store.spring;
+package perobobbot.store;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.store.BankExtension;
 import perobobbot.store.action.ReadBalance;
@@ -18,13 +16,8 @@ import java.time.Duration;
 @Component
 public class BankExtensionFactory extends ExtensionFactoryBase<BankExtension> {
 
-    public static Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION, BankExtension.NAME, BankExtensionFactory.class);
-    }
-
-
-    public BankExtensionFactory(@NonNull Parameters parameters) {
-        super(BankExtension.NAME, parameters);
+    public BankExtensionFactory() {
+        super(BankExtension.NAME);
     }
 
     @Override
