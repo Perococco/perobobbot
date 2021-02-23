@@ -9,7 +9,6 @@ import perobobbot.lang.PluginType;
 import perobobbot.twitch.chat.TwitchChatPlatform;
 
 @Configuration
-
 public class TwitchConfiguration {
 
     public static @NonNull Plugin provider() {
