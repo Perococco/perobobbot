@@ -1,16 +1,16 @@
-import perobobbot.lang.Plugin;
 import perobobbot.pause.spring.PauseExtensionFactory;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.pause {
     requires static lombok;
     requires java.desktop;
 
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires perobobbot.access;
     requires perobobbot.command;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
-    requires spring.context;
     requires perobobbot.chat.core;
     requires com.google.common;
 

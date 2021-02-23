@@ -2,29 +2,21 @@ package perobobbot.pause.spring;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 import perobobbot.pause.PauseExtension;
 import perobobbot.pause.action.LaunchPause;
 
 import java.time.Duration;
 
-@Component
 public class PauseExtensionFactory extends ExtensionFactoryBase<PauseExtension> {
-
-    public static Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Pause", PauseExtensionFactory.class);
-    }
 
     public static final String NAME = "pause";
 
-    public PauseExtensionFactory(@NonNull Parameters parameters) {
-        super(NAME, parameters);
+    public PauseExtensionFactory() {
+        super(NAME);
     }
 
     @NonNull

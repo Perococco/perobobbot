@@ -29,8 +29,8 @@
         <module>perobobbot.dungeon</module>
         <module>perobobbot.dvdlogo</module>
         <module>perobobbot.greeter</module>
+        <module>perobobbot.pause</module>
         <module>perobobbot.puckwar</module>
-        <!--        <module>perobobbot.pause</module>-->
         <!--        <module>perobobbot.play</module>-->
         <!--        <module>perobobbot.sandbox</module>-->
     </modules>
