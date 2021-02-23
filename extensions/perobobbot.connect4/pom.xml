@@ -31,6 +31,10 @@
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-poll</artifactId>
         </dependency>
         <dependency>
@@ -44,10 +48,6 @@
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-physics</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>

@@ -1,28 +1,21 @@
-package perobobbot.connect4.spring;
+package perobobbot.connect4;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.connect4.Connect4Extension;
 import perobobbot.connect4.action.LaunchGame;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
 
-@Component
 public class Connect4ExtensionFactory extends ExtensionFactoryBase<Connect4Extension> {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION, "Connect 4", Connect4ExtensionFactory.class);
-    }
 
-    public Connect4ExtensionFactory(@NonNull Parameters parameters) {
-        super(Connect4Extension.NAME, parameters);
+    public Connect4ExtensionFactory() {
+        super(Connect4Extension.NAME);
     }
 
     @Override

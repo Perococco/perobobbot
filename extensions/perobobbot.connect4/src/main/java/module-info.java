@@ -1,5 +1,5 @@
-import perobobbot.connect4.spring.Connect4ExtensionFactory;
-import perobobbot.lang.Plugin;
+import perobobbot.connect4.Connect4ExtensionFactory;
+import perobobbot.plugin.Plugin;
 
 module perobobbot.ext.connect4 {
     requires static lombok;
@@ -8,10 +8,10 @@ module perobobbot.ext.connect4 {
     requires com.google.common;
     requires perobobbot.overlay.api;
     requires perobobbot.extension;
-    requires spring.context;
     requires perobobbot.access;
     requires perobobbot.command;
     requires perobobbot.lang;
+    requires perobobbot.plugin;
     requires perobobbot.physics;
     requires perobobbot.poll;
 
@@ -19,7 +19,5 @@ module perobobbot.ext.connect4 {
 
 
     provides Plugin with Connect4ExtensionFactory;
-
-    opens perobobbot.connect4.spring to spring.core, spring.beans, spring.context;
 
 }
