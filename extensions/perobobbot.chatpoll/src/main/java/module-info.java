@@ -16,7 +16,6 @@ module perobobbot.ext.chatpoll {
     requires perobobbot.chat.core;
     requires perobobbot.extension;
     requires perobobbot.overlay.api;
-    requires spring.context;
     requires perobobbot.access;
     requires perobobbot.command;
     requires perobobbot.messaging;

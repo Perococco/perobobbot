@@ -3,7 +3,6 @@ package perobobbot.dungeon.game;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 import perobobbot.rendering.tile.Tile;
 import perococco.jdgen.api.Cell;
 import perococco.jdgen.api.CellType;

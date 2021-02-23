@@ -2,28 +2,20 @@ package perobobbot.dungeon.spring;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
-import perobobbot.dungeon.DungeonExtension;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
+import perobobbot.dungeon.DungeonExtension;
 import perobobbot.dungeon.action.DebugDungeon;
 import perobobbot.dungeon.action.LaunchDungeonQuest;
 import perobobbot.extension.ExtensionFactoryBase;
-import perobobbot.lang.Plugin;
-import perobobbot.lang.PluginType;
 import perobobbot.lang.Role;
 
 import java.time.Duration;
 
-@Component
 public class DungeonExtensionFactory extends ExtensionFactoryBase<DungeonExtension> {
 
-    public static @NonNull Plugin provider() {
-        return Plugin.with(PluginType.EXTENSION,"Dungeon Game",DungeonExtensionFactory.class);
-    }
-
-    public DungeonExtensionFactory(@NonNull Parameters parameters) {
-        super(DungeonExtension.NAME, parameters);
+    public DungeonExtensionFactory() {
+        super(DungeonExtension.NAME);
     }
 
     @Override

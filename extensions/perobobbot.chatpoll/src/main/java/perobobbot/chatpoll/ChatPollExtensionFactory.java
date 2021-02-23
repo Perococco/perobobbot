@@ -2,9 +2,7 @@ package perobobbot.chatpoll;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import org.springframework.stereotype.Component;
 import perobobbot.access.AccessRule;
-import perobobbot.chatpoll.ChatPollExtension;
 import perobobbot.chatpoll.action.PollLauncher;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
