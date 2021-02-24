@@ -18,7 +18,7 @@ public class TestUserListSerialization {
     private Object deserializedList;
 
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    public void setUp() throws JsonProcessingException {
         final var mapper = RestObjectMapper.create();
 
         final var type = mapper.constructType(ImmutableList.class).withContentType(mapper.constructType(SimpleUser.class));

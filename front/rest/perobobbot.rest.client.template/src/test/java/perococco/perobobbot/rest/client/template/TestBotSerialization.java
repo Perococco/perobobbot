@@ -25,7 +25,7 @@ public class TestBotSerialization {
     private Object deserialized;
 
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    public void setUp() throws JsonProcessingException {
         final var mapper  = RestObjectMapper.create();
 
         input = new Bot(UUID.randomUUID(), "bruce", "bobot", ImmutableMap.of());
