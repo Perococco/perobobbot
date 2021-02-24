@@ -37,11 +37,11 @@
             <artifactId>perobobbot-twitch-chat</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-greeter</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-greeter</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-localio</artifactId>
@@ -52,21 +52,21 @@
             <artifactId>perobobbot-ext-echo</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-dvdlogo</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-dvdlogo</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-dungeon</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-puckwar</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-puckwar</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-benchmark</artifactId>
@@ -77,16 +77,16 @@
             <artifactId>perobobbot-ext-connect4</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-pause</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-play</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-pause</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>perococco.bot</groupId>
+            <artifactId>perobobbot-ext-play</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-ext-chatpoll</artifactId>
@@ -97,11 +97,6 @@
             <artifactId>perobobbot-ext-bank</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-ext-sandbox</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-front-svelte</artifactId>
