@@ -1,11 +1,15 @@
 package perobobbot.puckwar;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Role;
+import perobobbot.overlay.api.Overlay;
+import perobobbot.plugin.Requirement;
+import perobobbot.plugin.ServiceProvider;
 import perobobbot.puckwar.PuckWarExtension;
 import perobobbot.puckwar.action.LaunchGame;
 import perobobbot.puckwar.action.ThrowPuck;
@@ -21,12 +25,17 @@ public class PuckWarExtensionFactory extends ExtensionFactoryBase<PuckWarExtensi
     }
 
     @Override
-    protected @NonNull PuckWarExtension createExtension(@NonNull Parameters parameters) {
-        return new PuckWarExtension(parameters.getOverlay());
+    public @NonNull ImmutableSet<Requirement> getRequirements() {
+        return ImmutableSet.of(Requirement.required(Overlay.class));
     }
 
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull PuckWarExtension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
+    protected @NonNull PuckWarExtension createExtension(@NonNull ServiceProvider serviceProvider) {
+        return new PuckWarExtension(serviceProvider.getService(Overlay.class));
+    }
+
+    @Override
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull PuckWarExtension extension, @NonNull ServiceProvider serviceProvider, CommandDefinition.@NonNull Factory factory) {
         final AccessRule accessRule = AccessRule.create(Role.ADMINISTRATOR, Duration.ofSeconds(1));
         final AccessRule throwAccessRule = AccessRule.create(Role.ANY_USER, Duration.ofSeconds(0),
                 applyTo(Role.THE_BOSS).aCDof(0),

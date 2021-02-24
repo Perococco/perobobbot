@@ -134,10 +134,7 @@ public class SpringLauncher {
         }
 
         private ApplicationCloser createCloser(@NonNull ApplicationContext context) {
-            return () -> {
-                final int exitCode = SpringApplication.exit(context);
-                System.exit(exitCode);
-            };
+            return new SpringApplicationCloser(context);
 
         }
 

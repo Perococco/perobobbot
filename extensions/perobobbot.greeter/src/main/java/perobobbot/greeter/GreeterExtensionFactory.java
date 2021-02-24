@@ -1,8 +1,13 @@
 package perobobbot.greeter;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.chat.core.IO;
 import perobobbot.extension.ExtensionWithoutCommandFactory;
+import perobobbot.messaging.ChatController;
 import perobobbot.plugin.Extension;
+import perobobbot.plugin.Requirement;
+import perobobbot.plugin.ServiceProvider;
 
 public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
 
@@ -13,8 +18,13 @@ public class GreeterExtensionFactory extends ExtensionWithoutCommandFactory {
     }
 
     @Override
-    protected @NonNull Extension createExtension(@NonNull Parameters parameters) {
-        return new GreeterExtension(parameters.getIo(), parameters.getChatController());
+    public @NonNull ImmutableSet<Requirement> getRequirements() {
+        return ImmutableSet.of(Requirement.required(IO.class), Requirement.required(ChatController.class));
+    }
+
+    @Override
+    protected @NonNull Extension createExtension(@NonNull ServiceProvider serviceProvider) {
+        return new GreeterExtension(serviceProvider.getService(IO.class), serviceProvider.getService(ChatController.class));
     }
 
 }

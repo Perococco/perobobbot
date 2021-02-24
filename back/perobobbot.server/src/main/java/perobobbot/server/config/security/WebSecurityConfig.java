@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import perobobbot.security.core.PermissionEvaluatorDispatcher;
 import perobobbot.security.core.TargetedPermissionEvaluator;
 import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.jwt.JWTokenManager;
+import perobobbot.server.config.Orders;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 
 import java.util.List;

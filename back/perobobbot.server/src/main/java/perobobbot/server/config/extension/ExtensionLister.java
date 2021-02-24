@@ -22,14 +22,14 @@ public class ExtensionLister {
 
     public static @NonNull ImmutableMap<String, ExtensionInfo> gatherAllExtensions(
             @NonNull PluginList pluginList,
-            @NonNull ExtensionPlugin.Parameters parameters) {
+            @NonNull ServiceProviderFactory serviceProviderFactory) {
 
-        return new ExtensionLister(pluginList,parameters).gatherAllExtensions();
+        return new ExtensionLister(pluginList, serviceProviderFactory).gatherAllExtensions();
     }
 
     private final @NonNull PluginList pluginList;
 
-    private final @NonNull ExtensionPlugin.Parameters parameters;
+    private final @NonNull ServiceProviderFactory serviceProviderFactory;
 
     private @NonNull ImmutableMap<String, ExtensionInfo> gatherAllExtensions() {
         final var factoriesByName = pluginList.streamPlugins(ExtensionPlugin.class)
@@ -46,10 +46,11 @@ public class ExtensionLister {
 
     private @NonNull Optional<ExtensionInfo> createExtensionInfo(@NonNull ExtensionPlugin plugin) {
         try {
-            return Optional.of(plugin.create(parameters));
+            return serviceProviderFactory.createServiceProvider(plugin)
+                                         .map(plugin::create);
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn("Could not create extension plugin : {} : {}",plugin.getName(), e.getMessage());
+            LOG.warn("Could not create extension plugin : {} : {}", plugin.getName(), e.getMessage());
             LOG.debug(e);
             return Optional.empty();
         }

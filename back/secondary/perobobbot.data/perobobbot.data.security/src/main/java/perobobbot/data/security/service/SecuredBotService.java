@@ -9,13 +9,14 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.proxy.ProxyBotService;
 import perobobbot.lang.Bot;
+import perobobbot.plugin.PluginService;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @SecuredService
-public class SecuredBotService extends ProxyBotService {
+public class SecuredBotService extends ProxyBotService implements PluginService {
 
     public SecuredBotService(@NonNull @EventService BotService delegate) {
         super(delegate);

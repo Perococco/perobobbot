@@ -1,34 +1,13 @@
 package perobobbot.plugin;
 
 import lombok.NonNull;
-import perobobbot.chat.core.IO;
-import perobobbot.lang.Bank;
-import perobobbot.messaging.ChatController;
-import perobobbot.overlay.api.Overlay;
-import perobobbot.sound.SoundResolver;
 
-public interface ExtensionPlugin extends Plugin {
+public interface ExtensionPlugin extends PluginUsingServices {
 
     /**
-     * @param parameters parameters provided by the server
+     * @param serviceProvider a provider of service
      * @return the extension and some information about it
      */
-    @NonNull ExtensionInfo create(@NonNull Parameters parameters);
-
-
-    interface Parameters {
-
-        @NonNull ChatController getChatController();
-
-        @NonNull IO getIo();
-
-        @NonNull Overlay getOverlay();
-
-        @NonNull SoundResolver getSoundResolver();
-
-        @NonNull Bank getBank();
-
-    }
-
+    @NonNull ExtensionInfo create(@NonNull ServiceProvider serviceProvider);
 
 }

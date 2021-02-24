@@ -33,17 +33,17 @@ public class AudioVideoConfiguration {
     }
 
     @Bean(destroyMethod = "stop",initMethod = "start")
-    public OverlayController overlayController(@NonNull SoundManager soundManager) {
+    public SpringOverlayControllerWrapper overlayController(@NonNull SoundManager soundManager) {
         final var controller = OverlayController.create("Overlay",
                                                         OVERLAY_SIZE,
                                                         OVERLAY_FRAME_RATE,
                                                         soundManager);
-        return controller;
+        return new SpringOverlayControllerWrapper(controller);
     }
 
     @Bean
-    public SoundResolver soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
-        return SoundResolver.soundFileResolver(Path.of(soundDirectory));
+    public SpringSoundResolverWrapper soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
+        return new SpringSoundResolverWrapper(SoundResolver.soundFileResolver(Path.of(soundDirectory)));
     }
 
 

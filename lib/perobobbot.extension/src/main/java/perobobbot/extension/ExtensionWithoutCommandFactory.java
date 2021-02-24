@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.command.CommandDefinition;
 import perobobbot.plugin.Extension;
+import perobobbot.plugin.ServiceProvider;
 
 public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBase<Extension> {
 
@@ -12,7 +13,7 @@ public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBas
     }
 
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull Extension extension, @NonNull Parameters parameters, CommandDefinition.@NonNull Factory factory) {
+    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull Extension extension, @NonNull ServiceProvider serviceProvider, CommandDefinition.@NonNull Factory factory) {
         return ImmutableList.of();
     }
 }

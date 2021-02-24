@@ -13,6 +13,7 @@ import perobobbot.lang.ThrowableTool;
 import perobobbot.plugin.PlatformChatPlugin;
 import perobobbot.plugin.PluginList;
 import perobobbot.server.component.MessageGateway;
+import perobobbot.server.config.extension.ServiceProviderFactory;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ import java.util.Optional;
 @Log4j2
 public class IOConfiguration {
 
-    private final @NonNull PlatformChatPlugin.Parameters parameters;
+    private final @NonNull ServiceProviderFactory serviceProviderFactory;
 
     private final @NonNull PluginList pluginList;
 
@@ -46,7 +47,8 @@ public class IOConfiguration {
 
     private @NonNull Optional<ChatPlatform> createChatPlatform(@NonNull PlatformChatPlugin plugin) {
         try {
-            return Optional.of(plugin.create(parameters));
+            return serviceProviderFactory.createServiceProvider(plugin)
+                                         .map(plugin::create);
         } catch (Exception e) {
             ThrowableTool.interruptThreadIfCausedByInterruption(e);
             LOG.warn("Could create Chat Platform {} : {}", plugin.getName(), e.getMessage());
