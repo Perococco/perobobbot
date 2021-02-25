@@ -46,7 +46,7 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>twitch/perobobbot.twitch.chat</module>
+<!--        <module>twitch/perobobbot.twitch.chat</module>-->
 <!--        <module>twitch/perobobbot.twitch.oauth</module>-->
 
         <module>overlay/perobobbot.overlay.api</module>

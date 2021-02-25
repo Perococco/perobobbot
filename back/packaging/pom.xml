@@ -33,11 +33,6 @@
             <groupId>perococco.bot</groupId>
             <artifactId>perobobbot-server</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>perococco.bot</groupId>-->
-<!--            <artifactId>perobobbot-front-svelte</artifactId>-->
-<!--        </dependency>-->
-
     </dependencies>
 
     <build>
@@ -115,11 +110,6 @@
                                 <copy toDir="${build.directory}/lib">
                                     <fileset dir="${packaging.directory}/dependencies">
                                         <exclude name="**/perobobbot-ext-*"/>
-                                    </fileset>
-                                </copy>
-                                <copy toDir="${build.directory}/extensions">
-                                    <fileset dir="${packaging.directory}/dependencies">
-                                        <include name="**/perobobbot-ext-*"/>
                                     </fileset>
                                 </copy>
                                 <chmod file="${build.directory}/launcher.sh" perm="u+rx"/>
