@@ -9,8 +9,9 @@ import perobobbot.lang.*;
 import perobobbot.plugin.PluginService;
 
 @Component
+@PluginService
 @RequiredArgsConstructor
-public class SpringBank implements Bank, PluginService {
+public class SpringBank implements Bank {
 
     @SecuredService
     private final @NonNull BankService bankService;

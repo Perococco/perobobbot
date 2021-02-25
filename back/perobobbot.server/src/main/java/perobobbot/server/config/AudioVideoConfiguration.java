@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.OverlayController;
+import perobobbot.plugin.PluginService;
 import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 import perobobbot.sound.SoundResolver;
@@ -33,17 +34,18 @@ public class AudioVideoConfiguration {
     }
 
     @Bean(destroyMethod = "stop",initMethod = "start")
-    public SpringOverlayControllerWrapper overlayController(@NonNull SoundManager soundManager) {
-        final var controller = OverlayController.create("Overlay",
-                                                        OVERLAY_SIZE,
-                                                        OVERLAY_FRAME_RATE,
-                                                        soundManager);
-        return new SpringOverlayControllerWrapper(controller);
+    @PluginService
+    public OverlayController overlayController(@NonNull SoundManager soundManager) {
+        return OverlayController.create("Overlay",
+                                        OVERLAY_SIZE,
+                                        OVERLAY_FRAME_RATE,
+                                        soundManager);
     }
 
     @Bean
-    public SpringSoundResolverWrapper soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
-        return new SpringSoundResolverWrapper(SoundResolver.soundFileResolver(Path.of(soundDirectory)));
+    @PluginService
+    public SoundResolver soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
+        return SoundResolver.soundFileResolver(Path.of(soundDirectory));
     }
 
 

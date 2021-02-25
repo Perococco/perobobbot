@@ -10,8 +10,9 @@ import perobobbot.messaging.ChatController;
 import perobobbot.messaging.ProxyChatController;
 import perobobbot.plugin.PluginService;
 
+@PluginService
 @Component
-public class SpringChatController extends ProxyChatController implements PluginService {
+public class SpringChatController extends ProxyChatController {
 
     public SpringChatController() {
         super(ChatController.create());

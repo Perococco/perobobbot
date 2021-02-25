@@ -7,8 +7,9 @@ import org.springframework.context.ApplicationContext;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.plugin.PluginService;
 
+@PluginService
 @RequiredArgsConstructor
-public class SpringApplicationCloser implements ApplicationCloser, PluginService {
+public class SpringApplicationCloser implements ApplicationCloser {
 
     private final  @NonNull ApplicationContext context;
 

@@ -8,7 +8,8 @@ import perobobbot.plugin.PluginService;
 import java.time.Instant;
 
 @Component
-public class PerobobbotInstants implements Instants, PluginService {
+@PluginService
+public class PerobobbotInstants implements Instants {
 
     @Override
     public @NonNull Instant now() {

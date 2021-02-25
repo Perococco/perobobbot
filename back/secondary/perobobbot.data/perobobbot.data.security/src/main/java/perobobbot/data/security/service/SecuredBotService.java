@@ -16,7 +16,8 @@ import java.util.UUID;
 
 @Service
 @SecuredService
-public class SecuredBotService extends ProxyBotService implements PluginService {
+@PluginService
+public class SecuredBotService extends ProxyBotService {
 
     public SecuredBotService(@NonNull @EventService BotService delegate) {
         super(delegate);

@@ -11,6 +11,7 @@ import org.springframework.messaging.MessageChannel;
 import perobobbot.lang.GatewayChannels;
 import perobobbot.lang.StandardInputProvider;
 import perobobbot.lang.StandardInputReader;
+import perobobbot.plugin.PluginService;
 import perobobbot.server.config.Orders;
 
 import java.util.concurrent.ExecutorService;
@@ -38,8 +39,9 @@ public class MessagingConfiguration {
     }
 
     @Bean(destroyMethod = "requestStop", initMethod = "start")
-    public @NonNull SpringStandardInputReaderWrapper standardInputReader() {
-        return new SpringStandardInputReaderWrapper(new StandardInputReader());
+    @PluginService
+    public @NonNull StandardInputReader standardInputReader() {
+        return new StandardInputReader();
     }
 
 }
