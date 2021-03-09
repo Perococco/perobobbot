@@ -37,6 +37,7 @@
 
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
+        <plugin-manager.version>1.0.0-SNAPSHOT</plugin-manager.version>
 
     </properties>
 
@@ -386,6 +387,27 @@
                 <version>${project.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>perococco</groupId>
+                <artifactId>perococco-plugins-api</artifactId>
+                <version>${plugin-manager.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco</groupId>
+                <artifactId>perococco-plugins-modular</artifactId>
+                <version>${plugin-manager.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco</groupId>
+                <artifactId>perococco-plugins-tools</artifactId>
+                <version>${plugin-manager.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perococco</groupId>
+                <artifactId>perococco-plugins-manager</artifactId>
+                <version>${plugin-manager.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perococco.bot</groupId>

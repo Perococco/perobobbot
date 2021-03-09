@@ -58,6 +58,23 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>perococco</groupId>
+            <artifactId>perococco-plugins-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco</groupId>
+            <artifactId>perococco-plugins-manager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco</groupId>
+            <artifactId>perococco-plugins-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perococco</groupId>
+            <artifactId>perococco-plugins-modular</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
 
 

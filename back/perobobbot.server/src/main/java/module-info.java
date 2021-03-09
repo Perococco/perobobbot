@@ -34,6 +34,7 @@ module perobobbot.server {
     requires perobobbot.sound;
     requires perobobbot.http;
 
+    requires perococco.plugins.manager;
 
     requires org.apache.logging.log4j;
 
