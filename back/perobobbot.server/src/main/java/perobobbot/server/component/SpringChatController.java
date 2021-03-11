@@ -8,9 +8,7 @@ import perobobbot.lang.GatewayChannels;
 import perobobbot.lang.MessageContext;
 import perobobbot.messaging.ChatController;
 import perobobbot.messaging.ProxyChatController;
-import perobobbot.plugin.PluginService;
 
-@PluginService
 @Component
 public class SpringChatController extends ProxyChatController {
 

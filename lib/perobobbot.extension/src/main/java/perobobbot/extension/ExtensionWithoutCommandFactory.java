@@ -1,10 +1,10 @@
 package perobobbot.extension;
 
 import com.google.common.collect.ImmutableList;
+import jplugman.api.ServiceProvider;
 import lombok.NonNull;
 import perobobbot.command.CommandDefinition;
 import perobobbot.plugin.Extension;
-import perobobbot.plugin.ServiceProvider;
 
 public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBase<Extension> {
 

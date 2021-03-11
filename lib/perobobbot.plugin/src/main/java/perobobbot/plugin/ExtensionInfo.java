@@ -7,20 +7,10 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandDefinition;
 
 @RequiredArgsConstructor
+@Getter
 public class ExtensionInfo {
-    final @NonNull Extension extension;
-    @Getter
-    final @NonNull ImmutableList<CommandDefinition> commandDefinitions;
 
-    public void enabled() {
-        extension.enable();
-    }
+    @NonNull Extension extension;
 
-    public void disable() {
-        extension.disable();
-    }
-
-    public @NonNull String getExtensionName() {
-        return extension.getName();
-    }
+    @NonNull ImmutableList<CommandDefinition> commandDefinitions;
 }

@@ -6,10 +6,8 @@ import org.springframework.stereotype.Component;
 import perobobbot.data.service.BankService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.*;
-import perobobbot.plugin.PluginService;
 
 @Component
-@PluginService
 @RequiredArgsConstructor
 public class SpringBank implements Bank {
 

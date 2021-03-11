@@ -6,12 +6,13 @@ import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.DispatchContext;
 import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
-import perococco.perobobbot.chat.core.PerococcoIOBuilder;
 
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public interface IO {
+
+    String VERSION = "1.0.0";
 
     /**
      * Print a message to the provided channel
@@ -43,8 +44,4 @@ public interface IO {
         return getPlatform(channelInfo.getPlatform()).getChannelIO(chatConnectionInfo, channelInfo.getChannelName());
     }
 
-
-    static IOBuilder builder() {
-        return new PerococcoIOBuilder();
-    }
 }

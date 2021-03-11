@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import perobobbot.overlay.api.FrameRate;
+import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayController;
 import perobobbot.plugin.PluginService;
 import perobobbot.rendering.ScreenSize;
@@ -25,8 +26,7 @@ public class AudioVideoConfiguration {
     public static final int AUDIO_SAMPLING_RATE = 48_000;
 
     public static final ScreenSize OVERLAY_SIZE = ScreenSize._1600_900;
-    public static final FrameRate OVERLAY_FRAME_RATE = FrameRate.FPS_30
-            ;
+    public static final FrameRate OVERLAY_FRAME_RATE = FrameRate.FPS_30;
 
     @Bean
     public SoundManager soundManager() {
@@ -34,7 +34,7 @@ public class AudioVideoConfiguration {
     }
 
     @Bean(destroyMethod = "stop",initMethod = "start")
-    @PluginService
+    @PluginService(version = "1.0.0", type = Overlay.class)
     public OverlayController overlayController(@NonNull SoundManager soundManager) {
         return OverlayController.create("Overlay",
                                         OVERLAY_SIZE,
@@ -43,7 +43,7 @@ public class AudioVideoConfiguration {
     }
 
     @Bean
-    @PluginService
+    @PluginService(type = SoundResolver.class, version = SoundResolver.VERSION)
     public SoundResolver soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
         return SoundResolver.soundFileResolver(Path.of(soundDirectory));
     }

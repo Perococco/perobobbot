@@ -1,5 +1,6 @@
 package perobobbot.spring;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,11 +11,13 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.AnnotationConfigRegistry;
 import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.OSInfo;
-import perobobbot.plugin.*;
+import perobobbot.lang.Packages;
 import perobobbot.lang.fp.Predicate1;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * @author Perococco
@@ -23,22 +26,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpringLauncher {
 
-
-    @NonNull
-    private final List<String> arguments;
-
     private final String applicationName = "perobobbot";
 
-    @NonNull
-    private final Class<?>[] applicationClasses;
 
-    @NonNull
-    private final ApplicationContextInitializer<?>[] initializers;
+    private final @NonNull List<String> arguments;
 
-    @NonNull
-    private final Predicate1<? super FunctionalPlugin> pluginFilter;
+    private final @NonNull Class<?>[] applicationClasses;
 
-    private final Banner.Mode bannerMode;
+    private final @NonNull ApplicationContextInitializer<?>[] initializers;
+
+    private final @NonNull Predicate1<? super Packages> packagesFilter;
+
+    private final @NonNull Banner.Mode bannerMode;
 
     @NonNull
     public ApplicationCloser launch() {
@@ -48,16 +47,16 @@ public class SpringLauncher {
     public SpringLauncher(@NonNull List<String> arguments,
                           @NonNull Class<?> applicationClass,
                           @NonNull ApplicationContextInitializer<?>[] initializers,
-                          @NonNull Predicate1<? super FunctionalPlugin> pluginFilter,
+                          @NonNull Predicate1<? super Packages> packagesFilter,
                           @NonNull Banner.Mode bannerMode) {
-        this(arguments, new Class<?>[]{applicationClass}, initializers, pluginFilter, bannerMode);
+        this(arguments, new Class<?>[]{applicationClass}, initializers, packagesFilter, bannerMode);
     }
 
     public SpringLauncher(@NonNull List<String> arguments,
                           @NonNull Class<?> applicationClass,
                           @NonNull ApplicationContextInitializer<?>[] initializers,
-                          @NonNull Predicate1<? super FunctionalPlugin> pluginFilter) {
-        this(arguments, new Class<?>[]{applicationClass}, initializers, pluginFilter, Banner.Mode.CONSOLE);
+                          @NonNull Predicate1<? super Packages> packagesFilter) {
+        this(arguments, new Class<?>[]{applicationClass}, initializers, packagesFilter, Banner.Mode.CONSOLE);
     }
 
     private class Execution {
@@ -68,7 +67,7 @@ public class SpringLauncher {
 
         private ApplicationCloser closer;
 
-        private PluginList pluginList;
+        private ImmutableList<Packages> packagesList;
 
         private ApplicationCloser launch() {
             this.setupConfigDirectory();
@@ -86,11 +85,15 @@ public class SpringLauncher {
         }
 
         private void loadAllPlugins() {
-            this.pluginList = Plugin.loadAllPlugins();
+            this.packagesList = ServiceLoader.load(Packages.class)
+                                             .stream()
+                                             .map(ServiceLoader.Provider::get)
+                                             .collect(ImmutableList.toImmutableList());
             if (LOG.isInfoEnabled()) {
-                this.pluginList.streamAllPlugins()
-                               .sorted(Plugin.COMPARE_NAME)
-                               .forEach(p -> LOG.info("Plugin : [{}] {}", p.getClass().getSimpleName(), p.getName()));
+                this.packagesList
+                        .stream()
+                        .sorted(Comparator.comparing(Packages::getName))
+                        .forEach(p -> LOG.info("Plugin : [{}] {}", p.getClass().getSimpleName(), p.getName()));
             }
         }
 
@@ -100,17 +103,16 @@ public class SpringLauncher {
             application.setHeadless(headless);
             application.addInitializers(app -> {
                 app.getBeanFactory().registerSingleton("__closer", createCloser(app));
-                app.getBeanFactory().registerSingleton("__pluginList", this.pluginList);
             });
             application.addInitializers(initializers);
             application.setBannerMode(bannerMode);
         }
 
         private void retrieveAllExtraPackagesToScan() {
-            extraPackagesToScan = pluginList.streamFunctionalPlugins()
-                                            .filter(pluginFilter)
-                                            .flatMap(FunctionalPlugin::packageStream)
-                                            .toArray(String[]::new);
+            extraPackagesToScan = packagesList.stream()
+                                              .filter(packagesFilter)
+                                              .flatMap(Packages::packageStream)
+                                              .toArray(String[]::new);
         }
 
         private void setupSpringApplicationInitializerToTakeIntoAccountExtraPackages() {

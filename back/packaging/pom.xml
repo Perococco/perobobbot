@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>perococco.bot</groupId>
+        <groupId>perobobbot</groupId>
         <artifactId>perobobbot-backend</artifactId>
         <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
@@ -30,7 +30,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-server</artifactId>
         </dependency>
     </dependencies>
@@ -70,6 +70,24 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>./target/toto</outputDirectory>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>assembly/tozip.xml</descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.1.1</version>
                 <executions>
@@ -104,15 +122,15 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <copy toDir="${build.directory}">
+                                <copy toDir="${project.build.directory}">
                                     <fileset dir="${packaging.directory}/resources"/>
                                 </copy>
-                                <copy toDir="${build.directory}/lib">
+                                <copy toDir="${project.build.directory}/lib">
                                     <fileset dir="${packaging.directory}/dependencies">
                                         <exclude name="**/perobobbot-ext-*"/>
                                     </fileset>
                                 </copy>
-                                <chmod file="${build.directory}/launcher.sh" perm="u+rx"/>
+                                <chmod file="${project.build.directory}/launcher.sh" perm="u+rx"/>
                             </target>
                         </configuration>
                     </execution>
@@ -125,12 +143,12 @@
                         <configuration>
                             <target>
                                 <tar destfile="${archive.name}" compression="gzip">
-                                    <tarfileset dir="${build.directory}" filemode="700" prefix="${versioned-application.name}">
+                                    <tarfileset dir="${project.build.directory}" filemode="700" prefix="${versioned-application.name}">
                                         <include name="launcher.sh"/>
                                     </tarfileset>
-                                    <tarfileset dir="${build.directory}/extensions" prefix="${versioned-application.name}/extensions"/>
-                                    <tarfileset dir="${build.directory}/lib" prefix="${versioned-application.name}/lib"/>
-                                    <tarfileset dir="${build.directory}/options" prefix="${versioned-application.name}/options"/>
+                                    <tarfileset dir="${project.build.directory}/extensions" prefix="${versioned-application.name}/extensions"/>
+                                    <tarfileset dir="${project.build.directory}/lib" prefix="${versioned-application.name}/lib"/>
+                                    <tarfileset dir="${project.build.directory}/options" prefix="${versioned-application.name}/options"/>
                                 </tar>
                             </target>
                         </configuration>

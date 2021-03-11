@@ -10,6 +10,10 @@ module perobobbot.extension {
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
     requires perobobbot.plugin;
+    requires transitive jplugman.api;
+
+    requires org.apache.logging.log4j;
+
 
     exports perobobbot.extension;
 }

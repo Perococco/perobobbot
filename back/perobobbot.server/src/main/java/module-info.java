@@ -34,8 +34,6 @@ module perobobbot.server {
     requires perobobbot.sound;
     requires perobobbot.http;
 
-    requires perococco.plugins.manager;
-
     requires org.apache.logging.log4j;
 
     requires com.fasterxml.classmate;
@@ -50,6 +48,10 @@ module perobobbot.server {
     requires org.flywaydb.core;
     requires java.xml.bind;
 
+    requires jplugman.api;
+    requires jplugman.manager;
+    requires jplugman.tools;
+
     opens db.migration;
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
 
@@ -62,9 +64,14 @@ module perobobbot.server {
     opens perobobbot.server.config.externaluri to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
-    opens perobobbot.server.plugin to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.plugin to spring.core,spring.beans,spring.context, spring.web, velocity.engine.core;
+    opens perobobbot.server.plugin.template to spring.core,spring.beans,spring.context, spring.web, velocity.engine.core;
+    opens perobobbot.server.plugin.extension to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.plugin.webplugin to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+
+    opens template;
 
     requires net.bytebuddy;
     requires spring.beans;
@@ -75,6 +82,8 @@ module perobobbot.server {
     requires spring.webmvc;
     requires spring.integration.core;
     requires reactor.core;
+
+    requires velocity.engine.core;
 
     requires spring.boot.actuator;
     requires org.eclipse.jetty.websocket.server;

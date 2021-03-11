@@ -1,13 +1,11 @@
 package perobobbot.extension;
 
+import jplugman.api.Plugin;
 import lombok.NonNull;
-import perobobbot.plugin.ExtensionInfo;
 
-public interface ExtensionFactory {
+public interface ExtensionFactory extends Plugin {
 
     @NonNull String getExtensionName();
-
-    @NonNull ExtensionInfo create();
 
 
 }

@@ -5,56 +5,29 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
-import perobobbot.chat.core.IOBuilder;
-import perobobbot.lang.ThrowableTool;
-import perobobbot.plugin.PlatformChatPlugin;
-import perobobbot.plugin.PluginList;
+import perobobbot.chat.core.MutableIO;
+import perobobbot.plugin.PluginService;
 import perobobbot.server.component.MessageGateway;
-import perobobbot.server.config.extension.ServiceProviderFactory;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Configuration
 @Log4j2
 public class IOConfiguration {
 
-    private final @NonNull ServiceProviderFactory serviceProviderFactory;
-
-    private final @NonNull PluginList pluginList;
-
-    @NonNull
-    private final MessageGateway messageGateway;
+    private final MutableIO mutableIO = MutableIO.create();
 
     @Bean(destroyMethod = "dispose")
+    @PluginService(type = IO.class, version = IO.VERSION)
     public DisposableIO io() {
-
-        final IOBuilder builder = IO.builder();
-
-        pluginList.streamPlugins(PlatformChatPlugin.class)
-                  .map(this::createChatPlatform)
-                  .flatMap(Optional::stream)
-                  .forEach(pio -> {
-                      pio.addMessageListener(messageGateway::sendPlatformMessage);
-                      builder.add(pio.getPlatform(), pio);
-                  });
-
-        return builder.build();
+        return mutableIO;
     }
 
-    private @NonNull Optional<ChatPlatform> createChatPlatform(@NonNull PlatformChatPlugin plugin) {
-        try {
-            return serviceProviderFactory.createServiceProvider(plugin)
-                                         .map(plugin::create);
-        } catch (Exception e) {
-            ThrowableTool.interruptThreadIfCausedByInterruption(e);
-            LOG.warn("Could create Chat Platform {} : {}", plugin.getName(), e.getMessage());
-            LOG.debug(e);
-            return Optional.empty();
-        }
+
+    @Bean
+    public ChatPlatformPluginManager chatPlatformPluginManager(@NonNull MessageGateway messageGateway) {
+        return new ChatPlatformPluginManager(mutableIO,messageGateway);
     }
 
 }

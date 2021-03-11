@@ -5,8 +5,8 @@ import perobobbot.lang.Platform;
 
 public interface IOBuilder {
 
-    @NonNull DisposableIO build();
+    @NonNull MutableIO build();
 
     @NonNull
-    IOBuilder add(@NonNull Platform platform, @NonNull ChatPlatform chatPlatform);
+    IOBuilder add(@NonNull ChatPlatform chatPlatform);
 }

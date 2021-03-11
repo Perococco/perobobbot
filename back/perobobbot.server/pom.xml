@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>perococco.bot</groupId>
+        <groupId>perobobbot</groupId>
         <artifactId>perobobbot-backend</artifactId>
         <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
@@ -27,99 +27,99 @@
 
     <dependencies>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-extension</artifactId>
         </dependency>
 
 
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-overlay-newtek</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-jpa</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-security</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-event</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-rest-controller</artifactId>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
-            <groupId>perococco</groupId>
-            <artifactId>perococco-plugins-api</artifactId>
+            <groupId>jplugman</groupId>
+            <artifactId>jplugman-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco</groupId>
-            <artifactId>perococco-plugins-manager</artifactId>
+            <groupId>jplugman</groupId>
+            <artifactId>jplugman-manager</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco</groupId>
-            <artifactId>perococco-plugins-tools</artifactId>
+            <groupId>jplugman</groupId>
+            <artifactId>jplugman-tools</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco</groupId>
-            <artifactId>perococco-plugins-modular</artifactId>
+            <groupId>jplugman</groupId>
+            <artifactId>jplugman-loader</artifactId>
             <scope>runtime</scope>
         </dependency>
 
 
 
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-security-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-access</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-overlay-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-command</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-messaging</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-sound</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-com</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-service</artifactId>
         </dependency>
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-http</artifactId>
         </dependency>
 
@@ -240,7 +240,12 @@
         </dependency>
 
         <dependency>
-            <groupId>perococco.bot</groupId>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-chat-websocket</artifactId>
             <scope>runtime</scope>
             <exclusions>
@@ -264,5 +269,38 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <delimiters>
+                        <delimiter>@*@</delimiter>
+                    </delimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>list</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>list</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <sort>true</sort>
+                            <silent>true</silent>
+                            <outputFile>${project.build.directory}/classes/dependencies.txt</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

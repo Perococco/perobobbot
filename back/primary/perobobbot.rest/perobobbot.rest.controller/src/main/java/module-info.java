@@ -1,4 +1,4 @@
-import perobobbot.plugin.Plugin;
+import perobobbot.lang.Packages;
 import perobobbot.rest.controller.ControllerConfig;
 
 open module perobobbot.rest.controller {
@@ -8,8 +8,8 @@ open module perobobbot.rest.controller {
     requires perobobbot.data.service;
     requires perobobbot.security.core;
     requires perobobbot.lang;
-    requires perobobbot.plugin;
     requires transitive perobobbot.rest.com;
+
 
 
     requires com.google.common;
@@ -18,10 +18,11 @@ open module perobobbot.rest.controller {
     requires spring.web;
     requires java.validation;
     requires perobobbot.backend.i18n;
+    requires java.servlet;
 
 //    opens perobobbot.rest.controller to spring.core,spring.beans,spring.context,spring.web;
 
     exports perobobbot.rest.controller;
 
-    provides Plugin with ControllerConfig;
+    provides Packages with ControllerConfig;
 }

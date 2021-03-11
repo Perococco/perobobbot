@@ -1,25 +1,18 @@
 package perobobbot.plugin;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 
-public interface WebPlugin extends Plugin {
-
-    void registerView(@NonNull ViewControllerRegistry viewControllerRegistry);
-
-    void registerResources(@NonNull ResourceHandlerRegistry resourceHandlerRegistry);
+public interface WebPlugin extends PerobobbotPlugin {
 
 
-    interface ViewControllerRegistry {
-        void registerView(@NonNull String urlPathOrPattern, @NonNull String viewName);
-    }
+    @NonNull ImmutableList<ViewInfo> getViewInformation();
 
-    interface ResourceHandlerRegistry {
-        void addResourceLocation(String[] pathPatterns, String[] resourceLocations);
+    @NonNull ImmutableList<ResourceLocation> getResourceLocations();
 
-        default void addResourceLocation(@NonNull String pathPattern, @NonNull String resourceLocation) {
-            addResourceLocation(new String[]{pathPattern}, new String[]{resourceLocation});
-        }
-
+    @Override
+    default public <T> @NonNull T accept(@NonNull PerobobbotPlugin.Visitor<T> visitor) {
+        return visitor.visit(this);
     }
 
 }

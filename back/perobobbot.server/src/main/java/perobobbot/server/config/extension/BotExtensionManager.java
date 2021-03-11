@@ -12,7 +12,7 @@ import perobobbot.data.service.event.ExtensionEvent;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.GatewayChannels;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class BotExtensionManager {
 

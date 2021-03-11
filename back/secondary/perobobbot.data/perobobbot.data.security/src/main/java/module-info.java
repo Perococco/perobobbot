@@ -1,5 +1,5 @@
 import perobobbot.data.security.DataSecurityConfiguration;
-import perobobbot.plugin.Plugin;
+import perobobbot.lang.Packages;
 
 module perobobbot.data.security {
     requires static lombok;
@@ -10,7 +10,6 @@ module perobobbot.data.security {
     requires spring.context;
     requires spring.security.core;
     requires perobobbot.security.core;
-    requires perobobbot.plugin;
 
     opens perobobbot.data.security to spring.core,spring.context,spring.beans,spring.secutiry;
     opens perobobbot.data.security.service to spring.core,spring.context,spring.beans,spring.secutiry;
@@ -19,5 +18,5 @@ module perobobbot.data.security {
 
     exports perobobbot.data.security.service;
 
-    provides Plugin with DataSecurityConfiguration;
+    provides Packages with DataSecurityConfiguration;
 }

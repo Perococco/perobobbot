@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import perobobbot.lang.ApplicationCloser;
-import perobobbot.plugin.PluginService;
 
-@PluginService
 @RequiredArgsConstructor
 public class SpringApplicationCloser implements ApplicationCloser {
 

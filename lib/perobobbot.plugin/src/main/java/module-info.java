@@ -1,3 +1,5 @@
+import perobobbot.plugin.PerobobbotPlugin;
+
 module perobobbot.plugin {
     requires static lombok;
     requires java.desktop;
@@ -11,6 +13,7 @@ module perobobbot.plugin {
 
     exports perobobbot.plugin;
 
-    uses perobobbot.plugin.Plugin;
+    uses PerobobbotPlugin;
+
 
 }

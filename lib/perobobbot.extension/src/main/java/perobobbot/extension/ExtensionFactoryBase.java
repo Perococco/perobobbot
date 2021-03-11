@@ -1,29 +1,42 @@
 package perobobbot.extension;
 
 import com.google.common.collect.ImmutableList;
+import jplugman.api.ServiceProvider;
+import jplugman.api.Version;
+import jplugman.api.VersionedService;
+import jplugman.api.VersionedServiceClass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandDefinition;
 import perobobbot.plugin.Extension;
-import perobobbot.plugin.ExtensionInfo;
 import perobobbot.plugin.ExtensionPlugin;
-import perobobbot.plugin.ServiceProvider;
 
 @RequiredArgsConstructor
-public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionPlugin {
+public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionFactory {
 
     @Getter(AccessLevel.PUBLIC)
     private final @NonNull String name;
 
     @Override
-    public @NonNull ExtensionInfo create(@NonNull ServiceProvider serviceProvider) {
+    public @NonNull Object loadService(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider) {
         final var instance = createExtension(serviceProvider);
         final var factory = CommandDefinition.factory(instance.getName());
         final var commandDefinitions = createCommandDefinitions(instance, serviceProvider, factory);
-        return new ExtensionInfo(instance, commandDefinitions);
+        return createExtensionPlugin(instance, commandDefinitions);
     }
+
+    @Override
+    public @NonNull VersionedServiceClass<?> getProvidedServiceClass() {
+        return new VersionedServiceClass<>(getExtensionPluginClass(), getPluginVersion());
+    }
+
+    protected abstract @NonNull Version getPluginVersion();
+
+    protected abstract @NonNull Class<? extends ExtensionPlugin> getExtensionPluginClass();
+
+    protected abstract @NonNull ExtensionPlugin createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDefinition> commandDefinitions);
 
     /**
      * @param serviceProvider the service provider containing the services the extension required

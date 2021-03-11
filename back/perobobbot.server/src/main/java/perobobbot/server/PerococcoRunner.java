@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MessageChannelIO;
@@ -39,8 +40,21 @@ public class PerococcoRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         final Bot bot = getOrCreateBot("perococco");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2_000);
+                    System.out.println("Try to connect");
+                    performConnection(bot);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }).start();
+    }
 
-
+    private void performConnection(@NonNull Bot bot) {
         io.findPlatform(Platform.LOCAL)
           .ifPresent(p -> p.connect(bot));
 
