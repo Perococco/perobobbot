@@ -29,8 +29,8 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
     public static void init() {
         if (INITIALIZED.compareAndSet(false, true)) {
             Properties p = new Properties();
-            p.setProperty("resource.loader", "class");
-            p.setProperty("class.resource.loader.class",
+            p.setProperty("resource.loaders", "class");
+            p.setProperty("resource.loader.class.class",
                           "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             Velocity.init(p);
         }
