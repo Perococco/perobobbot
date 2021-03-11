@@ -19,6 +19,8 @@ import perobobbot.server.plugin.webplugin.WebPluginManager;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Configuration
 @RequiredArgsConstructor
@@ -38,9 +40,9 @@ public class PluginConfiguration {
     private final @NonNull WebPluginManager webPluginManager;
 
     @Bean(destroyMethod = "stop")
-    public @NonNull FolderWatcher pluginFolderWatcher() {
+    public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException {
         final FolderWatcher folderWatcher = FolderWatcher.create(Path.of(appDir).resolve("plugins"));
-        folderWatcher.addListener(new FolderListenerLogger(new PluginFolderListener(pluginManager())));
+        folderWatcher.addListener(new FolderListenerLogger(new PluginFolderListener(MessageDigest.getInstance("MD5"), pluginManager())));
         folderWatcher.start();
         return folderWatcher;
     }
