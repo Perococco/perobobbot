@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface ExtensionService {
 
     /**
-     * Update the available flag accordingly to the set of extensions found at runtime
+     * Update the availability flags accordingly to the set of extensions found at runtime
      * @param foundExtensionNames the set of extension name found at runtime
      */
     void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames);
