@@ -8,6 +8,7 @@ import jplugman.manager.Application;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.Subscription;
 import perobobbot.plugin.ChatPlatformPlugin;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Log4j2
 public class PluginApplication implements Application {
 
     @Getter
@@ -42,6 +44,7 @@ public class PluginApplication implements Application {
 
     @Override
     public void plugService(@NonNull VersionedService versionedService) {
+        LOG.info("Plug service   : '{}' '{}'",versionedService.getType().getSimpleName(),versionedService.getVersion());
         versionedService.getServiceAs(PerobobbotPlugin.class)
                         .flatMap(p -> p.accept(new PluginVisitor()))
                         .ifPresent(s -> subscriptions.put(versionedService,s));
@@ -49,6 +52,7 @@ public class PluginApplication implements Application {
 
     @Override
     public void unplugService(@NonNull VersionedService versionedService) {
+        LOG.info("Unplug service : '{}' '{}'",versionedService.getType().getSimpleName(),versionedService.getVersion());
         final var subscription = subscriptions.remove(versionedService);
         if (subscription != null) {
             subscription.unsubscribe();

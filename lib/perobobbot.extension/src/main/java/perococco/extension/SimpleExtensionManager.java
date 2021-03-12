@@ -55,6 +55,7 @@ public class SimpleExtensionManager implements ExtensionManager {
         final var extensionPlugin = extensionPlugins.remove(id);
         if (extensionPlugin != null) {
             this.extensionIds.remove(extensionPlugin.getExtensionName());
+            extensionPlugin.getExtension().disable();
         }
     }
 

@@ -38,7 +38,7 @@
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
         <velocity.version>2.3</velocity.version>
-        <jplugman.version>1.0.2</jplugman.version>
+        <jplugman.version>1.0.3</jplugman.version>
 
     </properties>
 

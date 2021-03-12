@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.PluginService;
+import perobobbot.lang.PluginServices;
 import perobobbot.server.config.io.ChatPlatformPluginManager;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.template.SimpleTemplateGenerator;
@@ -22,6 +23,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Configuration
 @RequiredArgsConstructor
@@ -46,14 +50,14 @@ public class PluginConfiguration {
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());
 
 
-        folderWatcher.addListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), new FolderListenerLogger(pluginListener)));
+        folderWatcher.addListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), pluginListener));
         folderWatcher.start();
         return folderWatcher;
     }
 
     @Bean
     public TemplateGenerator templateGenerator() throws IOException {
-        return new SimpleTemplateGenerator(bom(),getApplicationVersion(),versionedServiceProvider());
+        return new SimpleTemplateGenerator(bom(), getApplicationVersion(), versionedServiceProvider());
     }
 
     private @NonNull Bom bom() throws IOException {
@@ -75,25 +79,39 @@ public class PluginConfiguration {
 
     @Bean
     public @NonNull BotVersionedServiceProvider versionedServiceProvider() {
-        final var services = applicationContext.getBeansWithAnnotation(PluginService.class)
-                                              .entrySet()
-                                              .stream()
-                                              .map(e -> toVersionedService(e.getKey(), e.getValue()))
-                                              .collect(ImmutableList.toImmutableList());
+        final var services =
+                Stream.concat(
+                        applicationContext.getBeansWithAnnotation(PluginService.class).keySet().stream(),
+                        applicationContext.getBeansWithAnnotation(PluginServices.class).keySet().stream()
+                ).distinct()
+                      .flatMap(this::toVersionedService)
+                      .collect(ImmutableList.toImmutableList());
         return new BotVersionedServiceProvider(services);
     }
 
-    private @NonNull VersionedService toVersionedService(@NonNull String name, @NonNull Object bean) {
-        final var pluginService = applicationContext.findAnnotationOnBean(name, PluginService.class);
-        assert pluginService != null;
-        final Class<?> annotationType = pluginService.type();
-        final Class<?> type;
-        if (Void.class.equals(annotationType) || !annotationType.isInstance(bean)) {
-            type = bean.getClass();
-        } else {
-            type = annotationType;
-        }
-        return new VersionedService(type,bean, Version.with(pluginService.version()));
+    private @NonNull Stream<VersionedService> toVersionedService(@NonNull String name) {
+        return getPluginServices(name)
+                .map(ps -> {
+                    final Object bean = applicationContext.getBean(name);
+                    final Class<?> annotationType = ps.type();
+                    final Class<?> type;
+                    if (Void.class.equals(annotationType) || !annotationType.isInstance(bean)) {
+                        type = bean.getClass();
+                    } else {
+                        type = annotationType;
+                    }
+                    return new VersionedService(type, bean, Version.with(ps.version()));
+                });
+    }
+
+    private @NonNull Stream<PluginService> getPluginServices(@NonNull String beanName) {
+        return Stream.concat(
+                Stream.of(applicationContext.findAnnotationOnBean(beanName, PluginService.class)),
+                Optional.ofNullable(applicationContext.findAnnotationOnBean(beanName, PluginServices.class))
+                        .stream()
+                        .map(PluginServices::value)
+                        .flatMap(Stream::of)
+        ).filter(Objects::nonNull);
     }
 
 
