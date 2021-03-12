@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface BotService {
 
+    String VERSION = "1.0.0";
+
     /**
      * @param login the login of a user
      * @return the list of bots of the user

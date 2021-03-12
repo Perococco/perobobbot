@@ -8,6 +8,8 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.messaging.MessageChannel;
 import perobobbot.lang.GatewayChannels;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.StandardInputProvider;
 import perobobbot.lang.StandardInputReader;
 
 import java.util.concurrent.ExecutorService;
@@ -37,6 +39,7 @@ public class MessagingConfiguration {
     }
 
     @Bean(destroyMethod = "requestStop", initMethod = "start")
+    @PluginService(type = StandardInputProvider.class, version = StandardInputProvider.VERSION)
     public @NonNull StandardInputReader standardInputReader() {
         return new StandardInputReader();
     }

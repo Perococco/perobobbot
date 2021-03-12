@@ -1,6 +1,6 @@
 package perobobbot.server.plugin;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -9,5 +9,5 @@ import lombok.RequiredArgsConstructor;
 public class Bom {
 
     @Getter
-    private final @NonNull ImmutableList<Dependency> dependencies;
+    private final @NonNull ImmutableSet<Dependency> dependencies;
 }

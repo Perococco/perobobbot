@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import perobobbot.overlay.api.FrameRate;
 import perobobbot.overlay.api.Overlay;
 import perobobbot.overlay.api.OverlayController;
-import perobobbot.plugin.PluginService;
+import perobobbot.lang.PluginService;
 import perobobbot.rendering.ScreenSize;
 import perobobbot.sound.SoundManager;
 import perobobbot.sound.SoundResolver;

@@ -1,12 +1,18 @@
 package perobobbot.plugin;
 
+import com.google.common.collect.ImmutableList;
+import lombok.NonNull;
 import lombok.Value;
 
 @Value
 public class ResourceLocation {
 
-    String[] pathPattern;
+    public static @NonNull ResourceLocation with(@NonNull String pathPattern, @NonNull String location) {
+        return new ResourceLocation(ImmutableList.of(pathPattern),ImmutableList.of(location));
+    }
 
-    String[] locations;
+    ImmutableList<String> pathPatterns;
+
+    ImmutableList<String> locations;
 
 }

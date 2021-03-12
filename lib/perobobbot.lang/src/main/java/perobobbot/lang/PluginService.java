@@ -1,4 +1,4 @@
-package perobobbot.plugin;
+package perobobbot.lang;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

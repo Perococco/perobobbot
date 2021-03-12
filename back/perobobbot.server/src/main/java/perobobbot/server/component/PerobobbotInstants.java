@@ -3,7 +3,7 @@ package perobobbot.server.component;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.Instants;
-import perobobbot.plugin.PluginService;
+import perobobbot.lang.PluginService;
 
 import java.time.Instant;
 

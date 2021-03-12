@@ -64,6 +64,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             createOutputPath();
             initializeDirectories();
             createProjectDirectory();
+            putLombokConfigFile();
             putPomFile();
             putGitIgnoreFile();
             putAssemblyFile();
@@ -106,6 +107,11 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private void createProjectDirectory() throws IOException {
             Files.createDirectory(projectDirectory);
         }
+
+        private void putLombokConfigFile() throws IOException {
+            putFile(projectDirectory.resolve("lombok.config"),SimpleTemplateGenerator.class.getResource("/template/lombok.config"));
+        }
+
 
         private void putPomFile() throws IOException {
             putFile(this.projectDirectory.resolve("pom.xml"),"template/pom.xml.vm");

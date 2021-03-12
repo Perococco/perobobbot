@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 public class PluginInfo {
 
@@ -24,6 +27,18 @@ public class PluginInfo {
 
     public @NonNull String getApplicationVersion() {
         return applicationVersion.toString();
+    }
+
+    public @NonNull Set<String> getServiceModuleNames() {
+        return services.stream()
+                       .map(ServiceWrapper::getModuleName)
+                       .collect(Collectors.toSet());
+    }
+
+    public @NonNull Set<String> getServiceArtifactIds() {
+        return services.stream()
+                       .map(ServiceWrapper::getArtifactId)
+                       .collect(Collectors.toSet());
     }
 
     @RequiredArgsConstructor

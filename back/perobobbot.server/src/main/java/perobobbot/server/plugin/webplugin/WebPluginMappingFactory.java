@@ -1,22 +1,32 @@
 package perobobbot.server.plugin.webplugin;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.handler.AbstractHandlerMapping;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.web.servlet.mvc.ParameterizableViewController;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
+import org.springframework.web.servlet.resource.ResourceResolver;
+import org.springframework.web.servlet.resource.ResourceResolverChain;
+import org.springframework.web.util.UrlPathHelper;
+import perobobbot.lang.ImmutableEntry;
+import perobobbot.lang.MapTool;
+import perobobbot.plugin.ResourceLocation;
+import perobobbot.plugin.ViewInfo;
 import perobobbot.plugin.WebPlugin;
 
 import javax.servlet.ServletContext;
-import java.util.Objects;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
 @RequiredArgsConstructor
 public class WebPluginMappingFactory {
 
@@ -24,49 +34,60 @@ public class WebPluginMappingFactory {
 
     private final @NonNull ServletContext servletContext;
 
-    public @NonNull ImmutableList<HandlerMapping> createHandlerMappings(@NonNull WebPlugin webPlugin) {
-        final var vcRegistry = new MyViewControllerRegistry(applicationContext);
-        final var rhRegistry = new MyResourceHandlerRegistry(applicationContext, servletContext);
+    private final @NonNull UrlPathHelper urlPathHelper;
 
-        webPlugin.getViewInformation().forEach(
-                vi -> vcRegistry.addViewController(vi.getUrlPathOrPattern()).setViewName(vi.getViewName()));
-        webPlugin.getResourceLocations().forEach(
-                rl -> rhRegistry.addResourceHandler(rl.getPathPattern()).addResourceLocations(rl.getLocations()));
+    private final @NonNull UUID pluginId;
 
+    private final @NonNull WebPlugin webPlugin;
 
-        return Stream.of(vcRegistry.buildHandlerMapping(), rhRegistry.getHandlerMapping())
-                     .filter(Objects::nonNull)
-                     .collect(ImmutableList.toImmutableList());
+    public @NonNull ImmutableMap<String, Object> createHandlerMappings() {
+        return Stream.concat(
+                webPlugin.getResourceLocations()
+                         .stream()
+                         .flatMap(this::createMapping),
+                webPlugin.getViewInformation()
+                         .stream()
+                         .map(this::createMapping)
+        ).collect(MapTool.entryCollector());
     }
 
-    private static class MyViewControllerRegistry extends ViewControllerRegistry {
+    private ImmutableEntry<String, Object> createMapping(@NonNull ViewInfo vi) {
+        final var controller = new ParameterizableViewController();
+        controller.setApplicationContext(this.applicationContext);
+        controller.setServletContext(this.servletContext);
+        controller.setViewName(vi.getViewName());
+        return ImmutableEntry.of(vi.getUrlPathOrPattern(), controller);
+    }
 
-        /**
-         * Class constructor with {@link ApplicationContext}.
-         *
-         * @param applicationContext
-         * @since 4.3.12
-         */
-        public MyViewControllerRegistry(ApplicationContext applicationContext) {
-            super(applicationContext);
+    private Stream<ImmutableEntry<String, Object>> createMapping(ResourceLocation rl) {
+        try {
+            final var locations = rl.getLocations()
+                                    .stream()
+                                    .map(PluginProtocolResolver.pluginLocationMapper(pluginId))
+                                    .collect(Collectors.toList());
+
+            ResourceHttpRequestHandler handler = new MyResourceHandler();
+            handler.setApplicationContext(applicationContext);
+            handler.setServletContext(servletContext);
+            handler.setUrlPathHelper(urlPathHelper);
+            handler.setLocationValues(locations);
+            handler.afterPropertiesSet();
+            return rl.getPathPatterns().stream().map(p -> ImmutableEntry.of(p, handler));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
 
+    private Object formPluginLocation(String s) {
+        return "plugin{" + pluginId.toString() + "}:" + s;
+    }
+
+
+    public static class MyResourceHandler extends ResourceHttpRequestHandler {
         @Override
-        public SimpleUrlHandlerMapping buildHandlerMapping() {
-            return super.buildHandlerMapping();
+        public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            super.handleRequest(request, response);
         }
     }
 
-
-    private static class MyResourceHandlerRegistry extends ResourceHandlerRegistry {
-
-        public MyResourceHandlerRegistry(ApplicationContext applicationContext, ServletContext servletContext) {
-            super(applicationContext, servletContext);
-        }
-
-        @Override
-        public AbstractHandlerMapping getHandlerMapping() {
-            return super.getHandlerMapping();
-        }
-    }
 }

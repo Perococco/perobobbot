@@ -8,8 +8,8 @@ module ${plugin.moduleName} {
     requires jplugman.api;
     requires com.google.common;
 
-    #foreach($service in ${plugin.services})
-    requires ${service.moduleName};
+    #foreach($moduleName in ${plugin.serviceModuleNames})
+    requires ${moduleName};
     #end
 
     provides Plugin with MyPlugin;

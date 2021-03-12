@@ -1,6 +1,7 @@
 package perobobbot.server.plugin;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashSet;
 
 @RequiredArgsConstructor
 public class BomReader {
@@ -23,7 +25,7 @@ public class BomReader {
     private final @NonNull URL dependencyList;
 
     private @NonNull Bom _read() throws IOException {
-        final var builder = ImmutableList.<Dependency>builder();
+        final var dependencies = new HashSet<Dependency>();
         try (var is = new BufferedReader(new InputStreamReader(dependencyList.openStream()))) {
             String line = null;
             while((line = is.readLine())!=null) {
@@ -34,9 +36,9 @@ public class BomReader {
                 if (tokens.length<5) {
                     continue;
                 }
-                builder.add(new Dependency(tokens[0],tokens[1],tokens[3]));
+                dependencies.add(new Dependency(tokens[0],tokens[1],tokens[3]));
             }
         }
-        return new Bom(builder.build());
+        return new Bom(ImmutableSet.copyOf(dependencies));
     }
 }

@@ -3,6 +3,7 @@ package perobobbot.server.plugin;
 import com.google.common.collect.ImmutableList;
 import jplugman.api.*;
 import jplugman.manager.PluginManager;
+import jplugman.tools.FolderListener;
 import jplugman.tools.FolderWatcher;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.extension.ExtensionManager;
-import perobobbot.plugin.PluginService;
+import perobobbot.lang.PluginService;
 import perobobbot.server.config.io.ChatPlatformPluginManager;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.template.SimpleTemplateGenerator;
@@ -42,7 +43,10 @@ public class PluginConfiguration {
     @Bean(destroyMethod = "stop")
     public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException {
         final FolderWatcher folderWatcher = FolderWatcher.create(Path.of(appDir).resolve("plugins"));
-        folderWatcher.addListener(new FolderListenerLogger(new PluginFolderListener(MessageDigest.getInstance("MD5"), pluginManager())));
+        final FolderListener pluginListener = new PluginFolderListener(pluginManager());
+
+
+        folderWatcher.addListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), new FolderListenerLogger(pluginListener)));
         folderWatcher.start();
         return folderWatcher;
     }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MutableIO;
-import perobobbot.plugin.PluginService;
+import perobobbot.lang.PluginService;
 import perobobbot.server.component.MessageGateway;
 
 @RequiredArgsConstructor

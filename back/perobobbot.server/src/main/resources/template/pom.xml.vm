@@ -39,10 +39,10 @@
             <artifactId>jplugman-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        #foreach($service in ${plugin.services})
+        #foreach($artifactId in ${plugin.serviceArtifactIds})
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>${service.artifactId}</artifactId>
+                <artifactId>${artifactId}</artifactId>
                 <scope>provided</scope>
             </dependency>
         #end
