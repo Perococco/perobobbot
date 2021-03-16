@@ -52,9 +52,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private final @NonNull String artifactId;
 
         private Path outputPath;
-        private Path projectDirectory;
-        private Path javaSrcDirectory;
-        private Path packageDirectory;
+        private ImmutableList<String> structure;
 
         private VelocityContext context;
 
@@ -62,90 +60,80 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             init();
             createContext();
             createOutputPath();
-            initializeDirectories();
-            createProjectDirectory();
-            putLombokConfigFile();
-            putPomFile();
-            putGitIgnoreFile();
-            putAssemblyFile();
-            createJavaSrcDirectory();
-            putModuleInfo();
-            createPackageDirectory();
+            readStructureFile();
 
-            putVersionsClass();
-            putMyPluginClass();
+            structure.forEach(this::performCopy);
 
             return outputPath;
         }
 
-        private void putVersionsClass() throws IOException {
-            putFile(packageDirectory.resolve("Versions.java"),"template/Versions.java.vm");
-        }
-
-        private void putMyPluginClass() throws IOException {
-            putFile(packageDirectory.resolve("MyPlugin.java"),"/template/MyPlugin.java.vm");
-        }
-
-        private void createPackageDirectory() throws IOException {
-            Files.createDirectories(this.packageDirectory);
-        }
-
-        private void initializeDirectories() {
-            this.projectDirectory = outputPath.resolve(artifactId);
-            this.javaSrcDirectory = this.projectDirectory.resolve("src").resolve("main").resolve("java");
-            Path acc = javaSrcDirectory;
-            for (String s : groupId.split("\\.")) {
-                acc = acc.resolve(s);
+        private void performCopy(String fileTemplate) {
+            try {
+                final var result = prepareTarget(fileTemplate);
+                final var path = createPath(result);
+                if (fileTemplate.endsWith(".vm")) {
+                    putFile(path, "/template/" + fileTemplate);
+                } else {
+                    putFile(path, SimpleTemplateGenerator.class.getResource("/template/" + fileTemplate));
+                }
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
-            this.packageDirectory = acc;
+        }
+
+        private @NonNull Path createPath(String pathAsString) {
+            Path result = this.outputPath.resolve(artifactId);
+            String[] tokens = pathAsString.split("/");
+            for (String token : tokens) {
+                result = result.resolve(token);
+            }
+            return result;
+        }
+
+        private @NonNull String prepareTarget(@NonNull String fileTemplate) {
+            String result = fileTemplate;
+            if (fileTemplate.endsWith(".vm")) {
+                result = fileTemplate.substring(0,fileTemplate.length()-".vm".length());
+            }
+            if (result.contains("groupId")) {
+                result = result.replaceAll("groupId",this.groupId.replaceAll("\\.","/"));
+            }
+            return result;
+        }
+
+        private void readStructureFile() throws IOException {
+            final var builder = ImmutableList.<String>builder();
+            try (BufferedReader is = new BufferedReader(new InputStreamReader(SimpleTemplateGenerator.class.getResourceAsStream("/template/structure.txt")))){
+                String line;
+                while((line = is.readLine()) != null) {
+                    builder.add(line);
+                }
+            }
+            this.structure = builder.build();
+
         }
 
         private void createOutputPath() throws IOException {
             this.outputPath = Files.createTempDirectory("perobobbot_plugin");
         }
 
-        private void createProjectDirectory() throws IOException {
-            Files.createDirectory(projectDirectory);
+        private void prepareParent(@NonNull Path path) throws IOException {
+            final var parent = path.getParent();
+            if (Files.isDirectory(parent)) {
+                return;
+            }
+            Files.createDirectories(parent);
         }
-
-        private void putLombokConfigFile() throws IOException {
-            putFile(projectDirectory.resolve("lombok.config"),SimpleTemplateGenerator.class.getResource("/template/lombok.config"));
-        }
-
-
-        private void putPomFile() throws IOException {
-            putFile(this.projectDirectory.resolve("pom.xml"),"template/pom.xml.vm");
-        }
-
-        private void putAssemblyFile() throws IOException {
-            final var assemblyPath = projectDirectory.resolve("src").resolve("main").resolve("assembly");
-            Files.createDirectories(assemblyPath);
-            putFile(assemblyPath.resolve("tozip.xml"),SimpleTemplateGenerator.class.getResource("/template/tozip.xml"));
-        }
-
-
-        private void putGitIgnoreFile() throws IOException {
-            putFile(this.projectDirectory.resolve(".gitignore"),  SimpleTemplateGenerator.class.getResource("/template/.gitignore"));
-        }
-
-        private void createJavaSrcDirectory() throws IOException {
-            Files.createDirectories(javaSrcDirectory);
-        }
-
-        private void putModuleInfo() throws IOException {
-            putFile(javaSrcDirectory.resolve("module-info.java"),"template/module-info.java.vm");
-        }
-
-
-
 
         private void putFile(@NonNull Path path, @NonNull URL source) throws IOException {
+            this.prepareParent(path);
             try (InputStream is = source.openStream()) {
                 Files.copy(is,path);
             }
         }
 
         private void putFile(@NonNull Path path, @NonNull String templateName) throws IOException {
+            this.prepareParent(path);
             try(BufferedWriter write = Files.newBufferedWriter(path)) {
                 output(templateName, context, write);
             }

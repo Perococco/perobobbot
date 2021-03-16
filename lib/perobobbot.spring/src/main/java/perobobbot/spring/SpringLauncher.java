@@ -15,6 +15,7 @@ import perobobbot.lang.Packages;
 import perobobbot.lang.fp.Predicate1;
 
 import java.awt.*;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -80,8 +81,18 @@ public class SpringLauncher {
         }
 
         private void setupConfigDirectory() {
-            System.setProperty("config.dir", OSInfo.INSTANCE.getConfigDirectory());
-            System.setProperty("app.config.dir", OSInfo.INSTANCE.getAppConfigDirectory(applicationName));
+            final var configDirectory = OSInfo.INSTANCE.getConfigDirectory();
+            final var appConfigDirectory = OSInfo.INSTANCE.getAppConfigDirectory(applicationName);
+            setSystemProperty("config.dir", configDirectory);
+            setSystemProperty("app.config.dir", appConfigDirectory);
+            setSystemProperty("app.plugin.dir", Path.of(appConfigDirectory).resolve("plugin").toAbsolutePath().toString());
+        }
+
+        private void setSystemProperty(String propertyName, String value) {
+            final var existing = System.getProperty(propertyName);
+            if (existing == null) {
+                System.setProperty(propertyName,value);
+            }
         }
 
         private void loadAllPlugins() {

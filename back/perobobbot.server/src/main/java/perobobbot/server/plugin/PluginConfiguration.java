@@ -20,6 +20,7 @@ import perobobbot.server.plugin.template.SimpleTemplateGenerator;
 import perobobbot.server.plugin.webplugin.WebPluginManager;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -35,8 +36,8 @@ public class PluginConfiguration {
     @Value("${application.version}")
     private final String rawVersion;
 
-    @Value("${app.config.dir}")
-    private final String appDir;
+    @Value("${app.plugin.dir}")
+    private final Path pluginDir;
 
     private final @NonNull ApplicationContext applicationContext;
 
@@ -45,8 +46,9 @@ public class PluginConfiguration {
     private final @NonNull WebPluginManager webPluginManager;
 
     @Bean(destroyMethod = "stop")
-    public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException {
-        final FolderWatcher folderWatcher = FolderWatcher.create(Path.of(appDir).resolve("plugins"));
+    public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException, IOException {
+        Files.createDirectories(pluginDir.toAbsolutePath());
+        final FolderWatcher folderWatcher = FolderWatcher.create(pluginDir.toAbsolutePath());
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());
 
 

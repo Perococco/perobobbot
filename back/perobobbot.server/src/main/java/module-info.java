@@ -72,6 +72,10 @@ module perobobbot.server {
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
 
     opens template;
+    opens template.parent;
+    opens template.src.main.assembly;
+    opens template.src.main.java;
+    opens template.src.main.java.groupId;
 
     requires net.bytebuddy;
     requires spring.beans;

@@ -79,7 +79,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <outputDirectory>./target/toto</outputDirectory>
+                            <outputDirectory>./target/build</outputDirectory>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>assembly/tozip.xml</descriptors>
                         </configuration>
@@ -126,9 +126,7 @@
                                     <fileset dir="${packaging.directory}/resources"/>
                                 </copy>
                                 <copy toDir="${project.build.directory}/lib">
-                                    <fileset dir="${packaging.directory}/dependencies">
-                                        <exclude name="**/perobobbot-ext-*"/>
-                                    </fileset>
+                                    <fileset dir="${packaging.directory}/dependencies"/>
                                 </copy>
                                 <chmod file="${project.build.directory}/launcher.sh" perm="u+rx"/>
                             </target>
@@ -146,7 +144,7 @@
                                     <tarfileset dir="${project.build.directory}" filemode="700" prefix="${versioned-application.name}">
                                         <include name="launcher.sh"/>
                                     </tarfileset>
-                                    <tarfileset dir="${project.build.directory}/extensions" prefix="${versioned-application.name}/extensions"/>
+                                    <tarfileset dir="${project.build.directory}/plugins" prefix="${versioned-application.name}/plugins"/>
                                     <tarfileset dir="${project.build.directory}/lib" prefix="${versioned-application.name}/lib"/>
                                     <tarfileset dir="${project.build.directory}/options" prefix="${versioned-application.name}/options"/>
                                 </tar>
