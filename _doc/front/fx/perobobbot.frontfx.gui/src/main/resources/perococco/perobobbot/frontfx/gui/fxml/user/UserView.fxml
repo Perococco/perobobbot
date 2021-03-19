@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane styleClass="user-view" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="perococco.perobobbot.frontfx.gui.fxml.user.UserViewController">
+    <center>
+        <ListView fx:id="userList" styleClass="user-list"/>
+    </center>
+</BorderPane>
