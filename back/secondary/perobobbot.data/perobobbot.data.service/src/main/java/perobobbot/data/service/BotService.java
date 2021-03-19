@@ -2,7 +2,9 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
+import perobobbot.data.com.JoinedChannel;
 import perobobbot.lang.Bot;
+import perobobbot.lang.Platform;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +41,6 @@ public interface BotService {
      */
     @NonNull Optional<Bot> findBot(@NonNull UUID botId);
 
-
     /**
      * @param login the login of the user
      * @return all the bots for the user with the given login
@@ -47,4 +48,9 @@ public interface BotService {
     @NonNull ImmutableList<Bot> listBots(@NonNull String login);
 
     void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
+
+    void saveChannelConnection(@NonNull UUID botId, @NonNull Platform platform, @NonNull String channelName);
+
+    @NonNull ImmutableList<JoinedChannel> findConnections(@NonNull Platform platform);
+
 }

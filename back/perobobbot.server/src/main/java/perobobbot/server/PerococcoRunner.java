@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Component
 @Log4j2
 @RequiredArgsConstructor
 public class PerococcoRunner implements ApplicationRunner {
@@ -56,7 +55,7 @@ public class PerococcoRunner implements ApplicationRunner {
 
     private void performConnection(@NonNull Bot bot) {
         io.findPlatform(Platform.LOCAL)
-          .ifPresent(p -> p.connect(bot));
+          .ifPresent(p -> p.connect(bot).thenCompose(c -> c.join("local")));
 
         io.findPlatform(Platform.TWITCH)
           .ifPresent(p -> p.connect(bot)
