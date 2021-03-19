@@ -85,7 +85,7 @@ public class SpringLauncher {
             final var appConfigDirectory = OSInfo.INSTANCE.getAppConfigDirectory(applicationName);
             setSystemProperty("config.dir", configDirectory);
             setSystemProperty("app.config.dir", appConfigDirectory);
-            setSystemProperty("app.plugin.dir", Path.of(appConfigDirectory).resolve("plugin").toAbsolutePath().toString());
+            setSystemProperty("app.plugin.dir", Path.of(appConfigDirectory).resolve("plugins").toAbsolutePath().toString());
         }
 
         private void setSystemProperty(String propertyName, String value) {
