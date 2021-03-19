@@ -4,6 +4,8 @@ import lombok.NonNull;
 
 public interface MessageDispatcher {
 
+    String VERSION = "1.0.0";
+
     @NonNull Subscription addPreprocessor(@NonNull MessagePreprocessor messagePreprocessor);
 
     /**

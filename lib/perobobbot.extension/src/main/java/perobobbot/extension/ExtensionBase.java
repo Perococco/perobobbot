@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import perobobbot.plugin.Extension;
 
 @RequiredArgsConstructor
 public abstract class ExtensionBase implements Extension {

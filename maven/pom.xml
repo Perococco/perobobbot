@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>perococco.bot</groupId>
+    <groupId>perobobbot</groupId>
     <artifactId>perobobbot-maven</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -37,6 +37,8 @@
 
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
+        <velocity.version>2.3</velocity.version>
+        <jplugman.version>1.0.3</jplugman.version>
 
     </properties>
 
@@ -57,8 +59,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -100,295 +100,323 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${junit-jupiter.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-i18n</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-validation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-backend-i18n</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-lang</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-timeline</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-poll</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-action</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-state</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-http</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-physics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-command</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-sound</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-fx</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-fxspring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rest-com</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rest-controller</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-security-com</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-security-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-irc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-access</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-chat-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-chat-advanced</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-chat-websocket</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rendering</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-overlay-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-overlay-newtek</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-persistence</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-com</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-event</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-extension</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-frontfx-gui</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-twitch-chat</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-localio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-greeter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-dvdlogo</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-puckwar</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
-                <artifactId>perobobbot-ext-echo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-benchmark</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-connect4</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-pause</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-play</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-chatpoll</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-bank</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-dungeon</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-ext-sandbox</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-front-svelte</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rest-client-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rest-client-template</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
-                <groupId>perococco.bot</groupId>
+                <groupId>jplugman</groupId>
+                <artifactId>jplugman-api</artifactId>
+                <version>${jplugman.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jplugman</groupId>
+                <artifactId>jplugman-loader</artifactId>
+                <version>${jplugman.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jplugman</groupId>
+                <artifactId>jplugman-tools</artifactId>
+                <version>${jplugman.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jplugman</groupId>
+                <artifactId>jplugman-manager</artifactId>
+                <version>${jplugman.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-server</artifactId>
                 <version>${project.version}</version>
             </dependency>

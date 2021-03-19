@@ -3,14 +3,10 @@ package perococco.perobobbot.chat.core;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.ChatPlatform;
-import perobobbot.chat.core.DispatchSlip;
-import perobobbot.chat.core.DisposableIO;
-import perobobbot.chat.core.UnknownChatPlatform;
-import perobobbot.lang.ChatConnectionInfo;
-import perobobbot.lang.DispatchContext;
-import perobobbot.lang.Platform;
+import perobobbot.chat.core.*;
+import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 
 import java.util.Optional;
@@ -19,10 +15,10 @@ import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
 @Log4j2
-public class WithMapIO implements DisposableIO {
+public class WithMapIO implements MutableIO {
 
     @NonNull
-    private final ImmutableMap<Platform, ChatPlatform> ioByPlatform;
+    private ImmutableMap<Platform, ChatPlatform> ioByPlatform = ImmutableMap.of();
 
     @Override
     public void dispose() {
@@ -58,4 +54,21 @@ public class WithMapIO implements DisposableIO {
         return Optional.ofNullable(ioByPlatform.get(platform));
     }
 
+    @Override
+    @Synchronized
+    public @NonNull Optional<Subscription> addPlatform(@NonNull ChatPlatform chatPlatform) {
+        var platform = chatPlatform.getPlatform();
+        if (this.ioByPlatform.containsKey(platform)) {
+            LOG.warn("A chat platform for '{}' is available already",platform);
+            return Optional.empty();
+        } else {
+            this.ioByPlatform = MapTool.add(this.ioByPlatform,platform,chatPlatform);
+            return Optional.of(() -> removePlatform(platform));
+        }
+    }
+
+    @Synchronized
+    private void removePlatform(@NonNull Platform platform) {
+        this.ioByPlatform = MapTool.remove(this.ioByPlatform,platform);
+    }
 }

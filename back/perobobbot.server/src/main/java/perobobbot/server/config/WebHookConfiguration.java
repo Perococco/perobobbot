@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import perobobbot.http.WebHookDispatcher;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.server.config.externaluri.ExternalURI;

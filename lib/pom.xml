@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>perococco.bot</groupId>
+        <groupId>perobobbot</groupId>
         <artifactId>perobobbot-maven</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../maven/pom.xml</relativePath>
@@ -26,6 +26,7 @@
         <module>perobobbot.timeline</module>
         <module>perobobbot.sound</module>
         <module>perobobbot.poll</module>
+        <module>perobobbot.plugin</module>
         <module>perobobbot.access</module>
         <module>perobobbot.irc</module>
         <module>perobobbot.messaging</module>
@@ -45,8 +46,8 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>twitch/perobobbot.twitch.chat</module>
-        <module>twitch/perobobbot.twitch.oauth</module>
+<!--        <module>twitch/perobobbot.twitch.chat</module>-->
+<!--        <module>twitch/perobobbot.twitch.oauth</module>-->
 
         <module>overlay/perobobbot.overlay.api</module>
         <module>overlay/perobobbot.overlay.newtek</module>

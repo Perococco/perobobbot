@@ -8,11 +8,15 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.messaging.MessageChannel;
 import perobobbot.lang.GatewayChannels;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.StandardInputProvider;
 import perobobbot.lang.StandardInputReader;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+//TODO move to a more adapted package
 @Configuration
 @EnableIntegration
 public class MessagingConfiguration {
@@ -31,11 +35,11 @@ public class MessagingConfiguration {
 
     @Bean(GatewayChannels.EVENT_MESSAGES)
     public MessageChannel eventChannel() {
-        final PublishSubscribeChannel channel = new PublishSubscribeChannel(messagingExecutor());
-        return channel;
+        return new PublishSubscribeChannel(messagingExecutor());
     }
 
     @Bean(destroyMethod = "requestStop", initMethod = "start")
+    @PluginService(type = StandardInputProvider.class, version = StandardInputProvider.VERSION)
     public @NonNull StandardInputReader standardInputReader() {
         return new StandardInputReader();
     }

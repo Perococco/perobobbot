@@ -70,4 +70,8 @@ public class BotEntity extends BotEntityBase {
                   .credentials(getCredentialsAsMap())
                   .build();
     }
+
+    public @NonNull JoinedChannelEntity createJoinedChannel(@NonNull Platform platform, @NonNull String channelName) {
+        return new JoinedChannelEntity(this,platform,channelName);
+    }
 }

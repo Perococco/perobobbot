@@ -40,6 +40,7 @@
         <Logger name="org.springframework.boot.autoconfigure" level="off"/>
 
         <!-- LOG "com.baeldung*" at TRACE level -->
+        <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
         <Logger name="perobobbot.spring.SpringLauncher" level="info"/>
         <Logger name="web" level="warn"/>
         <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>

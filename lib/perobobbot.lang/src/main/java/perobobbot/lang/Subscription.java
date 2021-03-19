@@ -19,6 +19,13 @@ public interface Subscription {
     void unsubscribe();
 
 
+    default @NonNull Subscription and(@NonNull Subscription other) {
+        return () -> {
+            this.unsubscribe();
+            other.unsubscribe();
+        };
+    }
+
     @NonNull
     static Subscription multi(@NonNull Subscription... subscriptions) {
         return multi(ImmutableList.copyOf(subscriptions));

@@ -1,5 +1,4 @@
 module perobobbot.fxspring {
-    uses perobobbot.lang.Plugin;
     requires static lombok;
     requires java.desktop;
     requires javafx.graphics;

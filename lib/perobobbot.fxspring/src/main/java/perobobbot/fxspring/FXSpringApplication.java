@@ -10,7 +10,7 @@ import org.springframework.boot.Banner;
 import org.springframework.context.ApplicationContextInitializer;
 import perobobbot.fx.FXProperties;
 import perobobbot.lang.ApplicationCloser;
-import perobobbot.lang.Plugin;
+import perobobbot.lang.Packages;
 import perobobbot.lang.fp.TryResult;
 import perobobbot.spring.AddSingletonToApplicationContext;
 import perobobbot.spring.SpringLauncher;
@@ -47,7 +47,7 @@ public abstract class FXSpringApplication extends Application {
     }
 
     @NonNull
-    protected boolean shouldUsePlugin(@NonNull Plugin plugins) {
+    protected boolean shouldUsePlugin(@NonNull Packages plugins) {
         return true;
     }
 

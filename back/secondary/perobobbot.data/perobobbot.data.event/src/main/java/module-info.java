@@ -1,5 +1,5 @@
 import perobobbot.data.event.DataEventConfiguration;
-import perobobbot.lang.Plugin;
+import perobobbot.lang.Packages;
 
 module perobobbot.data.event {
     requires static lombok;
@@ -17,5 +17,5 @@ module perobobbot.data.event {
 
     exports perobobbot.data.event;
     exports perobobbot.data.event.service;
-    provides Plugin with DataEventConfiguration;
+    provides Packages with DataEventConfiguration;
 }

@@ -1,0 +1,8 @@
+src/main/assembly/tozip.xml
+parent/pom.xml.vm
+src/main/java/module-info.java.vm
+src/main/java/groupId/Versions.java.vm
+src/main/java/groupId/MyPlugin.java.vm
+lombok.config
+.gitignore
+pom.xml.vm

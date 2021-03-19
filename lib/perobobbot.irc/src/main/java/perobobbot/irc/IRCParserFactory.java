@@ -15,10 +15,12 @@ public abstract class IRCParserFactory {
 
     @NonNull
     static IRCParserFactory getInstance() {
-        return Holder.INSTANCE;
+        return ServiceLoaderHelper.getService(ServiceLoader.load(IRCParserFactory.class));
     }
 
-    private static class Holder {
-        private static final IRCParserFactory INSTANCE = ServiceLoaderHelper.getService(ServiceLoader.load(IRCParserFactory.class));
+    @NonNull
+    static IRCParserFactory getInstance(@NonNull ModuleLayer moduleLayer) {
+        return ServiceLoaderHelper.getService(ServiceLoader.load(moduleLayer, IRCParserFactory.class));
     }
+
 }

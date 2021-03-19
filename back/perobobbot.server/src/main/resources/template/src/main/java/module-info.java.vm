@@ -1,0 +1,16 @@
+#* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
+import jplugman.api.Plugin;
+import ${plugin.packageName}.MyPlugin;
+
+module ${plugin.moduleName} {
+    requires static lombok;
+
+    requires jplugman.api;
+    requires com.google.common;
+
+    #foreach($moduleName in ${plugin.serviceModuleNames})
+    requires ${moduleName};
+    #end
+
+    provides Plugin with MyPlugin;
+}

@@ -1,5 +1,5 @@
 import perobobbot.data.security.DataSecurityConfiguration;
-import perobobbot.lang.Plugin;
+import perobobbot.lang.Packages;
 
 module perobobbot.data.security {
     requires static lombok;
@@ -18,5 +18,5 @@ module perobobbot.data.security {
 
     exports perobobbot.data.security.service;
 
-    provides Plugin with DataSecurityConfiguration;
+    provides Packages with DataSecurityConfiguration;
 }
