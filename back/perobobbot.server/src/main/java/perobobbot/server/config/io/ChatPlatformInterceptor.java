@@ -9,17 +9,23 @@ import perobobbot.lang.Bot;
 
 import java.util.concurrent.CompletionStage;
 
-public class ChatPlatformInterceptor extends ProxyChatPlatform {
+public class ChatPlatformInterceptor {
 
-    private final @NonNull BotService botService;
+    private final @NonNull ChatConnectionInterceptor interceptor;
 
-    public ChatPlatformInterceptor(@NonNull ChatPlatform delegate, @NonNull BotService botService) {
-        super(delegate);
-        this.botService = botService;
+    public ChatPlatformInterceptor(@NonNull BotService botService) {
+        this.interceptor = new ChatConnectionInterceptor(botService);
     }
 
-    @Override
-    public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
-        return super.connect(bot).thenApply(c -> new ChatConnectionInterceptor(c,botService));
+    public @NonNull ChatPlatform intercept(@NonNull ChatPlatform chatPlatform) {
+
+        return new ProxyChatPlatform(chatPlatform) {
+            @Override
+            public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot) {
+                return super.connect(bot).thenApply(interceptor::intercept);
+            }
+        };
     }
+
+
 }

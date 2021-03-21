@@ -26,12 +26,24 @@ public class ChatPlatformPluginManager {
 
     private final @NonNull BotService botService;
 
+    private final @NonNull ChatPlatformInterceptor chatPlatformInterceptor;
+
+    public ChatPlatformPluginManager(@NonNull MutableIO mutableIO,
+                                     @NonNull MessageGateway messageGateway,
+                                     @NonNull BotService botService) {
+        this.io = mutableIO;
+        this.messageGateway = messageGateway;
+        this.botService = botService;
+        this.chatPlatformInterceptor = new ChatPlatformInterceptor(botService);
+    }
+
     public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPlugin plugin) {
-        final var chatPlatform = new ChatPlatformInterceptor(plugin.getChatPlatform(), botService);
+        final var chatPlatform = chatPlatformInterceptor.intercept(plugin.getChatPlatform());
 
         final var subscriptions = io.addPlatform(chatPlatform)
                                     .map(s -> s.and(
                                             chatPlatform.addMessageListener(messageGateway::sendPlatformMessage)));
+
         Rejoiner.rejoin(botService, chatPlatform);
 
         return subscriptions;

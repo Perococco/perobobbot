@@ -35,6 +35,7 @@
 <!--        logging.level.org.springframework.security=DEBUG-->
 <!--        logging.level.perobobbot.overlay.api.FPSCounter=DEBUG-->
 
+        <Logger name="perobobbot.server.config.io.ChatConnectionInterceptor" level="info"/>
         <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="info"/>
 
         <Logger name="org.springframework.boot.autoconfigure" level="off"/>

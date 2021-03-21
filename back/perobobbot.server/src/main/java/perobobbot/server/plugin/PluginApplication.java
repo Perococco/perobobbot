@@ -72,7 +72,7 @@ public class PluginApplication implements Application {
 
         @Override
         public @NonNull Optional<Subscription> visit(@NonNull WebPlugin webPlugin) {
-            return Optional.ofNullable(webPluginManager.addWebPlugin(webPlugin));
+            return Optional.of(webPluginManager.addWebPlugin(webPlugin));
         }
     }
 
