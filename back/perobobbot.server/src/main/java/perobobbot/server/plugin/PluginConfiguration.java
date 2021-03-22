@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.PluginServices;
@@ -47,14 +48,14 @@ public class PluginConfiguration {
 
     @Bean(destroyMethod = "stop")
     public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException, IOException {
+
         Files.createDirectories(pluginDir.toAbsolutePath());
         final FolderWatcher folderWatcher = FolderWatcher.create(pluginDir.toAbsolutePath());
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());
 
 
         folderWatcher.addListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), pluginListener));
-        folderWatcher.start();
-        return folderWatcher;
+        return new DelayedFolderWatcher(folderWatcher);
     }
 
     @Bean

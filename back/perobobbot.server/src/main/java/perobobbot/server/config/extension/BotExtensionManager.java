@@ -4,11 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.stereotype.Component;
 import perobobbot.data.com.Extension;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.data.service.event.ExtensionEvent;
+import perobobbot.data.com.event.ExtensionEvent;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.GatewayChannels;
 

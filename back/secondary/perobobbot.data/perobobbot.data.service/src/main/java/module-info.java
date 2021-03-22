@@ -12,5 +12,4 @@ open module perobobbot.data.service {
 
     exports perobobbot.data.service;
     exports perobobbot.data.service.proxy;
-    exports perobobbot.data.service.event;
 }

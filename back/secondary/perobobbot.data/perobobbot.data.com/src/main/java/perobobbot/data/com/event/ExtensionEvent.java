@@ -1,4 +1,4 @@
-package perobobbot.data.service.event;
+package perobobbot.data.com.event;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

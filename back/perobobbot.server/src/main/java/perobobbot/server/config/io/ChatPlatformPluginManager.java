@@ -3,13 +3,8 @@ package perobobbot.server.config.io;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.Chat;
-import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.MutableIO;
-import perobobbot.data.com.JoinedChannel;
-import perobobbot.data.service.BotService;
-import perobobbot.data.service.EventService;
-import perobobbot.lang.Platform;
+import perobobbot.data.com.event.ChatPlatformConnected;
 import perobobbot.lang.Subscription;
 import perobobbot.plugin.ChatPlatformPlugin;
 import perobobbot.server.component.MessageGateway;
@@ -24,27 +19,31 @@ public class ChatPlatformPluginManager {
 
     private final @NonNull MessageGateway messageGateway;
 
-    private final @NonNull BotService botService;
-
     private final @NonNull ChatPlatformInterceptor chatPlatformInterceptor;
+
+    private final @NonNull Rejoiner rejoiner;
 
     public ChatPlatformPluginManager(@NonNull MutableIO mutableIO,
                                      @NonNull MessageGateway messageGateway,
-                                     @NonNull BotService botService) {
+                                     @NonNull Rejoiner rejoiner) {
         this.io = mutableIO;
         this.messageGateway = messageGateway;
-        this.botService = botService;
-        this.chatPlatformInterceptor = new ChatPlatformInterceptor(botService);
+        this.rejoiner = rejoiner;
+        this.chatPlatformInterceptor = new ChatPlatformInterceptor(messageGateway);
     }
 
     public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPlugin plugin) {
         final var chatPlatform = chatPlatformInterceptor.intercept(plugin.getChatPlatform());
 
+
+
         final var subscriptions = io.addPlatform(chatPlatform)
                                     .map(s -> s.and(
                                             chatPlatform.addMessageListener(messageGateway::sendPlatformMessage)));
 
-        Rejoiner.rejoin(botService, chatPlatform);
+        messageGateway.sendEvent(new ChatPlatformConnected(chatPlatform.getPlatform()));
+
+        rejoiner.rejoinChannels(chatPlatform.getPlatform());
 
         return subscriptions;
 

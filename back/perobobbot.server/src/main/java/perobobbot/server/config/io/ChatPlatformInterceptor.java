@@ -6,6 +6,7 @@ import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.ProxyChatPlatform;
 import perobobbot.data.service.BotService;
 import perobobbot.lang.Bot;
+import perobobbot.server.component.MessageGateway;
 
 import java.util.concurrent.CompletionStage;
 
@@ -13,8 +14,8 @@ public class ChatPlatformInterceptor {
 
     private final @NonNull ChatConnectionInterceptor interceptor;
 
-    public ChatPlatformInterceptor(@NonNull BotService botService) {
-        this.interceptor = new ChatConnectionInterceptor(botService);
+    public ChatPlatformInterceptor(@NonNull MessageGateway messageGateway) {
+        this.interceptor = new ChatConnectionInterceptor(messageGateway);
     }
 
     public @NonNull ChatPlatform intercept(@NonNull ChatPlatform chatPlatform) {

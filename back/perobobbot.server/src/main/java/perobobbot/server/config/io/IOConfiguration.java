@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.chat.core.DisposableIO;
 import perobobbot.chat.core.IO;
 import perobobbot.chat.core.MutableIO;
-import perobobbot.data.service.BotService;
-import perobobbot.data.service.EventService;
 import perobobbot.lang.PluginService;
 import perobobbot.server.component.MessageGateway;
 
@@ -28,8 +26,10 @@ public class IOConfiguration {
 
 
     @Bean
-    public ChatPlatformPluginManager chatPlatformPluginManager(@NonNull MessageGateway messageGateway, @EventService @NonNull BotService botService) {
-        return new ChatPlatformPluginManager(mutableIO,messageGateway,botService);
+    public ChatPlatformPluginManager chatPlatformPluginManager(
+            @NonNull MessageGateway messageGateway,
+            @NonNull Rejoiner rejoiner) {
+        return new ChatPlatformPluginManager(mutableIO,messageGateway,rejoiner);
     }
 
 }

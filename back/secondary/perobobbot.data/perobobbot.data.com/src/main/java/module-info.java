@@ -10,4 +10,5 @@ module perobobbot.data.com {
     opens perobobbot.data.com to com.fasterxml.jackson.databind, org.hibernate.validator;
 
     exports perobobbot.data.com;
+    exports perobobbot.data.com.event;
 }

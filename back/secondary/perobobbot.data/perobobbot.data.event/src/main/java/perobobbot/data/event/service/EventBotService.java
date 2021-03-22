@@ -16,6 +16,4 @@ public class EventBotService extends ProxyBotService {
     public EventBotService(@NonNull @UnsecuredService BotService delegate) {
         super(delegate);
     }
-
-
 }
