@@ -40,6 +40,7 @@ module perobobbot.server {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
+    requires spring.security.messaging;
     requires spring.security.web;
     requires spring.webflux;
     requires spring.data.jpa;
@@ -47,6 +48,8 @@ module perobobbot.server {
     requires jjwt;
     requires org.flywaydb.core;
     requires java.xml.bind;
+
+
 
     requires jplugman.api;
     requires jplugman.manager;

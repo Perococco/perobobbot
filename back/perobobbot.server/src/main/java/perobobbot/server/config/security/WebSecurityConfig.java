@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,8 +21,8 @@ import perobobbot.security.core.PermissionEvaluatorDispatcher;
 import perobobbot.security.core.TargetedPermissionEvaluator;
 import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.jwt.JWTokenManager;
-import perobobbot.server.config.Orders;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
+import perobobbot.server.config.security.ws.WSAuthenticationFilter;
 
 import java.util.List;
 
@@ -64,18 +63,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable().csrf().disable();
 
         http.addFilterBefore(new JwtAuthenticationFilter(jsonWebTokenService), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new WSAuthenticationFilter(jsonWebTokenService), BasicAuthenticationFilter.class);
         http.cors();
 
         http.authorizeRequests()
-            .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/ws-perobobbot/**").authenticated()
             .antMatchers(HttpMethod.GET,"/api/ping").permitAll()
             .antMatchers(HttpMethod.GET,"/api/plugin/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/dictionaries/**").permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_IN)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()
-            .antMatchers(EndPoints.fullPath("/**"))
-            .authenticated()
+            .antMatchers(EndPoints.fullPath("/**")).authenticated()
             .and()
+            .csrf().disable()
             .exceptionHandling()
             .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
     }
