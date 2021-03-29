@@ -50,7 +50,7 @@ public class WithMapIO implements MutableIO {
     }
 
     @Override
-    public Optional<ChatPlatform> findPlatform(@NonNull Platform platform) {
+    public @NonNull Optional<ChatPlatform> findPlatform(@NonNull Platform platform) {
         return Optional.ofNullable(ioByPlatform.get(platform));
     }
 
