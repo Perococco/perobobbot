@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface SoundResolver {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     static SoundResolver soundFileResolver(@NonNull Path soundDirectory) {
         return new SoundFileResolver(soundDirectory);

@@ -11,6 +11,8 @@ import perobobbot.timeline.PropertyFactory;
  */
 public interface Overlay extends SoundRegistry, PropertyFactory {
 
+    int VERSION = 1;
+
     /**
      * Add a client to this overlay
      * @param client the client to add

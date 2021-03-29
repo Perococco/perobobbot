@@ -1,7 +1,9 @@
 package perobobbot.server.plugin;
 
 import com.google.common.collect.ImmutableList;
-import jplugman.api.*;
+import com.google.common.collect.ImmutableSet;
+import jplugman.api.Version;
+import jplugman.api.VersionedService;
 import jplugman.manager.PluginManager;
 import jplugman.tools.FolderListener;
 import jplugman.tools.FolderWatcher;
@@ -11,12 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import perobobbot.extension.ExtensionManager;
-import perobobbot.lang.PluginService;
-import perobobbot.lang.PluginServices;
+import perobobbot.lang.*;
 import perobobbot.server.config.io.ChatPlatformPluginManager;
-import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.template.SimpleTemplateGenerator;
 import perobobbot.server.plugin.webplugin.WebPluginManager;
 
@@ -48,7 +47,7 @@ public class PluginConfiguration {
 
     @Bean(destroyMethod = "stop")
     public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException, IOException {
-
+        var di = pluginDir.toAbsolutePath();
         Files.createDirectories(pluginDir.toAbsolutePath());
         final FolderWatcher folderWatcher = FolderWatcher.create(pluginDir.toAbsolutePath());
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());
@@ -60,7 +59,7 @@ public class PluginConfiguration {
 
     @Bean
     public TemplateGenerator templateGenerator() throws IOException {
-        return new SimpleTemplateGenerator(bom(), getApplicationVersion(), versionedServiceProvider());
+        return new SimpleTemplateGenerator(bom(), getApplicationVersion(), versionedServices());
     }
 
     private @NonNull Bom bom() throws IOException {
@@ -73,7 +72,9 @@ public class PluginConfiguration {
 
     @Bean
     public PluginApplication createApplication() {
-        return new PluginApplication(getApplicationVersion(), versionedServiceProvider(),
+        return new PluginApplication(getApplicationVersion(),
+                                     SetTool.map(versionedServices().getServices(),
+                                                 BotVersionedService::toVersionedService),
                                      extensionManager,
                                      webPluginManager,
                                      chatPlatformPluginManager);
@@ -81,18 +82,19 @@ public class PluginConfiguration {
 
 
     @Bean
-    public @NonNull BotVersionedServiceProvider versionedServiceProvider() {
+    public @NonNull BotVersionedServices versionedServices() {
         final var services =
                 Stream.concat(
                         applicationContext.getBeansWithAnnotation(PluginService.class).keySet().stream(),
                         applicationContext.getBeansWithAnnotation(PluginServices.class).keySet().stream()
                 ).distinct()
                       .flatMap(this::toVersionedService)
-                      .collect(ImmutableList.toImmutableList());
-        return new BotVersionedServiceProvider(services);
+                      .distinct()
+                      .collect(ImmutableSet.toImmutableSet());
+        return new BotVersionedServices(services);
     }
 
-    private @NonNull Stream<VersionedService> toVersionedService(@NonNull String name) {
+    private @NonNull Stream<BotVersionedService> toVersionedService(@NonNull String name) {
         return getPluginServices(name)
                 .map(ps -> {
                     final Object bean = applicationContext.getBean(name);
@@ -103,7 +105,7 @@ public class PluginConfiguration {
                     } else {
                         type = annotationType;
                     }
-                    return new VersionedService(type, bean, Version.with(ps.version()));
+                    return new BotVersionedService(type, bean, ps.apiVersion());
                 });
     }
 

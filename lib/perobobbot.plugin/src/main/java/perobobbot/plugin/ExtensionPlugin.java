@@ -1,11 +1,11 @@
 package perobobbot.plugin;
 
 import com.google.common.collect.ImmutableList;
-import lombok.Getter;
+import jplugman.annotation.ExtensionPoint;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandDefinition;
 
+@ExtensionPoint(version = 1)
 public interface ExtensionPlugin extends PerobobbotPlugin {
 
     @NonNull Extension getExtension();

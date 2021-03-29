@@ -3,10 +3,11 @@ package perobobbot.server.plugin.template;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import jplugman.api.Version;
-import jplugman.api.VersionedServiceClass;
+import jplugman.api.VersionedService;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.server.plugin.BotVersionedService;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,22 +45,22 @@ public class PluginInfo {
     @RequiredArgsConstructor
     public static class ServiceWrapper {
 
-        private final @NonNull VersionedServiceClass<?> service;
+        private final @NonNull BotVersionedService service;
 
         public @NonNull String getImport() {
-            return service.getServiceClass().getPackageName()+"."+getSimpleClassName();
+            return service.getServiceType().getPackageName()+"."+getSimpleClassName();
         }
 
         public @NonNull String getModuleName() {
-            return service.getServiceClass().getModule().getName();
+            return service.getServiceType().getModule().getName();
         }
 
         public @NonNull String getArtifactId() {
-            return service.getServiceClass().getModule().getName().replaceAll("\\.","-");
+            return service.getServiceType().getModule().getName().replaceAll("\\.","-");
         }
 
         public @NonNull String getSimpleClassName() {
-            return service.getServiceClass().getSimpleName();
+            return service.getServiceType().getSimpleName();
         }
 
         public @NonNull String getVariableName() {
@@ -70,8 +71,8 @@ public class PluginInfo {
             return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, name);
         }
 
-        public @NonNull String getVersionAsString() {
-            return service.getVersion().toString();
+        public int getMajorVersion() {
+            return service.getMajorVersion();
         }
 
     }

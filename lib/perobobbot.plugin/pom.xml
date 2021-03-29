@@ -22,6 +22,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>jplugman</groupId>
+            <artifactId>jplugman-annotation</artifactId>
+        </dependency>
+        <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>

@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @SecuredService
-@PluginService(type = BotService.class, version = BotService.VERSION)
+@PluginService(type = BotService.class, apiVersion = BotService.VERSION)
 public class SecuredBotService extends ProxyBotService {
 
     public SecuredBotService(@NonNull @EventService BotService delegate) {
@@ -51,7 +51,7 @@ public class SecuredBotService extends ProxyBotService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','UPDATE')")
-    public @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
+    public void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
         super.attachCredential(botId, credentialId);
     }
 
@@ -68,13 +68,13 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("HasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void saveChannelConnection(@NonNull UUID botId, @NonNull Platform platform, @NonNull String channelName) {
         super.saveChannelConnection(botId,platform,channelName);
     }
 
     @Override
-    @PreAuthorize("HasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public @NonNull ImmutableList<JoinedChannel> findConnections(@NonNull Platform platform) {
         return super.findConnections(platform);
     }

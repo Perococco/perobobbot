@@ -8,7 +8,7 @@ import perobobbot.data.service.SecuredService;
 import perobobbot.lang.*;
 
 @Component
-@PluginService(type = Bank.class, version = Bank.VERSION)
+@PluginService(type = Bank.class, apiVersion = Bank.VERSION)
 @RequiredArgsConstructor
 public class SpringBank implements Bank {
 

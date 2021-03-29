@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 public interface Bank {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     @NonNull Balance getBalance(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType);
 

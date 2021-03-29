@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface BotService {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     /**
      * @param login the login of a user
@@ -33,7 +33,7 @@ public interface BotService {
 
     @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
 
-    @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId);
+    void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId);
     
     /**
      * @param botId the id of the bot to find

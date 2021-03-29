@@ -13,7 +13,7 @@ import perococco.messaging.PerococcoChatController;
  */
 public interface ChatController extends MessageDispatcher {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     static @NonNull ChatController create() {
         return new PerococcoChatController();

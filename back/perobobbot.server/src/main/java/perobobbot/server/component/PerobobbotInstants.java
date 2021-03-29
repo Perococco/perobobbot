@@ -8,7 +8,7 @@ import perobobbot.lang.PluginService;
 import java.time.Instant;
 
 @Component
-@PluginService(version = Instants.VERSION, type = Instants.class)
+@PluginService(apiVersion = Instants.VERSION, type = Instants.class)
 public class PerobobbotInstants implements Instants {
 
     @Override

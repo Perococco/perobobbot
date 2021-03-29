@@ -5,7 +5,7 @@ import perobobbot.lang.fp.Consumer1;
 
 public interface StandardInputProvider {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     @NonNull Subscription addListener(@NonNull Consumer1<? super String> listener);
 

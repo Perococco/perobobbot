@@ -39,7 +39,7 @@ public class MessagingConfiguration {
     }
 
     @Bean(destroyMethod = "requestStop", initMethod = "start")
-    @PluginService(type = StandardInputProvider.class, version = StandardInputProvider.VERSION)
+    @PluginService(type = StandardInputProvider.class, apiVersion = StandardInputProvider.VERSION)
     public @NonNull StandardInputReader standardInputReader() {
         return new StandardInputReader();
     }

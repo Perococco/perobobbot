@@ -12,7 +12,7 @@ import java.util.concurrent.CompletionStage;
 
 public interface IO {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     /**
      * Print a message to the provided channel

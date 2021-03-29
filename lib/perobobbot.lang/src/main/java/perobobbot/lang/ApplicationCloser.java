@@ -5,10 +5,10 @@ import static perobobbot.lang.ApplicationCloser.VERSION;
 /**
  * @author Perococco
  */
-@PluginService(type = ApplicationCloser.class,version = VERSION)
+@PluginService(type = ApplicationCloser.class, apiVersion = VERSION)
 public interface ApplicationCloser {
 
-    String VERSION = "1.0.0";
+    int VERSION = 1;
 
     void execute();
 

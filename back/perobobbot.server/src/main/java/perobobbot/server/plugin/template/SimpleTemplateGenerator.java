@@ -9,7 +9,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.Bom;
-import perobobbot.server.plugin.BotVersionedServiceProvider;
+import perobobbot.server.plugin.BotVersionedServices;
 
 import java.io.*;
 import java.net.URL;
@@ -38,11 +38,11 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
 
     private final @NonNull Bom bom;
     private final @NonNull Version applicationVersion;
-    private final @NonNull BotVersionedServiceProvider serviceProvider;
+    private final @NonNull BotVersionedServices botVersionedServices;
 
     @Override
     public @NonNull Path generate(@NonNull String groupId, @NonNull String artifactId) throws IOException {
-        return new Executor(groupId,artifactId).generate();
+        return new Executor(groupId, artifactId).generate();
     }
 
     @RequiredArgsConstructor
@@ -93,19 +93,20 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private @NonNull String prepareTarget(@NonNull String fileTemplate) {
             String result = fileTemplate;
             if (fileTemplate.endsWith(".vm")) {
-                result = fileTemplate.substring(0,fileTemplate.length()-".vm".length());
+                result = fileTemplate.substring(0, fileTemplate.length() - ".vm".length());
             }
             if (result.contains("groupId")) {
-                result = result.replaceAll("groupId",this.groupId.replaceAll("\\.","/"));
+                result = result.replaceAll("groupId", this.groupId.replaceAll("\\.", "/"));
             }
             return result;
         }
 
         private void readStructureFile() throws IOException {
             final var builder = ImmutableList.<String>builder();
-            try (BufferedReader is = new BufferedReader(new InputStreamReader(SimpleTemplateGenerator.class.getResourceAsStream("/template/structure.txt")))){
+            try (BufferedReader is = new BufferedReader(new InputStreamReader(
+                    SimpleTemplateGenerator.class.getResourceAsStream("/template/structure.txt")))) {
                 String line;
-                while((line = is.readLine()) != null) {
+                while ((line = is.readLine()) != null) {
                     builder.add(line);
                 }
             }
@@ -128,18 +129,18 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private void putFile(@NonNull Path path, @NonNull URL source) throws IOException {
             this.prepareParent(path);
             try (InputStream is = source.openStream()) {
-                Files.copy(is,path);
+                Files.copy(is, path);
             }
         }
 
         private void putFile(@NonNull Path path, @NonNull String templateName) throws IOException {
             this.prepareParent(path);
-            try(BufferedWriter write = Files.newBufferedWriter(path)) {
+            try (BufferedWriter write = Files.newBufferedWriter(path)) {
                 output(templateName, context, write);
             }
         }
 
-        private void output(@NonNull String template, @NonNull VelocityContext context, @NonNull Writer writer) throws IOException {
+        private void output(@NonNull String template, @NonNull VelocityContext context, @NonNull Writer writer) {
             Velocity.mergeTemplate(template, StandardCharsets.UTF_8.name(), context, writer);
         }
 
@@ -148,8 +149,9 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             context.put("dependencies", bom.getDependencies());
             context.put("artifactId", artifactId);
             context.put("groupId", groupId);
-            final var s = serviceProvider.streamAllServices().map(PluginInfo.ServiceWrapper::new).collect(
-                    ImmutableList.toImmutableList());
+            final var s = botVersionedServices.getServices()
+                                              .stream().map(PluginInfo.ServiceWrapper::new)
+                                              .collect(ImmutableList.toImmutableList());
             context.put("plugin", new PluginInfo(applicationVersion, groupId, groupId, s));
         }
     }
