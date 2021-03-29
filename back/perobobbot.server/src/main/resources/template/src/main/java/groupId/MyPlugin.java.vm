@@ -2,25 +2,19 @@ package ${plugin.packageName};
     #* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
 import com.google.common.collect.ImmutableSet;
 import jplugman.api.Plugin;
+import jplugman.api.Requirement;
 import jplugman.api.ServiceProvider;
-import jplugman.api.Version;
-import jplugman.api.VersionedServiceClass;
 import lombok.NonNull;
 
-public class MyPlugin implements Plugin {
+public class MyPlugin implements Plugin<Object> {
 
     @Override
-    public @NonNull Version getApplicationVersion() {
-        return Versions.APPLICATION_VERSION;
-    }
-
-    @Override
-    public @NonNull ImmutableSet<VersionedServiceClass<?>> getRequirements() {
+    public @NonNull ImmutableSet<Requirement<?>> getRequirements() {
         return ImmutableSet.of();
     }
 
     @Override
-    public @NonNull VersionedServiceClass<?> getProvidedServiceClass() {
+    public @NonNull Class<Object> getServiceClass() {
         throw new RuntimeException("TO IMPLEMENT");
     }
 
