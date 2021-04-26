@@ -29,10 +29,21 @@ public class NewtekOverlayController implements OverlayController, Overlay {
         Devolay.loadLibraries();
     }
 
+    /**
+     * Perform the drawing of the overlay by calling each client
+     */
     private final @NonNull Drawer drawer;
 
+    /**
+     * Bridge between the rendering and the Newteck API
+     */
     private final @NonNull Sender sender;
 
+    /**
+     * if true, the overlay will start when the first client is added and stopped
+     * when the last client is removed.
+     * If false, the overlay must be started and stopped manually
+     */
     private final boolean auto;
 
     private final @NonNull String ndiName;

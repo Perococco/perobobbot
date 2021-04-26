@@ -33,7 +33,7 @@ public class JPABankService implements BankService {
 
     @Override
     @Transactional
-    public @NonNull void cleanTransactions() {
+    public void cleanTransactions() {
         final var now = instants.now();
         final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING, now);
         transactions.forEach(t -> t.rollback().removeFromSafe());
@@ -63,14 +63,14 @@ public class JPABankService implements BankService {
 
     @Override
     @Transactional
-    public @NonNull void cancelTransaction(@NonNull UUID transactionId) {
+    public void cancelTransaction(@NonNull UUID transactionId) {
         final var transaction = transactionRepository.getByUuid(transactionId);
         transactionRepository.delete(transaction.rollback().removeFromSafe());
     }
 
     @Override
     @Transactional
-    public @NonNull void completeTransaction(@NonNull UUID transactionId) {
+    public void completeTransaction(@NonNull UUID transactionId) {
         final var now = instants.now();
         final var transaction = transactionRepository.getByUuid(transactionId);
         transactionRepository.delete(transaction.complete(now).removeFromSafe());

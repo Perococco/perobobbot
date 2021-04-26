@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.time.Instant;
+
 @RequiredArgsConstructor
 public class AddSingletonToApplicationContext implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 

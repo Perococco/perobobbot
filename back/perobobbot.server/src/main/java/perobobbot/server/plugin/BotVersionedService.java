@@ -17,6 +17,17 @@ public class BotVersionedService {
     private final int majorVersion;
 
     public @NonNull VersionedService toVersionedService() {
-        return new VersionedService(service,majorVersion);
+        return new VersionedService(serviceType,service,majorVersion);
+    }
+
+    @Override
+    public String toString() {
+        return "BotVersionedService{"
+                + serviceType.getSimpleName()
+                + " v"+majorVersion
+                +" : "
+                +service.getClass().getSimpleName()
+                +" 0x"+Integer.toHexString(System.identityHashCode(service)).toUpperCase()
+                +"}";
     }
 }

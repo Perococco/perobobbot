@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 @RequiredArgsConstructor
 public class RendererUsingGraphics2D implements Renderer {
 
-    public static final int d2i(double value) {
+    public static int d2i(double value) {
         return MathTool.roundedToInt(value);
     }
 
@@ -85,7 +85,7 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public @NonNull Renderer withPrivateContext(Consumer1<? super Renderer> drawer) {
+    public @NonNull Renderer withPrivateContext(@NonNull Consumer1<? super Renderer> drawer) {
         try (Renderer r = new RendererUsingGraphics2D((Graphics2D) graphics2D.create(), drawingSize)) {
             drawer.f(r);
         }
@@ -99,7 +99,7 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public @NonNull Renderer withPrivateTransform(Consumer1<? super Renderer> drawer) {
+    public @NonNull Renderer withPrivateTransform(@NonNull Consumer1<? super Renderer> drawer) {
         final AffineTransform backup = graphics2D.getTransform();
         try {
             drawer.f(this);
@@ -165,7 +165,7 @@ public class RendererUsingGraphics2D implements Renderer {
     }
 
     @Override
-    public Rectangle2D getMaxCharBounds() {
+    public @NonNull Rectangle2D getMaxCharBounds() {
         return graphics2D.getFontMetrics().getMaxCharBounds(graphics2D);
     }
 
