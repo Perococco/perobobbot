@@ -19,7 +19,7 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
 
     @Override
     public @NonNull ExtensionPlugin loadService(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider) {
-        final var instance = createExtension(serviceProvider);
+        final var instance = createExtension(pluginLayer, serviceProvider);
         final var factory = CommandDefinition.factory(instance.getName());
         final var commandDefinitions = createCommandDefinitions(instance, serviceProvider, factory);
         return createExtensionPlugin(instance, commandDefinitions);
@@ -28,10 +28,11 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
     protected abstract @NonNull ExtensionPlugin createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDefinition> commandDefinitions);
 
     /**
+     * @param  pluginLayer the module layer used to load the plugin
      * @param serviceProvider the service provider containing the services the extension required
      * @return a new instance of the extension
      */
-    protected abstract @NonNull E createExtension(@NonNull ServiceProvider serviceProvider);
+    protected abstract @NonNull E createExtension(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider);
 
     /**
      * @param extension  the extension the commands will apply to

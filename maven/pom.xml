@@ -38,7 +38,7 @@
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
         <velocity.version>2.3</velocity.version>
-        <jplugman.version>2.0.1-SNAPSHOT</jplugman.version>
+        <jplugman.version>2.0.4-SNAPSHOT</jplugman.version>
 
     </properties>
 
@@ -551,11 +551,11 @@
                         <compilerArg>-parameters</compilerArg>
                     </compilerArgs>
                     <annotationProcessorPaths>
-                        <invalid-on-purpose>
+                        <annotationProcessorPath>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
-                        </invalid-on-purpose>
+                        </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

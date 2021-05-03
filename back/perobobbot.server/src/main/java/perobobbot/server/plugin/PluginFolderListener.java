@@ -5,10 +5,13 @@ import jplugman.manager.PluginManager;
 import jplugman.tools.FolderListener;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import perobobbot.lang.ThrowableTool;
 
 import java.nio.file.Path;
 
 @RequiredArgsConstructor
+@Log4j2
 public class PluginFolderListener implements FolderListener {
 
 
@@ -32,6 +35,13 @@ public class PluginFolderListener implements FolderListener {
 
     @Override
     public void onStart(ImmutableSet<Path> paths) {
-        paths.forEach(pluginManager::addPluginBundle);
+        for (Path path : paths) {
+            try {
+                pluginManager.addPluginBundle(path);
+            } catch (Throwable t) {
+                ThrowableTool.interruptThreadIfCausedByInterruption(t);
+                LOG.warn("Could not load plugin '{}' : {}",path.getFileName(),t.getMessage());
+            }
+        }
     }
 }
