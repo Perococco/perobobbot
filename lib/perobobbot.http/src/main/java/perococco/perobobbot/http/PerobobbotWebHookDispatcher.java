@@ -11,17 +11,17 @@ import perobobbot.http.WebHookListener;
 import perobobbot.http.WebHookSubscription;
 import perobobbot.lang.Exec;
 import perobobbot.lang.MapTool;
+import perobobbot.lang.URIResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 
 @RequiredArgsConstructor
 public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
 
-    private final @NonNull URI webhookURI;
-    private final @NonNull URI oauthURI;
+    private final @NonNull URIResolver webhookURIResolver;
+    private final @NonNull URIResolver oauthURIResolver;
 
     private ImmutableMap<String, WebHookListener> listeners = ImmutableMap.of();
 
@@ -34,7 +34,10 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
     public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
         Exec.with(path.trim())
             .map(this::removeTrailingSlash)
-            .apply(p -> listeners.getOrDefault(p,NOT_FOUND))
+            .apply(p -> {
+                final var listener = listeners.getOrDefault(p,NOT_FOUND);
+                return listener;
+            })
             .onCall(path,method,request,response);
     }
 
@@ -46,8 +49,8 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
                    .checkIsNot(String::isEmpty, p -> new IllegalArgumentException("Invalid webhook path. Path='" + p + "'"))
                    .checkNotIn(listeners.keySet(), p -> new IllegalArgumentException("Webhook exists for this path already. Path='" + p + "'"))
                    .apply(p -> {
-                       final var webHookCallbackURI = webhookURI.resolve(p);
-                       final var oauthCallbackURI = oauthURI.resolve(p);
+                       final var webHookCallbackURI = webhookURIResolver.resolve(p);
+                       final var oauthCallbackURI = oauthURIResolver.resolve(p);
                        this.listeners = MapTool.add(this.listeners, p, listener);
                        return new WebHookSubscription(webHookCallbackURI,oauthCallbackURI, () -> remove(p));
                    });

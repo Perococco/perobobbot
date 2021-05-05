@@ -12,6 +12,8 @@ import java.util.UUID;
 
 public interface CredentialService {
 
+    int VERSION = 1;
+
     @NonNull ImmutableList<DataCredentialInfo> getUserCredentials(@NonNull String login);
 
     @NonNull DataCredentialInfo createCredential(@NonNull String login,@NonNull Platform platform);

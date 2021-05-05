@@ -57,6 +57,11 @@
             <artifactId>perobobbot-rest-controller</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-twitch</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>jplugman</groupId>
@@ -121,6 +126,10 @@
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-oauth</artifactId>
         </dependency>
 
 

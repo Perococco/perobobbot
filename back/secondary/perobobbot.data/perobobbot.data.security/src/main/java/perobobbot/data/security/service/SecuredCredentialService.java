@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.DataCredentialInfo;
+import perobobbot.data.service.BotService;
 import perobobbot.data.service.CredentialService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Credential;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PluginService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @Service
 @SecuredService
 @RequiredArgsConstructor
+@PluginService(type = CredentialService.class, apiVersion = CredentialService.VERSION)
 public class SecuredCredentialService implements CredentialService {
 
     private final @EventService CredentialService delegate;

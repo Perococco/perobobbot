@@ -72,7 +72,7 @@ public class SpringLauncher {
 
         private ApplicationCloser launch() {
             this.setupConfigDirectory();
-            this.loadAllPlugins();
+            this.loadAllPackages();
             this.createSpringApplication();
             this.retrieveAllExtraPackagesToScan();
             this.setupSpringApplicationInitializerToTakeIntoAccountExtraPackages();
@@ -95,7 +95,7 @@ public class SpringLauncher {
             }
         }
 
-        private void loadAllPlugins() {
+        private void loadAllPackages() {
             this.packagesList = ServiceLoader.load(Packages.class)
                                              .stream()
                                              .map(ServiceLoader.Provider::get)

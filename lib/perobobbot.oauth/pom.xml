@@ -5,53 +5,46 @@
     <parent>
         <groupId>perobobbot</groupId>
         <artifactId>perobobbot-lib</artifactId>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-twitch-oauth</artifactId>
+    <artifactId>perobobbot-oauth</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Twitch OAuth</submodule.name>
+        <submodule.name>OAuth Controller</submodule.name>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-lang</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-plugin</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework</groupId>-->
-        <!--            <artifactId>spring-context</artifactId>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework</groupId>-->
-        <!--            <artifactId>spring-beans</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-lang</artifactId>
+        </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-http</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
     </dependencies>
+
 </project>

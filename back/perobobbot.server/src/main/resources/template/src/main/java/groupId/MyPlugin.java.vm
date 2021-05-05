@@ -6,7 +6,7 @@ import jplugman.api.Requirement;
 import jplugman.api.ServiceProvider;
 import lombok.NonNull;
 
-public class MyPlugin implements Plugin<Object> {
+public class MyPlugin implements Plugin {
 
     @Override
     public @NonNull ImmutableSet<Requirement<?>> getRequirements() {
@@ -14,7 +14,7 @@ public class MyPlugin implements Plugin<Object> {
     }
 
     @Override
-    public @NonNull Class<Object> getServiceClass() {
+    public @NonNull Class<?> getServiceClass() {
         throw new RuntimeException("TO IMPLEMENT");
     }
 

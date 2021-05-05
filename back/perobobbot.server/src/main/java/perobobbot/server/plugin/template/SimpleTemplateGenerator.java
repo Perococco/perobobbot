@@ -52,7 +52,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private final @NonNull String artifactId;
 
         private Path outputPath;
-        private ImmutableList<String> structure;
+        private ImmutableList<StructureEntry> structure;
 
         private VelocityContext context;
 
@@ -67,14 +67,19 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             return outputPath;
         }
 
-        private void performCopy(String fileTemplate) {
+        private void performCopy(StructureEntry structureEntry) {
             try {
-                final var result = prepareTarget(fileTemplate);
+                final var result = structureEntry.prepareTarget(this.groupId);
+                final var source = "/template/"+structureEntry.getResourcePath();
                 final var path = createPath(result);
-                if (fileTemplate.endsWith(".vm")) {
-                    putFile(path, "/template/" + fileTemplate);
+
+                System.out.format("%s %s %n",source,result);
+
+                if (structureEntry.isVelocityResource()) {
+                    putFile(path, source);
                 } else {
-                    putFile(path, SimpleTemplateGenerator.class.getResource("/template/" + fileTemplate));
+                    final var resource = SimpleTemplateGenerator.class.getResource(source);
+                    putFile(path, resource);
                 }
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
@@ -90,24 +95,13 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             return result;
         }
 
-        private @NonNull String prepareTarget(@NonNull String fileTemplate) {
-            String result = fileTemplate;
-            if (fileTemplate.endsWith(".vm")) {
-                result = fileTemplate.substring(0, fileTemplate.length() - ".vm".length());
-            }
-            if (result.contains("groupId")) {
-                result = result.replaceAll("groupId", this.groupId.replaceAll("\\.", "/"));
-            }
-            return result;
-        }
-
         private void readStructureFile() throws IOException {
-            final var builder = ImmutableList.<String>builder();
+            final var builder = ImmutableList.<StructureEntry>builder();
             try (BufferedReader is = new BufferedReader(new InputStreamReader(
                     SimpleTemplateGenerator.class.getResourceAsStream("/template/structure.txt")))) {
                 String line;
                 while ((line = is.readLine()) != null) {
-                    builder.add(line);
+                    builder.add(StructureEntry.parse(line));
                 }
             }
             this.structure = builder.build();

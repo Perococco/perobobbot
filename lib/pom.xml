@@ -33,6 +33,7 @@
         <module>perobobbot.command</module>
         <module>perobobbot.extension</module>
         <module>perobobbot.http</module>
+        <module>perobobbot.oauth</module>
         <module>perobobbot.i18n</module>
         <module>perobobbot.validation</module>
         <module>perobobbot.action</module>
@@ -46,8 +47,7 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-<!--        <module>twitch/perobobbot.twitch.chat</module>-->
-<!--        <module>twitch/perobobbot.twitch.oauth</module>-->
+        <module>perobobbot.twitch</module>
 
         <module>overlay/perobobbot.overlay.api</module>
         <module>overlay/perobobbot.overlay.newtek</module>

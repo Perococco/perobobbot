@@ -1,9 +1,7 @@
 package perobobbot.server.plugin;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import jplugman.api.Version;
-import jplugman.api.VersionedService;
 import jplugman.manager.PluginManager;
 import jplugman.tools.FolderListener;
 import jplugman.tools.FolderWatcher;
@@ -14,7 +12,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.extension.ExtensionManager;
-import perobobbot.lang.*;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.PluginServices;
+import perobobbot.lang.SetTool;
+import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.config.io.ChatPlatformPluginManager;
 import perobobbot.server.plugin.template.SimpleTemplateGenerator;
 import perobobbot.server.plugin.webplugin.WebPluginManager;

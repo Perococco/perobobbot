@@ -164,6 +164,11 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-oauth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-physics</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -297,6 +302,11 @@
             <dependency>
                 <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-data-event</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-twitch</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import perobobbot.http.WebHookDispatcher;
+import perobobbot.http.WebHookObservable;
+import perobobbot.lang.PluginService;
 import perobobbot.lang.ThrowableTool;
+import perobobbot.lang.URIResolver;
 import perobobbot.server.config.externaluri.ExternalURI;
-
-import java.net.URI;
 
 @Log4j2
 @Configuration
@@ -26,12 +26,12 @@ public class WebHookConfiguration {
     @Qualifier("oauth")
     private final @NonNull ExternalURI oauthExternalURI;
 
-
     @Bean
+    @PluginService(type = WebHookObservable.class, apiVersion = WebHookObservable.VERSION)
     public @NonNull WebHookDispatcher webHookDispatcher() {
         try {
-            var webHookURI = formFullURI(webHookExternalURI);
-            var oauthURI = formFullURI(oauthExternalURI);
+            var webHookURI = URIResolver.with(webHookExternalURI.getURI()).addPrefix(WEBHOOK_PATH);
+            var oauthURI = URIResolver.with(oauthExternalURI.getURI()).addPrefix(WEBHOOK_PATH);
             return WebHookDispatcher.create(webHookURI, oauthURI);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
@@ -48,10 +48,6 @@ public class WebHookConfiguration {
         );
         bean.setLoadOnStartup(1);
         return bean;
-    }
-
-    private @NonNull URI formFullURI(@NonNull ExternalURI externalURI) {
-        return externalURI.getURI().resolve(WEBHOOK_PATH);
     }
 
 }

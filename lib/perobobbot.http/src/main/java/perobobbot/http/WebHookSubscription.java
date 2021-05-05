@@ -1,5 +1,6 @@
 package perobobbot.http;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
@@ -13,11 +14,13 @@ public class WebHookSubscription implements Subscription {
     /**
      * the callback to use for the webhooks
      */
+    @Getter
     private final @NonNull URI webHookCallbackURI;
 
     /**
      * the callback to use for the oauth flow
      */
+    @Getter
     private final @NonNull URI oauthCallbackURI;
 
     @Delegate
