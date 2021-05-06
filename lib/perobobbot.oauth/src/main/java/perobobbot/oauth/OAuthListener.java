@@ -19,5 +19,5 @@ public interface OAuthListener {
                 @NonNull HttpServletRequest request,
                 @NonNull HttpServletResponse response) throws IOException;
 
-    void onTimeout(@NonNull String state);
+    void onTimeout();
 }

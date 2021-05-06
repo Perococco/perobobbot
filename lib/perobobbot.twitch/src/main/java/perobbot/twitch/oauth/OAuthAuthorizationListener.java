@@ -61,7 +61,7 @@ public class OAuthAuthorizationListener implements OAuthListener {
     }
 
     @Override
-    public void onTimeout(@NonNull String state) {
+    public void onTimeout() {
         futureToken.completeExceptionally(new OAuthTimedOut(clientId));
     }
 

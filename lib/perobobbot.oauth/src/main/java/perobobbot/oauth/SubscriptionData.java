@@ -1,12 +1,14 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
+import lombok.Value;
 
 import java.net.URI;
 
-public interface SubscriptionData {
+@Value
+public class SubscriptionData {
 
-    @NonNull String getState();
+    @NonNull String state;
 
-    @NonNull URI getOAuthRedirectURI();
+    @NonNull URI oAuthRedirectURI;
 }
