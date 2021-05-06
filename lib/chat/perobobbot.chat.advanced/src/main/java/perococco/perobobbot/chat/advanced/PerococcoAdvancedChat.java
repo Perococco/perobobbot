@@ -136,7 +136,6 @@ public class PerococcoAdvancedChat<M> implements AdvancedChat<M> {
         public void visit(@NonNull perobobbot.chat.core.event.ReceivedMessage event) {
             final Instant receptionTime = event.getReceptionTime();
             Stream.of(event.getMessage().split("\\R"))
-                  .peek(s -> System.out.println(">>  "+s))
                   .map(messageConverter::convert)
                   .flatMap(Optional::stream)
                   .map(m -> new ReceivedMessage<>(receptionTime, m))
