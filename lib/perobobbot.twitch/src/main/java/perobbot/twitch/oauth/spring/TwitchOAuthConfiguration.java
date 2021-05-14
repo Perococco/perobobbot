@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import perobbot.twitch.oauth.TwitchOAuthController;
-import perobobbot.http.WebHookObservable;
+import perobobbot.http.WebHookManager;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Packages;
 import perobobbot.oauth.OAuthSubscriptions;
@@ -20,7 +20,7 @@ public class TwitchOAuthConfiguration {
     }
 
     private final @NonNull Instants instants;
-    private final @NonNull WebHookObservable webHookObservable;
+    private final @NonNull WebHookManager webHookManager;
 
     @Bean
     public TwitchOAuthController oAuthController() {
@@ -29,7 +29,7 @@ public class TwitchOAuthConfiguration {
 
     @Bean(destroyMethod = "removeAll")
     public OAuthSubscriptions oAuthSubscriptions() {
-        return new OAuthSubscriptions(instants,webHookObservable);
+        return new OAuthSubscriptions(instants, webHookManager);
     }
 
 }

@@ -5,16 +5,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMethod;
-import perobobbot.http.WebHookListener;
-import perobobbot.http.WebHookObservable;
+import perobobbot.http.WebHookManager;
 import perobobbot.http.WebHookSubscription;
 import perobobbot.lang.*;
-import perobobbot.lang.fp.Function1;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -29,7 +26,7 @@ public class OAuthSubscriptions {
     private static final Duration TIMEOUT_DURATION = Duration.ofMinutes(Integer.getInteger("oauth.user.time-out", 5));
 
     private final @NonNull Instants instants;
-    private final @NonNull WebHookObservable webHookObservable;
+    private final @NonNull WebHookManager webHookManager;
 
     private final SmartLock lock = SmartLock.reentrant();
 
@@ -52,7 +49,7 @@ public class OAuthSubscriptions {
 
     public @NonNull SubscriptionData subscribe(@NonNull String path, @NonNull OAuthListener oAuthListener) {
         final var idBooking = this.subscriptions.bookNewId(path);
-        final var subscription = this.webHookObservable.addListener(path, this::onCall);
+        final var subscription = this.webHookManager.addListener(path, this::onCall);
         final var timeOfRequest = instants.now();
 
         final Data data = new Data(oAuthListener, timeOfRequest, subscription);

@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.http.WebHookDispatcher;
-import perobobbot.http.WebHookObservable;
+import perobobbot.http.WebHookManager;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.URIResolver;
@@ -27,7 +27,7 @@ public class WebHookConfiguration {
     private final @NonNull ExternalURI oauthExternalURI;
 
     @Bean
-    @PluginService(type = WebHookObservable.class, apiVersion = WebHookObservable.VERSION)
+    @PluginService(type = WebHookManager.class, apiVersion = WebHookManager.VERSION)
     public @NonNull WebHookDispatcher webHookDispatcher() {
         try {
             var webHookURI = URIResolver.with(webHookExternalURI.getURI()).addPrefix(WEBHOOK_PATH);

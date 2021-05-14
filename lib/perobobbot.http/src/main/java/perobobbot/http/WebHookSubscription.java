@@ -23,6 +23,9 @@ public class WebHookSubscription implements Subscription {
     @Getter
     private final @NonNull URI oauthCallbackURI;
 
+    /**
+     * to use to remove the subscription to the {@link WebHookManager}
+     */
     @Delegate
     private final @NonNull Subscription subscription;
 }

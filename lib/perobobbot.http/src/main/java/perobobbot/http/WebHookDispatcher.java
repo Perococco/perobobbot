@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public interface WebHookDispatcher extends WebHookObservable {
+public interface WebHookDispatcher extends WebHookManager {
 
     static @NonNull WebHookDispatcher create(@NonNull URIResolver webhookURIResolver, @NonNull URIResolver oauthURIResolver) {
         return new PerobobbotWebHookDispatcher(webhookURIResolver,oauthURIResolver);
