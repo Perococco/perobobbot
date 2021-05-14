@@ -50,17 +50,19 @@ public class RejoinerWithBotService implements Rejoiner {
             final var bot = joinedChannel.getBot();
 
             chatPlatform.connect(bot)
-                        .thenCompose(c -> c.join(channelName))
-                        .whenComplete((r, t) -> {
-                            if (t != null) {
-                                warnOnRejoinFailure(t, bot, channelName);
+                        .thenCompose(connection -> connection.join(channelName))
+                        .whenComplete((r, error) -> {
+                            if (error != null) {
+                                warnOnRejoinFailure(error, bot, channelName);
                             }
                         });
 
         }
 
         private void warnOnRejoinFailure(@NonNull Throwable error, @NonNull Bot bot, @NonNull String channelName) {
-            LOG.warn("Fail to connect to channel {}/{} with bot {} : {}", chatPlatform.getPlatform(), channelName,
+            LOG.warn("Fail to connect to channel {}/{} with bot {} : {}",
+                     chatPlatform.getPlatform(),
+                     channelName,
                      bot.getName(),
                      error.getMessage());
             LOG.debug(error);
