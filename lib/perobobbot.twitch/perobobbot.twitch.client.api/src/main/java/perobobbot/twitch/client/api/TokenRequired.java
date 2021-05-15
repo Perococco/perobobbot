@@ -1,4 +1,4 @@
-package perobbot.twitch.restclient;
+package perobobbot.twitch.client.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TokenRequired {
 
-    TokenType[] type();
+    TokenType type();
 
 }

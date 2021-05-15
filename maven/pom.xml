@@ -306,7 +306,17 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-twitch</artifactId>
+                <artifactId>perobobbot-twitch-oauth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-twitch-client-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-twitch-client-webclient</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

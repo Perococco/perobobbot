@@ -30,4 +30,8 @@ public interface OAuthController {
     @NonNull CompletionStage<Token> refreshToken(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull Token expiredToken);
 
     @NonNull CompletionStage<?> validateToken(@NonNull Token token);
+
+    default @NonNull OAuthTokenRefresher createOAuthTokenRefresher(@NonNull String clientId, @NonNull Secret clientSecret) {
+        return token -> refreshToken(clientId,clientSecret,token);
+    }
 }

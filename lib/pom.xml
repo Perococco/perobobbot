@@ -47,7 +47,9 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>perobobbot.twitch</module>
+        <module>perobobbot.twitch/perobobbot.twitch.oauth</module>
+        <module>perobobbot.twitch/perobobbot.twitch.client.api</module>
+        <module>perobobbot.twitch/perobobbot.twitch.client.webclient</module>
 
         <module>overlay/perobobbot.overlay.api</module>
         <module>overlay/perobobbot.overlay.newtek</module>
