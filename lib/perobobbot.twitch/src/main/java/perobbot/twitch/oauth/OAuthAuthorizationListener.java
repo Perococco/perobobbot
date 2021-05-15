@@ -10,10 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Secret;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.oauth.OAuthFailure;
-import perobobbot.oauth.OAuthListener;
-import perobobbot.oauth.OAuthTimedOut;
-import perobobbot.oauth.Token;
+import perobobbot.oauth.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,15 +38,19 @@ public class OAuthAuthorizationListener implements OAuthListener {
 
             response.setStatus(HttpStatus.OK.value());
             final var code = request.getParameter(CODE_PARAMETER_NAME);
-            final var secretURI = new TwitchOAuthURI().getUserTokenURI(clientId, clientSecret, code, redirectURI);
 
-            webClient.post()
-                     .uri(secretURI.getUri())
-                     .retrieve()
-                     .bodyToMono(TwitchToken.class)
-                     .subscribe(result -> futureToken.complete(result.toToken(instants.now())),
-                                error -> futureToken.completeExceptionally(new OAuthFailure(clientId, error)));
+            if (code == null) {
+                futureToken.completeExceptionally(new OAuthRejected(clientId));
+            } else {
+                final var secretURI = new TwitchOAuthURI().getUserTokenURI(clientId, clientSecret, code, redirectURI);
 
+                webClient.post()
+                         .uri(secretURI.getUri())
+                         .retrieve()
+                         .bodyToMono(TwitchToken.class)
+                         .subscribe(result -> futureToken.complete(result.toToken(instants.now())),
+                                    error -> futureToken.completeExceptionally(new OAuthFailure(clientId, error)));
+            }
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             futureToken.completeExceptionally(new OAuthFailure(clientId, t));
