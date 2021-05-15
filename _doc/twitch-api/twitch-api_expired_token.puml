@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Handle Invalid or Expired Token
+
+autonumber
+User -> TokenManager : call the Bot service
+
+TokenManager -> BotTwitchApi : intercept call
+activate TokenManager
+
+BotTwitchApi -> Twitch : create a request and send it
+
+
+Twitch -> BotTwitchApi : Failed to OAuth
+BotTwitchApi -> TokenManager : throw an Exception
+
+TokenManager -> OAuthController : refresh or request Token
+OAuthController -> TokenManager : new token
+
+TokenManager -> BotTwitchApi : intercept call
+activate TokenManager
+BotTwitchApi -> Twitch : create a request and send it
+Twitch -> BotTwitchApi : Response to the request
+BotTwitchApi -> TokenManager : Transform response to business data
+
+
+deactivate TokenManager
+deactivate TokenManager
+
+
+TokenManager -> User
+
+@enduml

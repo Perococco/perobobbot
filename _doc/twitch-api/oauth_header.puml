@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Handle Invalid or Expired Token
+
+autonumber
+
+
+User -> WebClientInterceptor : call the Bot service
+
+ref over WebClientInterceptor
+    - Check Annotation @TokenRequired
+    - Manage WebClientFilter
+end ref
+
+WebClientInterceptor -> BotTwitchApi : intercept call
+ref over BotTwitchApi
+  WebClient
+end ref
+
+BotTwitchApi -> Twitch : create a request and send it
+Twitch -> BotTwitchApi : Response to the request
+BotTwitchApi -> WebClientInterceptor : Transform response to business data
+
+WebClientInterceptor -> User :
+@enduml
