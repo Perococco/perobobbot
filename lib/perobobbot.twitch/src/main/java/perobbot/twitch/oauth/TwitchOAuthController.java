@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Platform;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -38,7 +40,7 @@ public class TwitchOAuthController implements OAuthController {
                 webClient.post()
                          .uri(revokeUri.getUri())
                          .retrieve()
-                         .bodyToMono(String.class));
+                         .toBodilessEntity(), ResponseEntity::getStatusCode);
     }
 
     public @NonNull CompletionStage<Token> refreshToken(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull Token expiredToken) {
@@ -90,8 +92,23 @@ public class TwitchOAuthController implements OAuthController {
     //TODO should be moved outside of Twitch module
     private <T, U> CompletionStage<T> toCompletionStage(@NonNull Mono<U> mono, Function1<? super U, ? extends T> mapper) {
         final CompletableFuture<T> completableFuture = new CompletableFuture<>();
-        mono.subscribe(result -> completableFuture.complete(mapper.apply(result)),
-                       completableFuture::completeExceptionally);
+        mono.subscribe(
+                new Consumer<U>() {
+                    @Override
+                    public void accept(U u) {
+                        try {
+                            var t = mapper.apply(u);
+                            completableFuture.complete(t);
+                        } catch (Throwable t) {
+                            completableFuture.completeExceptionally(t);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        completableFuture.completeExceptionally(throwable);
+                    }
+                });
         return completableFuture;
     }
 

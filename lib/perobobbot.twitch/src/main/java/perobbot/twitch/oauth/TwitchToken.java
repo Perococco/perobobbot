@@ -14,7 +14,7 @@ import java.util.Optional;
 public class TwitchToken {
 
     @JsonAlias("access_token") @NonNull String accessToken;
-    @JsonAlias("refresh_token") @NonNull String refreshToken;
+    @JsonAlias("refresh_token") String refreshToken;
     @JsonAlias("expires_in") double expiresIn;
     @JsonAlias("scope") @NonNull String[] scopes;
     @JsonAlias("token_type") @NonNull String tokenType;

@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import perobobbot.chat.core.IO;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
@@ -35,8 +36,30 @@ public class PerococcoRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final var oauthInfo = oAuthManager.getController(Platform.TWITCH)
-                                          .prepareUserOAuth(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
+
+    }
+
+
+    private void testAppToken() throws IOException, ExecutionException, InterruptedException {
+        final var oauthController = oAuthManager.getController(Platform.TWITCH);
+        final var oauthInfo = oauthController.getAppToken(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
+
+        final var token = oauthInfo.toCompletableFuture().get();
+
+        System.out.println("token "+token.getAccessToken());
+        final var v = oauthController.validateToken(token).toCompletableFuture().get();
+
+        System.out.println(v);
+
+        final var result = oauthController.revokeToken(CLIENT_ID,token.getAccessToken()).toCompletableFuture().get();
+        System.out.println("TOTO " +result);
+    }
+
+
+
+    private void testUserToken() throws IOException {
+        final var oauthController = oAuthManager.getController(Platform.TWITCH);
+        final var oauthInfo = oauthController.prepareUserOAuth(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
 
         Desktop.getDesktop().browse(oauthInfo.getOauthURI());
 
@@ -47,6 +70,7 @@ public class PerococcoRunner implements ApplicationRunner {
             System.err.println("Oauth fail " + t.getMessage());
             t.printStackTrace();
         }
+
     }
 
     private void handleToken(@NonNull Token token) throws ExecutionException, InterruptedException {
