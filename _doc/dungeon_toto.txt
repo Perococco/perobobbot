@@ -1,3 +1,0 @@
-!dg debug 40 12
-
-position 28,30

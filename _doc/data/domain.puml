@@ -1,0 +1,14 @@
+@startuml
+!include entities.iuml
+
+Bot -- Token
+Bot -- Extension
+
+User "1"-- Bot
+User -- Role
+
+Bot "1" -- JoinedChannel
+
+
+Safe "1" -- Transaction
+@enduml

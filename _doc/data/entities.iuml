@@ -1,0 +1,63 @@
+@startuml
+!if TOTO
+!define TOTO
+class Bot {
+   +name:String,
+   +owner:User,
+   +credentials:List<Token>,
+   +extensions:List<Extension>,
+}
+
+class Extension{
+  + name:String,
+  + activated:boolean,
+  + available:boolean,
+}
+
+class JoinedChannel {
+  + channelName:String,
+  + platform:Platform,
+  + bot:Bot
+}
+
+class Role {
+ +role:RoleKind
+ ---
+ +allowed_operations:Set<Operation>
+}
+
+class Safe {
+ +amount:int
+ +channelName:String,
+ +platform:Platform,
+ +pointType:PointType,
+ +chatUserId:String,
+}
+
+class Token {
+    nick:String,
+    platform:Platform,
+    secret:String,
+    owner:User
+}
+
+class Transaction {
+  +amount:int
+  +expirationDate:Instant
+  +state:TransactionState
+  +safe:Safe
+}
+
+class User {
++ deactivated:boolean,
++jwt_claim:String,
++locale:String,
++login:String,
++password:String,
+}
+
+
+
+
+
+@enduml
