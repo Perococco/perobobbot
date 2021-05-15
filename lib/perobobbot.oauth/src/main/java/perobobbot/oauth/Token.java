@@ -1,16 +1,25 @@
 package perobobbot.oauth;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.NonNull;
-import lombok.Value;
+import com.google.common.collect.ImmutableSet;
+import lombok.*;
+import perobobbot.lang.Scope;
+
+import java.time.Instant;
+import java.util.Optional;
 
 @Value
+@Builder(toBuilder = true)
 public class Token {
 
-    @JsonAlias("access_token") @NonNull String accessToken;
-    @JsonAlias("refresh_token") @NonNull String refreshToken;
-    @JsonAlias("expires_in") double expiresIn;
-    @JsonAlias("scope") @NonNull String[] scopes;
-    @JsonAlias("token_type") @NonNull String tokenType;
+   @NonNull String accessToken;
+   @Getter(AccessLevel.NONE)
+   String refreshToken;
+   long duration;
+   @NonNull Instant expirationInstant;
+   @NonNull ImmutableSet<? extends Scope> scopes;
+   @NonNull String tokenType;
 
+   public @NonNull Optional<String> getRefreshToken() {
+      return Optional.ofNullable(refreshToken);
+   }
 }

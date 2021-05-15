@@ -11,13 +11,15 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 import perobobbot.oauth.OAuthManager;
+import perobobbot.oauth.Token;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.time.ZoneOffset;
+import java.util.concurrent.ExecutionException;
 
 @Log4j2
 @Component
@@ -28,37 +30,50 @@ public class PerococcoRunner implements ApplicationRunner {
 
     public final @NonNull OAuthManager oAuthManager;
 
-    private final Scope scope = () -> "moderation:read";
+    private final Scope scope1 = () -> "moderation:read";
+    private final Scope scope2 = () -> "bits:read";
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         final var oauthInfo = oAuthManager.getController(Platform.TWITCH)
-                    .orElseThrow()
-                    .prepareUserOAuth(CLIENT_ID, readSecret(), ImmutableSet.of(scope));
+                                          .prepareUserOAuth(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
 
         Desktop.getDesktop().browse(oauthInfo.getOauthURI());
 
-        oauthInfo.getFutureToken().whenComplete((result,error) -> {
-            if (error != null) {
-                System.out.println("Fail to get OAuth token");
-                error.printStackTrace();
-            } else {
-                System.out.println("Type       = "+ result.getTokenType());
-                System.out.println("Scopes     = "+ Arrays.toString(result.getScopes()));
-                System.out.println("Expires in = "+ result.getExpiresIn());
-                try {
-                    Files.writeString(Path.of("/home/perococco/token.txt"),result.getAccessToken());
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            }
-        });
-
-
+        try {
+            final var token = oauthInfo.getFutureToken().toCompletableFuture().get();
+            handleToken(token);
+        } catch (Throwable t) {
+            System.err.println("Oauth fail " + t.getMessage());
+            t.printStackTrace();
+        }
     }
 
+    private void handleToken(@NonNull Token token) throws ExecutionException, InterruptedException {
+        System.out.println("Type            = " + token.getTokenType());
+        System.out.println("Scopes          = " + token.getScopes());
+        System.out.println("Duration        = " + token.getDuration());
+        System.out.println("Expiration Time = " + token.getExpirationInstant().atZone(ZoneOffset.UTC));
+        try {
+            Files.writeString(Path.of("/home/perococco/token.txt"), token.getAccessToken());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        final var oAuthController = oAuthManager.getController(Platform.TWITCH);
+
+        final var validation = oAuthController.validateToken(token).toCompletableFuture().get();
+        System.out.println("Validation : "+validation);
+
+        final var result = oAuthController.revokeToken(CLIENT_ID, token.getAccessToken()).toCompletableFuture().get();
+
+        System.out.println("revoke: "+result);
+    }
+
+
     private Secret readSecret() throws IOException {
-        final String value = Files.readAllLines(Path.of("/home/perococco/twitch_keys/perobobbot_app_secret.txt")).get(0);
+        final String value = Files.readAllLines(Path.of("/home/perococco/twitch_keys/perobobbot_app_secret.txt")).get(
+                0);
         return Secret.with(value);
     }
 }

@@ -1,10 +1,12 @@
 package perobobbot.oauth;
 
+import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.PerobobbotException;
 
 public class OAuthFailure extends PerobobbotException {
 
+    @Getter
     private final @NonNull String clientId;
 
     public OAuthFailure(String clientId, String reason) {

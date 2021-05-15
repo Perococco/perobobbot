@@ -71,7 +71,7 @@ public class JPABotService implements BotService {
 
     @Override
     @Transactional
-    public @NonNull void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
+    public void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
         final var bot = botRepository.getByUuid(botId);
         final var credential = credentialRepository.getByUuid(credentialId);
         bot.attachCredential(credential);

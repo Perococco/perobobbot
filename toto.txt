@@ -1,0 +1,82 @@
+    <tr>
+      <td>analytics:read:extensions ú View analytics data for the Twitch Extensions owned by the authenticated account.<br><br><a href="/docs/api/reference#get-extension-analytics">Get Extension Analytics</a></td>
+    </tr>
+    <tr>
+      <td>analytics:read:games ú View analytics data for the games owned by the authenticated account.<br><br><a href="/docs/api/reference#get-game-analytics">Get Game Analytics</a></td>
+    </tr>
+    <tr>
+      <td>bits:read ú View Bits information for a channel.<br><br><a href="/docs/api/reference#get-bits-leaderboard">Get Bits Leaderboard</a></td>
+    </tr>
+    <tr>
+      <td>channel:edit:commercial ú Run commercials on a channel.<br><br><a href="/docs/api/reference#start-commercial">Start Commercial</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:broadcast ú Manage a channel’s broadcast configuration, including updating channel configuration and managing stream markers and stream tags.<br><br><a href="/docs/api/reference#modify-channel-information">Modify Channel Information</a> <br> <a href="/docs/api/reference#create-stream-marker">Create Stream Marker</a> <br> <a href="/docs/api/reference#replace-stream-tags">Replace Stream Tags</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:extensions ú Manage a channel’s Extension configuration, including activating Extensions.<br><br><a href="/docs/api/reference#get-user-active-extensions">Get User Active Extensions</a> <br> <a href="/docs/api/reference#update-user-extensions">Update User Extensions</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:polls ú Manage a channel’s polls.<br><br><a href="/docs/api/reference#create-poll">Create Poll</a> <br> <a href="/docs/api/reference#end-poll">End Poll</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:predictions ú Manage of channel’s Channel Points Predictions<br><br><a href="/docs/api/reference#create-prediction">Create Channel Points Prediction</a> <br> <a href="/docs/api/reference#end-prediction">End Channel Points Prediction</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:redemptions ú Manage Channel Points custom rewards and their redemptions on a channel.<br><br><a href="/docs/api/reference#create-custom-rewards">Create Custom Rewards</a> <br> <a href="/docs/api/reference#delete-custom-reward">Delete Custom Reward</a> <br> <a href="/docs/api/reference#update-custom-reward">Update Custom Reward</a> <br> <a href="/docs/api/reference#update-redemption-status">Update Redemption Status</a></td>
+    </tr>
+    <tr>
+      <td>channel:manage:videos ú Manage a channel’s videos, including deleting videos.<br><br><a href="/docs/api/reference#delete-videos">Delete Videos</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:editors ú View a list of users with the editor role for a channel.<br><br><a href="/docs/api/reference#get-channel-editors">Get Channel Editors</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:hype_train ú View Hype Train information for a channel.<br><br><a href="/docs/api/reference#get-hype-train-events">Get Hype Train Events</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:polls ú View a channel’s polls.<br><br><a href="/docs/api/reference#get-polls">Get Polls</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:predictions ú View a channel’s Channel Points Predictions.<br><br><a href="/docs/api/reference#get-predictions">Get Channel Points Predictions</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:redemptions ú View Channel Points custom rewards and their redemptions on a channel.<br><br><a href="/docs/api/reference#get-custom-reward">Get Custom Reward</a> <br> <a href="/docs/api/reference#get-custom-reward-redemption">Get Custom Reward Redemption</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:stream_key ú View an authorized user’s stream key.<br><br><a href="/docs/api/reference#get-stream-key">Get Stream Key</a></td>
+    </tr>
+    <tr>
+      <td>channel:read:subscriptions ú View a list of all subscribers to a channel and check if a user is subscribed to a channel.<br><br><a href="/docs/api/reference#get-broadcaster-subscriptions">Get Broadcaster Subscriptions</a></td>
+    </tr>
+    <tr>
+      <td>clips:edit ú Manage Clips for a channel.<br><br><a href="/docs/api/reference#create-clip">Create Clip</a></td>
+    </tr>
+    <tr>
+      <td>moderation:read ú View a channel’s moderation data including Moderators, Bans, Timeouts, and Automod settings.<br><br><a href="/docs/api/reference#check-automod-status">Check AutoMod Status</a> <br> <a href="/docs/api/reference#get-banned-events">Get Banned Events</a> <br> <a href="/docs/api/reference#get-banned-users">Get Banned Users</a> <br> <a href="/docs/api/reference#get-moderators">Get Moderators</a> <br> <a href="/docs/api/reference#get-moderator-events">Get Moderator Events</a></td>
+    </tr>
+    <tr>
+      <td>moderator:manage:automod ú Manage messages held for review by AutoMod in channels where you are a moderator.<br><br><a href="/docs/api/reference#manage-held-automod-messages">Manage Held AutoMod Messages</a></td>
+    </tr>
+    <tr>
+      <td>user:edit ú Manage a user object.<br><br><a href="/docs/api/reference#update-user">Update User</a></td>
+    </tr>
+    <tr>
+      <td>user:edit:follows ú Edit a user’s follows.<br><br><a href="/docs/api/reference#create-user-follows">Create User Follows</a> <br> <a href="/docs/api/reference#delete-user-follows">Delete User Follows</a></td>
+    </tr>
+    <tr>
+      <td>user:manage:blocked_users ú Manage the block list of a user.<br><br><a href="/docs/api/reference#block-user">Block User</a> <br> <a href="/docs/api/reference#unblock-user">Unblock User</a></td>
+    </tr>
+    <tr>
+      <td>user:read:blocked_users ú View the block list of a user.<br><br><a href="/docs/api/reference#get-user-block-list">Get User Block List</a></td>
+    </tr>
+    <tr>
+      <td>user:read:broadcast ú View a user’s broadcasting configuration, including Extension configurations.<br><br><a href="/docs/api/reference#get-stream-markers">Get Stream Markers</a> <br> <a href="/docs/api/reference#get-user-extensions">Get User Extensions</a> <br> <a href="/docs/api/reference#get-user-active-extensions">Get User Active Extensions</a></td>
+    </tr>
+    <tr>
+      <td>user:read:follows ú View the list of channels a user follows. <br> <a href="/docs/api/reference#get-followed-streams">Get Followed Streams</a></td>
+    </tr>
+    <tr>
+      <td>user:read:subscriptions ú View if an authorized user is subscribed to specific channels.<br><br><a href="/docs/api/reference#check-user-subscription">Check User Subscription</a></td>
+    </tr>
+  </tbody>

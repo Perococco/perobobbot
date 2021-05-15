@@ -18,7 +18,7 @@ public class RandomString {
 
     private final Random random = new SecureRandom();
 
-    private static final char[] CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789)=+@".toCharArray();
+    private static final char[] CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789)=".toCharArray();
 
     private String doGenerate(int length) {
         final StringBuilder sb = new StringBuilder();

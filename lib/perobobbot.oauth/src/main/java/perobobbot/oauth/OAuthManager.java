@@ -12,7 +12,11 @@ import java.util.Optional;
  */
 public interface OAuthManager {
 
-    @NonNull Optional<OAuthController> getController(@NonNull Platform platform);
+    @NonNull Optional<OAuthController> findController(@NonNull Platform platform);
+
+    default @NonNull OAuthController getController(@NonNull Platform platform) {
+        return findController(platform).orElseThrow(() -> new OAuthUnmanagedPlatform(platform));
+    }
 
     static OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
         return MapOAuthManager.create(controllers);

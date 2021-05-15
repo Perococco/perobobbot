@@ -25,7 +25,7 @@ public class MapOAuthManager implements OAuthManager {
     private final @NonNull ImmutableMap<Platform, OAuthController> controllerPerPlatform;
 
     @Override
-    public @NonNull Optional<OAuthController> getController(@NonNull Platform platform) {
+    public @NonNull Optional<OAuthController> findController(@NonNull Platform platform) {
         return Optional.ofNullable(controllerPerPlatform.get(platform));
     }
 }

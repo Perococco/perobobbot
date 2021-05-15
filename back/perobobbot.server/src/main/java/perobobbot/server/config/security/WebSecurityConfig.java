@@ -24,6 +24,8 @@ import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 import perobobbot.server.config.security.ws.WSAuthenticationFilter;
 
+import javax.servlet.*;
+import java.io.IOException;
 import java.util.List;
 
 @Configuration

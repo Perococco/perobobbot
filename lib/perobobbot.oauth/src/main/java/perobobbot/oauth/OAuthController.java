@@ -2,6 +2,8 @@ package perobobbot.oauth;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
@@ -23,4 +25,9 @@ public interface OAuthController {
 
     @NonNull CompletionStage<Token> getAppToken(@NonNull String clientId, @NonNull Secret clientSecret, ImmutableSet<? extends Scope> scopes);
 
+    @NonNull CompletionStage<?> revokeToken(@NonNull String clientId, @NonNull String accessToken);
+
+    @NonNull CompletionStage<Token> refreshToken(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull Token expiredToken);
+
+    @NonNull CompletionStage<?> validateToken(@NonNull Token token);
 }
