@@ -35,11 +35,9 @@ public class ChatPlatformPluginManager {
     public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPlugin plugin) {
         final var chatPlatform = chatPlatformInterceptor.intercept(plugin.getChatPlatform());
 
-
-
-        final var subscriptions = io.addPlatform(chatPlatform)
-                                    .map(s -> s.and(
-                                            chatPlatform.addMessageListener(messageGateway::sendPlatformMessage)));
+        final var subscriptions = io.addPlatform(chatPlatform).map(
+                s -> s.and(chatPlatform.addMessageListener(messageGateway::sendPlatformMessage))
+        );
 
         messageGateway.sendEvent(new ChatPlatformConnected(chatPlatform.getPlatform()));
 

@@ -32,6 +32,7 @@ public class JoinedChannelSaver {
     public @NonNull ConnectionSaver createSaver(@NonNull ChatChannelJoined event) {
         return new ConnectionSaver(botService,event.getBotId(), event.getPlatform(), event.getChannelName());
     }
+
     @RequiredArgsConstructor
     private static class ConnectionSaver implements Runnable {
 
