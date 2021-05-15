@@ -19,6 +19,6 @@ public interface OAuthManager {
     }
 
     static OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
-        return MapOAuthManager.create(controllers);
+        return new MapOAuthManager(controllers);
     }
 }

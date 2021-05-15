@@ -12,17 +12,14 @@ import perobobbot.oauth.OAuthManager;
 import java.util.Optional;
 import java.util.function.Function;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MapOAuthManager implements OAuthManager {
 
-    public static @NonNull OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
-        return new MapOAuthManager(
-                controllers.stream()
-                           .collect(ImmutableMap.toImmutableMap(OAuthController::getPlatform, Function.identity()))
-        );
-    }
-
     private final @NonNull ImmutableMap<Platform, OAuthController> controllerPerPlatform;
+
+    public MapOAuthManager(@NonNull ImmutableList<OAuthController> controllers) {
+        this.controllerPerPlatform = controllers.stream()
+                                                .collect(ImmutableMap.toImmutableMap(OAuthController::getPlatform, Function.identity()));
+    }
 
     @Override
     public @NonNull Optional<OAuthController> findController(@NonNull Platform platform) {
