@@ -1,28 +1,13 @@
 package perobobbot.server.config.security.ws;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.UriComponentsBuilder;
-import perobobbot.lang.ThrowableTool;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.TokenBasedAuthenticationFilter;
-import perobobbot.server.config.security.jwt.JwtAuthentication;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author perococco

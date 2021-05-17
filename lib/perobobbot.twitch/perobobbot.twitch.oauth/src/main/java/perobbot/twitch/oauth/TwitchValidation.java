@@ -14,7 +14,8 @@ public class TwitchValidation {
     @JsonAlias("client_id") @NonNull String clientId;
     @Getter(AccessLevel.NONE)
     @JsonAlias("login")  String login;
-    @JsonAlias("scopes") @NonNull String[] scopes;
+    @Getter(AccessLevel.NONE)
+    @JsonAlias("scopes") String[] scopes;
     @Getter(AccessLevel.NONE)
     @JsonAlias("user_id") String userId;
     @JsonAlias("expires_in") double expiresIn;
@@ -26,4 +27,8 @@ public class TwitchValidation {
     public @NonNull Optional<String> getUserId() {
         return Optional.ofNullable(userId);
     }
-}
+
+    public @NonNull String[] getScopes() {
+        return scopes == null ? new String[0]:scopes;
+    }
+ }
