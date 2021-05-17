@@ -1,7 +1,6 @@
 package perobobbot.server.plugin;
 
 import com.google.common.collect.ImmutableSet;
-import jplugman.manager.PluginManager;
 import jplugman.tools.FolderListener;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

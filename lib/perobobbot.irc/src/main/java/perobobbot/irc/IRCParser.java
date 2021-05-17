@@ -1,7 +1,6 @@
 package perobobbot.irc;
 
 import lombok.NonNull;
-import lombok.experimental.ExtensionMethod;
 
 /**
  * @author perococco

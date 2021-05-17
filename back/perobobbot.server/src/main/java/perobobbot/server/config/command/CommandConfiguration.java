@@ -5,13 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import perobobbot.chat.core.IO;
 import perobobbot.command.CommandController;
 import perobobbot.command.CommandExecutor;
 import perobobbot.command.CommandRegistry;
 import perobobbot.messaging.ChatController;
-import perobobbot.server.config.Orders;
 
 @Configuration
 @RequiredArgsConstructor

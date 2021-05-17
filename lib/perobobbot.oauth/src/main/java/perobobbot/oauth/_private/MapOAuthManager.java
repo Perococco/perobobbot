@@ -2,9 +2,7 @@ package perobobbot.oauth._private;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthManager;

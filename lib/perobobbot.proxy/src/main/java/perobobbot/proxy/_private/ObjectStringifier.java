@@ -1,7 +1,5 @@
 package perobobbot.proxy._private;
 
-import perobobbot.proxy._private.CustomStringifiers;
-
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.IdentityHashMap;

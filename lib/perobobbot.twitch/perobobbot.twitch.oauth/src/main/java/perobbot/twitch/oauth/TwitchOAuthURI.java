@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.util.UriComponentsBuilder;
 import perobobbot.lang.Scope;
-import perobobbot.lang.Secret;
 import perobobbot.lang.SecretURI;
 import perobobbot.oauth.ClientProperty;
 

@@ -1,6 +1,5 @@
 package perobobbot.plugin;
 
-import jplugman.annotation.ExtensionPoint;
 import lombok.NonNull;
 import perobobbot.lang.ThreadFactories;
 

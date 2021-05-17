@@ -4,7 +4,6 @@ import lombok.NonNull;
 import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.ProxyChatPlatform;
-import perobobbot.data.service.BotService;
 import perobobbot.lang.Bot;
 import perobobbot.server.component.MessageGateway;
 

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
-import perobobbot.data.com.JoinedChannel;
 import perobobbot.data.com.event.ChatChannelJoined;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;

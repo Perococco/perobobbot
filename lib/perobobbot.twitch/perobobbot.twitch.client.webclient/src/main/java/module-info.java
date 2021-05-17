@@ -1,6 +1,3 @@
-import perobobbot.lang.Packages;
-import perobobbot.twitch.client.webclient.spring.TwitchServiceConfiguration;
-
 module perobobbot.twitch.client.webclient {
     requires static lombok;
     requires java.desktop;

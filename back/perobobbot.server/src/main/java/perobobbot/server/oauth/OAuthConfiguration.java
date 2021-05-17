@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.lang.Todo;
 import perobobbot.oauth.ClientProperties;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthManager;

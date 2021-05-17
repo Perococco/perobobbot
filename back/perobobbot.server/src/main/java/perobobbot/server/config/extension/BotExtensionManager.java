@@ -5,9 +5,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.integration.annotation.ServiceActivator;
 import perobobbot.data.com.Extension;
+import perobobbot.data.com.event.ExtensionEvent;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.data.com.event.ExtensionEvent;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.GatewayChannels;
 

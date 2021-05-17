@@ -7,8 +7,6 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.data.service.proxy.ProxyBotService;
 
-import java.util.UUID;
-
 @Service
 @EventService
 public class EventBotService extends ProxyBotService {

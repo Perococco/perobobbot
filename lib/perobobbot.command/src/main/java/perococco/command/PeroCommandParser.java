@@ -8,7 +8,6 @@ import perobobbot.command.ParameterDefinition;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.fp.Value2;
 
-import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
 

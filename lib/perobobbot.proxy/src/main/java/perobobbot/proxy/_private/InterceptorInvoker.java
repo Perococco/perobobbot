@@ -2,7 +2,6 @@ package perobobbot.proxy._private;
 
 import com.google.common.collect.ImmutableList;
 import perobobbot.proxy.Interceptor;
-import perobobbot.proxy._private.InterceptorHandler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

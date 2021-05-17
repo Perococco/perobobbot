@@ -5,7 +5,6 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.physics.ROVector2D;
 import perobobbot.physics.Vector2D;
 import perobobbot.rendering.graphics2d.RendererUsingGraphics2D;
-import perobobbot.rendering.tile.TileSet;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;

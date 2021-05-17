@@ -2,7 +2,6 @@ package perobobbot.extension;
 
 import com.google.common.collect.ImmutableList;
 import jplugman.api.ServiceProvider;
-import jplugman.api.Version;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;

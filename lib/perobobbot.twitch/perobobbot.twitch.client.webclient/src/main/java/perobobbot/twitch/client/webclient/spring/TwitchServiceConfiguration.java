@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Packages;
 import perobobbot.oauth.OAuthController;
-import perobobbot.oauth.OAuthTokenRefresher;
 import perobobbot.twitch.client.api.TwitchServiceFactory;
 
 @Configuration

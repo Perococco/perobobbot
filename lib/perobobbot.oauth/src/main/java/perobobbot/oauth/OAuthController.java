@@ -2,11 +2,8 @@ package perobobbot.oauth;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
-import perobobbot.lang.Secret;
 
 import java.util.concurrent.CompletionStage;
 

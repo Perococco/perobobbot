@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.data.service.BotService;
 import perobobbot.data.service.CredentialService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;

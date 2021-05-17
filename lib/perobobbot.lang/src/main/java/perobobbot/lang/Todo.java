@@ -1,7 +1,6 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
-import perobobbot.lang.fp.Consumer1;
 
 public class Todo {
 

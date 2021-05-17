@@ -4,21 +4,15 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.springframework.beans.BeansException;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
 import perobobbot.plugin.WebPlugin;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component

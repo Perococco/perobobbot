@@ -1,7 +1,6 @@
 package perococco.backend.i18n;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import perobobbot.backend.i18n.Dictionaries;

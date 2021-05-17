@@ -3,7 +3,6 @@ package perobobbot.server.plugin.template;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import jplugman.api.Version;
-import jplugman.api.VersionedService;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

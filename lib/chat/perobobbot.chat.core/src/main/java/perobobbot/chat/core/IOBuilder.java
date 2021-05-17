@@ -1,7 +1,6 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
-import perobobbot.lang.Platform;
 
 public interface IOBuilder {
 

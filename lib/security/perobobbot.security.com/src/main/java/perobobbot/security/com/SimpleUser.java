@@ -5,10 +5,7 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.TypeScript;
 
-import java.beans.Transient;
 import java.util.Locale;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Value
 @TypeScript

@@ -9,20 +9,15 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Bag;
 import perobobbot.lang.HashBag;
-import perobobbot.lang.StringTools;
 import perobobbot.lang.fp.Function1;
-import perobobbot.lang.fp.Predicate1;
-import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.poll.Poll;
 import perobobbot.poll.PollResult;
 import perobobbot.poll.TimedPoll;
 import perobobbot.poll.Voter;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SimplePoll implements Poll {

@@ -11,9 +11,9 @@ import perobobbot.chat.advanced.event.PostedMessage;
 import perobobbot.chat.core.ChatIO;
 import perobobbot.chat.core.ChatNotConnected;
 import perobobbot.lang.DispatchContext;
+import perobobbot.lang.Instants;
 import perobobbot.lang.Listeners;
 import perobobbot.lang.Looper;
-import perobobbot.lang.Instants;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.util.BuilderFactory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.xml.sax.ErrorHandler;
 import perobobbot.fx.ControllerFactory;
 import perobobbot.fx.FXLoader;
 import perobobbot.fx.FXLoadingResult;

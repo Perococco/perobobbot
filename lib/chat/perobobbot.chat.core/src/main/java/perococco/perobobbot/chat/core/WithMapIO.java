@@ -5,7 +5,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.chat.core.*;
+import perobobbot.chat.core.ChatPlatform;
+import perobobbot.chat.core.DispatchSlip;
+import perobobbot.chat.core.MutableIO;
+import perobobbot.chat.core.UnknownChatPlatform;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 
