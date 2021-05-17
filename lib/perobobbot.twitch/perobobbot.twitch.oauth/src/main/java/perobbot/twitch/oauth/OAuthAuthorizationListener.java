@@ -25,8 +25,7 @@ public class OAuthAuthorizationListener implements OAuthListener {
     public static final String CODE_PARAMETER_NAME = "code";
 
     private final @NonNull WebClient webClient;
-    private final @NonNull String clientId;
-    private final @NonNull Secret clientSecret;
+    private final @NonNull ClientProperty clientProperty;
     private final @NonNull Instants instants;
 
     @Getter
@@ -40,26 +39,26 @@ public class OAuthAuthorizationListener implements OAuthListener {
             final var code = request.getParameter(CODE_PARAMETER_NAME);
 
             if (code == null) {
-                futureToken.completeExceptionally(new OAuthRejected(clientId));
+                futureToken.completeExceptionally(new OAuthRejected(clientProperty.getId()));
             } else {
-                final var secretURI = new TwitchOAuthURI().getUserTokenURI(clientId, clientSecret, code, redirectURI);
+                final var secretURI = new TwitchOAuthURI().getUserTokenURI(clientProperty, code, redirectURI);
 
                 webClient.post()
                          .uri(secretURI.getUri())
                          .retrieve()
                          .bodyToMono(TwitchToken.class)
                          .subscribe(result -> futureToken.complete(result.toToken(instants.now())),
-                                    error -> futureToken.completeExceptionally(new OAuthFailure(clientId, error)));
+                                    error -> futureToken.completeExceptionally(new OAuthFailure(clientProperty.getId(), error)));
             }
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            futureToken.completeExceptionally(new OAuthFailure(clientId, t));
+            futureToken.completeExceptionally(new OAuthFailure(clientProperty.getId(), t));
         }
     }
 
     @Override
     public void onTimeout() {
-        futureToken.completeExceptionally(new OAuthTimedOut(clientId));
+        futureToken.completeExceptionally(new OAuthTimedOut(clientProperty.getId()));
     }
 
 }

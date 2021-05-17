@@ -7,10 +7,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import perobobbot.chat.core.IO;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
+import perobobbot.oauth.ClientProperties;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.Token;
 
@@ -27,22 +27,21 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class PerococcoRunner implements ApplicationRunner {
 
-    public static final String CLIENT_ID = "m01e1fb0emhtr0toc6eydvl9zkuecu";
-
     public final @NonNull OAuthManager oAuthManager;
+    public final @NonNull ClientProperties clientProperties;
 
     private final Scope scope1 = () -> "moderation:read";
     private final Scope scope2 = () -> "bits:read";
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
+        testAppToken();
     }
 
 
     private void testAppToken() throws IOException, ExecutionException, InterruptedException {
         final var oauthController = oAuthManager.getController(Platform.TWITCH);
-        final var oauthInfo = oauthController.getAppToken(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
+        final var oauthInfo = oauthController.getAppToken();
 
         final var token = oauthInfo.toCompletableFuture().get();
 
@@ -51,7 +50,7 @@ public class PerococcoRunner implements ApplicationRunner {
 
         System.out.println(v);
 
-        final var result = oauthController.revokeToken(CLIENT_ID,token.getAccessToken()).toCompletableFuture().get();
+        final var result = oauthController.revokeToken(token.getAccessToken()).toCompletableFuture().get();
         System.out.println("TOTO " +result);
     }
 
@@ -59,7 +58,7 @@ public class PerococcoRunner implements ApplicationRunner {
 
     private void testUserToken() throws IOException {
         final var oauthController = oAuthManager.getController(Platform.TWITCH);
-        final var oauthInfo = oauthController.prepareUserOAuth(CLIENT_ID, readSecret(), ImmutableSet.of(scope1,scope2));
+        final var oauthInfo = oauthController.prepareUserOAuth(ImmutableSet.of(scope1,scope2));
 
         Desktop.getDesktop().browse(oauthInfo.getOauthURI());
 
@@ -89,7 +88,7 @@ public class PerococcoRunner implements ApplicationRunner {
         final var validation = oAuthController.validateToken(token).toCompletableFuture().get();
         System.out.println("Validation : "+validation);
 
-        final var result = oAuthController.revokeToken(CLIENT_ID, token.getAccessToken()).toCompletableFuture().get();
+        final var result = oAuthController.revokeToken(token.getAccessToken()).toCompletableFuture().get();
 
         System.out.println("revoke: "+result);
     }

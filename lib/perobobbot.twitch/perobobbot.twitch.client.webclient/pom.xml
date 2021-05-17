@@ -37,6 +37,10 @@
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-proxy</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>

@@ -8,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 import perobobbot.lang.SecretURI;
+import perobobbot.oauth.ClientProperty;
 
 import java.net.URI;
 
@@ -18,8 +19,8 @@ public class TwitchOAuthURI {
         return URI.create("https://id.twitch.tv/oauth2/validate");
     }
 
-    public @NonNull SecretURI getRefreshURI(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull String refreshToken) {
-        return getTokenURIBuilder(clientId, clientSecret, GranType.REFRESH_TOKEN)
+    public @NonNull SecretURI getRefreshURI(@NonNull ClientProperty clientProperty, @NonNull String refreshToken) {
+        return getTokenURIBuilder(clientProperty, GranType.REFRESH_TOKEN)
                 .setRefreshToken(refreshToken)
                 .build();
     }
@@ -32,16 +33,16 @@ public class TwitchOAuthURI {
                                                  .toUri());
     }
 
-    public @NonNull SecretURI getUserTokenURI(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull String code, @NonNull URI redirectURI) {
-        return getTokenURIBuilder(clientId, clientSecret, GranType.AUTHORIZATION_CODE)
+    public @NonNull SecretURI getUserTokenURI(@NonNull ClientProperty clientProperty, @NonNull String code, @NonNull URI redirectURI) {
+        return getTokenURIBuilder(clientProperty, GranType.AUTHORIZATION_CODE)
                 .setCode(code)
                 .setRedirectUri(redirectURI)
                 .build();
     }
 
-    public @NonNull SecretURI getAppTokenURI(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull ImmutableSet<? extends Scope> scopes) {
-        return getTokenURIBuilder(clientId, clientSecret, GranType.CLIENT_CREDENTIALS)
-                .setScopes(scopes)
+    public @NonNull SecretURI getAppTokenURI(@NonNull ClientProperty clientProperty) {
+        return getTokenURIBuilder(clientProperty, GranType.CLIENT_CREDENTIALS)
+                .setScopes(ImmutableSet.of())
                 .build();
     }
 
@@ -57,10 +58,10 @@ public class TwitchOAuthURI {
     }
 
 
-    private @NonNull TokenURIBuilder getTokenURIBuilder(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull GranType granType) {
+    private @NonNull TokenURIBuilder getTokenURIBuilder(@NonNull ClientProperty clientProperty, @NonNull GranType granType) {
         final var uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl("https://id.twitch.tv/oauth2/token")
-                                                             .queryParam("client_id", clientId)
-                                                             .queryParam("client_secret", clientSecret.getValue())
+                                                             .queryParam("client_id", clientProperty.getId())
+                                                             .queryParam("client_secret", clientProperty.getSecretValue())
                                                              .queryParam("grant_type", granType.uriValue);
         return new TokenURIBuilder(uriComponentsBuilder);
     }

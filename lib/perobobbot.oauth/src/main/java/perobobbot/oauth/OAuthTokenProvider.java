@@ -8,4 +8,5 @@ public interface OAuthTokenProvider {
 
     @NonNull Optional<Token> getUserToken();
     @NonNull Optional<Token> getClientToken();
+
 }

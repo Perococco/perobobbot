@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeFunction;
 import perobobbot.oauth.OAuthTokenProvider;
 import perobobbot.oauth.Token;
-import perobobbot.twitch.client.api.TokenType;
+import perobobbot.oauth.TokenType;
 import perobobbot.twitch.client.api.TokenTypeProvider;
 import reactor.core.publisher.Mono;
 
@@ -33,7 +33,6 @@ public class OAuthTokenFilter implements ExchangeFilterFunction {
         return switch (tokenType) {
             case CLIENT_TOKEN -> oauthTokenProvider.getClientToken();
             case USER_TOKEN -> oauthTokenProvider.getUserToken();
-            case USER_OR_CLIENT_TOKEN -> oauthTokenProvider.getUserToken().or(oauthTokenProvider::getClientToken);
         };
     }
 }

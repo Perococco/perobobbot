@@ -1,17 +1,22 @@
 package perobobbot.twitch.client.api;
 
+import perobobbot.lang.Nil;
+import perobobbot.oauth.TokenType;
+
+import java.util.concurrent.CompletionStage;
+
 public interface TwitchService {
 
     @TokenRequired(type = TokenType.USER_TOKEN)
-    void getStreamTags();
+    CompletionStage<Nil> getStreamTags();
 
     @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    void createEventSubSubscription();
+    CompletionStage<Nil> createEventSubSubscription();
 
     @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    void deleteEventSubSubscription();
+    CompletionStage<Nil> deleteEventSubSubscription();
 
     @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    void getEventSubSubscriptions();
+    CompletionStage<Nil> getEventSubSubscriptions();
 
 }

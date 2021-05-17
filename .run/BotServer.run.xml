@@ -13,7 +13,6 @@
     <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
     <method v="2">
       <option name="Make" enabled="true" />
-      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/back/perobobbot.server/pom.xml" goal="generate-resources" />
     </method>
   </configuration>
 </component>

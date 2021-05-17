@@ -1,16 +1,15 @@
-package perobobbot.twitch.client.api;
-
-import perobobbot.oauth.TokenType;
+package perobobbot.proxy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+/**
+ * @author perococco
+ */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TokenRequired {
-
-    TokenType type();
+@Target(ElementType.METHOD)
+public @interface NotIntercepted {
 
 }

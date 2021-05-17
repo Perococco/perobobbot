@@ -4,12 +4,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobbot.twitch.oauth.TwitchOAuthController;
 import perobobbot.http.WebHookManager;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Packages;
+import perobobbot.lang.Platform;
+import perobobbot.oauth.ClientProperties;
 import perobobbot.oauth.OAuthSubscriptions;
 
 @Configuration
@@ -22,10 +23,12 @@ public class TwitchOAuthConfiguration {
 
     private final @NonNull Instants instants;
     private final @NonNull WebHookManager webHookManager;
+    private final @NonNull ClientProperties clientProperties;
 
     @Bean
     public TwitchOAuthController oAuthController() {
-        return new TwitchOAuthController(oAuthSubscriptions(), WebClient.create(), instants);
+        final var clientProperty = clientProperties.getClientProperty(Platform.TWITCH);
+        return new TwitchOAuthController(oAuthSubscriptions(), WebClient.create(), instants, clientProperty);
     }
 
     @Bean(destroyMethod = "removeAll")

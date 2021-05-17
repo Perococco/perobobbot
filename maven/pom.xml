@@ -134,6 +134,11 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-proxy</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-plugin</artifactId>
                 <version>${project.version}</version>
             </dependency>

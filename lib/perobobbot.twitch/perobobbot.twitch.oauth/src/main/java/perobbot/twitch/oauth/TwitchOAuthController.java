@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
-import perobobbot.lang.Secret;
 import perobobbot.lang.fp.Function1;
 import perobobbot.oauth.*;
 import reactor.core.publisher.Mono;
@@ -28,14 +27,17 @@ public class TwitchOAuthController implements OAuthController {
     private final @NonNull WebClient webClient;
     private final @NonNull Instants instants;
 
+    private final @NonNull ClientProperty clientProperty;
+
+
     @Override
     public @NonNull Platform getPlatform() {
         return Platform.TWITCH;
     }
 
     @Override
-    public @NonNull CompletionStage<?> revokeToken(@NonNull String clientId, @NonNull String accessToken) {
-        final var revokeUri = new TwitchOAuthURI().getRevokeURI(clientId, accessToken);
+    public @NonNull CompletionStage<?> revokeToken(@NonNull String accessToken) {
+        final var revokeUri = new TwitchOAuthURI().getRevokeURI(clientProperty.getId(), accessToken);
         return toCompletionStage(
                 webClient.post()
                          .uri(revokeUri.getUri())
@@ -43,12 +45,12 @@ public class TwitchOAuthController implements OAuthController {
                          .toBodilessEntity(), ResponseEntity::getStatusCode);
     }
 
-    public @NonNull CompletionStage<Token> refreshToken(@NonNull String clientId, @NonNull Secret clientSecret, @NonNull Token expiredToken) {
+    public @NonNull CompletionStage<Token> refreshToken(@NonNull Token expiredToken) {
         final var refreshToken = expiredToken.getRefreshToken().orElseThrow(
-                () -> new OAuthNotRefreshableToken(clientId));
+                () -> new OAuthNotRefreshableToken(clientProperty.getId()));
 
 
-        final var refreshUri = new TwitchOAuthURI().getRefreshURI(clientId, clientSecret, refreshToken);
+        final var refreshUri = new TwitchOAuthURI().getRefreshURI(clientProperty, refreshToken);
         return toCompletionStage(
                 webClient.post().uri(refreshUri.getUri()).retrieve().bodyToMono(TwitchRefreshedToken.class),
                 r -> r.update(expiredToken)
@@ -56,8 +58,8 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull CompletionStage<Token> getAppToken(@NonNull String clientId, @NonNull Secret clientSecret, ImmutableSet<? extends Scope> scopes) {
-        final var tokenUri = new TwitchOAuthURI().getAppTokenURI(clientId, clientSecret, scopes);
+    public @NonNull CompletionStage<Token> getAppToken() {
+        final var tokenUri = new TwitchOAuthURI().getAppTokenURI(clientProperty);
 
         return toCompletionStage(webClient.post()
                                           .uri(tokenUri.getUri())
@@ -67,11 +69,11 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull UserOAuthInfo prepareUserOAuth(@NonNull String clientId, @NonNull Secret clientSecret, ImmutableSet<? extends Scope> scopes) {
-        final var listener = new OAuthAuthorizationListener(webClient, clientId, clientSecret, instants);
+    public @NonNull UserOAuthInfo prepareUserOAuth(@NonNull ImmutableSet<? extends Scope> scopes) {
+        final var listener = new OAuthAuthorizationListener(webClient, clientProperty, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
-        final var oauthURI = new TwitchOAuthURI().getUserAuthorizationURI(clientId, scopes, subscriptionData.getState(),
+        final var oauthURI = new TwitchOAuthURI().getUserAuthorizationURI(clientProperty.getId(), scopes, subscriptionData.getState(),
                                                                           subscriptionData.getOAuthRedirectURI());
 
         return new UserOAuthInfo(oauthURI, listener.getFutureToken());

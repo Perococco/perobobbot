@@ -301,7 +301,7 @@
                 <executions>
                     <execution>
                         <id>list</id>
-                        <phase>generate-resources</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>list</goal>
                         </goals>

@@ -1,7 +1,7 @@
 import perobbot.twitch.oauth.spring.TwitchOAuthConfiguration;
 import perobobbot.lang.Packages;
 
-module perobobbot.twitch {
+module perobobbot.twitch.oauth {
     requires static lombok;
     requires java.desktop;
     requires spring.context;
