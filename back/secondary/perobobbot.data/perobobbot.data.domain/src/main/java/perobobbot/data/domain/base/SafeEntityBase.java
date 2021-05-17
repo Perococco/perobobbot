@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A safe contains the point of a user on a specific Platform channel
+ */
 @MappedSuperclass
 @NoArgsConstructor
 @Getter
