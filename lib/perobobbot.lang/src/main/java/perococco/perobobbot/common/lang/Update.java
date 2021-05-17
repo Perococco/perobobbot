@@ -7,7 +7,7 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.fp.Function0;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class Update<S, R> {

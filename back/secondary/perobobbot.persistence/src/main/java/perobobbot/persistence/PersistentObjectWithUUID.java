@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @MappedSuperclass
 @EqualsAndHashCode(of = {"uuid"},callSuper = false)

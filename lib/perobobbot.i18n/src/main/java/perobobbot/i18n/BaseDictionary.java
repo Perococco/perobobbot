@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import java.util.spi.ResourceBundleProvider;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public class BaseDictionary implements Dictionary {
 

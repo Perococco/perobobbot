@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class PrefixedDictionary implements Dictionary {

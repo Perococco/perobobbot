@@ -10,7 +10,7 @@ import javax.persistence.Version;
 import java.io.Serializable;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @MappedSuperclass
 public abstract class PersistentObject<I> implements Serializable {

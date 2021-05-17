@@ -7,7 +7,7 @@ import perococco.perobobbot.frontfx.model.PeroSelection;
 import java.util.Optional;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface Selection<T> {
 

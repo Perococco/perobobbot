@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import perobobbot.security.core.UserProvider;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class UserDetailServiceWithUserProvider implements UserDetailsService {

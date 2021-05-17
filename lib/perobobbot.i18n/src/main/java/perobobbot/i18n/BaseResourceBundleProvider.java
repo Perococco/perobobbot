@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import java.util.spi.AbstractResourceBundleProvider;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public abstract class BaseResourceBundleProvider extends AbstractResourceBundleProvider {
 

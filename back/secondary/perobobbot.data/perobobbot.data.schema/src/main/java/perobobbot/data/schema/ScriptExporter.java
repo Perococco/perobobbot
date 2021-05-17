@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class ScriptExporter {

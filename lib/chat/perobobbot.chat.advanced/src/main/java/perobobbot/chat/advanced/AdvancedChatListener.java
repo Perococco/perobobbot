@@ -4,7 +4,7 @@ import lombok.NonNull;
 import perobobbot.chat.advanced.event.AdvancedChatEvent;
 
 /**
- * @author Perococco
+ * @author perococco
  * @param <M> the type of message from the chat
  */
 public interface AdvancedChatListener<M> {

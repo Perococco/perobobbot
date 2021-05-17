@@ -7,7 +7,7 @@ import perobobbot.i18n.LocalizedString;
 import java.util.Locale;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface ParametersTranslator {
 

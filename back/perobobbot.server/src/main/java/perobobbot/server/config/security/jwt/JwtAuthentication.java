@@ -9,7 +9,7 @@ import perobobbot.security.com.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public class JwtAuthentication extends AbstractAuthenticationToken {
 

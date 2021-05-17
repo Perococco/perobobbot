@@ -12,7 +12,7 @@ import perobobbot.server.config.Orders;
 
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Configuration
 public class JwtConfig {

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Log4j2
 public class WSAuthenticationFilter extends TokenBasedAuthenticationFilter {

@@ -8,7 +8,7 @@ import perobobbot.lang.Lazy;
 import perobobbot.security.com.LoginFailed;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class LoginFromAuthentication implements CharSequence {

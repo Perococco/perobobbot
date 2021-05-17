@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {

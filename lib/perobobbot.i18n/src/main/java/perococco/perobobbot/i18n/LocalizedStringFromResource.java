@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Log4j2
 public class LocalizedStringFromResource implements LocalizedString {

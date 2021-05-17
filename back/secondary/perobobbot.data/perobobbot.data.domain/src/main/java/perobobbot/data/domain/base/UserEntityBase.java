@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @MappedSuperclass
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package perobobbot.data.domain;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public @interface DataDomainPackageMarker {
 }

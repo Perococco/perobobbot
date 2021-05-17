@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Repository
 public interface ExtensionRepository extends JpaRepository<ExtensionEntity, Long> {

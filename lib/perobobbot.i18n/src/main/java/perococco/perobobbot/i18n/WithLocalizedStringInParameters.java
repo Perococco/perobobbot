@@ -8,7 +8,7 @@ import perobobbot.i18n.LocalizedString;
 import java.util.Locale;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class WithLocalizedStringInParameters implements ParametersTranslator {

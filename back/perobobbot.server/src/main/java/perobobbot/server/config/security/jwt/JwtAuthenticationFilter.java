@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public class JwtAuthenticationFilter extends TokenBasedAuthenticationFilter {
 

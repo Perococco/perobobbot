@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.security.com.User;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public class PerobobbotUserDetails extends org.springframework.security.core.userdetails.User {
 

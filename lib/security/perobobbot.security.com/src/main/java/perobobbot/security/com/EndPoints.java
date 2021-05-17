@@ -3,7 +3,7 @@ package perobobbot.security.com;
 import lombok.NonNull;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface EndPoints {
 

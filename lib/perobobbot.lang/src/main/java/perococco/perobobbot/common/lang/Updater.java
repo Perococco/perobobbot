@@ -5,7 +5,7 @@ import lombok.NonNull;
 import java.util.concurrent.CompletionStage;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface Updater<S> {
 

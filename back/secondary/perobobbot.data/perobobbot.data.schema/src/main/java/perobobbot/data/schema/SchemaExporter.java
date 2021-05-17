@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class SchemaExporter {

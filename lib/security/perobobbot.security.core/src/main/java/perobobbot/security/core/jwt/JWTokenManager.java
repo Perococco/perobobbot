@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @RequiredArgsConstructor
 public class JWTokenManager {

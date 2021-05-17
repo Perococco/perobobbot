@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Service
 @UnsecuredService

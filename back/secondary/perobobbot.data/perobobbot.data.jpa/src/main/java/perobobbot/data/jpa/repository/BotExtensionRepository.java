@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Repository
 public interface BotExtensionRepository extends JpaRepository<BotExtensionEntity, Long> {

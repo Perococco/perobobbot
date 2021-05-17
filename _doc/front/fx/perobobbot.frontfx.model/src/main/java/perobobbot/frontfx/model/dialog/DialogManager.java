@@ -1,7 +1,7 @@
 package perobobbot.frontfx.model.dialog;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface DialogManager  {
 

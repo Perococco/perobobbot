@@ -4,7 +4,7 @@ package perobobbot.security.core.jwt;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public class InvalidJWTIssuer extends AuthenticationException {
 

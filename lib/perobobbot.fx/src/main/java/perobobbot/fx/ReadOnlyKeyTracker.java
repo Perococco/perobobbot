@@ -5,7 +5,7 @@ import javafx.scene.input.KeyCode;
 import lombok.NonNull;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface ReadOnlyKeyTracker {
 

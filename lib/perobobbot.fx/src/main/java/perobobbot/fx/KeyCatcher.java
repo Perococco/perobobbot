@@ -4,7 +4,7 @@ import javafx.scene.input.KeyEvent;
 import lombok.NonNull;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface KeyCatcher {
 

@@ -5,7 +5,7 @@ import perobobbot.lang.TypeScript;
 
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Value
 @TypeScript

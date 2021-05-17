@@ -9,7 +9,7 @@ import perobobbot.security.com.SimpleUser;
 import java.util.concurrent.CompletionStage;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface SecurityClient {
 

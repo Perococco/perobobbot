@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Service
 @UnsecuredService

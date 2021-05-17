@@ -6,7 +6,7 @@ import lombok.NonNull;
 import perobobbot.lang.Subscription;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface KeyTracker extends ReadOnlyKeyTracker {
 

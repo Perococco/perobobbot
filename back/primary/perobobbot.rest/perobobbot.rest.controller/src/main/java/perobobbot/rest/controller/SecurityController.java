@@ -20,7 +20,7 @@ import perobobbot.security.core.jwt.JWTokenManager;
 
 import javax.validation.Valid;
 /**
- * @author Perococco
+ * @author perococco
  */
 @RestController
 @RequestMapping("/api")

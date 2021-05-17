@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @Log4j2
 @RequiredArgsConstructor

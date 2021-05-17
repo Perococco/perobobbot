@@ -3,7 +3,7 @@ package perobobbot.plugin;
 import lombok.NonNull;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface PerobobbotPlugin {
 

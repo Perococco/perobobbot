@@ -3,7 +3,7 @@ package perobobbot.lang;
 import static perobobbot.lang.ApplicationCloser.VERSION;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @PluginService(type = ApplicationCloser.class, apiVersion = VERSION)
 public interface ApplicationCloser {

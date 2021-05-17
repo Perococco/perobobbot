@@ -6,7 +6,7 @@ import perococco.perobobbot.i18n.ConstantLocalizedString;
 import java.util.Locale;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface LocalizedString {
 

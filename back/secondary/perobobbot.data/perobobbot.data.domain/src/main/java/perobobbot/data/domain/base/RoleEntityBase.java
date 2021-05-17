@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 @MappedSuperclass
 @NoArgsConstructor

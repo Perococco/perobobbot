@@ -5,7 +5,7 @@ import lombok.NonNull;
 import java.util.function.Predicate;
 
 /**
- * @author Perococco
+ * @author perococco
  */
 public interface ObjectPredicate extends Predicate<Object> {
 
