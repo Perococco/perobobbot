@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.Secret;
 import perobobbot.oauth.Token;
 
 import java.time.Instant;
@@ -43,9 +44,9 @@ public class TwitchToken {
         final long duration = (long) expiresIn;
 
         return Token.builder()
-                    .accessToken(accessToken)
+                    .accessToken(Secret.with(accessToken))
                     .duration(duration)
-                    .refreshToken(refreshToken)
+                    .refreshToken(Secret.with(refreshToken))
                     .expirationInstant(now.plusSeconds(duration))
                     .scopes(twitchScopes)
                     .tokenType(tokenType)

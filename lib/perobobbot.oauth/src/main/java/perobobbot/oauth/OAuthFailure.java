@@ -3,19 +3,24 @@ package perobobbot.oauth;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.PerobobbotException;
+import perobobbot.lang.Platform;
 
 public class OAuthFailure extends PerobobbotException {
+
+    private final @NonNull Platform platform;
 
     @Getter
     private final @NonNull String clientId;
 
-    public OAuthFailure(String clientId, String reason) {
+    public OAuthFailure(@NonNull Platform platform, @NonNull String clientId, String reason) {
         super(formMessage(clientId,reason));
+        this.platform = platform;
         this.clientId  = clientId;
     }
 
-    public OAuthFailure(String clientId, Throwable cause) {
+    public OAuthFailure(@NonNull Platform platform, @NonNull String clientId, Throwable cause) {
         super(formMessage(clientId,cause.getMessage()),cause);
+        this.platform = platform;
         this.clientId = clientId;
     }
 

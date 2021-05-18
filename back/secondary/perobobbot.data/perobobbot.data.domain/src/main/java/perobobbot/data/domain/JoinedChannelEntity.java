@@ -1,9 +1,9 @@
 package perobobbot.data.domain;
 
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import perobobbot.data.com.JoinedChannel;
 import perobobbot.data.domain.base.JoinedChannelEntityBase;
-import perobobbot.lang.Platform;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,11 +13,19 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class JoinedChannelEntity extends JoinedChannelEntityBase {
 
-    public JoinedChannelEntity(BotEntity bot, Platform platform, String channelName) {
-        super(bot, platform, channelName);
+    public JoinedChannelEntity(@NonNull BotEntity bot,
+                               @NonNull ViewerIdentityEntity viewerIdentity,
+                               @NonNull String channelName) {
+        super(bot, viewerIdentity, channelName);
     }
 
-    public JoinedChannel toView() {
-        return new JoinedChannel(getBot().toView(),getPlatform(),getChannelName());
+    public @NonNull JoinedChannel toView() {
+        return new JoinedChannel(getUuid(), getBot().toView(),
+                                 getViewerIdentity().toView(),
+                                 getChannelName());
+    }
+
+    public void disconnect() {
+        getBot().disconnectChannel(this);
     }
 }

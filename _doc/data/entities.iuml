@@ -3,49 +3,70 @@
 !define TOTO
 class Bot {
    +name:String,
+   +deactivated:bool,
    +owner:User,
-   +credentials:List<Token>,
+   +joined_channels:List<JoinedChannel>,
    +extensions:List<Extension>,
 }
 
-class Extension{
+class Extension {
   + name:String,
   + activated:boolean,
   + available:boolean,
 }
 
 class JoinedChannel {
-  + channelName:String,
-  + platform:Platform,
+  + viewerIdentity: ViewerIdentity,
   + bot:Bot
+  + channelName:String,
 }
 
 class Role {
  +role:RoleKind
- ---
  +allowed_operations:Set<Operation>
 }
 
-class Safe {
- +amount:int
+class Safe #C8FF8D {
  +channelName:String,
- +platform:Platform,
+ +viewerIdentity:ViewerIdentity,
+ +amount:int
  +pointType:PointType,
- +chatUserId:String,
 }
 
-class Token {
-    nick:String,
+class ViewerIdentity {
     platform:Platform,
-    secret:String,
-    owner:User
+    viewerId:String,
+    pseudo:String
 }
 
-class Transaction {
-  +amount:int
-  +expirationDate:Instant
-  +state:TransactionState
+class Client {
+    platform:Platform,
+    clientId:String,
+    clientSecret:String
+}
+
+class ClientToken #7591FF {
+     client:Client
+}
+
+class UserToken #7591FF {
+    owner:User
+    viewerIdentity:ViewerIdentity,
+    refreshToken:String,
+    scopes:String
+}
+
+abstract class Token #FF6259 {
+    accessToken:String,
+    duration:long,
+    expirationDate:Instant,
+}
+
+class Transaction #C8FF8D {
   +safe:Safe
+  +state:TransactionState
+  +expirationDate:Instant
+  +amount:int
 }
 
 class User {

@@ -12,12 +12,11 @@ public class Safe {
 
     @NonNull UUID id;
 
-    @NonNull Platform platform;
+    @NonNull ViewerIdentity viewerIdentity;
 
     @NonNull String channelName;
 
-    @NonNull String userChatId;
-
     @NonNull PointType type;
 
+    long credit;
 }

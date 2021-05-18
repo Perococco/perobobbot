@@ -1,7 +1,7 @@
 package perobobbot.twitch.client.api;
 
 import perobobbot.lang.Nil;
-import perobobbot.oauth.TokenType;
+import perobobbot.lang.TokenType;
 
 import java.util.concurrent.CompletionStage;
 

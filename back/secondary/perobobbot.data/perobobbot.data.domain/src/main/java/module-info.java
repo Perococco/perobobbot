@@ -18,4 +18,5 @@ module perobobbot.data.domain {
     opens perobobbot.data.domain.converter to org.hibernate.orm.core, org.hibernate.validator, spring.core ;
 
     exports perobobbot.data.domain;
+    exports perobobbot.data.domain.base;
 }

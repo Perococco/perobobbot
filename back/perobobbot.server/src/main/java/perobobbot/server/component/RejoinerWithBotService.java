@@ -42,7 +42,7 @@ public class RejoinerWithBotService implements Rejoiner {
         }
 
         private void retrieveJoinedChannels() {
-            this.joinedChannels = botService.findConnections(chatPlatform.getPlatform());
+            this.joinedChannels = botService.findJoinedChannels(chatPlatform.getPlatform());
         }
 
         private void rejoin(@NonNull JoinedChannel joinedChannel) {

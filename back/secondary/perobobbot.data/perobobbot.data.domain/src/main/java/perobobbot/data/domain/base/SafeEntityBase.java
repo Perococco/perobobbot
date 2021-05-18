@@ -7,16 +7,13 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.com.NotEnoughPoints;
 import perobobbot.data.domain.TransactionEntity;
+import perobobbot.data.domain.ViewerIdentityEntity;
 import perobobbot.lang.Balance;
-import perobobbot.lang.Platform;
 import perobobbot.lang.PointType;
 import perobobbot.lang.Safe;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,62 +27,57 @@ import java.util.UUID;
 @Setter
 public class SafeEntityBase extends PersistentObjectWithUUID {
 
-
-    @Column(name = "PLATFORM", nullable = false)
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    private @NonNull Platform platform;
-
-    @OneToMany(mappedBy = "target",cascade = CascadeType.ALL,orphanRemoval = true)
-    private @NonNull List<TransactionEntity> transactions = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "VIEWER_IDENTITY_ID")
+    private @NonNull ViewerIdentityEntity viewerIdentity;
 
     @Column(name = "CHANNEL_NAME", nullable = false)
     private @NonNull String channelName;
-
-    @Column(name = "USER_CHAT_ID", nullable = false)
-    private @NonNull String userChatId;
 
     @Column(name = "POINT_TYPE", nullable = false)
     @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
     private @NonNull PointType type;
 
-    @Column(name = "AMOUNT")
-    private @NonNull long amount;
+    @Column(name = "CREDIT")
+    private long credit;
 
-    public SafeEntityBase(@NonNull Platform platform, @NonNull String channelName, @NonNull String userChatId, @NonNull PointType type) {
+    @OneToMany(mappedBy = "target",cascade = CascadeType.ALL,orphanRemoval = true)
+    private @NonNull List<TransactionEntity> transactions = new ArrayList<>();
+
+    public SafeEntityBase(@NonNull ViewerIdentityEntity viewerIdentity, @NonNull String channelName, @NonNull PointType type) {
         super(UUID.randomUUID());
-        this.platform = platform;
+        this.viewerIdentity = viewerIdentity;
         this.channelName = channelName;
-        this.userChatId = userChatId;
         this.type = type;
-        this.amount = 0;
+        this.credit = 0;
     }
 
     public void checkEnoughBalance(long requestedAmount) {
-        if (this.amount < requestedAmount) {
-            throw new NotEnoughPoints(getPlatform(), getChannelName(), getUserChatId(), getType(), requestedAmount);
+        if (this.credit < requestedAmount) {
+            throw new NotEnoughPoints(viewerIdentity.toView(), getChannelName(), getType(), requestedAmount);
         }
     }
 
     public void performWithdraw(long requestedAmount) {
         this.checkEnoughBalance(requestedAmount);
-        this.amount -= requestedAmount;
+        this.credit -= requestedAmount;
     }
 
     public @NonNull Safe toView() {
         return Safe.builder()
                    .id(getUuid())
-                   .platform(platform)
+                   .viewerIdentity(viewerIdentity.toView())
                    .channelName(channelName)
-                   .userChatId(userChatId)
+                   .credit(credit)
                    .type(type)
                    .build();
     }
 
     public @NonNull Balance toBalance() {
-        return new Balance(this.toView(),this.amount);
+        return new Balance(this.toView(),this.credit);
     }
 
     public void addToAmount(long amountToAdd) {
-        this.amount += amountToAdd;
+        this.credit += amountToAdd;
     }
 }

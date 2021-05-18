@@ -3,6 +3,7 @@ package perobobbot.oauth;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 import perobobbot.lang.Scope;
+import perobobbot.lang.Secret;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -11,15 +12,15 @@ import java.util.Optional;
 @Builder(toBuilder = true)
 public class Token {
 
-   @NonNull String accessToken;
+   @NonNull Secret accessToken;
    @Getter(AccessLevel.NONE)
-   String refreshToken;
+   Secret refreshToken;
    long duration;
    @NonNull Instant expirationInstant;
    @NonNull ImmutableSet<? extends Scope> scopes;
    @NonNull String tokenType;
 
-   public @NonNull Optional<String> getRefreshToken() {
+   public @NonNull Optional<Secret> getRefreshToken() {
       return Optional.ofNullable(refreshToken);
    }
 }

@@ -52,8 +52,8 @@ public class Secret {
         return new Secret(value);
     }
 
-
     public boolean isBlank() {
         return value.isBlank();
     }
+
 }

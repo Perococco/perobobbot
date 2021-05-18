@@ -26,10 +26,16 @@ public class ChatConnectionInterceptor {
                 return super.join(channelName).whenComplete((messageChannelIO, error) -> {
                     if (messageChannelIO != null) {
                         final var connectionInfo = getChatConnectionInfo();
-                        LOG.info("{} join {}/{}", connectionInfo.getBotName(), connectionInfo.getPlatform(), channelName);
-                        final var joinEvent = new ChatChannelJoined(connectionInfo.getPlatform(), connectionInfo.getBotId(), channelName);
+                        LOG.info("{} join {}/{}",
+                                 connectionInfo.getBotName(),
+                                 connectionInfo.getPlatform(),
+                                 connectionInfo.getViewerPseudo(),
+                                 channelName);
+
+                        final var joinEvent = new ChatChannelJoined(connectionInfo.getBotId(), connectionInfo.getViewerIdentity(), channelName);
                         messageGateway.sendEvent(joinEvent);
                     }
+
                 });
             }
         };

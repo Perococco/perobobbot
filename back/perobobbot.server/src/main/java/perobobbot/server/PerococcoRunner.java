@@ -7,10 +7,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import perobobbot.data.service.ClientService;
+import perobobbot.data.service.EventService;
+import perobobbot.lang.Client;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
-import perobobbot.oauth.ClientProperties;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.Token;
 
@@ -28,7 +30,8 @@ import java.util.concurrent.ExecutionException;
 public class PerococcoRunner implements ApplicationRunner {
 
     public final @NonNull OAuthManager oAuthManager;
-    public final @NonNull ClientProperties clientProperties;
+    public final @NonNull @EventService
+    ClientService clientService;
 
     private final Scope scope1 = () -> "moderation:read";
     private final Scope scope2 = () -> "bits:read";
@@ -40,7 +43,7 @@ public class PerococcoRunner implements ApplicationRunner {
 
     private void testAppToken() throws IOException, ExecutionException, InterruptedException {
         final var oauthController = oAuthManager.getController(Platform.TWITCH);
-        final var oauthInfo = oauthController.getAppToken();
+        final var oauthInfo = oauthController.getClientToken();
 
         final var token = oauthInfo.toCompletableFuture().get();
 
@@ -77,7 +80,7 @@ public class PerococcoRunner implements ApplicationRunner {
         System.out.println("Duration        = " + token.getDuration());
         System.out.println("Expiration Time = " + token.getExpirationInstant().atZone(ZoneOffset.UTC));
         try {
-            Files.writeString(Path.of("/home/perococco/token.txt"), token.getAccessToken());
+            Files.writeString(Path.of("/home/perococco/token.txt"), token.getAccessToken().getValue());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

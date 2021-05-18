@@ -1,7 +1,7 @@
 package perobobbot.twitch.client.api;
 
 import lombok.NonNull;
-import perobobbot.oauth.TokenType;
+import perobobbot.lang.TokenType;
 
 public interface TokenTypeProvider {
 

@@ -50,12 +50,6 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','UPDATE')")
-    public void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
-        super.attachCredential(botId, credentialId);
-    }
-
-    @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','READ')")
     public @NonNull Optional<Bot> findBot(@NonNull UUID botId) {
         return super.findBot(botId);
@@ -68,14 +62,19 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public void saveChannelConnection(@NonNull UUID botId, @NonNull Platform platform, @NonNull String channelName) {
-        super.saveChannelConnection(botId,platform,channelName);
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','WRITE')" )
+    public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
+        return super.addJoinedChannel(botId, viewerIdentityId, channelName);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull ImmutableList<JoinedChannel> findConnections(@NonNull Platform platform) {
-        return super.findConnections(platform);
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#joinedChannelId,'JoinedChannelEntity','DELETE')" )
+    public void removeJoinedChannel(@NonNull UUID joinedChannelId) {
+        super.removeJoinedChannel(joinedChannelId);
+    }
+
+    @Override
+    public @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform) {
+        return super.findJoinedChannels(platform);
     }
 }

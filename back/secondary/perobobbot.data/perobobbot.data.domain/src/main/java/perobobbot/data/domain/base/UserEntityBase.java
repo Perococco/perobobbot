@@ -5,7 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.RoleEntity;
-import perobobbot.data.domain.TokenEntity;
+import perobobbot.data.domain.UserTokenEntity;
 import perobobbot.data.domain.converter.LocaleConverter;
 import perobobbot.lang.RandomString;
 import perobobbot.persistence.SimplePersistentObject;
@@ -36,7 +36,6 @@ public class UserEntityBase extends SimplePersistentObject {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @NonNull
     @Column(name = "DEACTIVATED", nullable = false)
     private boolean deactivated = false;
 
@@ -58,7 +57,7 @@ public class UserEntityBase extends SimplePersistentObject {
     @OneToMany(mappedBy = "owner")
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    private List<TokenEntity> credentials = new ArrayList<>();
+    private List<UserTokenEntity> userTokens = new ArrayList<>();
 
     @Column(name = "LOCALE")
     @Convert(converter = LocaleConverter.class)
@@ -84,8 +83,8 @@ public class UserEntityBase extends SimplePersistentObject {
         return roles.stream();
     }
 
-    public @NonNull Stream<TokenEntity> credentials() {
-        return credentials.stream();
+    public @NonNull Stream<UserTokenEntity> credentials() {
+        return userTokens.stream();
     }
 
 }

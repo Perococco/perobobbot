@@ -2,7 +2,7 @@ package perobobbot.twitch.client.webclient.spring;
 
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
-import perobobbot.oauth.TokenType;
+import perobobbot.lang.TokenType;
 import perobobbot.twitch.client.api.TokenTypeProvider;
 
 import java.util.Deque;

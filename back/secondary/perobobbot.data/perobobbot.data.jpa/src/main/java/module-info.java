@@ -17,6 +17,7 @@ module perobobbot.data.jpa {
     requires spring.boot.autoconfigure;
     requires spring.data.commons;
     requires com.google.common;
+    requires spring.security.core;
 
     opens perobobbot.data.jpa to spring.core;
     opens perobobbot.data.jpa.service to spring.core,spring.beans,spring.context;

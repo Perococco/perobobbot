@@ -24,6 +24,10 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-data-com</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-security-com</artifactId>
         </dependency>
         <dependency>

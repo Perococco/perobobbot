@@ -11,6 +11,8 @@ public enum DataPermission {
     CREATE,
     UPDATE,
     READ,
+    READ_TOKEN,
+    DELETE_TOKEN,
     ;
 
     public static @NonNull DataPermission getOperation(@NonNull String name) {

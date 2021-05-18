@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
+import perobobbot.lang.Client;
 import perobobbot.lang.Instants;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.oauth.*;
@@ -21,7 +22,7 @@ public class OAuthAuthorizationListener implements OAuthListener {
     public static final String CODE_PARAMETER_NAME = "code";
 
     private final @NonNull WebClient webClient;
-    private final @NonNull ClientProperty clientProperty;
+    private final @NonNull Client client;
     private final @NonNull Instants instants;
 
     @Getter
@@ -35,26 +36,26 @@ public class OAuthAuthorizationListener implements OAuthListener {
             final var code = request.getParameter(CODE_PARAMETER_NAME);
 
             if (code == null) {
-                futureToken.completeExceptionally(new OAuthRejected(clientProperty.getId()));
+                futureToken.completeExceptionally(new OAuthRejected(client.getPlatform(), client.getClientId()));
             } else {
-                final var secretURI = new TwitchOAuthURI().getUserTokenURI(clientProperty, code, redirectURI);
+                final var secretURI = new TwitchOAuthURI().getUserTokenURI(client, code, redirectURI);
 
                 webClient.post()
                          .uri(secretURI.getUri())
                          .retrieve()
                          .bodyToMono(TwitchToken.class)
                          .subscribe(result -> futureToken.complete(result.toToken(instants.now())),
-                                    error -> futureToken.completeExceptionally(new OAuthFailure(clientProperty.getId(), error)));
+                                    error -> futureToken.completeExceptionally(new OAuthFailure(client.getPlatform(), client.getClientId(), error)));
             }
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            futureToken.completeExceptionally(new OAuthFailure(clientProperty.getId(), t));
+            futureToken.completeExceptionally(new OAuthFailure(client.getPlatform(), client.getClientId(), t));
         }
     }
 
     @Override
     public void onTimeout() {
-        futureToken.completeExceptionally(new OAuthTimedOut(clientProperty.getId()));
+        futureToken.completeExceptionally(new OAuthTimedOut(client.getPlatform(), client.getClientId()));
     }
 
 }

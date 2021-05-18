@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.domain.BotEntity;
+import perobobbot.data.domain.ViewerIdentityEntity;
 import perobobbot.lang.Platform;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
@@ -25,17 +26,20 @@ public class JoinedChannelEntityBase extends PersistentObjectWithUUID {
     @JoinColumn(name = "BOT_ID",nullable = false)
     private BotEntity bot;
 
-    @Column(name = "PLATFORM",nullable = false)
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    private Platform platform;
+    @ManyToOne
+    @JoinColumn(name = "VIEWER_IDENTITY_ID", nullable = false)
+    private ViewerIdentityEntity viewerIdentity;
 
     @Column(name = "CHANNEL_NAME",nullable = false)
     private String channelName;
 
-    public JoinedChannelEntityBase(@NonNull BotEntity bot, @NonNull Platform platform, @NonNull String channelName) {
+    public JoinedChannelEntityBase(
+            @NonNull BotEntity bot,
+            @NonNull ViewerIdentityEntity viewerIdentity,
+            @NonNull String channelName) {
         super(UUID.randomUUID());
         this.bot = bot;
-        this.platform =platform;
+        this.viewerIdentity = viewerIdentity;
         this.channelName = channelName;
     }
 }

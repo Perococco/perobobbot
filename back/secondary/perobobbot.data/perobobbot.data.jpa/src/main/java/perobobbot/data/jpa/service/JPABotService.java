@@ -25,16 +25,11 @@ import java.util.UUID;
 public class JPABotService implements BotService {
 
     private final @NonNull BotRepository botRepository;
-
     private final @NonNull ExtensionRepository extensionRepository;
-
     private final @NonNull BotExtensionRepository botExtensionRepository;
-
-    private final @NonNull CredentialRepository credentialRepository;
-
     private final @NonNull UserRepository userRepository;
-
     private final @NonNull JoinedChannelRepository joinedChannelRepository;
+    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
 
     @Override
     public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
@@ -70,14 +65,38 @@ public class JPABotService implements BotService {
     }
 
     @Override
-    @Transactional
-    public void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId) {
+    public JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
         final var bot = botRepository.getByUuid(botId);
-        final var credential = credentialRepository.getByUuid(credentialId);
-        bot.attachCredential(credential);
+        final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
 
-        botRepository.save(bot);
+        final var joinedChannel = bot.joinChannel(viewerIdentity,channelName);
+
+        return joinedChannelRepository.save(joinedChannel).toView();
     }
+
+    @Override
+    public @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
+        return joinedChannelRepository.findByUuid(joinedChannelId).map(JoinedChannelEntity::toView);
+    }
+
+    @Override
+    public void removeJoinedChannel(@NonNull UUID joinedChannelId) {
+        final var joinedChannel = joinedChannelRepository.findByUuid(joinedChannelId);
+        joinedChannel.ifPresent(jc -> {
+            jc.disconnect();
+            joinedChannelRepository.delete(jc);
+        });
+    }
+
+    @Override
+    public @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform) {
+
+        return joinedChannelRepository.findAllByViewerIdentity_Platform(platform)
+                                      .stream()
+                                      .map(JoinedChannelEntity::toView)
+                                      .collect(ImmutableList.toImmutableList());
+    }
+
 
     @Override
     @Transactional
@@ -101,23 +120,4 @@ public class JPABotService implements BotService {
     }
 
 
-    @Override
-    @Transactional
-    public void saveChannelConnection(@NonNull UUID botId, @NonNull Platform platform, @NonNull String channelName) {
-        final var bot = botRepository.getByUuid(botId);
-
-        final var existing = joinedChannelRepository.findByBotAndPlatformAndChannelName(bot,platform,channelName);
-        if (existing.isPresent()) {
-            return;
-        }
-        final var joinedChannelEntity = bot.createJoinedChannel(platform,channelName);
-        joinedChannelRepository.save(joinedChannelEntity);
-    }
-
-    @Override
-    public @NonNull ImmutableList<JoinedChannel> findConnections(@NonNull Platform platform) {
-        return joinedChannelRepository.findByPlatform(platform)
-                                      .map(JoinedChannelEntity::toView)
-                                      .collect(ImmutableList.toImmutableList());
-    }
 }

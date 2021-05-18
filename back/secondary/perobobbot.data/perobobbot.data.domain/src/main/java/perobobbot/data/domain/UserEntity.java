@@ -6,14 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.domain.base.UserEntityBase;
-import perobobbot.lang.Platform;
 import perobobbot.lang.RandomString;
+import perobobbot.lang.token.DecryptedUserToken;
+import perobobbot.lang.token.EncryptedUserToken;
+import perobobbot.lang.token.UserToken;
 import perobobbot.security.com.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Entity
 @Table(name = "USER")
@@ -35,15 +38,23 @@ public class UserEntity extends UserEntityBase {
     }
 
     /**
-     * Add a credential to the user without any password or nick
-     * @param platform the platform the credential is associated to
-     * @return the created entity
+     *
+     * @param viewerIdentityEntity the identity of the viewer the token refers to
+     * @param userToken the user token obtain by OAuth processs
+     * @return the new entity representing the token for the provided viewer identity and owned by this
      */
-    public @NonNull TokenEntity addCredential(@NonNull Platform platform) {
-        final var credential = new TokenEntity(this, platform);
-        this.getCredentials().add(credential);
-        return credential;
+    public @NonNull UserTokenEntity addUserToken(@NonNull ViewerIdentityEntity viewerIdentityEntity, @NonNull EncryptedUserToken userToken) {
+        final var userTokenEntity = new UserTokenEntity(this, viewerIdentityEntity, userToken);
+        this.getUserTokens().add(userTokenEntity);
+        return userTokenEntity;
     }
+
+    public void removeUserToken(@NonNull UUID tokenId) {
+        this.getUserTokens().removeIf(t -> tokenId.equals(t.getUuid()));
+    }
+
+
+
 
     /**
      * Regenerate the JWT claim. This will invalidate all
@@ -73,6 +84,7 @@ public class UserEntity extends UserEntityBase {
         this.getRoles().remove(role);
         return this;
     }
+
 
     public @NonNull User toView() {
         return User.builder()

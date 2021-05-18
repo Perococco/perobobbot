@@ -29,7 +29,7 @@ public class BotEntityBase extends PersistentObjectWithUUID {
     private String name;
 
     @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BotCredentialEntity> botCredentials = new ArrayList<>();
+    private List<JoinedChannelEntity> joinedChannels = new ArrayList<>();
 
     @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BotExtensionEntity> botExtensions = new ArrayList<>();
@@ -40,19 +40,4 @@ public class BotEntityBase extends PersistentObjectWithUUID {
         this.name = name;
     }
 
-    public @NonNull Stream<BotCredentialEntity> botCredentials() {
-        return botCredentials.stream();
-    }
-
-    public @NonNull Stream<BotExtensionEntity> botExtensions() {
-        return botExtensions.stream();
-    }
-
-    public @NonNull Stream<ExtensionEntity> extensions() {
-        return botExtensions().map(BotExtensionEntityBase::getExtension);
-    }
-
-    public @NonNull Stream<TokenEntity> credentials() {
-        return botCredentials().map(BotCredentialEntityBase::getCredentialEntity);
-    }
 }

@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.com.UpdateUserParameters;
-import perobobbot.data.service.CredentialService;
+import perobobbot.data.service.TokenService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.ListTool;
-import perobobbot.rest.com.RestCredentialInfo;
-import perobobbot.rest.controller.converter.CredentialInfoConverter;
+import perobobbot.rest.com.RestUserToken;
 import perobobbot.security.com.SimpleUser;
 import perobobbot.security.com.User;
 
@@ -27,7 +26,7 @@ public class UserController {
 
     private final @NonNull
     @SecuredService
-    CredentialService credentialService;
+    TokenService credentialService;
 
 
     @GetMapping("")
@@ -50,12 +49,11 @@ public class UserController {
         return userService.updateUser(login,parameters).simplify();
     }
 
-    @GetMapping("/{login}/credentials")
-    public @NonNull ImmutableList<RestCredentialInfo> getUserCredentials(@NonNull @PathVariable String login) {
-        return credentialService.getUserCredentials(login)
+    @GetMapping("/{login}/tokens")
+    public @NonNull ImmutableList<RestUserToken> getUserTokens(@NonNull @PathVariable String login) {
+        return credentialService.getUserTokens(login)
                                 .stream()
-                                .filter(DataCredentialInfo::hasSecret)
-                                .map(CredentialInfoConverter.INSTANCE)
+                                .map(RestUserToken::fromUserTokenView)
                                 .collect(ImmutableList.toImmutableList());
     }
 

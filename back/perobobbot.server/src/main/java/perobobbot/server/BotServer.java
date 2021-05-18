@@ -4,12 +4,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import perobobbot.spring.SpringLauncher;
 
 import java.util.Arrays;
 
 @SpringBootApplication
-@PropertySource(value = "file:${app.config.dir}/server/application.properties", ignoreResourceNotFound = true)
+@PropertySources({
+        @PropertySource(value = "file:${app.config.dir}/server/application.properties", ignoreResourceNotFound = true),
+        @PropertySource(value = "file:${app.config.dir}/server/database_secret.properties", ignoreResourceNotFound = true)
+})
 @Log4j2
 public class BotServer {
 

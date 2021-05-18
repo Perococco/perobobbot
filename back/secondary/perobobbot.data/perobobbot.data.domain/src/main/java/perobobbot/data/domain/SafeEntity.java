@@ -17,16 +17,10 @@ import java.time.Instant;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SafeEntity extends SafeEntityBase {
 
-    public SafeEntity(@NonNull Platform platform,
+    public SafeEntity(@NonNull ViewerIdentityEntity viewerIdentity,
                       @NonNull String channelName,
-                      @NonNull String userChatId,
                       @NonNull PointType type) {
-        super(platform, channelName, userChatId, type);
-    }
-
-    public SafeEntity(@NonNull UserOnChannel userOnChannel,
-                      @NonNull PointType type) {
-        super(userOnChannel.getPlatform(), userOnChannel.getChannelName(), userOnChannel.getUserId(), type);
+        super(viewerIdentity, channelName, type);
     }
 
     public @NonNull TransactionEntity createTransaction(long requestedAmount, @NonNull Instant expirationDate) {

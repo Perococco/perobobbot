@@ -59,8 +59,8 @@ module perobobbot.server {
     opens db.migration;
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
 
-    opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.websocket to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.extension to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.command to spring.core,spring.beans,spring.context, spring.web, spring.messaging;

@@ -33,8 +33,12 @@ public interface BotService {
 
     @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
 
-    void attachCredential(@NonNull UUID botId, @NonNull UUID credentialId);
-    
+    @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
+
+    @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
+
+    void removeJoinedChannel(@NonNull UUID joinedChannelId);
+
     /**
      * @param botId the id of the bot to find
      * @return an optional containing the bot with the provided id if found, an empty optional otherwise
@@ -49,8 +53,6 @@ public interface BotService {
 
     void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
 
-    void saveChannelConnection(@NonNull UUID botId, @NonNull Platform platform, @NonNull String channelName);
-
-    @NonNull ImmutableList<JoinedChannel> findConnections(@NonNull Platform platform);
+    @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform);
 
 }

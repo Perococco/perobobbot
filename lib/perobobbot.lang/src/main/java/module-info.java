@@ -21,4 +21,6 @@ module perobobbot.lang {
     provides AsyncIdentityFactory with PerococcoAsyncIdentity;
 
     opens perobobbot.lang to com.fasterxml.jackson.databind;
+    exports perobobbot.lang.token;
+    opens perobobbot.lang.token to com.fasterxml.jackson.databind;
 }

@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeFunction;
 import perobobbot.oauth.OAuthTokenProvider;
 import perobobbot.oauth.Token;
-import perobobbot.oauth.TokenType;
+import perobobbot.lang.TokenType;
 import perobobbot.twitch.client.api.TokenTypeProvider;
 import reactor.core.publisher.Mono;
 

@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.Secret;
 import perobobbot.oauth.Token;
 
 @Value
@@ -17,8 +18,8 @@ public class TwitchRefreshedToken {
 
     public @NonNull Token update(@NonNull Token expiredToken) {
         return expiredToken.toBuilder()
-                           .accessToken(this.accessToken)
-                           .refreshToken(this.refreshToken)
+                           .accessToken(Secret.with(this.accessToken))
+                           .refreshToken(Secret.with(this.refreshToken))
                            .build();
     }
 

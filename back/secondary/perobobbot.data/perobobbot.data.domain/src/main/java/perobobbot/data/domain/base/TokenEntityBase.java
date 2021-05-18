@@ -4,47 +4,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-import perobobbot.data.com.DataCredentialInfo;
-import perobobbot.data.domain.UserEntity;
-import perobobbot.data.domain.converter.SecretConverter;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
+import perobobbot.lang.token.Token;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
+import java.time.Instant;
 import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
 @Getter @Setter
-public class TokenEntityBase extends PersistentObjectWithUUID {
+public abstract class TokenEntityBase extends PersistentObjectWithUUID {
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
-    private UserEntity owner;
+    @Column(name = "ACCESS_TOKEN", nullable = false)
+    @NotBlank
+    private String accessToken;
 
-    @Column(name = "PLATFORM")
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    private Platform platform;
+    @Column(name = "DURATION",nullable = false)
+    private long duration;
 
-    @Column(name = "NICK", nullable = false)
-    private String nick = "";
+    @Column(name = "EXPIRATION_INSTANT",nullable = false)
+    private Instant expirationInstant;
 
-    @Column(name = "SECRET", nullable = false)
-    @Convert(converter = SecretConverter.class)
-    private Secret secret = Secret.empty();
-
-    public TokenEntityBase(@NotBlank UserEntity owner, @NonNull Platform platform) {
+    protected TokenEntityBase(@NonNull Token<String> encryptedToken) {
         super(UUID.randomUUID());
-        this.owner = owner;
-        this.platform = platform;
-        this.nick = "";
-        this.secret = new Secret("");
+        this.accessToken = encryptedToken.getAccessToken();
+        this.duration = encryptedToken.getDuration();
+        this.expirationInstant = encryptedToken.getExpirationInstant();
     }
 
-    public @NonNull DataCredentialInfo toView() {
-        return DataCredentialInfo.with(this.uuid, this.owner.getLogin(), this.platform, this.nick, this.secret);
-    }
+    public abstract @NonNull Platform getPlatform();
+
 }

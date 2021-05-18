@@ -10,7 +10,7 @@ import perobobbot.data.com.DuplicateUser;
 import perobobbot.data.com.UnknownUser;
 import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.data.domain.UserEntity;
-import perobobbot.data.jpa.repository.CredentialRepository;
+import perobobbot.data.jpa.repository.UserTokenRepository;
 import perobobbot.data.jpa.repository.UserDetailProjection;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.service.UnsecuredService;
@@ -38,7 +38,7 @@ public class JPAUserService implements UserService, UserProvider {
     private final UserRepository userRepository;
 
     @NonNull
-    private final CredentialRepository credentialRepository;
+    private final UserTokenRepository credentialRepository;
 
     @NonNull
     private final PasswordEncoder passwordEncoder;

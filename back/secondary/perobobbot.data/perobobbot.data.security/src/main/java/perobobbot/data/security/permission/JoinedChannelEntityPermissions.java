@@ -4,20 +4,22 @@ import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
-import perobobbot.data.service.CredentialService;
+import perobobbot.data.service.BotService;
+import perobobbot.data.service.TokenService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.lang.Bot;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 @Component
-public class CredentialEntityPermissions extends DataEntityPermission {
+public class JoinedChannelEntityPermissions extends DataEntityPermission {
 
-    private final CredentialService credentialService;
+    private final @NonNull BotService botService;
 
-    public CredentialEntityPermissions(@NonNull @UnsecuredService CredentialService credentialService) {
-        super("CredentialEntity");
-        this.credentialService = credentialService;
+    public JoinedChannelEntityPermissions(@NonNull @UnsecuredService BotService botService) {
+        super("JoinedChannelEntity");
+        this.botService = botService;
     }
 
     @Override
@@ -34,10 +36,10 @@ public class CredentialEntityPermissions extends DataEntityPermission {
     }
 
     private boolean doesNotExistOrIsMyCredential(@NonNull UserDetails userDetails, @NonNull UUID uuid) {
-        final var credentialInfo = credentialService.findCredential(uuid).orElse(null);
-        if (credentialInfo == null) {
+        final var joinedChannel = botService.findJoinedChannel(uuid).orElse(null);
+        if (joinedChannel == null) {
             return true;
         }
-        return credentialInfo.getOwnerLogin().equals(userDetails.getUsername());
+        return joinedChannel.getBot().getOwnerLogin().equals(userDetails.getUsername());
     }
 }

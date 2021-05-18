@@ -4,12 +4,16 @@ import perobobbot.lang.Packages;
 module perobobbot.twitch.oauth {
     requires static lombok;
     requires java.desktop;
-    requires spring.context;
-    requires spring.web;
-    requires spring.webflux;
+
     requires perobobbot.http;
     requires perobobbot.lang;
     requires perobobbot.oauth;
+    requires perobobbot.data.service;
+
+
+    requires spring.context;
+    requires spring.web;
+    requires spring.webflux;
     requires java.servlet;
     requires com.google.common;
     requires org.apache.logging.log4j;

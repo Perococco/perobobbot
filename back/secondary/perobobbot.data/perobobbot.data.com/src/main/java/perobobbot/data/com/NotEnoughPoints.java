@@ -4,27 +4,25 @@ import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PointType;
+import perobobbot.lang.ViewerIdentity;
 
 @Getter
 public class NotEnoughPoints extends DataException {
 
-    private final @NonNull Platform platform;
+    private final @NonNull ViewerIdentity viewerIdentity;
     private final @NonNull String channelName;
-    private final @NonNull String userChatId;
     private final @NonNull PointType type;
     private final long requestedAmount;
 
-    public NotEnoughPoints(@NonNull Platform platform,
+    public NotEnoughPoints(@NonNull ViewerIdentity viewerIdentity,
                            @NonNull String channelName,
-                           @NonNull String userChatId,
                            @NonNull PointType type,
                            long requestedAmount) {
         super("Not enough credit: platform='%s' channel='%s' type='%s' user='%s' request-amount=%d".formatted(
-                platform, channelName, type, userChatId, requestedAmount
+                viewerIdentity.getPlatform(), channelName, type, viewerIdentity.getPseudo(), requestedAmount
         ));
-        this.platform = platform;
+        this.viewerIdentity = viewerIdentity;
         this.channelName = channelName;
-        this.userChatId = userChatId;
         this.type = type;
         this.requestedAmount = requestedAmount;
     }

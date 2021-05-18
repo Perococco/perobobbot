@@ -1,14 +1,24 @@
 @startuml
 !include entities.iuml
+hide methods
 
-Bot -- Token
-Bot -- Extension
-
-User "1"-- Bot
+User "1" -- Bot
 User -- Role
 
+Safe "1" -- Transaction
+
+ViewerIdentity -- Safe
+
+Token <|.. ClientToken
+Token <|.. UserToken
+
+UserToken  -left- "1" ViewerIdentity
+UserToken   -- "1" User
+ClientToken  -- "1" Client
+
+
+Bot -- Extension
 Bot "1" -- JoinedChannel
 
-
-Safe "1" -- Transaction
+JoinedChannel --"1" ViewerIdentity
 @enduml

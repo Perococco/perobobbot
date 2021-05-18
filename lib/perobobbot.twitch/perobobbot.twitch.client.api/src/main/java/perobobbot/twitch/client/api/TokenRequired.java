@@ -1,6 +1,6 @@
 package perobobbot.twitch.client.api;
 
-import perobobbot.oauth.TokenType;
+import perobobbot.lang.TokenType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

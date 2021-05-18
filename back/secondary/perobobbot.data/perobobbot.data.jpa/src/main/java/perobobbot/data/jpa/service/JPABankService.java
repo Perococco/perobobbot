@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.SafeEntity;
 import perobobbot.data.jpa.repository.SafeRepository;
 import perobobbot.data.jpa.repository.TransactionRepository;
+import perobobbot.data.jpa.repository.ViewerIdentityRepository;
 import perobobbot.data.service.BankService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
@@ -24,6 +25,7 @@ public class JPABankService implements BankService {
 
     private final @NonNull SafeRepository safeRepository;
     private final @NonNull TransactionRepository transactionRepository;
+    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
 
     @Override
     @Transactional
@@ -35,7 +37,8 @@ public class JPABankService implements BankService {
     @Transactional
     public void cleanTransactions() {
         final var now = instants.now();
-        final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(TransactionState.PENDING, now);
+        final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(
+                TransactionState.PENDING, now);
         transactions.forEach(t -> t.rollback().removeFromSafe());
         transactionRepository.deleteInBatch(transactions);
     }
@@ -43,12 +46,12 @@ public class JPABankService implements BankService {
     @Override
     public @NonNull Balance getBalance(@NonNull UUID safeId) {
         var safe = safeRepository.getByUuid(safeId);
-        return new Balance(safe.toView(), safe.getAmount());
+        return new Balance(safe.toView(), safe.getCredit());
     }
 
     @Override
     public @NonNull Balance getBalance(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType) {
-        return getOrCreateSafe(userOnChannel,pointType).toBalance();
+        return getOrCreateSafe(userOnChannel, pointType).toBalance();
     }
 
     @Override
@@ -82,18 +85,20 @@ public class JPABankService implements BankService {
         final var safe = safeRepository.getByUuid(safeId);
         safe.addToAmount(amount);
         safeRepository.save(safe);
-        return new Balance(safe.toView(), safe.getAmount());
+        return new Balance(safe.toView(), safe.getCredit());
     }
 
     private @NonNull SafeEntity getOrCreateSafe(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType) {
-        var safe = safeRepository.findByPlatformAndChannelNameAndUserChatIdAndType(
-                userOnChannel.getPlatform(),
-                userOnChannel.getChannelName(),
-                userOnChannel.getUserId(),
-                pointType)
-                                 .orElse(null);
+        final var viewerIdentity = viewerIdentityRepository.getByPlatformAndViewerId(userOnChannel.getPlatform(),
+                                                                                     userOnChannel.getUserId());
+
+        final var safe = safeRepository.findByChannelNameAndViewerIdentity_Uuid(userOnChannel.getChannelName(),
+                                                                                viewerIdentity.getUuid())
+                                       .orElse(null);
+
+
         if (safe == null) {
-            return safeRepository.save(new SafeEntity(userOnChannel, pointType));
+            return safeRepository.save(viewerIdentity.createSafe(userOnChannel.getChannelName()));
         }
         return safe;
     }
