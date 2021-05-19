@@ -2,6 +2,7 @@ package perobobbot.oauth._private;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.OAuthController;
@@ -17,6 +18,11 @@ public class MapOAuthManager implements OAuthManager {
     public MapOAuthManager(@NonNull ImmutableList<OAuthController> controllers) {
         this.controllerPerPlatform = controllers.stream()
                                                 .collect(ImmutableMap.toImmutableMap(OAuthController::getPlatform, Function.identity()));
+    }
+
+    @Override
+    public @NonNull ImmutableSet<Platform> getManagedPlatform() {
+        return controllerPerPlatform.keySet();
     }
 
     @Override
