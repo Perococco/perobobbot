@@ -22,7 +22,12 @@ public class JPAClientService implements ClientService {
     private final @NonNull ClientRepository clientRepository;
 
     @Override
-    public @NonNull Optional<Client> findClient(@NonNull Platform platform) {
+    public @NonNull Optional<Client> findClientForPlatform(@NonNull Platform platform) {
         return clientRepository.findFirstByPlatform(platform).map(ClientEntityBase::toView);
+    }
+
+    @Override
+    public @NonNull Optional<Client> findClient(@NonNull Platform platform, @NonNull String clientId) {
+        return clientRepository.findByPlatformAndClientId(platform,clientId).map(ClientEntityBase::toView);
     }
 }

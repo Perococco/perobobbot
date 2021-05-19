@@ -14,6 +14,7 @@ module perobobbot.data.jpa {
     requires perobobbot.data.service;
     requires perobobbot.data.domain;
     requires perobobbot.data.com;
+    requires perobobbot.oauth;
     requires spring.boot.autoconfigure;
     requires spring.data.commons;
     requires com.google.common;

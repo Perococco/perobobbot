@@ -5,9 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
 import perobobbot.data.service.BotService;
-import perobobbot.data.service.TokenService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.lang.Bot;
 
 import java.io.Serializable;
 import java.util.UUID;

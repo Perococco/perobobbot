@@ -2,6 +2,7 @@ package perobobbot.data.com;
 
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.lang.Platform;
 
 import java.util.UUID;
 
@@ -9,10 +10,15 @@ public class UnknownClient extends DataException {
 
     @NonNull
     @Getter
-    private final UUID clientId;
+    private final Platform platform;
 
-    public UnknownClient(@NonNull UUID clientId) {
-        super("Could not find any user with clientId='"+clientId+"'");
+    @NonNull
+    @Getter
+    private final String clientId;
+
+    public UnknownClient(@NonNull Platform platform, @NonNull String clientId) {
+        super("Could not find any client on platform '"+platform+"' with clientId='"+clientId+"'");
+        this.platform = platform;
         this.clientId = clientId;
     }
 }

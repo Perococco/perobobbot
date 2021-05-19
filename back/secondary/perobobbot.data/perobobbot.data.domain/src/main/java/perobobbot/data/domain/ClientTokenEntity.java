@@ -30,6 +30,6 @@ public class ClientTokenEntity extends ClientTokenEntityBase {
     }
 
     public @NonNull EncryptedClientTokenView toView() {
-        return new EncryptedClientTokenView(getUuid(),getClient().getClientId(),toClientToken());
+        return new EncryptedClientTokenView(getUuid(),getClient().toView().stripSecret(),toClientToken());
     }
 }

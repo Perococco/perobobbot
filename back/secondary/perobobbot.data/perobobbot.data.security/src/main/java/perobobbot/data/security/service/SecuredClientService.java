@@ -22,7 +22,25 @@ public class SecuredClientService implements ClientService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull Optional<Client> findClient(@NonNull Platform platform) {
-        return clientService.findClient(platform);
+    public @NonNull Optional<Client> findClientForPlatform(@NonNull Platform platform) {
+        return clientService.findClientForPlatform(platform);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Optional<Client> findClient(@NonNull Platform platform, @NonNull String clientId) {
+        return Optional.empty();
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Client getClient(@NonNull Platform platform) {
+        return clientService.getClient(platform);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Client getClient(@NonNull Platform platform, @NonNull String clientId) {
+        return clientService.getClient(platform, clientId);
     }
 }

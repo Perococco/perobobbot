@@ -2,6 +2,8 @@ package perobobbot.lang.token;
 
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.Client;
+import perobobbot.lang.SafeClient;
 import perobobbot.lang.TextEncryptor;
 
 import java.util.UUID;
@@ -10,10 +12,10 @@ import java.util.UUID;
 public class DecryptedClientTokenView {
 
     @NonNull UUID id;
-    @NonNull String clientId;
+    @NonNull SafeClient client;
     @NonNull DecryptedClientToken clientToken;
 
     public @NonNull EncryptedClientTokenView encrypt(@NonNull TextEncryptor textEncryptor) {
-        return new EncryptedClientTokenView(id,clientId,clientToken.encrypt(textEncryptor));
+        return new EncryptedClientTokenView(id,client,clientToken.encrypt(textEncryptor));
     }
 }

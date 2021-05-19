@@ -5,9 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.DataCredentialInfo;
 import perobobbot.data.com.UpdateUserParameters;
-import perobobbot.data.service.TokenService;
+import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.ListTool;
@@ -26,7 +25,7 @@ public class UserController {
 
     private final @NonNull
     @SecuredService
-    TokenService credentialService;
+    OAuthService oauthService;
 
 
     @GetMapping("")
@@ -51,10 +50,10 @@ public class UserController {
 
     @GetMapping("/{login}/tokens")
     public @NonNull ImmutableList<RestUserToken> getUserTokens(@NonNull @PathVariable String login) {
-        return credentialService.getUserTokens(login)
-                                .stream()
-                                .map(RestUserToken::fromUserTokenView)
-                                .collect(ImmutableList.toImmutableList());
+        return oauthService.getAllUserTokens(login)
+                           .stream()
+                           .map(RestUserToken::fromUserTokenView)
+                           .collect(ImmutableList.toImmutableList());
     }
 
 }

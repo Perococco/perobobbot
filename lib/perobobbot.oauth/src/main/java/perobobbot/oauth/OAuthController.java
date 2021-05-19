@@ -10,12 +10,7 @@ import perobobbot.lang.Secret;
 import java.util.concurrent.CompletionStage;
 
 public interface OAuthController {
-
-    interface Factory {
-        @NonNull Platform getPlatform();
-        @NonNull OAuthController createOAuthController(@NonNull Client client);
-    }
-
+    
     /**
      * @return the platform this OAuth controller applies to
      */
@@ -24,18 +19,19 @@ public interface OAuthController {
     /**
      * @return the URI to use to perform the OAuth Authorization Code Flow
      */
-    @NonNull UserOAuthInfo prepareUserOAuth(ImmutableSet<? extends Scope> scopes);
+    @NonNull UserOAuthInfo prepareUserOAuth(@NonNull Client client, ImmutableSet<? extends Scope> scopes);
 
     /**
      * Request a Client Token. The client id and secret are provided by configuration
      * @return a completionStage the completion result is the requested token
      */
-    @NonNull CompletionStage<Token> getClientToken();
+    @NonNull CompletionStage<Token> getClientToken(@NonNull Client client);
 
-    @NonNull CompletionStage<?> revokeToken(@NonNull Secret accessToken);
+    @NonNull CompletionStage<?> revokeToken(@NonNull Client client, @NonNull Secret accessToken);
 
-    @NonNull CompletionStage<Token> refreshToken(@NonNull Token expiredToken);
+    @NonNull CompletionStage<Token> refreshToken(@NonNull Client client, @NonNull Token expiredToken);
 
-    @NonNull CompletionStage<?> validateToken(@NonNull Token token);
+    @NonNull CompletionStage<?> validateToken(@NonNull Secret accessToken);
 
+    @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull Client client, @NonNull Secret accessToken);
 }

@@ -25,24 +25,11 @@ public class OAuthConfiguration {
 
     @Bean
     public OAuthManager oAuthManager() {
-        final var controllers = applicationContext.getBeansOfType(OAuthController.Factory.class)
+        final var controllers = applicationContext.getBeansOfType(OAuthController.class)
                                                   .values()
                                                   .stream()
-                                                  .map(this::createController)
-                                                  .flatMap(Optional::stream)
                                                   .collect(ImmutableList.toImmutableList());
         return OAuthManager.create(controllers);
-    }
-
-    private @NonNull Optional<OAuthController> createController(@NonNull OAuthController.Factory factory) {
-        final var client = clientService.findClient(factory.getPlatform()).orElse(null);
-        if (client == null) {
-            LOG.warn("No client for platform {}. The associated OAuthController is not used", factory.getPlatform());
-            return Optional.empty();
-        } else {
-            LOG.info("Add OAuthController for : {}", factory.getPlatform());
-            return Optional.of(factory.createOAuthController(client));
-        }
     }
 
 }
