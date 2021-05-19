@@ -104,5 +104,23 @@ module perobobbot.server {
     requires com.fasterxml.jackson.datatype.jsr310;
     requires com.fasterxml.jackson.datatype.guava;
 
+    requires io.github.classgraph;
+    requires spring.data.rest.core;
+    requires org.springdoc.openapi.ui;
+    requires org.springdoc.openapi.common;
+    requires org.springdoc.openapi.webmvc.core;
+    requires org.springdoc.openapi.hateoas;
+    requires org.springdoc.openapi.data.rest;
+    requires org.springdoc.openapi.security;
+    requires swagger.ui;
+    requires webjars.locator.core;
+    requires io.swagger.v3.oas.models;
+    requires io.swagger.v3.oas.integration;
+    requires io.swagger.v3.core;
+    requires io.swagger.v3.oas.annotations;
+
+
+
+
     exports perobobbot.server;
 }

@@ -24,5 +24,8 @@ public class RestObjectMapper extends ObjectMapper {
         return mapper;
     }
 
-
+    @Override
+    public ObjectMapper copy() {
+        return create();
+    }
 }

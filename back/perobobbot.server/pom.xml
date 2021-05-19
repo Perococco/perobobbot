@@ -19,6 +19,7 @@
     <properties>
         <project.root>${project.basedir}/../..</project.root>
         <module.name>Bot Server</module.name>
+        <openapi.version>1.5.8</openapi.version>
 
         <db.url>jdbc:h2:~/perobobbot;auto_server=true</db.url>
 
@@ -267,6 +268,31 @@
                     <artifactId>jsr305</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <version>${openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
+            <version>${openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-security</artifactId>
+            <version>${openapi.version}</version>
         </dependency>
 
     </dependencies>
