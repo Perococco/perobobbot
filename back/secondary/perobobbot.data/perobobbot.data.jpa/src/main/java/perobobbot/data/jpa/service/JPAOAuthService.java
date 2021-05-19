@@ -66,7 +66,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedClientTokenView> findClientToken(@NonNull Platform platform, @NonNull String clientId) {
-        return clientTokenRepository.findByPlatformAndClient_ClientId(platform, clientId)
+        return clientTokenRepository.findByClient_PlatformAndClient_ClientId(platform, clientId)
                                     .map(ClientTokenEntity::toView)
                                     .map(t -> t.decrypt(textEncryptor));
     }
@@ -110,7 +110,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId) {
-        return userTokenRepository.findByOwner_LoginAndPlatformAndViewerIdentity_ViewerId(login, platform, viewerId)
+        return userTokenRepository.findByOwner_LoginAndViewerIdentity_PlatformAndViewerIdentity_ViewerId(login, platform, viewerId)
                                   .map(UserTokenEntity::toView)
                                   .map(t -> t.decrypt(textEncryptor));
     }
