@@ -62,7 +62,8 @@ public class JPAOAuthService implements OAuthService {
         this.viewerIdentityRepository = viewerIdentityRepository;
         this.userTokenRepository = userTokenRepository;
         this.clientTokenRepository = clientTokenRepository;
-        this.userTokenSaver = UserTokenSaving.saver(clientRepository,userRepository,viewerIdentityRepository,userTokenRepository,oAuthManager,textEncryptor);
+        this.userTokenSaver = UserTokenSaving.saver(clientRepository, userRepository, viewerIdentityRepository,
+                                                    userTokenRepository, oAuthManager, textEncryptor);
     }
 
     @Override
@@ -109,12 +110,16 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
-        return Todo.TODO();
+        return userTokenRepository.findByOwner_LoginAndViewerIdentity_Platform(login, platform)
+                                  .map(UserTokenEntity::toView)
+                                  .map(t -> t.decrypt(textEncryptor));
     }
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
-        return Todo.TODO();
+        return userTokenRepository.findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(login, platform,requiredScope.getName())
+                                  .map(UserTokenEntity::toView)
+                                  .map(t -> t.decrypt(textEncryptor));
     }
 
     @Override
@@ -129,9 +134,9 @@ public class JPAOAuthService implements OAuthService {
     @Override
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull UUID clientId) {
         final var client = clientRepository.getClientByUuid(clientId).toView();
-        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client,scopes);
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
 
-        return userOAuthInfo.then(token -> userTokenSaver.save(login,clientId,token));
+        return userOAuthInfo.then(token -> userTokenSaver.save(login, clientId, token));
     }
 
     private @NonNull DecryptedClientTokenView saveClientToken(@NonNull ClientEntity client, @NonNull Token token) {

@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public interface UserTokenRepository extends JpaRepository<UserTokenEntity,Long> {
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_Id(@NonNull String login, @NonNull UUID viewerIdentityId);
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_PlatformAndViewerIdentity_ViewerId(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId);
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
 
     @NonNull Optional<UserTokenEntity> findByUuid(@NonNull UUID uuid);
 
