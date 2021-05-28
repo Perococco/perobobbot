@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 /**
  * @author perococco
  */
-@Repository
 public interface BotRepository extends JpaRepository<BotEntity, Long> {
 
     void deleteByUuid(@NonNull UUID uuid);

@@ -13,7 +13,6 @@ import java.util.Optional;
 /**
  * @author perococco
  */
-@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByLogin(@NonNull String login);

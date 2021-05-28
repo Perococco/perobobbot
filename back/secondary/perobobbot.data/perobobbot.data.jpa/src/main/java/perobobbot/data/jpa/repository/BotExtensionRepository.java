@@ -14,13 +14,12 @@ import java.util.stream.Stream;
 /**
  * @author perococco
  */
-@Repository
 public interface BotExtensionRepository extends JpaRepository<BotExtensionEntity, Long> {
 
     @Query("""
-            select be from BotExtensionEntity as be 
-            where be.bot.uuid = :uuid 
-            and be.enabled = true 
+            select be from BotExtensionEntity as be
+            where be.bot.uuid = :uuid
+            and be.enabled = true
             and be.extension.activated = true
             and be.extension.available = true
             """)

@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 /**
  * @author perococco
  */
-@Repository
 public interface ExtensionRepository extends JpaRepository<ExtensionEntity, Long> {
 
     @NonNull Optional<ExtensionEntity> findByName(@NonNull String name);

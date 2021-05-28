@@ -9,7 +9,6 @@ import perobobbot.data.domain.SafeEntity;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
 public interface SafeRepository extends JpaRepository<SafeEntity, Long> {
 
     @NonNull Optional<SafeEntity> findByChannelNameAndViewerIdentity_Uuid(@NonNull String channelName,@NonNull UUID viewerIdentityId);
