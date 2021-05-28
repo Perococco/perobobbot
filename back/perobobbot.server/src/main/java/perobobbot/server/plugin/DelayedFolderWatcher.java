@@ -14,7 +14,7 @@ public class DelayedFolderWatcher implements FolderWatcher, ApplicationListener<
     private final @NonNull FolderWatcher folderWatcher;
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
         folderWatcher.start();
     }
 }

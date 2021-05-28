@@ -8,7 +8,7 @@ public interface BlockBuilder {
 
     @NonNull BlockBuilder setBackgroundColor(@NonNull Color color);
 
-    @NonNull BlockBuilder setBackgroundMargin(@NonNull int margin);
+    @NonNull BlockBuilder setBackgroundMargin(int margin);
 
     @NonNull BlockBuilder addString(@NonNull String text, @NonNull HAlignment alignment);
 

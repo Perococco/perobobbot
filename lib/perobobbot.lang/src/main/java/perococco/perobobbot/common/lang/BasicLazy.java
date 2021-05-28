@@ -13,7 +13,7 @@ public class BasicLazy<T> implements Lazy<T> {
     private final Function0<? extends T> supplier;
 
     @Override
-    public T get() {
+    public @NonNull T get() {
         if (value == null) {
             value = supplier.get();
         }

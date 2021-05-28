@@ -26,7 +26,7 @@ public class ConstantLocalizedString implements LocalizedString {
     }
 
     @Override
-    public @NonNull boolean hasValue(@NonNull Locale locale) {
+    public boolean hasValue(@NonNull Locale locale) {
         return true;
     }
 }

@@ -40,7 +40,7 @@ public abstract class AbstractValidator<O,V extends Validator<O,V>> implements V
     protected abstract V getThis();
 
     @Override
-    public V errorIf(@NonNull Predicate1<O> test, @NonNull String errorType) {
+    public @NonNull V errorIf(@NonNull Predicate1<O> test, @NonNull String errorType) {
         if (value != null && test.test(value)) {
             addError(errorType);
         }
@@ -48,7 +48,7 @@ public abstract class AbstractValidator<O,V extends Validator<O,V>> implements V
     }
 
     @Override
-    public V errorIfNot(@NonNull Predicate1<O> test, @NonNull String errorType) {
+    public @NonNull V errorIfNot(@NonNull Predicate1<O> test, @NonNull String errorType) {
         if (value != null && !test.test(value)) {
             addError(errorType);
         }

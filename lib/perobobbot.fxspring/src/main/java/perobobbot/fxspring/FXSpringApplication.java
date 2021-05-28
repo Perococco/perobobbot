@@ -46,7 +46,6 @@ public abstract class FXSpringApplication extends Application {
         }
     }
 
-    @NonNull
     protected boolean shouldUsePlugin(@NonNull Packages plugins) {
         return true;
     }

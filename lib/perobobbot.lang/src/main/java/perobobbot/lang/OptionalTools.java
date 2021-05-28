@@ -7,6 +7,7 @@ import perobobbot.lang.fp.Value2;
 
 import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class OptionalTools {
 
 

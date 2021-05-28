@@ -14,7 +14,7 @@ public class CompositeHandlerMapping implements HandlerMapping {
     private final @NonNull ImmutableList<HandlerMapping> handlerMappings;
 
     @Override
-    public HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+    public HandlerExecutionChain getHandler(@NonNull HttpServletRequest request) throws Exception {
         HandlerExecutionChain result = null;
         for (HandlerMapping handlerMapping : handlerMappings) {
             result = handlerMapping.getHandler(request);

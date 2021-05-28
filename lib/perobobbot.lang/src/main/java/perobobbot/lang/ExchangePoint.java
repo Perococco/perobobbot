@@ -22,11 +22,11 @@ public class ExchangePoint<I,O> {
         return queue.take().left().orElseThrow(() -> new RuntimeException("Invalid state, an output was expected"));
     }
 
-    public @NonNull void putOutput(@NonNull O output) throws InterruptedException {
+    public void putOutput(@NonNull O output) throws InterruptedException {
         this.queue.put(Either.right(output));
     }
 
-    public @NonNull void putInput(@NonNull I input) throws InterruptedException {
+    public void putInput(@NonNull I input) throws InterruptedException {
         this.queue.put(Either.left(input));
     }
 }

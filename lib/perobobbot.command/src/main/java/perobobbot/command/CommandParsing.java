@@ -68,7 +68,7 @@ public interface CommandParsing {
         return findParameter(parameterName,Parser.PARSE_INT);
     }
 
-    default @NonNull int getIntParameter(@NonNull String parameterName) {
+    default int getIntParameter(@NonNull String parameterName) {
         return getParameter(parameterName,Parser.PARSE_INT);
     }
 
