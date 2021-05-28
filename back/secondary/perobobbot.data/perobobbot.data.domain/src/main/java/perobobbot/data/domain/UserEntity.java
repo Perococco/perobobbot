@@ -7,9 +7,7 @@ import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.domain.base.UserEntityBase;
 import perobobbot.lang.RandomString;
-import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.EncryptedUserToken;
-import perobobbot.lang.token.UserToken;
 import perobobbot.security.com.User;
 
 import javax.persistence.Entity;

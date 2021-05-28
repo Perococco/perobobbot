@@ -3,12 +3,10 @@ package perobobbot.twitch.client.webclient.spring;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.*;
-import perobobbot.lang.Todo;
+import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.oauth.OAuthContextHolder;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.webclient.WebClientAppTwitchService;
-import reactor.core.publisher.Mono;
 
 @Configuration
 public class TwitchApiConfiguration {

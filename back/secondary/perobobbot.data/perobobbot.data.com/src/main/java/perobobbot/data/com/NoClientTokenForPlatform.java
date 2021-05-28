@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
 
-import java.util.UUID;
-
 public class NoClientTokenForPlatform extends DataException {
 
     @Getter

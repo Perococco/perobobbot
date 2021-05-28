@@ -2,7 +2,6 @@ package perobobbot.data.com.event;
 
 import lombok.Getter;
 import lombok.NonNull;
-import perobobbot.lang.Platform;
 import perobobbot.lang.ViewerIdentity;
 
 import java.util.UUID;

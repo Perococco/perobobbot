@@ -12,8 +12,6 @@ import perobobbot.data.service.EventService;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthManager;
 
-import java.util.Optional;
-
 @Configuration
 @RequiredArgsConstructor
 @Log4j2

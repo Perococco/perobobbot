@@ -5,7 +5,6 @@ import lombok.NonNull;
 import perobobbot.data.com.BotHasThisExtensionAlready;
 import perobobbot.data.domain.base.BotEntityBase;
 import perobobbot.lang.Bot;
-import perobobbot.lang.Platform;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

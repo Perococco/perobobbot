@@ -2,16 +2,13 @@ package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-import perobobbot.data.com.AuthenticateUserParameter;
-import perobobbot.data.com.DataException;
-import perobobbot.data.com.DataToken;
-import perobobbot.data.domain.*;
+import perobobbot.data.domain.ClientEntity;
+import perobobbot.data.domain.ClientTokenEntity;
+import perobobbot.data.domain.UserTokenEntity;
 import perobobbot.data.domain.base.ClientEntityBase;
 import perobobbot.data.jpa.UserTokenSaving;
 import perobobbot.data.jpa.repository.*;
@@ -20,16 +17,12 @@ import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
 import perobobbot.lang.token.DecryptedClientToken;
 import perobobbot.lang.token.DecryptedClientTokenView;
-import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.*;
 
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Supplier;
 
 /**
  * @author perococco

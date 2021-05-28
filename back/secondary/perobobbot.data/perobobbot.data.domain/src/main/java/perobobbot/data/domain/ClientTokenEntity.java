@@ -6,7 +6,6 @@ import perobobbot.data.domain.base.ClientTokenEntityBase;
 import perobobbot.lang.token.ClientToken;
 import perobobbot.lang.token.EncryptedClientToken;
 import perobobbot.lang.token.EncryptedClientTokenView;
-import perobobbot.lang.token.EncryptedUserToken;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

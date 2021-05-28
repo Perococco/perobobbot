@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import perobobbot.data.domain.BotEntity;
-import perobobbot.data.domain.BotExtensionEntity;
 import perobobbot.data.domain.ExtensionEntity;
 import perobobbot.persistence.SimplePersistentObject;
 

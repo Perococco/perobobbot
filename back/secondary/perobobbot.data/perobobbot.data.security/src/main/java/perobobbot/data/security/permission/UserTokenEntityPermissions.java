@@ -4,7 +4,6 @@ import lombok.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
-import perobobbot.data.service.BotService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
 

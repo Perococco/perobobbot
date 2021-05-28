@@ -1,6 +1,9 @@
 package perobobbot.data.domain.base;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.lang.Platform;
 import perobobbot.persistence.PersistentObjectWithUUID;

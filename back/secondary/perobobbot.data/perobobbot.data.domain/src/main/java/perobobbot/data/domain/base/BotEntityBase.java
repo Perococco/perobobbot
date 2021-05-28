@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import perobobbot.data.domain.*;
+import perobobbot.data.domain.BotExtensionEntity;
+import perobobbot.data.domain.JoinedChannelEntity;
+import perobobbot.data.domain.UserEntity;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
@@ -12,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @MappedSuperclass
 @NoArgsConstructor

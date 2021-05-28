@@ -2,7 +2,6 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import perobobbot.data.com.UnknownUserToken;
 import perobobbot.data.domain.UserTokenEntity;
 import perobobbot.lang.Platform;

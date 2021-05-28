@@ -4,12 +4,10 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.OAuthService;
+import perobobbot.data.service.SecuredService;
 import perobobbot.rest.com.RestUserToken;
 
 import java.util.UUID;

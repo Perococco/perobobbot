@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.ViewerIdentity;
 import perobobbot.oauth.UserIdentity;
 
 import java.util.Optional;

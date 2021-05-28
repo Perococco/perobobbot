@@ -1,9 +1,7 @@
 package perobobbot.lang;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @TypeScript

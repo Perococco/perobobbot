@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.domain.base.UserTokenEntityBase;
 import perobobbot.lang.token.EncryptedUserToken;
-import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.EncryptedUserTokenView;
 
 import javax.persistence.Entity;

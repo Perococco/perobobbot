@@ -3,7 +3,6 @@ package perobobbot.data.com;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Bot;
-import perobobbot.lang.Platform;
 import perobobbot.lang.ViewerIdentity;
 
 import java.util.UUID;

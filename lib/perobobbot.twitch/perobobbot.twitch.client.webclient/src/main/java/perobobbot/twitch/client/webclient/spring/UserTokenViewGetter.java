@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Scope;
 import perobobbot.lang.fp.Function1;
 import perobobbot.lang.token.DecryptedUserTokenView;
 

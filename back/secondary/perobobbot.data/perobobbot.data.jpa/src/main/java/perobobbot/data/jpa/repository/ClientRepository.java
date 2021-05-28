@@ -3,7 +3,6 @@ package perobobbot.data.jpa.repository;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import perobobbot.data.com.NoClientForPlatform;
-import perobobbot.data.com.NoClientTokenForPlatform;
 import perobobbot.data.com.UnknownClient;
 import perobobbot.data.com.UnknownClientId;
 import perobobbot.data.domain.ClientEntity;

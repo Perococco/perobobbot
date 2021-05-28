@@ -3,7 +3,6 @@ package perobobbot.lang.token;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.Value;
-import lombok.experimental.NonFinal;
 import lombok.experimental.SuperBuilder;
 import perobobbot.lang.Secret;
 import perobobbot.lang.TextEncryptor;

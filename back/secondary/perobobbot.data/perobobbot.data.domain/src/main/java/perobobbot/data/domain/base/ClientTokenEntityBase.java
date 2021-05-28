@@ -8,7 +8,9 @@ import perobobbot.data.domain.ClientEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.token.ClientToken;
 
-import javax.persistence.*;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @NoArgsConstructor

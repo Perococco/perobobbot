@@ -7,7 +7,6 @@ import perobobbot.lang.token.EncryptedClientToken;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.util.UUID;
 
 @Entity

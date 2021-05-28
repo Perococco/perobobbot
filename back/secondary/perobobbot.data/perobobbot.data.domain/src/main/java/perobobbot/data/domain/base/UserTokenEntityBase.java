@@ -9,7 +9,6 @@ import perobobbot.data.domain.UserEntity;
 import perobobbot.data.domain.ViewerIdentityEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
-import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.EncryptedUserToken;
 
 import javax.persistence.Column;

@@ -2,7 +2,6 @@ package perobobbot.lang.token;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.Client;
 import perobobbot.lang.SafeClient;
 import perobobbot.lang.TextEncryptor;
 

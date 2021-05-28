@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.ViewerIdentityEntity;
-import perobobbot.lang.Platform;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
