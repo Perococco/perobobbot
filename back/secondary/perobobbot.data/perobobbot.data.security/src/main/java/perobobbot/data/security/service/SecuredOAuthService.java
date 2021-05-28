@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.Client;
+import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.Scope;
@@ -27,12 +27,6 @@ public class SecuredOAuthService implements OAuthService {
 
     private final @EventService OAuthService delegate;
 
-
-    @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull ImmutableSet<Client> getClients() {
-        return delegate.getClients();
-    }
 
     @Override
     @NonNull

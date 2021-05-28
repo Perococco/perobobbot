@@ -1,20 +1,26 @@
 package perobobbot.lang;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.Value;
+import lombok.experimental.NonFinal;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @Value
-@Builder
-@RequiredArgsConstructor
+@NonFinal
+@SuperBuilder
 @EqualsAndHashCode(of = "id")
-public class Client {
+public class BaseClient<T> {
+
     @NonNull UUID id;
     @NonNull Platform platform;
     @NonNull String clientId;
-    @NonNull Secret clientSecret;
+    @NonNull T clientSecret;
 
     public @NonNull SafeClient stripSecret() {
         return new SafeClient(id,platform,clientId);
     }
+
 }

@@ -4,8 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import perobobbot.data.domain.ClientTokenEntity;
-import perobobbot.lang.Client;
+import perobobbot.lang.EncryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 import perobobbot.persistence.PersistentObjectWithUUID;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class ClientEntityBase extends PersistentObjectWithUUID {
 
     @Column(name = "PLATFORM", unique = true)
+    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
     private Platform platform;
 
     @Column(name = "CLIENT_ID")
@@ -42,12 +44,12 @@ public class ClientEntityBase extends PersistentObjectWithUUID {
         this.clientSecret = clientSecret;
     }
 
-    public @NonNull Client toView() {
-        return Client.builder()
+    public @NonNull EncryptedClient toView() {
+        return EncryptedClient.builder()
                      .id(getUuid())
                      .platform(platform)
                      .clientId(clientId)
-                     .clientSecret(Secret.with(this.getClientSecret()))
+                     .clientSecret(this.getClientSecret())
                      .build();
     }
 }

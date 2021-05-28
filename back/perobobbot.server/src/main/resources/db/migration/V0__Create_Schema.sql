@@ -35,7 +35,7 @@ create table PEROBOBBOT.CLIENT (
                                    EXTERNAL_ID binary not null,
                                    CLIENT_ID varchar(255),
                                    CLIENT_SECRET varchar(255),
-                                   PLATFORM integer,
+                                   PLATFORM varchar(255),
                                    primary key (ID)
 );
 
@@ -153,6 +153,9 @@ alter table PEROBOBBOT.BOT_CREDENTIAL
 
 alter table PEROBOBBOT.BOT_EXTENSION
     add constraint UK9wsjqtkhhoqwugwia2jcnc4mm unique (BOT_ID, EXTENSION_ID);
+
+alter table PEROBOBBOT.CLIENT
+    add constraint UK_5vcmducx1a00wdxf6gu7fk6us unique (PLATFORM);
 
 alter table PEROBOBBOT.EXTENSION
     add constraint UK_dbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);

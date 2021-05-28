@@ -68,14 +68,6 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public @NonNull ImmutableSet<Client> getClients() {
-        return clientRepository.findAll()
-                               .stream()
-                               .map(ClientEntityBase::toView)
-                               .collect(ImmutableSet.toImmutableSet());
-    }
-
-    @Override
     public @NonNull Optional<DecryptedClientTokenView> findClientToken(@NonNull UUID tokenId) {
         return clientTokenRepository.findByUuid(tokenId)
                                     .map(ClientTokenEntity::toView)
@@ -96,7 +88,7 @@ public class JPAOAuthService implements OAuthService {
         final var oauthController = oAuthManager.getController(platform);
 
         try {
-            final var token = oauthController.getClientToken(client.toView())
+            final var token = oauthController.getClientToken(client.toView().decrypt(textEncryptor))
                                              .toCompletableFuture()
                                              .get();
 
@@ -134,7 +126,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
-        final var client = clientRepository.getFirstByPlatform(platform).toView();
+        final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
         final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
 
         return userOAuthInfo.then(token -> userTokenSaver.save(login, client.getId(), token));

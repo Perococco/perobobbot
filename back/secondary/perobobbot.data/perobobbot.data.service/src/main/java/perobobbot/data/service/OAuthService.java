@@ -2,7 +2,7 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.lang.Client;
+import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;
@@ -15,11 +15,6 @@ import java.util.UUID;
 public interface OAuthService {
 
     int VERSION = 1;
-
-    /**
-     * @return all the available clients
-     */
-    @NonNull ImmutableSet<Client> getClients();
 
     /**
      * @param tokenId the id of the searched token

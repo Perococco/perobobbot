@@ -5,7 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
-import perobobbot.lang.Client;
+import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Instants;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.oauth.*;
@@ -22,7 +22,7 @@ public class OAuthAuthorizationListener implements OAuthListener {
     public static final String CODE_PARAMETER_NAME = "code";
 
     private final @NonNull WebClient webClient;
-    private final @NonNull Client client;
+    private final @NonNull DecryptedClient client;
     private final @NonNull Instants instants;
 
     @Getter

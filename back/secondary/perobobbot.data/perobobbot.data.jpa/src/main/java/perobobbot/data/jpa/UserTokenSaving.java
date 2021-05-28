@@ -11,10 +11,7 @@ import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserTokenRepository;
 import perobobbot.data.jpa.repository.ViewerIdentityRepository;
-import perobobbot.lang.Client;
-import perobobbot.lang.Secret;
-import perobobbot.lang.TextEncryptor;
-import perobobbot.lang.ThrowableTool;
+import perobobbot.lang.*;
 import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.EncryptedUserToken;
@@ -44,7 +41,8 @@ public class UserTokenSaving {
     private final @NonNull UUID clientId;
     private final @NonNull Token token;
 
-    private Client client;
+    private EncryptedClient encryptedClient;
+    private DecryptedClient decryptedClient;
     private UserEntity owner;
     private UserIdentity userIdentity;
     private ViewerIdentityEntity viewerIdentity;
@@ -55,6 +53,7 @@ public class UserTokenSaving {
 
     private @NonNull DecryptedUserTokenView save() {
         this.getClientFromRepository();
+        this.decryptedClient();
         this.getOwnerFromRepository();
         this.getUserIdentityFromPlatform();
         this.getOrCreateViewerIdentityFromRepository();
@@ -69,7 +68,11 @@ public class UserTokenSaving {
 
 
     private void getClientFromRepository() {
-        this.client = this.clientRepository.getClientByUuid(clientId).toView();
+        this.encryptedClient = this.clientRepository.getClientByUuid(clientId).toView();
+    }
+
+    private void decryptedClient() {
+        this.decryptedClient = this.encryptedClient.decrypt(textEncryptor);
     }
 
     private void getOwnerFromRepository() {
@@ -77,7 +80,7 @@ public class UserTokenSaving {
     }
 
     private void getUserIdentityFromPlatform() {
-        final var promise = oAuthManager.getUserIdentity(client,token.getAccessToken());
+        final var promise = oAuthManager.getUserIdentity(decryptedClient,token.getAccessToken());
         final Throwable error;
         try {
             this.userIdentity = promise.toCompletableFuture().get();
@@ -97,13 +100,13 @@ public class UserTokenSaving {
     }
 
     private void getOrCreateViewerIdentityFromRepository() {
-        this.viewerIdentity = viewerIdentityRepository.findByPlatformAndViewerId(client.getPlatform(),
+        this.viewerIdentity = viewerIdentityRepository.findByPlatformAndViewerId(decryptedClient.getPlatform(),
                                                                                  userIdentity.getUserId())
                                                       .orElseGet(this::createViewerIdentity);
     }
 
     private @NonNull ViewerIdentityEntity createViewerIdentity() {
-        final var platform = client.getPlatform();
+        final var platform = decryptedClient.getPlatform();
         final var viewerId = userIdentity.getUserId();
         final var pseudo = userIdentity.getLogin();
         return viewerIdentityRepository.save(new ViewerIdentityEntity(platform, viewerId, pseudo));

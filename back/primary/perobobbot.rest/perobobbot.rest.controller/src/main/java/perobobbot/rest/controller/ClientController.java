@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.Client;
+import perobobbot.lang.BaseClient;
 import perobobbot.lang.ListTool;
 import perobobbot.lang.SafeClient;
 
@@ -21,7 +21,7 @@ public class ClientController {
 
     @GetMapping("")
     public @NonNull ImmutableList<SafeClient> listClients() {
-        return ListTool.map(clientService.findAllClients(), Client::stripSecret);
+        return ListTool.map(clientService.findAllClients(), BaseClient::stripSecret);
     }
 
     @PutMapping("")

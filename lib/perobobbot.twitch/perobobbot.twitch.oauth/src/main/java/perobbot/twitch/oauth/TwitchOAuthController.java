@@ -31,7 +31,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull CompletionStage<?> revokeToken(@NonNull Client client, @NonNull Secret accessToken) {
+    public @NonNull CompletionStage<?> revokeToken(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
         final var revokeUri = new TwitchOAuthURI().getRevokeURI(client.getClientId(), accessToken);
         return toCompletionStage(
                 webClient.post()
@@ -40,7 +40,7 @@ public class TwitchOAuthController implements OAuthController {
                          .toBodilessEntity(), ResponseEntity::getStatusCode);
     }
 
-    public @NonNull CompletionStage<Token> refreshToken(@NonNull Client client, @NonNull Token expiredToken) {
+    public @NonNull CompletionStage<Token> refreshToken(@NonNull DecryptedClient client, @NonNull Token expiredToken) {
         final var refreshToken = expiredToken.getRefreshToken().orElseThrow(
                 () -> new OAuthNotRefreshableToken(client.getPlatform(), client.getClientId()));
 
@@ -53,7 +53,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull CompletionStage<Token> getClientToken(@NonNull Client client) {
+    public @NonNull CompletionStage<Token> getClientToken(@NonNull DecryptedClient client) {
         final var tokenUri = new TwitchOAuthURI().getAppTokenURI(client);
 
         return toCompletionStage(webClient.post()
@@ -64,7 +64,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull UserOAuthInfo prepareUserOAuth(@NonNull Client client, @NonNull ImmutableSet<? extends Scope> scopes) {
+    public @NonNull UserOAuthInfo prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
         final var listener = new OAuthAuthorizationListener(webClient, client, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
@@ -81,7 +81,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull Client client, @NonNull Secret accessToken) {
+    public @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
         return performTokenValidation(accessToken).thenApply(TwitchValidation::toUserIdentity);
     }
 

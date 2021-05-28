@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.util.UriComponentsBuilder;
-import perobobbot.lang.Client;
+import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 import perobobbot.lang.SecretURI;
@@ -19,7 +19,7 @@ public class TwitchOAuthURI {
         return URI.create("https://id.twitch.tv/oauth2/validate");
     }
 
-    public @NonNull SecretURI getRefreshURI(@NonNull Client client, @NonNull Secret refreshToken) {
+    public @NonNull SecretURI getRefreshURI(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
         return getTokenURIBuilder(client, GranType.REFRESH_TOKEN)
                 .setRefreshToken(refreshToken.getValue())
                 .build();
@@ -33,14 +33,14 @@ public class TwitchOAuthURI {
                                                  .toUri());
     }
 
-    public @NonNull SecretURI getUserTokenURI(@NonNull Client client, @NonNull String code, @NonNull URI redirectURI) {
+    public @NonNull SecretURI getUserTokenURI(@NonNull DecryptedClient client, @NonNull String code, @NonNull URI redirectURI) {
         return getTokenURIBuilder(client, GranType.AUTHORIZATION_CODE)
                 .setCode(code)
                 .setRedirectUri(redirectURI)
                 .build();
     }
 
-    public @NonNull SecretURI getAppTokenURI(@NonNull Client client) {
+    public @NonNull SecretURI getAppTokenURI(@NonNull DecryptedClient client) {
         return getTokenURIBuilder(client, GranType.CLIENT_CREDENTIALS)
                 .setScopes(ImmutableSet.of())
                 .build();
@@ -58,7 +58,7 @@ public class TwitchOAuthURI {
     }
 
 
-    private @NonNull TokenURIBuilder getTokenURIBuilder(@NonNull Client client, @NonNull GranType granType) {
+    private @NonNull TokenURIBuilder getTokenURIBuilder(@NonNull DecryptedClient client, @NonNull GranType granType) {
         final var uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl("https://id.twitch.tv/oauth2/token")
                                                              .queryParam("client_id", client.getId())
                                                              .queryParam("client_secret", client.getClientSecret().getValue())
