@@ -1,10 +1,14 @@
 package perobobbot.data.service;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.com.NoClientForPlatform;
 import perobobbot.data.com.UnknownClient;
 import perobobbot.lang.Client;
 import perobobbot.lang.Platform;
+import perobobbot.lang.Secret;
 
 import java.util.Optional;
 
@@ -22,4 +26,7 @@ public interface ClientService {
         return findClient(platform,clientId).orElseThrow(() -> new UnknownClient(platform,clientId));
     }
 
+    @NonNull ImmutableList<Client> findAllClients();
+
+    @NonNull Client createClient(@NonNull CreateClientParameter parameter);
 }

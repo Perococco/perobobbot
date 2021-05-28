@@ -1,27 +1,25 @@
-package perobobbot.oauth._private;
+package perobobbot.oauth;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 
 import java.io.IOException;
 
-public class OAuthObjectMapper extends ObjectMapper {
+public class OAuthModule extends SimpleModule {
 
-    public OAuthObjectMapper() {
-        this.registerModule(new GuavaModule())
-            .registerModule(new Jdk8Module())
-            .registerModule(new SimpleModule()
-                                    .addSerializer(Scope.class, SCOPE_SERIALIZER)
-                                    .addDeserializer(Scope.class, SCOPE_DESERIALIZER)
-                                    .addSerializer(Secret.class, SECRET_SERIALIZER)
-                                    .addDeserializer(Secret.class, SECRET_DESERIALIZER));
+    public OAuthModule() {
+        this.addSerializer(Scope.class, SCOPE_SERIALIZER)
+            .addDeserializer(Scope.class, SCOPE_DESERIALIZER)
+            .addSerializer(Secret.class, SECRET_SERIALIZER)
+            .addDeserializer(Secret.class, SECRET_DESERIALIZER);
     }
 
     private static final JsonSerializer<Scope> SCOPE_SERIALIZER = new JsonSerializer<>() {

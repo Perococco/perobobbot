@@ -1,9 +1,11 @@
 package perobobbot.data.security.service;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
@@ -29,7 +31,13 @@ public class SecuredClientService implements ClientService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public @NonNull Optional<Client> findClient(@NonNull Platform platform, @NonNull String clientId) {
-        return Optional.empty();
+        return clientService.findClient(platform,clientId);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull ImmutableList<Client> findAllClients() {
+        return clientService.findAllClients();
     }
 
     @Override
@@ -42,5 +50,11 @@ public class SecuredClientService implements ClientService {
     @PreAuthorize("hasRole('ADMIN')")
     public @NonNull Client getClient(@NonNull Platform platform, @NonNull String clientId) {
         return clientService.getClient(platform, clientId);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Client createClient(@NonNull CreateClientParameter parameter) {
+        return clientService.createClient(parameter);
     }
 }

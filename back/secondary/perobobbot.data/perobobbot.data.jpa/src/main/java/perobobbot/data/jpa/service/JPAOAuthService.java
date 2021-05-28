@@ -2,6 +2,7 @@ package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -132,11 +133,11 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull UUID clientId) {
-        final var client = clientRepository.getClientByUuid(clientId).toView();
+    public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
+        final var client = clientRepository.getFirstByPlatform(platform).toView();
         final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
 
-        return userOAuthInfo.then(token -> userTokenSaver.save(login, clientId, token));
+        return userOAuthInfo.then(token -> userTokenSaver.save(login, client.getId(), token));
     }
 
     private @NonNull DecryptedClientTokenView saveClientToken(@NonNull ClientEntity client, @NonNull Token token) {

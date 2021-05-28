@@ -38,7 +38,7 @@ public interface OAuthService {
 
     @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
 
-    @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull UUID clientId);
+    @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform);
 
     @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull UUID tokenId);
 

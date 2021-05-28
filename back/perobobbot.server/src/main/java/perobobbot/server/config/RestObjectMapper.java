@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import perobobbot.oauth.OAuthModule;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RestObjectMapper extends ObjectMapper {
@@ -20,7 +21,7 @@ public class RestObjectMapper extends ObjectMapper {
                                    .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
                                    .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
         mapper.registerModules(
-                new GuavaModule(), new JavaTimeModule(), new Jdk8Module());
+                new GuavaModule(), new JavaTimeModule(), new Jdk8Module(), new OAuthModule());
         return mapper;
     }
 
