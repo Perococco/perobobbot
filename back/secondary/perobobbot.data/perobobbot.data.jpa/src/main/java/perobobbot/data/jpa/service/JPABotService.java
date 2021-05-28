@@ -65,7 +65,7 @@ public class JPABotService implements BotService {
     }
 
     @Override
-    public JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
+    public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
         final var bot = botRepository.getByUuid(botId);
         final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
 
