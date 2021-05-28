@@ -3,12 +3,13 @@ package perobobbot.oauth;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.fp.Function1;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
-public class UserOAuthInfo {
+public class UserOAuthInfo<T> {
 
     /**
      * The URI to GET to start the user OAuth process
@@ -21,5 +22,12 @@ public class UserOAuthInfo {
      * if the OAuth process succeeded
      */
     @Getter
-    private final @NonNull CompletionStage<Token> futureToken;
+    private final @NonNull CompletionStage<T> futureToken;
+
+    public <U> @NonNull UserOAuthInfo<U> then(@NonNull Function1<? super T, ? extends U> mapper) {
+        return new UserOAuthInfo<U>(
+                oauthURI,
+                futureToken.thenApply(mapper)
+        );
+    }
 }

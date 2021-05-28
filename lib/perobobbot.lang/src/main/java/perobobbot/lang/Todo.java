@@ -5,15 +5,19 @@ import lombok.NonNull;
 public class Todo {
 
     public static <T> T TODO() {
-        throw new PerobobbotException("Not implemented yet");
+        return _TODO("Not implemented yet");
     }
 
     public static <T> T TODO(@NonNull Class<T> returnType) {
-        throw new PerobobbotException("Not implemented yet");
+        return _TODO("Not implemented yet");
     }
 
     public static <T> T TODO(@NonNull String message) {
-        throw new PerobobbotException("Not implemented yet :"+message);
+        return _TODO("Not implemented yet :"+message);
+    }
+
+     private static  <T> T _TODO(@NonNull String message) {
+        throw new PerobobbotException(message);
     }
 
     public static <T> T TO_REMOVE() {

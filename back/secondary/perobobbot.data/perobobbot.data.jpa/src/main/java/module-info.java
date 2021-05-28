@@ -1,4 +1,4 @@
-import perobobbot.data.jpa.JpaConfiguration;
+import perobobbot.data.jpa.DataJpaConfiguration;
 import perobobbot.lang.Packages;
 
 module perobobbot.data.jpa {
@@ -9,6 +9,7 @@ module perobobbot.data.jpa {
     requires spring.beans;
     requires spring.tx;
     requires spring.core;
+    requires org.aspectj.weaver;
 
     requires perobobbot.security.core;
     requires perobobbot.data.service;
@@ -24,7 +25,7 @@ module perobobbot.data.jpa {
     opens perobobbot.data.jpa.service to spring.core,spring.beans,spring.context;
     opens perobobbot.data.jpa.repository to spring.core,spring.beans,spring.context,spring.data.commons;
 
-    provides Packages with JpaConfiguration;
+    provides Packages with DataJpaConfiguration;
 
     exports perobobbot.data.jpa;
     exports perobobbot.data.jpa.service;

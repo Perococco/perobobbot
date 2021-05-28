@@ -6,6 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Todo;
 import perobobbot.twitch.client.api.TwitchService;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletionStage;
 
@@ -15,22 +17,27 @@ public class WebClientAppTwitchService implements TwitchService {
     private final @NonNull WebClient webClient;
 
     @Override
-    public CompletionStage<Nil> getStreamTags() {
+    public Flux<Nil> GetFollowedStreams(@NonNull String userId) {
         return Todo.TODO();
     }
 
     @Override
-    public CompletionStage<Nil> createEventSubSubscription() {
+    public Flux<Nil> getStreamTags() {
         return Todo.TODO();
     }
 
     @Override
-    public CompletionStage<Nil> deleteEventSubSubscription() {
+    public Mono<Nil> createEventSubSubscription() {
         return Todo.TODO();
     }
 
     @Override
-    public CompletionStage<Nil> getEventSubSubscriptions() {
+    public Mono<Nil> deleteEventSubSubscription() {
+        return Todo.TODO();
+    }
+
+    @Override
+    public Mono<Nil> getEventSubSubscriptions() {
         return Todo.TODO();
     }
 }

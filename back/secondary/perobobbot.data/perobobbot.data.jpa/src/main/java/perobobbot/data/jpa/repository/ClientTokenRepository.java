@@ -12,7 +12,7 @@ public interface ClientTokenRepository extends JpaRepository<ClientTokenEntity,L
 
     @NonNull Optional<ClientTokenEntity> findByUuid(@NonNull UUID uuid);
 
-    @NonNull Optional<ClientTokenEntity> findByClient_PlatformAndClient_ClientId(@NonNull Platform platform, @NonNull String clientId);
+    @NonNull Optional<ClientTokenEntity> findByClient_Platform(@NonNull Platform platform);
 
     int removeByClient_UuidAndAccessToken(@NonNull UUID clientId, @NonNull String accessToken);
 

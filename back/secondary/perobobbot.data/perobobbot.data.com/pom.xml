@@ -26,6 +26,10 @@
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
         <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-oauth</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

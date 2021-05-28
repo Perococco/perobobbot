@@ -5,6 +5,7 @@ module perobobbot.data.security {
     requires static lombok;
     requires java.desktop;
     requires perobobbot.data.service;
+    requires perobobbot.plugin;
 
     requires com.google.common;
     requires spring.context;
@@ -17,6 +18,7 @@ module perobobbot.data.security {
 
 
     exports perobobbot.data.security.service;
+    exports perobobbot.data.security;
 
     provides Packages with DataSecurityConfiguration;
 }

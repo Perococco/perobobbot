@@ -24,6 +24,7 @@
         <module>primary</module>
         <module>secondary</module>
         <module>perobobbot.server</module>
+<!--        <module>perobobbot.server.test</module>-->
 
         <module>packaging</module>
         <module>tsgen</module>

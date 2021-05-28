@@ -20,9 +20,6 @@
         <project.root>${project.basedir}/../..</project.root>
         <module.name>Bot Server</module.name>
         <openapi.version>1.5.8</openapi.version>
-
-        <db.url>jdbc:h2:~/perobobbot;auto_server=true</db.url>
-
     </properties>
 
 

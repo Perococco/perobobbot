@@ -45,6 +45,10 @@ public interface BotService {
      */
     @NonNull Optional<Bot> findBot(@NonNull UUID botId);
 
+    default @NonNull Optional<String> findBotOwnerLogin(@NonNull UUID botId) {
+        return findBot(botId).map(Bot::getOwnerLogin);
+    }
+
     /**
      * @param login the login of the user
      * @return all the bots for the user with the given login

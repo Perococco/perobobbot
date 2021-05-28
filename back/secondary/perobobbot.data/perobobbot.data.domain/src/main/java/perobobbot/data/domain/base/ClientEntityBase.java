@@ -23,7 +23,7 @@ import java.util.UUID;
 @Setter
 public class ClientEntityBase extends PersistentObjectWithUUID {
 
-    @Column(name = "PLATFORM")
+    @Column(name = "PLATFORM", unique = true)
     private Platform platform;
 
     @Column(name = "CLIENT_ID")

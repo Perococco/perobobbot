@@ -17,6 +17,7 @@ import perobobbot.lang.ExecutionContext;
 @Qualifier("with-access-rule")
 public class CommandExecutorWithAccessRule implements CommandExecutor {
 
+    @Qualifier("without-access-rule")
     private final @NonNull CommandExecutor delegate;
 
     private final @NonNull @UnsecuredService ExtensionService extensionService;

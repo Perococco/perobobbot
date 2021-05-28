@@ -22,7 +22,7 @@ public class CommandConfiguration {
     private final ChatController chatController;
 
     @NonNull
-    @Qualifier("with-access-rule")
+    @Qualifier("with-oauth-context")
     private final CommandExecutor commandExecutor;
 
 

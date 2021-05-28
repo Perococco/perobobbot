@@ -17,10 +17,10 @@ import perobobbot.lang.Packages;
 )
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-public class JpaConfiguration {
+public class DataJpaConfiguration {
 
     public static @NonNull Packages provider() {
-        return Packages.with("Data JPA", JpaConfiguration.class);
+        return Packages.with("Data JPA", DataJpaConfiguration.class);
     }
 
 }

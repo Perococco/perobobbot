@@ -4,6 +4,7 @@ module perobobbot.data.com {
 
     requires transitive perobobbot.lang;
     requires transitive perobobbot.security.com;
+    requires transitive perobobbot.oauth;
 
     requires com.google.common;
 

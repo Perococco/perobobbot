@@ -3,7 +3,6 @@ module perobobbot.oauth {
     requires java.desktop;
 
     requires perobobbot.lang;
-    requires perobobbot.plugin;
 
     requires com.google.common;
     requires com.fasterxml.jackson.annotation;

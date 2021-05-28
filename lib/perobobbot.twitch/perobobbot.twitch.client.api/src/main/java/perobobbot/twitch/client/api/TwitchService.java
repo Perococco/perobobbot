@@ -1,22 +1,31 @@
 package perobobbot.twitch.client.api;
 
+import lombok.NonNull;
 import perobobbot.lang.Nil;
 import perobobbot.lang.TokenType;
-
-import java.util.concurrent.CompletionStage;
+import perobobbot.oauth.RequiredScope;
+import perobobbot.oauth.RequiredToken;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface TwitchService {
 
-    @TokenRequired(type = TokenType.USER_TOKEN)
-    CompletionStage<Nil> getStreamTags();
+    @RequiredToken(TokenType.USER_TOKEN)
+    @RequiredScope("user:read:follows")
+    Flux<Nil> GetFollowedStreams(@NonNull String userId);
 
-    @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    CompletionStage<Nil> createEventSubSubscription();
+    @RequiredToken(TokenType.USER_TOKEN)
+    Flux<Nil> getStreamTags();
 
-    @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    CompletionStage<Nil> deleteEventSubSubscription();
+    @RequiredToken(TokenType.CLIENT_TOKEN)
+    Mono<Nil> createEventSubSubscription();
 
-    @TokenRequired(type = TokenType.CLIENT_TOKEN)
-    CompletionStage<Nil> getEventSubSubscriptions();
+
+
+    @RequiredToken(TokenType.CLIENT_TOKEN)
+    Mono<Nil> deleteEventSubSubscription();
+
+    @RequiredToken(TokenType.CLIENT_TOKEN)
+    Mono<Nil> getEventSubSubscriptions();
 
 }

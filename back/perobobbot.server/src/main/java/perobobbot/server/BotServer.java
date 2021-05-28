@@ -12,7 +12,7 @@ import java.util.Arrays;
 @SpringBootApplication
 @PropertySources({
         @PropertySource(value = "file:${app.config.dir}/server/application.properties", ignoreResourceNotFound = true),
-        @PropertySource(value = "file:${app.config.dir}/server/database_secret.properties", ignoreResourceNotFound = true)
+        @PropertySource(value = "file:${app.config.dir}/server/database_secret.properties", ignoreResourceNotFound = false)
 })
 @Log4j2
 public class BotServer {

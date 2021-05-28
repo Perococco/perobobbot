@@ -6,26 +6,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.AuthenticateUserParameter;
+import perobobbot.data.com.DataToken;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Client;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
+import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@SecuredService
 @RequiredArgsConstructor
+@SecuredService
 @PluginService(type = OAuthService.class, apiVersion = OAuthService.VERSION)
 public class SecuredOAuthService implements OAuthService {
 
-    private final @EventService
-    OAuthService delegate;
+    private final @EventService OAuthService delegate;
 
 
     @Override
@@ -44,8 +46,8 @@ public class SecuredOAuthService implements OAuthService {
     @Override
     @NonNull
     @PreAuthorize("hasRole('ADMIN')")
-    public Optional<DecryptedClientTokenView> findClientToken(@NonNull Platform platform, @NonNull String clientId) {
-        return delegate.findClientToken(platform, clientId);
+    public Optional<DecryptedClientTokenView> findClientToken(@NonNull Platform platform) {
+        return delegate.findClientToken(platform);
     }
 
     @Override
@@ -62,23 +64,21 @@ public class SecuredOAuthService implements OAuthService {
     }
 
     @Override
-    @NonNull
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull UUID viewerIdentityId) {
-        return delegate.findUserToken(login, viewerIdentityId);
+    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
+        return delegate.findUserToken(login,platform);
     }
 
     @Override
-    @NonNull
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId) {
-        return delegate.findUserToken(login, platform, viewerId);
+    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
+        return delegate.findUserToken(login,platform,requiredScope);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #parameter.login")
-    public @NonNull DecryptedUserTokenView authenticateUser(@NonNull AuthenticateUserParameter parameter, @NonNull UUID clientId) {
-        return delegate.authenticateUser(parameter,clientId);
+    public @NonNull UserOAuthInfo authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull UUID clientId) {
+        return delegate.authenticateUser(login,scopes,clientId);
     }
 
     @Override
