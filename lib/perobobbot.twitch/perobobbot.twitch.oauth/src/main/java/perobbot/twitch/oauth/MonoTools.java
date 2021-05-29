@@ -1,7 +1,6 @@
 package perobbot.twitch.oauth;
 
 import lombok.NonNull;
-import lombok.experimental.Delegate;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;

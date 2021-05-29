@@ -2,7 +2,6 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;

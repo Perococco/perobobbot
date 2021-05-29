@@ -6,11 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import perobobbot.data.service.ClientService;
-import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.Platform;
 import perobobbot.rest.com.OAuthProcessParameter;
 import perobobbot.rest.com.RestUserToken;
 

@@ -2,7 +2,6 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import perobobbot.data.com.UnknownTransaction;
 import perobobbot.data.domain.TransactionEntity;
 import perobobbot.lang.TransactionState;

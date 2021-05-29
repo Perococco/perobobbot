@@ -8,7 +8,6 @@ import org.hibernate.annotations.Type;
 import perobobbot.data.domain.ClientTokenEntity;
 import perobobbot.lang.EncryptedClient;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
