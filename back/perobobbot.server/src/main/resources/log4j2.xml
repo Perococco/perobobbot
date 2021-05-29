@@ -44,7 +44,7 @@
         <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
         <Logger name="perobobbot.spring.SpringLauncher" level="info"/>
         <Logger name="web" level="warn"/>
-        <Logger name="reactor.netty" level="debug"/>
+        <Logger name="reactor.netty" level="off"/>
         <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>
     </Loggers>
 
