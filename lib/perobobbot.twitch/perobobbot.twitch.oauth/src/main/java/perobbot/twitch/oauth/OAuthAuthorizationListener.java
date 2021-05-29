@@ -9,6 +9,8 @@ import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Instants;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.oauth.*;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 public class OAuthAuthorizationListener implements OAuthListener {
 
     public static final String CODE_PARAMETER_NAME = "code";
-
+    
     private final @NonNull WebClient webClient;
     private final @NonNull DecryptedClient client;
     private final @NonNull Instants instants;
@@ -40,12 +42,15 @@ public class OAuthAuthorizationListener implements OAuthListener {
             } else {
                 final var secretURI = new TwitchOAuthURI().getUserTokenURI(client, code, redirectURI);
 
-                webClient.post()
-                         .uri(secretURI.getUri())
-                         .retrieve()
-                         .bodyToMono(TwitchToken.class)
-                         .subscribe(result -> futureToken.complete(result.toToken(instants.now())),
-                                    error -> futureToken.completeExceptionally(new OAuthFailure(client.getPlatform(), client.getClientId(), error)));
+                MonoTools.setToCompletableFutureAsync(
+                        webClient.post()
+                                 .uri(secretURI.getUri())
+                                 .retrieve()
+                                 .bodyToMono(TwitchToken.class)
+                                 .map(r -> r.toToken(instants.now()))
+                                 .onErrorMap(e -> new OAuthFailure(client.getPlatform(), client.getClientId(), e))
+                        ,
+                        futureToken);
             }
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
