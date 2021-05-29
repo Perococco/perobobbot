@@ -1,15 +1,13 @@
 package perobbot.twitch.oauth;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
 import perobobbot.oauth.UserIdentity;
 
 import java.util.Optional;
 
 @Value
+@ToString
 public class TwitchValidation {
 
     @JsonAlias("client_id") @NonNull String clientId;
@@ -19,7 +17,7 @@ public class TwitchValidation {
     @JsonAlias("scopes") String[] scopes;
     @Getter(AccessLevel.NONE)
     @JsonAlias("user_id") String userId;
-    @JsonAlias("expires_in") double expiresIn;
+    @JsonAlias("expires_in") int expiresIn;
 
     public @NonNull Optional<String> getLogin() {
         return Optional.ofNullable(login);

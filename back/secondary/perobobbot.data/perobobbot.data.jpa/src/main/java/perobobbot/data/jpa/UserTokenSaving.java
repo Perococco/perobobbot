@@ -3,6 +3,7 @@ package perobobbot.data.jpa;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import perobobbot.data.com.DataException;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.data.domain.UserTokenEntity;
@@ -22,6 +23,7 @@ import perobobbot.oauth.UserIdentity;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+@Log4j2
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserTokenSaving {
 
@@ -52,18 +54,25 @@ public class UserTokenSaving {
     private DecryptedUserTokenView decryptedUserTokenView;
 
     private @NonNull DecryptedUserTokenView save() {
-        this.getClientFromRepository();
-        this.decryptedClient();
-        this.getOwnerFromRepository();
-        this.getUserIdentityFromPlatform();
-        this.getOrCreateViewerIdentityFromRepository();
-        this.buildDecryptedUserToken();
-        this.encryptUserToken();
-        this.addEncryptedUserTokenToOwner();
-        this.saveEncryptedUserTokenIntoRepository();
-        this.transformUserTokenToView();
+        try {
+            this.getClientFromRepository();
+            this.decryptedClient();
+            this.getOwnerFromRepository();
+            this.getUserIdentityFromPlatform();
+            this.getOrCreateViewerIdentityFromRepository();
+            this.buildDecryptedUserToken();
+            this.encryptUserToken();
+            this.addEncryptedUserTokenToOwner();
+            this.saveEncryptedUserTokenIntoRepository();
+            this.transformUserTokenToView();
 
-        return decryptedUserTokenView;
+            return decryptedUserTokenView;
+        } catch (Throwable t) {
+            LOG.error("Could not save token : {} ",t.getMessage());
+            LOG.debug(t);
+            t.printStackTrace();
+            throw t;
+        }
     }
 
 

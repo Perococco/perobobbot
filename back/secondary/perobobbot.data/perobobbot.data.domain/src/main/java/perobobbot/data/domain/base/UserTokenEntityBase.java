@@ -28,6 +28,7 @@ public class UserTokenEntityBase extends TokenEntityBase {
     private UserEntity owner;
 
     @ManyToOne
+    @JoinColumn(name = "VIEWER_IDENTITY_ID", nullable = false)
     private ViewerIdentityEntity viewerIdentity;
 
     @Column(name = "REFRESH_TOKEN", nullable = false)

@@ -21,6 +21,7 @@ public class ViewerIdentityEntity extends ViewerIdentityEntityBase {
 
     public @NonNull ViewerIdentity toView() {
         return ViewerIdentity.builder()
+                             .id(getUuid())
                              .platform(this.getPlatform())
                              .viewerId(this.getViewerId())
                              .pseudo(this.getPseudo())

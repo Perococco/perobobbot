@@ -18,6 +18,11 @@ module perobobbot.twitch.oauth {
     requires com.google.common;
     requires org.apache.logging.log4j;
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.guava;
+    requires com.fasterxml.jackson.datatype.jdk8;
+
     requires reactor.core;
 
 

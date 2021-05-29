@@ -60,7 +60,7 @@ public class TwitchOAuthURI {
 
     private @NonNull TokenURIBuilder getTokenURIBuilder(@NonNull DecryptedClient client, @NonNull GranType granType) {
         final var uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl("https://id.twitch.tv/oauth2/token")
-                                                             .queryParam("client_id", client.getId())
+                                                             .queryParam("client_id", client.getClientId())
                                                              .queryParam("client_secret", client.getClientSecret().getValue())
                                                              .queryParam("grant_type", granType.uriValue);
         return new TokenURIBuilder(uriComponentsBuilder);

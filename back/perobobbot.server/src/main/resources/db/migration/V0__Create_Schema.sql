@@ -131,7 +131,7 @@ create table PEROBOBBOT.USER_TOKEN (
                                        REFRESH_TOKEN varchar(255) not null,
                                        SCOPES varchar(255) not null,
                                        USER_ID bigint not null,
-                                       viewerIdentity_ID bigint,
+                                       VIEWER_IDENTITY_ID bigint not null,
                                        primary key (ID)
 );
 
@@ -237,6 +237,6 @@ alter table PEROBOBBOT.USER_TOKEN
             references PEROBOBBOT.USER;
 
 alter table PEROBOBBOT.USER_TOKEN
-    add constraint FKksovtxajfyjusqrap2lb0jw0k
-        foreign key (viewerIdentity_ID)
+    add constraint FKpa6u506hq61c2hcnogva0pnyj
+        foreign key (VIEWER_IDENTITY_ID)
             references PEROBOBBOT.VIEWER_IDENTITY;

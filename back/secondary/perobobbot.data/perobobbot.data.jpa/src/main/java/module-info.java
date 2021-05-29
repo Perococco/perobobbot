@@ -11,6 +11,8 @@ module perobobbot.data.jpa {
     requires spring.core;
     requires org.aspectj.weaver;
 
+    requires org.apache.logging.log4j;
+
     requires perobobbot.security.core;
     requires perobobbot.data.service;
     requires perobobbot.data.domain;

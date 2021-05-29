@@ -4,13 +4,15 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 import perobobbot.oauth.*;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -64,7 +66,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull UserOAuthInfo prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
+    public @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
         final var listener = new OAuthAuthorizationListener(webClient, client, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
@@ -72,7 +74,7 @@ public class TwitchOAuthController implements OAuthController {
                                                                           subscriptionData.getState(),
                                                                           subscriptionData.getOAuthRedirectURI());
 
-        return new UserOAuthInfo(oauthURI, listener.getFutureToken());
+        return new UserOAuthInfo<>(oauthURI, listener.getFutureToken());
     }
 
     @Override
@@ -87,12 +89,49 @@ public class TwitchOAuthController implements OAuthController {
 
     private @NonNull CompletionStage<TwitchValidation> performTokenValidation(@NonNull Secret accessToken) {
         final var validateUri = new TwitchOAuthURI().getValidateTokenURI();
-        return toCompletionStage(webClient
-                .get()
-                .uri(validateUri)
-                .header("Authorization", "Bearer " + accessToken)
-                .retrieve()
-                .bodyToMono(TwitchValidation.class));
+
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION,"OAuth " + accessToken.getValue());
+        final HttpEntity<TwitchValidation> httpEntity = new HttpEntity<>(headers);
+
+
+        try {
+            final var result = new RestTemplate().exchange(validateUri, HttpMethod.GET, httpEntity,
+                                                           TwitchValidation.class).getBody();
+            return CompletableFuture.completedFuture(result);
+        } catch (Throwable throwable) {
+            return  CompletableFuture.failedFuture(throwable);
+        }
+
+
+//        final CompletableFuture<TwitchValidation> future = new CompletableFuture<>();
+//        try {
+//
+//
+//            var wc = webClient.get()
+//                              .uri(validateUri)
+//                              .header(HttpHeaders.AUTHORIZATION, "OAuth " + accessToken.getValue())
+//                              .accept(MediaType.APPLICATION_JSON);
+//
+//            wc.retrieve()
+//              .bodyToMono(TwitchValidation.class)
+//              .log()
+//              .timeout(Duration.ofSeconds(10))
+//              .subscribe(
+//                      r -> {
+//                          System.out.println("YES " + r);
+//                          future.complete(r);
+//                      },
+//                      e -> {
+//                          System.err.println("NO  " + e);
+//                          future.completeExceptionally(e);
+//                      }
+//              );
+//            future.get();
+//        } catch (Throwable t) {
+//            t.printStackTrace();
+//        }
+//        return future;
     }
 
     //TODO should be moved outside of Twitch module
@@ -106,7 +145,9 @@ public class TwitchOAuthController implements OAuthController {
                     } catch (Throwable t) {
                         completableFuture.completeExceptionally(t);
                     }
-                }, completableFuture::completeExceptionally);
+                }, t -> {
+                    completableFuture.completeExceptionally(t);
+                });
         return completableFuture;
     }
 

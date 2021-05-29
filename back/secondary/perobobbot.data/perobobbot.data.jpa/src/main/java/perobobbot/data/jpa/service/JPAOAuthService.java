@@ -5,7 +5,9 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.domain.ClientTokenEntity;
@@ -129,7 +131,7 @@ public class JPAOAuthService implements OAuthService {
         final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
         final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
 
-        return userOAuthInfo.then(token -> userTokenSaver.save(login, client.getId(), token));
+        return userOAuthInfo.then(token -> transactionTemplate.execute(status -> userTokenSaver.save(login, client.getId(), token)));
     }
 
     private @NonNull DecryptedClientTokenView saveClientToken(@NonNull ClientEntity client, @NonNull Token token) {
