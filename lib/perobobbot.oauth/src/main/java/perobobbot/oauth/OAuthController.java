@@ -29,7 +29,7 @@ public interface OAuthController {
 
     @NonNull CompletionStage<?> revokeToken(@NonNull DecryptedClient client, @NonNull Secret accessToken);
 
-    @NonNull CompletionStage<Token> refreshToken(@NonNull DecryptedClient client, @NonNull Token expiredToken);
+    @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken);
 
     @NonNull CompletionStage<?> validateToken(@NonNull Secret accessToken);
 

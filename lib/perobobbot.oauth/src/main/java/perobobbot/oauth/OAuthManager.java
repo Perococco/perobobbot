@@ -17,25 +17,49 @@ import java.util.concurrent.CompletionStage;
  */
 public interface OAuthManager {
 
+    /**
+     * @return all the managed platforms
+     */
     @NonNull ImmutableSet<Platform> getManagedPlatform();
 
+    /**
+     * @param platform a platform
+     * @return the {@link OAuthController} for the requested platform
+     */
     @NonNull Optional<OAuthController> findController(@NonNull Platform platform);
 
+    /**
+     * @param platform a platform
+     * @return the {@link OAuthController} for the requested platform
+     * @throws OAuthUnmanagedPlatform if no controller exists for the requested platform
+     */
     default @NonNull OAuthController getController(@NonNull Platform platform) {
         return findController(platform).orElseThrow(() -> new OAuthUnmanagedPlatform(platform));
     }
 
-    static OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
-        return new MapOAuthManager(controllers);
-    }
-
+    /**
+     * shortcut to <code>getController(client.getPlatform()).getUserIdentity(client,accessToken)</code>
+     */
     default @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
         return getController(client.getPlatform()).getUserIdentity(client,accessToken);
     }
 
+    /**
+     * shortcut to <code>getController(client.getPlatform()).prepareUserOAuth(client,accessToken)</code>
+     */
     default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
         return getController(client.getPlatform()).prepareUserOAuth(client,scopes);
     }
+
+
+    /**
+     * @param controllers the controllers to manage
+     * @return a OAuthManager that will managed the provided controllers
+     */
+    static @NonNull OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
+        return new MapOAuthManager(controllers);
+    }
+
 
 
 

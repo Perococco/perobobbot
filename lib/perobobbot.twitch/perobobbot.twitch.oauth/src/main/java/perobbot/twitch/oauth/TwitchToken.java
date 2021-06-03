@@ -46,7 +46,7 @@ public class TwitchToken {
         return Token.builder()
                     .accessToken(Secret.with(accessToken))
                     .duration(duration)
-                    .refreshToken(Secret.with(refreshToken))
+                    .refreshToken(refreshToken == null?null:Secret.with(refreshToken))
                     .expirationInstant(now.plusSeconds(duration))
                     .scopes(twitchScopes)
                     .tokenType(tokenType)

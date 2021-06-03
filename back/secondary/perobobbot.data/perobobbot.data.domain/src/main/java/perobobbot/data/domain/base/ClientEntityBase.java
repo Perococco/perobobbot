@@ -6,8 +6,10 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.domain.ClientTokenEntity;
+import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.EncryptedClient;
 import perobobbot.lang.Platform;
+import perobobbot.lang.TextEncryptor;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
@@ -51,4 +53,9 @@ public class ClientEntityBase extends PersistentObjectWithUUID {
                      .clientSecret(this.getClientSecret())
                      .build();
     }
+
+    public @NonNull DecryptedClient toDecryptedView(@NonNull TextEncryptor textEncryptor) {
+        return toView().decrypt(textEncryptor);
+    }
+
 }

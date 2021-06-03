@@ -8,7 +8,7 @@ import perobobbot.lang.TextEncryptor;
 import java.util.UUID;
 
 @Value
-public class EncryptedClientTokenView {
+public class EncryptedClientTokenView implements TokenView<String> {
 
     @NonNull UUID id;
     @NonNull SafeClient client;
@@ -16,5 +16,10 @@ public class EncryptedClientTokenView {
 
     public @NonNull DecryptedClientTokenView decrypt(@NonNull TextEncryptor textEncryptor) {
         return new DecryptedClientTokenView(id,client,clientToken.decrypt(textEncryptor));
+    }
+
+    @Override
+    public @NonNull Token<String> getToken() {
+        return clientToken;
     }
 }

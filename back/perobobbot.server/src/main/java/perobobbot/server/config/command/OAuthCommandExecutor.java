@@ -2,18 +2,21 @@ package perobobbot.server.config.command;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import perobobbot.command.Command;
 import perobobbot.command.CommandExecutor;
 import perobobbot.lang.ExecutionContext;
 import perobobbot.oauth.ChatTokenIdentifier;
+import perobobbot.oauth.Markers;
 import perobobbot.oauth.OAuthContextHolder;
 
 @Component
 @Qualifier("with-oauth-context")
 @RequiredArgsConstructor
-public class CommandExecutorWithOAuthContext implements CommandExecutor {
+@Log4j2
+public class OAuthCommandExecutor implements CommandExecutor {
 
     private final @Qualifier("with-access-rule")
     @NonNull CommandExecutor delegate;
@@ -30,6 +33,7 @@ public class CommandExecutorWithOAuthContext implements CommandExecutor {
 
     private void initializeOAuthContextWithMessageInformation(@NonNull ExecutionContext context) {
         final var identifier = new ChatTokenIdentifier(context.getBotId(), context.getMessageOwner().getUserId(), context.getPlatform(), context.getChannelName());
+        LOG.info(Markers.OAUTH_MARKER, "Got identifier context {}",identifier);
         OAuthContextHolder.getContext().setTokenIdentifier(identifier);
     }
 

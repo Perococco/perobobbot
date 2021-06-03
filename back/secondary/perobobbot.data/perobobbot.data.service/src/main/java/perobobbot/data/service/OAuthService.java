@@ -23,7 +23,9 @@ public interface OAuthService {
 
     @NonNull Optional<DecryptedClientTokenView> findClientToken(@NonNull Platform platform);
 
-    @NonNull DecryptedClientTokenView authenticateClient(@NonNull UUID clientId);
+    @NonNull DecryptedClientTokenView findOrAuthenticateClientToken(@NonNull Platform platform);
+
+    @NonNull DecryptedClientTokenView authenticateClient(@NonNull Platform platform);
 
 
     @NonNull ImmutableSet<DecryptedUserTokenView> getAllUserTokens(@NonNull String login);
@@ -38,5 +40,9 @@ public interface OAuthService {
 
     @NonNull DecryptedUserTokenView getUserToken(@NonNull UUID tokenId);
 
+    @NonNull DecryptedUserTokenView refreshUserToken(@NonNull DecryptedUserTokenView token);
+
     void deleteUserToken(@NonNull UUID tokenId);
+
+    void deleteClientToken(@NonNull UUID uuid);
 }

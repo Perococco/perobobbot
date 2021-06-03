@@ -30,4 +30,5 @@ public class OAuthConfiguration {
         return OAuthManager.create(controllers);
     }
 
+
 }

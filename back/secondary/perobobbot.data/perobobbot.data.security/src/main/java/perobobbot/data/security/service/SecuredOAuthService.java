@@ -43,8 +43,8 @@ public class SecuredOAuthService implements OAuthService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull DecryptedClientTokenView authenticateClient(@NonNull UUID clientId) {
-        return delegate.authenticateClient(clientId);
+    public @NonNull DecryptedClientTokenView authenticateClient(@NonNull Platform platform) {
+        return delegate.authenticateClient(platform);
     }
 
 
@@ -85,8 +85,26 @@ public class SecuredOAuthService implements OAuthService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','READ')")
+    public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull DecryptedUserTokenView token) {
+        return delegate.refreshUserToken(token);
+    }
+
+    @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','DELETE')")
     public void deleteUserToken(@NonNull UUID tokenId) {
         delegate.deleteUserToken(tokenId);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull DecryptedClientTokenView findOrAuthenticateClientToken(@NonNull Platform platform) {
+        return delegate.findOrAuthenticateClientToken(platform);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteClientToken(@NonNull UUID uuid) {
+        delegate.deleteClientToken(uuid);
     }
 }

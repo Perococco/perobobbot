@@ -1,4 +1,4 @@
-package perobobbot.twitch.client.webclient.spring;
+package perobobbot.oauth.tools;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -7,6 +7,7 @@ import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
 import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.oauth.CallRequirements;
 
 import java.util.Optional;
 

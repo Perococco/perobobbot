@@ -1,25 +1,31 @@
 package perobobbot.twitch.client.webclient.spring;
 
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.WebClient;
-import perobobbot.oauth.OAuthContextHolder;
+import org.springframework.web.reactive.function.client.*;
+import perobobbot.lang.Packages;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.webclient.WebClientAppTwitchService;
+import reactor.core.publisher.Mono;
 
 @Configuration
 public class TwitchApiConfiguration {
 
+    public static @NonNull Packages provider() {
+        return Packages.with("Twitch API", TwitchApiConfiguration.class);
+    }
+
 
     @Bean
     public TwitchService twitchService() {
-        final var webClient = WebClient.builder().filter((request, next) -> {
-            OAuthContextHolder.getContext().getHeaderValue().ifPresent(v -> request.headers().add(HttpHeaders.AUTHORIZATION, v));
-            return next.exchange(request);
-        }).build();
+        final var webClient = WebClient.builder()
+                                       .baseUrl("https://api.twitch.tv/helix")
+                                       .filter(ExchangeFilterFunction.ofRequestProcessor(new OAuthHeaderInitializer()))
+                                       .build();
 
-        final var webClientImplementation = new WebClientAppTwitchService(webClient);
-        return webClientImplementation;
+        return new WebClientAppTwitchService(webClient);
     }
+
+
 }

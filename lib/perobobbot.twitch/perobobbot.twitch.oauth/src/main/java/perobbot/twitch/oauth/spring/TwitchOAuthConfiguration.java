@@ -17,7 +17,7 @@ import perobobbot.oauth.OAuthSubscriptions;
 public class TwitchOAuthConfiguration {
 
     public static @NonNull Packages provider() {
-        return Packages.with("Twitch API", TwitchOAuthConfiguration.class);
+        return Packages.with("Twitch OAuth", TwitchOAuthConfiguration.class);
     }
 
     private final @NonNull Instants instants;

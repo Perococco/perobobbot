@@ -13,6 +13,7 @@ module perobobbot.oauth {
     requires spring.context;
     requires perobobbot.http;
     requires java.servlet;
+    requires org.apache.logging.log4j;
 
     opens perobobbot.oauth to com.fasterxml.jackson.databind;
 

@@ -7,6 +7,7 @@ import perobobbot.data.com.NoClientForPlatform;
 import perobobbot.data.com.UnknownClient;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
+import perobobbot.lang.SafeClient;
 
 import java.util.Optional;
 
@@ -18,6 +19,10 @@ public interface ClientService {
 
     default @NonNull DecryptedClient getClient(@NonNull Platform platform) {
         return findClientForPlatform(platform).orElseThrow(() -> new NoClientForPlatform(platform));
+    }
+
+    default @NonNull SafeClient getSafeClient(@NonNull Platform platform) {
+        return getClient(platform).stripSecret();
     }
 
     default @NonNull DecryptedClient getClient(@NonNull Platform platform, @NonNull String clientId) {

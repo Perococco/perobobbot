@@ -60,6 +60,11 @@
             <artifactId>perobobbot-twitch-oauth</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-twitch-client-webclient</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>jplugman</groupId>
@@ -128,6 +133,10 @@
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-oauth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-oauth-tools</artifactId>
         </dependency>
 
 

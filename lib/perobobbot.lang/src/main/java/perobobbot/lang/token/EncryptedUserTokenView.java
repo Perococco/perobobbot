@@ -9,7 +9,7 @@ import perobobbot.lang.ViewerIdentity;
 import java.util.UUID;
 
 @Value
-public class EncryptedUserTokenView {
+public class EncryptedUserTokenView  implements TokenView<String> {
 
     @NonNull UUID id;
     @NonNull String ownerLogin;
@@ -26,5 +26,10 @@ public class EncryptedUserTokenView {
 
     public @NonNull DecryptedUserTokenView decrypt(@NonNull TextEncryptor textEncryptor) {
         return new DecryptedUserTokenView(id,ownerLogin,viewerIdentity,userToken.decrypt(textEncryptor));
+    }
+
+    @Override
+    public @NonNull Token<String> getToken() {
+        return userToken;
     }
 }

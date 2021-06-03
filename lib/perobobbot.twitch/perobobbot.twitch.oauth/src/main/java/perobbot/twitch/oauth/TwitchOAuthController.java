@@ -41,11 +41,7 @@ public class TwitchOAuthController implements OAuthController {
         );
     }
 
-    public @NonNull CompletionStage<Token> refreshToken(@NonNull DecryptedClient client, @NonNull Token expiredToken) {
-        final var refreshToken = expiredToken.getRefreshToken().orElseThrow(
-                () -> new OAuthNotRefreshableToken(client.getPlatform(), client.getClientId()));
-
-
+    public @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
         final var refreshUri = new TwitchOAuthURI().getRefreshURI(client, refreshToken);
 
         return MonoTools.toCompletionStageAsync(
@@ -53,7 +49,7 @@ public class TwitchOAuthController implements OAuthController {
                          .uri(refreshUri.getUri())
                          .retrieve()
                          .bodyToMono(TwitchRefreshedToken.class)
-                         .map(r -> r.update(expiredToken))
+                         .map(TwitchRefreshedToken::toRefreshedToken)
         );
     }
 
@@ -96,12 +92,12 @@ public class TwitchOAuthController implements OAuthController {
         final var validateUri = new TwitchOAuthURI().getValidateTokenURI();
 
         return MonoTools.toCompletionStageAsync(webClient.get()
-                                                    .uri(validateUri)
-                                                    .header(HttpHeaders.AUTHORIZATION,
-                                                            "OAuth " + accessToken.getValue())
-                                                    .accept(MediaType.APPLICATION_JSON)
-                                                    .retrieve()
-                                                    .bodyToMono(TwitchValidation.class));
+                                                         .uri(validateUri)
+                                                         .header(HttpHeaders.AUTHORIZATION,
+                                                                 "OAuth " + accessToken.getValue())
+                                                         .accept(MediaType.APPLICATION_JSON)
+                                                         .retrieve()
+                                                         .bodyToMono(TwitchValidation.class));
 
     }
 

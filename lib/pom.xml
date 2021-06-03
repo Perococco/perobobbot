@@ -35,6 +35,7 @@
         <module>perobobbot.extension</module>
         <module>perobobbot.http</module>
         <module>perobobbot.oauth</module>
+        <module>perobobbot.oauth.tools</module>
         <module>perobobbot.i18n</module>
         <module>perobobbot.validation</module>
         <module>perobobbot.action</module>
