@@ -44,6 +44,10 @@ public interface OAuthManager {
         return getController(client.getPlatform()).getUserIdentity(client,accessToken);
     }
 
+    default @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
+        return getController(client.getPlatform()).refreshToken(client,refreshToken);
+    }
+
     /**
      * shortcut to <code>getController(client.getPlatform()).prepareUserOAuth(client,accessToken)</code>
      */

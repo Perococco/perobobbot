@@ -167,23 +167,25 @@ public class JPAOAuthService implements OAuthService {
         final var tokenEntity = userTokenRepository.getByUuid(token.getId());
         final var refreshToken = textEncryptor.decrypt(tokenEntity.getRefreshToken());
 
+        final Throwable error;
         try {
-            final var refreshedToken = oAuthManager.getController(token.getPlatform())
-                                                   .refreshToken(client, refreshToken)
+            final var refreshedToken = oAuthManager.refreshToken(client, refreshToken)
                                                    .toCompletableFuture()
                                                    .get();
+            tokenEntity.setAccessToken(textEncryptor.encrypt(refreshedToken.getAccessToken()));
             tokenEntity.setRefreshToken(textEncryptor.encrypt(refreshedToken.getRefreshToken()));
-            tokenEntity.setAccessToken(textEncryptor.encrypt(refreshedToken.getRefreshToken()));
             tokenEntity.setExpirationInstant(instants.now().plusSeconds(tokenEntity.getDuration()));
-            return userTokenRepository.save(tokenEntity).toView().decrypt(textEncryptor);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new OAuthRefreshFailed(platform, client.getClientId(), e);
+            return userTokenRepository.save(tokenEntity).toDecryptedView(textEncryptor);
+
         } catch (ExecutionException e) {
-            //todo remove invalid token on 400/401 error code
-            ThrowableTool.interruptThreadIfCausedByInterruption(e.getCause());
-            throw new OAuthRefreshFailed(platform, client.getClientId(), e.getCause());
+            error = e.getCause();
+        } catch (Throwable e) {
+            error = e;
         }
+
+        //todo remove invalid token on 400/401 error code
+        ThrowableTool.interruptThreadIfCausedByInterruption(error);
+        throw new OAuthRefreshFailed(platform, client.getClientId(), error);
 
     }
 
