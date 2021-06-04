@@ -10,6 +10,8 @@ import perobobbot.twitch.client.api.TwitchService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor
 public class WebClientAppTwitchService implements TwitchService {
 
@@ -19,14 +21,17 @@ public class WebClientAppTwitchService implements TwitchService {
     @Override
     public @NonNull String getGames(@NonNull GameSearchParameter parameter) {
         final var queryParams = parameter.createQueryParameters();
-        return webClient.get()
-                        .uri("/games", uri -> {
-                            queryParams.forEach((k, v) -> uri.queryParam(k, v));
-                            return uri.build();
-                        })
-                        .retrieve()
-                        .bodyToMono(String.class)
-                        .block();
+
+        final var result = webClient.get()
+                                    .uri("/games", uri -> {
+                                        queryParams.forEach(uri::queryParam);
+                                        return uri.build();
+                                    })
+                                    .retrieve()
+                                    .bodyToMono(String.class)
+                                    .block();
+
+        return Objects.requireNonNull(result);
     }
 
     @Override
