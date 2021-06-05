@@ -23,7 +23,7 @@ import perobobbot.oauth.tools.OAuthTokenHelper;
  */
 @Aspect
 @Component
-@Order(1)
+@Order(2)
 public class TwitchOAuthTokenRefresher {
 
     public static final int MAX_NB_TRIES = 2;

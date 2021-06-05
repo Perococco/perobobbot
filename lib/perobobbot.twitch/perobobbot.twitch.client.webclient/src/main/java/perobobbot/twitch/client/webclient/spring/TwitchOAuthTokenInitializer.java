@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.Caster;
 import perobobbot.lang.Platform;
-import perobobbot.oauth.OauthAnnotationProvider;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 
 /**
