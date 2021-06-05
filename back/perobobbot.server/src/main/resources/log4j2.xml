@@ -4,6 +4,10 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout
                     pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%20t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+            <filters>
+                <MarkerFilter marker="OAUTH" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </filters>
+
         </Console>
 
         <RollingFile name="RollingFile"
@@ -20,12 +24,15 @@
                         size="10 MB" />
                 <TimeBasedTriggeringPolicy />
             </Policies>
+            <filters>
+                <MarkerFilter marker="OAUTH" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </filters>
         </RollingFile>
     </Appenders>
 
     <Loggers>
         <!-- LOG everything at INFO level -->
-        <Root level="WARN">
+        <Root level="INFO">
             <AppenderRef ref="Console" />
             <AppenderRef ref="RollingFile" />
         </Root>

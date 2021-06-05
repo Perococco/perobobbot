@@ -23,6 +23,7 @@ import perobobbot.security.core.UserProvider;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtAuthenticationFilter;
 import perobobbot.server.config.security.ws.WSAuthenticationFilter;
+import perobobbot.server.oauth.OAuthIdentifierFilter;
 
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(new JwtAuthenticationFilter(jsonWebTokenService), BasicAuthenticationFilter.class);
         http.addFilterBefore(new WSAuthenticationFilter(jsonWebTokenService), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new OAuthIdentifierFilter(), BasicAuthenticationFilter.class);
         http.cors();
 
         http.authorizeRequests()
