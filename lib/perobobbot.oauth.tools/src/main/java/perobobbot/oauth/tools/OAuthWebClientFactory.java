@@ -1,4 +1,4 @@
-package perobobbot.twitch.client.webclient;
+package perobobbot.oauth.tools;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -7,15 +7,13 @@ import perobobbot.http.WebClientFactory;
 import perobobbot.oauth.OAuthContextHolder;
 
 @RequiredArgsConstructor
-public class TwitchWebClientFactory implements WebClientFactory {
+public class OAuthWebClientFactory implements WebClientFactory {
 
     private final @NonNull WebClient reference;
 
 
     @Override
     public @NonNull WebClient create() {
-        System.out.println("Thread in TwitchWebClientFactory " + Thread.currentThread().getName());
-
         final var builder = reference.mutate();
 
         OAuthContextHolder.getContext()

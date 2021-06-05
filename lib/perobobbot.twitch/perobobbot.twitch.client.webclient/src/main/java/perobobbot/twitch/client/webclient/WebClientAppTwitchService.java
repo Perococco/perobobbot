@@ -20,8 +20,6 @@ public class WebClientAppTwitchService implements TwitchService {
     public @NonNull Mono<String> getGames(@NonNull GameSearchParameter parameter) {
         final var queryParams = parameter.createQueryParameters();
 
-        System.out.println("Thread in WebClientAppTwitchService " + Thread.currentThread().getName());
-
         return webClientFactory.create()
                                .get()
                                .uri("/games", uri -> {
@@ -29,8 +27,7 @@ public class WebClientAppTwitchService implements TwitchService {
                                    return uri.build();
                                })
                                .retrieve()
-                               .bodyToMono(String.class)
-                               .subscribeOn(Schedulers.newSingle("Toto"));
+                               .bodyToMono(String.class);
     }
 
     @Override
