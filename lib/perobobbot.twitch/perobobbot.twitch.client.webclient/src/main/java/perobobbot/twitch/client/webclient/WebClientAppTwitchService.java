@@ -2,36 +2,35 @@ package perobobbot.twitch.client.webclient;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.reactive.function.client.WebClient;
+import perobobbot.http.WebClientFactory;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Todo;
 import perobobbot.twitch.client.api.GameSearchParameter;
 import perobobbot.twitch.client.api.TwitchService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
+import reactor.core.scheduler.Schedulers;
 
 @RequiredArgsConstructor
 public class WebClientAppTwitchService implements TwitchService {
 
-    private final @NonNull WebClient webClient;
-
+    private final @NonNull WebClientFactory webClientFactory;
 
     @Override
-    public @NonNull String getGames(@NonNull GameSearchParameter parameter) {
+    public @NonNull Mono<String> getGames(@NonNull GameSearchParameter parameter) {
         final var queryParams = parameter.createQueryParameters();
 
-        final var result = webClient.get()
-                                    .uri("/games", uri -> {
-                                        queryParams.forEach(uri::queryParam);
-                                        return uri.build();
-                                    })
-                                    .retrieve()
-                                    .bodyToMono(String.class)
-                                    .block();
+        System.out.println("Thread in WebClientAppTwitchService " + Thread.currentThread().getName());
 
-        return Objects.requireNonNull(result);
+        return webClientFactory.create()
+                               .get()
+                               .uri("/games", uri -> {
+                                   queryParams.forEach(uri::queryParam);
+                                   return uri.build();
+                               })
+                               .retrieve()
+                               .bodyToMono(String.class)
+                               .subscribeOn(Schedulers.newSingle("Toto"));
     }
 
     @Override

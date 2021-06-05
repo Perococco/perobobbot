@@ -17,6 +17,7 @@ module perobobbot.twitch.client.webclient {
     requires reactor.core;
     requires org.aspectj.weaver;
     requires perobobbot.oauth.tools;
+    requires perobobbot.http;
 
     opens perobobbot.twitch.client.webclient.spring to spring.core, spring.context, spring.beans, spring.aop;
     opens perobobbot.twitch.client.webclient to spring.core, spring.context, spring.beans;

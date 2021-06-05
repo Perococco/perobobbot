@@ -27,7 +27,6 @@ open module perobobbot.rest.controller {
 
 
     exports perobobbot.rest.controller;
-    exports perobobbot.rest.controller.aspect;
 
     provides Packages with ControllerConfig;
 }

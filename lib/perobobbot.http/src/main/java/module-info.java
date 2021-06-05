@@ -4,6 +4,7 @@ module perobobbot.http {
     requires perobobbot.lang;
 
     requires spring.web;
+    requires spring.webflux;
     requires java.servlet;
     requires com.google.common;
 

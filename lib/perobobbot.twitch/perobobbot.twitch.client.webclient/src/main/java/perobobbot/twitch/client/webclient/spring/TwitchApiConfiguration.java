@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.*;
 import perobobbot.lang.Packages;
 import perobobbot.twitch.client.api.TwitchService;
+import perobobbot.twitch.client.webclient.TwitchWebClientFactory;
 import perobobbot.twitch.client.webclient.WebClientAppTwitchService;
 import reactor.core.publisher.Mono;
 
@@ -21,10 +22,9 @@ public class TwitchApiConfiguration {
     public TwitchService twitchService() {
         final var webClient = WebClient.builder()
                                        .baseUrl("https://api.twitch.tv/helix")
-                                       .filter(ExchangeFilterFunction.ofRequestProcessor(new OAuthHeaderInitializer()))
                                        .build();
 
-        return new WebClientAppTwitchService(webClient);
+        return new WebClientAppTwitchService(new TwitchWebClientFactory(webClient));
     }
 
 

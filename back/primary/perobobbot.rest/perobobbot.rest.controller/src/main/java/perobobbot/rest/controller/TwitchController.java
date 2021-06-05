@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import perobobbot.twitch.client.api.GameSearchParameter;
 import perobobbot.twitch.client.api.TwitchService;
+import reactor.core.publisher.Mono;
 
 import java.util.function.IntFunction;
 
@@ -19,7 +20,7 @@ public class TwitchController {
     private final @NonNull TwitchService twitchService;
 
     @GetMapping("games")
-    public String getGames(@RequestParam(value = "id",required = false) String[] ids, @RequestParam(value = "name",required = false) String[] names) {
+    public Mono<String> getGames(@RequestParam(value = "id",required = false) String[] ids, @RequestParam(value = "name",required = false) String[] names) {
         final var parameter = new GameSearchParameter(
                 emptyIfNull(ids,String[]::new),
                 emptyIfNull(names,String[]::new)

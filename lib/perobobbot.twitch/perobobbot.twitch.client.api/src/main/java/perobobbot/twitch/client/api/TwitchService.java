@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 public interface TwitchService {
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
-    @NonNull String getGames(@NonNull GameSearchParameter parameter);
+    @NonNull Mono<String> getGames(@NonNull GameSearchParameter parameter);
 
 
     @RequiredToken(TokenType.USER_TOKEN)
