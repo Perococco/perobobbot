@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+box "Perobobbot" #LightBlue
+participant SecurityFilter #FA0
+participant OAuthFilter  #FA0
+participant TwitchController
+participant OAuthTokenAspect  #FA0
+participant TwitchService
+end box
+
+box "Twitch" #9147FF
+participant Twitch
+end box
+
+User -> SecurityFilter : Request
+activate SecurityFilter
+
+note over SecurityFilter
+Retrieve User login
+from JWT in the header
+end note
+
+SecurityFilter -> OAuthFilter
+activate OAuthFilter
+
+note over OAuthFilter
+Setup OAuthContext
+with login
+end note
+
+OAuthFilter -> TwitchController
+Activate TwitchController
+
+TwitchController -> OAuthTokenAspect
+Activate OAuthTokenAspect
+note over OAuthTokenAspect
+Retrieve Token based
+on TwitchService call
+end note
+OAuthTokenAspect -> TwitchService
+Activate TwitchService
+
+TwitchService -> Twitch
+Twitch -> TwitchService
+
+TwitchService -> OAuthTokenAspect
+Deactivate TwitchService
+
+OAuthTokenAspect -> TwitchController
+Deactivate OAuthTokenAspect
+
+TwitchController -> OAuthFilter
+Deactivate TwitchController
+
+OAuthFilter -> SecurityFilter
+Deactivate OAuthFilter
+
+SecurityFilter -> User
+Deactivate SecurityFilter
+@enduml
