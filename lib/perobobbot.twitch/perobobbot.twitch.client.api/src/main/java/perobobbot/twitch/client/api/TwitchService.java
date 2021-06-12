@@ -14,10 +14,11 @@ public interface TwitchService {
     @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Flux<Game> getGames(@NonNull GameSearchParameter parameter);
 
-
     @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions();
 
+    @RequiredToken(TokenType.CLIENT_TOKEN)
+    @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id);
 
     @RequiredToken(TokenType.USER_TOKEN)
     @RequiredScope("user:read:follows")

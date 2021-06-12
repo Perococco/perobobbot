@@ -23,6 +23,17 @@ public interface WebClientFactory {
         return create().get().uri(uri);
     }
 
+    default @NonNull WebClient.RequestHeadersSpec<?> delete(String uri) {
+        return create().delete().uri(uri);
+    }
+
+    default @NonNull WebClient.RequestHeadersSpec<?> delete(String uri, Map<String, Collection<?>> queryParams) {
+        return create().delete().uri(uri, ub -> {
+            queryParams.forEach(ub::queryParam);
+            return ub.build();
+        });
+    }
+
 
     static @NonNull WebClientFactory.Builder builder(@NonNull WebClient reference) {
         return new WebClientFactoryBuilder(reference);

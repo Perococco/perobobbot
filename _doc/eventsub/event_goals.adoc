@@ -1,0 +1,20 @@
+== Event Sub
+
+= Goals
+
+Niveau 1
+
+* [x] Implementer la demande des event sub en cours
+* [ ] Implementer la revocation d'un event sub
+* [ ] Implementer la souscription à un event sub
+
+Niveau 2
+
+* Event Sub Manager
+
+Niveau 3
+
+* Persistence des souscriptions
+
+
+

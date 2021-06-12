@@ -13,6 +13,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class WebClientTwitchService implements TwitchService {
@@ -34,6 +36,13 @@ public class WebClientTwitchService implements TwitchService {
         return webClientFactory.get("/eventsub/subscriptions")
                                .retrieve()
                                .bodyToMono(TwitchSubscriptionData.class);
+    }
+
+    @Override
+    public @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id) {
+        return webClientFactory.delete("/eventsub/subscriptions", Map.of("id", List.of(id)))
+                .retrieve()
+                .toBodilessEntity().map(r -> Nil.NIL);
     }
 
     @Override
