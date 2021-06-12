@@ -1,8 +1,12 @@
 package perobobbot.lang;
 
 import lombok.NonNull;
+import perobobbot.lang.fp.Consumer2;
+import perobobbot.lang.fp.TryConsumer2;
 
+import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,5 +55,15 @@ public class ThrowableTool {
         return Stream.iterate(throwable, Objects::nonNull, Throwable::getCause)
                      .map(Throwable::getMessage)
                      .collect(Collectors.joining(" > "));
+    }
+
+    public static <A, B> @NonNull Consumer2<A, B> wrapIOException(TryConsumer2<A, B, IOException> toWrap) {
+        return (a, b) -> {
+            try {
+                toWrap.accept(a,b);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
     }
 }

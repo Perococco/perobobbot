@@ -1,3 +1,4 @@
+import perobobbot.lang.JsonModuleProvider;
 
 module perobobbot.server {
     requires static lombok;
@@ -122,6 +123,7 @@ module perobobbot.server {
 
 
 
+    uses JsonModuleProvider;
 
     exports perobobbot.server;
 }

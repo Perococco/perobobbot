@@ -8,12 +8,19 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lombok.NonNull;
+import perobobbot.lang.JsonModuleProvider;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 
 import java.io.IOException;
+import java.util.List;
 
 public class OAuthModule extends SimpleModule {
+
+    public static @NonNull JsonModuleProvider provider() {
+        return () -> List.of(new OAuthModule());
+    }
 
     public OAuthModule() {
         this.addSerializer(Scope.class, SCOPE_SERIALIZER)

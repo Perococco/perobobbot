@@ -5,13 +5,18 @@ import perobobbot.lang.Nil;
 import perobobbot.lang.TokenType;
 import perobobbot.oauth.RequiredScope;
 import perobobbot.oauth.RequiredToken;
+import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface TwitchService {
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
-    @NonNull Mono<String> getGames(@NonNull GameSearchParameter parameter);
+    @NonNull Flux<Game> getGames(@NonNull GameSearchParameter parameter);
+
+
+    @RequiredToken(TokenType.CLIENT_TOKEN)
+    @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions();
 
 
     @RequiredToken(TokenType.USER_TOKEN)
@@ -28,8 +33,5 @@ public interface TwitchService {
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
     Mono<Nil> deleteEventSubSubscription();
-
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    Mono<Nil> getEventSubSubscriptions();
 
 }

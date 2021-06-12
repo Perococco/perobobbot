@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.domain.base.ClientEntityBase;
 import perobobbot.lang.Platform;
-import perobobbot.lang.TextEncryptor;
 import perobobbot.lang.token.EncryptedClientToken;
 
 import javax.persistence.Entity;

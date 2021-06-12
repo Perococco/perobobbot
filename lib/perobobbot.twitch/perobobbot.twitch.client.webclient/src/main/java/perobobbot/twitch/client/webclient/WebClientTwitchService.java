@@ -5,29 +5,35 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.http.WebClientFactory;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Todo;
+import perobobbot.twitch.client.api.Game;
 import perobobbot.twitch.client.api.GameSearchParameter;
 import perobobbot.twitch.client.api.TwitchService;
+import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
-public class WebClientAppTwitchService implements TwitchService {
+public class WebClientTwitchService implements TwitchService {
 
     private final @NonNull WebClientFactory webClientFactory;
 
     @Override
-    public @NonNull Mono<String> getGames(@NonNull GameSearchParameter parameter) {
+    public @NonNull Flux<Game> getGames(@NonNull GameSearchParameter parameter) {
         final var queryParams = parameter.createQueryParameters();
 
-        return webClientFactory.create()
-                               .get()
-                               .uri("/games", uri -> {
-                                   queryParams.forEach(uri::queryParam);
-                                   return uri.build();
-                               })
+        return webClientFactory.get("/games", queryParams)
                                .retrieve()
-                               .bodyToMono(String.class);
+                               .bodyToMono(GetGamesResponse.class)
+                               .flatMapIterable(g -> Arrays.asList(g.getData()));
+    }
+
+    @Override
+    public @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions() {
+        return webClientFactory.get("/eventsub/subscriptions")
+                               .retrieve()
+                               .bodyToMono(TwitchSubscriptionData.class);
     }
 
     @Override
@@ -50,8 +56,4 @@ public class WebClientAppTwitchService implements TwitchService {
         return Todo.TODO();
     }
 
-    @Override
-    public Mono<Nil> getEventSubSubscriptions() {
-        return Todo.TODO();
-    }
 }

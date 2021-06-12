@@ -1,3 +1,6 @@
+import perobobbot.lang.JsonModuleProvider;
+import perobobbot.oauth.OAuthModule;
+
 module perobobbot.oauth {
     requires static lombok;
     requires java.desktop;
@@ -18,4 +21,6 @@ module perobobbot.oauth {
     opens perobobbot.oauth to com.fasterxml.jackson.databind;
 
     exports perobobbot.oauth;
+
+    provides JsonModuleProvider with OAuthModule;
 }

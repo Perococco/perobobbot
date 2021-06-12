@@ -3,7 +3,10 @@ package perobobbot.twitch.client.api;
 import lombok.NonNull;
 import lombok.Value;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Value
 public class GameSearchParameter {

@@ -8,7 +8,6 @@ import perobobbot.lang.TextEncryptor;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.EncryptedUserToken;
 import perobobbot.lang.token.EncryptedUserTokenView;
-import perobobbot.oauth.Token;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

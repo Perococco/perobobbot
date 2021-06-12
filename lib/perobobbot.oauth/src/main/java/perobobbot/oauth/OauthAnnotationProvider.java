@@ -1,7 +1,6 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
-import perobobbot.lang.Scope;
 import perobobbot.oauth._private.CRFWithAnnotationProvider;
 
 import java.lang.reflect.Method;

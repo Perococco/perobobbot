@@ -7,4 +7,9 @@ module perobobbot.twitch.client.api {
     requires perobobbot.oauth;
     requires perobobbot.lang;
 
+    requires transitive perobobbot.twitch.event.sub.api;
+
+    requires com.fasterxml.jackson.annotation;
+
+    opens perobobbot.twitch.client.api to com.fasterxml.jackson.databind;
 }

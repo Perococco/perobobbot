@@ -1,8 +1,17 @@
 package perobobbot.lang;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.NonNull;
 import perobobbot.lang.fp.Function1;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class IdentifiedEnumTools {
@@ -40,5 +49,23 @@ public class IdentifiedEnumTools {
             }
         }
         return null;
+    }
+
+    public static <E extends IdentifiedEnum> @NonNull JsonDeserializer<E> createDeserializer(@NonNull Class<E> enumType) {
+        return new JsonDeserializer<E>() {
+            @Override
+            public E deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+                return IdentifiedEnumTools.getEnum(p.getValueAsString(),enumType);
+            }
+        };
+    }
+
+    public static @NonNull JsonSerializer<IdentifiedEnum> createSerializer() {
+        return new JsonSerializer<>() {
+            @Override
+            public void serialize(IdentifiedEnum value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+                gen.writeString(value.getIdentification());
+            }
+        };
     }
 }

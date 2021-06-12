@@ -44,6 +44,11 @@ public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
     }
 
     @NonNull
+    public <L> ImmutableEntry<L,V> mapKey(@NonNull Function1<? super K,? extends L> mapper) {
+        return ImmutableEntry.of(mapper.apply(key),value);
+    }
+
+    @NonNull
     public <S> ImmutableEntry<K,S> map(@NonNull Function1<? super V,? extends S> mapper) {
         return ImmutableEntry.of(key,mapper.apply(value));
     }

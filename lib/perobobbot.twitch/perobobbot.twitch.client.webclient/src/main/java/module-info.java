@@ -18,9 +18,10 @@ module perobobbot.twitch.client.webclient {
     requires org.aspectj.weaver;
     requires perobobbot.oauth.tools;
     requires perobobbot.http;
+    requires org.apache.logging.log4j;
 
     opens perobobbot.twitch.client.webclient.spring to spring.core, spring.context, spring.beans, spring.aop;
-    opens perobobbot.twitch.client.webclient to spring.core, spring.context, spring.beans;
+    opens perobobbot.twitch.client.webclient to spring.core, spring.context, spring.beans, com.fasterxml.jackson.databind;
 
     provides Packages with TwitchApiConfiguration;
 }

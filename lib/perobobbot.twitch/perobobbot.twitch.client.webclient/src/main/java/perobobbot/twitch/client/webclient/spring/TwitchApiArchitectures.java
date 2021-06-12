@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class TwitchApiArchitectures {
 
-    @Pointcut("execution(* perobobbot.twitch.client.webclient.WebClientAppTwitchService.*(..))")
+    @Pointcut("execution(* perobobbot.twitch.client.webclient.WebClientTwitchService.*(..))")
     public void allCallsToTwitchApi() {}
 
 }

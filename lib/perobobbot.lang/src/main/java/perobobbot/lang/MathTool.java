@@ -3,6 +3,7 @@ package perobobbot.lang;
 import lombok.NonNull;
 import perobobbot.lang.fp.Value2;
 
+import java.util.OptionalInt;
 import java.util.Random;
 
 public class MathTool {
@@ -17,8 +18,6 @@ public class MathTool {
             return Value2.of(v2,v1);
         }
     }
-
-
 
 
     public static int clamp(int value, int minValue, int maxValue) {
