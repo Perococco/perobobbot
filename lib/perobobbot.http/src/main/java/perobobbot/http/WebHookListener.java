@@ -3,6 +3,7 @@ package perobobbot.http;
 import lombok.NonNull;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,10 +16,11 @@ public interface WebHookListener {
      * @param request the request on this webhook
      * @param response the response to send
      * @throws IOException
+     * @throws ServletException
      */
     void onCall(@NonNull String path,
                 @NonNull RequestMethod method,
                 @NonNull HttpServletRequest request,
-                @NonNull HttpServletResponse response) throws IOException;
+                @NonNull HttpServletResponse response) throws ServletException, IOException;
 
 }

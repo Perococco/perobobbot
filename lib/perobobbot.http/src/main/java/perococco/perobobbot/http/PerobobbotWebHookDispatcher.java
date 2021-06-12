@@ -13,6 +13,7 @@ import perobobbot.lang.Exec;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.URIResolver;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,13 +32,10 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
     }
 
     @Override
-    public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
+    public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws ServletException,IOException {
         Exec.with(path.trim())
             .map(this::removeTrailingSlash)
-            .apply(p -> {
-                final var listener = listeners.getOrDefault(p,NOT_FOUND);
-                return listener;
-            })
+            .apply(p -> listeners.getOrDefault(p, NOT_FOUND))
             .onCall(path,method,request,response);
     }
 

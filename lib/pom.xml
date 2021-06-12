@@ -51,6 +51,7 @@
 
         <module>perobobbot.twitch/perobobbot.twitch.oauth</module>
         <module>perobobbot.twitch/perobobbot.twitch.eventsub.api</module>
+        <module>perobobbot.twitch/perobobbot.twitch.eventsub.manager</module>
         <module>perobobbot.twitch/perobobbot.twitch.client.api</module>
         <module>perobobbot.twitch/perobobbot.twitch.client.webclient</module>
 

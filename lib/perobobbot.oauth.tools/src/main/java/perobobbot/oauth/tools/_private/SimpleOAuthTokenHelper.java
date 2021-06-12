@@ -73,7 +73,7 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
             return;
         }
 
-        LOG.info(Markers.OAUTH_MARKER, "Setup oauth context for {}", callRequirements);
+        LOG.debug(Markers.OAUTH_MARKER, "Setup oauth context for {}", callRequirements);
 
         final var tokenType = callRequirements.getTokenType();
         this.addCallRequirementsToOAuthContext(callRequirements);
@@ -96,7 +96,7 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
 
     private void setupClientToken() {
         final var clientToken = oAuthService.findOrAuthenticateClientToken(platform);
-        LOG.info(Markers.OAUTH_MARKER, "Use client token {}", clientToken.getId());
+        LOG.debug(Markers.OAUTH_MARKER, "Use client token {}", clientToken.getId());
         OAuthContextHolder.getContext().setClientToken(clientToken);
     }
 
@@ -110,10 +110,10 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
                 .flatMap(tokenGetter).orElse(null);
 
         if (userToken != null) {
-            LOG.info(Markers.OAUTH_MARKER, "Use user token {}", userToken.getId());
+            LOG.debug(Markers.OAUTH_MARKER, "Use user token {}", userToken.getId());
             context.setUserToken(userToken);
         } else {
-            LOG.info(Markers.OAUTH_MARKER, "No user token found");
+            LOG.debug(Markers.OAUTH_MARKER, "No user token found");
         }
     }
 

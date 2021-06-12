@@ -7,6 +7,8 @@ module perobobbot.twitch.event.sub.api {
 
     requires perobobbot.lang;
 
+    requires reactor.core;
+
     requires com.google.common;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.guava;
@@ -17,6 +19,7 @@ module perobobbot.twitch.event.sub.api {
     provides JsonModuleProvider with EventSubModule;
 
     exports perobobbot.twitch.eventsub.api;
+    exports perobobbot.twitch.eventsub.api.condition;
 
 
 }

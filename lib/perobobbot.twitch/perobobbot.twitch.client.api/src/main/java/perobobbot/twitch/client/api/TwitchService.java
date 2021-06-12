@@ -6,6 +6,7 @@ import perobobbot.lang.TokenType;
 import perobobbot.oauth.RequiredScope;
 import perobobbot.oauth.RequiredToken;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
+import perobobbot.twitch.eventsub.api.TwitchSubscriptionRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,10 +16,16 @@ public interface TwitchService {
     @NonNull Flux<Game> getGames(@NonNull GameSearchParameter parameter);
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
+    @NonNull Mono<TwitchSubscriptionData> subscriptToEventSub(@NonNull TwitchSubscriptionRequest request);
+
+    @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions();
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id);
+
+
+
 
     @RequiredToken(TokenType.USER_TOKEN)
     @RequiredScope("user:read:follows")
@@ -27,12 +34,5 @@ public interface TwitchService {
     @RequiredToken(TokenType.USER_TOKEN)
     Flux<Nil> getStreamTags();
 
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    Mono<Nil> createEventSubSubscription();
-
-
-
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    Mono<Nil> deleteEventSubSubscription();
 
 }

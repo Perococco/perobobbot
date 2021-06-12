@@ -23,6 +23,10 @@ public interface WebClientFactory {
         return create().get().uri(uri);
     }
 
+    default @NonNull WebClient.RequestBodySpec post(String uri) {
+        return create().post().uri(uri);
+    }
+
     default @NonNull WebClient.RequestHeadersSpec<?> delete(String uri) {
         return create().delete().uri(uri);
     }

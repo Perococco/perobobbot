@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DisabledWebHookDispatcher implements WebHookDispatcher {
 
     @Override
-    public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {}
+    public void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) {}
 
     @Override
     public boolean isDisabled() {

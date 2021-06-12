@@ -9,6 +9,7 @@ import perobobbot.twitch.client.api.Game;
 import perobobbot.twitch.client.api.GameSearchParameter;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
+import perobobbot.twitch.eventsub.api.TwitchSubscriptionRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,6 +33,14 @@ public class WebClientTwitchService implements TwitchService {
     }
 
     @Override
+    public @NonNull Mono<TwitchSubscriptionData> subscriptToEventSub(@NonNull TwitchSubscriptionRequest request) {
+        return webClientFactory.post("/eventsub/subscriptions")
+                               .body(Mono.just(request), TwitchSubscriptionRequest.class)
+                               .retrieve()
+                               .bodyToMono(TwitchSubscriptionData.class);
+    }
+
+    @Override
     public @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions() {
         return webClientFactory.get("/eventsub/subscriptions")
                                .retrieve()
@@ -41,8 +50,8 @@ public class WebClientTwitchService implements TwitchService {
     @Override
     public @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id) {
         return webClientFactory.delete("/eventsub/subscriptions", Map.of("id", List.of(id)))
-                .retrieve()
-                .toBodilessEntity().map(r -> Nil.NIL);
+                               .retrieve()
+                               .toBodilessEntity().map(r -> Nil.NIL);
     }
 
     @Override
@@ -52,16 +61,6 @@ public class WebClientTwitchService implements TwitchService {
 
     @Override
     public Flux<Nil> getStreamTags() {
-        return Todo.TODO();
-    }
-
-    @Override
-    public Mono<Nil> createEventSubSubscription() {
-        return Todo.TODO();
-    }
-
-    @Override
-    public Mono<Nil> deleteEventSubSubscription() {
         return Todo.TODO();
     }
 

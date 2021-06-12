@@ -5,7 +5,10 @@ autonumber
 
 !theme cyborg
 
-Perobobbot -> Twitch: Authentication Request
-Twitch --> Perobobbot: Authentication Response
+Perobobbot -> Twitch: Demande de souscription (callback, condition, secret)
+Twitch --> Perobobbot: Accusée de la demande
+
+Twitch -> Perobobbot: Vérification du callback
+Perobobbot -> Twitch: Validation de la vérification
 
 @enduml

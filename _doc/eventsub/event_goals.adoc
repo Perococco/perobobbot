@@ -1,20 +1,24 @@
-== Event Sub
+= Event Sub
 
-= Goals
+== Goals
 
-Niveau 1
+=== Niveau 1 : Twitch API
 
 * [x] Implementer la demande des event sub en cours
-* [ ] Implementer la revocation d'un event sub
-* [ ] Implementer la souscription à un event sub
+* [x] Implementer la revocation d'un event sub
+* [x] Implementer la souscription à un event sub
 
-Niveau 2
+=== Niveau 2 : Event managing
 
-* Event Sub Manager
+* [x] Gestion de toutes la boucle de souscription
+* [ ] Refactor de SimpleEventSubManager
+* [ ] Tenir compte des accès concurrents (c.f. TODO dans SimpleEventSubManager)
+* [ ] Gérer les notifications (créer les 32 classes d'event + déserialization)
+* [ ] Gérer les souscriptions multiples
 
-Niveau 3
+=== Niveau 3 : Persitence
 
-* Persistence des souscriptions
+* [ ] Re-souscrire lors d'un redémarrage
 
 
 

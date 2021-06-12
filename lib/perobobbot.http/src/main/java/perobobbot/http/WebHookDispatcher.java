@@ -6,6 +6,7 @@ import perobobbot.lang.URIResolver;
 import perococco.perobobbot.http.DisabledWebHookDispatcher;
 import perococco.perobobbot.http.PerobobbotWebHookDispatcher;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,5 +21,5 @@ public interface WebHookDispatcher extends WebHookManager {
         return new DisabledWebHookDispatcher();
     }
 
-    void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException;
+    void dispatch(@NonNull String path, @NonNull RequestMethod method, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws ServletException,IOException;
 }
