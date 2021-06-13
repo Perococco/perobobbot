@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
@@ -41,7 +42,7 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
 
     @Override
     @Synchronized
-    public @NonNull WebHookSubscription addListener(@NonNull String path, @NonNull WebHookListener listener) {
+    public @NonNull Optional<WebHookSubscription> addListener(@NonNull String path, @NonNull WebHookListener listener) {
         return Exec.with(path.trim())
                    .map(this::removeTrailingSlash)
                    .checkIsNot(String::isEmpty, p -> new IllegalArgumentException("Invalid webhook path. Path='" + p + "'"))
@@ -50,7 +51,8 @@ public class PerobobbotWebHookDispatcher implements WebHookDispatcher {
                        final var webHookCallbackURI = webhookURIResolver.resolve(p);
                        final var oauthCallbackURI = oauthURIResolver.resolve(p);
                        this.listeners = MapTool.add(this.listeners, p, listener);
-                       return new WebHookSubscription(webHookCallbackURI,oauthCallbackURI, () -> remove(p));
+                       return Optional.of(
+                               new WebHookSubscription(webHookCallbackURI, oauthCallbackURI, () -> remove(p)));
                    });
     }
 

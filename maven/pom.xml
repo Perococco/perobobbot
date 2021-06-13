@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.1</version>
+        <version>2.5.1</version>
         <relativePath/>
     </parent>
 
@@ -34,6 +34,8 @@
         <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
         <controlsfx.version>11.0.1</controlsfx.version>
+        <byte-buddy.version>1.10.10</byte-buddy.version>
+        <flyway-core.version>7.3.1</flyway-core.version>
 
         <hibernate.version>5.4.25.Final</hibernate.version>
         <javafx.version>15.0.1</javafx.version>
@@ -87,6 +89,18 @@
                 </exclusion>
             </exclusions>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-crypto</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
     </dependencies>
@@ -509,12 +523,12 @@
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>1.10.10</version>
+                <version>${byte-buddy.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
-                <version>7.3.1</version>
+                <version>${flyway-core.version}</version>
             </dependency>
 
             <dependency>

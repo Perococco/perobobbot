@@ -44,18 +44,21 @@ public class OAuthSubscriptions {
     }
 
     private @NonNull Optional<Data> getData(@NonNull IdKey<String> idKey) {
-        return lock.getLocked(() -> this.subscriptions.remove(idKey));
+        return lock.getLocked(() -> this.subscriptions.freeId(idKey));
     }
 
     public @NonNull SubscriptionData subscribe(@NonNull String path, @NonNull OAuthListener oAuthListener) {
         final var idBooking = this.subscriptions.bookNewId(path);
-        final var subscription = this.webHookManager.addListener(path, this::onCall);
+        final var subscription = this.webHookManager.addListener(path, this::onCall).orElse(null);
+
+        if (subscription == null) {
+            idBooking.free();
+            throw new IllegalStateException("Cannot perform OAuth : no webhook available");
+        }
+
         final var timeOfRequest = instants.now();
-
         final Data data = new Data(oAuthListener, timeOfRequest, subscription);
-
         idBooking.setData(data);
-
         return new SubscriptionData(idBooking.getId().getRandom(), subscription.getOauthCallbackURI());
     }
 

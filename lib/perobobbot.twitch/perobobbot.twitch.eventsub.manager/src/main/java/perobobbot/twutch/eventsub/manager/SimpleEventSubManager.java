@@ -28,6 +28,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -43,20 +44,22 @@ public class SimpleEventSubManager implements EventSubManager {
     private final @NonNull WebHookManager webHookManager;
     private final @NonNull ObjectMapper objectMapper;
 
-    private WebHookSubscription webHookSubscription;
+    private WebHookSubscription webHookSubscription = null;
 
     //TODO make the access to this resource thread safe
     private final Map<String, SubscriptionInfo> subscriptions = new HashMap<>();
 
     @Synchronized
     public void start() {
-        webHookSubscription = webHookManager.addListener(eventSubPath,this::onCall);
+        webHookSubscription = webHookManager.addListener(eventSubPath,this::onCall).orElse(null);
     }
 
     @Synchronized
     public void stop() {
-        webHookSubscription.unsubscribe();
-        webHookSubscription = null;
+        if (webHookSubscription != null) {
+            webHookSubscription.unsubscribe();
+            webHookSubscription = null;
+        }
     }
 
     public void onCall(@NonNull String path,
@@ -124,6 +127,12 @@ public class SimpleEventSubManager implements EventSubManager {
 
     @Override
     public @NonNull Mono<TwitchSubscription> subscribe(@NonNull Subscription subscription) {
+
+        final var webHookSubscription = this.webHookSubscription;
+        if (webHookSubscription == null) {
+            LOG.error("No webhook available. Cannot subscribe to an EventSub");
+            return Mono.error(new IllegalStateException("No webhook available. Cannot subscribe to an EventSub"));
+        }
 
         final var transport = new TransportRequest(TransportMethod.WEBHOOK, webHookSubscription.getWebHookCallbackURI().toString(), secret);
 

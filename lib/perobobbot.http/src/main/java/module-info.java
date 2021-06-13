@@ -3,6 +3,7 @@ module perobobbot.http {
     requires java.desktop;
     requires perobobbot.lang;
 
+    requires org.apache.logging.log4j;
     requires spring.web;
     requires spring.webflux;
     requires java.servlet;
