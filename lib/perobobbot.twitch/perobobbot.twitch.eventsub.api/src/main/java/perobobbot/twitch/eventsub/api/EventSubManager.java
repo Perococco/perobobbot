@@ -2,7 +2,7 @@ package perobobbot.twitch.eventsub.api;
 
 import lombok.NonNull;
 import perobobbot.lang.Nil;
-import perobobbot.twitch.eventsub.api.condition.Subscription;
+import perobobbot.twitch.eventsub.api.subscription.Subscription;
 import reactor.core.publisher.Mono;
 
 public interface EventSubManager {

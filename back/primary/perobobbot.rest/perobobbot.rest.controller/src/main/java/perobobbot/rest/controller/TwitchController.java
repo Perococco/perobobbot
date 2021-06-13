@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.twitch.eventsub.api.EventSubManager;
 import perobobbot.twitch.eventsub.api.TwitchSubscription;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
-import perobobbot.twitch.eventsub.api.condition.ChannelUpdate;
+import perobobbot.twitch.eventsub.api.subscription.ChannelUpdate;
 import reactor.core.publisher.Mono;
 
 @RestController

@@ -19,7 +19,7 @@ module perobobbot.twitch.event.sub.api {
     provides JsonModuleProvider with EventSubModule;
 
     exports perobobbot.twitch.eventsub.api;
-    exports perobobbot.twitch.eventsub.api.condition;
+    exports perobobbot.twitch.eventsub.api.subscription;
 
 
 }

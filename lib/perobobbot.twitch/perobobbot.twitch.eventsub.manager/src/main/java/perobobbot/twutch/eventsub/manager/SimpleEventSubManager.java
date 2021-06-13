@@ -13,7 +13,7 @@ import perobobbot.lang.Nil;
 import perobobbot.lang.RandomString;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.*;
-import perobobbot.twitch.eventsub.api.condition.Subscription;
+import perobobbot.twitch.eventsub.api.subscription.Subscription;
 import perobobbot.twitch.eventsub.api.EventSubManager;
 import reactor.core.publisher.Mono;
 
