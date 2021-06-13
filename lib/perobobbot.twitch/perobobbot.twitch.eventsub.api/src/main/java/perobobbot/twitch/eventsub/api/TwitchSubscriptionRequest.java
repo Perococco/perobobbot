@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.eventsub.api.deser.EventSubModule;
 
 @Value
 @Builder

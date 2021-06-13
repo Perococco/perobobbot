@@ -1,0 +1,11 @@
+{
+  "user_id" : "0900",
+  "user_login": "batman",
+  "user_name": "Batman",
+  "broadcaster_user_id" : "1234",
+  "broadcaster_user_login": "perococco",
+  "broadcaster_user_name": "Perococco",
+  "moderator_user_id" : "5678",
+  "moderator_user_login": "perobobbot",
+  "moderator_user_name": "perobobbot"
+}

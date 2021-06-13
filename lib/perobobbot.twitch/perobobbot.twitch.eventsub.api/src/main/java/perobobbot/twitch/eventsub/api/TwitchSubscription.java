@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.eventsub.api.deser.EventSubModule;
 
 @Value
 public class TwitchSubscription {
