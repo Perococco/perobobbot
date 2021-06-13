@@ -21,24 +21,24 @@
         <application.name>Perococco Bot</application.name>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>15</java.version>
+        <java.version>16</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <guava.version>30.0-jre</guava.version>
-        <log4j.version>2.11.2</log4j.version>
-        <byte-buddy.version>1.10.6</byte-buddy.version>
-        <lombok.version>1.18.12</lombok.version>
-        <bucket4j.version>4.10.0</bucket4j.version>
-        <junit-jupiter.version>5.6.1</junit-jupiter.version>
-        <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
-        <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
-        <controlsfx.version>11.0.1</controlsfx.version>
-        <byte-buddy.version>1.10.10</byte-buddy.version>
-        <flyway-core.version>7.3.1</flyway-core.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <log4j.version>2.14.1</log4j.version>
+        <byte-buddy.version>1.11.2</byte-buddy.version>
+        <lombok.version>1.18.20</lombok.version>
+        <bucket4j.version>6.2.0</bucket4j.version>
+        <junit-jupiter.version>5.7.2</junit-jupiter.version>
+        <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
+        <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
+        <controlsfx.version>11.1.0</controlsfx.version>
+        <byte-buddy.version>1.11.2</byte-buddy.version>
+        <flyway-core.version>7.10.0</flyway-core.version>
 
-        <hibernate.version>5.4.25.Final</hibernate.version>
-        <javafx.version>15.0.1</javafx.version>
+        <hibernate.version>5.5.0.Final</hibernate.version>
+        <javafx.version>16</javafx.version>
         <velocity.version>2.3</velocity.version>
         <jplugman.version>2.0.4-SNAPSHOT</jplugman.version>
 
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.3.0.Final</version>
+            <version>1.4.2.Final</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

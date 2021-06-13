@@ -22,7 +22,7 @@ public class TestReading {
         final var b1 = readAll(url,this::readAll1);
         final var b2 = readAll(url,this::readAll2);
 
-        Assertions.assertTrue(notSame(b1,b2),"Bug JDK-8254742 has been resolved. AudioStreamUtils.readAllBytes should be deprecated, use InputStream#readAllBytes instead");
+        Assertions.assertTrue(!notSame(b1,b2),"Bug JDK-8254742 is present again. AudioStreamUtils.readAllBytes should be used instead of InputStream#readAllBytes instead");
 
     }
 

@@ -23,7 +23,7 @@ public class InMemorySoundResource implements SoundResource {
     public static SoundResource create(@NonNull URL url,
                                        @NonNull NDIAudioFormat audioFormat) throws IOException, UnsupportedAudioFileException {
         final AudioInputStream stream = AudioSystem.getAudioInputStream(audioFormat, AudioSystem.getAudioInputStream(url));
-        final byte[] bytes = AudioStreamUtils.readAllBytes(stream);
+        final byte[] bytes = stream.readAllBytes();
         final int nbChannels = audioFormat.getChannels();
         final int nbBytesPerChannel = bytes.length / (nbChannels*Float.BYTES);
         final float[][] data = new float[nbChannels][nbBytesPerChannel];

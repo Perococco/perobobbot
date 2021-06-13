@@ -16,6 +16,7 @@ public class AudioStreamUtils {
 
 
     @NonNull
+    @Deprecated
     public static byte[] readAllBytes(@NonNull AudioInputStream inputStream) throws IOException {
         return readNBytes(inputStream, Integer.MAX_VALUE);
     }
