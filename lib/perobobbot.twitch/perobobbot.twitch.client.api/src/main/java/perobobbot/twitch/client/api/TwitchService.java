@@ -24,15 +24,4 @@ public interface TwitchService {
     @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id);
 
-
-
-
-    @RequiredToken(TokenType.USER_TOKEN)
-    @RequiredScope("user:read:follows")
-    Flux<Nil> GetFollowedStreams(@NonNull String userId);
-
-    @RequiredToken(TokenType.USER_TOKEN)
-    Flux<Nil> getStreamTags();
-
-
 }
