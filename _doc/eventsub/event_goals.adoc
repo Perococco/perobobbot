@@ -8,10 +8,10 @@
 * [x] Implementer la revocation d'un event sub
 * [x] Implementer la souscription à un event sub
 
-=== Niveau 2 : Event managing
+=== Niveau 2 : EventSub Managing
 
 * [x] Gestion de toute la boucle de souscription
-* [ ] Refactoring de SimpleEventSubManager
+* [x] Refactoring de SimpleEventSubManager
 * [ ] Tenir compte des accès concurrents (c.f. TODO dans SimpleEventSubManager)
 * [ ] Gérer les notifications
 ** [x] créer les 32 classes d'event

@@ -2,48 +2,36 @@ package perobobbot.twitch.eventsub.api.deser;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer;
-import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import lombok.NonNull;
+import perobobbot.twitch.eventsub.api.EventSubNotification;
+import perobobbot.twitch.eventsub.api.TwitchSubscription;
+import perobobbot.twitch.eventsub.api.event.EventSubEvent;
 
 import java.io.IOException;
 
-public class NotificationDeserializer extends DelegatingDeserializer {
-
-    public NotificationDeserializer(JsonDeserializer<?> jsonDeserializer) {
-        super(jsonDeserializer);
-    }
+public class NotificationDeserializer extends JsonDeserializer<EventSubNotification> {
 
     @Override
-    protected JsonDeserializer<?> newDelegatingInstance(JsonDeserializer<?> newDelegatee) {
-        return new NotificationDeserializer(newDelegatee);
+    public EventSubNotification deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        final ObjectNode node = jp.readValueAsTree();
+        final var subscriptionNode = node.get("subscription");
+        final var eventNode = node.get("event");
+
+        final TwitchSubscription subscription = deserializeJsonNode(subscriptionNode,TwitchSubscription.class, jp.getCodec());
+        final EventSubEvent event = deserializeJsonNode(eventNode, subscription.getEventType(), jp.getCodec());
+
+        return new EventSubNotification(subscription,event);
     }
 
-    @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        return super.deserialize(restructure(p),ctxt);
-    }
-
-    @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt, Object intoValue) throws IOException {
-        return super.deserialize(restructure(p), ctxt, intoValue);
-    }
-
-    @Override
-    public Object deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
-        return super.deserializeWithType(restructure(p), ctxt, typeDeserializer);
-    }
-
-    private @NonNull JsonParser restructure(@NonNull JsonParser jp) throws IOException {
-        final ObjectNode source = jp.readValueAsTree();
-        TreeNodeModifier.modify(source);
-        final var newJsonParser = new TreeTraversingParser(source,jp.getCodec());
+    private <T> T deserializeJsonNode(@NonNull JsonNode node, @NonNull Class<T> clazz, @NonNull ObjectCodec codec) throws IOException {
+        final var newJsonParser = new TreeTraversingParser(node, codec);
         newJsonParser.nextToken();
-        return newJsonParser;
+        return newJsonParser.readValueAs(clazz);
     }
-
 }

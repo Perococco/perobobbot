@@ -14,6 +14,7 @@ module perobobbot.twitch.event.sub.api {
     requires com.fasterxml.jackson.datatype.guava;
     requires com.fasterxml.jackson.datatype.jsr310;
     requires com.fasterxml.jackson.databind;
+    requires org.apache.logging.log4j;
 
 
     opens perobobbot.twitch.eventsub.api to com.fasterxml.jackson.databind;

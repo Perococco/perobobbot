@@ -42,6 +42,7 @@ public class EventSubModule extends SimpleModule {
               .forEach(this::addIdentifiedEnumToModule);
 
         this.addDeserializer(Pagination.class, new PaginationDeserializer());
+        this.addDeserializer(EventSubNotification.class, new NotificationDeserializer());
 
         this.setDeserializerModifier(new NotificationDeserModifier());
     }

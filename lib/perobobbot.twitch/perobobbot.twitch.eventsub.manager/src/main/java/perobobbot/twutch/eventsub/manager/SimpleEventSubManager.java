@@ -14,31 +14,24 @@ import perobobbot.lang.RandomString;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.*;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
-import perobobbot.twitch.eventsub.api.EventSubManager;
 import reactor.core.publisher.Mono;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Log4j2
 public class SimpleEventSubManager implements EventSubManager {
 
+    private final TwitchRequestSaver twitchRequestSaver = new TwitchRequestSaver();
+
     private final String eventSubPath = "/eventsub";
     private final String secret = RandomString.generate(50);
-    private final String macAlgorithm = "HmacSHA256";
 
     private final @NonNull TwitchService twitchService;
     private final @NonNull WebHookManager webHookManager;
@@ -51,7 +44,7 @@ public class SimpleEventSubManager implements EventSubManager {
 
     @Synchronized
     public void start() {
-        webHookSubscription = webHookManager.addListener(eventSubPath,this::onCall).orElse(null);
+        webHookSubscription = webHookManager.addListener(eventSubPath, this::onCall).orElse(null);
     }
 
     @Synchronized
@@ -67,56 +60,41 @@ public class SimpleEventSubManager implements EventSubManager {
                        @NonNull HttpServletRequest request,
                        @NonNull HttpServletResponse response) throws IOException, ServletException {
 
-        final var messageId = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_ID.getHeader(request).orElse(null);
-        final var timeStamp = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TIMESTAMP.getHeader(request).orElse(null);
-        final var type = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TYPE.getHeader(request).orElse(null);
-        final var signature = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_SIGNATURE.getHeader(request).orElse(null);
-
-        LOG.info("Received request from Twitch");
-        LOG.info(" messageId : {} ",messageId);
-        LOG.info(" timeStamp : {} ",timeStamp);
-        LOG.info(" type      : {} ",type);
-        LOG.info(" signature : {} ",signature);
-
-        if (messageId == null || timeStamp == null || type == null) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-
-        final var bodyContent = request.getInputStream().readAllBytes();
-
-        final String computedSignature;
-        try {
-            final var mac = Mac.getInstance(macAlgorithm);
-            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.US_ASCII),macAlgorithm));
-            mac.update(messageId.getBytes(StandardCharsets.US_ASCII));
-            mac.update(timeStamp.getBytes(StandardCharsets.US_ASCII));
-            mac.update(bodyContent);
-            final var signatureBytes = mac.doFinal();
-            computedSignature = IntStream.range(0,signatureBytes.length).mapToObj(i -> String.format("%02x",signatureBytes[i])).collect(
-                    Collectors.joining("","sha256=",""));
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new ServletException("Could not find MAC algorithm "+macAlgorithm+" to check Twitch message signature",e);
-        }
-        LOG.info(" Computed signature : {}",computedSignature);
-
-        if (!computedSignature.equals(signature)) {
+        final var validatedRequest = TwitchRequestValidator.validate(request, secret).orElse(null);
+        if (validatedRequest == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         response.setStatus(HttpServletResponse.SC_OK);
 
-        switch (type) {
-            case "notification" -> {
-                System.out.println("TODO broadcast notification");
-            }
-            case "webhook_callback_verification" -> {
-                final var verification = objectMapper.readValue(bodyContent,EventSubVerification.class);
-                LOG.info("Send challenge : {}",verification.getChallenge());
-                response.getOutputStream().print(verification.getChallenge());
-            }
+        twitchRequestSaver.saveBody(validatedRequest.content());
+
+        final var content = TwitchRequestDeserializer.deserialize(objectMapper,validatedRequest.type(),validatedRequest.content())
+                .orElse(null);
+
+        if (content == null) {
+            LOG.error(Markers.EVENT_SUB_MARKER, "Failed to deserialized Twitch request content");
+            return;
         }
+
+        content.accept(new EvenSubRequest.Visitor() {
+
+            @Override
+            public void visit(@NonNull EventSubNotification notification) {
+                System.out.println("Received notification "+notification);
+            }
+
+            @Override
+            public void visit(@NonNull EventSubVerification verification) {
+                LOG.info("Send challenge : {}", verification.getChallenge());
+                try {
+                    response.getOutputStream().print(verification.getChallenge());
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
+        });
+
     }
 
     @Value
@@ -134,7 +112,9 @@ public class SimpleEventSubManager implements EventSubManager {
             return Mono.error(new IllegalStateException("No webhook available. Cannot subscribe to an EventSub"));
         }
 
-        final var transport = new TransportRequest(TransportMethod.WEBHOOK, webHookSubscription.getWebHookCallbackURI().toString(), secret);
+        final var transport = new TransportRequest(TransportMethod.WEBHOOK,
+                                                   webHookSubscription.getWebHookCallbackURI().toString(),
+                                                   secret);
 
         final var request = TwitchSubscriptionRequest.builder()
                                                      .type(subscription.getType())
@@ -146,7 +126,7 @@ public class SimpleEventSubManager implements EventSubManager {
         return twitchService.subscriptToEventSub(request)
                             .map(t -> t.getData()[0])
                             .doOnSuccess(data -> {
-                                LOG.info("Received subscription acknowledgment from Twitch : '{}'",data.getId());
+                                LOG.info("Received subscription acknowledgment from Twitch : '{}'", data.getId());
                                 subscriptions.put(data.getId(), new SubscriptionInfo(subscription, data));
                             });
     }

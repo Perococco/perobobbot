@@ -11,7 +11,7 @@ public class NotificationDeserModifier extends BeanDeserializerModifier {
     @Override
     public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
         if (EventSubEvent.class.isAssignableFrom(beanDesc.getBeanClass())) {
-            return new NotificationDeserializer(deserializer);
+            return new EventSubDeserializer(deserializer);
         } else {
             return deserializer;
         }

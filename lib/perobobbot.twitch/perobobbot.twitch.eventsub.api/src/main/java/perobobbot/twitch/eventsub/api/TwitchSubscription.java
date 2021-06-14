@@ -1,24 +1,28 @@
 package perobobbot.twitch.eventsub.api;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.twitch.eventsub.api.deser.ConditionSerializer;
+import perobobbot.twitch.eventsub.api.event.EventSubEvent;
+
+import java.time.Instant;
 
 @Value
 public class TwitchSubscription {
 
     @NonNull String id;
-    @NonNull SubscriptionStatus status;
     @NonNull SubscriptionType type;
     @NonNull String version;
+    @NonNull SubscriptionStatus status;
+    int cost;
     @JsonSerialize(using = ConditionSerializer.class)
     @NonNull ImmutableMap<CriteriaType,String> condition;
-    @JsonAlias("created_at")
-    @NonNull String createdAt;
+    @NonNull Instant createdAt;
     @NonNull Transport transport;
-    int cost;
 
+    public @NonNull Class<? extends EventSubEvent> getEventType() {
+        return type.getEventType();
+    }
 }
