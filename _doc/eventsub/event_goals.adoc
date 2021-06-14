@@ -10,15 +10,15 @@
 
 === Niveau 2 : Event managing
 
-* [x] Gestion de toutes la boucle de souscription
-* [ ] Refactor de SimpleEventSubManager
+* [x] Gestion de toute la boucle de souscription
+* [ ] Refactoring de SimpleEventSubManager
 * [ ] Tenir compte des accès concurrents (c.f. TODO dans SimpleEventSubManager)
-* [ ] Gérer les notifications (créer les 32 classes d'event + déserialization)
+* [x] Gérer les notifications (créer les 32 classes d'event + déserialization)
 * [ ] Gérer les souscriptions multiples
 
 === Niveau 3 : Persitence
 
-* [ ] Re-souscrire lors d'un redémarrage
+* [ ] synchroniser les souscriptions entre état persisté et état courant au démarrage
 
 
 
