@@ -4,9 +4,9 @@ import lombok.NonNull;
 import lombok.Value;
 
 @Value
-public class UserInfo {
-
+public class Reward {
     @NonNull String id;
-    @NonNull String login;
-    @NonNull String name;
+    @NonNull String title;
+    int cost;
+    @NonNull String prompt;
 }

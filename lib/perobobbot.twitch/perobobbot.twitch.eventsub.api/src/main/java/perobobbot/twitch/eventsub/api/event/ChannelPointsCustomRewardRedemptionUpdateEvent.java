@@ -1,0 +1,19 @@
+package perobobbot.twitch.eventsub.api.event;
+
+import lombok.NonNull;
+import lombok.Value;
+import perobobbot.twitch.eventsub.api.RewardRedemptionStatus;
+
+import java.time.Instant;
+
+@Value
+public class ChannelPointsCustomRewardRedemptionUpdateEvent implements EventSubEvent {
+
+    @NonNull String id;
+    @NonNull UserInfo broadcaster;
+    @NonNull UserInfo user;
+    @NonNull String userInput;
+    @NonNull RewardRedemptionStatus status;
+    @NonNull Reward reward;
+    @NonNull Instant redeemedAt;
+}

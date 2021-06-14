@@ -1,0 +1,11 @@
+{
+  "is_anonymous": false,
+  "user_id": "1234",
+  "user_login": "cool_user",
+  "user_name": "Cool_User",
+  "broadcaster_user_id": "1337",
+  "broadcaster_user_login": "cooler_user",
+  "broadcaster_user_name": "Cooler_User",
+  "message": "pogchamp",
+  "bits": 1000
+}

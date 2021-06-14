@@ -1,0 +1,12 @@
+{
+  "user_id": null,
+  "user_login": null,
+  "user_name": null,
+  "broadcaster_user_id": "1337",
+  "broadcaster_user_login": "cooler_user",
+  "broadcaster_user_name": "Cooler_User",
+  "total": 2,
+  "tier": "1000",
+  "cumulative_total": null,
+  "is_anonymous": false
+}

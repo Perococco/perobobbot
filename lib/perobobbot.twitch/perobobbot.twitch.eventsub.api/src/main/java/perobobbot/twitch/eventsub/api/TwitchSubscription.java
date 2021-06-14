@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.twitch.eventsub.api.deser.EventSubModule;
+import perobobbot.twitch.eventsub.api.deser.ConditionSerializer;
 
 @Value
 public class TwitchSubscription {
@@ -14,7 +14,7 @@ public class TwitchSubscription {
     @NonNull SubscriptionStatus status;
     @NonNull SubscriptionType type;
     @NonNull String version;
-    @JsonSerialize(using = EventSubModule.ConditionSerializer.class)
+    @JsonSerialize(using = ConditionSerializer.class)
     @NonNull ImmutableMap<CriteriaType,String> condition;
     @JsonAlias("created_at")
     @NonNull String createdAt;

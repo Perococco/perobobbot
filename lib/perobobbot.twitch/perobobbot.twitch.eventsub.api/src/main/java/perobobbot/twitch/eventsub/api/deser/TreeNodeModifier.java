@@ -1,14 +1,13 @@
 package perobobbot.twitch.eventsub.api.deser;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -16,30 +15,45 @@ public class TreeNodeModifier {
 
     private static final Set<String> SUFFIXES = Set.of("id", "login", "name");
 
-    public static @NonNull void modify(@NonNull ObjectNode objectNode) {
-        new TreeNodeModifier(objectNode).modify();
+    public static void modify(@NonNull JsonNode jsonNode) {
+        if (jsonNode.isObject()) {
+            new TreeNodeModifier((ObjectNode) jsonNode).modify();
+        }
     }
 
     private final @NonNull ObjectNode source;
 
-    private Map<String, Integer> candidateFieldNames;
+    private Set<String> fieldNames;
+
+    private Map<String, Long> candidateFieldNames;
     private Set<String> validUserInfo;
     private Set<String> fieldNamesUsedInUserInfo;
 
     private void modify() {
+        this.gatherFieldNames();
         this.countUserInfoCandidats();
         this.filterValidUserInfo();
         this.createSetOfFieldNamesUsedInUserInfo();
         this.addUserInfoFields();
         this.removeFieldsInUserInfo();
+        this.modifyObjectFields();
+        this.replaceBooleanFields();
+    }
+
+    private void gatherFieldNames() {
+        this.fieldNames = new HashSet<>();
+        final var itr = source.fieldNames();
+        while (itr.hasNext()) {
+            fieldNames.add(itr.next());
+        }
     }
 
     private void countUserInfoCandidats() {
         candidateFieldNames = new HashMap<>();
-        final var itr = source.fieldNames();
-        while (itr.hasNext()) {
-            getUserInfoPrefix(itr.next()).ifPresent(p -> candidateFieldNames.merge(p, 1, Integer::sum));
-        }
+        this.candidateFieldNames = fieldNames.stream()
+                                             .map(this::getUserInfoPrefix)
+                                             .flatMap(Optional::stream)
+                                             .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     }
 
     private @NonNull Optional<String> getUserInfoPrefix(@NonNull String fieldName) {
@@ -49,7 +63,9 @@ public class TreeNodeModifier {
     }
 
     private void filterValidUserInfo() {
-        this.validUserInfo = candidateFieldNames.entrySet().stream().filter(e -> e.getValue() == SUFFIXES.size())
+        this.validUserInfo = candidateFieldNames.entrySet()
+                                                .stream()
+                                                .filter(e -> e.getValue() == SUFFIXES.size())
                                                 .map(Map.Entry::getKey)
                                                 .collect(Collectors.toSet());
     }
@@ -85,14 +101,53 @@ public class TreeNodeModifier {
     }
 
     private void addUserInfoField(@NonNull String prefix) {
-        final var userInfo = source.putObject(prefix);
+        final Map<String,JsonNode> nodes = new HashMap<>();
+        boolean allNull = true;
         for (String suffix : SUFFIXES) {
-            userInfo.put(suffix, source.get(computeFieldName(prefix, suffix)).asText());
+            final var node = source.get(computeFieldName(prefix,suffix));
+            nodes.put(suffix,node);
+            allNull &= node.isNull();
+        }
+        if (allNull) {
+            source.putNull(prefix);
+        } else {
+            final var userInfo = source.putObject(prefix);
+            nodes.forEach(userInfo::replace);
         }
     }
 
     private void removeFieldsInUserInfo() {
         fieldNamesUsedInUserInfo.forEach(source::remove);
+    }
+
+    private void replaceBooleanFields() {
+        for (String fieldName : fieldNames) {
+            if (fieldName.startsWith("is_")) {
+                if (source.get(fieldName).isBoolean()) {
+                    final var node = source.remove(fieldName);
+                    source.replace(fieldName.substring("is_".length()), node);
+                }
+            }
+        }
+    }
+
+    private void modifyObjectFields() {
+        for (String fieldName : fieldNames) {
+            if (validUserInfo.contains(fieldName)) {
+                continue;
+            }
+            final var node = source.get(fieldName);
+            if (node == null) {
+                continue;
+            }
+            if (node.isArray()) {
+                final var arrayNode = (ArrayNode)node;
+                arrayNode.elements().forEachRemaining(TreeNodeModifier::modify);
+            }
+            else if (node.isObject()) {
+                TreeNodeModifier.modify(node);
+            }
+        }
     }
 
 

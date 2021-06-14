@@ -8,6 +8,7 @@ import lombok.Value;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Value
 public class TwitchSubscriptionData {
@@ -18,5 +19,9 @@ public class TwitchSubscriptionData {
     int totalCost;
     @JsonAlias("max_total_cost")
     int maxTotalCost;
-    @NonNull Map<String,Object> pagination = new HashMap<>();
+    Pagination pagination;
+
+    public @NonNull Optional<Pagination> getPagination() {
+        return Optional.ofNullable(pagination);
+    }
 }

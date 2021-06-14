@@ -1,0 +1,11 @@
+{
+  "is_anonymous": true,
+  "user_id":  null,
+  "user_login": null,
+  "user_name": null,
+  "broadcaster_user_id": "1337",
+  "broadcaster_user_login": "cooler_user",
+  "broadcaster_user_name": "Cooler_User",
+  "message": "pogchamp",
+  "bits": 1000
+}
