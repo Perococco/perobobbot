@@ -1,9 +1,0 @@
-== Tasks
-
-.Greeter
-* [ ] Remove bot from user to greet (WizeBot)
-
-
-.BotGUI
-
-* [ ] Add a mean to quit the application
