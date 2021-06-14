@@ -9,6 +9,7 @@ public interface EvenSubRequest {
     interface Visitor {
 
         void visit(@NonNull EventSubNotification notification);
+        void visit(@NonNull EventSubRevocation revocation);
         void visit(@NonNull EventSubVerification verification);
 
     }

@@ -25,7 +25,8 @@ public class TwitchRequestDeserializer {
 
     private static final ImmutableMap<String,Class<? extends EvenSubRequest>> CLASS_PER_TYPE = ImmutableMap.of(
             "notification", EventSubNotification.class,
-            "webhook_callback_verification", EventSubVerification.class
+            "webhook_callback_verification", EventSubVerification.class,
+            "revocation", EventSubVerification.class
     );
 
     private final @NonNull ObjectMapper objectMapper;

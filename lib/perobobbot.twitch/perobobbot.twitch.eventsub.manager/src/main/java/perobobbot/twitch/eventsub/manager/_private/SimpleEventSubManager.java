@@ -82,6 +82,11 @@ public class SimpleEventSubManager implements EventSubManager {
             }
 
             @Override
+            public void visit(@NonNull EventSubRevocation revocation) {
+                System.out.println("Event sub revocation "+revocation);
+            }
+
+            @Override
             public void visit(@NonNull EventSubVerification verification) {
                 LOG.info("Send challenge : {}", verification.getChallenge());
                 try {
