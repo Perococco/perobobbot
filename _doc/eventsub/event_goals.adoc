@@ -13,7 +13,9 @@
 * [x] Gestion de toute la boucle de souscription
 * [ ] Refactoring de SimpleEventSubManager
 * [ ] Tenir compte des accès concurrents (c.f. TODO dans SimpleEventSubManager)
-* [x] Gérer les notifications (créer les 32 classes d'event + déserialization)
+* [ ] Gérer les notifications
+** [x] créer les 32 classes d'event
+** [ ] déserializer les notifications
 * [ ] Gérer les souscriptions multiples
 
 === Niveau 3 : Persitence
