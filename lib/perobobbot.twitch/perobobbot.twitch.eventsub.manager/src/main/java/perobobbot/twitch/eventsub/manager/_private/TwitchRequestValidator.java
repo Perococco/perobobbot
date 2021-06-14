@@ -1,11 +1,9 @@
-package perobobbot.twutch.eventsub.manager;
+package perobobbot.twitch.eventsub.manager._private;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Marker;
-import perobobbot.lang.Todo;
 import perobobbot.twitch.eventsub.api.Markers;
 
 import javax.crypto.Mac;
@@ -16,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -28,8 +27,8 @@ public class TwitchRequestValidator {
     private static final String MAC_ALGORITHM = "HmacSHA256";
 
 
-    public static @NonNull Optional<TwitchRequestContent<byte[]>> validate(@NonNull HttpServletRequest twitchRequest, @NonNull String secret) throws IOException, ServletException {
-        return new TwitchRequestValidator(twitchRequest,secret).validate();
+    public static @NonNull Optional<TwitchRequestContent> validate(@NonNull HttpServletRequest twitchRequest, @NonNull String secret) throws IOException, ServletException {
+        return new TwitchRequestValidator(twitchRequest, secret).validate();
     }
 
     private final @NonNull HttpServletRequest request;
@@ -44,7 +43,7 @@ public class TwitchRequestValidator {
     private String computedSignature;
 
 
-    private @NonNull Optional<TwitchRequestContent<byte[]>> validate() throws IOException, ServletException {
+    private @NonNull Optional<TwitchRequestContent> validate() throws IOException, ServletException {
         this.retrieveTwitchHeaders();
         if (!areAllHeadersDefined()) {
             return Optional.empty();
@@ -55,25 +54,24 @@ public class TwitchRequestValidator {
         if (!isRequestValid()) {
             return Optional.empty();
         }
-        return Optional.of(new TwitchRequestContent<>(type, bodyContent));
+        return Optional.of(new TwitchRequestContent(type, messageId, Instant.parse(timeStamp), bodyContent));
     }
 
     private void retrieveTwitchHeaders() {
-         messageId = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_ID.getHeader(request).orElse(null);
-         timeStamp = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TIMESTAMP.getHeader(request).orElse(null);
-         type = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TYPE.getHeader(request).orElse(null);
-         signature = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_SIGNATURE.getHeader(request).orElse(null);
+        messageId = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_ID.getHeader(request).orElse(null);
+        timeStamp = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TIMESTAMP.getHeader(request).orElse(null);
+        type = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_TYPE.getHeader(request).orElse(null);
+        signature = TwitchEventSubHeader.TWITCH_EVENTSUB_MESSAGE_SIGNATURE.getHeader(request).orElse(null);
         LOG.debug(Markers.EVENT_SUB_MARKER, "Received request from Twitch");
-        LOG.debug(Markers.EVENT_SUB_MARKER," messageId : {} ",messageId);
-        LOG.debug(Markers.EVENT_SUB_MARKER," timeStamp : {} ",timeStamp);
-        LOG.debug(Markers.EVENT_SUB_MARKER," type      : {} ",type);
-        LOG.debug(Markers.EVENT_SUB_MARKER," signature : {} ",signature);
+        LOG.debug(Markers.EVENT_SUB_MARKER, " messageId : {} ", messageId);
+        LOG.debug(Markers.EVENT_SUB_MARKER, " timeStamp : {} ", timeStamp);
+        LOG.debug(Markers.EVENT_SUB_MARKER, " type      : {} ", type);
+        LOG.debug(Markers.EVENT_SUB_MARKER, " signature : {} ", signature);
     }
 
     private boolean areAllHeadersDefined() {
         return messageId != null && timeStamp != null && type != null && signature != null;
     }
-
 
 
     private void readRequestBodyContent() throws IOException {
@@ -90,15 +88,16 @@ public class TwitchRequestValidator {
             mac.update(bodyContent);
             this.signatureBytes = mac.doFinal();
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new ServletException("Could not find MAC algorithm "+MAC_ALGORITHM+" to check Twitch message signature", e);
+            throw new ServletException(
+                    "Could not find MAC algorithm " + MAC_ALGORITHM + " to check Twitch message signature", e);
         }
     }
 
     private void transformSignatureBytesToString() {
-        computedSignature = IntStream.range(0,signatureBytes.length)
-                                     .mapToObj(i -> String.format("%02x",signatureBytes[i]))
-                                     .collect(Collectors.joining("","sha256=",""));
-        LOG.debug(Markers.EVENT_SUB_MARKER," Computed signature : {}",computedSignature);
+        computedSignature = IntStream.range(0, signatureBytes.length)
+                                     .mapToObj(i -> String.format("%02x", signatureBytes[i]))
+                                     .collect(Collectors.joining("", "sha256=", ""));
+        LOG.debug(Markers.EVENT_SUB_MARKER, " Computed signature : {}", computedSignature);
 
     }
 

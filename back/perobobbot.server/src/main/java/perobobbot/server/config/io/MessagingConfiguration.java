@@ -38,6 +38,11 @@ public class MessagingConfiguration {
         return new PublishSubscribeChannel(messagingExecutor());
     }
 
+    @Bean(GatewayChannels.PLATFORM_NOTIFICATION_MESSAGES)
+    public MessageChannel platformNotification() {
+        return new PublishSubscribeChannel(messagingExecutor());
+    }
+
     @Bean(destroyMethod = "requestStop", initMethod = "start")
     @PluginService(type = StandardInputProvider.class, apiVersion = StandardInputProvider.VERSION)
     public @NonNull StandardInputReader standardInputReader() {

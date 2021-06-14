@@ -1,4 +1,4 @@
-package perobobbot.twutch.eventsub.manager;
+package perobobbot.twitch.eventsub.manager._private;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;

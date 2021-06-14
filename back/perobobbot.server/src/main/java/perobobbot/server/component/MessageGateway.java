@@ -16,4 +16,5 @@ public interface MessageGateway {
 
     @Gateway(requestChannel = GatewayChannels.EVENT_MESSAGES)
     void sendEvent(@NonNull Object event);
+
 }

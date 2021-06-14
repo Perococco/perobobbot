@@ -1,10 +1,9 @@
-package perobobbot.twutch.eventsub.manager;
+package perobobbot.twitch.eventsub.manager._private;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestMethod;
 import perobobbot.http.WebHookManager;
@@ -14,6 +13,7 @@ import perobobbot.lang.RandomString;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.*;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
+import perobobbot.twitch.eventsub.manager.PlatformNotificationGateway;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.ServletException;
@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -31,16 +29,13 @@ public class SimpleEventSubManager implements EventSubManager {
     private final TwitchRequestSaver twitchRequestSaver = new TwitchRequestSaver();
 
     private final String eventSubPath = "/eventsub";
-    private final String secret = RandomString.generate(50);
 
     private final @NonNull TwitchService twitchService;
     private final @NonNull WebHookManager webHookManager;
     private final @NonNull ObjectMapper objectMapper;
+    private final @NonNull String secret;
 
     private WebHookSubscription webHookSubscription = null;
-
-    //TODO make the access to this resource thread safe
-    private final Map<String, SubscriptionInfo> subscriptions = new HashMap<>();
 
     @Synchronized
     public void start() {
@@ -81,7 +76,9 @@ public class SimpleEventSubManager implements EventSubManager {
 
             @Override
             public void visit(@NonNull EventSubNotification notification) {
-                System.out.println("Received notification "+notification);
+                System.out.println("MessageId : "+validatedRequest.messageId());
+                System.out.println("Timestamp : "+validatedRequest.timeStamp());
+                System.out.println(notification.getEvent());
             }
 
             @Override
@@ -95,12 +92,6 @@ public class SimpleEventSubManager implements EventSubManager {
             }
         });
 
-    }
-
-    @Value
-    private static class SubscriptionInfo {
-        @NonNull Subscription subscription;
-        @NonNull TwitchSubscription twitchSubscription;
     }
 
     @Override
@@ -127,19 +118,12 @@ public class SimpleEventSubManager implements EventSubManager {
                             .map(t -> t.getData()[0])
                             .doOnSuccess(data -> {
                                 LOG.info("Received subscription acknowledgment from Twitch : '{}'", data.getId());
-                                subscriptions.put(data.getId(), new SubscriptionInfo(subscription, data));
                             });
     }
 
     @Override
     public @NonNull Mono<Nil> deleteSubscription(@NonNull String id) {
-        final var subscriptionInfo = subscriptions.get(id);
-        if (subscriptionInfo == null) {
-            return twitchService.deleteEventSubSubscription(id).doOnSuccess(n -> {
-                subscriptions.remove(id);
-            });
-        }
-        return Mono.just(Nil.NIL);
+            return twitchService.deleteEventSubSubscription(id);
     }
 
     @Override

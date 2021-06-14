@@ -1,4 +1,4 @@
-package perobobbot.twutch.eventsub.manager;
+package perobobbot.twitch.eventsub.manager._private;
 
 import lombok.NonNull;
 

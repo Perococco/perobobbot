@@ -6,7 +6,7 @@ import org.springframework.integration.config.EnablePublisher;
 import perobobbot.lang.Packages;
 
 @Configuration
-@EnablePublisher
+@EnablePublisher //TODO move this annotation to the server
 public class DataEventConfiguration {
 
     public static @NonNull Packages provider() {

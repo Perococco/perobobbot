@@ -144,7 +144,6 @@
             <artifactId>perobobbot-oauth-tools</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
