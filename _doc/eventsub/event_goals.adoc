@@ -15,8 +15,7 @@
 * [x] Gérer les notifications
 ** [x] créer les 32 classes d'event
 ** [x] déserializer les notifications
-* [ ] Tenir compte des accès concurrents (c.f. TODO dans SimpleEventSubManager)
-* [ ] Gérer les souscriptions multiples
+* [ ] Gérer les souscriptions multiples (ajout/suppression)
 
 === Niveau 3 : Persitence
 

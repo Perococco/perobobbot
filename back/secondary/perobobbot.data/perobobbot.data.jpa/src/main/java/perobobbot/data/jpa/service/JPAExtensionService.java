@@ -28,18 +28,23 @@ public class JPAExtensionService implements ExtensionService {
 
     @Override
     @Transactional
-    public void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames) {
-        final var available = new HashSet<>(foundExtensionNames);
-        final var existing = extensionRepository.findAll();
+    public void setExtensionAvailable(@NonNull String extensionName) {
+        final var extension = extensionRepository.findByName(extensionName)
+                .orElseGet(() -> new ExtensionEntity(extensionName));
 
-        for (ExtensionEntity extension : existing) {
-            boolean wasPresent = available.remove(extension.getName());
-            extension.setAvailable(wasPresent);
+        extension.setAvailable(true);
+        extensionRepository.save(extension);
+    }
+
+    @Override
+    @Transactional
+    public void setExtensionUnavailable(@NonNull String extensionName) {
+        final var extension = extensionRepository.findByName(extensionName).orElse(null);
+
+        if (extension != null) {
+            extension.setAvailable(false);
+            extensionRepository.save(extension);
         }
-
-        available.forEach(name -> existing.add(new ExtensionEntity(name)));
-
-        extensionRepository.saveAll(existing);
     }
 
     @Override

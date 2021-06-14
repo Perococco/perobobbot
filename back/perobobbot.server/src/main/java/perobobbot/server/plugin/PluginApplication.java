@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.data.service.ExtensionService;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.Subscription;
 import perobobbot.plugin.ChatPlatformPlugin;
@@ -33,6 +34,7 @@ public class PluginApplication implements Application {
 
     private final @NonNull ExtensionManager extensionManager;
     private final @NonNull WebPluginManager webPluginManager;
+    private final @NonNull ExtensionService extensionService;
     private final @NonNull ChatPlatformPluginManager chatPlatformPluginManager;
 
     private final Map<PluginService, Subscription> subscriptions = new HashMap<>();
@@ -46,7 +48,7 @@ public class PluginApplication implements Application {
     public void plugService(@NonNull PluginService pluginService) {
         LOG.info("Plug service   : {}",pluginService);
         pluginService.getServiceAs(PerobobbotPlugin.class)
-                        .flatMap(p -> p.accept(new PluginVisitor()))
+                        .flatMap(p -> p.accept(new AddPluginVisitor()))
                         .ifPresent(s -> subscriptions.put(pluginService,s));
     }
 
@@ -59,10 +61,16 @@ public class PluginApplication implements Application {
         }
     }
 
-    private class PluginVisitor implements PerobobbotPlugin.Visitor<Optional<Subscription>> {
+    private class AddPluginVisitor implements PerobobbotPlugin.Visitor<Optional<Subscription>> {
         @Override
         public @NonNull Optional<Subscription> visit(@NonNull ExtensionPlugin extensionPlugin) {
-            return extensionManager.addExtension(extensionPlugin);
+            final var extensionName= extensionPlugin.getExtensionName();
+            final Subscription setExtensionUnavailable = () -> extensionService.setExtensionUnavailable(extensionName);
+            final var subscription = extensionManager.addExtension(extensionPlugin);
+            if (subscription.isPresent()) {
+                extensionService.setExtensionAvailable(extensionName);
+            }
+            return subscription.map(setExtensionUnavailable::and);
         }
 
         @Override

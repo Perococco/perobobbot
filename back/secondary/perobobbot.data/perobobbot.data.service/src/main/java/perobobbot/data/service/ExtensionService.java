@@ -10,10 +10,16 @@ import java.util.UUID;
 public interface ExtensionService {
 
     /**
-     * Update the availability flags accordingly to the set of extensions found at runtime
-     * @param foundExtensionNames the set of extension name found at runtime
+     * Set the extension with the provided name as available
+     * @param extensionName the name of the extension to set as available
      */
-    void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames);
+    void setExtensionAvailable(@NonNull String extensionName);
+
+    /**
+     * Set the extension with the provided name as unavailable
+     * @param extensionName the name of the extension to set as unavailable
+     */
+    void setExtensionUnavailable(@NonNull String extensionName);
 
     /**
      * @return a list of all available extensions

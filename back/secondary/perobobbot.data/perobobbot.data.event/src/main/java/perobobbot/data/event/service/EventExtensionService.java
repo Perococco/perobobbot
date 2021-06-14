@@ -22,8 +22,15 @@ public class EventExtensionService extends ProxyExtensionService {
     @Override
     @Publisher(GatewayChannels.EVENT_MESSAGES)
     @Payload("T(perobobbot.data.com.event.ExtensionEvent).create('UPDATE')")
-    public void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames) {
-        super.updateExtensionList(foundExtensionNames);
+    public void setExtensionAvailable(@NonNull String extensionName) {
+        super.setExtensionAvailable(extensionName);
+    }
+
+    @Override
+    @Publisher(GatewayChannels.EVENT_MESSAGES)
+    @Payload("T(perobobbot.data.com.event.ExtensionEvent).create('UPDATE')")
+    public void setExtensionUnavailable(@NonNull String extensionName) {
+        super.setExtensionUnavailable(extensionName);
     }
 
     @Override

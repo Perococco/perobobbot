@@ -23,8 +23,14 @@ public class SecuredExtensionService extends ProxyExtensionService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateExtensionList(@NonNull ImmutableSet<String> foundExtensionNames) {
-        super.updateExtensionList(foundExtensionNames);
+    public void setExtensionAvailable(@NonNull String extensionName) {
+        super.setExtensionAvailable(extensionName);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void setExtensionUnavailable(@NonNull String extensionName) {
+        super.setExtensionUnavailable(extensionName);
     }
 
     @Override

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import perobobbot.data.service.EventService;
+import perobobbot.data.service.ExtensionService;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.PluginServices;
@@ -43,6 +45,7 @@ public class PluginConfiguration {
     private final @NonNull ApplicationContext applicationContext;
 
     private final @NonNull ExtensionManager extensionManager;
+    private final @NonNull @EventService ExtensionService extensionService;
     private final @NonNull ChatPlatformPluginManager chatPlatformPluginManager;
     private final @NonNull WebPluginManager webPluginManager;
 
@@ -78,6 +81,7 @@ public class PluginConfiguration {
                                                  BotVersionedService::toVersionedService),
                                      extensionManager,
                                      webPluginManager,
+                                     extensionService,
                                      chatPlatformPluginManager);
     }
 
