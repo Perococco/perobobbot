@@ -54,14 +54,4 @@ public class WebClientTwitchService implements TwitchService {
                                .toBodilessEntity().map(r -> Nil.NIL);
     }
 
-    @Override
-    public Flux<Nil> GetFollowedStreams(@NonNull String userId) {
-        return Todo.TODO();
-    }
-
-    @Override
-    public Flux<Nil> getStreamTags() {
-        return Todo.TODO();
-    }
-
 }
