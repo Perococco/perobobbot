@@ -9,6 +9,17 @@ class Bot {
    +extensions:List<Extension>,
 }
 
+class UserSubscription {
+  + owner : User,
+  + subscription : Subscription;
+}
+
+class Subscription {
+  + subscriptionId : String,
+  + type : String,
+  + condition : String
+}
+
 class Extension {
   + name:String,
   + activated:boolean,

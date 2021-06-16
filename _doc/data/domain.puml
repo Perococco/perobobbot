@@ -5,6 +5,9 @@ hide methods
 User "1" -- Bot
 User -- Role
 
+User "1" -- UserSubscription
+UserSubscription -- "1" Subscription
+
 Safe "1" -- Transaction
 
 ViewerIdentity -- Safe

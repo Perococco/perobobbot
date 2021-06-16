@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.RoleEntity;
+import perobobbot.data.domain.UserSubscriptionEntity;
 import perobobbot.data.domain.UserTokenEntity;
 import perobobbot.data.domain.converter.LocaleConverter;
 import perobobbot.lang.RandomString;

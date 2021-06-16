@@ -74,6 +74,7 @@ public class UserEntity extends UserEntityBase {
         return this;
     }
 
+
     /**
      * @param role the role to remove from this user
      * @return this {@link UserEntity} updated by removing the provided role
