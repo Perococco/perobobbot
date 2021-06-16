@@ -1,6 +1,6 @@
 package perobobbot.twitch.eventsub.api.event;
 
-import perobobbot.lang.Event;
+import perobobbot.lang.Notification;
 
-public interface EventSubEvent extends Event {
+public interface EventSubEvent extends Notification {
 }

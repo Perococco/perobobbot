@@ -8,7 +8,7 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
-public abstract class SingleConditionSubscription implements Subscription{
+public abstract class SingleConditionSubscription implements Subscription {
 
     @Getter
     private final @NonNull SubscriptionType type;

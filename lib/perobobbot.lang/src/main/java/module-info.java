@@ -27,4 +27,6 @@ module perobobbot.lang {
 
     opens perobobbot.lang to com.fasterxml.jackson.databind;
     opens perobobbot.lang.token to com.fasterxml.jackson.databind;
+    exports perobobbot.lang.chain;
+    opens perobobbot.lang.chain to com.fasterxml.jackson.databind;
 }

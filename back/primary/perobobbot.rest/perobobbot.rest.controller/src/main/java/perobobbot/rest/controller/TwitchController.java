@@ -4,10 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import perobobbot.twitch.eventsub.api.EventSubManager;
-import perobobbot.twitch.eventsub.api.TwitchSubscription;
+import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
-import perobobbot.twitch.eventsub.api.subscription.ChannelUpdate;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -15,21 +13,21 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class TwitchController {
 
-    private final @NonNull EventSubManager eventSubManager;
+    private final @NonNull TwitchService twitchService;
 
     @GetMapping(value = "eventsubs", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<TwitchSubscriptionData> getEventSubSubscriptions() {
-        return eventSubManager.listSubscriptions();
+        return twitchService.getEventSubSubscriptions();
     }
 
-    @PostMapping(value = "eventsubs", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<TwitchSubscription> subscribe() {
-        return eventSubManager.subscribe(new ChannelUpdate("211307900"));
-    }
+//    @PostMapping(value = "eventsubs", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Mono<TwitchSubscription> subscribe() {
+//        return eventSubManager.subscribe(new ChannelUpdate("211307900"));
+//    }
 
     @DeleteMapping(value = "eventsubs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<String> subscribe(@NonNull @PathVariable(name = "id") String id) {
-        return eventSubManager.deleteSubscription(id).map(o -> id);
+        return twitchService.deleteEventSubSubscription(id).map(o -> id);
     }
 
 }

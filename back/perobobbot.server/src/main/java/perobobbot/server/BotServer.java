@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.integration.config.EnablePublisher;
 import perobobbot.spring.SpringLauncher;
 
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.Arrays;
         @PropertySource(value = "file:${app.config.dir}/server/database_secret.properties", ignoreResourceNotFound = false)
 })
 @Log4j2
+@EnablePublisher
 public class BotServer {
 
 

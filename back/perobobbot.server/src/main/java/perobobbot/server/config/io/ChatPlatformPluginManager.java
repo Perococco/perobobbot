@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.chat.core.MutableIO;
 import perobobbot.data.com.event.ChatPlatformConnected;
+import perobobbot.lang.MessageGateway;
 import perobobbot.lang.Subscription;
 import perobobbot.plugin.ChatPlatformPlugin;
-import perobobbot.server.component.MessageGateway;
 
 import java.util.Optional;
 

@@ -1,16 +1,11 @@
 package perobobbot.twitch.eventsub.api;
 
 import lombok.NonNull;
-import perobobbot.lang.Nil;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
-import reactor.core.publisher.Mono;
 
 public interface EventSubManager {
+    
+    void deleteSubscription(@NonNull String login, @NonNull Subscription subscription);
 
-    @NonNull Mono<TwitchSubscription> subscribe(@NonNull Subscription subscription);
-
-    @NonNull Mono<Nil> deleteSubscription(@NonNull String id);
-
-    @NonNull Mono<TwitchSubscriptionData> listSubscriptions();
-
+    void createSubscription(@NonNull String login, @NonNull Subscription subscription);
 }

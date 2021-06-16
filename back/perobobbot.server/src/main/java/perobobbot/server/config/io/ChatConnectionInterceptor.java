@@ -6,7 +6,7 @@ import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.MessageChannelIO;
 import perobobbot.chat.core.ProxyChatConnection;
 import perobobbot.data.com.event.ChatChannelJoined;
-import perobobbot.server.component.MessageGateway;
+import perobobbot.lang.MessageGateway;
 
 import java.util.concurrent.CompletionStage;
 

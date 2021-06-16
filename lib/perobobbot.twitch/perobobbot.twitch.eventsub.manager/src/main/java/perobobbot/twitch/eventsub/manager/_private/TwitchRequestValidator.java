@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.twitch.eventsub.api.Markers;
+import perobobbot.twitch.eventsub.api.TwitchRequestContent;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,7 +28,7 @@ public class TwitchRequestValidator {
     private static final String MAC_ALGORITHM = "HmacSHA256";
 
 
-    public static @NonNull Optional<TwitchRequestContent> validate(@NonNull HttpServletRequest twitchRequest, @NonNull String secret) throws IOException, ServletException {
+    public static @NonNull Optional<TwitchRequestContent<byte[]>> validate(@NonNull HttpServletRequest twitchRequest, @NonNull String secret) throws IOException, ServletException {
         return new TwitchRequestValidator(twitchRequest, secret).validate();
     }
 
@@ -43,7 +44,7 @@ public class TwitchRequestValidator {
     private String computedSignature;
 
 
-    private @NonNull Optional<TwitchRequestContent> validate() throws IOException, ServletException {
+    private @NonNull Optional<TwitchRequestContent<byte[]>> validate() throws IOException, ServletException {
         this.retrieveTwitchHeaders();
         if (!areAllHeadersDefined()) {
             return Optional.empty();
@@ -54,7 +55,7 @@ public class TwitchRequestValidator {
         if (!isRequestValid()) {
             return Optional.empty();
         }
-        return Optional.of(new TwitchRequestContent(type, messageId, Instant.parse(timeStamp), bodyContent));
+        return Optional.of(new TwitchRequestContent<>(type, messageId, Instant.parse(timeStamp), bodyContent));
     }
 
     private void retrieveTwitchHeaders() {

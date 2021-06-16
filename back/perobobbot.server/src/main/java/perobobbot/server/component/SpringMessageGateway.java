@@ -4,17 +4,19 @@ import lombok.NonNull;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.stereotype.Component;
-import perobobbot.lang.GatewayChannels;
-import perobobbot.lang.MessageContext;
+import perobobbot.lang.*;
 
 @Component
 @MessagingGateway
-public interface MessageGateway {
+public interface SpringMessageGateway extends MessageGateway {
 
     @Gateway(requestChannel = GatewayChannels.PLATFORM_MESSAGES)
     void sendPlatformMessage(@NonNull MessageContext messageContext);
 
     @Gateway(requestChannel = GatewayChannels.EVENT_MESSAGES)
-    void sendEvent(@NonNull Object event);
+    void sendEvent(@NonNull Event event);
+
+    @Gateway(requestChannel = GatewayChannels.PLATFORM_NOTIFICATION_MESSAGES)
+    void sendPlatformNotification(@NonNull Notification event);
 
 }
