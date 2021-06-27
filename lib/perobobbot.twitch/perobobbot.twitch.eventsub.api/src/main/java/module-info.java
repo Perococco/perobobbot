@@ -6,6 +6,9 @@ module perobobbot.twitch.event.sub.api {
     requires java.desktop;
 
     requires perobobbot.lang;
+    requires perobobbot.twitch.oauth.api;
+    requires perobobbot.oauth;
+    requires perobobbot.data.com;
 
     requires reactor.core;
 

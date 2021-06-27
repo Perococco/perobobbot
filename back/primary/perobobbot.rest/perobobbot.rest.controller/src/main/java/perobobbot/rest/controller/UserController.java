@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
+import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
+import perobobbot.data.service.SubscriptionService;
 import perobobbot.data.service.UserService;
+import perobobbot.eventsub.EventSubManager;
 import perobobbot.lang.ListTool;
 import perobobbot.rest.com.RestUserToken;
 import perobobbot.security.com.SimpleUser;
@@ -31,6 +34,11 @@ public class UserController {
     @GetMapping("")
     public @NonNull ImmutableList<SimpleUser> listAllUsers() {
         return ListTool.map(userService.listAllUser(), User::simplify);
+    }
+
+    @GetMapping("/")
+    public @NonNull String sayHello() {
+        return "HELLO";
     }
 
     @PostMapping("")

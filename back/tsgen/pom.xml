@@ -26,6 +26,10 @@
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-rest-controller</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-twitch-oauth-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.blue-veery</groupId>

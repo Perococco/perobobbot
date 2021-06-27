@@ -5,31 +5,28 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ChainExecutor<P> {
+public class ChainExecutor<P,R> {
 
-    private final @NonNull ImmutableList<Link<P>> links;
+    private final @NonNull ImmutableList<Link<P,R>> links;
 
-    public void call(@NonNull P parameter) {
+    public R call(@NonNull P parameter) {
         if (links.isEmpty()) {
-            return;
+            throw new IllegalStateException("No link in the chain");
         }
-        final var firstLink = links.get(0);
-        firstLink.call(parameter,new SimpleChain(0));
-
+        return new SimpleChain(0).callNext(parameter);
     }
 
     @RequiredArgsConstructor
-    private class SimpleChain implements Chain<P> {
+    private class SimpleChain implements Chain<P,R> {
 
         private final int index;
 
         @Override
-        public void callNext(@NonNull P parameter) {
-            final int nextIndex = index+1;
-            if (nextIndex < links.size()) {
-                final var link = links.get(nextIndex);
-                link.call(parameter,new SimpleChain(nextIndex));
+        public @NonNull R callNext(@NonNull P parameter) {
+            if (index<links.size()) {
+                return links.get(index).call(parameter,new SimpleChain(index+1));
             }
+            throw new IllegalStateException("no more link in the chain");
         }
     }
 }

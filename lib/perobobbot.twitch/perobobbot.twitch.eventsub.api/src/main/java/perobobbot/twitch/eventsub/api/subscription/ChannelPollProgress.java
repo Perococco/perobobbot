@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class ChannelPollProgress extends SingleConditionSubscription{
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.BROADCASTER_USER_ID, ChannelPollProgress::new);
+
     @NonNull String broadcasterId;
 
     public ChannelPollProgress(@NonNull String broadcasterId) {

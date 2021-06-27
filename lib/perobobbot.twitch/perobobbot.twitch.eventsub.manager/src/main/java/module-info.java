@@ -1,5 +1,5 @@
 import perobobbot.lang.Packages;
-import perobobbot.twitch.eventsub.manager.spring.EventSubConfiguration;
+import perobobbot.twitch.eventsub.manager.spring.TwitchEventSubConfiguration;
 
 module perobobbot.twitch.event.sub.manager {
     requires static lombok;
@@ -8,6 +8,8 @@ module perobobbot.twitch.event.sub.manager {
     requires perobobbot.lang;
     requires perobobbot.http;
     requires perobobbot.twitch.client.api;
+    requires perobobbot.data.service;
+    requires perobobbot.eventsub;
     requires transitive perobobbot.twitch.event.sub.api;
 
     requires java.servlet;
@@ -23,7 +25,7 @@ module perobobbot.twitch.event.sub.manager {
     requires spring.integration.core;
 
 
-    provides Packages with EventSubConfiguration;
+    provides Packages with TwitchEventSubConfiguration;
 
 //    opens perobobbot.twitch.eventsub.manager to com.fasterxml.jackson.databind, spring.core,spring.beans,spring.context, spring.messaging;
     opens perobobbot.twitch.eventsub.manager._private to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core, spring.messaging;

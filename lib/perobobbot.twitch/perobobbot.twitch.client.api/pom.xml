@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-twitch-client-api</artifactId>
 
-    <name>${application.name}: ${module.name} - Twitch</name>
+    <name>${application.name}: ${module.name} - Twitch API</name>
 
     <dependencies>
         <dependency>

@@ -3,26 +3,29 @@ package perobobbot.twitch.eventsub.manager.spring;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import perobobbot.lang.Nil;
 import perobobbot.lang.chain.Chain;
 import perobobbot.lang.chain.Link;
 import perobobbot.twitch.eventsub.api.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
-public class DuplicateNotificationRemover implements Link<TwitchRequestContent<EventSubRequest>> {
+public class DuplicateNotificationRemover implements Link<TwitchRequestContent<EventSubRequest>, Nil> {
 
     private final Map<String,String> seenMessageIdsBySubscriptionId = Collections.synchronizedMap(new HashMap<>());
 
 
     @Override
-    public void call(@NonNull TwitchRequestContent<EventSubRequest> parameter, @NonNull Chain<TwitchRequestContent<EventSubRequest>> chain) {
+    public Nil call(@NonNull TwitchRequestContent<EventSubRequest> parameter, @NonNull Chain<TwitchRequestContent<EventSubRequest>,Nil> chain) {
         final var callNext= parameter.content().accept(new CallNextPredicate(parameter.messageId()));
-        if (Boolean.TRUE.equals(callNext)) {
-            chain.callNext(parameter);
+        if (callNext) {
+            return chain.callNext(parameter);
         }
+        return Nil.NIL;
     }
 
     private boolean notAlreadySeen(@NonNull String messageId, EventSubNotification notification) {

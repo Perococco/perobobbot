@@ -5,29 +5,26 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.oauth.CallRequirements;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools._private.SimpleOAuthTokenHelper;
-
-import java.lang.reflect.Method;
 
 public interface OAuthTokenHelper {
 
     interface Factory {
-        @NonNull OAuthTokenHelper create(@NonNull Platform platform, @NonNull CallRequirements.Factory callRequirementFactory);
+        @NonNull OAuthTokenHelper create(@NonNull Platform platform);
     }
 
    boolean refreshToken();
 
    void removeTokenFromDb();
 
-   void initializeOAuthContext(@NonNull Method method);
+   void initializeOAuthContext(@NonNull ScopeRequirements scopeRequirements);
 
    static @NonNull OAuthTokenHelper simple(@NonNull ClientService clientService,
                                            @NonNull OAuthService oAuthService,
                                            @NonNull BotService botService,
-                                           @NonNull Platform platform,
-                                           @NonNull CallRequirements.Factory callRequirementFactory) {
-       return new SimpleOAuthTokenHelper(clientService,oAuthService,botService,platform,callRequirementFactory);
+                                           @NonNull Platform platform) {
+       return new SimpleOAuthTokenHelper(clientService,oAuthService,botService,platform);
    }
 
 

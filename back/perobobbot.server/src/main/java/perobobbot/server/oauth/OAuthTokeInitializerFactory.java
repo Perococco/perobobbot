@@ -8,7 +8,7 @@ import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.oauth.CallRequirements;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 
 @Component
@@ -25,7 +25,7 @@ public class OAuthTokeInitializerFactory implements OAuthTokenHelper.Factory {
     BotService botService;
 
     @Override
-    public @NonNull OAuthTokenHelper create(@NonNull Platform platform, @NonNull CallRequirements.Factory callRequirementFactory) {
-        return OAuthTokenHelper.simple(clientService, oAuthService, botService, platform, callRequirementFactory);
+    public @NonNull OAuthTokenHelper create(@NonNull Platform platform) {
+        return OAuthTokenHelper.simple(clientService, oAuthService, botService, platform);
     }
 }

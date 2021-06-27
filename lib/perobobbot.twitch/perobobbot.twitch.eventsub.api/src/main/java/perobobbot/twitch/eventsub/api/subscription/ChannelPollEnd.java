@@ -8,7 +8,9 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class ChannelPollEnd extends SingleConditionSubscription{
+public class ChannelPollEnd extends SingleConditionSubscription {
+
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.BROADCASTER_USER_ID, ChannelPollEnd::new);
 
     @NonNull String broadcasterId;
 

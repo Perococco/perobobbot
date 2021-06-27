@@ -29,15 +29,15 @@ public class OAuthContext implements OAuthTokenIdentifierSetter {
      * obtained on protected called services and contains information about
      * the type of required token and scopes.
      */
-    private CallRequirements callRequirements = null;
+    private ScopeRequirements scopeRequirements = null;
 
     /**
-     * The user token retrieved from the DB based on {@link #tokenIdentifier} and {@link #callRequirements}
+     * The user token retrieved from the DB based on {@link #tokenIdentifier} and {@link #scopeRequirements}
      */
     private DecryptedUserTokenView userToken = null;
 
     /**
-     * The client token retrieved from the DB based on {@link #tokenIdentifier} and {@link #callRequirements}
+     * The client token retrieved from the DB based on {@link #tokenIdentifier} and {@link #scopeRequirements}
      */
     private DecryptedClientTokenView clientToken = null;
 
@@ -52,12 +52,12 @@ public class OAuthContext implements OAuthTokenIdentifierSetter {
         this.tokenIdentifier = tokenIdentifier;
     }
 
-    public void setCallRequirements(@NonNull CallRequirements callRequirements) {
-        this.callRequirements = callRequirements;
+    public void setScopeRequirements(@NonNull ScopeRequirements scopeRequirements) {
+        this.scopeRequirements = scopeRequirements;
     }
 
-    public @NonNull CallRequirements getCallRequirements() {
-        return Optional.ofNullable(this.callRequirements)
+    public @NonNull ScopeRequirements getCallRequirements() {
+        return Optional.ofNullable(this.scopeRequirements)
                        .orElseThrow(() -> new PerobobbotException(
                                "CallRequirements not set, did you initialize the OAuth context before calling this method ?"));
     }

@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-twitch-oauth</artifactId>
+            <artifactId>perobobbot-twitch-oauth-impl</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -134,6 +134,10 @@
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-eventsub</artifactId>
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>

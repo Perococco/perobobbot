@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class UserAuthorizationRevoke extends SingleConditionSubscription {
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.CLIENT_ID, UserAuthorizationRevoke::new);
+
     @NonNull String clientId;
 
     public UserAuthorizationRevoke(@NonNull String clientId) {

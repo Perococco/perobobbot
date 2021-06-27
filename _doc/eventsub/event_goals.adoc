@@ -25,6 +25,9 @@
 
 
 
+* [ ] ajouter une gestion des droits de visibilité sur les eventsubs
+
+
 EventSub :
 
 login, type, condition,

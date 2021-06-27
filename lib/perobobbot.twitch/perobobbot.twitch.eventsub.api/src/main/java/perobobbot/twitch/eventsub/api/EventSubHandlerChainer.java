@@ -2,15 +2,20 @@ package perobobbot.twitch.eventsub.api;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.data.com.UserSubscriptionView;
+import perobobbot.lang.Nil;
 import perobobbot.lang.chain.ChainExecutor;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class EventSubHandlerChainer implements EventSubHandler {
 
-    private final @NonNull ChainExecutor<TwitchRequestContent<EventSubRequest>> handleEventSubRequest;
-    private final @NonNull ChainExecutor<SubscriptionWithLogin> handleDeleteSubscription;
-    private final @NonNull ChainExecutor<SubscriptionWithLogin> handleCreateSubscription;
+    private final @NonNull ChainExecutor<TwitchRequestContent<EventSubRequest>, Nil> handleEventSubRequest;
+    private final @NonNull ChainExecutor<ObjectWithLogin<UUID>, Mono<Nil>> handleDeleteSubscription;
+    private final @NonNull ChainExecutor<ObjectWithLogin<Subscription>, Mono<UserSubscriptionView>> handleCreateSubscription;
 
     @Override
     public void handleEventSubRequest(@NonNull TwitchRequestContent<EventSubRequest> request) {
@@ -18,13 +23,13 @@ public class EventSubHandlerChainer implements EventSubHandler {
     }
 
     @Override
-    public void handleDeleteSubscription(@NonNull String login, @NonNull Subscription subscription) {
-        handleDeleteSubscription.call(new SubscriptionWithLogin(login,subscription));
+    public Mono<Nil> handleSubscriptionDeletion(@NonNull String login, @NonNull UUID subscriptionId) {
+        return handleDeleteSubscription.call(new ObjectWithLogin(login, subscriptionId));
     }
 
     @Override
-    public void handleCreateSubscription(@NonNull String login, @NonNull Subscription subscription) {
-        handleCreateSubscription.call(new SubscriptionWithLogin(login,subscription));
+    public Mono<UserSubscriptionView> handleCreateSubscription(@NonNull String login, @NonNull Subscription subscription) {
+        return handleCreateSubscription.call(new ObjectWithLogin(login, subscription));
     }
 
 }

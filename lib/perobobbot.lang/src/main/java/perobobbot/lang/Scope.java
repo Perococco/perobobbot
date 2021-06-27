@@ -6,6 +6,7 @@ import perococco.perobobbot.common.lang.BasicScope;
 
 import java.util.stream.Collectors;
 
+@TypeScript
 public interface Scope {
 
     @NonNull String getName();

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class UserSubscriptionEntity extends UserSubscriptionEntityBase {
 
-    protected UserSubscriptionEntity(@NonNull UserEntity owner, @NonNull SubscriptionEntity subscription) {
+    public UserSubscriptionEntity(@NonNull UserEntity owner, @NonNull SubscriptionEntity subscription) {
         super(owner, subscription);
     }
 }

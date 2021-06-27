@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class HypeTrainEnd extends SingleConditionSubscription {
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.BROADCASTER_USER_ID, HypeTrainEnd::new);
+
     @NonNull String broadcasterId;
 
     public HypeTrainEnd(@NonNull String broadcasterId) {

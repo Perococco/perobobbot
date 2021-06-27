@@ -2,7 +2,7 @@ package perobobbot.lang.chain;
 
 import lombok.NonNull;
 
-public interface Link<P> {
+public interface Link<P,R> {
 
-    void call(@NonNull P parameter, @NonNull Chain<P> chain);
+    @NonNull R call(@NonNull P parameter, @NonNull Chain<P,R> chain);
 }

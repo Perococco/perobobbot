@@ -12,7 +12,7 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.TokenView;
-import perobobbot.oauth.CallRequirements;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.Markers;
 import perobobbot.oauth.OAuthContext;
 import perobobbot.oauth.OAuthContextHolder;
@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
 
     public interface Factory {
-        @NonNull SimpleOAuthTokenHelper create(@NonNull Platform platform, @NonNull CallRequirements.Factory callRequirementFactory);
+        @NonNull SimpleOAuthTokenHelper create(@NonNull Platform platform, @NonNull ScopeRequirements.Factory callRequirementFactory);
     }
 
     private final @NonNull ClientService clientService;
@@ -38,7 +38,7 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
     private final @NonNull BotService botService;
 
     private final @NonNull Platform platform;
-    private final @NonNull CallRequirements.Factory callRequirementFactory;
+//    private final @NonNull ScopeRequirements.Factory callRequirementFactory;
 
 
     @Override
@@ -67,20 +67,15 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
     }
 
     @Override
-    public void initializeOAuthContext(@NonNull Method method) {
-        final var callRequirements = this.callRequirementFactory.create(method).orElse(null);
-        if (callRequirements == null) {
-            return;
-        }
+    public void initializeOAuthContext(@NonNull ScopeRequirements scopeRequirements) {
+        LOG.debug(Markers.OAUTH_MARKER, "Setup oauth context for {}", scopeRequirements);
 
-        LOG.debug(Markers.OAUTH_MARKER, "Setup oauth context for {}", callRequirements);
-
-        final var tokenType = callRequirements.getTokenType();
-        this.addCallRequirementsToOAuthContext(callRequirements);
+        final var tokenType = scopeRequirements.getTokenType();
+        this.setCallRequirementsToOAuthContext(scopeRequirements);
 
         switch (tokenType) {
             case CLIENT_TOKEN -> setupClientToken();
-            case USER_TOKEN -> setupUserToken(callRequirements);
+            case USER_TOKEN -> setupUserToken(scopeRequirements);
         }
 
         this.retrieveClientInformation();
@@ -90,8 +85,8 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
         s.get().map(TokenView::getId).ifPresent(deleter);
     }
 
-    private void addCallRequirementsToOAuthContext(@NonNull CallRequirements callRequirements) {
-        OAuthContextHolder.getContext().setCallRequirements(callRequirements);
+    private void setCallRequirementsToOAuthContext(@NonNull ScopeRequirements scopeRequirements) {
+        OAuthContextHolder.getContext().setScopeRequirements(scopeRequirements);
     }
 
     private void setupClientToken() {
@@ -100,8 +95,8 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
         OAuthContextHolder.getContext().setClientToken(clientToken);
     }
 
-    private void setupUserToken(@NonNull CallRequirements callRequirements) {
-        final var tokenGetter = UserTokenViewGetter.createTokenGetter(oAuthService, platform, callRequirements);
+    private void setupUserToken(@NonNull ScopeRequirements scopeRequirements) {
+        final var tokenGetter = UserTokenViewGetter.createTokenGetter(oAuthService, platform, scopeRequirements);
         final var context = OAuthContextHolder.getContext();
 
         final var userToken = context

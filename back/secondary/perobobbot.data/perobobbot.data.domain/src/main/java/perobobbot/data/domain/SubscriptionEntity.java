@@ -17,4 +17,6 @@ public class SubscriptionEntity extends SubscriptionEntityBase {
         super(subscriptionId, type, condition);
     }
 
+
+
 }

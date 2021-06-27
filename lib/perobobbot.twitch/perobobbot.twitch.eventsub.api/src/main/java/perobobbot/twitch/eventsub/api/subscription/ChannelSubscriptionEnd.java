@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class ChannelSubscriptionEnd extends SingleConditionSubscription {
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.BROADCASTER_USER_ID, ChannelSubscriptionEnd::new);
+
     @NonNull String broadcasterId;
 
     public ChannelSubscriptionEnd(@NonNull String broadcasterId) {

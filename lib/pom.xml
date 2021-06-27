@@ -34,6 +34,7 @@
         <module>perobobbot.command</module>
         <module>perobobbot.extension</module>
         <module>perobobbot.http</module>
+        <module>perobobbot.eventsub</module>
         <module>perobobbot.oauth</module>
         <module>perobobbot.oauth.tools</module>
         <module>perobobbot.i18n</module>
@@ -49,11 +50,12 @@
         <module>chat/perobobbot.chat.advanced</module>
         <module>chat/perobobbot.chat.websocket</module>
 
-        <module>perobobbot.twitch/perobobbot.twitch.oauth</module>
-        <module>perobobbot.twitch/perobobbot.twitch.eventsub.api</module>
-        <module>perobobbot.twitch/perobobbot.twitch.eventsub.manager</module>
+        <module>perobobbot.twitch/perobobbot.twitch.oauth.api</module>
+        <module>perobobbot.twitch/perobobbot.twitch.oauth.impl</module>
         <module>perobobbot.twitch/perobobbot.twitch.client.api</module>
         <module>perobobbot.twitch/perobobbot.twitch.client.webclient</module>
+        <module>perobobbot.twitch/perobobbot.twitch.eventsub.api</module>
+        <module>perobobbot.twitch/perobobbot.twitch.eventsub.manager</module>
 
         <module>overlay/perobobbot.overlay.api</module>
         <module>overlay/perobobbot.overlay.newtek</module>

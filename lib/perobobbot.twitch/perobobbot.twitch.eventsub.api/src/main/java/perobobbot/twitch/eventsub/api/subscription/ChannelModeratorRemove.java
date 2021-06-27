@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class ChannelModeratorRemove extends SingleConditionSubscription {
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.BROADCASTER_USER_ID, ChannelModeratorRemove::new);
+
     @NonNull String broadcasterId;
 
     public ChannelModeratorRemove(@NonNull String broadcasterId) {

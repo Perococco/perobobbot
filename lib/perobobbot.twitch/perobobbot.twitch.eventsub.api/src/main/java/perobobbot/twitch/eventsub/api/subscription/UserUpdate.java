@@ -10,6 +10,8 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @EqualsAndHashCode(callSuper = true)
 public class UserUpdate extends SingleConditionSubscription {
 
+    public static final SubscriptionFactory FACTORY = forSingleCondition(CriteriaType.USER_ID, UserUpdate::new);
+
     @NonNull String userId;
 
     public UserUpdate(@NonNull String userId) {

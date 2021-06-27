@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.Caster;
 import perobobbot.lang.Platform;
+import perobobbot.oauth.ScopeRequirementExtractor;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 
 /**
  * Setup the OAuthContext with correct Token if it exists.
  * After the aspect has been applied, the {@link perobobbot.oauth.OAuthContext}
- * contains the {@link perobobbot.oauth.CallRequirements} and the User/Client token
+ * contains the {@link ScopeRequirements} and the User/Client token
  * associated with this <code>CallRequirements</code> and the <code>tokenIdentifier</code>
  * as well.
  *
@@ -29,15 +31,17 @@ public class TwitchOAuthTokenInitializer {
     private final static Caster<MethodSignature> METHOD_SIGNATURE_CASTER = CastTool.caster(MethodSignature.class);
 
     private final @NonNull OAuthTokenHelper oAuthTokenHelper;
+    private final @NonNull ScopeRequirementExtractor scopeRequirementExtractor = new TwitchOAuthAnnotationProvider().createScopeRequirementExtractor();
 
     public TwitchOAuthTokenInitializer(@NonNull OAuthTokenHelper.Factory factory) {
-        this.oAuthTokenHelper = factory.create(Platform.TWITCH, new TwitchOAuthAnnotationProvider().createCallRequirementFactory());
+        this.oAuthTokenHelper = factory.create(Platform.TWITCH);
     }
 
     @Before(value = "perobobbot.twitch.client.webclient.spring.TwitchApiArchitectures.allCallsToTwitchApi()")
     public void initializeTwitchOauthToken(JoinPoint joinPoint) {
         METHOD_SIGNATURE_CASTER.cast(joinPoint.getSignature())
                                .map(MethodSignature::getMethod)
+                               .flatMap(scopeRequirementExtractor::extract)
                                .ifPresent(oAuthTokenHelper::initializeOAuthContext);
     }
 

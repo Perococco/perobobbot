@@ -8,9 +8,11 @@ import com.blueveery.springrest2ts.filters.NotJavaTypeFilter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.web.bind.annotation.RestController;
 import perobobbot.lang.NoTypeScript;
+import perobobbot.lang.Scope;
 import perobobbot.lang.TypeScript;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -31,8 +33,10 @@ public class TSGenerator {
     private void generate() throws IOException {
         this.setupClassFiltering();
         generator.setEnumConverter(new JavaEnumToTsEnumConverter(false));
+        generator.getCustomTypeMapping().put(URI.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(UUID.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(Locale.class, TypeMapper.tsString);
+        generator.getCustomTypeMapping().put(Scope.class, TypeMapper.tsString);
 
         JacksonObjectMapper jacksonObjectMapper = new JacksonObjectMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);
@@ -50,6 +54,7 @@ public class TSGenerator {
                 "perobobbot.data.com",
                 "perobobbot.rest.com",
                 "perobobbot.security.com",
+                "perobobbot.twitch.oauth.api",
                 "perobobbot.rest.controller");
         var outputDirectory = findOutputPath();
         generator.generate(javaPackageSet, outputDirectory);

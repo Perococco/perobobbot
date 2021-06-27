@@ -61,7 +61,7 @@ public class SecurityController {
      * @return the created user
      */
     @PostMapping(EndPoints.SIGN_UP)
-    public SimpleUser singup(@RequestBody CreateUserParameters parameters) {
+    public SimpleUser signUp(@RequestBody CreateUserParameters parameters) {
         return userService.createUser(parameters)
                           .simplify();
     }

@@ -9,6 +9,15 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @Value
 public class ChannelPointsCustomRewardRemove implements Subscription {
 
+    public static final SubscriptionFactory FACTORY = condition -> {
+        final var helper = new ConditionHelper(condition);
+        final var broadcasterId = helper.get(CriteriaType.BROADCASTER_USER_ID);
+        final var rewardId = helper.find(CriteriaType.REWARD_ID);
+        return rewardId.map(r -> new ChannelPointsCustomRewardRemove(broadcasterId, r))
+                       .orElseGet(() -> new ChannelPointsCustomRewardRemove(broadcasterId));
+    };
+
+
     @NonNull String broadcasterId;
     String rewardId;
 

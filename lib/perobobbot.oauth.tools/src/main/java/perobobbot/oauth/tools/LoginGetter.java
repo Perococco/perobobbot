@@ -16,7 +16,7 @@ public class LoginGetter implements TokenIdentifier.Visitor<Optional<String>> {
 
     @Override
     public @NonNull Optional<String> visit(@NonNull ChatTokenIdentifier tokenIdentifier) {
-        return botService.findBotOwnerLogin(tokenIdentifier.getBotId());
+        return botService.findLoginOfBotOwner(tokenIdentifier.getBotId());
     }
 
     @Override

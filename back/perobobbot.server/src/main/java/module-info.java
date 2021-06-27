@@ -34,6 +34,7 @@ module perobobbot.server {
     requires perobobbot.security.com;
     requires perobobbot.sound;
     requires perobobbot.http;
+    requires perobobbot.eventsub;
     requires perobobbot.oauth;
     requires perobobbot.oauth.tools;
 
@@ -63,6 +64,7 @@ module perobobbot.server {
 
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.eventsub to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.websocket to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.extension to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.command to spring.core,spring.beans,spring.context, spring.web, spring.messaging;

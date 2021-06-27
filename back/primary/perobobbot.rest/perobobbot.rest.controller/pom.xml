@@ -24,11 +24,11 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-oauth</artifactId>
+            <artifactId>perobobbot-eventsub</artifactId>
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-twitch-client-api</artifactId>
+            <artifactId>perobobbot-oauth</artifactId>
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>

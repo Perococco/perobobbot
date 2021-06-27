@@ -8,14 +8,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import perobobbot.lang.Platform;
-import perobobbot.lang.fp.Try0;
+import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.fp.TryResult;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 
 /**
  * Setup the OAuthContext with correct Token if it exists.
  * After the aspect has been applied, the {@link perobobbot.oauth.OAuthContext}
- * contains the {@link perobobbot.oauth.CallRequirements} and the User/Client token
+ * contains the {@link ScopeRequirements} and the User/Client token
  * associated with this <code>CallRequirements</code> and the <code>tokenIdentifier</code>
  * as well.
  * <p>
@@ -31,7 +32,7 @@ public class TwitchOAuthTokenRefresher {
     private final @NonNull OAuthTokenHelper oAuthTokenHelper;
 
     public TwitchOAuthTokenRefresher(@NonNull OAuthTokenHelper.Factory factory) {
-        this.oAuthTokenHelper = factory.create(Platform.TWITCH, new TwitchOAuthAnnotationProvider().createCallRequirementFactory());
+        this.oAuthTokenHelper = factory.create(Platform.TWITCH);
     }
 
     @Around(value = "perobobbot.twitch.client.webclient.spring.TwitchApiArchitectures.allCallsToTwitchApi()")
@@ -51,37 +52,42 @@ public class TwitchOAuthTokenRefresher {
             final boolean noMoreTryAvailable = nbTries <= 0;
             final boolean causedByInvalidAccessToken = isCausedByInvalidAccessToken(error);
 
-            if (noMoreTryAvailable && causedByInvalidAccessToken) {
-                oAuthTokenHelper.removeTokenFromDb();
+            if (!causedByInvalidAccessToken) {
+                throw error;
             }
 
-            if (noMoreTryAvailable || !causedByInvalidAccessToken) {
+            if (noMoreTryAvailable) {
+                oAuthTokenHelper.removeTokenFromDb();
                 throw error;
-            } else {
-                final var couldRefreshToken = oAuthTokenHelper.refreshToken();
-                if (!couldRefreshToken) {
-                    oAuthTokenHelper.removeTokenFromDb();
-                    throw error;
-                }
+            }
+
+            final var couldRefreshToken = oAuthTokenHelper.refreshToken();
+            if (!couldRefreshToken) {
+                oAuthTokenHelper.removeTokenFromDb();
+                throw error;
             }
         }
 
     }
 
-    private @NonNull TryResult<Throwable,Object> callMethod(@NonNull ProceedingJoinPoint proceedingJoinPoint) {
-        return Try0.of(proceedingJoinPoint::proceed).fSafe();
+    private @NonNull TryResult<Throwable, Object> callMethod(@NonNull ProceedingJoinPoint proceedingJoinPoint) {
+        try {
+            return TryResult.success(proceedingJoinPoint.proceed());
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            return TryResult.failure(t);
+        }
     }
 
     private boolean isCausedByInvalidAccessToken(@NonNull Throwable throwable) {
         if (throwable instanceof WebClientResponseException) {
-            return switch (((WebClientResponseException)throwable).getStatusCode()) {
+            return switch (((WebClientResponseException) throwable).getStatusCode()) {
                 case UNAUTHORIZED, BAD_REQUEST -> true;
                 default -> false;
             };
         }
         return false;
     }
-
 
 
 }

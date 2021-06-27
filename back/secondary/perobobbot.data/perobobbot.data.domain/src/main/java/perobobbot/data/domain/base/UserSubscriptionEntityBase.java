@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.domain.SubscriptionEntity;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.persistence.PersistentObjectWithUUID;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserSubscriptionEntityBase extends SimplePersistentObject {
+public class UserSubscriptionEntityBase extends PersistentObjectWithUUID {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID",nullable = false)
@@ -33,5 +34,9 @@ public class UserSubscriptionEntityBase extends SimplePersistentObject {
     protected UserSubscriptionEntityBase(@NonNull UserEntity owner, @NonNull SubscriptionEntity subscription) {
         this.owner = owner;
         this.subscription = subscription;
+    }
+
+    public @NonNull UserSubscriptionView toView() {
+        return new UserSubscriptionView(getUuid(), owner.getLogin(), subscription.toView());
     }
 }

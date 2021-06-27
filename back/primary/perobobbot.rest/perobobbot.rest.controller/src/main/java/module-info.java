@@ -7,9 +7,9 @@ open module perobobbot.rest.controller {
 
     requires perobobbot.data.service;
     requires perobobbot.security.core;
+    requires perobobbot.eventsub;
     requires perobobbot.oauth;
     requires perobobbot.lang;
-    requires perobobbot.twitch.client.api;
     requires transitive perobobbot.rest.com;
 
     requires reactor.core;

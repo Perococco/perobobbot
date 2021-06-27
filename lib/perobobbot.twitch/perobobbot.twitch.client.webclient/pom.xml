@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-twitch-client-webclient</artifactId>
 
-    <name>${application.name}: ${module.name} - Twitch</name>
+    <name>${application.name}: ${module.name} - Twitch API WebClient</name>
 
     <dependencies>
         <dependency>

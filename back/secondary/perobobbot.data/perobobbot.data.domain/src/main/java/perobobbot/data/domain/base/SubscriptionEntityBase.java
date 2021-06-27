@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import perobobbot.data.com.SubscriptionView;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.Column;
@@ -33,6 +34,10 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
         super(UUID.randomUUID());
         this.subscriptionId = subscriptionId;
         this.type = type;
-        this.condition = condition;
+        this.condition = condition.toString();
+    }
+
+    public @NonNull SubscriptionView toView() {
+        return new SubscriptionView(getUuid(), type,condition,subscriptionId);
     }
 }

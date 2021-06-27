@@ -45,6 +45,18 @@
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-lang</artifactId>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-oauth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-twitch-oauth-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-data-com</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

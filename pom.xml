@@ -21,6 +21,5 @@
         <module>maven</module>
         <module>lib</module>
         <module>back</module>
-<!--        <module>front/rest</module>-->
     </modules>
 </project>

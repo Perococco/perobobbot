@@ -183,6 +183,11 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-eventsub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-oauth</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -330,7 +335,12 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-twitch-oauth</artifactId>
+                <artifactId>perobobbot-twitch-oauth-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-twitch-oauth-impl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -9,6 +9,15 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @Value
 public class ChannelPointsCustomRewardRedemptionAdd implements Subscription {
 
+    public static final SubscriptionFactory FACTORY = condition -> {
+        final var helper = new ConditionHelper(condition);
+        final var broadcasterId = helper.get(CriteriaType.BROADCASTER_USER_ID);
+        final var rewardId = helper.find(CriteriaType.REWARD_ID);
+        return rewardId.map(r -> new ChannelPointsCustomRewardRedemptionAdd(broadcasterId, r))
+                       .orElseGet(() -> new ChannelPointsCustomRewardRedemptionAdd(broadcasterId));
+    };
+
+
     @NonNull String broadcasterId;
     String rewardId;
 
@@ -29,11 +38,11 @@ public class ChannelPointsCustomRewardRedemptionAdd implements Subscription {
 
     @Override
     public @NonNull ImmutableMap<CriteriaType, String> getCondition() {
-        final var builder = ImmutableMap.<CriteriaType,String>builder();
+        final var builder = ImmutableMap.<CriteriaType, String>builder();
 
-        builder.put(CriteriaType.BROADCASTER_USER_ID,broadcasterId);
+        builder.put(CriteriaType.BROADCASTER_USER_ID, broadcasterId);
         if (rewardId != null) {
-            builder.put(CriteriaType.REWARD_ID,rewardId);
+            builder.put(CriteriaType.REWARD_ID, rewardId);
         }
         return builder.build();
     }
