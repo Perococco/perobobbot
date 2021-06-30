@@ -160,11 +160,11 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull DecryptedUserTokenView token) {
-        final var platform = token.getPlatform();
+    public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull UUID tokenId) {
+        final var tokenEntity = userTokenRepository.getByUuid(tokenId);
+        final var platform = tokenEntity.getPlatform();
         final var client = clientRepository.getFirstByPlatform(platform).toDecryptedView(textEncryptor);
 
-        final var tokenEntity = userTokenRepository.getByUuid(token.getId());
         final var refreshToken = textEncryptor.decrypt(tokenEntity.getRefreshToken());
 
         final Throwable error;
@@ -199,12 +199,21 @@ public class JPAOAuthService implements OAuthService {
     @Override
     public void deleteClientToken(@NonNull UUID id) {
         final var token = clientTokenRepository.getByUuid(id);
+        //todo delete all client token associated with the removed client
         clientTokenRepository.delete(token);
     }
 
     @Override
     public void deleteUserToken(@NonNull UUID tokenId) {
         final var token = userTokenRepository.getByUuid(tokenId);
+        final var decryptedAccessToken = textEncryptor.decrypt(token.getAccessToken());
+
+        final var platform = token.getPlatform();
+        final var client = clientRepository.getFirstByPlatform(platform).toDecryptedView(textEncryptor);
+
+        oAuthManager.getController(token.getPlatform())
+                    .revokeToken(client, decryptedAccessToken);
+
         token.getOwner().removeUserToken(tokenId);
         userTokenRepository.delete(token);
     }

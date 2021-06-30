@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
+import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.rest.com.OAuthProcessParameter;
 import perobobbot.rest.com.RestUserToken;
 
@@ -37,6 +38,11 @@ public class TokenController {
     @DeleteMapping("/{tokenId}")
     public void deleteUserToken(@NonNull @PathVariable UUID tokenId) {
         oauthService.deleteUserToken(tokenId);
+    }
+
+    @PutMapping("/{tokenId}")
+    public RestUserToken refreshUserToken(@NonNull @PathVariable UUID tokenId) {
+        return RestUserToken.fromUserTokenView(oauthService.refreshUserToken(tokenId));
     }
 
     @PostMapping("/oauth")

@@ -40,7 +40,7 @@ public interface OAuthService {
 
     @NonNull DecryptedUserTokenView getUserToken(@NonNull UUID tokenId);
 
-    @NonNull DecryptedUserTokenView refreshUserToken(@NonNull DecryptedUserTokenView token);
+    @NonNull DecryptedUserTokenView refreshUserToken(@NonNull UUID tokenId);
 
     void deleteUserToken(@NonNull UUID tokenId);
 

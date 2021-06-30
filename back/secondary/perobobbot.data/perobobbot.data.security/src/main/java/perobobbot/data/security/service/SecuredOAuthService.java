@@ -73,25 +73,25 @@ public class SecuredOAuthService implements OAuthService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','READ')")
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','READ')")
     public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull UUID tokenId) {
         return delegate.findUserToken(tokenId);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','READ')")
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','READ')")
     public @NonNull DecryptedUserTokenView getUserToken(@NonNull UUID tokenId) {
         return delegate.getUserToken(tokenId);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','READ')")
-    public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull DecryptedUserTokenView token) {
-        return delegate.refreshUserToken(token);
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','READ')")
+    public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull UUID tokenId) {
+        return delegate.refreshUserToken(tokenId);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || hasPermission('UserTokenEntity','DELETE')")
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','DELETE')")
     public void deleteUserToken(@NonNull UUID tokenId) {
         delegate.deleteUserToken(tokenId);
     }

@@ -129,7 +129,7 @@ public class SimpleOAuthTokenHelper implements OAuthTokenHelper {
     }
 
     public void setupRefreshedUserToken(@NonNull OAuthContext context, @NonNull DecryptedUserTokenView token) {
-        final DecryptedUserTokenView refreshedToken = oAuthService.refreshUserToken(token);
+        final DecryptedUserTokenView refreshedToken = oAuthService.refreshUserToken(token.getId());
         context.setUserToken(refreshedToken);
     }
 
