@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Value
 @Builder
+@TypeScript
 public class ViewerIdentity {
     @NonNull UUID id;
     @NonNull Platform platform;

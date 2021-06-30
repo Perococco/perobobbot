@@ -8,13 +8,15 @@ import com.blueveery.springrest2ts.filters.NotJavaTypeFilter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.web.bind.annotation.RestController;
 import perobobbot.lang.NoTypeScript;
-import perobobbot.lang.Scope;
 import perobobbot.lang.TypeScript;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -24,6 +26,12 @@ import java.util.stream.Stream;
 
 public class TSGenerator {
 
+    public static String camelToSnake(String str) {
+        String searchPattern = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        return str.replaceAll(searchPattern, replacement).toLowerCase();
+    }
+
     public static void main(String[] args) throws IOException {
         new TSGenerator().generate();
     }
@@ -32,13 +40,13 @@ public class TSGenerator {
 
     private void generate() throws IOException {
         this.setupClassFiltering();
-        generator.setEnumConverter(new JavaEnumToTsEnumConverter(false));
+        generator.setEnumConverter(new PerobobbotEnumConverter(false));
         generator.getCustomTypeMapping().put(URI.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(UUID.class, TypeMapper.tsString);
+        generator.getCustomTypeMapping().put(Instant.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(Locale.class, TypeMapper.tsString);
-        generator.getCustomTypeMapping().put(Scope.class, TypeMapper.tsString);
 
-        JacksonObjectMapper jacksonObjectMapper = new JacksonObjectMapper();
+        JacksonObjectMapper jacksonObjectMapper = new MyMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);
 
         var modelClassesConverter = new ModelClassesToTsInterfacesConverter(jacksonObjectMapper);
@@ -84,5 +92,18 @@ public class TSGenerator {
                 new NotJavaTypeFilter(new HasAnnotationJavaTypeFilter(NoTypeScript.class))
         )));
     }
+
+    private static class MyMapper extends JacksonObjectMapper {
+        @Override
+        public String getPropertyName(Field field) {
+            return camelToSnake(super.getPropertyName(field));
+        }
+
+        @Override
+        public String getPropertyName(Method method, boolean isGetter) {
+            return camelToSnake(super.getPropertyName(method, isGetter));
+        }
+    }
+
 
 }
