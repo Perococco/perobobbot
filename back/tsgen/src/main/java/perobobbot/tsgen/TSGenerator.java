@@ -69,17 +69,16 @@ public class TSGenerator {
     }
 
     private Path findOutputPath() {
-        final UnaryOperator<Path> createTarget = p -> Stream.of("front", "svelte", "src", "server").sequential().reduce(
-                p,
+        final Path targetPath = Stream.of("_generated","front","api").sequential().reduce(
+                Path.of("."),
                 Path::resolve,
-                Path::resolve);
+                Path::resolve).normalize();
 
-        return Stream.iterate(Path.of(".").toAbsolutePath(), p -> !Files.isDirectory(p.resolve("bot")), Path::getParent)
-                     .peek(p -> System.out.println(p))
-                     .map(createTarget)
-                     .filter(Files::isDirectory)
-                     .findFirst().orElseThrow(() -> new IllegalStateException("Could not find output directory"));
+        if (!Files.isDirectory(targetPath)) {
+            throw new IllegalStateException("Could not find output directory '"+targetPath.toAbsolutePath()+"'");
+        }
 
+        return targetPath;
     }
 
     private void setupClassFiltering() {

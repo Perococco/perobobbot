@@ -9,6 +9,8 @@ logs/
 target/
 build/
 
+_generated
+
 # Compiled class file
 *.class
 
