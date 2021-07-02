@@ -61,4 +61,8 @@ public class OAuthAuthorizationListener implements OAuthListener {
         futureToken.completeExceptionally(new OAuthTimedOut(client.getPlatform(), client.getClientId()));
     }
 
+    @Override
+    public void onInterrupted() {
+        futureToken.completeExceptionally(new OAuthInterrupted(client.getPlatform(),client.getClientId()));
+    }
 }

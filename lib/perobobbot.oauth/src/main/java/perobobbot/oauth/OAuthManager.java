@@ -65,7 +65,7 @@ public interface OAuthManager {
     }
 
 
-
+    void dispose();
 
 
 }

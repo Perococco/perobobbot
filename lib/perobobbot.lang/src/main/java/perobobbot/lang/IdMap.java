@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 @Log4j2
@@ -15,7 +16,6 @@ public class IdMap<K, T> {
     private final @NonNull Set<IdKey<K>> keys = new HashSet<>();
 
     private final @NonNull Map<IdKey<K>, T> data = new HashMap<>();
-    private Optional<T> remove;
 
     public @NonNull IdBooking bookNewId(@NonNull K userKey) {
         do {
@@ -28,25 +28,25 @@ public class IdMap<K, T> {
 
     public @NonNull Optional<T> freeId(@NonNull IdKey<K> key) {
         this.keys.remove(key);
-        final var result = Optional.ofNullable(this.data.remove(key));
-        result.flatMap(CastTool.caster(Disposable.class))
-              .ifPresent(Disposable::dispose);
-        return result;
+        return Optional.ofNullable(this.data.remove(key));
     }
 
-    private void dispose(@NonNull T data) {
-        if (data instanceof Disposable) {
-            try {
-                ((Disposable) data).dispose();
-            } catch (Throwable t) {
-                ThrowableTool.interruptThreadIfCausedByInterruption(t);
-                LOG.warn("An error occurred while disposing data {} ", data);
-                LOG.debug(t);
-            }
+    private void dispose(@NonNull T data, @NonNull Consumer<? super T> disposer) {
+        try {
+            disposer.accept(data);
+            ((Disposable) data).dispose();
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            LOG.warn("An error occurred while disposing data {} ", data);
+            LOG.debug(t);
         }
     }
 
     public void removeIf(@NonNull Predicate<? super T> shouldBeRemoved) {
+        removeIf(shouldBeRemoved, t -> {});
+    }
+
+    public void removeIf(@NonNull Predicate<? super T> shouldBeRemoved, @NonNull Consumer<? super T> disposer) {
         final var iterator = this.data.entrySet().iterator();
 
         while (iterator.hasNext()) {
@@ -56,13 +56,18 @@ public class IdMap<K, T> {
             if (shouldBeRemoved.test(value)) {
                 this.keys.remove(state);
                 iterator.remove();
-                dispose(value);
+                dispose(value, disposer);
             }
         }
     }
 
     public void clear() {
-        this.data.forEach((k, d) -> dispose(d));
+        this.clear(t -> {
+        });
+    }
+
+    public void clear(@NonNull Consumer<? super T> disposer) {
+        this.data.forEach((k, d) -> dispose(d, disposer));
     }
 
     @RequiredArgsConstructor
@@ -93,3 +98,4 @@ public class IdMap<K, T> {
     }
 
 }
+

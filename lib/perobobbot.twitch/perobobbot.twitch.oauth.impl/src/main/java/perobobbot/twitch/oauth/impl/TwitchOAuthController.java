@@ -23,6 +23,7 @@ public class TwitchOAuthController implements OAuthController {
     private final @NonNull WebClient webClient;
     private final @NonNull Instants instants;
 
+    private final @NonNull TwitchOAuthURI twitchOAuthURI = new TwitchOAuthURI();
 
     @Override
     public @NonNull Platform getPlatform() {
@@ -31,7 +32,7 @@ public class TwitchOAuthController implements OAuthController {
 
     @Override
     public @NonNull CompletionStage<?> revokeToken(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
-        final var revokeUri = new TwitchOAuthURI().getRevokeURI(client.getClientId(), accessToken);
+        final var revokeUri = twitchOAuthURI.getRevokeURI(client.getClientId(), accessToken);
         return MonoTools.toCompletionStageAsync(
                 webClient.post()
                          .uri(revokeUri.getUri())
@@ -41,8 +42,9 @@ public class TwitchOAuthController implements OAuthController {
         );
     }
 
-    public @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
-        final var refreshUri = new TwitchOAuthURI().getRefreshURI(client, refreshToken);
+    @Override
+    public @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret tokenToRefresh) {
+        final var refreshUri = twitchOAuthURI.getRefreshURI(client, tokenToRefresh);
 
         return MonoTools.toCompletionStageAsync(
                 webClient.post()
@@ -55,7 +57,7 @@ public class TwitchOAuthController implements OAuthController {
 
     @Override
     public @NonNull CompletionStage<Token> getClientToken(@NonNull DecryptedClient client) {
-        final var tokenUri = new TwitchOAuthURI().getAppTokenURI(client);
+        final var tokenUri = twitchOAuthURI.getAppTokenURI(client);
 
         return MonoTools.toCompletionStageAsync(
                 webClient.post()
@@ -71,7 +73,7 @@ public class TwitchOAuthController implements OAuthController {
         final var listener = new OAuthAuthorizationListener(webClient, client, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
-        final var oauthURI = new TwitchOAuthURI().getUserAuthorizationURI(client.getClientId(), scopes,
+        final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(client.getClientId(), scopes,
                                                                           subscriptionData.getState(),
                                                                           subscriptionData.getOAuthRedirectURI());
 
@@ -89,7 +91,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     private @NonNull CompletionStage<TwitchValidation> performTokenValidation(@NonNull Secret accessToken) {
-        final var validateUri = new TwitchOAuthURI().getValidateTokenURI();
+        final var validateUri = twitchOAuthURI.getValidateTokenURI();
 
         return MonoTools.toCompletionStageAsync(webClient.get()
                                                          .uri(validateUri)
@@ -101,4 +103,8 @@ public class TwitchOAuthController implements OAuthController {
 
     }
 
+    @Override
+    public void dispose() {
+        oAuthSubscriptions.dispose();
+    }
 }

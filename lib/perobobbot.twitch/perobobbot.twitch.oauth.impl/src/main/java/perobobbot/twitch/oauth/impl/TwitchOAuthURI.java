@@ -12,7 +12,6 @@ import perobobbot.lang.SecretURI;
 
 import java.net.URI;
 
-@RequiredArgsConstructor
 public class TwitchOAuthURI {
 
     public @NonNull URI getValidateTokenURI() {

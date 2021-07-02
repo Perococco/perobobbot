@@ -27,11 +27,23 @@ public interface OAuthController {
      */
     @NonNull CompletionStage<Token> getClientToken(@NonNull DecryptedClient client);
 
+    /**
+     * @param client the client information
+     * @param accessToken the token to revoke
+     * @return a completionStage that completes when the revocation is done
+     */
     @NonNull CompletionStage<?> revokeToken(@NonNull DecryptedClient client, @NonNull Secret accessToken);
 
-    @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken);
+    /**
+     * @param client the client information the token is associated to
+     * @param tokenToRefresh the token to refresh
+     * @return a completionStage containing the refreshed token that completes when the refreshing is done
+     */
+    @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret tokenToRefresh);
 
     @NonNull CompletionStage<?> validateToken(@NonNull Secret accessToken);
 
     @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken);
+
+    void dispose();
 }

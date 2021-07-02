@@ -29,4 +29,9 @@ public class MapOAuthManager implements OAuthManager {
     public @NonNull Optional<OAuthController> findController(@NonNull Platform platform) {
         return Optional.ofNullable(controllerPerPlatform.get(platform));
     }
+
+    @Override
+    public void dispose() {
+        controllerPerPlatform.forEach((p,o) -> o.dispose());
+    }
 }

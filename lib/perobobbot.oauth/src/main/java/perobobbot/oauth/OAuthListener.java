@@ -20,4 +20,6 @@ public interface OAuthListener {
                 @NonNull HttpServletResponse response) throws IOException;
 
     void onTimeout();
+
+    void onInterrupted();
 }

@@ -9,6 +9,7 @@ import com.blueveery.springrest2ts.naming.ClassNameMapper;
 import com.blueveery.springrest2ts.tsmodel.TSEnum;
 import com.blueveery.springrest2ts.tsmodel.TSEnumConstant;
 import com.blueveery.springrest2ts.tsmodel.TSModule;
+import perobobbot.lang.IdentifiedEnum;
 import perobobbot.lang.Scope;
 
 /**
@@ -68,6 +69,9 @@ public class PerobobbotEnumConverter extends ComplexTypeConverter {
     private String getTsValue(Enum enumConstant) {
         if (enumConstant instanceof Scope s) {
             return s.getName();
+        }
+        if (enumConstant instanceof IdentifiedEnum i) {
+            return i.getIdentification();
         }
         return enumConstant.name();
     }

@@ -18,10 +18,8 @@ import perobobbot.oauth.OAuthManager;
 public class OAuthConfiguration {
 
     private final @NonNull ApplicationContext applicationContext;
-    private final @EventService
-    @NonNull ClientService clientService;
 
-    @Bean
+    @Bean(destroyMethod = "dispose")
     public OAuthManager oAuthManager() {
         final var controllers = applicationContext.getBeansOfType(OAuthController.class)
                                                   .values()

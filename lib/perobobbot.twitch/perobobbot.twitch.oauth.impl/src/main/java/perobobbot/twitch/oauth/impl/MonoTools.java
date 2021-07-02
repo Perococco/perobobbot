@@ -15,7 +15,7 @@ public class MonoTools {
 
     public static @NonNull <T> CompletionStage<T> toCompletionStage(@NonNull Mono<T> mono) {
         final var future = new CompletableFuture<T>();
-        setToCompletableFuture(mono,future);
+        setToCompletableFuture(mono, future);
         return future;
     }
 
@@ -24,11 +24,11 @@ public class MonoTools {
     }
 
     public static <T> void setToCompletableFuture(@NonNull Mono<T> mono, @NonNull CompletableFuture<T> completableFuture) {
-        mono.subscribe(completableFuture::complete,completableFuture::completeExceptionally);
+        mono.subscribe(completableFuture::complete, completableFuture::completeExceptionally);
     }
 
     public static <T> void setToCompletableFutureAsync(@NonNull Mono<T> mono, @NonNull CompletableFuture<T> completableFuture) {
-        setToCompletableFuture(mono.subscribeOn(SCHEDULER),completableFuture);
+        setToCompletableFuture(mono.subscribeOn(SCHEDULER), completableFuture);
     }
 
 }
