@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import perobobbot.http.WebHookListener;
 import perobobbot.http.WebHookManager;
 import perobobbot.http.WebHookSubscription;
-import perobobbot.twitch.client.api.TwitchService;
-import perobobbot.twitch.eventsub.api.*;
-import perobobbot.twitch.eventsub.api.subscription.Subscription;
-import perobobbot.twitch.eventsub.manager._private.EventSubTwitchRequestTransformer;
-import reactor.core.publisher.Mono;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
 package perobobbot.twitch.eventsub.api.deser;
 
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -14,7 +14,7 @@ import perobobbot.twitch.eventsub.api.event.OutcomeColor;
 import perobobbot.twitch.eventsub.api.event.PredicationStatus;
 import perobobbot.twitch.eventsub.api.event.StreamType;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class EventSubModule extends SimpleModule {

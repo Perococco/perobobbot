@@ -6,9 +6,6 @@ import perobobbot.twitch.eventsub.api.ConditionId;
 import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 
-import java.util.Comparator;
-import java.util.stream.Collectors;
-
 public interface Subscription {
 
     @NonNull SubscriptionType getType();

@@ -10,7 +10,6 @@ import perobobbot.twitch.eventsub.api.event.*;
 import perobobbot.twitch.eventsub.api.subscription.*;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public enum SubscriptionType implements IdentifiedEnum {

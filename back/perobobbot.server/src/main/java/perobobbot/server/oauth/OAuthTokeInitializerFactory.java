@@ -8,7 +8,6 @@ import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 
 @Component

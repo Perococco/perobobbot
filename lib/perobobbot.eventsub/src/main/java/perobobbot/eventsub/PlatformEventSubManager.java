@@ -8,7 +8,6 @@ import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import reactor.core.publisher.Mono;
 
-import java.util.Set;
 import java.util.UUID;
 
 public interface PlatformEventSubManager {

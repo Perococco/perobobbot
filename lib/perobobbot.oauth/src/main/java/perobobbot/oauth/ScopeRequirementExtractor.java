@@ -3,8 +3,6 @@ package perobobbot.oauth;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Scope;
-import perobobbot.oauth.ScopeRequirements;
-import perobobbot.oauth.OauthAnnotationProvider;
 
 import java.lang.reflect.Method;
 import java.util.Optional;

@@ -1,7 +1,5 @@
 package perobobbot.twitch.eventsub.api.event;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,7 +7,6 @@ import lombok.Value;
 
 import java.time.Instant;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Value
 @NonNull

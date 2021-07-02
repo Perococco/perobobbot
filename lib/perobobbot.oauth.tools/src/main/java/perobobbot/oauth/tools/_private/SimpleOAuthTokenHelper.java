@@ -12,15 +12,14 @@ import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.TokenView;
-import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.Markers;
 import perobobbot.oauth.OAuthContext;
 import perobobbot.oauth.OAuthContextHolder;
+import perobobbot.oauth.ScopeRequirements;
 import perobobbot.oauth.tools.LoginGetter;
 import perobobbot.oauth.tools.OAuthTokenHelper;
 import perobobbot.oauth.tools.UserTokenViewGetter;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;

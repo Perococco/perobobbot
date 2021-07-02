@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import perobobbot.twitch.eventsub.api.deser.EventSubModule;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

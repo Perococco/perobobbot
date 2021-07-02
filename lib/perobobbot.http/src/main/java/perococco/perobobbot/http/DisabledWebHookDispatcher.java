@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import perobobbot.http.WebHookDispatcher;
 import perobobbot.http.WebHookListener;
 import perobobbot.http.WebHookSubscription;
-import perobobbot.lang.PerobobbotException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 

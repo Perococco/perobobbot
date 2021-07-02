@@ -1,7 +1,6 @@
 package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import perobobbot.data.jpa.repository.ExtensionRepository;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
 
-import java.util.HashSet;
 import java.util.UUID;
 
 @Service

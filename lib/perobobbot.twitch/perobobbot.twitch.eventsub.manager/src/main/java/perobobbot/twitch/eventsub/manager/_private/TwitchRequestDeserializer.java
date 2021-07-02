@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.twitch.eventsub.api.EventSubRequest;
 import perobobbot.twitch.eventsub.api.EventSubNotification;
+import perobobbot.twitch.eventsub.api.EventSubRequest;
 import perobobbot.twitch.eventsub.api.EventSubVerification;
 import perobobbot.twitch.eventsub.api.Markers;
 

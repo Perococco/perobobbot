@@ -8,14 +8,10 @@ import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.domain.SubscriptionEntity;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.persistence.PersistentObjectWithUUID;
-import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor

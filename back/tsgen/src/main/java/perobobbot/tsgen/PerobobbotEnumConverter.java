@@ -7,7 +7,6 @@ import com.blueveery.springrest2ts.converters.TypeMapper;
 import com.blueveery.springrest2ts.implgens.EmptyImplementationGenerator;
 import com.blueveery.springrest2ts.naming.ClassNameMapper;
 import com.blueveery.springrest2ts.tsmodel.TSEnum;
-import com.blueveery.springrest2ts.tsmodel.TSEnumConstant;
 import com.blueveery.springrest2ts.tsmodel.TSModule;
 import perobobbot.lang.IdentifiedEnum;
 import perobobbot.lang.Scope;

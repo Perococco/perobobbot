@@ -2,8 +2,6 @@ package perobobbot.lang.fp;
 
 import lombok.NonNull;
 
-import java.util.function.BiConsumer;
-
 public interface Consumer3<A,B,C> {
 
     @NonNull

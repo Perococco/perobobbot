@@ -3,7 +3,6 @@ package perobobbot.twitch.client.api;
 import lombok.NonNull;
 import perobobbot.lang.Nil;
 import perobobbot.lang.TokenType;
-import perobobbot.oauth.RequiredScope;
 import perobobbot.oauth.RequiredToken;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionRequest;

@@ -3,7 +3,6 @@ package perobobbot.lang;
 import lombok.NonNull;
 import perobobbot.lang.fp.Value2;
 
-import java.util.OptionalInt;
 import java.util.Random;
 
 public class MathTool {

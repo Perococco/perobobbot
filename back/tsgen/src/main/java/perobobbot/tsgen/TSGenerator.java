@@ -1,7 +1,10 @@
 package perobobbot.tsgen;
 
 import com.blueveery.springrest2ts.Rest2tsGenerator;
-import com.blueveery.springrest2ts.converters.*;
+import com.blueveery.springrest2ts.converters.JacksonObjectMapper;
+import com.blueveery.springrest2ts.converters.ModelClassesToTsInterfacesConverter;
+import com.blueveery.springrest2ts.converters.SpringRestToTsConverter;
+import com.blueveery.springrest2ts.converters.TypeMapper;
 import com.blueveery.springrest2ts.filters.AndFilterOperator;
 import com.blueveery.springrest2ts.filters.HasAnnotationJavaTypeFilter;
 import com.blueveery.springrest2ts.filters.NotJavaTypeFilter;
@@ -21,7 +24,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 public class TSGenerator {

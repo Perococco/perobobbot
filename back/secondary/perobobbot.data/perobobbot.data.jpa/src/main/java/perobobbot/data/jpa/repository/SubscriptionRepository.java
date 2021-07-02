@@ -3,11 +3,9 @@ package perobobbot.data.jpa.repository;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import perobobbot.data.domain.SubscriptionEntity;
-import perobobbot.lang.Subscription;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, Long> {
 

@@ -8,17 +8,13 @@ import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.eventsub.PlatformEventSubManager;
 import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.Nil;
-import perobobbot.lang.PerobobbotException;
 import perobobbot.lang.Platform;
 import perobobbot.twitch.eventsub.api.EventSubHandler;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class TwitchEventSubManager implements PlatformEventSubManager {

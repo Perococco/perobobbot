@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-import perobobbot.twitch.oauth.impl.TwitchOAuthController;
 import perobobbot.http.WebHookManager;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Packages;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthSubscriptions;
+import perobobbot.twitch.oauth.impl.TwitchOAuthController;
 
 @Configuration
 @RequiredArgsConstructor

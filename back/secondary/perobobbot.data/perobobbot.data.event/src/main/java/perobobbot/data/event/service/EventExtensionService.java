@@ -1,6 +1,5 @@
 package perobobbot.data.event.service;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import org.springframework.integration.annotation.Publisher;
 import org.springframework.messaging.handler.annotation.Payload;

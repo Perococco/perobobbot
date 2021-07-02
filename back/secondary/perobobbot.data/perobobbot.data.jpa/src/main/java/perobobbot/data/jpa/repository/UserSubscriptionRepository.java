@@ -2,7 +2,6 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import perobobbot.data.domain.SubscriptionEntity;
 import perobobbot.data.domain.UserSubscriptionEntity;
 
 import java.util.Optional;

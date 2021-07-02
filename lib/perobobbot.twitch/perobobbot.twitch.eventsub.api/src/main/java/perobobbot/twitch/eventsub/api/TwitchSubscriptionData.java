@@ -1,13 +1,9 @@
 package perobobbot.twitch.eventsub.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Value

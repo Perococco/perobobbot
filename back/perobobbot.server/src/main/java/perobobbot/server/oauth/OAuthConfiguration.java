@@ -7,8 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import perobobbot.data.service.ClientService;
-import perobobbot.data.service.EventService;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthManager;
 
