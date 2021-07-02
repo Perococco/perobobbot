@@ -1,12 +1,16 @@
 package perobobbot.twitch.eventsub.api;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.IdentifiedEnum;
 import perobobbot.twitch.eventsub.api.event.*;
 import perobobbot.twitch.eventsub.api.subscription.*;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public enum SubscriptionType implements IdentifiedEnum {
@@ -57,5 +61,20 @@ public enum SubscriptionType implements IdentifiedEnum {
 
     public @NonNull Subscription create(@NonNull ImmutableMap<String, String> condition) {
         return subscriptionFactory.create(condition);
+    }
+
+    public static @NonNull ImmutableSet<String> getIdentifications() {
+        return Holder.VALUE_IDENTIFICATIONS;
+    }
+
+    private static class Holder {
+
+        private static final @NonNull ImmutableSet<String> VALUE_IDENTIFICATIONS;
+
+        static {
+            VALUE_IDENTIFICATIONS = Arrays.stream(values())
+                                  .map(SubscriptionType::getIdentification)
+                                  .collect(ImmutableSet.toImmutableSet());
+        }
     }
 }

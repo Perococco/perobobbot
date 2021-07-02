@@ -23,13 +23,13 @@ public class EventSubHandlerChainer implements EventSubHandler {
     }
 
     @Override
-    public Mono<Nil> handleSubscriptionDeletion(@NonNull String login, @NonNull UUID subscriptionId) {
-        return handleDeleteSubscription.call(new ObjectWithLogin(login, subscriptionId));
+    public @NonNull Mono<Nil> handleSubscriptionDeletion(@NonNull String login, @NonNull UUID subscriptionId) {
+        return handleDeleteSubscription.call(ObjectWithLogin.create(login, subscriptionId));
     }
 
     @Override
-    public Mono<UserSubscriptionView> handleCreateSubscription(@NonNull String login, @NonNull Subscription subscription) {
-        return handleCreateSubscription.call(new ObjectWithLogin(login, subscription));
+    public @NonNull Mono<UserSubscriptionView> handleCreateSubscription(@NonNull String login, @NonNull Subscription subscription) {
+        return handleCreateSubscription.call(ObjectWithLogin.create(login, subscription));
     }
 
 }

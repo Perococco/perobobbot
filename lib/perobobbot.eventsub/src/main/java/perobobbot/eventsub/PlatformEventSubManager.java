@@ -1,6 +1,7 @@
 package perobobbot.eventsub;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.lang.Nil;
@@ -14,7 +15,7 @@ public interface PlatformEventSubManager {
 
     @NonNull Platform getPlatform();
 
-    @NonNull Set<String> getSubscriptionTypes();
+    @NonNull ImmutableSet<String> getSubscriptionTypes();
 
     @NonNull Mono<Nil> deleteSubscription(@NonNull String login, @NonNull UUID subscriptionId);
 

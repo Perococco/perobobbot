@@ -1,6 +1,7 @@
 package perobobbot.twitch.eventsub.manager;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.data.com.UserSubscriptionView;
@@ -30,9 +31,8 @@ public class TwitchEventSubManager implements PlatformEventSubManager {
     }
 
     @Override
-    public @NonNull Set<String> getSubscriptionTypes() {
-        return Arrays.stream(SubscriptionType.values()).map(SubscriptionType::getIdentification).collect(
-                Collectors.toSet());
+    public @NonNull ImmutableSet<String> getSubscriptionTypes() {
+        return SubscriptionType.getIdentifications();
     }
 
     @Override
