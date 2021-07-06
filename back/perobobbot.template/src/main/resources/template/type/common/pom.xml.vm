@@ -37,6 +37,26 @@
             <artifactId>jplugman-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-plugin</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-access</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-command</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-extension</artifactId>
+            <scope>provided</scope>
+        </dependency>
         #foreach($artifactId in ${plugin.serviceArtifactIds})
             <dependency>
                 <groupId>perobobbot</groupId>

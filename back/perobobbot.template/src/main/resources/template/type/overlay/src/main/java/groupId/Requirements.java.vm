@@ -1,0 +1,17 @@
+
+#* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
+package ${plugin.getPackageName()};
+
+import jplugman.api.Requirement;
+#foreach($service in ${plugin.getServices()})
+import ${service.import};
+#end
+
+
+public class Requirements {
+
+        #foreach($service in ${plugin.getServices()})
+                public static final Requirement<${service.simpleClassName}> ${service.variableName} = new Requirement<>(${service.simpleClassName}.class,${service.majorVersion});
+        #end
+
+}

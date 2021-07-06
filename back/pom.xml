@@ -23,6 +23,7 @@
         <module>perobobbot.backend.i18n</module>
         <module>primary</module>
         <module>secondary</module>
+        <module>perobobbot.template</module>
         <module>perobobbot.server</module>
 <!--        <module>perobobbot.server.test</module>-->
 

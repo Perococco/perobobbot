@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public interface TemplateGenerator {
-    @NonNull Path generate(@NonNull String groupId, @NonNull String artifactId) throws IOException;
+    @NonNull Path generate(@NonNull String type, @NonNull String groupId, @NonNull String artifactId) throws IOException;
 }

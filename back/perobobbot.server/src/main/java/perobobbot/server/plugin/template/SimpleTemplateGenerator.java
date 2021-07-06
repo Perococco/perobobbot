@@ -10,6 +10,8 @@ import org.apache.velocity.app.Velocity;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.Bom;
 import perobobbot.server.plugin.BotVersionedServices;
+import perobobbot.template.StructureEntry;
+import perobobbot.template.Templates;
 
 import java.io.*;
 import java.net.URL;
@@ -31,7 +33,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             Properties p = new Properties();
             p.setProperty("resource.loaders", "class");
             p.setProperty("resource.loader.class.class",
-                          "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+                    "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             Velocity.init(p);
         }
     }
@@ -41,18 +43,19 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
     private final @NonNull BotVersionedServices botVersionedServices;
 
     @Override
-    public @NonNull Path generate(@NonNull String groupId, @NonNull String artifactId) throws IOException {
-        return new Executor(groupId, artifactId).generate();
+    public @NonNull Path generate(@NonNull String type, @NonNull String groupId, @NonNull String artifactId) throws IOException {
+        return new Executor(type,groupId, artifactId).generate();
     }
 
     @RequiredArgsConstructor
     private class Executor {
 
+        private final @NonNull String type;
         private final @NonNull String groupId;
         private final @NonNull String artifactId;
 
         private Path outputPath;
-        private ImmutableList<StructureEntry> structure;
+        private Templates templates;
 
         private VelocityContext context;
 
@@ -62,7 +65,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             createOutputPath();
             readStructureFile();
 
-            structure.forEach(this::performCopy);
+            templates.forEach(type,this::performCopy);
 
             return outputPath;
         }
@@ -70,15 +73,14 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         private void performCopy(StructureEntry structureEntry) {
             try {
                 final var result = structureEntry.prepareTarget(this.groupId);
-                final var source = "/template/"+structureEntry.getResourcePath();
                 final var path = createPath(result);
 
-                System.out.format("%s %s %n",source,result);
 
+                System.out.format("%s %s %n", structureEntry.getResourcePath(), result);
                 if (structureEntry.isVelocityResource()) {
-                    putFile(path, source);
+                    putFile(path, structureEntry.getResourcePath());
                 } else {
-                    final var resource = SimpleTemplateGenerator.class.getResource(source);
+                    final var resource = structureEntry.getResource();
                     putFile(path, resource);
                 }
             } catch (IOException e) {
@@ -96,16 +98,8 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
         }
 
         private void readStructureFile() throws IOException {
-            final var builder = ImmutableList.<StructureEntry>builder();
-            try (BufferedReader is = new BufferedReader(new InputStreamReader(
-                    SimpleTemplateGenerator.class.getResourceAsStream("/template/structure.txt")))) {
-                String line;
-                while ((line = is.readLine()) != null) {
-                    builder.add(StructureEntry.parse(line));
-                }
-            }
-            this.structure = builder.build();
-
+            final var structureUrl = SimpleTemplateGenerator.class.getResource("/template/structure.txt");
+            this.templates = Templates.read();
         }
 
         private void createOutputPath() throws IOException {

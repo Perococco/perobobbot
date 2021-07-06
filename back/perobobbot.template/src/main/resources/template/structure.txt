@@ -1,0 +1,20 @@
+:common parent/pom.xml.vm
+:common src/main/assembly/tozip.xml
+:common lombok.config
+:common dot_gitignore     .gitignore
+:common pom.xml.vm
+
+
+:extension src/main/java/{groupId}/BotExtension.java.vm
+:extension src/main/java/{groupId}/BotPlugin.java.vm
+:extension src/main/java/{groupId}/JPlugin.java.vm
+:extension src/main/java/{groupId}/Requirements.java.vm
+:extension src/main/java/module-info.java.vm
+
+:overlay src/main/java/{groupId}/command/ExtensionCommand.java.vm
+:overlay src/main/java/{groupId}/BotExtension.java.vm
+:overlay src/main/java/{groupId}/BotExtensionPlugin.java.vm
+:overlay src/main/java/{groupId}/JPlugin.java.vm
+:overlay src/main/java/{groupId}/MyOverlayClient.java.vm
+:overlay src/main/java/{groupId}/Requirements.java.vm
+:overlay src/main/java/module-info.java.vm

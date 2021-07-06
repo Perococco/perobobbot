@@ -1,8 +1,0 @@
-parent/pom.xml.vm
-src/main/assembly/tozip.xml
-src/main/java/module-info.java.vm
-src/main/java/groupId/Requirements.java.vm
-src/main/java/groupId/MyPlugin.java.vm
-lombok.config
-dot_gitignore     .gitignore
-pom.xml.vm

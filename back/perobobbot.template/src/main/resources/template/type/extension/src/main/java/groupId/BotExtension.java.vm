@@ -1,0 +1,33 @@
+package ${plugin.packageName};
+#* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
+
+
+import lombok.NonNull;
+import lombok.Synchronized;
+import perobobbot.extension.OverlayExtension;
+
+public class BotExtension extends ExtensionBase {
+
+    private volatile boolean started = false;
+
+    public BotExtension() {
+        super("My Bot Extension");
+    }
+
+    @Synchronized
+    public void start() {
+        if (started) {
+            return;
+        }
+        started = true;
+    }
+
+    @Synchronized
+    public void stop() {
+        if (!started) {
+            return;
+        }
+        started = false;
+    }
+
+}

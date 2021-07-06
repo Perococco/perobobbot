@@ -23,8 +23,9 @@ public class PluginController {
 
     private final @NonNull TemplateGenerator templateGenerator;
 
-    @GetMapping(value = "/{groupId}:{artifactId}", produces = "application/zip")
+    @GetMapping(value = "/{type}:{groupId}:{artifactId}", produces = "application/zip")
     public void getPluginTemplate(
+            @PathVariable("type") String type,
             @PathVariable("groupId") String groupId,
             @PathVariable("artifactId") String artifactId,
             HttpServletResponse response) throws IOException {
@@ -32,7 +33,7 @@ public class PluginController {
         response.setStatus(HttpServletResponse.SC_OK);
         response.addHeader("Content-Disposition", "attachment; filename=\""+artifactId+".zip\"");
 
-        final Path path = templateGenerator.generate(groupId,artifactId);
+        final Path path = templateGenerator.generate(type,groupId,artifactId);
 
         final var zipOutputStream = new ZipOutputStream(response.getOutputStream());
         Zipper.zipper(path).accept(zipOutputStream);

@@ -1,0 +1,26 @@
+package ${plugin.packageName}.command;
+#* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import perobobbot.command.CommandAction;
+import perobobbot.command.CommandParsing;
+import perobobbot.lang.ExecutionContext;
+import perobobbot.myplugin.BotExtension;
+
+@RequiredArgsConstructor
+public class ExtensionCommand implements CommandAction {
+
+    private final @NonNull BotExtension extension;
+
+    @Override
+    public void execute(@NonNull CommandParsing parsing, @NonNull ExecutionContext context) {
+        final var cmd = parsing.getParameter("cmd");
+
+        if (cmd.equalsIgnoreCase("start")) {
+            extension.start();
+        } else if (cmd.equalsIgnoreCase("stop")) {
+            extension.stop();
+        }
+    }
+}

@@ -53,6 +53,7 @@ module perobobbot.server {
     requires org.flywaydb.core;
     requires java.xml.bind;
 
+    requires perobobbot.template;
 
 
     requires jplugman.api;
@@ -79,12 +80,6 @@ module perobobbot.server {
     opens perobobbot.server.plugin.webplugin to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
-
-    opens template;
-    opens template.parent;
-    opens template.src.main.assembly;
-    opens template.src.main.java;
-    opens template.src.main.java.groupId;
 
     requires net.bytebuddy;
     requires spring.beans;
