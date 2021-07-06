@@ -41,8 +41,12 @@ public class UserEntity extends UserEntityBase {
      * @param userToken the user token obtain by OAuth processs
      * @return the new entity representing the token for the provided viewer identity and owned by this
      */
-    public @NonNull UserTokenEntity addUserToken(@NonNull ViewerIdentityEntity viewerIdentityEntity, @NonNull EncryptedUserToken userToken) {
-        final var userTokenEntity = new UserTokenEntity(this, viewerIdentityEntity, userToken);
+    public @NonNull UserTokenEntity setUserToken(@NonNull ViewerIdentityEntity viewerIdentityEntity, @NonNull EncryptedUserToken userToken) {
+        final var existing = viewerIdentityEntity.getUserTokenEntity().orElse(null);
+        final var userTokenEntity = viewerIdentityEntity.setUserToken(this,userToken);
+        if (existing != null) {
+            this.removeUserToken(existing.getUuid());
+        }
         this.getUserTokens().add(userTokenEntity);
         return userTokenEntity;
     }

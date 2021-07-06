@@ -45,14 +45,14 @@ public class UserTokenViewGetter {
     private void retrieveWithScopeIfNecessary() {
         if (token == null) {
             token = scopeRequirements.getScope()
-                                     .flatMap(scope -> oAuthService.findUserToken(login, platform, scope))
+                                     .flatMap(scope -> oAuthService.findUserMainToken(login, platform, scope))
                                      .orElse(null);
         }
     }
 
     private void retrieveWithoutScopeIfNecessary() {
         if (token == null && scopeRequirements.hasOptionalOrNoScope()) {
-            token = oAuthService.findUserToken(login, platform).orElse(null);
+            token = oAuthService.findUserMainToken(login, platform).orElse(null);
         }
     }
 

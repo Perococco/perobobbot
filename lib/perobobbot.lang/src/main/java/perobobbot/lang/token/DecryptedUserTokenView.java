@@ -14,6 +14,7 @@ public class DecryptedUserTokenView  implements DecryptedTokenView {
 
     @NonNull UUID id;
     @NonNull String ownerLogin;
+    boolean main;
     @NonNull ViewerIdentity viewerIdentity;
     @NonNull DecryptedUserToken userToken;
 
@@ -23,6 +24,9 @@ public class DecryptedUserTokenView  implements DecryptedTokenView {
 
     public String getViewerPseudo() {
         return viewerIdentity.getPseudo();
+    }
+    public String getViewerLogin() {
+        return viewerIdentity.getLogin();
     }
 
     public Instant getExpirationInstant() {

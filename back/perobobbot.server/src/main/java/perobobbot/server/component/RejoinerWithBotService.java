@@ -48,8 +48,19 @@ public class RejoinerWithBotService implements Rejoiner {
         private void rejoin(@NonNull JoinedChannel joinedChannel) {
             final var channelName = joinedChannel.getChannelName();
             final var bot = joinedChannel.getBot();
+            final var connectionInfo = joinedChannel.createChatConnectionInfo().orElse(null);
 
-            chatPlatform.connect(bot)
+            if (connectionInfo == null) {
+                warnOnRejoinFailure("No credential to join",bot,channelName);
+                return;
+            }
+
+            if (!connectionInfo.getPlatform().equals(chatPlatform.getPlatform())) {
+                warnOnRejoinFailure("Connection information are not for this platform : this="+chatPlatform.getPlatform()+" that="+connectionInfo.getPlatform(),bot,channelName);
+                return;
+            }
+
+            chatPlatform.connect(connectionInfo)
                         .thenCompose(connection -> connection.join(channelName))
                         .whenComplete((r, error) -> {
                             if (error != null) {
@@ -60,13 +71,17 @@ public class RejoinerWithBotService implements Rejoiner {
         }
 
         private void warnOnRejoinFailure(@NonNull Throwable error, @NonNull Bot bot, @NonNull String channelName) {
+            warnOnRejoinFailure(error.getMessage(),bot,channelName);
+            LOG.debug(error);
+
+        }
+
+        private void warnOnRejoinFailure(@NonNull String message, @NonNull Bot bot, @NonNull String channelName) {
             LOG.warn("Fail to connect to channel {}/{} with bot {} : {}",
                      chatPlatform.getPlatform(),
                      channelName,
                      bot.getName(),
-                     error.getMessage());
-            LOG.debug(error);
-
+                     message);
         }
 
     }

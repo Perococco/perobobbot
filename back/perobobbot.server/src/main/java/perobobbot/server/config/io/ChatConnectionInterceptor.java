@@ -27,12 +27,15 @@ public class ChatConnectionInterceptor {
                     if (messageChannelIO != null) {
                         final var connectionInfo = getChatConnectionInfo();
                         LOG.info("{} join {}/{}",
-                                 connectionInfo.getBotName(),
-                                 connectionInfo.getPlatform(),
-                                 connectionInfo.getViewerPseudo(),
-                                 channelName);
+                                connectionInfo.getBotName(),
+                                connectionInfo.getPlatform(),
+                                connectionInfo.getNick(),
+                                channelName);
 
-                        final var joinEvent = new ChatChannelJoined(connectionInfo.getBotId(), connectionInfo.getViewerIdentity(), channelName);
+                        final var joinEvent = new ChatChannelJoined(connectionInfo.getBotId(),
+                                connectionInfo.getViewerIdentityId(),
+                                connectionInfo.getPlatform(),
+                                channelName);
                         messageGateway.sendEvent(joinEvent);
                     }
 

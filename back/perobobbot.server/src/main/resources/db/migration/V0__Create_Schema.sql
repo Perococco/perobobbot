@@ -159,9 +159,11 @@ create table PEROBOBBOT.VIEWER_IDENTITY (
                                             ID bigint not null,
                                             VERSION integer not null,
                                             EXTERNAL_ID binary not null,
+                                            LOGIN varchar(255) not null,
                                             PLATFORM varchar(255) not null,
                                             PSEUDO varchar(255) not null,
                                             VIEWER_ID varchar(255) not null,
+                                            USER_TOKEN_ID bigint,
                                             primary key (ID)
 );
 
@@ -273,3 +275,8 @@ alter table PEROBOBBOT.USER_TOKEN
     add constraint FKpa6u506hq61c2hcnogva0pnyj
         foreign key (VIEWER_IDENTITY_ID)
             references PEROBOBBOT.VIEWER_IDENTITY;
+
+alter table PEROBOBBOT.VIEWER_IDENTITY
+    add constraint FK75a0ch9etdu651dw3n8ul9jtf
+        foreign key (USER_TOKEN_ID)
+            references PEROBOBBOT.USER_TOKEN;

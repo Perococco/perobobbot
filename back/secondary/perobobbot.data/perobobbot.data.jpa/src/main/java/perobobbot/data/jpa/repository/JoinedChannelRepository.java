@@ -16,4 +16,6 @@ public interface JoinedChannelRepository extends JpaRepository<JoinedChannelEnti
 
     @NonNull List<JoinedChannelEntity> findAllByViewerIdentity_Platform(@NonNull Platform platform);
 
+    @NonNull Optional<JoinedChannelEntity> findByBotUuidAndViewerIdentityUuidAndChannelName(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
+
 }

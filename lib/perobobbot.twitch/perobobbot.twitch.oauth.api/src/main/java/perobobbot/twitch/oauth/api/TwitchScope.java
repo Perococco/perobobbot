@@ -42,8 +42,12 @@ public enum TwitchScope implements Scope {
     USER_READ_BROADCAST("user:read:broadcast"),
     USER_READ_FOLLOWS("user:read:follows"),
     USER_READ_SUBSCRIPTIONS("user:read:subscriptions"),
-    ;
-
+    CHANNEL_MODERATE("channel:moderate"),
+    CHAT_EDIT("chat:edit"),
+    CHAT_READ("chat:read"),
+    WHISPERS_READ("whispers:read"),
+    WHISPERS_EDIT("whispers:edit"),
+;
     @Getter
     private final @NonNull String name;
 

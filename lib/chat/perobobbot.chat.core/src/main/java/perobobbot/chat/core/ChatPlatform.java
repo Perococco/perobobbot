@@ -16,10 +16,10 @@ public interface ChatPlatform {
 
     /**
      * connect to a chat platform
-     * @param bot the bot to use to connect to the chat platform
+     * @param chatConnectionInfo the connection information to use to connect to the chat platform
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO} after successful connection
      */
-    @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull Bot bot);
+    @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatConnectionInfo chatConnectionInfo);
 
     /**
      * find the chat connection for the specific authentication
@@ -28,6 +28,11 @@ public interface ChatPlatform {
      */
     @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo);
 
+    /**
+     * Add a listener that will be called for all message received on the platform
+     * @param listener the listener to add
+     * @return a subscription that can be used to remove the listener
+     */
     @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
 
     default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {

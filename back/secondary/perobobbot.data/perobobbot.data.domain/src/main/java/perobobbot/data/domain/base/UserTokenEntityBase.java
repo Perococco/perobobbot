@@ -11,10 +11,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.EncryptedUserToken;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Arrays;
 
 @MappedSuperclass
@@ -27,9 +24,12 @@ public class UserTokenEntityBase extends TokenEntityBase {
     @JoinColumn(name = "USER_ID", nullable = false)
     private UserEntity owner;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "VIEWER_IDENTITY_ID", nullable = false)
     private ViewerIdentityEntity viewerIdentity;
+
+    @Column(name = "MAIN")
+    private boolean main;
 
     @Column(name = "REFRESH_TOKEN", nullable = false)
     private String refreshToken;

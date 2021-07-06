@@ -9,12 +9,15 @@ import perobobbot.lang.Platform;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface UserTokenRepository extends JpaRepository<UserTokenEntity,Long> {
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
+    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
+    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
 
     @NonNull Optional<UserTokenEntity> findByUuid(@NonNull UUID uuid);
 

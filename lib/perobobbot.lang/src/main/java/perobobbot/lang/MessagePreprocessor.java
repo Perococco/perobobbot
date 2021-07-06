@@ -15,5 +15,5 @@ public interface MessagePreprocessor {
      * @param messageContext the incoming message
      * @return the preprocessed message
      */
-    MessageContext processMessage(@NonNull MessageContext messageContext);
+    @NonNull MessageContext processMessage(@NonNull MessageContext messageContext);
 }

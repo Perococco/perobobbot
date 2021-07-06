@@ -88,6 +88,9 @@ public class MessageContext {
         return Optional.ofNullable(source);
     }
 
+    /**
+     * @return a builder with the source initialized with this
+     */
     public MessageContextBuilder forPreprocessor() {
         return toBuilder().source(this);
     }

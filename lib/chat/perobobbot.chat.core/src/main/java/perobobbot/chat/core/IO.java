@@ -21,14 +21,18 @@ public interface IO {
      * @param messageBuilder abuilder that can use the {@link DispatchContext} to create the message to send
      */
     @NonNull
-    CompletionStage<? extends DispatchSlip> send(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull String channelName, @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
+    CompletionStage<? extends DispatchSlip> send(@NonNull ChatConnectionInfo chatConnectionInfo,
+                                                 @NonNull String channelName,
+                                                 @NonNull Function1<? super DispatchContext, ? extends String> messageBuilder);
 
     /**
      * @param chatConnectionInfo the connection information to use to send the message, he must have enable a connection with the chat beforehand
      * @param channelName the name of the channel to send the message to
      * @param message print the message to the provided channel
      */
-    default void send(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull String channelName , @NonNull String message) {
+    default void send(@NonNull ChatConnectionInfo chatConnectionInfo,
+                      @NonNull String channelName ,
+                      @NonNull String message) {
         send(chatConnectionInfo, channelName, d -> message);
     }
 
@@ -41,7 +45,8 @@ public interface IO {
     }
 
     default @NonNull CompletionStage<? extends MessageChannelIO> getMessageChannelIO(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull ChannelInfo channelInfo) {
-        return getPlatform(channelInfo.getPlatform()).getChannelIO(chatConnectionInfo, channelInfo.getChannelName());
+        return getPlatform(channelInfo.getPlatform())
+                .getChannelIO(chatConnectionInfo, channelInfo.getChannelName());
     }
 
 }

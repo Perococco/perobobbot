@@ -13,6 +13,7 @@ public class EncryptedUserTokenView  implements TokenView<String> {
 
     @NonNull UUID id;
     @NonNull String ownerLogin;
+    boolean main;
     @NonNull ViewerIdentity viewerIdentity;
     @NonNull EncryptedUserToken userToken;
 
@@ -25,7 +26,7 @@ public class EncryptedUserTokenView  implements TokenView<String> {
     }
 
     public @NonNull DecryptedUserTokenView decrypt(@NonNull TextEncryptor textEncryptor) {
-        return new DecryptedUserTokenView(id,ownerLogin,viewerIdentity,userToken.decrypt(textEncryptor));
+        return new DecryptedUserTokenView(id,ownerLogin,main,viewerIdentity,userToken.decrypt(textEncryptor));
     }
 
     @Override

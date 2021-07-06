@@ -1,5 +1,6 @@
 package perobobbot.data.security.service;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -56,14 +58,42 @@ public class SecuredOAuthService implements OAuthService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
+    public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
         return delegate.findUserToken(login,platform);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
+    public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
         return delegate.findUserToken(login,platform,requiredScope);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    @NonNull
+    public Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform) {
+        return delegate.findUserMainToken(login, platform);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    @NonNull
+    public Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
+        return delegate.findUserMainToken(login, platform, requiredScope);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','READ')")
+    @NonNull
+    public DecryptedUserTokenView setUserTokenAsMain(@NonNull UUID tokenId) {
+        return delegate.setUserTokenAsMain(tokenId);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || hasPermission(#tokenId, 'UserTokenEntity','READ')")
+    @NonNull
+    public DecryptedUserTokenView setUserTokenAsNotMain(@NonNull UUID tokenId) {
+        return delegate.setUserTokenAsNotMain(tokenId);
     }
 
     @Override

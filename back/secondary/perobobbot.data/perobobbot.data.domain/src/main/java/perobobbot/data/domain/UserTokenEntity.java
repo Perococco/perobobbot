@@ -37,6 +37,7 @@ public class UserTokenEntity extends UserTokenEntityBase {
         return new EncryptedUserTokenView(
                 getUuid(),
                 getOwner().getLogin(),
+                this.isMain(),
                 getViewerIdentity().toView(),
                 toUserToken()
         );

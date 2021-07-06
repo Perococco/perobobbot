@@ -117,8 +117,8 @@ public class UserTokenSaving {
     private @NonNull ViewerIdentityEntity createViewerIdentity() {
         final var platform = decryptedClient.getPlatform();
         final var viewerId = userIdentity.getUserId();
-        final var pseudo = userIdentity.getLogin();
-        return viewerIdentityRepository.save(new ViewerIdentityEntity(platform, viewerId, pseudo));
+        final var login = userIdentity.getLogin();
+        return viewerIdentityRepository.save(new ViewerIdentityEntity(platform, viewerId, login));
     }
 
     private void buildDecryptedUserToken() {
@@ -137,7 +137,7 @@ public class UserTokenSaving {
 
 
     private void addEncryptedUserTokenToOwner() {
-        this.userToken = this.owner.addUserToken(viewerIdentity, encryptedUserToken);
+        this.userToken = this.owner.setUserToken(viewerIdentity, encryptedUserToken);
     }
 
     private void saveEncryptedUserTokenIntoRepository() {

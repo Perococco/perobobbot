@@ -1,5 +1,6 @@
 package perobobbot.data.service;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
@@ -10,6 +11,7 @@ import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public interface OAuthService {
 
@@ -28,11 +30,16 @@ public interface OAuthService {
     @NonNull DecryptedClientTokenView authenticateClient(@NonNull Platform platform);
 
 
+
+
     @NonNull ImmutableSet<DecryptedUserTokenView> getAllUserTokens(@NonNull String login);
 
-    @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform);
+    @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform);
+    @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
 
-    @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
+    @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform);
+    @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
+
 
     @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform);
 
@@ -41,6 +48,10 @@ public interface OAuthService {
     @NonNull DecryptedUserTokenView getUserToken(@NonNull UUID tokenId);
 
     @NonNull DecryptedUserTokenView refreshUserToken(@NonNull UUID tokenId);
+
+    @NonNull DecryptedUserTokenView setUserTokenAsMain(@NonNull UUID tokenId);
+
+    @NonNull DecryptedUserTokenView setUserTokenAsNotMain(@NonNull UUID tokenId);
 
     void deleteUserToken(@NonNull UUID tokenId);
 

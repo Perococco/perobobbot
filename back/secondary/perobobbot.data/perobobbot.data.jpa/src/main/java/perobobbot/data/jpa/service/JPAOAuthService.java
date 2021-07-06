@@ -1,5 +1,6 @@
 package perobobbot.data.jpa.service;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import perobobbot.oauth.*;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 /**
  * @author perococco
@@ -63,7 +65,7 @@ public class JPAOAuthService implements OAuthService {
         this.clientTokenRepository = clientTokenRepository;
         this.instants = instants;
         this.userTokenSaver = UserTokenSaving.saver(clientRepository, userRepository, viewerIdentityRepository,
-                                                    userTokenRepository, oAuthManager, textEncryptor);
+                userTokenRepository, oAuthManager, textEncryptor);
     }
 
     @Override
@@ -106,18 +108,55 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
+    public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
         return userTokenRepository.findByOwner_LoginAndViewerIdentity_Platform(login, platform)
                                   .map(UserTokenEntity::toView)
-                                  .map(t -> t.decrypt(textEncryptor));
+                                  .map(t -> t.decrypt(textEncryptor))
+                                  .collect(ImmutableList.toImmutableList());
     }
 
     @Override
-    public @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
+    public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
         return userTokenRepository.findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(login, platform,
-                                                                                                requiredScope.getName())
+                requiredScope.getName())
                                   .map(UserTokenEntity::toView)
-                                  .map(t -> t.decrypt(textEncryptor));
+                                  .map(t -> t.decrypt(textEncryptor))
+                                  .collect(ImmutableList.toImmutableList());
+
+    }
+
+    @Override
+    public @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform) {
+        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndViewerIdentity_Platform(login, platform)
+                                  .map(e -> e.toDecryptedView(textEncryptor));
+    }
+
+    @Override
+    public @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
+        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndViewerIdentity_PlatformAndScopesContains(login, platform, requiredScope.getName())
+                                  .map(e -> e.toDecryptedView(textEncryptor));
+    }
+
+    @Override
+    public @NonNull DecryptedUserTokenView setUserTokenAsMain(@NonNull UUID tokenId) {
+        final var token = userTokenRepository.getByUuid(tokenId);
+
+        {
+            final var allTokensOfUser = userTokenRepository.findAllByOwner_Login(token.getOwner().getLogin());
+            allTokensOfUser.forEach(t -> {
+                t.setMain(t.getUuid().equals(tokenId));
+            });
+            userTokenRepository.saveAll(allTokensOfUser);
+        }
+
+        return userTokenRepository.save(token).toDecryptedView(textEncryptor);
+    }
+
+    @Override
+    public @NonNull DecryptedUserTokenView setUserTokenAsNotMain(@NonNull UUID tokenId) {
+        final var token = userTokenRepository.getByUuid(tokenId);
+        token.setMain(false);
+        return userTokenRepository.save(token).toDecryptedView(textEncryptor);
     }
 
     @Override

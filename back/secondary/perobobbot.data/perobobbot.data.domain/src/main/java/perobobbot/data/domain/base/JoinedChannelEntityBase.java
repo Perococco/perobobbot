@@ -20,15 +20,19 @@ import java.util.UUID;
 @Setter
 public class JoinedChannelEntityBase extends PersistentObjectWithUUID {
 
+    public static final String BOT_ID_COLUMN_NAME = "BOT_ID";
+    public static final String VIEWER_IDENTITY_ID_COLUMN_NAME = "VIEWER_IDENTITY_ID";
+    public static final String CHANNEL_NAME_COLUMN_NAME = "CHANNEL_NAME";
+
     @ManyToOne
-    @JoinColumn(name = "BOT_ID",nullable = false)
+    @JoinColumn(name = BOT_ID_COLUMN_NAME,nullable = false)
     private BotEntity bot;
 
     @ManyToOne
-    @JoinColumn(name = "VIEWER_IDENTITY_ID", nullable = false)
+    @JoinColumn(name = VIEWER_IDENTITY_ID_COLUMN_NAME, nullable = false)
     private ViewerIdentityEntity viewerIdentity;
 
-    @Column(name = "CHANNEL_NAME",nullable = false)
+    @Column(name = CHANNEL_NAME_COLUMN_NAME,nullable = false)
     private String channelName;
 
     public JoinedChannelEntityBase(

@@ -38,4 +38,6 @@ public abstract class TokenEntityBase extends PersistentObjectWithUUID {
 
     public abstract @NonNull Platform getPlatform();
 
+
+
 }

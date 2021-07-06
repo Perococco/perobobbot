@@ -14,6 +14,7 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Platform;
+import perobobbot.lang.TextEncryptor;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -30,6 +31,7 @@ public class JPABotService implements BotService {
     private final @NonNull UserRepository userRepository;
     private final @NonNull JoinedChannelRepository joinedChannelRepository;
     private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
+    private final @NonNull TextEncryptor textEncryptor;
 
     @Override
     public @NonNull ImmutableList<Bot> listAllBots() {
@@ -67,21 +69,30 @@ public class JPABotService implements BotService {
     }
 
     @Override
+    @Transactional
     public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
-        final var bot = botRepository.getByUuid(botId);
-        final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
+        var existing = joinedChannelRepository.findByBotUuidAndViewerIdentityUuidAndChannelName(botId,viewerIdentityId,channelName)
+                .orElse(null);
 
-        final var joinedChannel = bot.joinChannel(viewerIdentity,channelName);
+        if (existing == null) {
+            final var bot = botRepository.getByUuid(botId);
+            final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
+            final var joinedChannel = bot.joinChannel(viewerIdentity, channelName);
+            existing = joinedChannelRepository.save(joinedChannel);
+        }
 
-        return joinedChannelRepository.save(joinedChannel).toView();
+        return existing.toView(textEncryptor);
+
     }
 
     @Override
     public @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
-        return joinedChannelRepository.findByUuid(joinedChannelId).map(JoinedChannelEntity::toView);
+        return joinedChannelRepository.findByUuid(joinedChannelId)
+                                      .map(e -> e.toView(textEncryptor));
     }
 
     @Override
+    @Transactional
     public void removeJoinedChannel(@NonNull UUID joinedChannelId) {
         final var joinedChannel = joinedChannelRepository.findByUuid(joinedChannelId);
         joinedChannel.ifPresent(jc -> {
@@ -95,7 +106,7 @@ public class JPABotService implements BotService {
 
         return joinedChannelRepository.findAllByViewerIdentity_Platform(platform)
                                       .stream()
-                                      .map(JoinedChannelEntity::toView)
+                                      .map(e -> e.toView(textEncryptor))
                                       .collect(ImmutableList.toImmutableList());
     }
 
