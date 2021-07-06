@@ -48,8 +48,7 @@ public class EventSubModule extends SimpleModule {
     }
 
     private <T extends IdentifiedEnum> void addIdentifiedEnumToModule(Class<T> type) {
-        this.addSerializer(type, IdentifiedEnumTools.createSerializer());
-        this.addDeserializer(type, IdentifiedEnumTools.createDeserializer(type));
+        IdentifiedEnumTools.addToModule(this,type);
     }
 
 }

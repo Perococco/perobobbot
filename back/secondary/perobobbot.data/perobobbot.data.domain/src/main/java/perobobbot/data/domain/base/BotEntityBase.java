@@ -20,11 +20,14 @@ import java.util.UUID;
 @Setter @Getter
 public class BotEntityBase extends PersistentObjectWithUUID {
 
+    public static final String USER_ID_COLUMN_NAME = "USER_ID";
+    public static final String NAME_COLUMN_NAME = "NAME";
+
     @ManyToOne
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = USER_ID_COLUMN_NAME, nullable = false)
     private UserEntity owner;
 
-    @Column(name = "NAME",nullable = false,unique = true)
+    @Column(name = NAME_COLUMN_NAME,nullable = false)
     @NotBlank
     @Setter
     private String name;

@@ -1,5 +1,7 @@
 import perobobbot.lang.AsyncIdentityFactory;
 import perobobbot.lang.FactoryProvider;
+import perobobbot.lang.JsonModuleProvider;
+import perobobbot.lang.LangModule;
 import perococco.perobobbot.common.lang.PerococcoAsyncIdentity;
 
 /**
@@ -23,7 +25,7 @@ module perobobbot.lang {
 
 
     provides AsyncIdentityFactory with PerococcoAsyncIdentity;
-
+    provides JsonModuleProvider with LangModule;
 
     opens perobobbot.lang to com.fasterxml.jackson.databind;
     opens perobobbot.lang.token to com.fasterxml.jackson.databind;

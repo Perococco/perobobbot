@@ -34,7 +34,7 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
         super(UUID.randomUUID());
         this.subscriptionId = subscriptionId;
         this.type = type;
-        this.condition = condition.toString();
+        this.condition = condition;
     }
 
     public @NonNull SubscriptionView toView() {

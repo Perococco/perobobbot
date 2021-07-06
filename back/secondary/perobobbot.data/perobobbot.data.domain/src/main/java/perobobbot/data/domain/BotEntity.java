@@ -8,10 +8,13 @@ import perobobbot.lang.Bot;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Optional;
 
 @Entity
-@Table(name = "BOT")
+@Table(name = "BOT",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {BotEntityBase.USER_ID_COLUMN_NAME, BotEntityBase.NAME_COLUMN_NAME})
+})
 @NoArgsConstructor
 public class BotEntity extends BotEntityBase {
 

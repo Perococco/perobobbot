@@ -11,6 +11,7 @@ import com.blueveery.springrest2ts.filters.NotJavaTypeFilter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.web.bind.annotation.RestController;
 import perobobbot.lang.NoTypeScript;
+import perobobbot.lang.Scope;
 import perobobbot.lang.TypeScript;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class TSGenerator {
         generator.getCustomTypeMapping().put(UUID.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(Instant.class, TypeMapper.tsString);
         generator.getCustomTypeMapping().put(Locale.class, TypeMapper.tsString);
+        generator.getCustomTypeMapping().put(Scope.class, TypeMapper.tsString);
 
         JacksonObjectMapper jacksonObjectMapper = new MyMapper();
         jacksonObjectMapper.setFieldsVisibility(JsonAutoDetect.Visibility.ANY);

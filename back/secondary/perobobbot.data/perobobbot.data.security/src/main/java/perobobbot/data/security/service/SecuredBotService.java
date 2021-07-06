@@ -26,9 +26,9 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
-        return super.getBots(login);
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull ImmutableList<Bot> listAllBots() {
+        return super.listAllBots();
     }
 
     @Override

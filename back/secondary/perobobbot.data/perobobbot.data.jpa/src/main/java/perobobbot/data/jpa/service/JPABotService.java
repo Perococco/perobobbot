@@ -32,9 +32,11 @@ public class JPABotService implements BotService {
     private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
 
     @Override
-    public @NonNull ImmutableList<Bot> getBots(@NonNull String login) {
-        final var user = userRepository.getByLogin(login);
-        return user.getBots().stream().map(BotEntity::toView).collect(ImmutableList.toImmutableList());
+    public @NonNull ImmutableList<Bot> listAllBots() {
+        return botRepository.findAll()
+                            .stream()
+                            .map(BotEntity::toView)
+                            .collect(ImmutableList.toImmutableList());
     }
 
     @Override

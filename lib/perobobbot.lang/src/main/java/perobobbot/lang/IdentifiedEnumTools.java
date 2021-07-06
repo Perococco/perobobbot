@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.NonNull;
 import perobobbot.lang.fp.Function1;
 
@@ -14,6 +15,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class IdentifiedEnumTools {
+
+    public static <T extends IdentifiedEnum> void addToModule(@NonNull SimpleModule module, Class<T> type) {
+        module.addSerializer(type, IdentifiedEnumTools.createSerializer());
+        module.addDeserializer(type, IdentifiedEnumTools.createDeserializer(type));
+    }
+
 
     public static <E extends IdentifiedEnum> Function1<String,E> mapper(@NonNull Class<E> type) {
         final var values = type.getEnumConstants();

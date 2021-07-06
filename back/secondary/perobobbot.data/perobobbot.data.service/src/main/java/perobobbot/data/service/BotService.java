@@ -13,11 +13,13 @@ public interface BotService {
 
     int VERSION = 1;
 
+    @NonNull ImmutableList<Bot> listAllBots();
+
     /**
-     * @param login the login of a user
-     * @return the list of bots of the user
+     * @param login the login of the user
+     * @return all the bots for the user with the given login
      */
-    @NonNull ImmutableList<Bot> getBots(@NonNull String login);
+    @NonNull ImmutableList<Bot> listBots(@NonNull String login);
 
     /**
      * @param botId the id of the bot to delete
@@ -48,12 +50,6 @@ public interface BotService {
     default @NonNull Optional<String> findLoginOfBotOwner(@NonNull UUID botId) {
         return findBot(botId).map(Bot::getOwnerLogin);
     }
-
-    /**
-     * @param login the login of the user
-     * @return all the bots for the user with the given login
-     */
-    @NonNull ImmutableList<Bot> listBots(@NonNull String login);
 
     void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
 
