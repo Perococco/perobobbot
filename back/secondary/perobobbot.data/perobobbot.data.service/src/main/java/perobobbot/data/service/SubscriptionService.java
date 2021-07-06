@@ -3,6 +3,7 @@ package perobobbot.data.service;
 import lombok.NonNull;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
+import perobobbot.lang.Platform;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public interface SubscriptionService {
 
     @NonNull UserSubscriptionView addUserToSubscription(@NonNull UUID subscriptionId, @NonNull String login);
 
-    @NonNull SubscriptionView createSubscription(@NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId);
+    @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId);
 
     /**
      * @param id the id of the subscription to clean

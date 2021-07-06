@@ -9,6 +9,7 @@ import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.SubscriptionService;
+import perobobbot.lang.Platform;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -44,8 +45,8 @@ public class SecuredSubscriptionService implements SubscriptionService {
     @Override
     @NonNull
     @PreAuthorize("hasRole('ADMIN')")
-    public SubscriptionView createSubscription(@NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId) {
-        return subscriptionService.createSubscription(subscriptionTwitchId, subscriptionType, conditionId);
+    public SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId) {
+        return subscriptionService.createSubscription(platform, subscriptionTwitchId, subscriptionType, conditionId);
     }
 
     @Override

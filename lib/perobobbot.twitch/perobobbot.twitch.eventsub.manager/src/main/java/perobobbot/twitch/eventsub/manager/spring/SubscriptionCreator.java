@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.SubscriptionService;
+import perobobbot.lang.Platform;
 import perobobbot.lang.chain.Chain;
 import perobobbot.lang.chain.Link;
 import perobobbot.twitch.eventsub.api.ConditionId;
@@ -49,9 +50,12 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
     }
 
     private @NonNull SubscriptionView createSubscription(@NonNull TwitchSubscription twitchSubscription) {
-        return subscriptionService.createSubscription(twitchSubscription.getId(),
-                                                      twitchSubscription.getType().getIdentification(),
-                                                      new ConditionId(twitchSubscription.getCondition()).toString());
+        return subscriptionService.createSubscription(
+                Platform.TWITCH,
+                twitchSubscription.getId(),
+                twitchSubscription.getType().getIdentification(),
+                new ConditionId(twitchSubscription.getCondition()).toString()
+                );
     }
 
     private @NonNull Mono<UserSubscriptionView> addLoginToSubscription(@NonNull UUID subscriptionId, @NonNull String login) {

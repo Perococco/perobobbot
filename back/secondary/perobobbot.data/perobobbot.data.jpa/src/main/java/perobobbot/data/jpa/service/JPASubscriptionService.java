@@ -15,6 +15,7 @@ import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserSubscriptionRepository;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.lang.Platform;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -60,10 +61,10 @@ public class JPASubscriptionService implements SubscriptionService {
 
     @Override
     @Transactional
-    public @NonNull SubscriptionView createSubscription(@NonNull String subscriptionTwitchId,
+    public @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId,
                                                         @NonNull String subscriptionType,
                                                         @NonNull String conditionId) {
-        return subscriptionRepository.save(new SubscriptionEntity(subscriptionTwitchId, subscriptionType, conditionId))
+        return subscriptionRepository.save(new SubscriptionEntity(platform, subscriptionTwitchId, subscriptionType, conditionId))
                                      .toView();
     }
 
