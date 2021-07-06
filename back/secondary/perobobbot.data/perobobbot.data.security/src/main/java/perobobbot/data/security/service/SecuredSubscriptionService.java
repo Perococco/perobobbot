@@ -1,5 +1,6 @@
 package perobobbot.data.security.service;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,5 +66,11 @@ public class SecuredSubscriptionService implements SubscriptionService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUserSubscription(@NonNull UUID id, @NonNull String login) {
         subscriptionService.deleteUserSubscription(id, login);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull ImmutableList<SubscriptionView> listAllByPlatform(@NonNull Platform platform) {
+        return subscriptionService.listAllByPlatform(platform);
     }
 }

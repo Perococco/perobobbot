@@ -1,10 +1,12 @@
 package perobobbot.server.eventsub;
 
 import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.eventsub.PlatformEventSubManager;
@@ -51,5 +53,14 @@ public class MapBaseEventSubManager implements EventSubManager {
             throw new PerobobbotException("No PlatformEventSubManager for platform '"+platform+"'");
         }
         return manager;
+    }
+
+    public boolean isPlatformAvailable(@NonNull Platform platform) {
+        return managerPerPlatform.containsKey(platform);
+    }
+
+    @Override
+    public @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllSubscriptions(@NonNull Platform platform) {
+        return getManager(platform).listAllSubscriptions();
     }
 }

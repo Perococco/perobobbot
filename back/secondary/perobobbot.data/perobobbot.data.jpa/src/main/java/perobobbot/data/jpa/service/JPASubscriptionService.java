@@ -1,5 +1,6 @@
 package perobobbot.data.jpa.service;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,13 @@ public class JPASubscriptionService implements SubscriptionService {
     public @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
         return subscriptionRepository.findByTypeAndCondition(subscriptionType, conditionId)
                                      .map(SubscriptionEntityBase::toView);
+    }
+
+    @Override
+    public @NonNull ImmutableList<SubscriptionView> listAllByPlatform(@NonNull Platform platform) {
+        return subscriptionRepository.findByPlatform(platform)
+                                     .map(SubscriptionEntityBase::toView)
+                                     .collect(ImmutableList.toImmutableList());
     }
 
     @Override

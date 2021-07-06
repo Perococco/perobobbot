@@ -5,8 +5,9 @@
 :common pom.xml.vm
 
 
+:extension src/main/java/{groupId}/command/ExtensionCommand.java.vm
 :extension src/main/java/{groupId}/BotExtension.java.vm
-:extension src/main/java/{groupId}/BotPlugin.java.vm
+:extension src/main/java/{groupId}/BotExtensionPlugin.java.vm
 :extension src/main/java/{groupId}/JPlugin.java.vm
 :extension src/main/java/{groupId}/Requirements.java.vm
 :extension src/main/java/module-info.java.vm

@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public record SubscriptionView(@NonNull UUID id,
                                @NonNull Platform platform,
-                               @NonNull String subcriptionType,
+                               @NonNull String subscriptionType,
                                @NonNull String conditionId,
-                               @NonNull String subscriptionId) {
+                               @NonNull String subscriptionId) implements SubscriptionIdentity{
 
 
 }
