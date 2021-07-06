@@ -29,10 +29,16 @@ public class SecuredSubscriptionService implements SubscriptionService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') or authentication.name == #login")
+    public @NonNull Stream<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
+        return subscriptionService.listAllSubscriptionsByPlatform(login,platform);
+    }
+
+    @Override
     @NonNull
     @PreAuthorize("hasRole('ADMIN')")
-    public Optional<SubscriptionView> findSubscription(@NonNull String subscriptionType, @NonNull String conditionId) {
-        return subscriptionService.findSubscription(subscriptionType, conditionId);
+    public Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
+        return subscriptionService.findSubscription(platform, subscriptionType, conditionId);
     }
 
     @Override

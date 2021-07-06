@@ -39,7 +39,12 @@ public class JPASubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull String subscriptionType, @NonNull String conditionId) {
+    public @NonNull Stream<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
+        return userSubscriptionRepository.findByOwner_LoginAndSubscription_Platform(login,platform).map(UserSubscriptionEntityBase::toView);
+    }
+
+    @Override
+    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
         return subscriptionRepository.findByTypeAndCondition(subscriptionType, conditionId)
                                      .map(SubscriptionEntityBase::toView);
     }

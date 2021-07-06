@@ -37,7 +37,7 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
         final var subscriptionType = subscription.getType().getIdentification();
         final var conditionId = subscription.getConditionId();
 
-        final Optional<SubscriptionView> existing = subscriptionService.findSubscription(subscriptionType, conditionId);
+        final Optional<SubscriptionView> existing = subscriptionService.findSubscription(Platform.TWITCH, subscriptionType, conditionId);
         return existing.map(SubscriptionView::id)
                        .map(Mono::just)
                        .orElseGet(() -> createSubscription(subscription).map(SubscriptionView::id));

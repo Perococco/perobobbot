@@ -13,7 +13,9 @@ public interface SubscriptionService {
 
     @NonNull Stream<UserSubscriptionView> listAllSubscriptions(@NonNull String login);
 
-    @NonNull Optional<SubscriptionView> findSubscription(@NonNull String subscriptionType, @NonNull String conditionId);
+    @NonNull Stream<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform);
+
+    @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId);
 
     @NonNull UserSubscriptionView addUserToSubscription(@NonNull UUID subscriptionId, @NonNull String login);
 
