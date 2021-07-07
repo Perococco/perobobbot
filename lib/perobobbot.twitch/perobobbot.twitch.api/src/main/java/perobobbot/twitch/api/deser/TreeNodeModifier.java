@@ -1,4 +1,4 @@
-package perobobbot.twitch.eventsub.api.deser;
+package perobobbot.twitch.api.deser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -71,21 +71,15 @@ public class TreeNodeModifier {
     }
 
     private @NonNull Optional<String> extractUserField(@NonNull String fieldName, @NonNull String suffix) {
-        final var fullSuffix = "user_" + suffix;
-        if (fieldName.equals(fullSuffix)) {
-            return Optional.of("user");
-        }
-        if (fieldName.endsWith("_" + fullSuffix)) {
-            return Optional.of(fieldName.substring(0, fieldName.length() - fullSuffix.length() - 1));
+        final var fullSuffix = "_" + suffix;
+        if (fieldName.endsWith(fullSuffix)) {
+            return Optional.of(fieldName.substring(0, fieldName.length() - fullSuffix.length()));
         }
         return Optional.empty();
     }
 
     private String computeFieldName(@NonNull String prefix, @NonNull String suffix) {
-        if (prefix.equals("user")) {
-            return prefix + "_" + suffix;
-        }
-        return prefix + "_user_" + suffix;
+        return prefix + "_" + suffix;
     }
 
     private void createSetOfFieldNamesUsedInUserInfo() {
@@ -101,19 +95,28 @@ public class TreeNodeModifier {
     }
 
     private void addUserInfoField(@NonNull String prefix) {
-        final Map<String,JsonNode> nodes = new HashMap<>();
+        final Map<String, JsonNode> nodes = new HashMap<>();
         boolean allNull = true;
         for (String suffix : SUFFIXES) {
-            final var node = source.get(computeFieldName(prefix,suffix));
-            nodes.put(suffix,node);
+            final var node = source.get(computeFieldName(prefix, suffix));
+            nodes.put(suffix, node);
             allNull &= node.isNull();
         }
+        final var preparedPrefix = preparePrefix(prefix);
         if (allNull) {
-            source.putNull(prefix);
+            source.putNull(preparedPrefix);
         } else {
-            final var userInfo = source.putObject(prefix);
+            final var userInfo = source.putObject(preparedPrefix);
             nodes.forEach(userInfo::replace);
         }
+    }
+
+    private String preparePrefix(String prefix) {
+        final var suffix = "_user";
+        if (prefix.endsWith(suffix)) {
+            return prefix.substring(0,prefix.length() - suffix.length());
+        }
+        return prefix;
     }
 
     private void removeFieldsInUserInfo() {
@@ -141,10 +144,9 @@ public class TreeNodeModifier {
                 continue;
             }
             if (node.isArray()) {
-                final var arrayNode = (ArrayNode)node;
+                final var arrayNode = (ArrayNode) node;
                 arrayNode.elements().forEachRemaining(TreeNodeModifier::modify);
-            }
-            else if (node.isObject()) {
+            } else if (node.isObject()) {
                 TreeNodeModifier.modify(node);
             }
         }

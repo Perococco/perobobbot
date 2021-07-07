@@ -9,6 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.chat.core.IO;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.*;
@@ -20,10 +21,11 @@ import perobobbot.server.config.io.ChatPlatformPluginManager;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class Starter  {
+public class Starter {
 
     private final @NonNull
     @UnsecuredService
@@ -44,7 +46,30 @@ public class Starter  {
     public void run() throws Exception {
 //        createClient();
 //        joinChannel();
+        WebClient webClient = WebClient.create();
+        final var client = clientService.getClient(Platform.TWITCH);
+        final var token = oAuthService.findUserMainToken("perococco", Platform.TWITCH).get();
+
+
+        final var information = List.of(
+                "broadcaster_id '" + token.getViewerIdentity().getViewerId() + "'",
+                "client_id      '" + client.getClientId() + "'",
+                "accesstoken    '" + token.getAccessToken() + "'");
+
+        Files.write(Path.of("/home/perococco/token_info.txt"), information);
+
+        /**
+         * curl -X POST 'https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=274637212' \
+         * -H 'client-id: gx2pv4208cff0ig9ou7nk3riccffxt' \
+         * -H 'Authorization: Bearer vjxv3i0l4zxru966wsnwji51tmpkj2' \
+         * -H 'Content-Type: application/json' \
+         * -d '{
+         *   "title":"game analysis 1v1",
+         *   "cost":50000
+         * }'
+         */
     }
+
 
     private void joinChannel() {
         final var userLogin = "perococco";
@@ -69,8 +94,8 @@ public class Starter  {
         io.getPlatform(Platform.TWITCH)
           .connect(connectionInfo)
           .thenCompose(c -> c.join("perococco"))
-          .whenComplete((r,e) -> {
-              if (e!=null) {
+          .whenComplete((r, e) -> {
+              if (e != null) {
                   System.err.println("Fail to join channel of perococco");
                   e.printStackTrace();
               } else {

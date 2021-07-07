@@ -1,6 +1,7 @@
 package perobobbot.twitch.eventsub.api.event;
 
 import lombok.NonNull;
+import perobobbot.twitch.api.UserInfo;
 
 public interface HypeTrainEvent extends EventSubEvent {
 

@@ -1,4 +1,4 @@
-package perobobbot.twitch.eventsub.api.event;
+package perobobbot.twitch.api;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.NonNull;

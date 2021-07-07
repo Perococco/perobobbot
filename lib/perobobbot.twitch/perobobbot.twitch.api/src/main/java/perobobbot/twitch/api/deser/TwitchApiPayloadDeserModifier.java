@@ -1,17 +1,23 @@
-package perobobbot.twitch.eventsub.api.deser;
+package perobobbot.twitch.api.deser;
 
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
-import perobobbot.twitch.eventsub.api.event.EventSubEvent;
+import lombok.RequiredArgsConstructor;
 
-public class NotificationDeserModifier extends BeanDeserializerModifier {
+import java.util.function.Predicate;
+
+@RequiredArgsConstructor
+public class TwitchApiPayloadDeserModifier extends BeanDeserializerModifier {
+
+    private final Predicate<? super Class<?>> shouldModifyPayload;
 
     @Override
     public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
-        if (EventSubEvent.class.isAssignableFrom(beanDesc.getBeanClass())) {
-            return new EventSubDeserializer(deserializer);
+        final var beanClass = beanDesc.getBeanClass();
+        if (shouldModifyPayload.test(beanClass)) {
+            return new DeserializerWithTreeModifier(deserializer);
         } else {
             return deserializer;
         }

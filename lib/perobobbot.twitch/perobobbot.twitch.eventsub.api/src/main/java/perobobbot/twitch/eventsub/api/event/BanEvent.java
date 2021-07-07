@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.api.UserInfo;
 
 import java.util.Optional;
 

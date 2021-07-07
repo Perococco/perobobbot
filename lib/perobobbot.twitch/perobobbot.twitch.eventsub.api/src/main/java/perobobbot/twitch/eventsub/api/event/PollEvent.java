@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
+import perobobbot.twitch.api.UserInfo;
 
 import java.time.Instant;
 

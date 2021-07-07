@@ -1,26 +1,29 @@
 package perobobbot.twitch.client.api.channelpoints;
 
 import lombok.NonNull;
-import perobobbot.oauth.UserOAuth;
+import perobobbot.http.Page;
 import perobobbot.oauth.UserApiToken;
+import perobobbot.oauth.UserOAuth;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface TwitchServiceChannelPoints {
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    void createCustomRewards(@NonNull UserApiToken userApiToken);
+    @NonNull Mono<CustomReward> createCustomRewards(@NonNull CreateCustomRewardParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    void deleteCustomRewards(@NonNull UserApiToken userApiToken);
+    @NonNull Mono<?> deleteCustomRewards(@NonNull String customRewardId);
 
     @UserOAuth(scope = "channel:read:redemptions")
-    void getCustomReward(@NonNull UserApiToken userApiToken);
+    @NonNull Flux<CustomReward> getCustomReward(@NonNull GetCustomRewardsParameter parameter);
 
     @UserOAuth(scope = "channel:read:redemptions")
-    void getCustomRewardRedemption(@NonNull UserApiToken userApiToken);
+    @NonNull Mono<Page<CustomRewardRedemption[],GetCustomRewardRedemptionParameter>> getCustomRewardRedemption(@NonNull GetCustomRewardRedemptionParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    void updateCustomReward(@NonNull UserApiToken userApiToken);
+    @NonNull Mono<CustomReward> updateCustomReward(@NonNull UpdateCustomRewardParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    void updateRedemptionStatus(@NonNull UserApiToken userApiToken);
+    @NonNull Mono<CustomRewardRedemption[]> updateRedemptionStatus(@NonNull String rewardId, @NonNull String[] redemptionsId, @NonNull UpdateRedemptionStatus parameter);
 }

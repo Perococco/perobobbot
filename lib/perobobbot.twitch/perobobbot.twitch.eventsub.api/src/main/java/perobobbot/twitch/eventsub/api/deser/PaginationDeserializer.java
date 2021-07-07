@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import perobobbot.twitch.eventsub.api.Pagination;
+import perobobbot.twitch.api.Pagination;
 
 import java.io.IOException;
 

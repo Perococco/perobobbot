@@ -8,11 +8,11 @@ import lombok.NonNull;
 import perobobbot.lang.IdentifiedEnum;
 import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.JsonModuleProvider;
+import perobobbot.twitch.api.Pagination;
+import perobobbot.twitch.api.RewardRedemptionStatus;
+import perobobbot.twitch.api.deser.TwitchApiPayloadDeserModifier;
 import perobobbot.twitch.eventsub.api.*;
-import perobobbot.twitch.eventsub.api.event.ContributionType;
-import perobobbot.twitch.eventsub.api.event.OutcomeColor;
-import perobobbot.twitch.eventsub.api.event.PredicationStatus;
-import perobobbot.twitch.eventsub.api.event.StreamType;
+import perobobbot.twitch.eventsub.api.event.*;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,7 +44,7 @@ public class EventSubModule extends SimpleModule {
         this.addDeserializer(Pagination.class, new PaginationDeserializer());
         this.addDeserializer(EventSubNotification.class, new NotificationDeserializer());
 
-        this.setDeserializerModifier(new NotificationDeserModifier());
+        this.setDeserializerModifier(new TwitchApiPayloadDeserModifier(EventSubEvent.class::isAssignableFrom));
     }
 
     private <T extends IdentifiedEnum> void addIdentifiedEnumToModule(Class<T> type) {

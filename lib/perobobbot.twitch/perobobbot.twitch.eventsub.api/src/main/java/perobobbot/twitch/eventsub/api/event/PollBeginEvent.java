@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.Value;
+import perobobbot.twitch.api.UserInfo;
 
 import java.time.Instant;
 

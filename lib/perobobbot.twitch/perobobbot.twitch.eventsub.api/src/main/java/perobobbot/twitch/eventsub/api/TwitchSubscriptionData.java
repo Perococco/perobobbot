@@ -3,6 +3,7 @@ package perobobbot.twitch.eventsub.api;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.api.Pagination;
 
 import java.util.Optional;
 

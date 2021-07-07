@@ -1,5 +1,6 @@
 package perobobbot.twitch.eventsub.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
@@ -24,6 +25,7 @@ public class TwitchSubscription implements SubscriptionIdentity {
     @NonNull Instant createdAt;
     @NonNull Transport transport;
 
+    @JsonIgnore
     public @NonNull Class<? extends EventSubEvent> getEventType() {
         return type.getEventType();
     }

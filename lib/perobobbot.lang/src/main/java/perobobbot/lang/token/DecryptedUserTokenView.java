@@ -22,6 +22,9 @@ public class DecryptedUserTokenView  implements DecryptedTokenView {
         return viewerIdentity.getPlatform();
     }
 
+    public String getViewerId() {
+        return viewerIdentity.getViewerId();
+    }
     public String getViewerPseudo() {
         return viewerIdentity.getPseudo();
     }

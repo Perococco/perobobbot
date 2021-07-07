@@ -3,6 +3,7 @@ package perobobbot.twitch.eventsub.api.event;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.api.UserInfo;
 
 import java.time.Instant;
 

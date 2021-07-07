@@ -9,6 +9,10 @@ module perobobbot.twitch.client.webclient {
     requires perobobbot.proxy;
     requires perobobbot.oauth;
     requires perobobbot.data.service;
+    requires perobobbot.twitch.api;
+    requires perobobbot.oauth.tools;
+    requires perobobbot.http;
+
     requires transitive perobobbot.twitch.client.api;
     requires spring.web;
     requires spring.core;
@@ -16,8 +20,6 @@ module perobobbot.twitch.client.webclient {
     requires spring.context;
     requires reactor.core;
     requires org.aspectj.weaver;
-    requires perobobbot.oauth.tools;
-    requires perobobbot.http;
     requires org.apache.logging.log4j;
     requires com.google.common;
 

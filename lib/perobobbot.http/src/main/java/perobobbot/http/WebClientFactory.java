@@ -27,6 +27,20 @@ public interface WebClientFactory {
         return create().post().uri(uri);
     }
 
+    default @NonNull WebClient.RequestBodySpec post(String uri, Map<String, Collection<?>> queryParams) {
+        return create().post().uri(uri, ub -> {
+            queryParams.forEach(ub::queryParam);
+            return ub.build();
+        });
+    }
+
+    default @NonNull WebClient.RequestBodySpec post(String uri, String name, Object value) {
+        return create().post().uri(uri, ub -> {
+            ub.queryParam(name,value);
+            return ub.build();
+        });
+    }
+
     default @NonNull WebClient.RequestHeadersSpec<?> delete(String uri) {
         return create().delete().uri(uri);
     }
@@ -37,6 +51,15 @@ public interface WebClientFactory {
             return ub.build();
         });
     }
+
+
+    default @NonNull WebClient.RequestBodySpec patch(String uri, Map<String, Collection<?>> queryParams) {
+        return create().patch().uri(uri, ub -> {
+            queryParams.forEach(ub::queryParam);
+            return ub.build();
+        });
+    }
+
 
 
     static @NonNull WebClientFactory.Builder builder(@NonNull WebClient reference) {

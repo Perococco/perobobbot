@@ -1,4 +1,4 @@
-package perobobbot.twitch.eventsub.api.event;
+package perobobbot.twitch.api;
 
 import lombok.NonNull;
 import lombok.Value;

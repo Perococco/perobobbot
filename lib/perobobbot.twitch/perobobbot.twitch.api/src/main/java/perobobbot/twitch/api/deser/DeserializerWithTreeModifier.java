@@ -1,4 +1,4 @@
-package perobobbot.twitch.eventsub.api.deser;
+package perobobbot.twitch.api.deser;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,18 +9,19 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 
-public class EventSubDeserializer extends DelegatingDeserializer {
+public class DeserializerWithTreeModifier extends DelegatingDeserializer {
 
-    public EventSubDeserializer(JsonDeserializer<?> jsonDeserializer) {
+    public DeserializerWithTreeModifier(JsonDeserializer<?> jsonDeserializer) {
         super(jsonDeserializer);
     }
 
     @Override
     protected JsonDeserializer<?> newDelegatingInstance(JsonDeserializer<?> newDelegatee) {
-        return new EventSubDeserializer(newDelegatee);
+        return new DeserializerWithTreeModifier(newDelegatee);
     }
 
     @Override
