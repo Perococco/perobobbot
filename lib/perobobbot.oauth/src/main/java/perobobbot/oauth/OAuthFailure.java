@@ -7,6 +7,7 @@ import perobobbot.lang.Platform;
 
 public class OAuthFailure extends PerobobbotException {
 
+    @Getter
     private final @NonNull Platform platform;
 
     @Getter

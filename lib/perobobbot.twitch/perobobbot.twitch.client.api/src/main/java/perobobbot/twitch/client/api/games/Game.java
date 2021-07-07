@@ -1,4 +1,4 @@
-package perobobbot.twitch.client.api;
+package perobobbot.twitch.client.api.games;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.NonNull;

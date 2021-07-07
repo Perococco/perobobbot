@@ -1,22 +1,21 @@
-package perobobbot.twitch.client.api;
+package perobobbot.twitch.client.api.evensub;
 
 import lombok.NonNull;
 import perobobbot.lang.Nil;
-import perobobbot.lang.TokenType;
-import perobobbot.oauth.RequiredToken;
+import perobobbot.oauth.ClientOAuth;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
 import perobobbot.twitch.eventsub.api.TwitchSubscriptionRequest;
 import reactor.core.publisher.Mono;
 
 public interface TwitchServiceEventSub {
 
-    @RequiredToken(TokenType.CLIENT_TOKEN)
+    @ClientOAuth
     @NonNull Mono<TwitchSubscriptionData> createEventSubSubscription(@NonNull TwitchSubscriptionRequest request);
 
-    @RequiredToken(TokenType.CLIENT_TOKEN)
+    @ClientOAuth
     @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id);
 
-    @RequiredToken(TokenType.CLIENT_TOKEN)
+    @ClientOAuth
     @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions();
 
 }

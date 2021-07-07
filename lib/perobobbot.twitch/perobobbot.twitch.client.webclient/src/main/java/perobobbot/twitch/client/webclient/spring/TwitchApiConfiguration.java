@@ -10,9 +10,10 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import perobobbot.http.WebClientFactory;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.Packages;
-import perobobbot.oauth.tools.OAuthWebClientFactory;
+import perobobbot.oauth.tools.ApiTokenHelperFactory;
 import perobobbot.twitch.client.api.TwitchService;
-import perobobbot.twitch.client.webclient.WebClientTwitchService;
+import perobobbot.twitch.client.api.TwitchServiceWithToken;
+import perobobbot.twitch.client.webclient.ProxyTwitchService;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -28,17 +29,23 @@ public class TwitchApiConfiguration {
 
     private final @NonNull WebClientFactory webClientFactory;
 
+    private final @NonNull ApiTokenHelperFactory apiTokenHelperFactory;
+
     @Bean
     public TwitchService twitchService() {
+        return TwitchServiceHandler.createService(twitchServiceWithToken(),apiTokenHelperFactory);
+    }
+
+    @Bean
+    public TwitchServiceWithToken twitchServiceWithToken() {
         final var builder = webClientFactory.mutate()
                                             .baseUrl("https://api.twitch.tv/helix")
-                                            .addModifier(new OAuthWebClientFactory())
                                             .addModifier(
                                                     b -> b.filter(ExchangeFilterFunction.ofResponseProcessor(
                                                             this::displayLimitHeaders)))
                                             .build();
 
-        return new WebClientTwitchService(builder);
+        return new ProxyTwitchService(new TwitchOAuthWebClientFactory(builder));
     }
 
 
