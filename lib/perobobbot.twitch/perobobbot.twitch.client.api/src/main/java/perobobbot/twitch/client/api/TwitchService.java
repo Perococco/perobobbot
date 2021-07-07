@@ -9,18 +9,9 @@ import perobobbot.twitch.eventsub.api.TwitchSubscriptionRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface TwitchService {
+public interface TwitchService extends TwitchServiceEventSub {
 
     @RequiredToken(TokenType.CLIENT_TOKEN)
     @NonNull Flux<Game> getGames(@NonNull GameSearchParameter parameter);
-
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    @NonNull Mono<TwitchSubscriptionData> subscriptToEventSub(@NonNull TwitchSubscriptionRequest request);
-
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions();
-
-    @RequiredToken(TokenType.CLIENT_TOKEN)
-    @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull String id);
 
 }

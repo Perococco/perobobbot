@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 public enum Platform implements IdentifiedEnum {
     TWITCH("Twitch"),
@@ -16,6 +18,14 @@ public enum Platform implements IdentifiedEnum {
     public boolean isLocal() {
         return LOCAL == this;
     }
+
+
+    public static @NonNull Stream<Platform> platformWithSubscriptions() {
+        return Stream.of(
+                TWITCH
+        );
+    }
+
 
 
 }

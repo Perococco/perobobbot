@@ -12,12 +12,14 @@ import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Todo;
+import perobobbot.twitch.client.api.TwitchEventSubLister;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.eventsub.api.EventSubHandler;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 import perobobbot.twitch.eventsub.api.subscription.Subscription;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @RequiredArgsConstructor

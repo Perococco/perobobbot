@@ -20,10 +20,12 @@ public class EventSubSynchronizer {
     private final @NonNull @EventService SubscriptionService subscriptionService;
 
     public void synchronize() {
+        Platform.platformWithSubscriptions().forEach(this::synchronizePlatform);
     }
 
     private void synchronizePlatform(@NonNull Platform platform) {
         final var persisted = subscriptionService.listAllByPlatform(platform);
+
         eventSubManager.listAllSubscriptions(platform)
                        .subscribe(existing -> synchronize(existing,persisted));
 

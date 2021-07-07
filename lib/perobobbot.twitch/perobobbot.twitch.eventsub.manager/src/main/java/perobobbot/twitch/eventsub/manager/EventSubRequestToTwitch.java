@@ -42,7 +42,7 @@ public class EventSubRequestToTwitch implements EventSubSubscriber {
                                                      .transport(transport)
                                                      .build();
 
-        return twitchService.subscriptToEventSub(request)
+        return twitchService.createEventSubSubscription(request)
                             .map(t -> t.getData()[0])
                             .doOnSuccess(data -> {
                                 LOG.info("Received subscription acknowledgment from Twitch : '{}'", data.getId());

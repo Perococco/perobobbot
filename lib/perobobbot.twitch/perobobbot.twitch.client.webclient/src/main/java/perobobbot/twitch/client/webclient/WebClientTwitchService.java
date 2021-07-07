@@ -32,7 +32,7 @@ public class WebClientTwitchService implements TwitchService {
     }
 
     @Override
-    public @NonNull Mono<TwitchSubscriptionData> subscriptToEventSub(@NonNull TwitchSubscriptionRequest request) {
+    public @NonNull Mono<TwitchSubscriptionData> createEventSubSubscription(@NonNull TwitchSubscriptionRequest request) {
         return webClientFactory.post("/eventsub/subscriptions")
                                .body(Mono.just(request), TwitchSubscriptionRequest.class)
                                .retrieve()
