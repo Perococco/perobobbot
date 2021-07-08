@@ -50,6 +50,13 @@ create table PEROBOBBOT.CLIENT_TOKEN (
                                          primary key (ID)
 );
 
+create table PEROBOBBOT.CONDITION (
+                                      ID bigint not null,
+                                      VALUE varchar(255) not null,
+                                      CRITERIA varchar(255) not null,
+                                      primary key (ID, CRITERIA)
+);
+
 create table PEROBOBBOT.EXTENSION (
                                       ID bigint not null,
                                       VERSION integer not null,
@@ -97,7 +104,6 @@ create table PEROBOBBOT.SUBSCRIPTION (
                                          ID bigint not null,
                                          VERSION integer not null,
                                          EXTERNAL_ID binary not null,
-                                         CONDITION varchar(255) not null,
                                          PLATFORM varchar(255) not null,
                                          SUBSCRIPTION_ID varchar(255) not null,
                                          TYPE varchar(255) not null,
@@ -148,6 +154,7 @@ create table PEROBOBBOT.USER_TOKEN (
                                        ACCESS_TOKEN varchar(255) not null,
                                        DURATION bigint not null,
                                        EXPIRATION_INSTANT timestamp not null,
+                                       MAIN boolean,
                                        REFRESH_TOKEN varchar(255) not null,
                                        SCOPES varchar(255) not null,
                                        USER_ID bigint not null,
@@ -181,6 +188,9 @@ alter table PEROBOBBOT.CLIENT
 
 alter table PEROBOBBOT.EXTENSION
     add constraint UK_dbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);
+
+alter table PEROBOBBOT.JOINED_CHANNEL
+    add constraint UK80k9rdha3crr2fk8xac6miu1e unique (BOT_ID, VIEWER_IDENTITY_ID, CHANNEL_NAME);
 
 alter table PEROBOBBOT.ROLE
     add constraint UK_3lhyjfk8dr6wyuurwws7wxtdv unique (ROLE);
@@ -220,6 +230,11 @@ alter table PEROBOBBOT.CLIENT_TOKEN
     add constraint FK3327mvhyfxct1q12keni9suyc
         foreign key (CLIENT_ID)
             references PEROBOBBOT.CLIENT;
+
+alter table PEROBOBBOT.CONDITION
+    add constraint FKi1x6gmdup975glfrwhujde9m5
+        foreign key (ID)
+            references PEROBOBBOT.SUBSCRIPTION;
 
 alter table PEROBOBBOT.JOINED_CHANNEL
     add constraint FKyon5ufvo0eaiac2m6b6lv89c

@@ -6,6 +6,8 @@ import perobobbot.twitch.eventsub.api.ConditionId;
 import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 
+import java.util.Map;
+
 public interface Subscription {
 
     @NonNull SubscriptionType getType();
@@ -16,8 +18,9 @@ public interface Subscription {
         return getType().getVersion();
     }
 
-    default @NonNull String getConditionId() {
-        return new ConditionId(getCondition()).toString();
+    default @NonNull ImmutableMap<String,String> cConditionMap() {
+        return getCondition().entrySet().stream()
+                             .collect(ImmutableMap.toImmutableMap(e -> e.getKey().getIdentification(), Map.Entry::getValue));
     }
 
 

@@ -46,7 +46,6 @@ public class TwitchEventSubConfiguration {
     private final @NonNull EventSubWebhook eventSubWebhook;
     private final @NonNull EventSubRequestToTwitch requestToTwitch;
     private final @NonNull TwitchService twitchService;
-    private final @NonNull ClientService clientService;
 
     public TwitchEventSubConfiguration(
             @Value("${perobobbot.eventsub.path:/eventsub}") String eventSubPath,
@@ -55,7 +54,6 @@ public class TwitchEventSubConfiguration {
             @NonNull @EventService SubscriptionService subscriptionService,
             @NonNull WebHookManager webHookManager,
             @NonNull TwitchService twitchService,
-            @NonNull @EventService ClientService clientService,
             @NonNull ObjectMapper objectMapper,
             @NonNull MessageGateway messageGateway) {
         this.secret = secret;
@@ -63,7 +61,6 @@ public class TwitchEventSubConfiguration {
         this.messageGateway = messageGateway;
         this.executorService = executorService;
         this.twitchService = twitchService;
-        this.clientService = clientService;
         this.subscriptionService = subscriptionService;
         this.eventSubWebhook = new EventSubWebhook(eventSubPath, webHookManager);
         this.requestToTwitch = new EventSubRequestToTwitch(eventSubWebhook::getCallbackURI, secret, twitchService);
@@ -85,7 +82,7 @@ public class TwitchEventSubConfiguration {
 
     @Bean
     public @NonNull PlatformEventSubManager twitchEventSubManager() {
-        return new TwitchEventSubManager(eventSubHandler(),twitchService,clientService);
+        return new TwitchEventSubManager(requestToTwitch, eventSubHandler(),twitchService);
     }
 
     @Bean

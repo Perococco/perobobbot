@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.chat.core.ChatConnection;
@@ -40,30 +41,13 @@ public class Starter {
 
     @EventListener(ApplicationReadyEvent.class)
     public void run() throws Exception {
-//        createClient();
-//        joinChannel();
-        WebClient webClient = WebClient.create();
-        final var client = clientService.getClient(Platform.TWITCH);
-        final var token = oAuthService.findUserMainToken("perococco", Platform.TWITCH).get();
-
-
-        final var information = List.of(
-                "broadcaster_id '" + token.getViewerIdentity().getViewerId() + "'",
-                "client_id      '" + client.getClientId() + "'",
-                "accesstoken    '" + token.getAccessToken() + "'");
-
-        Files.write(Path.of("/home/perococco/token_info.txt"), information);
-
-        /**
-         * curl -X POST 'https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=274637212' \
-         * -H 'client-id: gx2pv4208cff0ig9ou7nk3riccffxt' \
-         * -H 'Authorization: Bearer vjxv3i0l4zxru966wsnwji51tmpkj2' \
-         * -H 'Content-Type: application/json' \
-         * -d '{
-         *   "title":"game analysis 1v1",
-         *   "cost":50000
-         * }'
-         */
+        try {
+//            createClient();
+//            joinChannel();
+        } catch (Throwable t) {
+            System.out.println("Starter Failed ! ");
+            t.printStackTrace();
+        }
     }
 
 

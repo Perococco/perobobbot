@@ -18,10 +18,8 @@ import perobobbot.lang.Todo;
 import perobobbot.lang.fp.Value2;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -58,20 +56,40 @@ public class SubscriptionSynchronizer {
 
         final var match = Matcher.match(valid, persisted);
 
-
-        Todo.TODO();
-//        match.getToRefreshSubs().forEach(subscriptionService::refreshSubscription);
-        match.getToUpdateSubs().forEach(subscriptionService::updateSubscriptionId);
+        final List<Mono<Nil>> todo = new ArrayList<>();
 
 
-        final var revocations = match.getToRevokeSubs()
-                                     .stream()
-                                     .map(id -> eventSubManager.revokeSubscription(platform, id))
-                                     .toList();
+        match.getToUpdateSubs().entrySet().stream()
+             .map(e -> Mono.fromCallable(() -> {
+                 subscriptionService.updateSubscriptionId(e.getKey(), e.getValue());
+                 return Nil.NIL;
+             }))
+             .forEach(todo::add);
 
 
-        return Mono.when(revocations).map(v -> Nil.NIL);
+        match.getToRevokeSubs()
+             .stream()
+             .map(id -> eventSubManager.revokeSubscription(platform,id))
+             .forEach(todo::add);
+
+
+        match.getToRefreshSubs()
+             .stream()
+             .map(r -> performRefresh(platform,r))
+             .forEach(todo::add);
+
+        return Mono.when(todo).map(v -> Nil.NIL);
     }
 
+    private @NonNull Mono<Nil> performRefresh(@NonNull Platform platform, @NonNull SubscriptionView subscriptionViewToRefresh) {
+        final var subscriptionType = subscriptionViewToRefresh.subscriptionType();
+        final var conditions = subscriptionViewToRefresh.conditionMap();
+        final var subscriptionDbId = subscriptionViewToRefresh.id();
+        return eventSubManager.createSubscription(platform, subscriptionType, conditions)
+                              .map(i -> {
+                                  subscriptionService.updateSubscriptionId(subscriptionDbId, i.subscriptionId());
+                                  return Nil.NIL;
+                              });
+    }
 
 }

@@ -1,6 +1,7 @@
 package perobobbot.data.security.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,21 +26,21 @@ public class SecuredSubscriptionService implements SubscriptionService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') or authentication.name == #login")
-    public @NonNull Stream<UserSubscriptionView> listAllSubscriptions(@NonNull String login) {
+    public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptions(@NonNull String login) {
         return subscriptionService.listAllSubscriptions(login);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN') or authentication.name == #login")
-    public @NonNull Stream<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
+    public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
         return subscriptionService.listAllSubscriptionsByPlatform(login,platform);
     }
 
     @Override
     @NonNull
     @PreAuthorize("hasRole('ADMIN')")
-    public Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
-        return subscriptionService.findSubscription(platform, subscriptionType, conditionId);
+    public Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditionMap) {
+        return subscriptionService.findSubscription(platform, subscriptionType, conditionMap);
     }
 
     @Override
@@ -52,8 +53,11 @@ public class SecuredSubscriptionService implements SubscriptionService {
     @Override
     @NonNull
     @PreAuthorize("hasRole('ADMIN')")
-    public SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId) {
-        return subscriptionService.createSubscription(platform, subscriptionTwitchId, subscriptionType, conditionId);
+    public SubscriptionView createSubscription(@NonNull Platform platform,
+                                               @NonNull String subscriptionTwitchId,
+                                               @NonNull String subscriptionType,
+                                               @NonNull ImmutableMap<String,String> conditions) {
+        return subscriptionService.createSubscription(platform, subscriptionTwitchId, subscriptionType, conditions);
     }
 
     @Override
@@ -64,8 +68,14 @@ public class SecuredSubscriptionService implements SubscriptionService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteUserSubscription(@NonNull UUID id, @NonNull String login) {
-        subscriptionService.deleteUserSubscription(id, login);
+    public void removeUserFromSubscription(@NonNull UUID id, @NonNull String login) {
+        subscriptionService.removeUserFromSubscription(id, login);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void updateSubscriptionId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionId) {
+        subscriptionService.updateSubscriptionId(subscriptionDbId,subscriptionId);
     }
 
     @Override

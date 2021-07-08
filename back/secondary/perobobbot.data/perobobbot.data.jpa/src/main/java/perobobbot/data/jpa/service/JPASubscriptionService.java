@@ -1,6 +1,7 @@
 package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,18 +36,22 @@ public class JPASubscriptionService implements SubscriptionService {
     private final @NonNull UserRepository userRepository;
 
     @Override
-    public @NonNull Stream<UserSubscriptionView> listAllSubscriptions(@NonNull String login) {
-        return userSubscriptionRepository.findByOwner_Login(login).map(UserSubscriptionEntityBase::toView);
+    public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptions(@NonNull String login) {
+        return userSubscriptionRepository.findByOwner_Login(login)
+                                         .map(UserSubscriptionEntityBase::toView)
+                                         .collect(ImmutableList.toImmutableList());
     }
 
     @Override
-    public @NonNull Stream<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
-        return userSubscriptionRepository.findByOwner_LoginAndSubscription_Platform(login,platform).map(UserSubscriptionEntityBase::toView);
+    public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
+        return userSubscriptionRepository.findByOwner_LoginAndSubscription_Platform(login, platform)
+                                         .map(UserSubscriptionEntityBase::toView)
+                                         .collect(ImmutableList.toImmutableList());
     }
 
     @Override
-    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
-        return subscriptionRepository.findByTypeAndCondition(subscriptionType, conditionId)
+    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditionMap) {
+        return subscriptionRepository.findByTypeAndCondition(subscriptionType, conditionMap)
                                      .map(SubscriptionEntityBase::toView);
     }
 
@@ -83,8 +88,8 @@ public class JPASubscriptionService implements SubscriptionService {
     @Transactional
     public @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId,
                                                         @NonNull String subscriptionType,
-                                                        @NonNull String conditionId) {
-        return subscriptionRepository.save(new SubscriptionEntity(platform, subscriptionTwitchId, subscriptionType, conditionId))
+                                                        @NonNull ImmutableMap<String, String> conditions) {
+        return subscriptionRepository.save(new SubscriptionEntity(platform, subscriptionTwitchId, subscriptionType, conditions))
                                      .toView();
     }
 
@@ -101,7 +106,7 @@ public class JPASubscriptionService implements SubscriptionService {
 
     @Override
     @Transactional
-    public void deleteUserSubscription(@NonNull UUID id, @NonNull String login) {
-        userSubscriptionRepository.deleteAllByOwner_LoginAndSubscription_Uuid(login,id);
+    public void removeUserFromSubscription(@NonNull UUID id, @NonNull String login) {
+        userSubscriptionRepository.deleteAllByOwner_LoginAndSubscription_Uuid(login, id);
     }
 }

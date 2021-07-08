@@ -35,10 +35,10 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
     private @NonNull Mono<UUID> getOrCreateSubscription(@NonNull ObjectWithLogin<Subscription> parameter) {
         final var subscription = parameter.value();
         final var subscriptionType = subscription.getType().getIdentification();
-        final var conditionId = subscription.getConditionId();
+        final var conditionMap = subscription.cConditionMap();
 
         //todo race condition here
-        final Optional<SubscriptionView> existing = subscriptionService.findSubscription(Platform.TWITCH, subscriptionType, conditionId);
+        final Optional<SubscriptionView> existing = subscriptionService.findSubscription(Platform.TWITCH, subscriptionType, conditionMap);
         return existing.map(SubscriptionView::id)
                        .map(Mono::just)
                        .orElseGet(() -> createSubscription(subscription).map(SubscriptionView::id));
@@ -55,7 +55,7 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
                 Platform.TWITCH,
                 twitchSubscription.getId(),
                 twitchSubscription.getType().getIdentification(),
-                new ConditionId(twitchSubscription.getCondition()).toString()
+                twitchSubscription.conditionMap()
                 );
     }
 

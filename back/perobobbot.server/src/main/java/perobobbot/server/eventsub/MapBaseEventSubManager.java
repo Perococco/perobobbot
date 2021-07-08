@@ -6,10 +6,9 @@ import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import perobobbot.data.com.SubscriptionIdentity;
+import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
-import perobobbot.data.service.ClientService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.eventsub.PlatformEventSubManager;
 import perobobbot.eventsub.SubscriptionData;
@@ -39,13 +38,13 @@ public class MapBaseEventSubManager implements EventSubManager {
     }
 
     @Override
-    public @NonNull Mono<Nil> deleteSubscription(@NonNull Platform platform, @NonNull String login, @NonNull UUID subscriptionId) {
-        return getManager(platform).deleteSubscription(login, subscriptionId);
+    public @NonNull Mono<Nil> deleteUserSubscription(@NonNull Platform platform, @NonNull String login, @NonNull UUID subscriptionId) {
+        return getManager(platform).deleteUserSubscription(login, subscriptionId);
     }
 
     @Override
-    public @NonNull Mono<UserSubscriptionView> createSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData) {
-        return getManager(subscriptionData.getPlatform()).createSubscription(login,
+    public @NonNull Mono<UserSubscriptionView> createUserSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData) {
+        return getManager(subscriptionData.getPlatform()).createUserSubscription(login,
                 subscriptionData.getSubscriptionType(),
                 subscriptionData.getCondition());
     }
@@ -73,12 +72,18 @@ public class MapBaseEventSubManager implements EventSubManager {
     }
 
     @Override
+    public @NonNull Mono<? extends SubscriptionIdentity> createSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull ImmutableMap<String, String> conditions) {
+        return getManager(platform).createSubscription(subscriptionType,conditions);
+    }
+
+    @Override
     public @NonNull Flux<Platform> cleanFailedSubscription() {
-        return Flux.concat(managerPerPlatform.values()
-                                             .stream()
-                                             .map(p -> p.cleanFailedSubscription()
-                                                        .map(n -> p.getPlatform()))
-                                             .toList());
+        final var cleaner = managerPerPlatform.values()
+                                              .stream()
+                                              .map(PlatformEventSubManager::cleanFailedSubscription)
+                                              .toList();
+
+        return Flux.concat(cleaner);
     }
 
 }

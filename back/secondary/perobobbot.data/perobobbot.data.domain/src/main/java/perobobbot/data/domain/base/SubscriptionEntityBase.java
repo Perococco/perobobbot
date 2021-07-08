@@ -1,5 +1,6 @@
 package perobobbot.data.domain.base;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -9,9 +10,10 @@ import perobobbot.data.com.SubscriptionView;
 import perobobbot.lang.Platform;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -44,22 +46,24 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     /**
      * The condition of the subscription.
      */
-    @Column(name = "CONDITION",nullable = false)
-    @NotBlank
-    private @NonNull String condition = "";
+    @ElementCollection
+    @MapKeyColumn(name="CRITERIA")
+    @Column(name = "VALUE",nullable = false)
+    @CollectionTable(name="CONDITION", joinColumns=@JoinColumn(name="ID"))
+    private @NonNull Map<String,String> condition = new HashMap<>();
 
     public SubscriptionEntityBase(@NonNull Platform platform,
                                   @NonNull String subscriptionId,
                                   @NonNull String type,
-                                  @NonNull String condition) {
+                                  @NonNull Map<String,String> condition) {
         super(UUID.randomUUID());
         this.platform = platform;
         this.subscriptionId = subscriptionId;
         this.type = type;
-        this.condition = condition;
+        this.condition = new HashMap<>(condition);
     }
 
     public @NonNull SubscriptionView toView() {
-        return new SubscriptionView(getUuid(), platform, type,condition,subscriptionId);
+        return new SubscriptionView(getUuid(), platform, type, ImmutableMap.copyOf(condition),subscriptionId);
     }
 }

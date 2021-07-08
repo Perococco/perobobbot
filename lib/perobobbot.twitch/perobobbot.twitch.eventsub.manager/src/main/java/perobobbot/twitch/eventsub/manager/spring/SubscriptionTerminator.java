@@ -21,13 +21,11 @@ public class SubscriptionTerminator implements Link<ObjectWithLogin<UUID>, Mono<
 
     @Override
     public Mono<Nil> call(@NonNull ObjectWithLogin<UUID> parameter, @NonNull Chain<ObjectWithLogin<UUID>, Mono<Nil>> chain) {
-        subscriptionService.deleteUserSubscription(parameter.value(), parameter.login());
+        subscriptionService.removeUserFromSubscription(parameter.value(), parameter.login());
         final var deletedSubscription = subscriptionService.cleanSubscription(parameter.value());
 
         return deletedSubscription.map(SubscriptionView::subscriptionId)
                                   .map(eventSubRequestToTwitch::deleteSubscription)
-                                  .map(m -> m.map(o -> Nil.NIL))
                                   .orElseGet(() -> Mono.just(Nil.NIL));
-
     }
 }

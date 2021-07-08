@@ -1,6 +1,7 @@
 package perobobbot.server.eventsub;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,7 @@ public class Matcher {
             return;
         }
         if (p != null && (v == null || v.isEmpty())) {
-            builder.toRefreshSub(p.id());
+            builder.toRefreshSub(p);
             return;
         }
 
@@ -91,14 +92,16 @@ public class Matcher {
     }
 
 
-    private record Key(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull String conditionId) {
+    private record Key(@NonNull Platform platform,
+                       @NonNull String subscriptionType,
+                       @NonNull ImmutableMap<String,String> conditions) {
 
         public static Key from(@NonNull SubscriptionIdentity subscriptionIdentity) {
-            return new Key(subscriptionIdentity.platform(), subscriptionIdentity.subscriptionType(), subscriptionIdentity.conditionId());
+            return new Key(subscriptionIdentity.platform(), subscriptionIdentity.subscriptionType(), subscriptionIdentity.conditionMap());
         }
 
         public static Key from(@NonNull SubscriptionView subscriptionView) {
-            return new Key(subscriptionView.platform(), subscriptionView.subscriptionType(), subscriptionView.conditionId());
+            return new Key(subscriptionView.platform(), subscriptionView.subscriptionType(), subscriptionView.conditionMap());
         }
     }
 
