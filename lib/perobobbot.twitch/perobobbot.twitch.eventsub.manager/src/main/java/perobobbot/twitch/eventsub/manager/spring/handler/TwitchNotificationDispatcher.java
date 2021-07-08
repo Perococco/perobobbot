@@ -10,7 +10,7 @@ import perobobbot.twitch.eventsub.api.EventSubNotification;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class NotificationDispatcher implements Handler<EventSubNotification, Nil> {
+public class TwitchNotificationDispatcher implements Handler<EventSubNotification, Nil> {
 
     private final @NonNull MessageGateway messageGateway;
 

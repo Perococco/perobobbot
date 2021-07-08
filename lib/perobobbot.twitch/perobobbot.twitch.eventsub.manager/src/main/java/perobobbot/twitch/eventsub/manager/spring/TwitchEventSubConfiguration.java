@@ -15,7 +15,7 @@ import perobobbot.twitch.eventsub.manager.TwitchEventSubManager;
 import perobobbot.twitch.eventsub.manager.TwitchEventSubSubscriber;
 import perobobbot.twitch.eventsub.manager._private.EventSubTwitchRequestTransformer;
 import perobobbot.twitch.eventsub.manager.spring.handler.DuplicatedNotificationHandler;
-import perobobbot.twitch.eventsub.manager.spring.handler.NotificationDispatcher;
+import perobobbot.twitch.eventsub.manager.spring.handler.TwitchNotificationDispatcher;
 
 import java.util.concurrent.ExecutorService;
 
@@ -64,7 +64,7 @@ public class TwitchEventSubConfiguration {
     public @NonNull TwitchEventSubListener twitchEventSubListener() {
         final var handler =
                 new DuplicatedNotificationHandler()
-                .then(new NotificationDispatcher(messageGateway));
+                .then(new TwitchNotificationDispatcher(messageGateway));
 
         return new TwitchEventSubListener(executorService,
                 secret,

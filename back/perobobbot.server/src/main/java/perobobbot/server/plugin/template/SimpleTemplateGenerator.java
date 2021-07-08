@@ -76,7 +76,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
                 final var path = createPath(result);
 
 
-                System.out.format("%s %s %n", structureEntry.getResourcePath(), result);
+//                System.out.format("%s %s %n", structureEntry.getResourcePath(), result);
                 if (structureEntry.isVelocityResource()) {
                     putFile(path, structureEntry.getResourcePath());
                 } else {

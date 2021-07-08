@@ -2,9 +2,8 @@ package ${plugin.packageName};
 #* @vtlvariable name="plugin" type="perobobbot.server.plugin.template.PluginInfo" *#
 
 
-import lombok.NonNull;
 import lombok.Synchronized;
-import perobobbot.extension.OverlayExtension;
+import perobobbot.extension.ExtensionBase;
 
 public class BotExtension extends ExtensionBase {
 
