@@ -27,9 +27,14 @@ public class OAuthTokeInitializerFactory implements ApiTokenHelperFactory {
     BotService botService;
 
     @Override
-    public @NonNull ApiTokenHelper create(@NonNull Platform platform,
+    public @NonNull ApiTokenHelper createWithToken(@NonNull Platform platform,
                                           @NonNull OAuthRequirement requirement,
                                           @NonNull TokenIdentifier tokenIdentifier) {
         return ApiTokenHelper.simple(clientService, oAuthService, botService, platform, requirement, tokenIdentifier);
+    }
+    @Override
+    public @NonNull ApiTokenHelper createWithoutToken(@NonNull Platform platform,
+                                                      @NonNull OAuthRequirement requirement) {
+        return ApiTokenHelper.simple(clientService, oAuthService, botService, platform, requirement);
     }
 }

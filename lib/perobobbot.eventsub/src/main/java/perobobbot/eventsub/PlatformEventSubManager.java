@@ -10,10 +10,13 @@ import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.UUID;
 
 public interface PlatformEventSubManager {
+
 
     @NonNull Platform getPlatform();
 
@@ -25,6 +28,8 @@ public interface PlatformEventSubManager {
                                                            @NonNull String subscriptionType,
                                                            @NonNull ImmutableMap<String,String> condition);
 
+    @NonNull Mono<Nil> cleanFailedSubscription();
 
-    @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllSubscriptions();
+    @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllValidSubscriptions();
+
 }

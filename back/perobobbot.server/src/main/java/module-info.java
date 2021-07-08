@@ -117,7 +117,7 @@ module perobobbot.server {
     requires io.swagger.v3.oas.integration;
     requires io.swagger.v3.core;
     requires io.swagger.v3.oas.annotations;
-
+    requires org.reactivestreams;
 
 
     uses JsonModuleProvider;

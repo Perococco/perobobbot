@@ -29,7 +29,7 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
 
     private final @NonNull Platform platform;
     private final @NonNull OAuthRequirement requirement;
-    private final @NonNull TokenIdentifier tokenIdentifier;
+    private final TokenIdentifier tokenIdentifier;
 
     private SafeClient safeClient;
     private DecryptedClientTokenView clientTokenView;
@@ -71,9 +71,8 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
         if (userTokenView != null) {
             apiToken = new UserApiToken(userTokenView.getViewerId(), safeClient.getClientId(), userTokenView.getUserToken().getAccessToken());
         } else if (clientTokenView != null) {
-            apiToken = new ClientApiToken(safeClient.getClientId(),clientTokenView.getToken().getAccessToken());
-        }
-        else {
+            apiToken = new ClientApiToken(safeClient.getClientId(), clientTokenView.getToken().getAccessToken());
+        } else {
             apiToken = null;
         }
         return Optional.ofNullable(apiToken);
@@ -94,10 +93,15 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
 
 
     private void retrieveUserToken(@NonNull UserOAuth userOAuth) {
+        if (tokenIdentifier == null) {
+            LOG.warn(Markers.OAUTH_MARKER, "TokenIdentifier missing for UserOAuth");
+            return;
+        }
         final var tokenGetter = UserTokenViewGetter.createTokenGetter(oAuthService, platform, userOAuth);
         final var userToken = new LoginGetter(botService).f(tokenIdentifier)
                                                          .flatMap(tokenGetter)
                                                          .orElse(null);
+
         if (userToken != null) {
             LOG.debug(Markers.OAUTH_MARKER, "Use user token {}", userToken.getId());
             this.userTokenView = userToken;

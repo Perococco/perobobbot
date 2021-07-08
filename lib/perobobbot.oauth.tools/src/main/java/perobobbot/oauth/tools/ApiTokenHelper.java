@@ -31,6 +31,18 @@ public interface ApiTokenHelper {
             @NonNull OAuthService oAuthService,
             @NonNull BotService botService,
             @NonNull Platform platform,
+            @NonNull OAuthRequirement requirement
+    ) {
+        return new SimpleApiTokenHelper(
+                clientService, oAuthService, botService, platform, requirement,null
+        );
+    }
+
+    static ApiTokenHelper simple(
+            @NonNull ClientService clientService,
+            @NonNull OAuthService oAuthService,
+            @NonNull BotService botService,
+            @NonNull Platform platform,
             @NonNull OAuthRequirement requirement,
             @NonNull TokenIdentifier tokenIdentifier
     ) {

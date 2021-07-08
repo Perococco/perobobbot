@@ -37,6 +37,7 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
         final var subscriptionType = subscription.getType().getIdentification();
         final var conditionId = subscription.getConditionId();
 
+        //todo race condition here
         final Optional<SubscriptionView> existing = subscriptionService.findSubscription(Platform.TWITCH, subscriptionType, conditionId);
         return existing.map(SubscriptionView::id)
                        .map(Mono::just)
@@ -46,10 +47,10 @@ public class SubscriptionCreator implements Link<ObjectWithLogin<Subscription>, 
 
     private @NonNull Mono<SubscriptionView> createSubscription(Subscription subscription) {
         return eventSubRequestToTwitch.subscribeToEventSub(subscription)
-                                      .map(this::createSubscription);
+                                      .map(this::persistSubscription);
     }
 
-    private @NonNull SubscriptionView createSubscription(@NonNull TwitchSubscription twitchSubscription) {
+    private @NonNull SubscriptionView persistSubscription(@NonNull TwitchSubscription twitchSubscription) {
         return subscriptionService.createSubscription(
                 Platform.TWITCH,
                 twitchSubscription.getId(),

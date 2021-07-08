@@ -30,6 +30,16 @@ public class TwitchSubscription implements SubscriptionIdentity {
         return type.getEventType();
     }
 
+    @JsonIgnore
+    public boolean isValid() {
+        return status == SubscriptionStatus.ENABLED;
+    }
+
+    @JsonIgnore
+    public boolean isFailure() {
+        return status.isFailure();
+    }
+
     @Override
     public @NonNull Platform platform() {
         return Platform.TWITCH;

@@ -16,7 +16,7 @@ public class TwitchSubscriptionData {
     int totalCost;
     @JsonAlias("max_total_cost")
     int maxTotalCost;
-    Pagination pagination;
+    Pagination pagination;//TODO handle pagination
 
     public @NonNull Optional<Pagination> getPagination() {
         return Optional.ofNullable(pagination);

@@ -71,28 +71,7 @@ public class ApiProxy {
             return Optional.empty();
         }
 
-        Integer tokenIdx = null;
-        int outsideIdx = 0;
-        int insideIdx = 0;
-        while (outsideIdx < parametersOutside.length) {
-            if (insideIdx >= parametersInside.length) {
-                return Optional.empty();
-            }
-            final var pout = parametersOutside[outsideIdx];
-            final var pin = parametersInside[insideIdx];
-
-            if (pin.isAssignableFrom(pout)) {
-                outsideIdx++;
-                insideIdx++;
-            } else if (tokenIdx == null) {
-                tokenIdx = insideIdx;
-                insideIdx++;
-            } else {
-                return Optional.empty();
-            }
-        }
-
-        return Optional.of(new ProxyMethod(method, mWithToken, oauthRequirement, tokenIdx));
+        return Optional.of(new ProxyMethod(method, mWithToken, oauthRequirement, 0));
     }
 
 

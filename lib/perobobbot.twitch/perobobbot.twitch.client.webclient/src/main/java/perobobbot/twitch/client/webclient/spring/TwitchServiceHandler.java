@@ -23,7 +23,7 @@ public class TwitchServiceHandler implements InvocationHandler {
             @NonNull TwitchServiceWithToken twitchServiceWithToken,
             @NonNull ApiTokenHelperFactory factory) {
         return (TwitchService) Proxy.newProxyInstance(twitchServiceWithToken.getClass().getClassLoader(),
-                new Class<?>[]{TwitchService.class}, new TwitchServiceHandler(twitchServiceWithToken,factory));
+                new Class<?>[]{TwitchService.class}, new TwitchServiceHandler(twitchServiceWithToken, factory));
     }
 
     private final @NonNull TwitchServiceWithToken twitchServiceWithToken;
@@ -58,14 +58,12 @@ public class TwitchServiceHandler implements InvocationHandler {
 
         final var call = new BasicOAuthCall(methodWithToken, prepareProxyArguments(args, tokenIndex), tokenIndex);
 
-        final var tokenIdentifier = OAuthContextHolder.getContext()
-                                 .getTokenIdentifier()
-                                 .orElseThrow(() -> new IllegalStateException("No token identifier when calling method "+method));
+        final var helper = OAuthContextHolder.getContext().getTokenIdentifier()
+                                             .map(t -> factory.withToken(t))
+                                             .orElse(factory::createWithoutToken)
+                                             .f(Platform.TWITCH, proxyMethod.getOAuthRequirement());
 
-        final var helper = factory.create(Platform.TWITCH,proxyMethod.getOAuthRequirement(),tokenIdentifier);
-
-
-        return OAuthCallHelper.callWithTokenIdentifier(call,helper);
+        return OAuthCallHelper.callWithTokenIdentifier(call, helper);
     }
 
     private Optional<Object> evaluateNativeMethod(Method method) {
@@ -84,7 +82,7 @@ public class TwitchServiceHandler implements InvocationHandler {
         return IntStream.range(0, args.length + 1)
                         .mapToObj(i -> switch (Integer.signum(i - tokenIndex)) {
                             case -1 -> args[i];
-                            case 1 -> args[i + 1];
+                            case 1 -> args[i - 1];
                             default -> null;
                         }).toArray();
     }

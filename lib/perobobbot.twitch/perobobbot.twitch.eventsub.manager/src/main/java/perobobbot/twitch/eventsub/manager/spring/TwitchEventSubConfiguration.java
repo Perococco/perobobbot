@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.data.com.UserSubscriptionView;
+import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.PlatformEventSubManager;
@@ -17,6 +18,7 @@ import perobobbot.lang.Nil;
 import perobobbot.lang.Packages;
 import perobobbot.lang.chain.ChainExecutor;
 import perobobbot.twitch.client.api.TwitchService;
+import perobobbot.twitch.client.api.TwitchServiceWithToken;
 import perobobbot.twitch.eventsub.api.*;
 import perobobbot.twitch.eventsub.manager.EventSubRequestToTwitch;
 import perobobbot.twitch.eventsub.manager.TwitchEventSubManager;
@@ -43,6 +45,8 @@ public class TwitchEventSubConfiguration {
 
     private final @NonNull EventSubWebhook eventSubWebhook;
     private final @NonNull EventSubRequestToTwitch requestToTwitch;
+    private final @NonNull TwitchService twitchService;
+    private final @NonNull ClientService clientService;
 
     public TwitchEventSubConfiguration(
             @Value("${perobobbot.eventsub.path:/eventsub}") String eventSubPath,
@@ -51,12 +55,15 @@ public class TwitchEventSubConfiguration {
             @NonNull @EventService SubscriptionService subscriptionService,
             @NonNull WebHookManager webHookManager,
             @NonNull TwitchService twitchService,
+            @NonNull @EventService ClientService clientService,
             @NonNull ObjectMapper objectMapper,
             @NonNull MessageGateway messageGateway) {
         this.secret = secret;
         this.objectMapper = objectMapper;
         this.messageGateway = messageGateway;
         this.executorService = executorService;
+        this.twitchService = twitchService;
+        this.clientService = clientService;
         this.subscriptionService = subscriptionService;
         this.eventSubWebhook = new EventSubWebhook(eventSubPath, webHookManager);
         this.requestToTwitch = new EventSubRequestToTwitch(eventSubWebhook::getCallbackURI, secret, twitchService);
@@ -78,7 +85,7 @@ public class TwitchEventSubConfiguration {
 
     @Bean
     public @NonNull PlatformEventSubManager twitchEventSubManager() {
-        return new TwitchEventSubManager(eventSubHandler());
+        return new TwitchEventSubManager(eventSubHandler(),twitchService,clientService);
     }
 
     @Bean

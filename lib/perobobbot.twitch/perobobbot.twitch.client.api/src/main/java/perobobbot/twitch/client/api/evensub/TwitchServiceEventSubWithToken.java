@@ -9,16 +9,10 @@ import reactor.core.publisher.Mono;
 
 public interface TwitchServiceEventSubWithToken {
 
-    @NonNull Mono<TwitchSubscriptionData> createEventSubSubscription(
-            @NonNull ClientApiToken token,
-            @NonNull TwitchSubscriptionRequest request);
+    @NonNull Mono<TwitchSubscriptionData> createEventSubSubscription(@NonNull ClientApiToken token, @NonNull TwitchSubscriptionRequest request);
 
-    @NonNull Mono<Nil> deleteEventSubSubscription(
-            @NonNull ClientApiToken token,
-            @NonNull String id);
+    @NonNull Mono<Nil> deleteEventSubSubscription(@NonNull ClientApiToken token, @NonNull String id);
 
-    @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions(
-            @NonNull ClientApiToken token
-    );
+    @NonNull Mono<TwitchSubscriptionData> getEventSubSubscriptions(@NonNull ClientApiToken token);
 
 }

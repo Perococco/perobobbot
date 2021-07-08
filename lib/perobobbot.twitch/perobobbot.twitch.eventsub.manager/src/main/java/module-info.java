@@ -14,6 +14,7 @@ module perobobbot.twitch.event.sub.manager {
 
     requires java.servlet;
     requires reactor.core;
+    requires org.reactivestreams;
     requires spring.web;
     requires com.fasterxml.jackson.databind;
 
