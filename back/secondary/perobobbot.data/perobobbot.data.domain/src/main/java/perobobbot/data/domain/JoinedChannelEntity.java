@@ -2,8 +2,8 @@ package perobobbot.data.domain;
 
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import perobobbot.lang.JoinedChannel;
 import perobobbot.data.domain.base.JoinedChannelEntityBase;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.TextEncryptor;
 
 import javax.persistence.Entity;

@@ -5,12 +5,13 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.data.com.SubscriptionIdentity;
-import perobobbot.lang.Conditions;
 import perobobbot.eventsub.PlatformEventSubManager;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.twitch.client.api.TwitchService;
-import perobobbot.twitch.eventsub.api.*;
+import perobobbot.twitch.eventsub.api.SubscriptionType;
+import perobobbot.twitch.eventsub.api.TwitchSubscriptionData;
 import perobobbot.twitch.eventsub.api.subscription.GenericSubscription;
 import reactor.core.publisher.Mono;
 

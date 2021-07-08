@@ -7,7 +7,6 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.PointType;
 import perobobbot.lang.ViewerIdentity;
 import perobobbot.lang.token.EncryptedUserToken;
-import perobobbot.security.com.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

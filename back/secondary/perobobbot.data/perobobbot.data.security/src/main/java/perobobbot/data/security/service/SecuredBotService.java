@@ -4,12 +4,12 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import perobobbot.lang.JoinedChannel;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.proxy.ProxyBotService;
 import perobobbot.lang.Bot;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 

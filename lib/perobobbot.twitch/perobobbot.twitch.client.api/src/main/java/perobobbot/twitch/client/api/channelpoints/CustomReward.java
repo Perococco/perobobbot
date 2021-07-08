@@ -1,14 +1,10 @@
 package perobobbot.twitch.client.api.channelpoints;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.twitch.api.Image;
 import perobobbot.twitch.api.UserInfo;
 import perobobbot.twitch.client.api.TwitchApiPayload;
-import perobobbot.twitch.eventsub.api.event.GlobalCooldown;
-import perobobbot.twitch.api.Image;
-import perobobbot.twitch.eventsub.api.event.Limit;
 
 import java.time.Instant;
 

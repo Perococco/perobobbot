@@ -2,8 +2,8 @@ package perobobbot.twitch.client.api.channelpoints;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.twitch.api.UserInfo;
 import perobobbot.twitch.api.RewardRedemptionStatus;
+import perobobbot.twitch.api.UserInfo;
 import perobobbot.twitch.client.api.TwitchApiPayload;
 
 import java.time.Instant;

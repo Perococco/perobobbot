@@ -3,7 +3,6 @@ package perobobbot.oauth;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.DecryptedClient;
-import perobobbot.lang.SafeClient;
 import perobobbot.lang.Secret;
 
 

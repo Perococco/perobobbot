@@ -1,6 +1,9 @@
 package perobobbot.lang;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.Value;
 import perobobbot.lang.token.UserTokenRefresher;
 
 import java.util.Optional;

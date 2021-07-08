@@ -1,7 +1,5 @@
 package perobobbot.template;
 
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.Value;
 

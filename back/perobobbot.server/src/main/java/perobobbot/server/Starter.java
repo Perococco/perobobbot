@@ -4,13 +4,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.IO;
 import perobobbot.data.com.CreateClientParameter;
-import perobobbot.data.service.*;
+import perobobbot.data.service.BotService;
+import perobobbot.data.service.ClientService;
+import perobobbot.data.service.OAuthService;
+import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
@@ -18,7 +18,6 @@ import perobobbot.lang.Secret;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

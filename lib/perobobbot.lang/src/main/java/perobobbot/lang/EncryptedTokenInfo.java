@@ -2,7 +2,6 @@ package perobobbot.lang;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.EncryptedUserToken;
 
 import java.util.UUID;

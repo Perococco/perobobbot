@@ -2,8 +2,8 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Bot;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
 
 import java.util.Optional;

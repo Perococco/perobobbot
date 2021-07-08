@@ -4,10 +4,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import perobobbot.lang.fp.Function2;
 import perobobbot.oauth.OAuthCall;
-import perobobbot.oauth.OAuthRequirement;
-import perobobbot.oauth.TokenIdentifier;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class OAuthCallHelper {
@@ -52,7 +49,8 @@ public class OAuthCallHelper {
 
     private boolean isCausedByInvalidAccessToken(@NonNull Throwable throwable) {
         if (throwable instanceof WebClientResponseException) {
-            return switch (((WebClientResponseException) throwable).getStatusCode()) {
+            final var status = ((WebClientResponseException) throwable).getStatusCode();
+            return switch (status) {
                 case UNAUTHORIZED, BAD_REQUEST -> true;
                 default -> false;
             };

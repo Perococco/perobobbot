@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 

@@ -2,8 +2,6 @@ package perobobbot.lang;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.Conditions;
-import perobobbot.lang.Platform;
 
 @Value
 public class SubscriptionData {

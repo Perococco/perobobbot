@@ -5,13 +5,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perobobbot.lang.JoinedChannel;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.BotExtensionEntity;
 import perobobbot.data.jpa.repository.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
 

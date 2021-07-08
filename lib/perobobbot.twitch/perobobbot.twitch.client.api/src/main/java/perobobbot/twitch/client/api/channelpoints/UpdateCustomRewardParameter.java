@@ -1,14 +1,9 @@
 package perobobbot.twitch.client.api.channelpoints;
 
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
-
-import java.awt.*;
 
 @Value
 @SuperBuilder

@@ -2,7 +2,6 @@ package perobobbot.twitch.client.api.channelpoints;
 
 import lombok.NonNull;
 import perobobbot.http.Page;
-import perobobbot.oauth.UserApiToken;
 import perobobbot.oauth.UserOAuth;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

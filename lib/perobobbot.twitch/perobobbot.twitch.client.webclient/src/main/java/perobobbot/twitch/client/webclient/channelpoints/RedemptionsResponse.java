@@ -6,9 +6,6 @@ import perobobbot.http.Page;
 import perobobbot.twitch.api.Pagination;
 import perobobbot.twitch.client.api.channelpoints.CustomRewardRedemption;
 import perobobbot.twitch.client.api.channelpoints.GetCustomRewardRedemptionParameter;
-import perobobbot.twitch.eventsub.api.deser.PaginationDeserializer;
-
-import java.util.Optional;
 
 @Value
 public class RedemptionsResponse {

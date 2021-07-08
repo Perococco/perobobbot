@@ -7,17 +7,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.IO;
-import perobobbot.lang.JoinedChannel;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.ChatConnectionInfo;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
 import perobobbot.server.config.io.ChatConnectionHelper;
 import perobobbot.server.config.io.Rejoiner;
-
-import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor

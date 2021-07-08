@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 import perobobbot.lang.Scope;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Value
 @NonFinal

@@ -10,7 +10,6 @@ import perobobbot.chat.core.event.Error;
 import perobobbot.chat.core.event.ReceivedMessage;
 import perobobbot.lang.*;
 
-import javax.websocket.MessageHandler;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;

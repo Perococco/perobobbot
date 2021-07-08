@@ -1,7 +1,10 @@
 package perobobbot.chat.core;
 
 import lombok.NonNull;
-import perobobbot.lang.*;
+import perobobbot.lang.ChatConnectionInfo;
+import perobobbot.lang.MessageListener;
+import perobobbot.lang.Platform;
+import perobobbot.lang.Subscription;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
