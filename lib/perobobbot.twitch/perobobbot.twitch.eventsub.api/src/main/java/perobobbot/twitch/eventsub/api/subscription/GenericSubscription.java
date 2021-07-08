@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.IdentifiedEnumTools;
-import perobobbot.lang.fp.Function1;
 import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 
@@ -13,10 +13,10 @@ import perobobbot.twitch.eventsub.api.SubscriptionType;
 @Getter
 public class GenericSubscription implements Subscription {
 
-    public static GenericSubscription from(@NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditions) {
-        final Function1<String,CriteriaType> toCriteria = s -> IdentifiedEnumTools.getEnum(s,CriteriaType.class);
+    public static GenericSubscription from(@NonNull String subscriptionType, @NonNull Conditions conditions) {
+
         final var type = IdentifiedEnumTools.getEnum(subscriptionType,SubscriptionType.class);
-        final var cond = conditions.keySet().stream().collect(ImmutableMap.toImmutableMap(toCriteria, conditions::get));
+        final var cond = conditions.toMap(IdentifiedEnumTools.mapper(CriteriaType.class));
 
         return new GenericSubscription(type,cond);
     }

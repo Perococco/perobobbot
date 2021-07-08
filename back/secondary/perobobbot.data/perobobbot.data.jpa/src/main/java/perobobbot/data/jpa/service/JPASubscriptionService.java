@@ -1,7 +1,6 @@
 package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ import perobobbot.data.jpa.repository.UserSubscriptionRepository;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Platform;
+import perobobbot.lang.SubscriptionData;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 
 @Service
@@ -29,7 +28,6 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class JPASubscriptionService implements SubscriptionService {
-
 
     private final @NonNull SubscriptionRepository subscriptionRepository;
     private final @NonNull UserSubscriptionRepository userSubscriptionRepository;
@@ -47,12 +45,6 @@ public class JPASubscriptionService implements SubscriptionService {
         return userSubscriptionRepository.findByOwner_LoginAndSubscription_Platform(login, platform)
                                          .map(UserSubscriptionEntityBase::toView)
                                          .collect(ImmutableList.toImmutableList());
-    }
-
-    @Override
-    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditionMap) {
-        return subscriptionRepository.findByTypeAndCondition(subscriptionType, conditionMap)
-                                     .map(SubscriptionEntityBase::toView);
     }
 
     @Override
@@ -78,19 +70,25 @@ public class JPASubscriptionService implements SubscriptionService {
     }
 
     @Override
-    public void updateSubscriptionId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionId) {
+    public void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId) {
         final var subscription = subscriptionRepository.getByUuid(subscriptionDbId);
-        subscription.setSubscriptionId(subscriptionId);
+        subscription.setSubscriptionId(subscriptionPlatformId);
         subscriptionRepository.save(subscription);
     }
 
     @Override
-    @Transactional
-    public @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId,
-                                                        @NonNull String subscriptionType,
-                                                        @NonNull ImmutableMap<String, String> conditions) {
-        return subscriptionRepository.save(new SubscriptionEntity(platform, subscriptionTwitchId, subscriptionType, conditions))
-                                     .toView();
+    public @NonNull SubscriptionView getOrCreateSubscription(@NonNull SubscriptionData subscriptionData) {
+        final var entity = new SubscriptionEntity(subscriptionData);
+        return subscriptionRepository.save(entity).toView();
+    }
+
+    @Override
+    public @NonNull Optional<SubscriptionView> findSubscription(@NonNull SubscriptionData subscriptionData) {
+        return subscriptionRepository.findByPlatformAndTypeAndCondition(
+                subscriptionData.getPlatform(),
+                subscriptionData.getSubscriptionType(),
+                subscriptionData.getConditions().getValues())
+                                     .map(SubscriptionEntityBase::toView);
     }
 
     @Override

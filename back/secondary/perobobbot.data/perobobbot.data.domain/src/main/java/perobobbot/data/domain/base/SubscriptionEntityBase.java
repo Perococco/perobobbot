@@ -1,12 +1,12 @@
 package perobobbot.data.domain.base;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.com.SubscriptionView;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Platform;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
@@ -55,15 +55,15 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     public SubscriptionEntityBase(@NonNull Platform platform,
                                   @NonNull String subscriptionId,
                                   @NonNull String type,
-                                  @NonNull Map<String,String> condition) {
+                                  @NonNull Conditions conditions) {
         super(UUID.randomUUID());
         this.platform = platform;
         this.subscriptionId = subscriptionId;
         this.type = type;
-        this.condition = new HashMap<>(condition);
+        this.condition = new HashMap<>(conditions.getValues());
     }
 
     public @NonNull SubscriptionView toView() {
-        return new SubscriptionView(getUuid(), platform, type, ImmutableMap.copyOf(condition),subscriptionId);
+        return new SubscriptionView(getUuid(), platform, type, Conditions.with(condition),subscriptionId);
     }
 }

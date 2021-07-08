@@ -15,4 +15,5 @@ public interface EventSubHandler {
     @NonNull Mono<Nil> handleSubscriptionDeletion(@NonNull String login, @NonNull UUID subscriptionId);
 
     @NonNull Mono<UserSubscriptionView> handleCreateSubscription(@NonNull String login, @NonNull Subscription subscription);
+
 }

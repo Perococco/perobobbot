@@ -20,4 +20,5 @@ public class EventSubConfiguration {
         final var platformEventSubManagers = ImmutableList.copyOf(applicationContext.getBeansOfType(PlatformEventSubManager.class).values());
         return MapBaseEventSubManager.create(platformEventSubManagers);
     }
+
 }

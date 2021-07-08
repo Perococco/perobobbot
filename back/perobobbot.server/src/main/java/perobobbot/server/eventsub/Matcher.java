@@ -1,14 +1,12 @@
 package perobobbot.server.eventsub;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
-import perobobbot.lang.Platform;
-import perobobbot.lang.fp.Value2;
+import perobobbot.lang.SubscriptionData;
 
 import java.util.List;
 import java.util.Map;
@@ -20,18 +18,18 @@ import java.util.stream.Stream;
 public class Matcher {
 
     public static @NonNull Match match(
-            @NonNull ImmutableList<SubscriptionIdentity> valid,
+            @NonNull ImmutableList<SubscriptionIdentity> onPlatform,
             @NonNull ImmutableList<SubscriptionView> persisted
     ) {
-        return new Matcher(valid, persisted).match();
+        return new Matcher(onPlatform, persisted).match();
     }
 
-    private final @NonNull ImmutableList<SubscriptionIdentity> valid;
+    private final @NonNull ImmutableList<SubscriptionIdentity> onPlatform;
     private final @NonNull ImmutableList<SubscriptionView> persisted;
 
 
-    private Map<Key, List<SubscriptionIdentity>> validByKey;
-    private Map<Key, SubscriptionView> persistedByKey;
+    private Map<SubscriptionData, List<SubscriptionIdentity>> validByKey;
+    private Map<SubscriptionData, SubscriptionView> persistedByKey;
 
     private Match.MatchBuilder builder = Match.builder();
 
@@ -39,26 +37,33 @@ public class Matcher {
     private @NonNull Match match() {
         this.dispatchPerKey();
         this.checkAllKeys();
+        this.handleInvalids();
         return builder.build();
     }
 
+    private void handleInvalids() {
+        onPlatform.stream()
+                  .filter(Predicate.not(SubscriptionIdentity::isValid))
+                  .forEach(v -> builder.toRevokeSub(v.getSubscriptionId()));
+    }
+
     private void dispatchPerKey() {
-        this.validByKey = valid.stream().collect(Collectors.groupingBy(Key::from));
-        this.persistedByKey = persisted.stream().collect(Collectors.toMap(Key::from, s -> s));
+        this.validByKey = onPlatform.stream().filter(SubscriptionIdentity::isValid).collect(Collectors.groupingBy(SubscriptionIdentity::createData));
+        this.persistedByKey = persisted.stream().collect(Collectors.toMap(SubscriptionView::createData, s -> s));
     }
 
     private void checkAllKeys() {
         Stream.concat(
                 validByKey.keySet().stream(),
                 persistedByKey.keySet().stream()
-        ).distinct().forEach(this::checkKey);
+        ).distinct().forEach(this::checkForOneData);
     }
 
-    private void checkKey(@NonNull Key key) {
-        final var v = validByKey.get(key);
-        final var p = persistedByKey.get(key);
+    private void checkForOneData(@NonNull SubscriptionData data) {
+        final var v = validByKey.get(data);
+        final var p = persistedByKey.get(data);
 
-        final Predicate<SubscriptionIdentity> sameId = s -> s.subscriptionId().equals(p.subscriptionId());
+        final Predicate<SubscriptionIdentity> sameId = s -> s.getSubscriptionId().equals(p.getSubscriptionId());
 
         if (v == null && p == null) {
             return;
@@ -70,7 +75,7 @@ public class Matcher {
 
         if (p == null) {
             v.stream()
-             .map(SubscriptionIdentity::subscriptionId)
+             .map(SubscriptionIdentity::getSubscriptionId)
              .forEach(builder::toRevokeSub);
             return;
         }
@@ -79,30 +84,16 @@ public class Matcher {
         if (match) {
             v.stream()
              .filter(Predicate.not(sameId))
-             .map(SubscriptionIdentity::subscriptionId)
+             .map(SubscriptionIdentity::getSubscriptionId)
              .forEach(builder::toRevokeSub);
         } else {
-            builder.toUpdateSub(p.id(), v.get(0).subscriptionId());
+            builder.toUpdateSub(p.getId(), v.get(0).getSubscriptionId());
             v.stream()
              .skip(1)
-             .map(SubscriptionIdentity::subscriptionId)
+             .map(SubscriptionIdentity::getSubscriptionId)
              .forEach(builder::toRevokeSub);
         }
 
-    }
-
-
-    private record Key(@NonNull Platform platform,
-                       @NonNull String subscriptionType,
-                       @NonNull ImmutableMap<String,String> conditions) {
-
-        public static Key from(@NonNull SubscriptionIdentity subscriptionIdentity) {
-            return new Key(subscriptionIdentity.platform(), subscriptionIdentity.subscriptionType(), subscriptionIdentity.conditionMap());
-        }
-
-        public static Key from(@NonNull SubscriptionView subscriptionView) {
-            return new Key(subscriptionView.platform(), subscriptionView.subscriptionType(), subscriptionView.conditionMap());
-        }
     }
 
 }

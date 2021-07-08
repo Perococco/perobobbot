@@ -10,8 +10,9 @@ import java.util.Optional;
 
 public interface EventSubRequestHandler {
 
-    @NonNull Optional<TwitchRequestContent<EventSubRequest>> handleCallback(@NonNull HttpServletRequest request,
-                                                      @NonNull HttpServletResponse response,
-                                                      @NonNull String secret)  throws IOException, ServletException;
+    @NonNull Optional<TwitchRequestContent<EventSubRequest>> handleCallback(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull String secret) throws IOException, ServletException;
 
 }

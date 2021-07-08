@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 @Log4j2
-public class EventSubRequestToTwitch implements EventSubSubscriber {
+public class TwitchEventSubSubscriber implements EventSubSubscriber {
 
     private @NonNull Supplier<Optional<URI>> callbackURISupplier;
     private final @NonNull String secret;

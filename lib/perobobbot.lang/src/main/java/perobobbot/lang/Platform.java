@@ -15,6 +15,10 @@ public enum Platform implements IdentifiedEnum {
     @Getter
     private final @NonNull String identification;
 
+    public static @NonNull Stream<Platform> stream() {
+        return Stream.of(TWITCH,LOCAL);
+    }
+
     public boolean isLocal() {
         return LOCAL == this;
     }

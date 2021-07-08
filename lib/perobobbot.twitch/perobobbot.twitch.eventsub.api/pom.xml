@@ -51,6 +51,10 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-eventsub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-twitch-api</artifactId>
         </dependency>
         <dependency>

@@ -1,10 +1,8 @@
-package perobobbot.twitch.eventsub.manager.spring;
+package perobobbot.twitch.eventsub.manager.spring.handler;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import perobobbot.lang.Nil;
-import perobobbot.lang.chain.Chain;
-import perobobbot.lang.chain.Link;
+import perobobbot.lang.Handler;
 import perobobbot.twitch.eventsub.api.EventSubNotification;
 import perobobbot.twitch.eventsub.api.EventSubRequest;
 import perobobbot.twitch.eventsub.api.TwitchRequestContent;
@@ -12,20 +10,22 @@ import perobobbot.twitch.eventsub.api.TwitchRequestContent;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Log4j2
-public class DuplicateNotificationRemover implements Link<TwitchRequestContent<EventSubRequest>, Nil> {
+public class DuplicatedNotificationHandler implements Handler<TwitchRequestContent<EventSubRequest>,EventSubNotification> {
 
     private final Map<String,String> seenMessageIdsBySubscriptionId = Collections.synchronizedMap(new HashMap<>());
 
-
     @Override
-    public @NonNull Nil call(@NonNull TwitchRequestContent<EventSubRequest> parameter, @NonNull Chain<TwitchRequestContent<EventSubRequest>,Nil> chain) {
-        final var shouldCallNext = shouldCallNext(parameter.content(),parameter.messageId());
-        if (shouldCallNext) {
-            return chain.callNext(parameter);
+    public @NonNull Optional<EventSubNotification> handle(@NonNull TwitchRequestContent<EventSubRequest> input) {
+        if (input.content() instanceof EventSubNotification eventSubNotification) {
+            if (alreadySeen(eventSubNotification,input.messageId())) {
+                return Optional.empty();
+            }
+            return Optional.of(eventSubNotification);
         }
-        return Nil.NIL;
+        return Optional.empty();
     }
 
     private boolean alreadySeen(EventSubNotification notification, @NonNull String messageId) {

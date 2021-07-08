@@ -1,10 +1,8 @@
 package perobobbot.server.eventsub;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import perobobbot.data.com.SubscriptionIdentity;
@@ -14,15 +12,10 @@ import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Todo;
-import perobobbot.lang.fp.Value2;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -33,11 +26,13 @@ public class SubscriptionSynchronizer {
     @EventService
     SubscriptionService subscriptionService;
 
-    @Scheduled(fixedDelay = 600_000)
+    @Scheduled(fixedDelay = 60_000)
     public void synchronize() {
-        eventSubManager.cleanFailedSubscription()
-                       .flatMap(this::synchronizePlatform, 5)
-                       .subscribe();
+        Mono.when(Platform.stream()
+                          .filter(eventSubManager::isPlatformManaged)
+                          .map(this::synchronizePlatform)
+                          .toList())
+            .subscribe();
 
     }
 
@@ -51,17 +46,18 @@ public class SubscriptionSynchronizer {
 
     private Mono<Nil> synchronizePlatform(
             @NonNull Platform platform,
-            @NonNull ImmutableList<SubscriptionIdentity> valid,
+            @NonNull ImmutableList<SubscriptionIdentity> onPlatform,
             @NonNull ImmutableList<SubscriptionView> persisted) {
 
-        final var match = Matcher.match(valid, persisted);
+
+
+        final var match = Matcher.match(onPlatform, persisted);
 
         final List<Mono<Nil>> todo = new ArrayList<>();
 
-
         match.getToUpdateSubs().entrySet().stream()
              .map(e -> Mono.fromCallable(() -> {
-                 subscriptionService.updateSubscriptionId(e.getKey(), e.getValue());
+                 subscriptionService.setSubscriptionPlatformId(e.getKey(), e.getValue());
                  return Nil.NIL;
              }))
              .forEach(todo::add);
@@ -69,25 +65,25 @@ public class SubscriptionSynchronizer {
 
         match.getToRevokeSubs()
              .stream()
-             .map(id -> eventSubManager.revokeSubscription(platform,id))
+             .map(id -> eventSubManager.revokeSubscription(platform, id))
              .forEach(todo::add);
 
 
         match.getToRefreshSubs()
              .stream()
-             .map(r -> performRefresh(platform,r))
+             .map(r -> performRefresh(platform, r))
              .forEach(todo::add);
 
         return Mono.when(todo).map(v -> Nil.NIL);
     }
 
     private @NonNull Mono<Nil> performRefresh(@NonNull Platform platform, @NonNull SubscriptionView subscriptionViewToRefresh) {
-        final var subscriptionType = subscriptionViewToRefresh.subscriptionType();
-        final var conditions = subscriptionViewToRefresh.conditionMap();
-        final var subscriptionDbId = subscriptionViewToRefresh.id();
+        final var subscriptionType = subscriptionViewToRefresh.getSubscriptionType();
+        final var conditions = subscriptionViewToRefresh.getConditions();
+        final var subscriptionDbId = subscriptionViewToRefresh.getId();
         return eventSubManager.createSubscription(platform, subscriptionType, conditions)
                               .map(i -> {
-                                  subscriptionService.updateSubscriptionId(subscriptionDbId, i.subscriptionId());
+                                  subscriptionService.setSubscriptionPlatformId(subscriptionDbId, i.getSubscriptionId());
                                   return Nil.NIL;
                               });
     }

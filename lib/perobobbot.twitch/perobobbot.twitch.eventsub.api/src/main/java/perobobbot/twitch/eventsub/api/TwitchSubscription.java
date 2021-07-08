@@ -6,13 +6,12 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.data.com.SubscriptionIdentity;
-import perobobbot.lang.MapTool;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Platform;
 import perobobbot.twitch.eventsub.api.deser.ConditionSerializer;
 import perobobbot.twitch.eventsub.api.event.EventSubEvent;
 
 import java.time.Instant;
-import java.util.Map;
 
 @Value
 public class TwitchSubscription implements SubscriptionIdentity {
@@ -43,22 +42,24 @@ public class TwitchSubscription implements SubscriptionIdentity {
     }
 
     @Override
-    public @NonNull Platform platform() {
+    public @NonNull Platform getPlatform() {
         return Platform.TWITCH;
     }
 
     @Override
-    public @NonNull String subscriptionType() {
+    public @NonNull String getSubscriptionType() {
         return type.getIdentification();
     }
 
     @Override
-    public @NonNull ImmutableMap<String, String> conditionMap() {
-        return condition.entrySet().stream().collect(ImmutableMap.toImmutableMap(c -> c.getKey().getIdentification(), Map.Entry::getValue));
+    public @NonNull Conditions getConditions() {
+        final var builder = Conditions.builder();
+        condition.forEach((k,v) -> builder.value(k.getIdentification(),v));
+        return builder.build();
     }
 
     @Override
-    public @NonNull String subscriptionId() {
+    public @NonNull String getSubscriptionId() {
         return id;
     }
 }

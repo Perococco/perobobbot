@@ -31,5 +31,6 @@ module perobobbot.twitch.event.sub.manager {
 //    opens perobobbot.twitch.eventsub.manager to com.fasterxml.jackson.databind, spring.core,spring.beans,spring.context, spring.messaging;
     opens perobobbot.twitch.eventsub.manager._private to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core, spring.messaging;
     opens perobobbot.twitch.eventsub.manager.spring to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core, spring.messaging;
+    opens perobobbot.twitch.eventsub.manager.spring.handler to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core, spring.messaging;
 
 }

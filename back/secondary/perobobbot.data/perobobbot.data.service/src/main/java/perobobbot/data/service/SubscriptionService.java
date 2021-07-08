@@ -1,15 +1,14 @@
 package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.lang.Platform;
+import perobobbot.lang.SubscriptionData;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 /**
  * Service providing access to the persisted subscription
@@ -23,7 +22,7 @@ public interface SubscriptionService {
     @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptions(@NonNull String login);
 
     /**
-     * @param login the login of the user
+     * @param login    the login of the user
      * @param platform a platform
      * @return all the subscriptions made by the user with the provided login for the provided platform
      */
@@ -31,24 +30,34 @@ public interface SubscriptionService {
 
     @NonNull ImmutableList<SubscriptionView> listAllByPlatform(@NonNull Platform platform);
 
-    @NonNull Optional<SubscriptionView> findSubscription(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditions);
-
 
     @NonNull UserSubscriptionView addUserToSubscription(@NonNull UUID subscriptionId, @NonNull String login);
 
     /**
      * @param subscriptionId the id of the subscription
-     * @param login the login of the user
+     * @param login          the login of the user
      */
     void removeUserFromSubscription(@NonNull UUID subscriptionId, @NonNull String login);
 
-    @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull ImmutableMap<String,String> conditions);
+
+    /**
+     * @param subscriptionData the data that defines the subscription
+     * @return an optional containing the subscription if it exists, an empty optional otherwise
+     */
+    @NonNull Optional<SubscriptionView> findSubscription(@NonNull SubscriptionData subscriptionData);
+
+
+    /**
+     * @param subscriptionData the data that defines the subscription
+     */
+    @NonNull SubscriptionView getOrCreateSubscription(@NonNull SubscriptionData subscriptionData);
+
 
     /**
      * @param subscriptionDbId the id in the database
-     * @param subscriptionId the id on the platform
+     * @param subscriptionPlatformId   the id provided by the platform
      */
-    void updateSubscriptionId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionId);
+    void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId);
 
     /**
      * @param id the id of the subscription to clean

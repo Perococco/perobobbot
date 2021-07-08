@@ -2,11 +2,9 @@ package perobobbot.twitch.eventsub.api.subscription;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
-import perobobbot.twitch.eventsub.api.ConditionId;
+import perobobbot.lang.Conditions;
 import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
-
-import java.util.Map;
 
 public interface Subscription {
 
@@ -18,9 +16,8 @@ public interface Subscription {
         return getType().getVersion();
     }
 
-    default @NonNull ImmutableMap<String,String> cConditionMap() {
-        return getCondition().entrySet().stream()
-                             .collect(ImmutableMap.toImmutableMap(e -> e.getKey().getIdentification(), Map.Entry::getValue));
+    default @NonNull Conditions conditionMap() {
+        return Conditions.withIdentifiedEnumAsKey(getCondition());
     }
 
 

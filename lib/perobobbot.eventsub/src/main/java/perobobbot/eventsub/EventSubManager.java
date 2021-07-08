@@ -1,45 +1,57 @@
 package perobobbot.eventsub;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.data.com.SubscriptionIdentity;
-import perobobbot.data.com.UserSubscriptionView;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 /**
- * Methods to get information about event subscription on the platform
+ * Methods to create/list/revoke methods on a platform.
+ * They do not and should not have any effect an the DB
  */
 public interface EventSubManager {
 
-    boolean isPlatformAvailable(@NonNull Platform platform);
+    /**
+     * @param platform a platform
+     * @return true if a manager exists for event sub for the provided platform
+     */
+    boolean isPlatformManaged(@NonNull Platform platform);
+
+    /**
+     * find a platform specific manager
+     * @param platform the platform
+     * @return an optional containing the manager for the provided platform if one exists, an empty optional
+     * otherwise
+     */
+    @NonNull Optional<PlatformEventSubManager> findManager(@NonNull Platform platform);
 
     @NonNull Set<String> getSubscriptionTypes(@NonNull Platform platform);
 
 
-    //INFO: methods below does not modify bdd with chain executor
+    default @NonNull PlatformEventSubManager getManager(@NonNull Platform platform) {
+        return findManager(platform).orElseThrow(() -> new EventSubUnmanagedPlatform(platform));
+    }
 
-    @NonNull Flux<Platform> cleanFailedSubscription();
+    default @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllSubscriptions(@NonNull Platform platform) {
+        return getManager(platform).listAllSubscriptions();
+    }
 
-    @NonNull Mono<? extends SubscriptionIdentity> createSubscription(
+    default @NonNull Mono<? extends SubscriptionIdentity> createSubscription(
             @NonNull Platform platform,
             @NonNull String subscriptionType,
-            @NonNull ImmutableMap<String, String> conditions);
+            @NonNull Conditions conditions) {
+        return getManager(platform).createSubscription(subscriptionType,conditions);
+    }
 
-    @NonNull Mono<Nil> revokeSubscription(@NonNull Platform platform, @NonNull String subscriptionId);
-
-    @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllSubscriptions(@NonNull Platform platform);
-
-
-    @NonNull Mono<Nil> deleteUserSubscription(@NonNull Platform platform, @NonNull String login, @NonNull UUID subscriptionId);
-
-    @NonNull Mono<UserSubscriptionView> createUserSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData);
+    default @NonNull Mono<Nil> revokeSubscription(@NonNull Platform platform, @NonNull String subscriptionId) {
+        return getManager(platform).revokeSubscription(subscriptionId);
+    }
 
 
 

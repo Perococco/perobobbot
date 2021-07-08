@@ -1,17 +1,22 @@
 package perobobbot.data.com;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
+import lombok.Value;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Platform;
+import perobobbot.lang.SubscriptionData;
 
-import java.util.Map;
 import java.util.UUID;
 
-public record SubscriptionView(@NonNull UUID id,
-                               @NonNull Platform platform,
-                               @NonNull String subscriptionType,
-                               @NonNull ImmutableMap<String,String> conditionMap,
-                               @NonNull String subscriptionId) implements SubscriptionIdentity{
+@Value
+public class SubscriptionView {
+    @NonNull UUID id;
+    @NonNull Platform platform;
+    @NonNull String subscriptionType;
+    @NonNull Conditions conditions;
+    @NonNull String subscriptionId;
 
-
+    public @NonNull SubscriptionData createData() {
+        return new SubscriptionData(platform,subscriptionType,conditions);
+    }
 }
