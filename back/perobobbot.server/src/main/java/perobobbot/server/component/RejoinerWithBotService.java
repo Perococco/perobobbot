@@ -7,12 +7,17 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import perobobbot.chat.core.ChatPlatform;
 import perobobbot.chat.core.IO;
-import perobobbot.data.com.JoinedChannel;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
+import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Bot;
+import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
+import perobobbot.server.config.io.ChatConnectionHelper;
 import perobobbot.server.config.io.Rejoiner;
+
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -21,19 +26,28 @@ public class RejoinerWithBotService implements Rejoiner {
 
     private final @NonNull IO io;
 
-    private final @EventService @NonNull BotService botService;
+    private final @EventService
+    @NonNull BotService botService;
+
+    private final @EventService
+    @NonNull OAuthService oAuthService;
 
     @Override
     public void rejoinChannels(@NonNull Platform platform) {
         io.findPlatform(platform).map(Execution::new).ifPresent(Execution::run);
     }
 
-    @RequiredArgsConstructor
     private class Execution {
 
         private final @NonNull ChatPlatform chatPlatform;
+        private final @NonNull ChatConnectionHelper chatConnectionHelper;
 
         private ImmutableList<JoinedChannel> joinedChannels;
+
+        public Execution(@NonNull ChatPlatform chatPlatform) {
+            this.chatPlatform = chatPlatform;
+            this.chatConnectionHelper = new ChatConnectionHelper(oAuthService);
+        }
 
         private void run() {
             this.retrieveJoinedChannels();
@@ -48,17 +62,18 @@ public class RejoinerWithBotService implements Rejoiner {
         private void rejoin(@NonNull JoinedChannel joinedChannel) {
             final var channelName = joinedChannel.getChannelName();
             final var bot = joinedChannel.getBot();
-            final var connectionInfo = joinedChannel.createChatConnectionInfo().orElse(null);
+            final var connectionInfo = chatConnectionHelper.createRefreshable(joinedChannel).orElse(null);
 
             if (connectionInfo == null) {
-                warnOnRejoinFailure("No credential to join",bot,channelName);
+                warnOnRejoinFailure("No credential to join", bot, channelName);
                 return;
             }
 
             if (!connectionInfo.getPlatform().equals(chatPlatform.getPlatform())) {
-                warnOnRejoinFailure("Connection information are not for this platform : this="+chatPlatform.getPlatform()+" that="+connectionInfo.getPlatform(),bot,channelName);
+                warnOnRejoinFailure("Connection information are not for this platform : this=" + chatPlatform.getPlatform() + " that=" + connectionInfo.getPlatform(), bot, channelName);
                 return;
             }
+
 
             chatPlatform.connect(connectionInfo)
                         .thenCompose(connection -> connection.join(channelName))
@@ -71,17 +86,17 @@ public class RejoinerWithBotService implements Rejoiner {
         }
 
         private void warnOnRejoinFailure(@NonNull Throwable error, @NonNull Bot bot, @NonNull String channelName) {
-            warnOnRejoinFailure(error.getMessage(),bot,channelName);
+            warnOnRejoinFailure(error.getMessage(), bot, channelName);
             LOG.debug(error);
 
         }
 
         private void warnOnRejoinFailure(@NonNull String message, @NonNull Bot bot, @NonNull String channelName) {
             LOG.warn("Fail to connect to channel {}/{} with bot {} : {}",
-                     chatPlatform.getPlatform(),
-                     channelName,
-                     bot.getName(),
-                     message);
+                    chatPlatform.getPlatform(),
+                    channelName,
+                    bot.getName(),
+                    message);
         }
 
     }

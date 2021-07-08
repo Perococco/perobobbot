@@ -2,7 +2,7 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perobobbot.data.com.JoinedChannel;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Bot;
 import perobobbot.lang.Platform;
 

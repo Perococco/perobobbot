@@ -2,21 +2,17 @@ package perobobbot.server;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import perobobbot.chat.core.ChatConnection;
 import perobobbot.chat.core.IO;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.*;
 import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
-import perobobbot.server.config.io.ChatPlatformPluginManager;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -82,14 +78,14 @@ public class Starter {
                                       .findAny()
                                       .get();
 
-        final var connectionInfo = new ChatConnectionInfo(
-                bot.getId(),
-                token.getViewerIdentity().getId(),
-                Platform.TWITCH,
-                bot.getName(),
-                token.getViewerLogin(),
-                token.getToken().getAccessToken()
-        );
+        final var connectionInfo = ChatConnectionInfo.builder()
+                                                     .botId(bot.getId())
+                                                     .viewerIdentityId(token.getViewerIdentity().getId())
+                                                     .platform(Platform.TWITCH)
+                                                     .botName(bot.getName())
+                                                     .nick(token.getViewerLogin())
+                                                     .secret(token.getAccessToken())
+                                                     .build();
 
         io.getPlatform(Platform.TWITCH)
           .connect(connectionInfo)

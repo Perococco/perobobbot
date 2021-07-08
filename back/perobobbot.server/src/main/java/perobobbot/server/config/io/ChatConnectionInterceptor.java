@@ -26,6 +26,7 @@ public class ChatConnectionInterceptor {
                 return super.join(channelName).whenComplete((messageChannelIO, error) -> {
                     if (messageChannelIO != null) {
                         final var connectionInfo = getChatConnectionInfo();
+
                         LOG.info("{} join {}/{}",
                                 connectionInfo.getBotName(),
                                 connectionInfo.getPlatform(),

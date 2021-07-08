@@ -5,8 +5,8 @@ import perobobbot.lang.Secret;
 
 public interface DecryptedTokenView extends TokenView<Secret> {
 
-    default @NonNull String getAccessToken() {
-        return getToken().getAccessToken().getValue();
+    default @NonNull Secret getAccessToken() {
+        return getToken().getAccessToken();
     }
 
 }

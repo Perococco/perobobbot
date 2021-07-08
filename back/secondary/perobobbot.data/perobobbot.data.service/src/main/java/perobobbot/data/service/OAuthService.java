@@ -7,11 +7,11 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.lang.token.UserTokenRefresher;
 import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 public interface OAuthService {
 

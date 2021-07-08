@@ -11,6 +11,9 @@ import perobobbot.plugin.ChatPlatformPlugin;
 
 import java.util.Optional;
 
+/**
+ * Take care of chat platform added by plugin
+ */
 @RequiredArgsConstructor
 @Log4j2
 public class ChatPlatformPluginManager {
@@ -32,6 +35,11 @@ public class ChatPlatformPluginManager {
         this.chatPlatformInterceptor = new ChatPlatformInterceptor(messageGateway);
     }
 
+
+    /**
+     * @param plugin the plugin providing the chat platform
+     * @return a subscription to remove the plugin
+     */
     public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPlugin plugin) {
         final var chatPlatform = chatPlatformInterceptor.intercept(plugin.getChatPlatform());
 

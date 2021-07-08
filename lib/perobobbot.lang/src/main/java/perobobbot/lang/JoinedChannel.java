@@ -1,15 +1,6 @@
-package perobobbot.data.com;
+package perobobbot.lang;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import perobobbot.lang.Bot;
-import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
-import perobobbot.lang.ViewerIdentity;
-import perobobbot.lang.token.BaseUserToken;
-import perobobbot.lang.token.DecryptedUserToken;
+import lombok.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,18 +16,17 @@ public class JoinedChannel {
     private final @NonNull ViewerIdentity viewerIdentity;
 
     @Getter(AccessLevel.NONE)
-    private final DecryptedUserToken decryptedUserToken;
+    private final DecryptedTokenInfo decryptedTokenInfo;
 
     private final @NonNull String channelName;
-
 
 
     public @NonNull UUID getBotId() {
         return bot.getId();
     }
 
-    public @NonNull Optional<DecryptedUserToken> getDecryptedUserToken() {
-        return Optional.ofNullable(decryptedUserToken);
+    public @NonNull Optional<DecryptedTokenInfo> getDecryptedTokenInfo() {
+        return Optional.ofNullable(decryptedTokenInfo);
     }
 
     public @NonNull String getBotName() {
@@ -53,9 +43,6 @@ public class JoinedChannel {
 
     public @NonNull String getNick() {
         return viewerIdentity.getLogin();
-    }
-    public @NonNull Optional<Secret> getSecret() {
-        return getDecryptedUserToken().map(BaseUserToken::getAccessToken);
     }
 
 }

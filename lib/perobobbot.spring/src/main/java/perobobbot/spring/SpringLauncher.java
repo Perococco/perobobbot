@@ -104,7 +104,7 @@ public class SpringLauncher {
                 this.packagesList
                         .stream()
                         .sorted(Comparator.comparing(Packages::getName))
-                        .forEach(p -> LOG.info("Plugin : [{}] {}", p.getClass().getSimpleName(), p.getName()));
+                        .forEach(p -> LOG.info("Module : [{}] {}", p.getClass().getSimpleName(), p.getName()));
             }
         }
 

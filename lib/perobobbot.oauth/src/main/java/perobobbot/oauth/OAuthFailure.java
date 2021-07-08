@@ -5,6 +5,8 @@ import lombok.NonNull;
 import perobobbot.lang.PerobobbotException;
 import perobobbot.lang.Platform;
 
+import java.util.Objects;
+
 public class OAuthFailure extends PerobobbotException {
 
     @Getter
@@ -20,12 +22,19 @@ public class OAuthFailure extends PerobobbotException {
     }
 
     public OAuthFailure(@NonNull Platform platform, @NonNull String clientId, Throwable cause) {
-        super(formMessage(clientId,cause.getMessage()),cause);
+        super(formMessage(clientId, getReasonFromThrowable(cause)),cause);
         this.platform = platform;
         this.clientId = clientId;
     }
 
     private static String formMessage(@NonNull String clientId, @NonNull String reason) {
         return "The OAuth process failed for client '" + clientId + "' : " + reason;
+    }
+
+    private static String getReasonFromThrowable(@NonNull Throwable throwable) {
+        if (throwable instanceof InterruptedException) {
+            return "process interrupted";
+        }
+        return Objects.requireNonNullElse(throwable.getMessage(), "unknown reason ("+throwable.getClass().getName()+")");
     }
 }

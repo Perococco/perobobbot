@@ -19,10 +19,11 @@ public class ChatPlatformInterceptor {
     }
 
     public @NonNull ChatPlatform intercept(@NonNull ChatPlatform chatPlatform) {
+        final var refreshChatPlatform = new RefreshChatPlatform(chatPlatform);
 
-        return new ProxyChatPlatform(chatPlatform) {
+        return new ProxyChatPlatform(refreshChatPlatform) {
             @Override
-            public @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatConnectionInfo chatConnectionInfo) {
+            public @NonNull CompletionStage<ChatConnection> connect(@NonNull ChatConnectionInfo chatConnectionInfo) {
                 return super.connect(chatConnectionInfo).thenApply(interceptor::intercept);
             }
         };

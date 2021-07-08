@@ -32,26 +32,22 @@
 
     <Loggers>
         <!-- LOG everything at INFO level -->
-        <Root level="INFO">
+        <Root level="WARN">
             <AppenderRef ref="Console" />
             <AppenderRef ref="RollingFile" />
         </Root>
-<!--        logging.level.root=WARN-->
-<!--        logging.level.web=DEBUG-->
-<!--        logging.level.org.springframework.context.annotation.ClassPathBeanDefinitionScanner=OFF-->
-<!--        logging.level.org.springframework.security=DEBUG-->
-<!--        logging.level.perobobbot.overlay.api.FPSCounter=DEBUG-->
 
-        <Logger name="perobobbot.server.config.io.ChatConnectionInterceptor" level="info"/>
-        <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="info"/>
+        <Logger name="org.flywaydb.core" level="info"/>
 
-        <Logger name="org.springframework.boot.autoconfigure" level="off"/>
-
-        <!-- LOG "com.baeldung*" at TRACE level -->
-        <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
-        <Logger name="perobobbot.spring.SpringLauncher" level="info"/>
         <Logger name="web" level="warn"/>
         <Logger name="reactor.netty" level="off"/>
+
+        <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="off"/>
+        <Logger name="org.springframework.boot.autoconfigure" level="off"/>
+
+        <Logger name="perobobbot.server.config.io.ChatConnectionInterceptor" level="info"/>
+        <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
+        <Logger name="perobobbot.spring.SpringLauncher" level="info"/>
         <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>
     </Loggers>
 

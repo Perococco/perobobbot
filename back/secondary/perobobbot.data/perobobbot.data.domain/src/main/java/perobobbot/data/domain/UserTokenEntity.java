@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.domain.base.UserTokenEntityBase;
+import perobobbot.lang.EncryptedTokenInfo;
 import perobobbot.lang.TextEncryptor;
+import perobobbot.lang.DecryptedTokenInfo;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.EncryptedUserToken;
 import perobobbot.lang.token.EncryptedUserTokenView;
@@ -21,6 +23,10 @@ public class UserTokenEntity extends UserTokenEntityBase {
                            @NonNull ViewerIdentityEntity viewerIdentity,
                            @NonNull EncryptedUserToken userToken) {
         super(owner, viewerIdentity, userToken);
+    }
+
+    public @NonNull EncryptedTokenInfo toTokenInfo() {
+        return new EncryptedTokenInfo(getUuid(),toUserToken());
     }
 
     public @NonNull EncryptedUserToken toUserToken() {

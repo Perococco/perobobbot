@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import perobobbot.data.com.JoinedChannel;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;

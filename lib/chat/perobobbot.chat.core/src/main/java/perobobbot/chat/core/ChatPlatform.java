@@ -19,14 +19,14 @@ public interface ChatPlatform {
      * @param chatConnectionInfo the connection information to use to connect to the chat platform
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO} after successful connection
      */
-    @NonNull CompletionStage<? extends ChatConnection> connect(@NonNull ChatConnectionInfo chatConnectionInfo);
+    @NonNull CompletionStage<ChatConnection> connect(@NonNull ChatConnectionInfo chatConnectionInfo);
 
     /**
      * find the chat connection for the specific authentication
      * @param chatConnectionInfo the information used to connect
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO}
      */
-    @NonNull Optional<CompletionStage<? extends ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo);
+    @NonNull Optional<CompletionStage<ChatConnection>> findConnection(@NonNull ChatConnectionInfo chatConnectionInfo);
 
     /**
      * Add a listener that will be called for all message received on the platform
@@ -35,7 +35,7 @@ public interface ChatPlatform {
      */
     @NonNull Subscription addMessageListener(@NonNull MessageListener listener);
 
-    default @NonNull CompletionStage<? extends ChatConnection> getConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
+    default @NonNull CompletionStage<ChatConnection> getConnection(@NonNull ChatConnectionInfo chatConnectionInfo) {
         return findConnection(chatConnectionInfo)
                 .orElseGet(() -> CompletableFuture.failedFuture(new ChatConnectionNotDone(chatConnectionInfo)));
     }
