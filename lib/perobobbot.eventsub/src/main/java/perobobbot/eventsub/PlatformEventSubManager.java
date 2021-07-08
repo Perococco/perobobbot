@@ -26,9 +26,11 @@ public interface PlatformEventSubManager {
 
     @NonNull Mono<UserSubscriptionView> createSubscription(@NonNull String login,
                                                            @NonNull String subscriptionType,
-                                                           @NonNull ImmutableMap<String,String> condition);
+                                                           @NonNull ImmutableMap<String, String> condition);
 
     @NonNull Mono<Nil> cleanFailedSubscription();
+
+    @NonNull Mono<Nil> revokeSubscription(@NonNull String subscriptionId);
 
     @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllValidSubscriptions();
 

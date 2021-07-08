@@ -66,16 +66,18 @@ public class TwitchEventSubManager implements PlatformEventSubManager {
     @Override
     public Mono<Nil> cleanFailedSubscription() {
         return listAllSubscription()
-                .map(d -> {
-                            System.out.println(Arrays.toString(d.getData()));
-                            return Arrays.stream(d.getData())
-                                         .filter(TwitchSubscription::isFailure)
-                                         .map(TwitchSubscription::getId)
-                                         .collect(ImmutableSet.toImmutableSet());
-                        }
+                .map(d -> Arrays.stream(d.getData())
+                    .filter(TwitchSubscription::isFailure)
+                    .map(TwitchSubscription::getId)
+                    .collect(ImmutableSet.toImmutableSet())
                 )
                 .flatMap(this::clean)
                 .map(a -> Nil.NIL);
+    }
+
+    @Override
+    public @NonNull Mono<Nil> revokeSubscription(@NonNull String subscriptionId) {
+        return twitchService.deleteEventSubSubscription(subscriptionId);
     }
 
     public @NonNull Mono<?> clean(@NonNull ImmutableSet<String> failedSubscriptionIds) {

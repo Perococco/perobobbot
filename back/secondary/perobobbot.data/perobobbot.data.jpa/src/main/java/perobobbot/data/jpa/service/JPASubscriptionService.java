@@ -73,6 +73,13 @@ public class JPASubscriptionService implements SubscriptionService {
     }
 
     @Override
+    public void updateSubscriptionId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionId) {
+        final var subscription = subscriptionRepository.getByUuid(subscriptionDbId);
+        subscription.setSubscriptionId(subscriptionId);
+        subscriptionRepository.save(subscription);
+    }
+
+    @Override
     @Transactional
     public @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId,
                                                         @NonNull String subscriptionType,

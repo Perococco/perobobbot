@@ -25,8 +25,9 @@ public interface EventSubManager {
 
     @NonNull Mono<UserSubscriptionView> createSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData);
 
-
     @NonNull Flux<Platform> cleanFailedSubscription();
+
+    @NonNull Mono<Nil> revokeSubscription(@NonNull Platform platform, @NonNull String subscriptionId);
 
     @NonNull Mono<ImmutableList<SubscriptionIdentity>> listAllSubscriptions(@NonNull Platform platform);
 

@@ -68,6 +68,11 @@ public class MapBaseEventSubManager implements EventSubManager {
     }
 
     @Override
+    public @NonNull Mono<Nil> revokeSubscription(@NonNull Platform platform, @NonNull String subscriptionId) {
+        return getManager(platform).revokeSubscription(subscriptionId);
+    }
+
+    @Override
     public @NonNull Flux<Platform> cleanFailedSubscription() {
         return Flux.concat(managerPerPlatform.values()
                                              .stream()

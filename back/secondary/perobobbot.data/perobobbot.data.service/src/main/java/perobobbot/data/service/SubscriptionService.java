@@ -37,10 +37,16 @@ public interface SubscriptionService {
     @NonNull SubscriptionView createSubscription(@NonNull Platform platform, @NonNull String subscriptionTwitchId, @NonNull String subscriptionType, @NonNull String conditionId);
 
     /**
+     * @param subscriptionDbId the id in the database
+     * @param subscriptionId the id on the platform
+     */
+    void updateSubscriptionId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionId);
+    /**
      * @param id the id of the subscription to clean
      * @return an optional containing a view of the subscription if it has been deleted by the clean up, an empty optional otherwise
      */
     @NonNull Optional<SubscriptionView> cleanSubscription(@NonNull UUID id);
 
     void deleteUserSubscription(@NonNull UUID id, @NonNull String login);
+
 }
