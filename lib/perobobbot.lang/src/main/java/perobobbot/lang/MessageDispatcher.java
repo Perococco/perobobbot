@@ -9,9 +9,9 @@ public interface MessageDispatcher {
     @NonNull Subscription addPreprocessor(@NonNull MessagePreprocessor messagePreprocessor);
 
     /**
-     * @param messageHandler a listener that is called with all incoming from the chats
+     * @param messageListener a listener that is called with all incoming from the chats
      * @return a subscription that can be used to remove this message from this chat controller
      */
-    @NonNull Subscription addListener(@NonNull MessageHandler messageHandler);
+    @NonNull Subscription addListener(@NonNull MessageListener messageListener);
 
 }

@@ -41,7 +41,7 @@ public class PeroCommandController implements CommandController {
 
 
     @Override
-    public void handleMessage(@NonNull MessageContext messageContext) {
+    public void onMessage(@NonNull MessageContext messageContext) {
         final var prefix = getPrefix(messageContext.getPlatform());
         ExecutionContext.createFrom(prefix, messageContext)
                         .map(Executor::new)

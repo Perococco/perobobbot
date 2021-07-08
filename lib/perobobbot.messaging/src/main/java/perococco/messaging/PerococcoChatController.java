@@ -13,13 +13,13 @@ import java.util.Comparator;
 public class PerococcoChatController implements ChatController {
 
     private ImmutableList<MessagePreprocessor> preprocessors = ImmutableList.of();
-    private ImmutableList<MessageHandler> listeners = ImmutableList.of();
+    private ImmutableList<MessageListener> listeners = ImmutableList.of();
 
     @Override
     public void handleMessage(@NonNull MessageContext messageContext) {
         var processedMessage = processMessage(messageContext);
-        for (MessageHandler listener : listeners) {
-            listener.handleMessage(processedMessage);
+        for (MessageListener listener : listeners) {
+            listener.onMessage(processedMessage);
         }
     }
 
@@ -33,8 +33,8 @@ public class PerococcoChatController implements ChatController {
 
     @Override
     @Synchronized
-    public @NonNull Subscription addListener(@NonNull MessageHandler handler) {
-        this.listeners = ListTool.addInOrderedList(this.listeners, handler, Comparator.comparingInt(MessageHandler::priority).reversed());
+    public @NonNull Subscription addListener(@NonNull MessageListener handler) {
+        this.listeners = ListTool.addInOrderedList(this.listeners, handler, Comparator.comparingInt(MessageListener::priority).reversed());
         return () -> removeListener(handler);
     }
 
@@ -46,7 +46,7 @@ public class PerococcoChatController implements ChatController {
     }
 
     @Synchronized
-    private void removeListener(MessageHandler listener) {
+    private void removeListener(MessageListener listener) {
         this.listeners = ListTool.removeFirst(this.listeners, listener);
     }
 

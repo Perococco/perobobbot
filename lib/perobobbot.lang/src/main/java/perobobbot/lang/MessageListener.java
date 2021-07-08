@@ -3,9 +3,15 @@ package perobobbot.lang;
 import lombok.NonNull;
 
 /**
- * Listen to incoming message.
+ * Handle incoming message from any chat. Must be register to the chat controller
  */
 public interface MessageListener {
+
+    int DEFAULT_PRIORITY = 100;
+
+    default int priority() {
+        return DEFAULT_PRIORITY;
+    }
 
     /**
      * @param messageContext the incoming message

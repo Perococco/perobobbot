@@ -2,10 +2,10 @@ package perobobbot.command;
 
 import lombok.NonNull;
 import perobobbot.lang.MessageDispatcher;
-import perobobbot.lang.MessageHandler;
+import perobobbot.lang.MessageListener;
 import perococco.command.PeroCommandControllerBuilder;
 
-public interface CommandController extends MessageHandler {
+public interface CommandController extends MessageListener {
 
     static @NonNull CommandControllerBuilder builder(@NonNull MessageDispatcher messageDispatcher,
                                                      @NonNull CommandExecutor commandExecutor) {
