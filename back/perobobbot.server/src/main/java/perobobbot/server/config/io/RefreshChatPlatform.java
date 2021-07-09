@@ -25,7 +25,6 @@ public class RefreshChatPlatform extends ProxyChatPlatform {
     }
 
     private CompletionStage<ChatConnection> tryReconnect(Throwable error, @NonNull ChatConnectionInfo chatConnectionInfo) {
-        System.out.println("THREAD INTERRUPTED : "+Thread.currentThread().isInterrupted());
         final var refreshedChatConnectionInfo = chatConnectionInfo.refresh().orElse(null);
         if (refreshedChatConnectionInfo == null) {
             LOG.warn("Chat connection failed and token cannot be refreshed");
