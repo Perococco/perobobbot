@@ -6,9 +6,11 @@ import perobobbot.data.service.BankService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.proxy.ProxyBankService;
+import perobobbot.lang.PluginService;
 
 @Service
 @SecuredService
+@PluginService(type = BankService.class, apiVersion = BankService.VERSION)
 public class SecuredBankService extends ProxyBankService {
 
     public SecuredBankService(@NonNull @EventService BankService delegate) {
