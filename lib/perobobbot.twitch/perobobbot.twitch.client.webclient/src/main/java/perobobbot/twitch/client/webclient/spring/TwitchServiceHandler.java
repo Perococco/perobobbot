@@ -58,8 +58,10 @@ public class TwitchServiceHandler implements InvocationHandler {
 
         final var call = new BasicOAuthCall(methodWithToken, prepareProxyArguments(args, tokenIndex), tokenIndex);
 
-        final var helper = OAuthContextHolder.getContext().getTokenIdentifier()
-                                             .map(t -> factory.withToken(t))
+        final var token = OAuthContextHolder.getContext().getTokenIdentifier();
+
+        final var helper = token
+                                             .map(factory::withToken)
                                              .orElse(factory::createWithoutToken)
                                              .f(Platform.TWITCH, proxyMethod.getOAuthRequirement());
 

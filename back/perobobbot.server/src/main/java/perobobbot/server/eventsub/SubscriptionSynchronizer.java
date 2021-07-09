@@ -26,7 +26,7 @@ public class SubscriptionSynchronizer {
     @EventService
     SubscriptionService subscriptionService;
 
-    @Scheduled(fixedDelay = 60_000)
+    @Scheduled(fixedDelay = 600_000)
     public void synchronize() {
         Mono.when(Platform.stream()
                           .filter(eventSubManager::isPlatformManaged)

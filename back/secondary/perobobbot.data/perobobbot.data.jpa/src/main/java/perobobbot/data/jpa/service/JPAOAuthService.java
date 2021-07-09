@@ -39,6 +39,7 @@ public class JPAOAuthService implements OAuthService {
 
     private final @NonNull ClientRepository clientRepository;
 
+    private final @NonNull UserRepository userRepository;
     private final @NonNull UserTokenRepository userTokenRepository;
     private final @NonNull ClientTokenRepository clientTokenRepository;
 
@@ -63,6 +64,7 @@ public class JPAOAuthService implements OAuthService {
         this.userTokenRepository = userTokenRepository;
         this.clientTokenRepository = clientTokenRepository;
         this.instants = instants;
+        this.userRepository = userRepository;
         this.userTokenSaver = UserTokenSaving.saver(clientRepository, userRepository, viewerIdentityRepository,
                 userTokenRepository, oAuthManager, textEncryptor);
     }
@@ -253,6 +255,8 @@ public class JPAOAuthService implements OAuthService {
                     .revokeToken(client, decryptedAccessToken);
 
         token.getOwner().removeUserToken(tokenId);
+        userRepository.save(token.getOwner());
         userTokenRepository.delete(token);
+
     }
 }

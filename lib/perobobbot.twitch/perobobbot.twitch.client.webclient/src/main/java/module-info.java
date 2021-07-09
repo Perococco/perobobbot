@@ -24,9 +24,9 @@ module perobobbot.twitch.client.webclient {
     requires com.google.common;
 
     opens perobobbot.twitch.client.webclient.spring to spring.core, spring.context, spring.beans, spring.aop;
-//    opens perobobbot.twitch.client.webclient to spring.core, spring.context, spring.beans, com.fasterxml.jackson.databind;
-//    opens perobobbot.twitch.client.webclient.eventsub to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core;
-//    opens perobobbot.twitch.client.webclient.games to com.fasterxml.jackson.databind, spring.beans, spring.context, spring.core;
+    opens perobobbot.twitch.client.webclient.channelpoints to com.fasterxml.jackson.databind;
+    opens perobobbot.twitch.client.webclient.eventsub to com.fasterxml.jackson.databind;
+    opens perobobbot.twitch.client.webclient.games to com.fasterxml.jackson.databind;
 
     provides Packages with TwitchApiConfiguration;
 }

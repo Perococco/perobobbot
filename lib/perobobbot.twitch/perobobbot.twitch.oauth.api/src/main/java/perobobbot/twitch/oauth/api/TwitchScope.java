@@ -66,7 +66,7 @@ public enum TwitchScope implements Scope {
 
     private static class LazyHolder {
         private static final ImmutableMap<String, TwitchScope> VALUES_BY_NAME = Arrays.stream(values()).collect(ImmutableMap.toImmutableMap(
-                Enum::name, s -> s));
+                TwitchScope::getName, s -> s));
         private static final ImmutableSet<TwitchScope> VALUES = Arrays.stream(values()).collect(ImmutableSet.toImmutableSet());
     }
 

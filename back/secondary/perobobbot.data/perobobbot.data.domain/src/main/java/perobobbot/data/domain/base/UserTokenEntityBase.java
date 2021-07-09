@@ -34,7 +34,7 @@ public class UserTokenEntityBase extends TokenEntityBase {
     @Column(name = "REFRESH_TOKEN", nullable = false)
     private String refreshToken;
 
-    @Column(name = "SCOPES", nullable = false)
+    @Column(name = "SCOPES", nullable = false,length = 2048)
     private String scopes;
 
     public UserTokenEntityBase(@NonNull UserEntity owner,

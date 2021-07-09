@@ -80,7 +80,7 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
 
 
     private @NonNull SafeClient retrieveClient() {
-        return Optional.of(clientTokenView)
+        return Optional.ofNullable(clientTokenView)
                        .map(DecryptedClientTokenView::getClient)
                        .orElseGet(() -> clientService.getSafeClient(platform));
     }

@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import perobobbot.http.WebClientFactory;
 import perobobbot.lang.CastTool;
 import perobobbot.lang.Packages;
+import perobobbot.lang.PluginService;
 import perobobbot.oauth.tools.ApiTokenHelperFactory;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.TwitchServiceWithToken;
@@ -32,6 +33,7 @@ public class TwitchApiConfiguration {
     private final @NonNull ApiTokenHelperFactory apiTokenHelperFactory;
 
     @Bean
+    @PluginService(type = TwitchService.class, apiVersion = TwitchService.VERSION, sensitive = false)
     public TwitchService twitchService() {
         return TwitchServiceHandler.createService(twitchServiceWithToken(),apiTokenHelperFactory);
     }

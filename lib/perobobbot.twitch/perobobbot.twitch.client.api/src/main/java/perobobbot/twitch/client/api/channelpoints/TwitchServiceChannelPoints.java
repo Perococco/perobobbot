@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 public interface TwitchServiceChannelPoints {
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    @NonNull Mono<CustomReward> createCustomRewards(@NonNull CreateCustomRewardParameter parameter);
+    @NonNull Mono<CustomReward> createCustomReward(@NonNull CreateCustomRewardParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
     @NonNull Mono<?> deleteCustomRewards(@NonNull String customRewardId);

@@ -33,7 +33,7 @@ public class OAuthCommandExecutor implements CommandExecutor {
 
     private void initializeOAuthContextWithMessageInformation(@NonNull ExecutionContext context) {
         final var identifier = new ChatTokenIdentifier(context.getBotId(), context.getMessageOwner().getUserId(), context.getPlatform(), context.getChannelName());
-        LOG.info(Markers.OAUTH_MARKER, "Got identifier context {}",identifier);
+        LOG.warn(Markers.OAUTH_MARKER, "Got identifier context {}",identifier);
         OAuthContextHolder.getContext().setTokenIdentifier(identifier);
     }
 
