@@ -11,8 +11,8 @@ import perobobbot.messaging.ProxyChatController;
 @Component
 @PluginServices(
         {
-                @PluginService(type = MessageDispatcher.class, apiVersion = MessageDispatcher.VERSION),
-                @PluginService(type = ChatController.class, apiVersion = ChatController.VERSION)
+                @PluginService(type = MessageDispatcher.class, apiVersion = MessageDispatcher.VERSION,sensitive = false),
+                @PluginService(type = ChatController.class, apiVersion = ChatController.VERSION,sensitive = false)
         }
 )
 public class SpringChatController extends ProxyChatController {

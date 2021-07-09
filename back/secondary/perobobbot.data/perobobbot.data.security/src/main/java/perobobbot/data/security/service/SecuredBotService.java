@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @SecuredService
-@PluginService(type = BotService.class, apiVersion = BotService.VERSION)
+@PluginService(type = BotService.class, apiVersion = BotService.VERSION,sensitive = true)
 public class SecuredBotService extends ProxyBotService {
 
     public SecuredBotService(@NonNull @EventService BotService delegate) {

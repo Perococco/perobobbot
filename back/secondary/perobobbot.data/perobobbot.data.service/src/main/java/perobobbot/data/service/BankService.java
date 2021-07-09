@@ -12,6 +12,8 @@ public interface BankService {
 
     @NonNull Safe findSafe(@NonNull UUID viewerIdentityId, @NonNull String channelName);
 
+    @NonNull Safe findSafe(@NonNull Platform platform, @NonNull String viewerId, @NonNull String channelName);
+
     @NonNull Safe getSafe(@NonNull UUID uuid);
 
     @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, int amount);

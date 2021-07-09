@@ -16,8 +16,11 @@ public class BotVersionedService {
     @Getter
     private final int majorVersion;
 
+    private final boolean sensitive;
+
     public @NonNull VersionedService toVersionedService() {
-        return new VersionedService(serviceType,service,majorVersion);
+        final var wrappedService = sensitive?PluginServiceHandler.wrap(service,serviceType):service;
+        return new VersionedService(serviceType,wrappedService,majorVersion);
     }
 
     @Override

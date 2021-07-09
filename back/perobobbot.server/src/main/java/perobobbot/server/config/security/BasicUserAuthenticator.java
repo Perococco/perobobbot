@@ -11,7 +11,7 @@ import perobobbot.server.config.security.jwt.JwtAuthentication;
 
 @Component
 @RequiredArgsConstructor
-@PluginService(type = UserAuthenticator.class, apiVersion = UserAuthenticator.VERSION)
+@PluginService(type = UserAuthenticator.class, apiVersion = UserAuthenticator.VERSION,sensitive = false)
 public class BasicUserAuthenticator implements UserAuthenticator {
 
     private final @NonNull perobobbot.security.core.UserProvider userProvider;

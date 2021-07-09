@@ -8,10 +8,7 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.Nil;
-import perobobbot.lang.Platform;
-import perobobbot.lang.SubscriptionData;
-import perobobbot.lang.Todo;
+import perobobbot.lang.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
@@ -21,6 +18,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@PluginService(type = UserEventSubManager.class, apiVersion = UserEventSubManager.VERSION, sensitive = true)
 public class SpringUserEventSubManager implements UserEventSubManager {
 
     private final @NonNull EventSubManager eventSubManager;

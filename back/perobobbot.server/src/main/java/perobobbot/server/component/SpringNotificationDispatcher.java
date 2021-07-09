@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.lang.*;
 
 @Component
-@PluginService(type = NotificationDispatcher.class, apiVersion = NotificationDispatcher.VERSION)
+@PluginService(type = NotificationDispatcher.class, apiVersion = NotificationDispatcher.VERSION, sensitive = false)
 public class SpringNotificationDispatcher implements NotificationDispatcher {
 
     private Listeners<NotificationListener> listeners = new Listeners<>();

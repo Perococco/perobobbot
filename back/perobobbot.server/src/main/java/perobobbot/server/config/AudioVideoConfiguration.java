@@ -34,7 +34,7 @@ public class AudioVideoConfiguration {
     }
 
     @Bean(destroyMethod = "stop",initMethod = "start")
-    @PluginService(type = Overlay.class, apiVersion = Overlay.VERSION)
+    @PluginService(type = Overlay.class, apiVersion = Overlay.VERSION, sensitive = false)
     public OverlayController overlayController(@NonNull SoundManager soundManager) {
         return OverlayController.create("Overlay",
                                         OVERLAY_SIZE,
@@ -43,7 +43,7 @@ public class AudioVideoConfiguration {
     }
 
     @Bean
-    @PluginService(type = SoundResolver.class, apiVersion = SoundResolver.VERSION)
+    @PluginService(type = SoundResolver.class, apiVersion = SoundResolver.VERSION, sensitive = false)
     public SoundResolver soundResolver(@Value("${perobobbot.sound.directory}") String soundDirectory) {
         return SoundResolver.soundFileResolver(Path.of(soundDirectory));
     }

@@ -19,7 +19,7 @@ public class IOConfiguration {
     private final MutableIO mutableIO = MutableIO.create();
 
     @Bean(destroyMethod = "dispose")
-    @PluginService(type = IO.class, apiVersion = IO.VERSION)
+    @PluginService(type = IO.class, apiVersion = IO.VERSION, sensitive = false)
     public DisposableIO io() {
         return mutableIO;
     }

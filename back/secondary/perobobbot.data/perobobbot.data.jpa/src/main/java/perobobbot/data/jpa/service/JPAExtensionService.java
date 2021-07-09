@@ -85,8 +85,16 @@ public class JPAExtensionService implements ExtensionService {
 
     @Override
     public boolean isExtensionEnabled(@NonNull UUID botId, @NonNull String extensionName) {
-        return botExtensionRepository.findByBot_UuidAndExtension_Name(botId, extensionName)
-                                     .filter(BotExtensionEntity::isEnabledAndExtensionActiveAndAvailable)
-                                     .isPresent();
+        final var extension = extensionRepository.findByName(extensionName).orElse(null);
+        if (extension == null) {
+            return false;
+        }
+
+        if (!extension.isActiveAndAvailable()) {
+            return false;
+        }
+
+        final var botExtension = botExtensionRepository.findByBot_UuidAndExtension_Name(botId, extensionName).orElse(null);
+        return botExtension == null || botExtension.isEnabled();
     }
 }

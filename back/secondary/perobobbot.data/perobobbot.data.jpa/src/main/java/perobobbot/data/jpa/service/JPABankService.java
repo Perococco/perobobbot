@@ -40,6 +40,13 @@ public class JPABankService implements BankService {
     }
 
     @Override
+    @Transactional
+    public @NonNull Safe findSafe(@NonNull Platform platform, @NonNull String viewerId, @NonNull String channelName) {
+        final var viewerIdentity = viewerIdentityRepository.getByPlatformAndViewerId(platform,viewerId);
+        return findSafe(viewerIdentity.getUuid(),channelName);
+    }
+
+    @Override
     public @NonNull Safe getSafe(@NonNull UUID uuid) {
         return safeRepository.getByUuid(uuid).toView();
     }

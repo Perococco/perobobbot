@@ -15,10 +15,17 @@ import java.util.UUID;
 @Service
 @SecuredService
 @RequiredArgsConstructor
-@PluginService(type = BankService.class, apiVersion = BankService.VERSION)
+@PluginService(type = BankService.class, apiVersion = BankService.VERSION,sensitive = true)
 public class SecuredBankService implements BankService {
 
     private final @NonNull @EventService BankService delegate;
+
+
+    @Override
+    @PreAuthorize("isAuthenticated()")
+    public @NonNull Safe findSafe(@NonNull Platform platform, @NonNull String viewerId, @NonNull String channelName) {
+        return delegate.findSafe(platform, viewerId, channelName);
+    }
 
     @Override
     @PreAuthorize("isAuthenticated()")

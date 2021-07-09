@@ -110,7 +110,7 @@ public class PluginConfiguration {
                     } else {
                         type = annotationType;
                     }
-                    return new BotVersionedService(type, bean, ps.apiVersion());
+                    return new BotVersionedService(type, bean, ps.apiVersion(), ps.sensitive());
                 });
     }
 

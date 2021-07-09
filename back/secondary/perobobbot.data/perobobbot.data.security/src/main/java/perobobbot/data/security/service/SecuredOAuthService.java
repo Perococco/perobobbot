@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @SecuredService
-@PluginService(type = OAuthService.class, apiVersion = OAuthService.VERSION)
+@PluginService(type = OAuthService.class, apiVersion = OAuthService.VERSION,sensitive = true)
 public class SecuredOAuthService implements OAuthService {
 
     private final @EventService OAuthService delegate;

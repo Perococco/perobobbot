@@ -11,6 +11,8 @@ import java.util.UUID;
 
 public interface UserEventSubManager {
 
+    int VERSION = 1;
+
     @NonNull Mono<Nil> deleteUserSubscription(@NonNull Platform platform, @NonNull String login, @NonNull UUID subscriptionId);
 
     @NonNull Mono<UserSubscriptionView> createUserSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData);

@@ -27,7 +27,7 @@ public class WebHookConfiguration {
     private final @NonNull ExternalURI oauthExternalURI;
 
     @Bean
-    @PluginService(type = WebHookManager.class, apiVersion = WebHookManager.VERSION)
+    @PluginService(type = WebHookManager.class, apiVersion = WebHookManager.VERSION, sensitive = false)
     public @NonNull WebHookDispatcher webHookDispatcher() {
         try {
             var webHookURI = URIResolver.with(webHookExternalURI.getURI()).addPrefix(WEBHOOK_PATH);

@@ -17,7 +17,7 @@ import perobobbot.security.com.User;
 @RequiredArgsConstructor
 public class SecuredUserService implements UserService {
 
-    private final @EventService UserService delegate;
+    private final @NonNull@EventService UserService delegate;
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")

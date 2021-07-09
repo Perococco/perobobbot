@@ -19,4 +19,8 @@ public class Safe {
 
     @NonNull ImmutableMap<PointType,Long> credits;
 
+    @NonNull long getCredit(@NonNull PointType pointType) {
+        return credits.getOrDefault(pointType,0l);
+    }
+
 }
