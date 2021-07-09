@@ -6,6 +6,7 @@ import lombok.NonNull;
 import perobobbot.data.com.ExpiredTransaction;
 import perobobbot.data.com.InvalidTransactionState;
 import perobobbot.data.domain.base.TransactionEntityBase;
+import perobobbot.lang.PointType;
 import perobobbot.lang.TransactionState;
 
 import javax.persistence.Entity;
@@ -17,14 +18,14 @@ import java.time.Instant;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TransactionEntity extends TransactionEntityBase {
 
-    public TransactionEntity(@NonNull SafeEntity target, long amount, @NonNull Instant expirationTime) {
-        super(target, amount, expirationTime);
+    public TransactionEntity(@NonNull SafeEntity target, @NonNull PointType pointType, long amount, @NonNull Instant expirationTime) {
+        super(target, pointType, amount, expirationTime);
     }
 
     public @NonNull TransactionEntity rollback() {
         this.checkIsInState(TransactionState.PENDING);
         this.setState(TransactionState.CANCELLED);
-        this.getTarget().addToAmount(this.getAmount());
+        this.getTarget().addToAmount(this.getPointType(), this.getAmount());
         return this;
     }
 

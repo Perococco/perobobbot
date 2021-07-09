@@ -8,20 +8,21 @@ import java.util.UUID;
 
 public interface BankService {
 
-    @NonNull Safe findSafe(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType);
+    int VERSION = 1;
 
-    void cleanTransactions();
+    @NonNull Safe findSafe(@NonNull UUID viewerIdentityId, @NonNull String channelName);
 
-    @NonNull Balance getBalance(@NonNull UserOnChannel userOnChannel, @NonNull PointType pointType);
+    @NonNull Safe getSafe(@NonNull UUID uuid);
 
-    @NonNull Balance getBalance(@NonNull UUID safeId);
+    @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, int amount);
 
-    @NonNull TransactionInfo createTransaction(@NonNull UUID safeId, long requestedAmount, @NonNull Duration duration);
+    @NonNull TransactionInfo createTransaction(@NonNull UUID safeId, @NonNull PointType pointType, long requestedAmount, @NonNull Duration duration);
 
     void cancelTransaction(@NonNull UUID transactionId);
 
     void completeTransaction(@NonNull UUID transactionId);
 
-    @NonNull Balance addPoints(@NonNull UUID safeId, int amount);
+    void cleanTransactions();
+
 
 }

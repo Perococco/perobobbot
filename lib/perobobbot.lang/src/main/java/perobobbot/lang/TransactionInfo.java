@@ -13,6 +13,8 @@ public class TransactionInfo {
 
     @NonNull UUID safeId;
 
+    @NonNull PointType pointType;
+
     long requestedAmount;
 
     @NonNull TransactionState state;

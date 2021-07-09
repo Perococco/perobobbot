@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.domain.base.ViewerIdentityEntityBase;
 import perobobbot.lang.Platform;
-import perobobbot.lang.PointType;
 import perobobbot.lang.ViewerIdentity;
 import perobobbot.lang.token.EncryptedUserToken;
 
@@ -35,7 +34,7 @@ public class ViewerIdentityEntity extends ViewerIdentityEntityBase {
     }
     
     public @NonNull SafeEntity createSafe(@NonNull String channelName) {
-        return new SafeEntity(this, channelName, PointType.CREDIT);
+        return new SafeEntity(this, channelName);
     }
 
     @NonNull UserTokenEntity setUserToken(@NonNull UserEntity owner, @NonNull EncryptedUserToken token) {

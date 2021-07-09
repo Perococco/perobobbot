@@ -1,5 +1,6 @@
 package perobobbot.lang;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -16,7 +17,6 @@ public class Safe {
 
     @NonNull String channelName;
 
-    @NonNull PointType type;
+    @NonNull ImmutableMap<PointType,Long> credits;
 
-    long credit;
 }

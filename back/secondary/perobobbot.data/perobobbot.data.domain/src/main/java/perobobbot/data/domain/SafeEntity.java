@@ -15,15 +15,14 @@ import java.time.Instant;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SafeEntity extends SafeEntityBase {
 
-    public SafeEntity(@NonNull ViewerIdentityEntity viewerIdentity,
-                      @NonNull String channelName,
-                      @NonNull PointType type) {
-        super(viewerIdentity, channelName, type);
+    SafeEntity(@NonNull ViewerIdentityEntity viewerIdentity,
+                      @NonNull String channelName) {
+        super(viewerIdentity, channelName);
     }
 
-    public @NonNull TransactionEntity createTransaction(long requestedAmount, @NonNull Instant expirationDate) {
-        this.performWithdraw(requestedAmount);
-        final var transaction = new TransactionEntity(this, requestedAmount, expirationDate);
+    public @NonNull TransactionEntity createTransaction(@NonNull PointType pointType, long requestedAmount, @NonNull Instant expirationDate) {
+        this.performWithdraw(pointType, requestedAmount);
+        final var transaction = new TransactionEntity(this, pointType, requestedAmount, expirationDate);
         this.getTransactions().add(transaction);
         return transaction;
     }

@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import perobobbot.data.domain.SafeEntity;
+import perobobbot.lang.PointType;
 import perobobbot.lang.TransactionInfo;
 import perobobbot.lang.TransactionState;
 import perobobbot.persistence.PersistentObjectWithUUID;
@@ -24,6 +25,10 @@ public class TransactionEntityBase extends PersistentObjectWithUUID {
     @NonNull
     private SafeEntity target;
 
+    @Column(name = "TYPE",nullable = false)
+    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
+    private PointType pointType;
+
     @Column(name = "AMOUNT")
     private long amount;
 
@@ -35,14 +40,18 @@ public class TransactionEntityBase extends PersistentObjectWithUUID {
     @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
     private TransactionState state = TransactionState.PENDING;
 
-    protected TransactionEntityBase(@NonNull SafeEntity target, long amount, @NonNull Instant expirationTime) {
+    protected TransactionEntityBase(@NonNull SafeEntity target,
+                                    @NonNull PointType pointType,
+                                    long amount,
+                                    @NonNull Instant expirationTime) {
         super(UUID.randomUUID());
         this.target = target;
+        this.pointType = pointType;
         this.amount = amount;
         this.expirationTime = expirationTime;
     }
 
     public @NonNull TransactionInfo toView() {
-        return new TransactionInfo(getUuid(), target.getUuid(), amount, getState(), expirationTime);
+        return new TransactionInfo(getUuid(), target.getUuid(), pointType, amount, getState(), expirationTime);
     }
 }
