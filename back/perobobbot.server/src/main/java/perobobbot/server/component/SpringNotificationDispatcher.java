@@ -16,7 +16,7 @@ public class SpringNotificationDispatcher implements NotificationDispatcher {
         return listeners.addListener(messageListener);
     }
 
-    @ServiceActivator(inputChannel = GatewayChannels.PLATFORM_MESSAGES)
+    @ServiceActivator(inputChannel = GatewayChannels.PLATFORM_NOTIFICATION_MESSAGES)
     public void handleNotification(@NonNull Notification notification) {
         listeners.warnListeners(l -> l.onMessage(notification));
     }
