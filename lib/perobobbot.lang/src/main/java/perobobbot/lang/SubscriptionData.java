@@ -10,4 +10,13 @@ public class SubscriptionData {
     @NonNull String subscriptionType;
     @NonNull Conditions conditions;
 
+    public SubscriptionData(@NonNull Platform platform, @NonNull String subscriptionType, @NonNull Conditions conditions) {
+        this.platform = platform;
+        this.subscriptionType = subscriptionType;
+        this.conditions = conditions;
+    }
+
+    public SubscriptionData(@NonNull Platform platform, @NonNull IdentifiedEnum subscriptionType, @NonNull Conditions conditions) {
+        this(platform,subscriptionType.getIdentification(),conditions);
+    }
 }

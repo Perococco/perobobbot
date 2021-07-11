@@ -16,6 +16,7 @@ import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserSubscriptionRepository;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.lang.Conditions;
 import perobobbot.lang.Platform;
 import perobobbot.lang.SubscriptionData;
 
@@ -70,6 +71,7 @@ public class JPASubscriptionService implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId) {
         final var subscription = subscriptionRepository.getByUuid(subscriptionDbId);
         subscription.setSubscriptionId(subscriptionPlatformId);
@@ -77,21 +79,33 @@ public class JPASubscriptionService implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public @NonNull SubscriptionView getOrCreateSubscription(@NonNull SubscriptionData subscriptionData) {
+        final var existing = findSubscriptionEntity(subscriptionData);
+
+        if (existing.isPresent()) {
+            return existing.get().toView();
+        }
+
         final var entity = new SubscriptionEntity(subscriptionData);
         return subscriptionRepository.save(entity).toView();
     }
 
     @Override
     public @NonNull Optional<SubscriptionView> findSubscription(@NonNull SubscriptionData subscriptionData) {
-        return subscriptionRepository.findByPlatformAndTypeAndCondition(
+        return findSubscriptionEntity(subscriptionData).map(SubscriptionEntityBase::toView);
+    }
+
+    private @NonNull Optional<SubscriptionEntity> findSubscriptionEntity(@NonNull SubscriptionData subscriptionData) {
+        return subscriptionRepository.findByPlatformAndType(
                 subscriptionData.getPlatform(),
-                subscriptionData.getSubscriptionType(),
-                subscriptionData.getConditions().getValues())
-                                     .map(SubscriptionEntityBase::toView);
+                subscriptionData.getSubscriptionType())
+                                     .filter(s -> Conditions.with(s.getCondition()).equals(subscriptionData.getConditions()))
+                                     .findAny();
     }
 
     @Override
+    @Transactional
     public @NonNull Optional<SubscriptionView> cleanSubscription(@NonNull UUID id) {
         final var subscription = subscriptionRepository.getByUuid(id).toView();
         final var shouldBeDeleted = userSubscriptionRepository.countAllBySubscription_Uuid(id) == 0;

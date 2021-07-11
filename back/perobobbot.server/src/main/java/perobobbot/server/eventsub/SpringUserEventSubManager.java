@@ -2,13 +2,18 @@ package perobobbot.server.eventsub;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.*;
+import perobobbot.lang.Nil;
+import perobobbot.lang.Platform;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.SubscriptionData;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
@@ -16,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 @PluginService(type = UserEventSubManager.class, apiVersion = UserEventSubManager.VERSION, sensitive = true)
@@ -42,14 +48,35 @@ public class SpringUserEventSubManager implements UserEventSubManager {
 
     @Override
     public @NonNull Mono<UserSubscriptionView> createUserSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData) {
-        final var subscription = subscriptionService.getOrCreateSubscription(subscriptionData);
+        return Mono.defer(() -> {
+            final var subscription = subscriptionService.getOrCreateSubscription(subscriptionData);
+            final var dbId = subscription.getId();
 
-        final boolean shouldProcess = processed.add(subscription.getId());
+            final var attachUserToSubscription =
+                    Mono.fromCallable(() -> subscriptionService.addUserToSubscription(subscription.getId(), login));
 
-        if (!shouldProcess) {
-            return Mono.just(subscriptionService.addUserToSubscription(subscription.getId(), login));
-        }
-        return Todo.TODO();
+            {
+                final var platformId = subscription.getSubscriptionId();
+                if (!platformId.isEmpty()) {
+                    return attachUserToSubscription;
+                }
+            }
 
+            final boolean shouldProcess = processed.add(subscription.getId());
+            if (!shouldProcess) {
+                return attachUserToSubscription;
+            }
+
+
+            final var createSubscription = eventSubManager.createSubscription(subscriptionData)
+                                                          .map(SubscriptionIdentity::getSubscriptionId)
+                                                          .map(id -> {
+                                                              subscriptionService.setSubscriptionPlatformId(dbId,id);
+                                                              return Nil.NIL;
+                                                          });
+
+            return Mono.zip(createSubscription, attachUserToSubscription,(nil,view) -> view);
+
+        });
     }
 }

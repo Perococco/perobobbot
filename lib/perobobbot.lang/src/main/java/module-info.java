@@ -14,6 +14,8 @@ module perobobbot.lang {
     requires org.apache.logging.log4j;
     requires com.fasterxml.jackson.databind;
     requires com.google.common;
+    requires reactor.core;
+
 
     exports perobobbot.lang;
     exports perobobbot.lang.fp;

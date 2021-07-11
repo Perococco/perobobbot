@@ -6,6 +6,8 @@ module perobobbot.oauth.tools {
     requires spring.web;
     requires spring.webflux;
     requires perobobbot.http;
+    requires reactor.core;
+    requires org.reactivestreams;
 
     exports perobobbot.oauth.tools;
 

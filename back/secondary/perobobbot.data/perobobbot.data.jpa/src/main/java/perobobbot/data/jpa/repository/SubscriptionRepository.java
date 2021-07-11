@@ -5,17 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import perobobbot.data.domain.SubscriptionEntity;
 import perobobbot.lang.Platform;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, Long> {
 
-    @NonNull Optional<SubscriptionEntity> findByPlatformAndTypeAndCondition(
+    @NonNull Stream<SubscriptionEntity> findByPlatformAndType(
             @NonNull Platform platform,
-            @NonNull String subscriptionType,
-            @NonNull Map<String,String> conditionId);
+            @NonNull String subscriptionType);
 
     @NonNull Stream<SubscriptionEntity> findByPlatform(@NonNull Platform platform);
 

@@ -21,7 +21,7 @@ public interface TwitchServiceChannelPoints {
     @NonNull Mono<Page<CustomRewardRedemption[],GetCustomRewardRedemptionParameter>> getCustomRewardRedemption(@NonNull GetCustomRewardRedemptionParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
-    @NonNull Mono<CustomReward> updateCustomReward(@NonNull UpdateCustomRewardParameter parameter);
+    @NonNull Mono<CustomReward> updateCustomReward(@NonNull String customRewardId, @NonNull UpdateCustomRewardParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
     @NonNull Mono<CustomRewardRedemption[]> updateRedemptionStatus(@NonNull String rewardId, @NonNull String[] redemptionsId, @NonNull UpdateRedemptionStatus parameter);

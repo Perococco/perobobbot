@@ -15,6 +15,9 @@ module perobobbot.server {
     requires spring.boot.autoconfigure;
     requires jakarta.websocket.api;
 
+
+    requires perobobbot.twitch.client.api;
+
     requires org.eclipse.jetty.websocket.api;
 
     requires com.google.common;

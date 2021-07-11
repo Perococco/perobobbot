@@ -24,7 +24,7 @@ public class WebClientTwitchServiceChannelPoints implements TwitchServiceChannel
     public @NonNull Mono<CustomReward> createCustomReward(@NonNull UserApiToken userApiToken, @NonNull CreateCustomRewardParameter parameter) {
         return factory.create(userApiToken)
                       .post(REWARDS_ENDPOINT, "broadcaster_id", userApiToken.getUserId())
-                      .body(parameter, CreateCustomRewardParameter.class)
+                      .body(Mono.just(parameter), CreateCustomRewardParameter.class)
                       .retrieve()
                       .bodyToMono(WrappedCustomRewards.class)
                       .map(r -> r.getData()[0]);
@@ -54,7 +54,7 @@ public class WebClientTwitchServiceChannelPoints implements TwitchServiceChannel
 
         return factory.create(userApiToken)
                       .patch(REWARDS_ENDPOINT, queryParameters)
-                      .body(parameter, UpdateCustomRewardParameter.class)
+                      .body(Mono.just(parameter), UpdateCustomRewardParameter.class)
                       .retrieve()
                       .bodyToMono(WrappedCustomRewards.class)
                       .map(r -> r.getData()[0]);
@@ -103,7 +103,7 @@ public class WebClientTwitchServiceChannelPoints implements TwitchServiceChannel
 
         return factory.create(userApiToken)
                 .patch(REDEMPTIONS_ENDPOINT,queryParameters)
-                .body(parameter,UpdateRedemptionStatus.class)
+                .body(Mono.just(parameter),UpdateRedemptionStatus.class)
                 .retrieve()
                 .bodyToMono(RedemptionsResponse.class)
                 .map(r -> r.getData());

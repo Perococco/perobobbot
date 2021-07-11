@@ -3,6 +3,8 @@ package perobobbot.server.eventsub;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import perobobbot.data.com.SubscriptionIdentity;
@@ -12,6 +14,7 @@ import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
+import perobobbot.server.config.externaluri.ExternalURI;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class SubscriptionSynchronizer {
 
     private final @NonNull EventSubManager eventSubManager;
@@ -26,8 +30,13 @@ public class SubscriptionSynchronizer {
     @EventService
     SubscriptionService subscriptionService;
 
+    @Qualifier("webhook")
+    private final @NonNull ExternalURI webHookExternalURI;
+
+
     @Scheduled(fixedDelay = 600_000)
     public void synchronize() {
+        LOG.info("Synchronize Subscriptions");
         Mono.when(Platform.stream()
                           .filter(eventSubManager::isPlatformManaged)
                           .map(this::synchronizePlatform)
@@ -50,8 +59,7 @@ public class SubscriptionSynchronizer {
             @NonNull ImmutableList<SubscriptionView> persisted) {
 
 
-
-        final var match = Matcher.match(onPlatform, persisted);
+        final var match = Matcher.match(onPlatform, persisted,webHookExternalURI.getHost());
 
         final List<Mono<Nil>> todo = new ArrayList<>();
 

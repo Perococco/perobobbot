@@ -39,7 +39,7 @@
 
         <Logger name="org.flywaydb.core" level="info"/>
 
-        <Logger name="web" level="warn"/>
+        <Logger name="web" level="debug"/>
         <Logger name="reactor.netty" level="off"/>
 
         <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="off"/>
@@ -49,6 +49,9 @@
         <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
         <Logger name="perobobbot.spring.SpringLauncher" level="info"/>
         <Logger name="perobobbot.overlay.api.FPSCounter" level="warn"/>
+        <Logger name="perobobbot.server.eventsub.SubscriptionSynchronizer" level="info"/>
+
+        <Logger name="perococco.perobobbot.http.WebClientFactoryWithModifiers" level="debug"/>
     </Loggers>
 
 </Configuration>

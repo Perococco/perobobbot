@@ -53,13 +53,18 @@ public class TwitchSubscription implements SubscriptionIdentity {
 
     @Override
     public @NonNull Conditions getConditions() {
-        final var builder = Conditions.builder();
-        condition.forEach((k,v) -> builder.value(k.getIdentification(),v));
-        return builder.build();
+        final var builder = ImmutableMap.<String,String>builder();
+        condition.forEach((k,v) -> builder.put(k.getIdentification(),v));
+        return new Conditions(builder.build());
     }
 
     @Override
     public @NonNull String getSubscriptionId() {
         return id;
+    }
+
+    @Override
+    public @NonNull String getCallbackUrl() {
+        return transport.getCallback();
     }
 }

@@ -11,9 +11,16 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.eventsub.UserEventSubManager;
 import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
+import perobobbot.oauth.LoginTokenIdentifier;
+import perobobbot.oauth.OAuthContextHolder;
+import perobobbot.twitch.client.api.TwitchService;
+import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
+import perobobbot.twitch.client.api.channelpoints.CustomReward;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +35,9 @@ public class Starter {
     ClientService clientService;
 
     private final @NonNull
+    UserEventSubManager userEventSubManager;
+
+    private final @NonNull
     @UnsecuredService
     BotService botService;
 
@@ -35,18 +45,39 @@ public class Starter {
     @UnsecuredService
     OAuthService oAuthService;
 
+    private final @NonNull
+    TwitchService twitchService;
+
     private final @NonNull IO io;
 
 
     @EventListener(ApplicationReadyEvent.class)
     public void run() throws Exception {
         try {
+            OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
+//            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
+//                    Platform.TWITCH,
+//                    SubscriptionType.CHANNEL_FOLLOW,
+//                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
+//            )).subscribe(s -> System.out.println(s));
+//            twitchService.getChannelInformation("211307900").subscribe(s -> System.out.println(s));
+//twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Wound").cost(1000).build()).subscribe();
+//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Full Health").cost(1000).build()).subscribe();
+//            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0],true))
+//                         .subscribe(s -> System.out.println(s.getId()+ "  " + s.getTitle()));
 //            createClient();
 //            joinChannel();
         } catch (Throwable t) {
             System.out.println("Starter Failed ! ");
             t.printStackTrace();
         }
+    }
+
+    private @NonNull Mono<CustomReward> create(@NonNull String name, int cost) {
+        return twitchService.createCustomReward(CreateCustomRewardParameter.builder()
+                                                                           .title(name)
+                                                                           .cost(cost)
+                                                                           .build());
     }
 
 

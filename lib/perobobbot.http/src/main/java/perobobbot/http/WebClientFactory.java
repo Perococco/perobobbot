@@ -12,6 +12,13 @@ public interface WebClientFactory {
 
     @NonNull WebClient create();
 
+    default @NonNull WebClient.RequestHeadersSpec<?> get(String uri, String name, Object value) {
+        return create().get().uri(uri, ub -> {
+            ub.queryParam(name,value);
+            return ub.build();
+        });
+    }
+
     default @NonNull WebClient.RequestHeadersSpec<?> get(String uri, Map<String, Collection<?>> queryParams) {
         return create().get().uri(uri, ub -> {
             queryParams.forEach(ub::queryParam);

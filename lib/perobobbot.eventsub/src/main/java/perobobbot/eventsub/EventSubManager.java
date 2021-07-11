@@ -6,6 +6,7 @@ import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.lang.Conditions;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
+import perobobbot.lang.SubscriptionData;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -47,6 +48,10 @@ public interface EventSubManager {
             @NonNull String subscriptionType,
             @NonNull Conditions conditions) {
         return getManager(platform).createSubscription(subscriptionType,conditions);
+    }
+
+    default @NonNull Mono<? extends SubscriptionIdentity> createSubscription(@NonNull SubscriptionData subscriptionData) {
+        return createSubscription(subscriptionData.getPlatform(),subscriptionData.getSubscriptionType(),subscriptionData.getConditions());
     }
 
     default @NonNull Mono<Nil> revokeSubscription(@NonNull Platform platform, @NonNull String subscriptionId) {

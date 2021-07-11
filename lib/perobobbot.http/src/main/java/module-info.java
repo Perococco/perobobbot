@@ -8,6 +8,7 @@ module perobobbot.http {
     requires spring.webflux;
     requires java.servlet;
     requires com.google.common;
+    requires reactor.core;
 
     exports perobobbot.http;
 }

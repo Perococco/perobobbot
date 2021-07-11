@@ -12,6 +12,7 @@ import perobobbot.persistence.PersistentObjectWithUUID;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -28,6 +29,7 @@ public class UserSubscriptionEntityBase extends PersistentObjectWithUUID {
     private @NonNull SubscriptionEntity subscription;
 
     protected UserSubscriptionEntityBase(@NonNull UserEntity owner, @NonNull SubscriptionEntity subscription) {
+        super(UUID.randomUUID());
         this.owner = owner;
         this.subscription = subscription;
     }

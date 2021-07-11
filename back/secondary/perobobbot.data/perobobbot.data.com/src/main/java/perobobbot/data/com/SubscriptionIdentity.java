@@ -12,6 +12,7 @@ public interface SubscriptionIdentity {
     @NonNull Platform getPlatform();
     @NonNull String getSubscriptionType();
     @NonNull Conditions getConditions();
+    @NonNull String getCallbackUrl();
 
     boolean isValid();
 

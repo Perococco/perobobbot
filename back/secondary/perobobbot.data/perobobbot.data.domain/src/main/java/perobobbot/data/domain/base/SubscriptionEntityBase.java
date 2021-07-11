@@ -60,7 +60,7 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
         this.platform = platform;
         this.subscriptionId = subscriptionId;
         this.type = type;
-        this.condition = new HashMap<>(conditions.getValues());
+        this.condition = conditions.copyAsMap();
     }
 
     public @NonNull SubscriptionView toView() {

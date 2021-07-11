@@ -16,7 +16,7 @@ public interface TwitchServiceChannelPointsWithToken {
 
     @NonNull Mono<Page<CustomRewardRedemption[],GetCustomRewardRedemptionParameter>> getCustomRewardRedemption(@NonNull UserApiToken userApiToken, @NonNull GetCustomRewardRedemptionParameter parameter);
 
-    @NonNull Mono<CustomReward> updateCustomReward(@NonNull UserApiToken userApiTokenl, @NonNull String customRewardId, @NonNull UpdateCustomRewardParameter parameter);
+    @NonNull Mono<CustomReward> updateCustomReward(@NonNull UserApiToken userApiToken, @NonNull String customRewardId, @NonNull UpdateCustomRewardParameter parameter);
 
     @NonNull Mono<CustomRewardRedemption[]> updateRedemptionStatus(@NonNull UserApiToken userApiToken, @NonNull String rewardId, @NonNull String[] redemptionsId, @NonNull UpdateRedemptionStatus parameter);
 }

@@ -7,7 +7,7 @@ module perobobbot.twitch.event.sub.api {
 
     requires perobobbot.lang;
     requires perobobbot.eventsub;
-    requires perobobbot.twitch.api;
+    requires transitive perobobbot.twitch.api;
     requires perobobbot.twitch.oauth.api;
     requires perobobbot.oauth;
     requires perobobbot.data.com;

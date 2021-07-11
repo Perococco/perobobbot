@@ -19,6 +19,7 @@ module perobobbot.oauth {
     requires perobobbot.http;
     requires java.servlet;
     requires org.apache.logging.log4j;
+    requires reactor.core;
 
     opens perobobbot.oauth to com.fasterxml.jackson.databind;
 

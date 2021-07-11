@@ -37,6 +37,10 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-twitch-client-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-jpa</artifactId>
             <scope>runtime</scope>
         </dependency>

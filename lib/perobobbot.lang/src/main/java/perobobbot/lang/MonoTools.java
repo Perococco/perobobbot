@@ -1,4 +1,4 @@
-package perobobbot.twitch.oauth.impl;
+package perobobbot.lang;
 
 import lombok.NonNull;
 import reactor.core.publisher.Mono;
@@ -8,7 +8,6 @@ import reactor.core.scheduler.Schedulers;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@Deprecated
 public class MonoTools {
 
     private static final Scheduler SCHEDULER = Schedulers.boundedElastic();

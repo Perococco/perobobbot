@@ -1,13 +1,10 @@
 package perobobbot.twitch.client.webclient.spring;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.*;
-import perobobbot.oauth.tools.ApiTokenHelperFactory;
-import perobobbot.oauth.tools.OAuthCallHelper;
+import perobobbot.oauth.tools.*;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.TwitchServiceWithToken;
 
@@ -15,7 +12,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class TwitchServiceHandler implements InvocationHandler {
 
@@ -56,16 +52,33 @@ public class TwitchServiceHandler implements InvocationHandler {
             return methodWithToken.invoke(twitchServiceWithToken, args);
         }
 
-        final var call = new BasicOAuthCall(methodWithToken, prepareProxyArguments(args, tokenIndex), tokenIndex);
+        final var call = OAuthCallFactory.create(twitchServiceWithToken, methodWithToken, args, tokenIndex);
 
         final var token = OAuthContextHolder.getContext().getTokenIdentifier();
 
         final var helper = token
-                                             .map(factory::withToken)
-                                             .orElse(factory::createWithoutToken)
-                                             .f(Platform.TWITCH, proxyMethod.getOAuthRequirement());
+                .map(factory::withToken)
+                .orElse(factory::createWithoutToken)
+                .f(Platform.TWITCH, proxyMethod.getOAuthRequirement());
 
-        return OAuthCallHelper.callWithTokenIdentifier(call, helper);
+        final var callHelper = call.accept(new OAuthCall.Visitor<OAuthCallHelper<?>>() {
+            @Override
+            public OAuthCallHelper<?> visit(@NonNull BasicOAuthCall<?> call) throws Throwable {
+                return new BasicOAuthCallHelper<>(call, helper);
+            }
+
+            @Override
+            public OAuthCallHelper<?> visit(@NonNull MonoOAuthCall<?> call) throws Throwable {
+                return new MonoOAuthCallHelper<>(call, helper);
+            }
+
+            @Override
+            public OAuthCallHelper<?> visit(@NonNull FluxOAuthCall<?> call) throws Throwable {
+                return new FluxOAuthCallHelper<>(call, helper);
+            }
+        });
+
+        return callHelper.call();
     }
 
     private Optional<Object> evaluateNativeMethod(Method method) {
@@ -74,33 +87,6 @@ public class TwitchServiceHandler implements InvocationHandler {
             case "toString" -> Optional.of(twitchServiceWithToken.toString());
             default -> Optional.empty();
         };
-    }
-
-
-    private static Object[] prepareProxyArguments(Object[] args, int tokenIndex) {
-        if (args == null) {
-            return new Object[1];
-        }
-        return IntStream.range(0, args.length + 1)
-                        .mapToObj(i -> switch (Integer.signum(i - tokenIndex)) {
-                            case -1 -> args[i];
-                            case 1 -> args[i - 1];
-                            default -> null;
-                        }).toArray();
-    }
-
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-    private class BasicOAuthCall implements OAuthCall {
-
-        private final @NonNull Method method;
-        private final Object[] args;
-        private final int tokenIndex;
-
-        @Override
-        public Object call(@NonNull ApiToken apiToken) throws Throwable {
-            args[tokenIndex] = apiToken;
-            return method.invoke(twitchServiceWithToken, args);
-        }
     }
 
 
