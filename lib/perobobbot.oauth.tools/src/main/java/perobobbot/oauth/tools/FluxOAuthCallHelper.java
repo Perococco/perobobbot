@@ -1,6 +1,5 @@
 package perobobbot.oauth.tools;
 
-import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.oauth.FluxOAuthCall;

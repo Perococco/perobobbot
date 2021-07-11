@@ -1,7 +1,10 @@
 package perobobbot.lang;
 
 import com.google.common.collect.ImmutableMap;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Value;
 import perobobbot.lang.fp.Function1;
 
 import java.util.HashMap;
