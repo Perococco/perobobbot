@@ -13,9 +13,9 @@ public class TestStructureEntry {
 
     public static @NonNull Stream<Arguments> structureEntrySample() {
         return Stream.of(
-                Arguments.of("common: dot_gitignore .gitignore", ".gitignore"),
-                Arguments.of("common: dot_gitignore    .gitignore", ".gitignore"),
-                Arguments.of("common: dot_gitignore    toto", "toto")
+                Arguments.of(":common dot_gitignore .gitignore", ".gitignore"),
+                Arguments.of(":common dot_gitignore    .gitignore", ".gitignore"),
+                Arguments.of(":common dot_gitignore    toto", "toto")
         );
     }
 
