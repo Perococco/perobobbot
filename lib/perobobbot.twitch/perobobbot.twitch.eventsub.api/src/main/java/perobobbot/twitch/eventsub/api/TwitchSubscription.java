@@ -42,16 +42,19 @@ public class TwitchSubscription implements SubscriptionIdentity {
     }
 
     @Override
+    @JsonIgnore
     public @NonNull Platform getPlatform() {
         return Platform.TWITCH;
     }
 
     @Override
+    @JsonIgnore
     public @NonNull String getSubscriptionType() {
         return type.getIdentification();
     }
 
     @Override
+    @JsonIgnore
     public @NonNull Conditions getConditions() {
         final var builder = ImmutableMap.<String,String>builder();
         condition.forEach((k,v) -> builder.put(k.getIdentification(),v));
@@ -59,11 +62,13 @@ public class TwitchSubscription implements SubscriptionIdentity {
     }
 
     @Override
+    @JsonIgnore
     public @NonNull String getSubscriptionId() {
         return id;
     }
 
     @Override
+    @JsonIgnore
     public @NonNull String getCallbackUrl() {
         return transport.getCallback();
     }
