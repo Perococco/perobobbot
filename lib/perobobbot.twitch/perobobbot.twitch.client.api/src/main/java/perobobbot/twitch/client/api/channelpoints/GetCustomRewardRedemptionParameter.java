@@ -1,8 +1,10 @@
 package perobobbot.twitch.client.api.channelpoints;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import perobobbot.twitch.api.Pagination;
 import perobobbot.twitch.api.RewardRedemptionStatus;
+import perobobbot.twitch.client.api.deser.RewardRedemptionStatusSerializer;
 
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ public class GetCustomRewardRedemptionParameter {
     @NonNull String rewardId;
 
     String id;
+    @JsonSerialize(using = RewardRedemptionStatusSerializer.class)
     RewardRedemptionStatus status;
     SortOrder sort;
     String after;

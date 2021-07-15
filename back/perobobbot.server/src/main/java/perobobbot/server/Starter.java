@@ -19,6 +19,7 @@ import perobobbot.oauth.LoginTokenIdentifier;
 import perobobbot.oauth.OAuthContextHolder;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
+import perobobbot.twitch.client.api.channelpoints.GetCustomRewardsParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
 import reactor.core.publisher.Mono;
 
@@ -57,14 +58,18 @@ public class Starter {
             OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
 //            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
 //                    Platform.TWITCH,
-//                    SubscriptionType.CHANNEL_FOLLOW,
+//                    SubscriptionType.CHANNEL_SUBSCRIBE,
+//                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
+//            )).subscribe(s -> System.out.println(s));
+//            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
+//                    Platform.TWITCH,
+//                    SubscriptionType.CHANNEL_SUBSCRIPTION_GIFT,
 //                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
 //            )).subscribe(s -> System.out.println(s));
 //            twitchService.getChannelInformation("211307900").subscribe(s -> System.out.println(s));
-//twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Wound").cost(1000).build()).subscribe();
-//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Full Health").cost(1000).build()).subscribe();
-//            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0],true))
-//                         .subscribe(s -> System.out.println(s.getId()+ "  " + s.getTitle()));
+//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Créer une Horde").cost(100).build()).subscribe();
+            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0], true))
+                         .subscribe(s -> System.out.println(s.getId() + "  " + s.getTitle()));
 //            createClient();
 //            joinChannel();
         } catch (Throwable t) {

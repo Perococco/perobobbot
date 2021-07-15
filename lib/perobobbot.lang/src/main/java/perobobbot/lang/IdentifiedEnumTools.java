@@ -22,14 +22,14 @@ public class IdentifiedEnumTools {
     }
 
 
-    public static <E extends IdentifiedEnum> Function1<String,E> mapper(@NonNull Class<E> type) {
+    public static <E extends IdentifiedEnum> Function1<String, E> mapper(@NonNull Class<E> type) {
         final var values = type.getEnumConstants();
-        return s -> getEnum(s,values);
+        return s -> getEnum(s, values);
     }
 
 
     public static <E extends IdentifiedEnum> @NonNull E getEnum(@NonNull String id, @NonNull Class<E> type) {
-        return getEnum(id,type.getEnumConstants());
+        return getEnum(id, type.getEnumConstants());
     }
 
     public static <E extends IdentifiedEnum> @NonNull Optional<E> findEnum(@NonNull String id, @NonNull Class<E> type) {
@@ -38,7 +38,7 @@ public class IdentifiedEnumTools {
 
 
     private static <E extends IdentifiedEnum> @NonNull E getEnum(@NonNull String id, @NonNull E[] values) {
-        final var value = findEnum(id,values);
+        final var value = findEnum(id, values);
         if (value != null) {
             return value;
         }
@@ -61,7 +61,25 @@ public class IdentifiedEnumTools {
         return new JsonDeserializer<E>() {
             @Override
             public E deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-                return IdentifiedEnumTools.getEnum(p.getValueAsString(),enumType);
+                final var values = enumType.getEnumConstants();
+                final var toDeserialize = p.getValueAsString();
+                {
+                    final var value = IdentifiedEnumTools.findEnum(toDeserialize, values);
+                    if (value != null) {
+                        return value;
+                    }
+                }
+
+                if (IdentifiedEnumWithAlternateIdentification.class.isAssignableFrom(enumType)) {
+                    for (E value : values) {
+                        final var id = ((IdentifiedEnumWithAlternateIdentification) value).getAlternateIdentification();
+                        if (toDeserialize.equals(id)) {
+                            return value;
+                        }
+                    }
+                }
+
+                throw new IllegalArgumentException("Could not convert '" + toDeserialize + "' to an enum " + enumType);
             }
         };
     }

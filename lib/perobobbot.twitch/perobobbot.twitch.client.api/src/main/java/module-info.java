@@ -28,6 +28,7 @@ module perobobbot.twitch.client.api {
     opens perobobbot.twitch.client.api.evensub to com.fasterxml.jackson.databind, perobobbot.twitch.client.aop;
     opens perobobbot.twitch.client.api.channel to com.fasterxml.jackson.databind, perobobbot.twitch.client.aop;
     opens perobobbot.twitch.client.api.channelpoints to com.fasterxml.jackson.databind, perobobbot.twitch.client.aop;
+    opens perobobbot.twitch.client.api.deser to com.fasterxml.jackson.databind;
 
 
     provides JsonModuleProvider with TwitchApiSubModule;
