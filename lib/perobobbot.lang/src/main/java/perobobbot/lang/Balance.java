@@ -10,6 +10,6 @@ public class Balance {
 
     @NonNull UUID safeId;
     @NonNull PointType pointType;
-    @NonNull long credit;
+    long credit;
 
 }

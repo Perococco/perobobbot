@@ -11,16 +11,28 @@ import java.util.UUID;
 @Builder
 public class Safe {
 
+    /**
+     * id of the safe
+     */
     @NonNull UUID id;
 
+    /**
+     * id of the viewer owning the safe
+     */
     @NonNull ViewerIdentity viewerIdentity;
 
+    /**
+     * The name of the channel this safe applies to
+     */
     @NonNull String channelName;
 
+    /**
+     * Credit for each credit type
+     */
     @NonNull ImmutableMap<PointType,Long> credits;
 
-    @NonNull long getCredit(@NonNull PointType pointType) {
-        return credits.getOrDefault(pointType,0l);
+    long getCredit(@NonNull String pointType) {
+        return credits.getOrDefault(pointType,0L);
     }
 
 }

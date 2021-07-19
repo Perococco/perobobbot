@@ -27,6 +27,4 @@ public class SafeEntity extends SafeEntityBase {
         return transaction;
     }
 
-
-
 }

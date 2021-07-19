@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.service.BankService;
 import perobobbot.data.service.EventService;
+import perobobbot.lang.PointType;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.*;
 
