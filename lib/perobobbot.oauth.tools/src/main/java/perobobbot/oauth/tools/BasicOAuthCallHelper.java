@@ -65,7 +65,11 @@ public class BasicOAuthCallHelper<T> implements OAuthCallHelper<T> {
                 default -> false;
             };
         }
-        return false;
+        final var cause = throwable.getCause();
+        if (cause == null) {
+            return false;
+        }
+        return isCausedByInvalidAccessToken(cause);
     }
 
     public static @NonNull <T> T callWithTokenIdentifier(@NonNull BasicOAuthCall<T> oauthCall,

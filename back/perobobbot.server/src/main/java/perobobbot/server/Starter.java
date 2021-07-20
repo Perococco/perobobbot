@@ -19,7 +19,6 @@ import perobobbot.oauth.LoginTokenIdentifier;
 import perobobbot.oauth.OAuthContextHolder;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
-import perobobbot.twitch.client.api.channelpoints.GetCustomRewardsParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
 import reactor.core.publisher.Mono;
 
@@ -68,8 +67,8 @@ public class Starter {
 //            )).subscribe(s -> System.out.println(s));
 //            twitchService.getChannelInformation("211307900").subscribe(s -> System.out.println(s));
 //            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Créer une Horde").cost(100).build()).subscribe();
-            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0], true))
-                         .subscribe(s -> System.out.println(s.getId() + "  " + s.getTitle()));
+//            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0], true))
+//                         .subscribe(s -> System.out.println(s.getId() + "'"+s.getPrompt()+"'"));
 //            createClient();
 //            joinChannel();
         } catch (Throwable t) {
