@@ -15,6 +15,7 @@ import java.awt.*;
 @SuperBuilder
 public class CustomRewardParameterBase {
 
+    String prompt;
     @JsonProperty("is_enabled")
     Boolean enabled;//true
     @JsonSerialize(using = ColorSerializer.class)
