@@ -4,13 +4,13 @@ Perococco Bot
 
 == Project Setup
 
-Some properties must be setup before launching the application.
+Some properties must be se before launching the application.
 They can be set directly in the `application.properties` found
 in the resource directory of the `perobobbot.server` module.
 But, it is preferable to create an external file `application.properties`.
 
 By default, the application will search for a file "application.properties" in the default configuration folder.
-The default configuration folder is OS dependant. Its ${home}/.config/perobobbot for linx/unix and Mac OS, and %APPDATA%\perobobbot for Window.
+The default configuration folder is OS dependant. Its ${home}/.config/perobobbot for linux/unix and Mac OS, and %APPDATA%\perobobbot for Window.
 
 Inside the file, the default directory can be referenced with the placeholder ${app.config.dir}.
 
