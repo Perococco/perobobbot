@@ -34,7 +34,7 @@ public class SubscriptionSynchronizer {
     private final @NonNull ExternalURI webHookExternalURI;
 
 
-    @Scheduled(fixedDelay = 600_000)
+    @Scheduled(fixedDelay = 3600_000)
     public void synchronize() {
         LOG.info("Synchronize Subscriptions");
         Mono.when(Platform.stream()
