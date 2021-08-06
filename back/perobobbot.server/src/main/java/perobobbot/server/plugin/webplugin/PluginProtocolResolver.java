@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class PluginProtocolResolver implements ProtocolResolver, ResourceLoaderAware {
 
     public static @NonNull UnaryOperator<String> pluginLocationMapper(@NonNull UUID id) {
-        return s -> "plugin{"+id.toString()+"}:"+s;
+        return s -> "plugin{"+id+"}:"+s;
     }
 
     private static final Pattern PREFIX_PATTERN = Pattern.compile("plugin\\{([-0-9a-zA-Z]+)}:(.+)");
