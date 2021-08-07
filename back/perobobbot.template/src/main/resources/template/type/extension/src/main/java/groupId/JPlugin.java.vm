@@ -10,8 +10,9 @@ import perobobbot.access.AccessRule;
 import perobobbot.command.CommandDefinition;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Role;
-import perobobbot.myplugin.command.ExtensionCommand;
 import perobobbot.plugin.ExtensionPlugin;
+
+import ${plugin.packageName}.command.ExtensionCommand;
 
 import java.time.Duration;
 
