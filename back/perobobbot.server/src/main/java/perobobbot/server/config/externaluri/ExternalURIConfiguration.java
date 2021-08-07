@@ -33,7 +33,7 @@ public class ExternalURIConfiguration {
     private final @NonNull String oauthMode;
 
     @Bean(name="webhook")
-    public @NonNull ExternalURI ngrokExternalURI() {
+    public @NonNull ExternalURI webhookExternalURI() {
         return switch (webhookMode) {
             case "manual" -> createManualExternalURI();
             case "ngrok" -> createNgrokExternalURI();
@@ -45,7 +45,7 @@ public class ExternalURIConfiguration {
     public @NonNull ExternalURI oauthExternalURI() {
         return switch (oauthMode) {
             case "localhost" -> createLocalHostOAuthExternalURI();
-            case "ngrok" -> ngrokExternalURI();
+            case "webhook" -> webhookExternalURI();
             default -> throw new IllegalStateException("Invalid type for 'oauth.redirect_uri.mode' : '"+ oauthMode +"'");
         };
     }
