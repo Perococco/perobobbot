@@ -11,6 +11,9 @@ build/
 
 _generated
 
+#maven versioning backup
+pom.xml.versionsBackup
+
 # Compiled class file
 *.class
 
