@@ -17,8 +17,8 @@ public class ExternalURIConfiguration {
     @Value("${server.port}")
     private final int serverPort;
 
-    @Value("${webhook.external-url.type}")
-    private final @NonNull String type;
+    @Value("${webhook.external-url.mode}")
+    private final @NonNull String mode;
 
     @Value("${webhook.manual.host:}")
     private final @NonNull String host;
@@ -34,10 +34,10 @@ public class ExternalURIConfiguration {
 
     @Bean(name="webhook")
     public @NonNull ExternalURI ngrokExternalURI() {
-        return switch (type) {
+        return switch (mode) {
             case "manual" -> createManualExternalURI();
             case "ngrok" -> createNgrokExternalURI();
-            default -> throw new IllegalStateException("Invalid type for 'webhook.external-url.type' : '"+type+"'");
+            default -> throw new IllegalStateException("Invalid type for 'webhook.external-url.mode' : '"+ mode +"'");
         };
     }
 
@@ -46,12 +46,19 @@ public class ExternalURIConfiguration {
         return switch (oauthType) {
             case "localhost" -> createLocalHostOAuthExternalURI();
             case "ngrok" -> ngrokExternalURI();
-            default -> throw new IllegalStateException("Invalid type for 'oauth.external-url.type' : '"+type+"'");
+            default -> throw new IllegalStateException("Invalid type for 'oauth.external-url.type' : '"+ mode +"'");
         };
     }
 
     private @NonNull ExternalURI createManualExternalURI() {
-        return new SimpleExternalURI(URI.create("https://"+host+":"+port));
+        final var base = "https://"+host;
+        final String uri;
+        if (port == 443) {
+            uri = base;
+        } else {
+            uri = base+":"+port;
+        }
+        return new SimpleExternalURI(URI.create(uri));
     }
 
     private @NonNull ExternalURI createNgrokExternalURI() {
