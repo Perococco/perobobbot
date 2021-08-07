@@ -2,19 +2,22 @@
 Perococco Bot
 
 
+WARNING: The bot is currently in a very crude version. There is no front-end. For instance, you need to edit the database manually to activate a plugin (all new plugins are deactivated by default).
+
 == Project Setup
 
-Some properties must be se before launching the application.
+Some properties must be set before launching the application.
 They can be set directly in the `application.properties` found
 in the resource directory of the `perobobbot.server` module.
 But, it is preferable to create an external file `application.properties`.
 
+[[default_folder]]
 By default, the application will search for a file "application.properties" in the default configuration folder.
-The default configuration folder is OS dependant. Its ${home}/.config/perobobbot for linux/unix and Mac OS, and %APPDATA%\perobobbot for Window.
+The default configuration folder is OS dependant. Its `${home}/.config/perobobbot` for linux/unix and Mac OS, and `%APPDATA%\perobobbot` for Windows.
 
-Inside the file, the default directory can be referenced with the placeholder ${app.config.dir}.
+Inside the file, the default directory can be referenced with the placeholder `${app.config.dir}`.
 
-It is possible to provide a external directory by launching the application with the following option
+It is possible to provide an external directory by launching the application with the following option:
 
 ----
 -Dspring.config.additional-location=<path-to-directory-containing-external-config>
@@ -23,60 +26,169 @@ It is possible to provide a external directory by launching the application with
 See https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config[Spring Externalized Configuration] for
 more information.
 
-The external configuration file must contain at least the following properties.
+The external configuration file must contain the following properties.
 
 
 |===
 |Name | Description
 
-|perobot.jwtconfig.key
+|perobobbot.jwtconfig.key
 |The key used to sign the JSON Web Token
 
-|perobot.db.url
+|perobobbot.db.url
 |The URL of the H2 database
 
-|perobot.db.username
+|perobobbot.db.username
 |The username to use to connect to the database
 
-|perobot.db.password
+|perobobbot.db.password
 |the password to use to connect to the database
 
-|perobot.ssl.key-store
+|perobobbot.ssl.key-store
 |the URL to the keystore used for TSL certification
 
-|perobot.ssl.key-store-password
+|perobobbot.ssl.key-store-password
 |the password of the keystore
 
-|perobot.ssl.key-alias
+|perobobbot.ssl.key-alias
 |the alias in the keystore to use
 
-|perobot.ssl.key-type
+|perobobbot.ssl.key-type
 |the type of the keystore
+
+|perobobbot.webhook.external-url.mode
+|Either 'manual' or 'ngrok'. Specify the configuration mode to
+get the base url used for webhooks. See ''
+
+|perobobbot.webhook.manual.host
+|(Used only in 'manual' mode) specify the host of the external URL used for webhooks.
+
+|perobobbot.webhook.manual.port
+|(Used only in 'manual' mode) specify the port of the external URL used for webhooks. If Twitch is used by the bot, this value *MUST* be 443.
+
+|[[perobobbot.webhook.ngrok.tunnel-name]] perobobbot.webhook.ngrok.tunnel-name
+|(Used only in 'ngrok' mode) specify the Ngrok tunnel name. It will be used to
+retrieve the external URL created by Ngrok.
+
+|perobobbot.oauth.redirect-uri.mode
+|Specify the mode used to get the redirect URI used in OAuth2 process. Can be either 'webhook' (use base URI from the webhook configuration) or 'localhost' (use the localhost, useful in development when the front is used on the same computer then the bot)
 
 |===
 
-Below an example file using PKCS12 keystore and very weak password :
+Below an example file using PKCS12 keystore, a very weak password and ngrok to get the external URL:
 
 [source,properties]
 ----
 #The key used to sign the JSON Web Token
-perobot.jwtconfig.key=123456
+perobobbot.jwtconfig.key=123456
 
 #The address of the H2 database
-perobot.db.url=jdbc:h2:${app.config.dr}/db/data;AUTO_SERVER=true
-perobot.db.username=perobot
-perobot.db.password=123456
+perobobbot.db.url=jdbc:h2:${app.config.dr}/db/data;AUTO_SERVER=true
+perobobbot.db.username=perobobbot
+perobobbot.db.password=123456
 
-perobot.ssl.key-store=file:${app.config.dr}/config/keystore.p12
-perobot.ssl.key-store-password=123456
-perobot.ssl.key-alias=perobobbot
-perobot.ssl.key-type=PKCS12
+perobobbot.ssl.key-store=file:${app.config.dr}/config/keystore.p12
+perobobbot.ssl.key-store-password=123456
+perobobbot.ssl.key-alias=perobobbot
+perobobbot.ssl.key-type=PKCS12
+
+#either 'manual' (you provide the information by using properties) or 'ngrok'
+# (the external url is retrieve from the ngrok tunnel, it must have been started and
+# the tunnel name must be provided in the properties)
+perobobbot.webhook.external-url.mode=ngrok
+perobobbot.webhook.ngrok.tunnel-name=perobobbot
+
+# Either 'localhost' to use localhost for external url (if the backend and frontend are running
+# on the local computer) or 'webhook' to use the webhook configuration of the server
+perobobbot.oauth.redirect-uri.mode=localhost
+
 ----
 
-If this file is in directory `/home/perobobbot/.perobot/custom-config/`, then the application
+If this file is in directory `/home/perobobbot/.perobobbot/custom-config/`, then the application
 must be launched with the option
 
 ----
 #the / at the end is important
--Dspring.config.additional-location=/home/perobobbot/.perobot/custon-config/
+-Dspring.config.additional-location=/home/perobobbot/.perobobbot/custon-config/
 ----
+
+If you have your own server and its external URL is "https://myserver.com", then the webhook and oauth configuration should be:
+
+
+[source,properties]
+----
+#either 'manual' (you provide the information by using properties) or 'ngrok'
+# (the external url is retrieve from the ngrok tunnel, it must have been started and
+# the tunnel name must be provided in the properties)
+perobobbot.webhook.external-url.mode=manual
+perobobbot.webhook.manual.host=myserver.com
+perobobbot.webhook.manual.port=443
+
+# Either 'localhost' to use localhost for external url (if the backend and frontend are running
+# on the local computer) or 'webhook' to use the webhook configuration of the server
+perobobbot.oauth.redirect-uri.mode=webhook
+
+----
+
+
+
+=== Setup Ngrok
+
+If you plan to use https://ngrok.com/[ngrok] to expose the bot with a public URL. A basic configuration file (to put in ~/.ngrok2/ngrok.yml in Linux) should be:
+
+[source,yaml]
+----
+authtoken: <Your AUTH token>
+region: eu
+console: false
+
+tunnels:
+  perobobbot:
+     proto: http
+     addr: https://localhost:8443
+     bind_tls: true
+
+
+----
+
+The tunnel name (here 'perobobbot') must match the value of the property `<<perobobbot.webhook.ngrok.tunnel-name,perobobbot.webhook.ngrok.tunnel-name>>`.
+
+The AUTH token can be generated from your ngrok https://dashboard.ngrok.com/login[dashboard].
+
+Then launch the command `ngrok start perobobbot` to start the tunnel named `perobobbot`.
+
+=== Generate a self signed certificate
+
+The bot needs a signed SSL certificate. If you do not have one you can generate a self-signed one. There are some websites that explain how to do it:
+
+* https://devcenter.heroku.com/articles/ssl-certificate-self[Heroke Dev Center]
+* https://www.akadia.com/services/ssh_test_certificate.html[Akadia]
+
+If you are brave you can use this https://www.selfsignedcertificate.com/[site] that will do it for you. If you have Java installed. You can use the commad below:
+
+[source, shell script]
+-----
+keytool -genkeypair -alias perobobbot -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore keystore.p12 -validity 3650
+-----
+
+== Plugin
+
+By default, the bot does nothing. It provides some services that can be used to create plugins. To generate a plugin template you need to launch the bot and perform a request on the folloing endpoint:
+
+ https://localhost:8443/api/plugin/<type>:<package>:<module-name>
+
+`type` must be equal to `extension` (there will more template available in the future for instance to create plugin to connect to other chat platform than Twitch). `package` (`module-name`) will be the Java package (the Java module name respectively) of the plugin.
+
+This return a zip file containing a project template for a Plugin. For instance the command below:
+
+[source, shell script]
+----
+wget https://localhost:8443/api/plugin/extension:perobobbot.monplugin:monplugin -O template.zip
+----
+
+generates a zip file that contain a complete skeleton for a plugin.
+
+To compile the plugin you must have the bot dependencies installed on your computer. You must then download the source from the https://github.com/Perococco/perobobbot[Github repository] and install the dependencies with https://maven.apache.org/[maven] by using the command `mvn install`.
+
+To deploy the plugin, simple package it with `mvn package` and copy the zip file generated in the `build` directory of the plugin project into the plugin directory of the bot (by default ~/.config/perobobbot/plugins (see <<default_folder, default folder configuration>>). The plugin will be hot loaded.
+
