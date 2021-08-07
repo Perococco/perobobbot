@@ -208,11 +208,6 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-sound</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-fx</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -287,16 +282,6 @@
             <dependency>
                 <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-rendering</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-overlay-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-overlay-newtek</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

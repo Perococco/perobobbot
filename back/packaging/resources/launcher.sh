@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 required_version=15
 

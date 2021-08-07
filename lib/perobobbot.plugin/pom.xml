@@ -35,19 +35,11 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-sound</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-messaging</artifactId>
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-data-service</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-overlay-api</artifactId>
         </dependency>
     </dependencies>
 

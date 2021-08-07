@@ -6,7 +6,6 @@ module perobobbot.plugin {
 
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
-    requires perobobbot.overlay.api;
     requires perobobbot.command;
     requires perobobbot.data.service;
 

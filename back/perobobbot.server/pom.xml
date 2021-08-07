@@ -32,11 +32,6 @@
 
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-overlay-newtek</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-twitch-client-api</artifactId>
         </dependency>
         <dependency>
@@ -108,10 +103,6 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-overlay-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-chat-advanced</artifactId>
         </dependency>
         <dependency>
@@ -125,10 +116,6 @@
         <dependency>
             <groupId>perobobbot</groupId>
             <artifactId>perobobbot-messaging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-sound</artifactId>
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>

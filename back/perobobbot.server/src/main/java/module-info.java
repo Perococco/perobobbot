@@ -33,9 +33,7 @@ module perobobbot.server {
     requires perobobbot.extension;
     requires perobobbot.spring;
     requires perobobbot.messaging;
-    requires perobobbot.overlay.api;
     requires perobobbot.security.com;
-    requires perobobbot.sound;
     requires perobobbot.http;
     requires perobobbot.eventsub;
     requires perobobbot.oauth;

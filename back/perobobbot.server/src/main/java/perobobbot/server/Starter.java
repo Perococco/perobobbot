@@ -4,19 +4,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 import perobobbot.chat.core.IO;
 import perobobbot.data.com.CreateClientParameter;
-import perobobbot.data.service.BotService;
-import perobobbot.data.service.ClientService;
-import perobobbot.data.service.OAuthService;
-import perobobbot.data.service.UnsecuredService;
+import perobobbot.data.service.*;
 import perobobbot.eventsub.UserEventSubManager;
 import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
-import perobobbot.oauth.LoginTokenIdentifier;
-import perobobbot.oauth.OAuthContextHolder;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
@@ -26,13 +20,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class Starter {
 
     private final @NonNull
     @UnsecuredService
     ClientService clientService;
+
+    private final @NonNull
+    @UnsecuredService
+    ViewerIdentityService viewerIdentityService;
 
     private final @NonNull
     UserEventSubManager userEventSubManager;
@@ -54,7 +52,12 @@ public class Starter {
     @EventListener(ApplicationReadyEvent.class)
     public void run() throws Exception {
         try {
-            OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
+//            OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
+//            final var bot = botService.findBotByName("perococco","Perobobbot").get();
+//
+//            final var viewerId = viewerIdentityService.findIdentity(Platform.TWITCH, "perococco");
+//            botService.addJoinedChannel(bot.getId(),viewerId.get().getId(),"pantoufl");
+
 //            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
 //                    Platform.TWITCH,
 //                    SubscriptionType.CHANNEL_SUBSCRIBE,
@@ -66,9 +69,11 @@ public class Starter {
 //                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
 //            )).subscribe(s -> System.out.println(s));
 //            twitchService.getChannelInformation("211307900").subscribe(s -> System.out.println(s));
-//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Créer une Horde").cost(100).build()).subscribe();
+//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 100").cost(100).build()).subscribe();
+//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 1000").cost(1000).build()).subscribe();
+//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 10000").cost(10000).build()).subscribe();
 //            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0], true))
-//                         .subscribe(s -> System.out.println(s.getId() + "'"+s.getPrompt()+"'"));
+//                         .subscribe(s -> System.out.println(s.getId() + "'"+s.getTitle()+"'"));
 //            createClient();
 //            joinChannel();
         } catch (Throwable t) {

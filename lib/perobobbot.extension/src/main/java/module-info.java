@@ -5,7 +5,6 @@ module perobobbot.extension {
 
     requires perobobbot.lang;
     requires perobobbot.command;
-    requires perobobbot.overlay.api;
     requires perobobbot.access;
     requires perobobbot.chat.core;
     requires perobobbot.messaging;
