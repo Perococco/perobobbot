@@ -47,6 +47,7 @@ public enum TwitchScope implements Scope {
     CHAT_READ("chat:read"),
     WHISPERS_READ("whispers:read"),
     WHISPERS_EDIT("whispers:edit"),
+    USER_READ_EMAIL("user:read:email")
 ;
     @Getter
     private final @NonNull String name;

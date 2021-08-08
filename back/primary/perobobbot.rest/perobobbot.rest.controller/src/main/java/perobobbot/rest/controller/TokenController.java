@@ -4,12 +4,12 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.rest.com.OAuthProcessParameter;
 import perobobbot.rest.com.RestUserToken;
+import perobobbot.security.com.BotUser;
 
 import java.net.URI;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class TokenController {
     private final @NonNull @SecuredService OAuthService oauthService;
 
     @GetMapping("")
-    public @NonNull ImmutableList<RestUserToken> getUserToken(@NonNull @AuthenticationPrincipal UserDetails principal) {
+    public @NonNull ImmutableList<RestUserToken> getUserToken(@NonNull @AuthenticationPrincipal BotUser principal) {
         return oauthService.getAllUserTokens(principal.getUsername())
                            .stream()
                            .map(RestUserToken::fromUserTokenView)
@@ -45,7 +45,7 @@ public class TokenController {
     }
 
     @PostMapping("/oauth")
-    public @NonNull URI initiateOAuth(@NonNull @AuthenticationPrincipal UserDetails principal, @RequestBody @NonNull OAuthProcessParameter parameter) {
+    public @NonNull URI initiateOAuth(@NonNull @AuthenticationPrincipal BotUser principal, @RequestBody @NonNull OAuthProcessParameter parameter) {
         final var login = principal.getUsername();
         final var oauthInfo = oauthService.authenticateUser(login,parameter.getScopes(),parameter.getPlatform());
         return oauthInfo.getOauthURI();

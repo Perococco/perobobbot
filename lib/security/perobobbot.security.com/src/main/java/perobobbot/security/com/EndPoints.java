@@ -11,6 +11,7 @@ public interface EndPoints {
 
     String CURRENT_USER = "/user";
     String SIGN_IN = "/signin";
+    String OAUTH = "/oauth";
     String SIGN_UP = "/signup";
 
     @NonNull

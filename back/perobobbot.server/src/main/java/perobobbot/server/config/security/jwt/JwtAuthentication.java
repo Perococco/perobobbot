@@ -1,12 +1,17 @@
 package perobobbot.server.config.security.jwt;
 
 import com.google.common.collect.ImmutableList;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import perobobbot.security.com.BotUser;
+import perobobbot.security.com.Identification;
 import perobobbot.security.com.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
+
+import java.util.Collection;
 
 /**
  * @author perococco
@@ -15,26 +20,40 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
 
     public static @NonNull JwtAuthentication create(@NonNull User user) {
         final ImmutableList<GrantedAuthority> authorities = ExtractorOfGrantedAuthorities.extract(user);
-        final UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
-        final var authentication = new JwtAuthentication(userDetails);
+        final var authentication = new JwtAuthentication(user,authorities);
         authentication.setAuthenticated(true);
         return authentication;
     }
 
-    private final UserDetails userDetails;
+    private final JwtUser user;
 
-    public JwtAuthentication(UserDetails userDetails) {
-        super(userDetails.getAuthorities());
-        this.userDetails = userDetails;
+    public JwtAuthentication(User user, ImmutableList<GrantedAuthority> authorities) {
+        super(authorities);
+        this.user = new JwtUser(user.getUsername(), user.getIdentification(), ExtractorOfGrantedAuthorities.extract(user));
     }
 
     @Override
-    public String getCredentials() {
-        return userDetails.getPassword();
+    public Object getCredentials() {
+        return user.getCredentials();
     }
 
     @Override
-    public UserDetails getPrincipal() {
-        return userDetails;
+    public BotUser getPrincipal() {
+        return user;
+    }
+
+    @RequiredArgsConstructor
+    private static class JwtUser implements BotUser {
+
+        @Getter
+        private final @NonNull String username;
+
+        @Getter
+        private final @NonNull Identification credentials;
+
+        @Getter
+        private final Collection<? extends GrantedAuthority> authorities;
+
+
     }
 }

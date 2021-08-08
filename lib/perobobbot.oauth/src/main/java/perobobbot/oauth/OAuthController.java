@@ -22,6 +22,13 @@ public interface OAuthController {
     @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, ImmutableSet<? extends Scope> scopes);
 
     /**
+     * @return the URI to use to perform the OAuth Authorization Code Flow
+     */
+    default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client) {
+        return prepareUserOAuth(client,getDefaultScopes());
+    }
+
+    /**
      * Request a Client Token. The client id and secret are provided by configuration
      * @return a completionStage the completion result is the requested token
      */
@@ -44,6 +51,8 @@ public interface OAuthController {
     @NonNull CompletionStage<?> validateToken(@NonNull Secret accessToken);
 
     @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken);
+
+    @NonNull ImmutableSet<? extends Scope> getDefaultScopes();
 
     void dispose();
 }

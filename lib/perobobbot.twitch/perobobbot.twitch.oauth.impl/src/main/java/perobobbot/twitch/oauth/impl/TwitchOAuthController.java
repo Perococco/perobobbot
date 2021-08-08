@@ -10,12 +10,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.*;
 import perobobbot.oauth.*;
+import perobobbot.twitch.oauth.api.TwitchScope;
 
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
 @Log4j2
 public class TwitchOAuthController implements OAuthController {
+
+    public static final ImmutableSet<TwitchScope> DEFAULT_SCOPES = ImmutableSet.of(
+            TwitchScope.BITS_READ,
+            TwitchScope.CHANNEL_EDIT_COMMERCIAL,
+            TwitchScope.CHANNEL_MANAGE_POLLS,
+            TwitchScope.CHANNEL_MANAGE_PREDICTIONS,
+            TwitchScope.CHANNEL_MANAGE_REDEMPTIONS,
+            TwitchScope.CHANNEL_READ_HYPE_TRAIN,
+            TwitchScope.CHANNEL_READ_REDEMPTIONS,
+            TwitchScope.CHANNEL_READ_SUBSCRIPTIONS,
+            TwitchScope.CLIPS_EDIT,
+            TwitchScope.USER_READ_EMAIL,
+            TwitchScope.MODERATION_READ,
+            TwitchScope.USER_READ_BROADCAST,
+            TwitchScope.CHANNEL_MANAGE_BROADCAST,
+            TwitchScope.CHANNEL_MANAGE_VIDEOS
+    );
 
     public static final String TWITCH_OAUTH_PATH = "/twitch/oauth";
 
@@ -106,5 +124,10 @@ public class TwitchOAuthController implements OAuthController {
     @Override
     public void dispose() {
         oAuthSubscriptions.dispose();
+    }
+
+    @Override
+    public @NonNull ImmutableSet<? extends Scope> getDefaultScopes() {
+        return DEFAULT_SCOPES;
     }
 }

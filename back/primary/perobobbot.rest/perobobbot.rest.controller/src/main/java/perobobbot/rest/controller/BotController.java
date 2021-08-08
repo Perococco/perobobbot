@@ -5,13 +5,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Bot;
 import perobobbot.rest.com.CreateBotParameters;
 import perobobbot.security.com.RoleKind;
+import perobobbot.security.com.BotUser;
 
 import java.util.UUID;
 
@@ -32,7 +32,7 @@ public class BotController {
     }
 
     @GetMapping("")
-    public ImmutableList<Bot> listBots(@AuthenticationPrincipal UserDetails principal) {
+    public @NonNull ImmutableList<Bot> listBots(@AuthenticationPrincipal BotUser principal) {
         var isAdmin = principal.getAuthorities()
                                .stream()
                                .map(GrantedAuthority::getAuthority)
@@ -50,7 +50,7 @@ public class BotController {
     }
 
     @PostMapping("")
-    public Bot createBot(@AuthenticationPrincipal UserDetails principal, @RequestBody CreateBotParameters parameters) {
+    public Bot createBot(@AuthenticationPrincipal BotUser principal, @RequestBody CreateBotParameters parameters) {
         return botService.createBot(principal.getUsername(), parameters.getName());
     }
 }

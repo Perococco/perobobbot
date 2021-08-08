@@ -11,7 +11,7 @@ import perobobbot.server.config.security.jwt.JwtAuthentication;
 
 @Component
 @RequiredArgsConstructor
-@PluginService(type = UserAuthenticator.class, apiVersion = UserAuthenticator.VERSION,sensitive = false)
+@PluginService(type = UserAuthenticator.class, apiVersion = UserAuthenticator.VERSION, sensitive = false)
 public class BasicUserAuthenticator implements UserAuthenticator {
 
     private final @NonNull perobobbot.security.core.UserProvider userProvider;
@@ -20,7 +20,13 @@ public class BasicUserAuthenticator implements UserAuthenticator {
     @Override
     public boolean authenticate(@NonNull String login, @NonNull String secret) {
         final var user = userProvider.getUserDetails(login);
-        final var matches = passwordEncoder.matches(secret,user.getPassword());
+
+        final var password = user.getPassword();
+
+        final var matches = password
+                .filter(p -> passwordEncoder.matches(secret, p))
+                .isPresent();
+
         if (matches) {
             SecurityContextHolder.getContext().setAuthentication(JwtAuthentication.create(user));
             return true;

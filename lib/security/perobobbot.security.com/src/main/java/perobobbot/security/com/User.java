@@ -8,17 +8,18 @@ import lombok.Value;
 import perobobbot.lang.NoTypeScript;
 
 import java.util.Locale;
+import java.util.Optional;
 
 @NoTypeScript
 @Value
 @Builder
-public class User {
+public class User implements UsernameProvider {
 
     @NonNull
     String login;
 
     @NonNull
-    String password;
+    Identification identification;
 
     boolean deactivated;
 
@@ -38,6 +39,15 @@ public class User {
 
     public @NonNull SimpleUser simplify() {
         return new SimpleUser(login, locale, deactivated, roles);
+    }
+
+    @Override
+    public @NonNull String getUsername() {
+        return login;
+    }
+
+    public @NonNull Optional<String> getPassword() {
+        return identification.getPassword();
     }
 
 }

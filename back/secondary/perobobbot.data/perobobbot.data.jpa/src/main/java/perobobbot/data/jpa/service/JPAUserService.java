@@ -24,6 +24,7 @@ import perobobbot.security.core.UserProvider;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author perococco
@@ -50,6 +51,16 @@ public class JPAUserService implements UserService, UserProvider {
     }
 
     @Override
+    public @NonNull Optional<User> findUser(@NonNull String login) {
+        return userRepository.findByLogin(login).map(UserEntity::toView);
+    }
+
+    @Override
+    public boolean doesUserExist(@NonNull String login) {
+        return userRepository.doesUserExist(login);
+    }
+
+    @Override
     public @NonNull User getUserDetails(@NonNull String login) {
         final var userInfo = userRepository.getUserDetail(login);
         if (userInfo.isEmpty()) {
@@ -58,7 +69,7 @@ public class JPAUserService implements UserService, UserProvider {
         final var builder = User.builder();
         final var first = userInfo.get(0);
         builder.login(first.getLogin())
-               .password(first.getPassword())
+               .identification(first.identification())
                .deactivated(first.isDeactivated())
                .locale(Locale.forLanguageTag(first.getLocale()))
                .jwtClaim(first.getJwtClaim());

@@ -3,9 +3,9 @@ package perobobbot.security.core;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import perobobbot.lang.Lazy;
 import perobobbot.security.com.LoginFailed;
+import perobobbot.security.com.BotUser;
 
 /**
  * @author perococco
@@ -20,11 +20,10 @@ public class LoginFromAuthentication implements CharSequence {
 
     @NonNull
     private String extractLogin() {
-        if (!authentication.isAuthenticated() || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new LoginFailed("Could not log user");
+        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof BotUser userNameProvider) {
+            return userNameProvider.getUsername();
         }
-        final UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        return userDetails.getUsername();
+        throw new LoginFailed("Could not log user");
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import perobobbot.security.com.Identification;
 import perobobbot.security.com.Operation;
 import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.User;
@@ -46,7 +47,7 @@ public class PluginServiceHandler implements InvocationHandler {
                                                 .jwtClaim("")
                                                 .deactivated(false)
                                                 .locale(Locale.ENGLISH)
-                                                .password("plugin")
+                                                .identification(Identification.password("plugin"))
                                                 .role(RoleKind.ADMIN)
                                                 .operation(Operation.READ_CREDENTIALS)
                                                 .build();

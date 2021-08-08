@@ -3,6 +3,7 @@ module perobobbot.security.com {
     requires java.desktop;
     requires perobobbot.lang;
     requires com.google.common;
+    requires spring.security.core;
 
     opens perobobbot.security.com to com.fasterxml.jackson.databind, org.hibernate.validator;
 

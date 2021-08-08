@@ -3,6 +3,7 @@ package perobobbot.data.domain.base;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import perobobbot.security.com.Identification;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.RoleEntity;
 import perobobbot.data.domain.UserTokenEntity;
@@ -31,10 +32,6 @@ public class UserEntityBase extends SimplePersistentObject {
     @Column(name = "LOGIN",unique = true)
     @Size(max = 255)
     private String login = "";
-
-    @NonNull
-    @Column(name = "PASSWORD", nullable = false)
-    private String password;
 
     @Column(name = "DEACTIVATED", nullable = false)
     private boolean deactivated = false;
@@ -67,11 +64,14 @@ public class UserEntityBase extends SimplePersistentObject {
     @Fetch(FetchMode.JOIN)
     private List<BotEntity> bots = new ArrayList<>();
 
+    @Embedded
+    private UserIdentification identification;
+
     public UserEntityBase(
             @NonNull @Email String login,
-            @NonNull @NotBlank String password) {
+            @NonNull Identification identification) {
         this.login = login;
-        this.password = password;
+        this.identification = new UserIdentification(identification);
         this.jwtClaim = RandomString.generate(16);
     }
 

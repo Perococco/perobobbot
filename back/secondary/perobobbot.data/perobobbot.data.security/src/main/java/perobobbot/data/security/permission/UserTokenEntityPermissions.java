@@ -1,13 +1,13 @@
 package perobobbot.data.security.permission;
 
 import lombok.NonNull;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.UUID;
 
 @Component
@@ -21,23 +21,23 @@ public class UserTokenEntityPermissions extends DataEntityPermission {
     }
 
     @Override
-    protected boolean hasPermissionWithObject(@NonNull UserDetails principal, Object targetDomainObject, @NonNull DataPermission permission) {
+    protected boolean hasPermissionWithObject(@NonNull Principal principal, Object targetDomainObject, @NonNull DataPermission permission) {
         return false;
     }
 
     @Override
-    protected boolean hasPermissionWithId(@NonNull UserDetails principal, Serializable tokenId, @NonNull DataPermission permission) {
+    protected boolean hasPermissionWithId(@NonNull Principal principal, Serializable tokenId, @NonNull DataPermission permission) {
         return switch (permission) {
             case DELETE,READ -> doesNotExistOrIsMyToken(principal, (UUID)tokenId);
             default -> false;
         };
     }
 
-    private boolean doesNotExistOrIsMyToken(UserDetails userDetails, UUID tokenId) {
+    private boolean doesNotExistOrIsMyToken(Principal principal, UUID tokenId) {
         final var token = oAuthService.findUserToken(tokenId).orElse(null);
         if (token == null) {
             return true;
         }
-        return token.getOwnerLogin().equals(userDetails.getUsername());
+        return token.getOwnerLogin().equals(principal.getName());
     }
 }

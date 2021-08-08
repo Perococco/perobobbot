@@ -74,6 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET,"/api/plugin/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/dictionaries/**").permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_IN)).permitAll()
+            .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.OAUTH)).permitAll()
+            .antMatchers(HttpMethod.GET, EndPoints.fullPath(EndPoints.OAUTH+"/**")).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()
             .antMatchers(EndPoints.fullPath("/**")).authenticated()
             .and()

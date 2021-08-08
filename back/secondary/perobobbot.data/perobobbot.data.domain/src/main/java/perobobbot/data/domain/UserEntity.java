@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
+import perobobbot.security.com.Identification;
 import perobobbot.data.domain.base.UserEntityBase;
 import perobobbot.lang.RandomString;
 import perobobbot.lang.token.EncryptedUserToken;
@@ -13,7 +14,6 @@ import perobobbot.security.com.User;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -21,8 +21,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity extends UserEntityBase {
 
-    public UserEntity(@NonNull @Email String login, @NonNull @NotBlank String password) {
-        super(login, password);
+    public UserEntity(@NonNull @Email String login, @NonNull Identification identification) {
+        super(login, identification);
     }
 
     public @NonNull BotEntity createBot(@NonNull String botName) {
@@ -32,7 +32,7 @@ public class UserEntity extends UserEntityBase {
     }
 
     public static @NonNull UserEntity create(CreateUserParameters parameters) {
-        return new UserEntity(parameters.getLogin(), parameters.getPassword());
+        return new UserEntity(parameters.getLogin(), parameters.getIdentification());
     }
 
     /**
@@ -94,7 +94,7 @@ public class UserEntity extends UserEntityBase {
                    .deactivated(this.isDeactivated())
                    .login(this.getLogin())
                    .locale(getLocale())
-                   .password(this.getPassword())
+                   .identification(this.getIdentification().toView())
                    .jwtClaim(this.getJwtClaim())
                    .roles(this.roles().map(RoleEntity::getRole).collect(ImmutableSet.toImmutableSet()))
                    .operations(this.roles().flatMap(RoleEntity::allowedOperations).collect(ImmutableSet.toImmutableSet()))

@@ -12,6 +12,8 @@ import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.security.com.User;
 
+import java.util.Optional;
+
 @Service
 @SecuredService
 @RequiredArgsConstructor
@@ -23,6 +25,18 @@ public class SecuredUserService implements UserService {
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public @NonNull User getUser(@NonNull String login) {
         return delegate.getUser(login);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull Optional<User> findUser(@NonNull String login) {
+        return delegate.findUser(login);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public boolean doesUserExist(@NonNull String login) {
+        return delegate.doesUserExist(login);
     }
 
     @Override

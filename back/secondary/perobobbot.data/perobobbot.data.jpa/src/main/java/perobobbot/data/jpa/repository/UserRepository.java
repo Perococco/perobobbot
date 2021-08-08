@@ -27,6 +27,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(nativeQuery = true,
             value = "select " +
                     "u.LOGIN as login, " +
+                    "u.IDENTIFICATION_MODE as identificationMode, " +
+                    "u.OPENID_PLATFORM as openIdPlatform, " +
                     "u.PASSWORD as password, " +
                     "u.DEACTIVATED as deactivated, " +
                     "u.LOCALE as locale, " +
