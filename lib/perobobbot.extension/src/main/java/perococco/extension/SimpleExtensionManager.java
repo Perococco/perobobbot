@@ -36,7 +36,7 @@ public class SimpleExtensionManager implements ExtensionManager {
         this.extensionIds.put(extensionName, id);
         this.extensionPlugins.put(id, extensionPlugin);
 
-        final var subscription = this.commandRegistry.addCommandDefinitions(extensionPlugin.getCommandDefinitions());
+        final var subscription = this.commandRegistry.addCommandDefinitions(extensionPlugin.getCommandDeclarations());
 
         extensionPlugin.getExtension().enable();
 
@@ -90,7 +90,7 @@ public class SimpleExtensionManager implements ExtensionManager {
         Optional.ofNullable(extensionPlugins.get(id))
                 .map(e -> Subscription.multi(
                         e::disableExtension,
-                        commandRegistry.addCommandDefinitions(e.getCommandDefinitions())
+                        commandRegistry.addCommandDefinitions(e.getCommandDeclarations())
                 ))
                 .ifPresent(s -> this.subscriptions.put(id, s));
 

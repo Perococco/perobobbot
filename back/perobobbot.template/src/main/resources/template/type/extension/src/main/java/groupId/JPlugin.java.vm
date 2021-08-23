@@ -7,7 +7,7 @@ import jplugman.api.Requirement;
 import jplugman.api.ServiceProvider;
 import lombok.NonNull;
 import perobobbot.access.AccessRule;
-import perobobbot.command.CommandDefinition;
+import perobobbot.command.CommandDeclaration;
 import perobobbot.extension.ExtensionFactoryBase;
 import perobobbot.lang.Role;
 import perobobbot.plugin.ExtensionPlugin;
@@ -48,13 +48,13 @@ public class JPlugin extends ExtensionFactoryBase<BotExtension> {
 
     /**
      * @param extension          the extension to add to the bot
-     * @param commandDefinitions the definition of the commands for the extension
+     * @param commandDeclarations the definition of the commands for the extension
      * @return return a plugin (at the bot level) that will be used to add the extension to the bot.
      */
     @Override
     protected @NonNull ExtensionPlugin createExtensionPlugin(@NonNull BotExtension extension,
-                                                             @NonNull ImmutableList<CommandDefinition> commandDefinitions) {
-        return new BotExtensionPlugin(extension, commandDefinitions);
+                                                             @NonNull ImmutableList<CommandDeclaration> commandDeclarations) {
+        return new BotExtensionPlugin(extension, commandDeclarations);
     }
 
     /**
@@ -78,9 +78,9 @@ public class JPlugin extends ExtensionFactoryBase<BotExtension> {
      * @return a list of command definitions
      */
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull BotExtension extension,
+    protected @NonNull ImmutableList<CommandDeclaration> createCommandDefinitions(@NonNull BotExtension extension,
                                                                                  @NonNull ServiceProvider serviceProvider,
-                                                                                 CommandDefinition.@NonNull Factory factory) {
+                                                                                  CommandDeclaration.@NonNull Factory factory) {
         final var accessRule = AccessRule.create(Role.THE_BOSS, Duration.ZERO);
         return ImmutableList.of(
                 factory.create("myplugin {cmd}", accessRule, new ExtensionCommand(extension))

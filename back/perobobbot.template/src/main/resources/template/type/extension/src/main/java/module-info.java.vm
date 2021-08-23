@@ -9,11 +9,7 @@ module ${plugin.moduleName} {
     requires jplugman.api;
     requires com.google.common;
 
-    requires perobobbot.plugin;
-    requires perobobbot.extension;
-    requires perobobbot.access;
-    requires perobobbot.command;
-    #foreach($moduleName in ${plugin.serviceModuleNames})
+    #foreach($moduleName in ${plugin.moduleNames})
     requires ${moduleName};
     #end
 

@@ -8,7 +8,7 @@ import jplugman.api.Disposable;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.command.CommandDefinition;
+import perobobbot.command.CommandDeclaration;
 import perobobbot.plugin.ExtensionPlugin;
 
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ import perobobbot.plugin.ExtensionPlugin;
 public class BotExtensionPlugin implements ExtensionPlugin, Disposable {
 
     private final @NonNull BotExtension extension;
-    private final @NonNull ImmutableList<CommandDefinition> commandDefinitions;
+    private final @NonNull ImmutableList<CommandDeclaration> commandDeclarations;
 
 
     @Override

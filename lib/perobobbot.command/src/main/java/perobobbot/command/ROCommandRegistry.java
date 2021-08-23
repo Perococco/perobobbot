@@ -1,5 +1,6 @@
 package perobobbot.command;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 
 import java.util.Optional;
@@ -16,5 +17,7 @@ public interface ROCommandRegistry {
      * @return an optional containing the command with the provided name, an empty optional otherwise.
      */
     @NonNull Optional<Command> findCommand(@NonNull String message);
+
+    @NonNull ImmutableSet<CommandDeclaration> getAllCommands();
 
 }

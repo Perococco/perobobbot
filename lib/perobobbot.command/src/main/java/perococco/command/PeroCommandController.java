@@ -48,7 +48,8 @@ public class PeroCommandController implements CommandController {
                         .ifPresent(Executor::execute);
     }
 
-    private char getPrefix(Platform platform) {
+    @Override
+    public char getPrefix(@NonNull Platform platform) {
         final Character prefix = prefixes.get(platform);
         if (prefix == null) {
             throw new RuntimeException("No prefix defined for platform '" + platform + "'. This is a bug");

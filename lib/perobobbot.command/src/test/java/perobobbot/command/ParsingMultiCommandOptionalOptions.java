@@ -32,7 +32,7 @@ public class ParsingMultiCommandOptionalOptions {
     @BeforeEach
     void setUp() {
         commandRegistry = CommandRegistry.create();
-        final var factory = CommandDefinition.factory("test");
+        final var factory = CommandDeclaration.factory("test");
 
         final var commandDefinitions = ImmutableList.of(
                 factory.create("c4 [name]", AccessRule.create(Role.ANY_USER, Duration.ZERO), createAction("START")),

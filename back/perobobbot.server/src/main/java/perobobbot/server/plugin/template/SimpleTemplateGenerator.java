@@ -1,6 +1,7 @@
 package perobobbot.server.plugin.template;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import jplugman.api.Version;
 import lombok.Builder;
 import lombok.NonNull;
@@ -25,6 +26,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Builder
 public class SimpleTemplateGenerator implements TemplateGenerator {
 
+    private static final ImmutableSet<String> REQUIRED_MODULE_NAMES = ImmutableSet.of(
+            "perobobbot.plugin",
+            "perobobbot.extension",
+            "perobobbot.access",
+            "perobobbot.command"
+    );
+
 
     private static final AtomicBoolean INITIALIZED = new AtomicBoolean(false);
 
@@ -44,7 +52,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
 
     @Override
     public @NonNull Path generate(@NonNull String type, @NonNull String groupId, @NonNull String artifactId) throws IOException {
-        return new Executor(type,groupId, artifactId).generate();
+        return new Executor(type, groupId, artifactId).generate();
     }
 
     @RequiredArgsConstructor
@@ -65,7 +73,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             createOutputPath();
             readStructureFile();
 
-            templates.forEach(type,this::performCopy);
+            templates.forEach(type, this::performCopy);
 
             return outputPath;
         }
@@ -140,7 +148,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             final var s = botVersionedServices.getServices()
                                               .stream().map(PluginInfo.ServiceWrapper::new)
                                               .collect(ImmutableList.toImmutableList());
-            context.put("plugin", new PluginInfo(applicationVersion, groupId, groupId, s));
+            context.put("plugin", new PluginInfo(applicationVersion, groupId, groupId, REQUIRED_MODULE_NAMES,s));
         }
     }
 }

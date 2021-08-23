@@ -3,7 +3,7 @@ package perobobbot.extension;
 import com.google.common.collect.ImmutableList;
 import jplugman.api.ServiceProvider;
 import lombok.NonNull;
-import perobobbot.command.CommandDefinition;
+import perobobbot.command.CommandDeclaration;
 import perobobbot.plugin.Extension;
 
 public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBase<Extension> {
@@ -13,7 +13,7 @@ public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBas
     }
 
     @Override
-    protected @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull Extension extension, @NonNull ServiceProvider serviceProvider, CommandDefinition.@NonNull Factory factory) {
+    protected @NonNull ImmutableList<CommandDeclaration> createCommandDefinitions(@NonNull Extension extension, @NonNull ServiceProvider serviceProvider, CommandDeclaration.@NonNull Factory factory) {
         return ImmutableList.of();
     }
 }

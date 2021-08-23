@@ -33,7 +33,7 @@ public class ParsingMultiCommandNoOptions {
     @BeforeEach
     void setUp() {
         commandRegistry = CommandRegistry.create();
-        final var factory = CommandDefinition.factory("test");
+        final var factory = CommandDeclaration.factory("test");
 
         final var commandDefinitions = ImmutableList.of(
                 factory.create("play", AccessRule.create(Role.ANY_USER, Duration.ZERO), createAction("PLAY1")),

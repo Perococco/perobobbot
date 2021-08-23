@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.command.CommandDefinition;
+import perobobbot.command.CommandDeclaration;
 import perobobbot.plugin.Extension;
 import perobobbot.plugin.ExtensionPlugin;
 
@@ -19,12 +19,12 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
     @Override
     public @NonNull ExtensionPlugin loadService(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider) {
         final var instance = createExtension(pluginLayer, serviceProvider);
-        final var factory = CommandDefinition.factory(instance.getName());
+        final var factory = CommandDeclaration.factory(instance.getName());
         final var commandDefinitions = createCommandDefinitions(instance, serviceProvider, factory);
         return createExtensionPlugin(instance, commandDefinitions);
     }
 
-    protected abstract @NonNull ExtensionPlugin createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDefinition> commandDefinitions);
+    protected abstract @NonNull ExtensionPlugin createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDeclaration> commandDeclarations);
 
     /**
      * @param  pluginLayer the module layer used to load the plugin
@@ -39,6 +39,6 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
      * @param factory this factory parameters containing some services the extension might use
      * @return an optional containing the command bundle that command the extension, an empty optional if the extension has no command
      */
-    protected abstract @NonNull ImmutableList<CommandDefinition> createCommandDefinitions(@NonNull E extension, @NonNull ServiceProvider serviceProvider, @NonNull CommandDefinition.Factory factory);
+    protected abstract @NonNull ImmutableList<CommandDeclaration> createCommandDefinitions(@NonNull E extension, @NonNull ServiceProvider serviceProvider, @NonNull CommandDeclaration.Factory factory);
 
 }

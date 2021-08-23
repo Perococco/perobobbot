@@ -7,17 +7,17 @@ import perobobbot.access.AccessRule;
 
 @RequiredArgsConstructor
 @Getter
-public class CommandDefinition {
+public class CommandDeclaration {
 
-    public static @NonNull CommandDefinition.Factory factory(@NonNull String extensionName) {
-        return (definition,access,action) -> new CommandDefinition(extensionName,definition,access,action);
+    public static @NonNull CommandDeclaration.Factory factory(@NonNull String extensionName) {
+        return (definition,access,action) -> new CommandDeclaration(extensionName,definition,access,action);
     }
 
     public interface Factory {
 
-        @NonNull CommandDefinition create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull CommandAction commandAction);
+        @NonNull CommandDeclaration create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull CommandAction commandAction);
 
-        default @NonNull CommandDefinition create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull Runnable runnable) {
+        default @NonNull CommandDeclaration create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull Runnable runnable) {
             return create(definition,defaultAccessRule,(p,c) -> runnable.run());
         }
 

@@ -14,13 +14,13 @@ public interface CommandRegistry extends ROCommandRegistry {
 
     /**
      * Add a command to the manager
-     * @param commandDefinition the command definition
+     * @param commandDeclaration the command definition
      */
-    @NonNull Subscription addCommandDefinition(@NonNull CommandDefinition commandDefinition);
+    @NonNull Subscription addCommandDefinition(@NonNull CommandDeclaration commandDeclaration);
 
-    default @NonNull Subscription addCommandDefinitions(@NonNull ImmutableCollection<CommandDefinition> commandDefinitions) {
+    default @NonNull Subscription addCommandDefinitions(@NonNull ImmutableCollection<CommandDeclaration> commandDeclarations) {
         return Subscription.multi(
-                commandDefinitions.stream().map(this::addCommandDefinition).collect(ImmutableList.toImmutableList())
+                commandDeclarations.stream().map(this::addCommandDefinition).collect(ImmutableList.toImmutableList())
         );
     }
 
