@@ -171,13 +171,42 @@ If you are brave you can use this https://www.selfsignedcertificate.com/[site] t
 keytool -genkeypair -alias perobobbot -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore keystore.p12 -validity 3650
 -----
 
+== Compile And Install the Bot
+
+To compile the bot you need:
+
+* A JDK version 16 (from https://adoptopenjdk.net/[AdoptOpenJDK] or https://bell-sw.com/[BellSoft])
+* the tool https://maven.apache.org/download.cgi[Maven]
+* The dependencies to https://github.com/baracil/jplugman[JPlugman] v2.0.5 installed in your local repository
+
+
+=== Install Jplugman v2.0.5
+
+This dependency allow hot-loaded of plugins.
+To install the dependencies, clone the Jplugman repository and launch `mvn install`
+on the tag `v2.0.5`.
+
+[source, shell script]
+-----
+git clone git@github.com:baracil/jplugman.git -b v2.0.5
+cd jplugman
+mvn install
+-----
+
+=== Install the bot
+
+Clone the repository and launch the command `mvn clean package`.
+At the end the bot will available as a tar archive in the `build` directory.
+
 == Plugin
 
-By default, the bot does nothing. It provides some services that can be used to create plugins. To generate a plugin template you need to launch the bot and perform a request on the folloing endpoint:
+To create a plugin you must first install the bot and its dependencies in your local repository (see ??).
+
+By default, the bot does nothing. It provides some services that can be used to create plugins. To generate a plugin template you need to launch the bot and perform a request on the following endpoint:
 
  https://localhost:8443/api/plugin/<type>:<package>:<module-name>
 
-`type` must be equal to `extension` (there will more template available in the future for instance to create plugin to connect to other chat platform than Twitch). `package` (`module-name`) will be the Java package (the Java module name respectively) of the plugin.
+`type` must be equal to `extension` (there will more template available in the future for instance to create plugin to connect to other chat platform than Twitch). `package` (`module-name`) will be the Java package (the Java module name respectively) of the plugin and as such should respect Java package naming (no '.' or '-' for instance).
 
 This return a zip file containing a project template for a Plugin. For instance the command below:
 
@@ -186,7 +215,7 @@ This return a zip file containing a project template for a Plugin. For instance 
 wget https://localhost:8443/api/plugin/extension:perobobbot.monplugin:monplugin -O template.zip
 ----
 
-generates a zip file that contain a complete skeleton for a plugin.
+generates a zip file that contains a complete skeleton for a plugin.
 
 To compile the plugin you must have the bot dependencies installed on your computer. You must then download the source from the https://github.com/Perococco/perobobbot[Github repository] and install the dependencies with https://maven.apache.org/[maven] by using the command `mvn install`.
 
