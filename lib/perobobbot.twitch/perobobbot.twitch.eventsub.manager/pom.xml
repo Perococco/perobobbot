@@ -6,10 +6,10 @@
         <groupId>perobobbot</groupId>
         <artifactId>perobobbot-lib</artifactId>
         <relativePath>../../pom.xml</relativePath>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>perobobbot-twitch-event-sub-manager</artifactId>
