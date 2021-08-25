@@ -40,7 +40,7 @@ public abstract class TokenBasedAuthenticationFilter extends OncePerRequestFilte
             }
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (AuthenticationException e) {
-            LOG.warn("Authentication with JWT Token failed : {} ", ThrowableTool.formCauseMessageChain(e));
+//            LOG.warn("Authentication with JWT Token failed : {} ", ThrowableTool.formCauseMessageChain(e));
             SecurityContextHolder.clearContext();
         }
 
