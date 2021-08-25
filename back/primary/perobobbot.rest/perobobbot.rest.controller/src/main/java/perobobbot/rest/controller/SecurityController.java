@@ -2,7 +2,9 @@ package perobobbot.rest.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Log4j2
 public class SecurityController {
 
     private final @NonNull AuthenticationManager authenticationManager;
@@ -110,13 +113,19 @@ public class SecurityController {
     }
 
 
-    private @NonNull  JwtInfo getJwtTokenFromUserIdentity(@NonNull UserIdentity userIdentity, @NonNull Platform platform) {
+    private @NonNull JwtInfo getJwtTokenFromUserIdentity(@NonNull UserIdentity userIdentity, @NonNull Platform platform) {
         final var login = userIdentity.getLogin();
-        final boolean userExists = unsecuredUserService.doesUserExist(login);
+        final var user = unsecuredUserService.findUser(login).orElse(null);
 
-        if (!userExists) {
+        if (user == null) {
             final var parameter = new CreateUserParameters(login,Identification.openId(platform));
             unsecuredUserService.createUser(parameter);
+        } else {
+            final var userPlatform = user.getIdentificationOpenIdPlatform().orElse(null);
+            if (!platform.equals(userPlatform)) {
+                LOG.warn("Invalid platform used to identify user '{}': expected='{}' actual='{}'", login, userPlatform, platform);
+                throw new BadCredentialsException("A user exists with this login already");
+            }
         }
 
         return jwTokenManager.createJwtInfo(login);

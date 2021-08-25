@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Singular;
 import lombok.Value;
 import perobobbot.lang.NoTypeScript;
+import perobobbot.lang.Platform;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -50,6 +51,9 @@ public class User implements UsernameProvider {
         return identification.getPassword();
     }
 
+    public @NonNull Optional<Platform> getIdentificationOpenIdPlatform() {
+        return identification.getOpenIdPlatform();
+    }
 }
 
 
