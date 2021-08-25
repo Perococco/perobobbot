@@ -2,6 +2,7 @@ package perobobbot.data.domain.base;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import perobobbot.data.com.InvalidIdentificationMode;
 import perobobbot.lang.Platform;
 import perobobbot.security.com.Identification;
 import perobobbot.security.com.IdentificationMode;
@@ -45,5 +46,13 @@ public class UserIdentification {
             return Identification.openId(openIdPlatform);
         }
         return Identification.password(password);
+    }
+
+    public void changePassword(@NonNull String encodedPassword) {
+        if (mode != IdentificationMode.PASSWORD) {
+            throw new InvalidIdentificationMode(IdentificationMode.PASSWORD, mode);
+        }
+
+        this.password = encodedPassword;
     }
 }

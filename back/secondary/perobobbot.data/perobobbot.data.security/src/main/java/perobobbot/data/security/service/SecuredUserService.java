@@ -56,4 +56,10 @@ public class SecuredUserService implements UserService {
     public @NonNull User updateUser(@NonNull String login, @NonNull UpdateUserParameters parameters) {
         return delegate.updateUser(login,parameters);
     }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public void changePassword(@NonNull String login, @NonNull String newPassword) {
+        delegate.changePassword(login,newPassword);
+    }
 }

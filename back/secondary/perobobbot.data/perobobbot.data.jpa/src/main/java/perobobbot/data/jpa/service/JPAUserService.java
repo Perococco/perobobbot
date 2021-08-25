@@ -5,11 +5,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.com.DuplicateUser;
-import perobobbot.data.com.UnknownUser;
-import perobobbot.data.com.UpdateUserParameters;
+import perobobbot.data.com.*;
 import perobobbot.data.domain.UserEntity;
+import perobobbot.data.domain.base.UserIdentification;
 import perobobbot.data.jpa.repository.UserDetailProjection;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserTokenRepository;
@@ -17,9 +15,7 @@ import perobobbot.data.service.UnsecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.PasswordEncoder;
-import perobobbot.security.com.Operation;
-import perobobbot.security.com.RoleKind;
-import perobobbot.security.com.User;
+import perobobbot.security.com.*;
 import perobobbot.security.core.UserProvider;
 
 import java.util.Locale;
@@ -88,8 +84,7 @@ public class JPAUserService implements UserService, UserProvider {
                 .distinct()
                 .forEach(builder::operation);
 
-        final var user = builder.build();
-        return user;
+        return builder.build();
     }
 
     @NonNull
@@ -123,5 +118,15 @@ public class JPAUserService implements UserService, UserProvider {
         }
     }
 
+    @Override
+    @Transactional
+    public void changePassword(@NonNull String login, @NonNull String newPassword) {
+        final var encodedPassword = passwordEncoder.encode(newPassword);
 
+        final var user = userRepository.getByLogin(login);
+        user.getIdentification().changePassword(encodedPassword);
+        user.regenerateJwtClaim();
+
+        userRepository.save(user);
+    }
 }

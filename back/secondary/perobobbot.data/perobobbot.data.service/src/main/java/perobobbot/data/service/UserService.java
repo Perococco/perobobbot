@@ -41,4 +41,5 @@ public interface UserService {
 
     @NonNull ImmutableList<User> listAllUser();
 
+    void changePassword(@NonNull String login, @NonNull String newPassword);
 }

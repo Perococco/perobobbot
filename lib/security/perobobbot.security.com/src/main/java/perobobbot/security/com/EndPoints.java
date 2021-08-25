@@ -13,6 +13,7 @@ public interface EndPoints {
     String SIGN_IN = "/signin";
     String OAUTH = "/oauth";
     String SIGN_UP = "/signup";
+    String CHANGE_PASSWORD = "/password";
 
     @NonNull
     static String fullPath(@NonNull String path) {

@@ -74,6 +74,13 @@ public class SecurityController {
         return jwTokenManager.createJwtInfo(login.toString());
     }
 
+    @PutMapping(EndPoints.CHANGE_PASSWORD)
+    public void changePassword(@RequestBody ChangePasswordParameters parameters) {
+        //TODO validate new password
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(parameters.getLogin(), parameters.getPassword()));
+        userService.changePassword(parameters.getLogin(), parameters.getNewPassword());
+    }
+
     /**
      * Sign up user
      *
