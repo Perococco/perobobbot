@@ -2,12 +2,14 @@ package perobobbot.rest.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.service.*;
@@ -29,6 +31,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Log4j2
+@Validated
 public class SecurityController {
 
     private final @NonNull AuthenticationManager authenticationManager;
@@ -74,11 +77,10 @@ public class SecurityController {
         return jwTokenManager.createJwtInfo(login.toString());
     }
 
-    @PutMapping(EndPoints.CHANGE_PASSWORD)
-    public void changePassword(@RequestBody ChangePasswordParameters parameters) {
-        //TODO validate new password
-        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(parameters.getLogin(), parameters.getPassword()));
-        userService.changePassword(parameters.getLogin(), parameters.getNewPassword());
+    @PostMapping(EndPoints.PASSWORD_RESET)
+    public void changePassword(@RequestBody @Valid ChangePasswordParameters parameters) {
+        final var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(parameters.getLogin(), parameters.getPassword()));
+        userService.changePassword(parameters.getLogin(), parameters.getNew_password());
     }
 
     /**

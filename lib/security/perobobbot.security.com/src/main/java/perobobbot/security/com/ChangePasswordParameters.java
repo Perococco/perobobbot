@@ -4,10 +4,17 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.TypeScript;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Value
 @TypeScript
 public class ChangePasswordParameters {
+    @NotBlank
     @NonNull String login;
+    @NotBlank
     @NonNull String password;
-    @NonNull String newPassword;
+    @NotBlank
+    @Size(min = 7)
+    @NonNull String new_password;
 }

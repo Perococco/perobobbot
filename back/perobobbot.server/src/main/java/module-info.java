@@ -72,6 +72,7 @@ module perobobbot.server {
     opens perobobbot.server.config.command to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.io to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.tray to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.config.validation to spring.core,spring.beans,spring.context, spring.web, spring.messaging, com.fasterxml.jackson.databind;
     opens perobobbot.server.config.externaluri to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config.security to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.config.security.jwt to spring.core,spring.beans,spring.context, spring.web;
@@ -119,6 +120,7 @@ module perobobbot.server {
     requires io.swagger.v3.core;
     requires io.swagger.v3.oas.annotations;
     requires org.reactivestreams;
+    requires javax.el;
 
 
     uses JsonModuleProvider;

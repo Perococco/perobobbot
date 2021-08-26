@@ -14,7 +14,7 @@
 
     <properties>
         <root.name>Typescript Generator</root.name>
-        <rest2ts.version>1.2.6</rest2ts.version>
+        <rest2ts.version>1.2.7</rest2ts.version>
     </properties>
 
     <dependencies>
