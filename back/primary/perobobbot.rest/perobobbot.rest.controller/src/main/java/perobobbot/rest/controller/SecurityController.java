@@ -2,7 +2,6 @@ package perobobbot.rest.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -77,10 +76,11 @@ public class SecurityController {
         return jwTokenManager.createJwtInfo(login.toString());
     }
 
-    @PostMapping(EndPoints.PASSWORD_RESET)
-    public void changePassword(@RequestBody @Valid ChangePasswordParameters parameters) {
-        final var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(parameters.getLogin(), parameters.getPassword()));
-        userService.changePassword(parameters.getLogin(), parameters.getNew_password());
+    @PostMapping(EndPoints.PASSWORD_CHANGE)
+    public void changePassword(@AuthenticationPrincipal BotUser principal, @RequestBody @Valid ChangePasswordParameters parameters) {
+        final var login = principal.getUsername();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, parameters.getPassword()));
+        userService.changePassword(login, parameters.getNewPassword());
     }
 
     /**

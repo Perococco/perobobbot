@@ -11,10 +11,8 @@ import javax.validation.constraints.Size;
 @TypeScript
 public class ChangePasswordParameters {
     @NotBlank
-    @NonNull String login;
-    @NotBlank
     @NonNull String password;
     @NotBlank
     @Size(min = 7)
-    @NonNull String new_password;
+    @NonNull String newPassword;
 }
