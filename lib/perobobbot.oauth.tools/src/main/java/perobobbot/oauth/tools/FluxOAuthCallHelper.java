@@ -12,7 +12,7 @@ public class FluxOAuthCallHelper<T> implements OAuthCallHelper<Flux<T>>  {
 
     private final @NonNull ApiTokenHelper apiTokenHelper;
 
-    public Flux<T> call() throws Throwable {
+    public @NonNull Flux<T> call() {
         return Flux.defer(this::callBasic);
     }
 

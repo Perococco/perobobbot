@@ -12,8 +12,7 @@ public class MonoOAuthCallHelper<T> implements OAuthCallHelper<Mono<T>> {
 
     private final @NonNull ApiTokenHelper apiTokenHelper;
 
-    public Mono<T> call() throws Throwable {
-        final var basic = oauthCall.toBasic();
+    public @NonNull Mono<T> call() {
         return Mono.defer(this::callBasic);
     }
 
