@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Value
 @NonFinal
-@SuperBuilder
 @EqualsAndHashCode(of = "id")
 public class BaseClient<T> {
 

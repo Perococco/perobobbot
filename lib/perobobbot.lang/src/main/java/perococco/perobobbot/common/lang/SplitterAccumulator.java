@@ -25,7 +25,7 @@ public class SplitterAccumulator<T> {
         }
     }
 
-    public SplitterAccumulator combine(SplitterAccumulator<T> other) {
+    public SplitterAccumulator<T> combine(SplitterAccumulator<T> other) {
         builder.addAll(other.builder.build());
         other.building.forEach(this::addElement);
         return this;

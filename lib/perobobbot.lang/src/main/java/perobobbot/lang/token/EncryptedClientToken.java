@@ -1,16 +1,22 @@
 package perobobbot.lang.token;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.SuperBuilder;
 import perobobbot.lang.TextEncryptor;
 
+import java.time.Instant;
+
 @Value
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
 public class EncryptedClientToken extends BaseClientToken<String> {
 
+    @Builder
+    public EncryptedClientToken(@NonNull String accessToken, @NonNull Instant expirationInstant, long duration) {
+        super(accessToken, expirationInstant, duration);
+    }
 
     public @NonNull DecryptedClientToken decrypt(@NonNull TextEncryptor textEncryptor) {
         return DecryptedClientToken.builder()

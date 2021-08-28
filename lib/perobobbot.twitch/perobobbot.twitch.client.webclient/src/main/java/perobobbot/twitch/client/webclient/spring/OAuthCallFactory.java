@@ -63,6 +63,7 @@ public class OAuthCallFactory {
         protected final Object[] args;
         protected final int tokenIndex;
 
+        @SuppressWarnings("unchecked")
         public @NonNull R call(@NonNull ApiToken apiToken) throws Throwable {
             args[tokenIndex] = apiToken;
             return (R)method.invoke(target, args);

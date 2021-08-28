@@ -7,6 +7,6 @@ import lombok.Value;
 public class GetCustomRewardsParameter {
 
     @NonNull String[] ids;
-    @NonNull boolean onlyManageableRewards;
+    boolean onlyManageableRewards;
 
 }

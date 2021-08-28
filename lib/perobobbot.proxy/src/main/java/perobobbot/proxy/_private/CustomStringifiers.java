@@ -58,6 +58,7 @@ public class CustomStringifiers {
         @NonNull
         private final Function<? super T, String> stringifier;
 
+        @SuppressWarnings("unchecked")
         public <U> Entry<U> cast(U object) {
             if (type == object.getClass()) {
                 return (Entry<U>) this;

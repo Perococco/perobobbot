@@ -11,7 +11,6 @@ import java.time.Instant;
 
 @Value
 @NonFinal
-@SuperBuilder
 public class BaseUserToken<T> implements UserToken<T> {
 
     @NonNull T accessToken;

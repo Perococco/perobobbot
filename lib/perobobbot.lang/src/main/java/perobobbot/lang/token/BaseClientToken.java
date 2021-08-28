@@ -9,7 +9,6 @@ import java.time.Instant;
 
 @Value
 @NonFinal
-@SuperBuilder
 public class BaseClientToken<T> implements ClientToken<T> {
 
     @NonNull T accessToken;

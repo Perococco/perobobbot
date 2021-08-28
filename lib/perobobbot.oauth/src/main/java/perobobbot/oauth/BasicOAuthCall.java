@@ -1,10 +1,14 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
+import reactor.util.annotation.Nullable;
+
+import java.util.Optional;
 
 public interface BasicOAuthCall<T> extends OAuthCall {
 
-    @NonNull T call(@NonNull ApiToken apiToken) throws Throwable;
+    @Nullable
+    T call(@NonNull ApiToken apiToken) throws Throwable;
 
     @Override
     default <R> @NonNull R accept(@NonNull Visitor<R> visitor) throws Throwable {

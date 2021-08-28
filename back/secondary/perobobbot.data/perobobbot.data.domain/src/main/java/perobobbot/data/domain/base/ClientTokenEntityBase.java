@@ -22,7 +22,7 @@ public class ClientTokenEntityBase extends TokenEntityBase {
     private ClientEntity client;
 
     public ClientTokenEntityBase(@NonNull ClientEntity client,
-                                 @NonNull ClientToken token) {
+                                 @NonNull ClientToken<String> token) {
         super(token);
         this.client = client;
     }

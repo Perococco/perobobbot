@@ -9,6 +9,6 @@ public class BasicReward {
     @NonNull String id;
     @NonNull String title;
     @NonNull String prompt;
-    @NonNull int cost;
+    int cost;
 
 }

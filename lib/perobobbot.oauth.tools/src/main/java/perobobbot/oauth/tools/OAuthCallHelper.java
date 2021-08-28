@@ -1,6 +1,10 @@
 package perobobbot.oauth.tools;
 
+import lombok.NonNull;
+
+import java.util.Optional;
+
 public interface OAuthCallHelper<T> {
 
-    T call() throws Throwable;
+    @NonNull T call() throws Throwable;
 }
