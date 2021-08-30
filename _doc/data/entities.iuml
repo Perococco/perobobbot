@@ -26,6 +26,12 @@ class Extension {
   + available:boolean,
 }
 
+class BotExtension {
+  + bot:Bot,
+  + extension:Extension,
+  + enabled:boolean,
+}
+
 class JoinedChannel {
   + viewerIdentity: ViewerIdentity,
   + bot:Bot
@@ -88,6 +94,21 @@ class User {
 +password:String,
 }
 
+class Overlay {
++name:String
++urlId:String
++width:int
++height:int
++widgetGeometries:List<WidgetGeometry>
+}
+
+class WidgetGeometry {
++widgetName:string
++x:int
++y:int
++width:int
++height:int
+}
 
 
 

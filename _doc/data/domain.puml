@@ -15,13 +15,19 @@ ViewerIdentity -- Safe
 Token <|.. ClientToken
 Token <|.. UserToken
 
+User "1"-- Overlay
+Overlay "1" -- WidgetGeometry
+
 UserToken  -left- "1" ViewerIdentity
 UserToken   -- "1" User
 ClientToken  -- "1" Client
 
 
-Bot -- Extension
+Bot "1" -- BotExtension
+Extension "1"-- BotExtension
 Bot "1" -- JoinedChannel
 
 JoinedChannel --"1" ViewerIdentity
+
+
 @enduml
