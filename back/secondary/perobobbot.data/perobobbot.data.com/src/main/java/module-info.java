@@ -7,6 +7,7 @@ module perobobbot.data.com {
     requires transitive perobobbot.oauth;
 
     requires com.google.common;
+    requires com.fasterxml.jackson.annotation;
 
     opens perobobbot.data.com to com.fasterxml.jackson.databind, org.hibernate.validator;
 

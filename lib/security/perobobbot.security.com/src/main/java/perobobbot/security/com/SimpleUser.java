@@ -20,6 +20,9 @@ public class SimpleUser {
     boolean deactivated;
 
     @NonNull
+    IdentificationMode identificationMode;
+
+    @NonNull
     ImmutableSet<RoleKind> roles;
 
 

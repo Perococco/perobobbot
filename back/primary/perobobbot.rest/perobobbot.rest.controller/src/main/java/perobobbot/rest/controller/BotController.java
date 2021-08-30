@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import perobobbot.data.com.BotExtension;
 import perobobbot.data.service.BotService;
+import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Bot;
 import perobobbot.rest.com.CreateBotParameters;
@@ -26,6 +28,10 @@ public class BotController {
     @SecuredService
     BotService botService;
 
+    private final @NonNull
+    @SecuredService
+    ExtensionService extensionService;
+
     @DeleteMapping("/{id}")
     public void deleteBot(@PathVariable @NonNull UUID id) {
         botService.deleteBot(id);
@@ -42,6 +48,11 @@ public class BotController {
         } else {
             return botService.listBots(principal.getUsername());
         }
+    }
+
+    @GetMapping("/{id}/extensions")
+    public @NonNull ImmutableList<BotExtension> listExtensions(@PathVariable @NonNull UUID id) {
+        return extensionService.listAllBotExtensions(id);
     }
 
     @GetMapping("/{login}")

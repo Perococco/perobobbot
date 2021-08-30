@@ -2,6 +2,7 @@ package perobobbot.data.domain;
 
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import perobobbot.data.com.BotExtension;
 import perobobbot.data.domain.base.BotExtensionEntityBase;
 
 import javax.persistence.Entity;
@@ -20,5 +21,10 @@ public class BotExtensionEntity extends BotExtensionEntityBase {
     public boolean isEnabledAndExtensionActiveAndAvailable() {
         return this.isEnabled() && getExtension().isActiveAndAvailable();
     }
+
+    public @NonNull BotExtension toView() {
+        return new BotExtension(this.getBot().toView(), this.getExtension().toView(), this.isEnabled());
+    }
+
 
 }

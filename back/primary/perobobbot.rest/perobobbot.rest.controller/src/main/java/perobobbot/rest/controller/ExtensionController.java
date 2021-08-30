@@ -3,12 +3,14 @@ package perobobbot.rest.controller;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import perobobbot.data.com.BotExtension;
 import perobobbot.data.com.Extension;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
+import perobobbot.data.com.UpdateExtensionParameters;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/extensions")
@@ -21,4 +23,13 @@ public class ExtensionController {
     public ImmutableList<Extension> listExtensions() {
         return extensionService.listAllExtensions();
     }
+
+    @PutMapping("/{id}")
+    public @NonNull Extension updateExtension(@NonNull @PathVariable(name = "id") UUID extensionId, @NonNull @RequestBody UpdateExtensionParameters parameters) {
+        return extensionService.updateExtension(extensionId, parameters);
+    }
+
+
 }
+
+

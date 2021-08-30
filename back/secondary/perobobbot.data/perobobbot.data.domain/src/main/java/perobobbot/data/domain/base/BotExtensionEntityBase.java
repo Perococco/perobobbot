@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.ExtensionEntity;
+import perobobbot.persistence.PersistentObjectWithUUID;
 import perobobbot.persistence.SimplePersistentObject;
 
 import javax.persistence.Column;

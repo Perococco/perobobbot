@@ -51,7 +51,7 @@ public class PluginConfiguration {
 
     @Bean(destroyMethod = "stop")
     public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException, IOException {
-        var di = pluginDir.toAbsolutePath();
+        this.extensionService.setAllExtensionAsUnavailable();
         Files.createDirectories(pluginDir.toAbsolutePath());
         final FolderWatcher folderWatcher = FolderWatcher.create(pluginDir.toAbsolutePath());
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());

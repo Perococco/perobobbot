@@ -7,6 +7,7 @@ module perobobbot.rest.com {
     requires perobobbot.data.com;
 
     requires com.google.common;
+    requires com.fasterxml.jackson.annotation;
 
     opens perobobbot.rest.com to com.fasterxml.jackson.databind, org.hibernate.validator;
 

@@ -5,6 +5,8 @@ module perobobbot.security.core {
     requires spring.security.web;
     requires com.google.common;
 
+    requires org.apache.logging.log4j;
+
     requires transitive perobobbot.lang;
     requires transitive perobobbot.security.com;
 

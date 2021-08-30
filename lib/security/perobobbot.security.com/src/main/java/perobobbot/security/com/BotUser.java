@@ -8,6 +8,5 @@ import java.util.Collection;
 
 public interface BotUser extends UsernameProvider {
 
-
     @NonNull Collection<? extends GrantedAuthority> getAuthorities();
 }

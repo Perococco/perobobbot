@@ -24,5 +24,11 @@ public interface BotExtensionRepository extends JpaRepository<BotExtensionEntity
             """)
     @NonNull Stream<BotExtensionEntity> findEnabledExtensions(@Param("uuid") UUID uuid);
 
-    Optional<BotExtensionEntity> findByBot_UuidAndExtension_Name(@NonNull UUID botUuid, @NonNull String extensionName);
+    @NonNull Optional<BotExtensionEntity> findByBot_UuidAndExtension_Name(@NonNull UUID botUuid, @NonNull String extensionName);
+
+    @NonNull Stream<BotExtensionEntity> findByBot_Uuid(@NonNull UUID botUuid);
+
+    @NonNull Stream<BotExtensionEntity> findByBot_Owner_Login(@NonNull String login);
+
+    @NonNull Optional<BotExtensionEntity> findByBot_UuidAndExtension_Uuid(@NonNull UUID botId, @NonNull UUID extension);
 }

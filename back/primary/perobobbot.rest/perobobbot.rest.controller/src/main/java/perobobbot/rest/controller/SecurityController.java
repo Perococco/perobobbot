@@ -55,15 +55,6 @@ public class SecurityController {
 
 
     /**
-     * @param principal the principal provided by the security framework if an user is authenticated
-     * @return the authenticated user information
-     */
-    @GetMapping(EndPoints.CURRENT_USER)
-    public SimpleUser getCurrentUser(@AuthenticationPrincipal BotUser principal) {
-        return userService.getUser(principal.getUsername()).simplify();
-    }
-
-    /**
      * Authenticate the user with the provided credential and return a JWT for further authentication
      *
      * @param credential the credentials to use to authenticate the user

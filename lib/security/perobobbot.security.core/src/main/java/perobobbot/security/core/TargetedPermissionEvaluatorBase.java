@@ -2,12 +2,14 @@ package perobobbot.security.core;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import perobobbot.lang.Parser;
 
 import java.io.Serializable;
 
 @RequiredArgsConstructor
+@Log4j2
 public abstract class TargetedPermissionEvaluatorBase<A,P> implements TargetedPermissionEvaluator {
 
     private final @NonNull String targetType;
@@ -34,8 +36,13 @@ public abstract class TargetedPermissionEvaluatorBase<A,P> implements TargetedPe
     @Override
     public final boolean hasPermissionWithId(Authentication authentication, Serializable targetId, Object permission) {
         final P perm = extractPermission(permission);
+        if (perm == null) {
+            LOG.warn("Could not convert '{}' to a permission",permission);
+            return false;
+        }
+
         final A principal = extractPrincipal(authentication);
-        if (perm == null || principal == null) {
+        if (principal == null) {
             return false;
         }
         return hasPermissionWithId(principal,targetId,perm);

@@ -39,7 +39,7 @@ public class User implements UsernameProvider {
     ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login, locale, deactivated, roles);
+        return new SimpleUser(login, locale, deactivated, identification.getMode(), roles);
     }
 
     @Override

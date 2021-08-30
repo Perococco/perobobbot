@@ -23,7 +23,7 @@ public class BotExtensionManager {
 
     @ServiceActivator(inputChannel = GatewayChannels.EVENT_MESSAGES)
     public void updateExtensionState(@NonNull ExtensionEvent event) {
-        var activatedNames = extensionService.listAllExtensions()
+        var activatedNames = extensionService.listAvailableExtensions()
                                              .stream()
                                              .filter(Extension::isActivated)
                                              .map(Extension::getName)

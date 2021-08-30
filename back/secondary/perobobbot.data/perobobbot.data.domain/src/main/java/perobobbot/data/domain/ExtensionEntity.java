@@ -20,7 +20,12 @@ public class ExtensionEntity extends ExtensionEntityBase {
     }
 
     public @NonNull Extension toView() {
-        return Extension.builder().name(getName()).activated(isActivated()).build();
+        return Extension.builder()
+                        .name(getName())
+                        .id(getUuid())
+                        .available(isAvailable())
+                        .activated(isActivated())
+                        .build();
     }
 
     public boolean isActiveAndAvailable() {
