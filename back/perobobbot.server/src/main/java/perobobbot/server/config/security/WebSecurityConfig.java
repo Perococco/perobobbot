@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/ws-perobobbot/**").authenticated()
             .antMatchers(HttpMethod.GET,"/api/ping").permitAll()
+            .antMatchers(HttpMethod.GET,"/events/ssee").permitAll()
             .antMatchers(HttpMethod.GET,"/api/plugin/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/dictionaries/**").permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.PASSWORD_CHANGE)).permitAll()

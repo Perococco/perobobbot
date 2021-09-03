@@ -14,7 +14,7 @@ public interface SpringMessageGateway extends MessageGateway {
     void sendPlatformMessage(@NonNull MessageContext messageContext);
 
     @Gateway(requestChannel = GatewayChannels.EVENT_MESSAGES)
-    void sendEvent(@NonNull Event event);
+    void sendEvent(@NonNull ApplicationEvent applicationEvent);
 
     @Gateway(requestChannel = GatewayChannels.PLATFORM_NOTIFICATION_MESSAGES)
     void sendPlatformNotification(@NonNull Notification event);

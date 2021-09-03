@@ -10,6 +10,7 @@ module perobobbot.data.com {
     requires com.fasterxml.jackson.annotation;
 
     opens perobobbot.data.com to com.fasterxml.jackson.databind, org.hibernate.validator;
+    opens perobobbot.data.com.event to com.fasterxml.jackson.databind, org.hibernate.validator;
 
     exports perobobbot.data.com;
     exports perobobbot.data.com.event;

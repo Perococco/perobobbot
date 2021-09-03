@@ -1,5 +1,6 @@
 package perobobbot.lang;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @EqualsAndHashCode(exclude = {"refresher"})
 public class ChatConnectionInfo {
 
+    @JsonIgnore
     UserTokenRefresher refresher;
 
     @NonNull UUID botId;
@@ -25,7 +27,9 @@ public class ChatConnectionInfo {
     /**
      * @return the nick to use to connect
      */
+    @JsonIgnore
     @NonNull String nick;
+    @JsonIgnore
     @NonNull Secret secret;
 
     public boolean isRefreshable() {

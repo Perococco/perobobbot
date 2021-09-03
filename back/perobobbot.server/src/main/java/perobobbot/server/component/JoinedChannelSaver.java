@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import perobobbot.data.com.event.ChatChannelJoined;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
+import perobobbot.lang.ApplicationEvent;
 import perobobbot.lang.CastTool;
-import perobobbot.lang.Event;
 import perobobbot.lang.GatewayChannels;
 import perobobbot.lang.ThrowableTool;
 
@@ -23,8 +23,8 @@ public class JoinedChannelSaver {
     private final @EventService @NonNull BotService botService;
 
     @ServiceActivator(inputChannel = GatewayChannels.EVENT_MESSAGES)
-    public void onEvent(@NonNull Event event) {
-        CastTool.cast(ChatChannelJoined.class, event)
+    public void onEvent(@NonNull ApplicationEvent applicationEvent) {
+        CastTool.cast(ChatChannelJoined.class, applicationEvent)
                 .map(this::createSaver)
                 .map(Thread::new)
                 .ifPresent(Thread::start);

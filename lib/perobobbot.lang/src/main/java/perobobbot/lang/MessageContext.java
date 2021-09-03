@@ -1,5 +1,6 @@
 package perobobbot.lang;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
@@ -16,6 +17,7 @@ public class MessageContext {
      * This message might have been created by a {@link MessagePreprocessor} from a source message.
      * this property contains the latter if any.
      */
+    @JsonIgnore
     MessageContext source;
 
     /**
@@ -32,6 +34,7 @@ public class MessageContext {
     /**
      * @return the user that is at the origin of this message
      */
+    @JsonIgnore
     @NonNull ChatUser messageOwner;
 
     /**
@@ -52,14 +55,18 @@ public class MessageContext {
     /**
      * @return information regarding the channel the message is coming from
      */
+    @JsonIgnore
     @NonNull ChannelInfo channelInfo;
 
     /**
      * @return the id of the user that is at the origin of the message
      */
-
     public @NonNull String getMessageOwnerId() {
         return messageOwner.getUserId();
+    }
+
+    public @NonNull String getMessageOwnerName() {
+        return messageOwner.getUserName();
     }
 
     /**
@@ -80,10 +87,12 @@ public class MessageContext {
      * @param prefix a prefix value
      * @return true if the message content starts with the provided prefix
      */
+    @JsonIgnore
     public boolean doesContentStartWith(char prefix) {
         return !content.isEmpty() && content.charAt(0) == prefix;
     }
 
+    @JsonIgnore
     public @NonNull Optional<MessageContext> getSource() {
         return Optional.ofNullable(source);
     }
@@ -91,6 +100,7 @@ public class MessageContext {
     /**
      * @return a builder with the source initialized with this
      */
+    @JsonIgnore
     public MessageContextBuilder forPreprocessor() {
         return toBuilder().source(this);
     }

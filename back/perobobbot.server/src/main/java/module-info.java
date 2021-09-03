@@ -64,6 +64,8 @@ module perobobbot.server {
     opens db.migration;
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
 
+    opens perobobbot.server.sse to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.sse.impl to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.eventsub to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
@@ -121,6 +123,7 @@ module perobobbot.server {
     requires io.swagger.v3.oas.annotations;
     requires org.reactivestreams;
     requires javax.el;
+    requires java.annotation;
 
 
     uses JsonModuleProvider;
