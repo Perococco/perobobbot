@@ -22,7 +22,6 @@
         <module>perobobbot.lang</module>
         <module>perobobbot.proxy</module>
         <module>perobobbot.state</module>
-        <module>perobobbot.physics</module>
         <module>perobobbot.poll</module>
         <module>perobobbot.plugin</module>
         <module>perobobbot.access</module>
@@ -34,12 +33,7 @@
         <module>perobobbot.eventsub</module>
         <module>perobobbot.oauth</module>
         <module>perobobbot.oauth.tools</module>
-        <module>perobobbot.i18n</module>
-        <module>perobobbot.validation</module>
-        <module>perobobbot.action</module>
-        <module>perobobbot.fx</module>
         <module>perobobbot.spring</module>
-        <module>perobobbot.fxspring</module>
         <module>security/perobobbot.security.com</module>
         <module>security/perobobbot.security.core</module>
 

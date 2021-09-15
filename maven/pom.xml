@@ -38,7 +38,6 @@
         <flyway-core.version>7.10.0</flyway-core.version>
 
         <hibernate.version>5.5.0.Final</hibernate.version>
-        <javafx.version>16</javafx.version>
         <velocity.version>2.3</velocity.version>
         <jplugman.version>2.0.5</jplugman.version>
 
@@ -129,16 +128,6 @@
 
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-i18n</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-validation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-backend-i18n</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -209,17 +198,7 @@
             </dependency>
             <dependency>
                 <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-fx</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-spring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-fxspring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -277,12 +256,6 @@
             <dependency>
                 <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-chat-websocket</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-rendering</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -366,11 +339,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>perobobbot</groupId>
-                <artifactId>perobobbot-frontfx-gui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>perobobbot</groupId>
@@ -537,41 +505,6 @@
                 <version>${flyway-core.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-graphics</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-fxml</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-base</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-web</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-controls</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-swing</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.controlsfx</groupId>
-                <artifactId>controlsfx</artifactId>
-                <version>${controlsfx.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
