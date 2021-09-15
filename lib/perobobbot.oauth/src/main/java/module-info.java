@@ -6,6 +6,7 @@ module perobobbot.oauth {
     requires java.desktop;
 
     requires perobobbot.lang;
+    requires perobobbot.http;
 
 
     requires com.google.common;
@@ -16,7 +17,6 @@ module perobobbot.oauth {
     requires spring.web;
     requires spring.webflux;
     requires spring.context;
-    requires perobobbot.http;
     requires java.servlet;
     requires org.apache.logging.log4j;
     requires reactor.core;

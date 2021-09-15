@@ -9,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import perobobbot.lang.JsonModuleProvider;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.PluginServices;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +20,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@PluginService(type = ObjectMapper.class, apiVersion = RestObjectMapper.VERSION,sensitive = false)
 public class RestObjectMapper extends ObjectMapper {
+
+    public static final int VERSION =1 ;
 
     public static RestObjectMapper create() {
         final var mapper = new RestObjectMapper();

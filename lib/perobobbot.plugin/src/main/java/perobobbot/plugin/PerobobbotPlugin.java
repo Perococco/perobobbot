@@ -18,5 +18,6 @@ public interface PerobobbotPlugin {
         @NonNull T visit(@NonNull ExtensionPlugin extensionPlugin);
         @NonNull T visit(@NonNull ChatPlatformPlugin chatPlatformPlugin);
         @NonNull T visit(@NonNull WebPlugin webPlugin);
+        @NonNull T visit(@NonNull EndPointPlugin endPointPlugin);
     }
 }

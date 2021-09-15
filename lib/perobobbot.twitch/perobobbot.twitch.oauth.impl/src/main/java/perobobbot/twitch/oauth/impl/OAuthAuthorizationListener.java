@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Instants;
@@ -13,8 +14,11 @@ import perobobbot.oauth.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
@@ -33,7 +37,8 @@ public class OAuthAuthorizationListener implements OAuthListener {
     public void onCall(@NonNull URI redirectURI, @NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
         try {
 
-            response.setStatus(HttpStatus.OK.value());
+            formResponse(response);
+
             final var code = request.getParameter(CODE_PARAMETER_NAME);
 
             if (code == null) {
@@ -55,6 +60,25 @@ public class OAuthAuthorizationListener implements OAuthListener {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             futureToken.completeExceptionally(new OAuthFailure(client.getPlatform(), client.getClientId(), t));
         }
+    }
+
+    private void formResponse(HttpServletResponse response) {
+
+        response.setContentType(MediaType.TEXT_HTML_VALUE);
+        response.setStatus(HttpStatus.OK.value());
+
+        final var url = OAuthAuthorizationListener.class.getResource("oauth_response.html");
+        if (url != null) {
+            try (var b = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
+                final var out = response.getWriter();
+                b.lines().forEach(out::println);
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                //ignored
+            }
+        }
+
     }
 
     @Override

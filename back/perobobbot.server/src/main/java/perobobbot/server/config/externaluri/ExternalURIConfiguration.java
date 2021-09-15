@@ -51,7 +51,7 @@ public class ExternalURIConfiguration {
     }
 
     private @NonNull ExternalURI createManualExternalURI() {
-        return createExternalURI(host,port);
+        return createHttpsExternalURI(host,port);
     }
 
     private @NonNull ExternalURI createNgrokExternalURI() {
@@ -59,14 +59,21 @@ public class ExternalURIConfiguration {
     }
 
     private @NonNull ExternalURI createLocalHostOAuthExternalURI() {
-        return createExternalURI("localhost",serverPort);
+        return createHttpExternalURI("localhost",serverPort);
     }
 
 
-    private @NonNull ExternalURI createExternalURI(@NonNull String host, int port) {
-        final var base = "https://"+host;
+    private @NonNull ExternalURI createHttpExternalURI(@NonNull String host, int port) {
+        return createExternalURI("http://"+host,port,80);
+    }
+
+    private @NonNull ExternalURI createHttpsExternalURI(@NonNull String host, int port) {
+        return createExternalURI("https://"+host,port,443);
+    }
+
+    private @NonNull ExternalURI createExternalURI(@NonNull String base, int port, int defaultPort) {
         final String uri;
-        if (port == 443) {
+        if (defaultPort == port) {
             uri = base;
         } else {
             uri = base+":"+port;

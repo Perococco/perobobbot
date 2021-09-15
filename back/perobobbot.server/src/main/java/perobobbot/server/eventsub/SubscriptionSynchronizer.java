@@ -19,6 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -69,7 +70,6 @@ public class SubscriptionSynchronizer {
                  return Nil.NIL;
              }))
              .forEach(todo::add);
-
 
         match.getToRevokeSubs()
              .stream()

@@ -1,4 +1,4 @@
-package perobobbot.rest.com;
+package perobobbot.security.com;
 
 import lombok.NonNull;
 import lombok.Value;

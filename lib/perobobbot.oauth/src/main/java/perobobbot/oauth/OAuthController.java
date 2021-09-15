@@ -7,6 +7,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public interface OAuthController {
@@ -53,6 +54,8 @@ public interface OAuthController {
     @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken);
 
     @NonNull ImmutableSet<? extends Scope> getDefaultScopes();
+
+    @NonNull ImmutableSet<? extends Scope> mapScope(@NonNull ImmutableSet<String> scopeNames);
 
     void dispose();
 }

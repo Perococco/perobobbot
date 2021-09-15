@@ -19,6 +19,7 @@ import perobobbot.lang.PluginServices;
 import perobobbot.lang.SetTool;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.config.io.ChatPlatformPluginManager;
+import perobobbot.server.plugin.endpoinplugin.EndPointPluginManager;
 import perobobbot.server.plugin.template.SimpleTemplateGenerator;
 import perobobbot.server.plugin.webplugin.WebPluginManager;
 
@@ -45,9 +46,12 @@ public class PluginConfiguration {
     private final @NonNull ApplicationContext applicationContext;
 
     private final @NonNull ExtensionManager extensionManager;
-    private final @NonNull @EventService ExtensionService extensionService;
+    private final @NonNull
+    @EventService
+    ExtensionService extensionService;
     private final @NonNull ChatPlatformPluginManager chatPlatformPluginManager;
     private final @NonNull WebPluginManager webPluginManager;
+    private final @NonNull EndPointPluginManager endPointPluginManager;
 
     @Bean(destroyMethod = "stop")
     public @NonNull FolderWatcher pluginFolderWatcher() throws NoSuchAlgorithmException, IOException {
@@ -57,7 +61,7 @@ public class PluginConfiguration {
         final FolderListener pluginListener = new PluginFolderListener(pluginManager());
 
 
-        folderWatcher.addListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), pluginListener));
+        folderWatcher.addListener(new ShowErrorFolderListener(new FilteringFolderListener(MessageDigest.getInstance("MD5"), pluginListener)));
         return new DelayedFolderWatcher(folderWatcher);
     }
 
@@ -77,12 +81,13 @@ public class PluginConfiguration {
     @Bean
     public PluginApplication createApplication() {
         return new PluginApplication(getApplicationVersion(),
-                                     SetTool.map(versionedServices().getServices(),
-                                                 BotVersionedService::toVersionedService),
-                                     extensionManager,
-                                     webPluginManager,
-                                     extensionService,
-                                     chatPlatformPluginManager);
+                SetTool.map(versionedServices().getServices(),
+                        BotVersionedService::toVersionedService),
+                extensionManager,
+                webPluginManager,
+                endPointPluginManager,
+                extensionService,
+                chatPlatformPluginManager);
     }
 
 
@@ -90,9 +95,9 @@ public class PluginConfiguration {
     public @NonNull BotVersionedServices versionedServices() {
         final var services =
                 Stream.concat(
-                        applicationContext.getBeansWithAnnotation(PluginService.class).keySet().stream(),
-                        applicationContext.getBeansWithAnnotation(PluginServices.class).keySet().stream()
-                ).distinct()
+                              applicationContext.getBeansWithAnnotation(PluginService.class).keySet().stream(),
+                              applicationContext.getBeansWithAnnotation(PluginServices.class).keySet().stream()
+                      ).distinct()
                       .flatMap(this::toVersionedService)
                       .distinct()
                       .collect(ImmutableSet.toImmutableSet());

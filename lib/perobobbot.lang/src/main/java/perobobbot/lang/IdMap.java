@@ -34,7 +34,6 @@ public class IdMap<K, T> {
     private void dispose(@NonNull T data, @NonNull Consumer<? super T> disposer) {
         try {
             disposer.accept(data);
-            ((Disposable) data).dispose();
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             LOG.warn("An error occurred while disposing data {} ", data);

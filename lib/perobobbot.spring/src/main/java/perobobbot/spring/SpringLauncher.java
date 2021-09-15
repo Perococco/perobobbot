@@ -13,6 +13,7 @@ import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.OSInfo;
 import perobobbot.lang.Packages;
 import perobobbot.lang.fp.Predicate1;
+import perobobbot.lang.fp.Value2;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -91,7 +92,7 @@ public class SpringLauncher {
         private void setSystemProperty(String propertyName, String value) {
             final var existing = System.getProperty(propertyName);
             if (existing == null) {
-                System.setProperty(propertyName,value);
+                System.setProperty(propertyName, value);
             }
         }
 

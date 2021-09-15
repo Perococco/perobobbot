@@ -19,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WebPluginHandlerMapping extends AbstractHandlerMapping implements WebPluginManager {
 
-
     private final @NonNull PluginClassLoaderProvider pluginClassLoaderProvider;
 
     private ImmutableMap<UUID, HandlerMapping> pluginMappings = ImmutableMap.of();

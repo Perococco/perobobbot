@@ -15,7 +15,7 @@ import perobobbot.data.service.*;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.UserIdentity;
-import perobobbot.rest.com.OAuthInfo;
+import perobobbot.security.com.OAuthInfo;
 import perobobbot.security.com.*;
 import perobobbot.security.core.LoginFromAuthentication;
 import perobobbot.security.core.jwt.JWTokenManager;
@@ -35,23 +35,13 @@ public class SecurityController {
 
     private final @NonNull AuthenticationManager authenticationManager;
 
-
     private final @NonNull JWTokenManager jwTokenManager;
-
-    private final @NonNull OAuthManager oAuthManager;
 
     private final @NonNull
     @SecuredService
     UserService userService;
 
-    private final @NonNull
-    @UnsecuredService
-    UserService unsecuredUserService;
-
-    private final @EventService
-    @NonNull ClientService clientService;
-
-    private final @NonNull OAuthSignIn oAuthSignIn;
+    private final @NonNull OAuthAuthorizationCodeFlow oAuthAuthorizationCodeFlow;
 
 
     /**
@@ -88,47 +78,14 @@ public class SecurityController {
 
     @PostMapping(EndPoints.OAUTH)
     public @NonNull OAuthInfo oauthWith(@RequestBody Platform openIdPlatform) {
-        final var controller = oAuthManager.getController(openIdPlatform);
-        final var client = clientService.getClient(openIdPlatform);
-
-        final var userOAuthInfo = controller.prepareUserOAuth(client);
-        final var id = oAuthSignIn.addPendingSignIn(openIdPlatform, userOAuthInfo.getFutureToken());
-
-        return new OAuthInfo(userOAuthInfo.getOauthURI(), id);
+        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform);
     }
 
     //WARNING security risk !!
     @GetMapping(EndPoints.OAUTH + "/{id}")
     public @NonNull JwtInfo getOpenIdUser(@PathVariable UUID id) throws Throwable {
-        final var data = oAuthSignIn.getOAuthData(id);
-        final var platform = data.getPlatform();
-        final var controller = oAuthManager.getController(platform);
-        final var client = clientService.getClient(platform);
-
-        final var futureJwt = data.getFutureToken()
-                                  .thenCompose(token -> controller.getUserIdentity(client, token.getAccessToken()))
-                                  .thenApply(userIdentity -> getJwtTokenFromUserIdentity(userIdentity,platform));
-
-        return futureJwt.toCompletableFuture().get();
+        return oAuthAuthorizationCodeFlow.getOpenIdUser(id);
     }
 
-
-    private @NonNull JwtInfo getJwtTokenFromUserIdentity(@NonNull UserIdentity userIdentity, @NonNull Platform platform) {
-        final var login = userIdentity.getLogin();
-        final var user = unsecuredUserService.findUser(login).orElse(null);
-
-        if (user == null) {
-            final var parameter = new CreateUserParameters(login,Identification.openId(platform));
-            unsecuredUserService.createUser(parameter);
-        } else {
-            final var userPlatform = user.getIdentificationOpenIdPlatform().orElse(null);
-            if (!platform.equals(userPlatform)) {
-                LOG.warn("Invalid platform used to identify user '{}': expected='{}' actual='{}'", login, userPlatform, platform);
-                throw new BadCredentialsException("A user exists with this login already");
-            }
-        }
-
-        return jwTokenManager.createJwtInfo(login);
-    }
 
 }

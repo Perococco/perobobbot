@@ -11,6 +11,8 @@ module perobobbot.plugin {
 
     requires com.google.common;
     requires jplugman.annotation;
+    requires java.servlet;
+    requires spring.webmvc;
 
     exports perobobbot.plugin;
 

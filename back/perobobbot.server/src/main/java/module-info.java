@@ -40,6 +40,7 @@ module perobobbot.server {
     requires perobobbot.oauth.tools;
 
     requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
 
     requires com.fasterxml.classmate;
     requires com.fasterxml.jackson.databind;
@@ -82,6 +83,7 @@ module perobobbot.server {
     opens perobobbot.server.plugin.template to spring.core,spring.beans,spring.context, spring.web, velocity.engine.core;
     opens perobobbot.server.plugin.extension to spring.core,spring.beans,spring.context, spring.web;
     opens perobobbot.server.plugin.webplugin to spring.core,spring.beans,spring.context, spring.web;
+    opens perobobbot.server.plugin.endpoinplugin to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.component to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
 
@@ -124,6 +126,7 @@ module perobobbot.server {
     requires org.reactivestreams;
     requires javax.el;
     requires java.annotation;
+    requires spring.security.crypto;
 
 
     uses JsonModuleProvider;

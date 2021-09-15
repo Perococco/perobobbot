@@ -55,7 +55,7 @@ public class OAuthSubscriptions {
     public void dispose() {
         subscriptionPerPath.values().forEach(WebHookSubscription::unsubscribe);
         subscriptionPerPath.clear();
-        subscriptions.removeIf(d -> true, d -> d.interrupt());
+        subscriptions.removeIf(d -> true, Data::interrupt);
     }
 
     private @NonNull Optional<Data> getData(@NonNull IdKey<String> idKey) {
@@ -65,7 +65,7 @@ public class OAuthSubscriptions {
     public @NonNull OauthSubscriptionData subscribe(@NonNull String path, @NonNull OAuthListener oAuthListener) {
         final var idBooking = this.subscriptions.bookNewId(path);
 
-        final var oauthCallbackURI =getSubscription(path).map(WebHookSubscription::getOauthCallbackURI).orElse(null);
+        final var oauthCallbackURI = getSubscription(path).map(WebHookSubscription::getOauthCallbackURI).orElse(null);
 
         if (oauthCallbackURI == null) {
             idBooking.free();
@@ -85,9 +85,11 @@ public class OAuthSubscriptions {
 
     @Synchronized
     private @NonNull Optional<WebHookSubscription> getSubscription(String path) {
-        final var sub = subscriptionPerPath.computeIfAbsent(path,
-                                                         p -> this.webHookManager.addListener(p, this::onCall).orElse(
-                                                                 null));
+        final var sub = subscriptionPerPath.computeIfAbsent(
+                path,
+                p -> this.webHookManager.addListener(p, this::onCall)
+                                        .orElse(null)
+        );
         return Optional.ofNullable(sub);
     }
 
@@ -116,6 +118,7 @@ public class OAuthSubscriptions {
         private final @NonNull Instant timeOfRequest;
 
         /**
+         *
          */
         private final @NonNull URI oauthCallbackURI;
 

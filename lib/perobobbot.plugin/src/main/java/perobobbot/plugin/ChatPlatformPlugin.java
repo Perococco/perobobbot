@@ -4,6 +4,9 @@ import jplugman.annotation.ExtensionPoint;
 import lombok.NonNull;
 import perobobbot.chat.core.ChatPlatform;
 
+/**
+ * A plugin to allow the communication on a platform chat
+ */
 @ExtensionPoint(version = 1)
 public interface ChatPlatformPlugin extends PerobobbotPlugin {
 

@@ -12,6 +12,7 @@ import perobobbot.lang.*;
 import perobobbot.oauth.*;
 import perobobbot.twitch.oauth.api.TwitchScope;
 
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor
@@ -92,8 +93,8 @@ public class TwitchOAuthController implements OAuthController {
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
         final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(client.getClientId(), scopes,
-                                                                          subscriptionData.getState(),
-                                                                          subscriptionData.getOAuthRedirectURI());
+                subscriptionData.getState(),
+                subscriptionData.getOAuthRedirectURI());
 
         return new UserOAuthInfo<>(oauthURI, listener.getFutureToken());
     }
@@ -130,4 +131,13 @@ public class TwitchOAuthController implements OAuthController {
     public @NonNull ImmutableSet<? extends Scope> getDefaultScopes() {
         return DEFAULT_SCOPES;
     }
+
+    @Override
+    public @NonNull ImmutableSet<? extends Scope> mapScope(@NonNull ImmutableSet<String> scopeNames) {
+        return scopeNames.stream()
+                         .map(TwitchScope::findScopeByName)
+                         .flatMap(Optional::stream)
+                         .collect(ImmutableSet.toImmutableSet());
+    }
+
 }
