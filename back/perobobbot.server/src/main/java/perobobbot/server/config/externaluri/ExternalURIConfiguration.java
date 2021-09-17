@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Configuration
 @ToString
@@ -22,6 +23,9 @@ public class ExternalURIConfiguration {
 
     @Value("${webhook.manual.host:}")
     private final @NonNull String host;
+
+    @Value("${webhook.manual.context:}")
+    private final @NonNull String context;
 
     @Value("${webhook.manual.port:-1}")
     private final int port;
@@ -51,7 +55,7 @@ public class ExternalURIConfiguration {
     }
 
     private @NonNull ExternalURI createManualExternalURI() {
-        return createHttpsExternalURI(host,port);
+        return createHttpsExternalURI(host,context,port);
     }
 
     private @NonNull ExternalURI createNgrokExternalURI() {
@@ -59,26 +63,37 @@ public class ExternalURIConfiguration {
     }
 
     private @NonNull ExternalURI createLocalHostOAuthExternalURI() {
-        return createHttpExternalURI("localhost",serverPort);
+        return createHttpExternalURI("localhost",context, serverPort);
     }
 
 
-    private @NonNull ExternalURI createHttpExternalURI(@NonNull String host, int port) {
-        return createExternalURI("http://"+host,port,80);
+    private @NonNull ExternalURI createHttpExternalURI(@NonNull String host, @NonNull String context, int port) {
+        return createExternalURI("http://"+host,context, port,80);
     }
 
-    private @NonNull ExternalURI createHttpsExternalURI(@NonNull String host, int port) {
-        return createExternalURI("https://"+host,port,443);
+    private @NonNull ExternalURI createHttpsExternalURI(@NonNull String host, @NonNull String context, int port) {
+        return createExternalURI("https://"+host,context, port,443);
     }
 
-    private @NonNull ExternalURI createExternalURI(@NonNull String base, int port, int defaultPort) {
+    private @NonNull ExternalURI createExternalURI(@NonNull String base, @NonNull String context, int port, int defaultPort) {
         final String uri;
         if (defaultPort == port) {
             uri = base;
         } else {
             uri = base+":"+port;
         }
-        return new SimpleExternalURI(URI.create(uri));
+        return new SimpleExternalURI(URI.create(uri)).resolve(context);
     }
 
+
+    private @NonNull Optional<String> prepareContext(@NonNull String context) {
+        if (context.isEmpty()) {
+            return Optional.empty();
+        }
+        if (context.startsWith("/")) {
+            return Optional.of(context);
+        } else {
+            return Optional.of("/" + context);
+        }
+    }
 }

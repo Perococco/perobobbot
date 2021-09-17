@@ -20,6 +20,8 @@ import java.util.Optional;
 @Log4j2
 public class EventSubTwitchRequestTransformer implements EventSubRequestHandler {
 
+    private static final boolean SAVE_NOTIFICATION = Boolean.getBoolean("twitch.notification.save");
+
     private final TwitchRequestSaver twitchRequestSaver = new TwitchRequestSaver();
 
     private final @NonNull ObjectMapper objectMapper;
@@ -71,7 +73,9 @@ public class EventSubTwitchRequestTransformer implements EventSubRequestHandler 
         }
 
         private void saveBodyContent() {
-            twitchRequestSaver.saveBody(requestContent.content());
+            if (SAVE_NOTIFICATION) {
+                twitchRequestSaver.saveBody(requestContent.content());
+            }
         }
 
         private void deserializeBodyContent() {

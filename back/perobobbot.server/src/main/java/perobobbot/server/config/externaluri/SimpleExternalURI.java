@@ -15,4 +15,13 @@ public class SimpleExternalURI implements ExternalURI {
         return uri;
     }
 
+    public @NonNull SimpleExternalURI resolve(@NonNull String path) {
+        final var trimmedPath = path.trim();
+        if (trimmedPath.isEmpty() || trimmedPath.equals("/")) {
+            return this;
+        }
+        final var corrected = trimmedPath.startsWith("/") ? trimmedPath : "/" + trimmedPath;
+        return new SimpleExternalURI(this.uri.resolve(corrected));
+    }
+
 }

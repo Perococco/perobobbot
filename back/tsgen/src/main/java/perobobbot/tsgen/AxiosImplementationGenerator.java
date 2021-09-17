@@ -35,7 +35,7 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
 
     public AxiosImplementationGenerator(boolean useAsync) {
         this.useAsync = useAsync;
-        final var axiosModule = new TSModule("axios", null, false);
+        final var axiosModule = new TSModule("axios", null, true);
         this.axiosResponseInterface = new TSInterface("AxiosResponse", axiosModule);
         this.axiosRequestConfigInterface = new TSInterface("AxiosRequestConfig", axiosModule);
     }
@@ -99,7 +99,10 @@ public class AxiosImplementationGenerator extends BaseImplementationGenerator {
     ) throws IOException {
         String tsPath = pathStringBuilder.toString();
         tsPath = tsPath.startsWith("/") ? tsPath : "/" + tsPath;
-        writer.write("const " + requestUrlVar + " = " + " new URL('" + tsPath + ", this." + baseURLFieldName + ");");
+        writer.write("""
+                const preparedUrl = prepare_url('%1$s, this.%2$s);
+                const %3$s = new URL(preparedUrl, this.%2$s);
+                """.formatted(tsPath,baseURLFieldName, requestUrlVar));
         writer.newLine();
     }
 
