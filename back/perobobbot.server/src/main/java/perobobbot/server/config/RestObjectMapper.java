@@ -3,6 +3,7 @@ package perobobbot.server.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,6 +34,7 @@ public class RestObjectMapper extends ObjectMapper {
                                    .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                                    .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE)
                                    .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+
 
 
         var moduleByNames = Stream.concat(

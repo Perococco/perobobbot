@@ -11,8 +11,7 @@ import perobobbot.http.WebHookDispatcher;
 import perobobbot.http.WebHookManager;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.lang.URIResolver;
-import perobobbot.server.config.externaluri.ExternalURI;
+import perobobbot.server.config.externaluri.ExternalURIProvider;
 
 @Log4j2
 @Configuration
@@ -22,16 +21,16 @@ public class WebHookConfiguration {
     public static final String WEBHOOK_PATH = "/webhook";
 
     @Qualifier("webhook")
-    private final @NonNull ExternalURI webHookExternalURI;
+    private final @NonNull ExternalURIProvider webHookExternalURIProvider;
     @Qualifier("oauth")
-    private final @NonNull ExternalURI oauthExternalURI;
+    private final @NonNull ExternalURIProvider oauthExternalURIProvider;
 
     @Bean
     @PluginService(type = WebHookManager.class, apiVersion = WebHookManager.VERSION, sensitive = false)
     public @NonNull WebHookDispatcher webHookDispatcher() {
         try {
-            var webHookURI = URIResolver.with(webHookExternalURI.getURI()).addPrefix(WEBHOOK_PATH);
-            var oauthURI = URIResolver.with(oauthExternalURI.getURI()).addPrefix(WEBHOOK_PATH);
+            var webHookURI = webHookExternalURIProvider.get().addPrefix(WEBHOOK_PATH);
+            var oauthURI = oauthExternalURIProvider.get().addPrefix(WEBHOOK_PATH);
             return WebHookDispatcher.create(webHookURI, oauthURI);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);

@@ -50,33 +50,33 @@ public class SpringUserEventSubManager implements UserEventSubManager {
     public @NonNull Mono<UserSubscriptionView> createUserSubscription(@NonNull String login, @NonNull SubscriptionData subscriptionData) {
         return Mono.defer(() -> {
             final var subscription = subscriptionService.getOrCreateSubscription(subscriptionData);
-            final var dbId = subscription.getId();
+            final var idInDb = subscription.getId();
 
-            final var attachUserToSubscription =
-                    Mono.fromCallable(() -> subscriptionService.addUserToSubscription(subscription.getId(), login));
+            final var attachUserToSubscription = Mono.fromCallable(() -> subscriptionService.addUserToSubscription(idInDb, login));
 
-            {
-                final var platformId = subscription.getSubscriptionId();
-                if (!platformId.isEmpty()) {
-                    return attachUserToSubscription;
-                }
+            if (subscription.hasPlatformId()) {
+                return attachUserToSubscription;
             }
 
-            final boolean shouldProcess = processed.add(subscription.getId());
+            final boolean shouldProcess = processed.add(idInDb);
             if (!shouldProcess) {
                 return attachUserToSubscription;
             }
 
 
-            final var createSubscription = eventSubManager.createSubscription(subscriptionData)
-                                                          .map(SubscriptionIdentity::getSubscriptionId)
-                                                          .map(id -> {
-                                                              subscriptionService.setSubscriptionPlatformId(dbId,id);
-                                                              return Nil.NIL;
-                                                          });
+            final var createSubscription = performSubscription(subscriptionData, idInDb)
+                    .doOnTerminate(() -> processed.remove(idInDb));
 
-            return Mono.zip(createSubscription, attachUserToSubscription,(nil,view) -> view);
+            return Mono.zip(createSubscription, attachUserToSubscription, (nil, view) -> view);
 
         });
+    }
+
+    private Mono<Nil> performSubscription(@NonNull SubscriptionData subscriptionData, @NonNull UUID idInDb) {
+        return eventSubManager.createSubscription(subscriptionData)
+                              .map(subscriptionIdentity -> {
+                                  subscriptionService.updateSubscriptionWithPlatformAnswer(idInDb, subscriptionIdentity);
+                                  return Nil.NIL;
+                              });
     }
 }

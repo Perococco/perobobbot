@@ -44,6 +44,13 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     private @NonNull String type = "";
 
     /**
+     * The type of the subscription (see subscription doc for each platform)
+     */
+    @Column(name = "CALLBACK_URL",nullable = false)
+    @NotBlank
+    private @NonNull String callbackUrl = "";
+
+    /**
      * The condition of the subscription.
      */
     @ElementCollection
@@ -55,15 +62,17 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     public SubscriptionEntityBase(@NonNull Platform platform,
                                   @NonNull String subscriptionId,
                                   @NonNull String type,
-                                  @NonNull Conditions conditions) {
+                                  @NonNull Conditions conditions,
+                                  @NonNull String callbackUrl) {
         super(UUID.randomUUID());
         this.platform = platform;
         this.subscriptionId = subscriptionId;
         this.type = type;
+        this.callbackUrl = callbackUrl;
         this.condition = conditions.copyAsMap();
     }
 
     public @NonNull SubscriptionView toView() {
-        return new SubscriptionView(getUuid(), platform, type, Conditions.with(condition),subscriptionId);
+        return new SubscriptionView(getUuid(), platform, type, Conditions.with(condition),subscriptionId,callbackUrl);
     }
 }

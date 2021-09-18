@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.URI;
-import java.util.Optional;
-
 @Configuration
 @ToString
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class ExternalURIConfiguration {
     private final @NonNull String oauthMode;
 
     @Bean(name="webhook")
-    public @NonNull ExternalURI webhookExternalURI() {
+    public @NonNull ExternalURIProvider webhookExternalURI() {
         return switch (webhookMode) {
             case "manual" -> createManualExternalURI();
             case "ngrok" -> createNgrokExternalURI();
@@ -46,7 +43,7 @@ public class ExternalURIConfiguration {
     }
 
     @Bean(name="oauth")
-    public @NonNull ExternalURI oauthExternalURI() {
+    public @NonNull ExternalURIProvider oauthExternalURI() {
         return switch (oauthMode) {
             case "localhost" -> createLocalHostOAuthExternalURI();
             case "webhook" -> webhookExternalURI();
@@ -54,46 +51,36 @@ public class ExternalURIConfiguration {
         };
     }
 
-    private @NonNull ExternalURI createManualExternalURI() {
+    private @NonNull ExternalURIProvider createManualExternalURI() {
         return createHttpsExternalURI(host,context,port);
     }
 
-    private @NonNull ExternalURI createNgrokExternalURI() {
-        return new CachedExternalURI(new NgrokExternalURI(ngrokTunnelName));
+    private @NonNull ExternalURIProvider createNgrokExternalURI() {
+        return new CachedExternalURIProvider(new NgrokExternalURIProvider(ngrokTunnelName));
     }
 
-    private @NonNull ExternalURI createLocalHostOAuthExternalURI() {
+    private @NonNull ExternalURIProvider createLocalHostOAuthExternalURI() {
         return createHttpExternalURI("localhost",context, serverPort);
     }
 
 
-    private @NonNull ExternalURI createHttpExternalURI(@NonNull String host, @NonNull String context, int port) {
+    private @NonNull ExternalURIProvider createHttpExternalURI(@NonNull String host, @NonNull String context, int port) {
         return createExternalURI("http://"+host,context, port,80);
     }
 
-    private @NonNull ExternalURI createHttpsExternalURI(@NonNull String host, @NonNull String context, int port) {
+    private @NonNull ExternalURIProvider createHttpsExternalURI(@NonNull String host, @NonNull String context, int port) {
         return createExternalURI("https://"+host,context, port,443);
     }
 
-    private @NonNull ExternalURI createExternalURI(@NonNull String base, @NonNull String context, int port, int defaultPort) {
+    private @NonNull ExternalURIProvider createExternalURI(@NonNull String base, @NonNull String context, int port, int defaultPort) {
         final String uri;
         if (defaultPort == port) {
             uri = base;
         } else {
             uri = base+":"+port;
         }
-        return new SimpleExternalURI(URI.create(uri)).resolve(context);
+        return new ConstExternalURIProvider(new ExternalURI(uri).withContext(context));
     }
 
 
-    private @NonNull Optional<String> prepareContext(@NonNull String context) {
-        if (context.isEmpty()) {
-            return Optional.empty();
-        }
-        if (context.startsWith("/")) {
-            return Optional.of(context);
-        } else {
-            return Optional.of("/" + context);
-        }
-    }
 }

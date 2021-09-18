@@ -21,8 +21,16 @@ public class SubscriptionView {
      * Id of the subscription on the platform
      */
     @NonNull String subscriptionId;
+    /**
+     * The url used for this subscription
+     */
+    @NonNull String callbackUrl;
 
     public @NonNull SubscriptionData createData() {
         return new SubscriptionData(platform,subscriptionType,conditions);
+    }
+
+    public boolean hasPlatformId() {
+        return !subscriptionId.isEmpty();
     }
 }

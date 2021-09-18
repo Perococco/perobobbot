@@ -2,6 +2,7 @@ package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
+import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.lang.Platform;
@@ -55,9 +56,9 @@ public interface SubscriptionService {
 
     /**
      * @param subscriptionDbId the id in the database
-     * @param subscriptionPlatformId   the id provided by the platform
+     * @param subscriptionIdentity  the answer from the platform to the subscription request
      */
-    void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId);
+    void updateSubscriptionWithPlatformAnswer(@NonNull UUID subscriptionDbId, @NonNull SubscriptionIdentity subscriptionIdentity);
 
     /**
      * @param id the id of the subscription to clean

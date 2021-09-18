@@ -2,7 +2,7 @@
   <configuration default="false" name="ScriptExporter" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="perobobbot.data.schema.ScriptExporter" />
     <module name="perobobbot-data-schema" />
-    <option name="PROGRAM_PARAMETERS" value="--project-dir=_doc --data=1" />
+    <option name="PROGRAM_PARAMETERS" value="--project-dir=_generated --data=1" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="perobobbot.data.schema.*" />

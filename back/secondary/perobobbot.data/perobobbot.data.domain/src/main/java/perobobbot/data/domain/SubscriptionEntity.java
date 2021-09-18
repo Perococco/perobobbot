@@ -16,7 +16,7 @@ public class SubscriptionEntity extends SubscriptionEntityBase {
 
 
     public SubscriptionEntity(@NonNull SubscriptionData subscriptionData) {
-        super(subscriptionData.getPlatform(),"", subscriptionData.getSubscriptionType(),subscriptionData.getConditions());
+        super(subscriptionData.getPlatform(),"", subscriptionData.getSubscriptionType(),subscriptionData.getConditions(),"");
     }
 
 

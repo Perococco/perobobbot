@@ -14,12 +14,11 @@ import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
-import perobobbot.server.config.externaluri.ExternalURI;
+import perobobbot.server.config.externaluri.ExternalURIProvider;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -31,13 +30,9 @@ public class SubscriptionSynchronizer {
     @EventService
     SubscriptionService subscriptionService;
 
-    @Qualifier("webhook")
-    private final @NonNull ExternalURI webHookExternalURI;
-
 
     @Scheduled(fixedDelay = 3600_000)
     public void synchronize() {
-        LOG.info("Synchronize Subscriptions");
         Mono.when(Platform.stream()
                           .filter(eventSubManager::isPlatformManaged)
                           .map(this::synchronizePlatform)
@@ -60,13 +55,17 @@ public class SubscriptionSynchronizer {
             @NonNull ImmutableList<SubscriptionView> persisted) {
 
 
-        final var match = Matcher.match(onPlatform, persisted,webHookExternalURI.getHost());
+        final var match = Matcher.match(onPlatform, persisted);
+
+
+        LOG.info("Synchronize Subscriptions : Rf:{} Up:{} Rk:{}",match.getToRefreshSubs().size(), match.getToUpdateSubs().size(), match.getToRevokeSubs().size());
+
 
         final List<Mono<Nil>> todo = new ArrayList<>();
 
         match.getToUpdateSubs().entrySet().stream()
              .map(e -> Mono.fromCallable(() -> {
-                 subscriptionService.setSubscriptionPlatformId(e.getKey(), e.getValue());
+                 subscriptionService.updateSubscriptionWithPlatformAnswer(e.getKey(), e.getValue());
                  return Nil.NIL;
              }))
              .forEach(todo::add);
@@ -90,8 +89,8 @@ public class SubscriptionSynchronizer {
         final var conditions = subscriptionViewToRefresh.getConditions();
         final var subscriptionDbId = subscriptionViewToRefresh.getId();
         return eventSubManager.createSubscription(platform, subscriptionType, conditions)
-                              .map(i -> {
-                                  subscriptionService.setSubscriptionPlatformId(subscriptionDbId, i.getSubscriptionId());
+                              .map(subscriptionIdentity -> {
+                                  subscriptionService.updateSubscriptionWithPlatformAnswer(subscriptionDbId, subscriptionIdentity);
                                   return Nil.NIL;
                               });
     }

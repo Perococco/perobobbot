@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.EventService;
@@ -68,8 +69,8 @@ public class SecuredSubscriptionService implements SubscriptionService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId) {
-        subscriptionService.setSubscriptionPlatformId(subscriptionDbId,subscriptionPlatformId);
+    public void updateSubscriptionWithPlatformAnswer(@NonNull UUID subscriptionDbId, @NonNull SubscriptionIdentity subscriptionIdentity) {
+        subscriptionService.updateSubscriptionWithPlatformAnswer(subscriptionDbId,subscriptionIdentity);
     }
 
     @Override

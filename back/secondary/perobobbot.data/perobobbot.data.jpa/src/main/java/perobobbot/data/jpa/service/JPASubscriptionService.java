@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.domain.SubscriptionEntity;
@@ -72,9 +73,10 @@ public class JPASubscriptionService implements SubscriptionService {
 
     @Override
     @Transactional
-    public void setSubscriptionPlatformId(@NonNull UUID subscriptionDbId, @NonNull String subscriptionPlatformId) {
+    public void updateSubscriptionWithPlatformAnswer(@NonNull UUID subscriptionDbId, @NonNull SubscriptionIdentity subscriptionIdentity) {
         final var subscription = subscriptionRepository.getByUuid(subscriptionDbId);
-        subscription.setSubscriptionId(subscriptionPlatformId);
+        subscription.setCallbackUrl(subscriptionIdentity.getCallbackUrl());
+        subscription.setSubscriptionId(subscriptionIdentity.getSubscriptionId());
         subscriptionRepository.save(subscription);
     }
 
