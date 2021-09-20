@@ -1,6 +1,7 @@
 module perobobbot.extension {
     requires static lombok;
     requires java.desktop;
+
     requires com.google.common;
 
     requires perobobbot.lang;
@@ -12,7 +13,6 @@ module perobobbot.extension {
     requires transitive jplugman.api;
 
     requires org.apache.logging.log4j;
-
 
     exports perobobbot.extension;
 }

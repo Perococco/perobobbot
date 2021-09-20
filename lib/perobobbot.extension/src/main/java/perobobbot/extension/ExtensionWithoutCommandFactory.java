@@ -6,14 +6,10 @@ import lombok.NonNull;
 import perobobbot.command.CommandDeclaration;
 import perobobbot.plugin.Extension;
 
-public abstract class ExtensionWithoutCommandFactory extends ExtensionFactoryBase<Extension> {
-
-    public ExtensionWithoutCommandFactory(@NonNull String extensionName) {
-        super(extensionName);
-    }
+public interface ExtensionWithoutCommandFactory extends ExtensionFactory<Extension> {
 
     @Override
-    protected @NonNull ImmutableList<CommandDeclaration> createCommandDefinitions(@NonNull Extension extension, @NonNull ServiceProvider serviceProvider, CommandDeclaration.@NonNull Factory factory) {
+    default @NonNull ImmutableList<CommandDeclaration> createCommandDefinitions(@NonNull Extension extension, @NonNull ServiceProvider serviceProvider, CommandDeclaration.@NonNull Factory factory) {
         return ImmutableList.of();
     }
 }

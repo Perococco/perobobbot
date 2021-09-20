@@ -2,7 +2,6 @@ package perobobbot.plugin;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import lombok.Value;
 import perobobbot.command.CommandDeclaration;
 
 public record ExtensionPluginData(@NonNull Extension extension,
