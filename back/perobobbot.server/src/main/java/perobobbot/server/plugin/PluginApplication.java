@@ -45,15 +45,16 @@ public class PluginApplication implements Application {
 
     @Override
     public void plugService(@NonNull PluginService pluginService) {
-        LOG.info("Plug service   : {}",pluginService);
-        pluginService.getServiceAs(PerobobbotPluginData.class)
-                        .flatMap(p -> p.accept(new AddPluginVisitor()))
-                        .ifPresent(s -> subscriptions.put(pluginService,s));
+        LOG.info("Plug service   : {}", pluginService);
+        pluginService.getServiceAs(PerobobbotPlugin.class)
+                     .map(PerobobbotPlugin::getData)
+                     .flatMap(p -> p.accept(new AddPluginVisitor()))
+                     .ifPresent(s -> subscriptions.put(pluginService, s));
     }
 
     @Override
     public void unplugService(@NonNull PluginService pluginService) {
-        LOG.info("Unplug service : {}",pluginService);
+        LOG.info("Unplug service : {}", pluginService);
         final var subscription = subscriptions.remove(pluginService);
         if (subscription != null) {
             subscription.unsubscribe();
@@ -63,7 +64,7 @@ public class PluginApplication implements Application {
     private class AddPluginVisitor implements PerobobbotPluginData.Visitor<Optional<Subscription>> {
         @Override
         public @NonNull Optional<Subscription> visit(@NonNull ExtensionPluginData extensionPluginData) {
-            final var extensionName= extensionPluginData.getExtensionName();
+            final var extensionName = extensionPluginData.getExtensionName();
             final Subscription setExtensionUnavailable = () -> extensionService.setExtensionUnavailable(extensionName);
             final var subscription = extensionManager.addExtension(extensionPluginData);
             if (subscription.isPresent()) {
