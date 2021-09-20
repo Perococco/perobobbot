@@ -28,8 +28,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Configuration
@@ -81,8 +79,7 @@ public class PluginConfiguration {
     @Bean
     public PluginApplication createApplication() {
         return new PluginApplication(getApplicationVersion(),
-                SetTool.map(versionedServices().getServices(),
-                        BotVersionedService::toVersionedService),
+                SetTool.map(versionedServices().getServices(), BotVersionedService::toJPlugmanFormat),
                 extensionManager,
                 webPluginManager,
                 endPointPluginManager,
@@ -98,35 +95,10 @@ public class PluginConfiguration {
                               applicationContext.getBeansWithAnnotation(PluginService.class).keySet().stream(),
                               applicationContext.getBeansWithAnnotation(PluginServices.class).keySet().stream()
                       ).distinct()
-                      .flatMap(this::toVersionedService)
+                      .flatMap(BotVersionedServiceExtractor.with(applicationContext))
                       .distinct()
                       .collect(ImmutableSet.toImmutableSet());
         return new BotVersionedServices(services);
-    }
-
-    private @NonNull Stream<BotVersionedService> toVersionedService(@NonNull String name) {
-        return getPluginServices(name)
-                .map(ps -> {
-                    final Object bean = applicationContext.getBean(name);
-                    final Class<?> annotationType = ps.type();
-                    final Class<?> type;
-                    if (Void.class.equals(annotationType) || !annotationType.isInstance(bean)) {
-                        type = bean.getClass();
-                    } else {
-                        type = annotationType;
-                    }
-                    return new BotVersionedService(type, bean, ps.apiVersion(), ps.sensitive());
-                });
-    }
-
-    private @NonNull Stream<PluginService> getPluginServices(@NonNull String beanName) {
-        return Stream.concat(
-                Stream.of(applicationContext.findAnnotationOnBean(beanName, PluginService.class)),
-                Optional.ofNullable(applicationContext.findAnnotationOnBean(beanName, PluginServices.class))
-                        .stream()
-                        .map(PluginServices::value)
-                        .flatMap(Stream::of)
-        ).filter(Objects::nonNull);
     }
 
 
