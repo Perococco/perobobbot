@@ -7,7 +7,7 @@ import perobobbot.chat.core.MutableIO;
 import perobobbot.data.com.event.ChatPlatformConnected;
 import perobobbot.lang.MessageGateway;
 import perobobbot.lang.Subscription;
-import perobobbot.plugin.ChatPlatformPlugin;
+import perobobbot.plugin.ChatPlatformPluginData;
 
 import java.util.Optional;
 
@@ -40,8 +40,8 @@ public class ChatPlatformPluginManager {
      * @param plugin the plugin providing the chat platform
      * @return a subscription to remove the plugin
      */
-    public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPlugin plugin) {
-        final var chatPlatform = chatPlatformInterceptor.intercept(plugin.getChatPlatform());
+    public @NonNull Optional<Subscription> addChatPlatformPlugin(@NonNull ChatPlatformPluginData plugin) {
+        final var chatPlatform = chatPlatformInterceptor.intercept(plugin.chatPlatform());
 
         final var subscriptions = io.addPlatform(chatPlatform).map(
                 s -> s.and(chatPlatform.addMessageListener(messageGateway::sendPlatformMessage))

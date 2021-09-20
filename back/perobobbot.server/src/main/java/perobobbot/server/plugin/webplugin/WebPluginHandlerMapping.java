@@ -10,7 +10,7 @@ import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.Subscription;
-import perobobbot.plugin.WebPlugin;
+import perobobbot.plugin.WebPluginData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
@@ -41,10 +41,10 @@ public class WebPluginHandlerMapping extends AbstractHandlerMapping implements W
     }
 
     @Override
-    public @NonNull Subscription addWebPlugin(@NonNull WebPlugin webPlugin) {
+    public @NonNull Subscription addWebPlugin(@NonNull WebPluginData webPluginData) {
         final UUID pluginId = UUID.randomUUID();
-        pluginClassLoaderProvider.addClassLoader(pluginId,webPlugin.resourceClassLoader());
-        final var mapper = createMapper(pluginId, webPlugin);
+        pluginClassLoaderProvider.addClassLoader(pluginId, webPluginData.resourceClassLoader());
+        final var mapper = createMapper(pluginId, webPluginData);
         final var urlMap = mapper.createHandlerMappings();
         final var mapping = PluginMapping.create(urlMap);
 
@@ -54,12 +54,12 @@ public class WebPluginHandlerMapping extends AbstractHandlerMapping implements W
         );
     }
 
-    private @NonNull WebPluginMappingFactory createMapper(@NonNull UUID pluginId, @NonNull WebPlugin webPlugin) {
+    private @NonNull WebPluginMappingFactory createMapper(@NonNull UUID pluginId, @NonNull WebPluginData webPluginData) {
         return new WebPluginMappingFactory(getApplicationContext(),
                                            getServletContext(),
                                            getUrlPathHelper(),
                                            pluginId,
-                                           webPlugin);
+                webPluginData);
     }
 
     @Synchronized

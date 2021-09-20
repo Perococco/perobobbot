@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.command.CommandDeclaration;
 import perobobbot.plugin.Extension;
-import perobobbot.plugin.ExtensionPlugin;
+import perobobbot.plugin.ExtensionPluginData;
 
 @RequiredArgsConstructor
 public abstract class ExtensionFactoryBase<E extends Extension> implements ExtensionFactory {
@@ -17,14 +17,14 @@ public abstract class ExtensionFactoryBase<E extends Extension> implements Exten
     private final @NonNull String name;
 
     @Override
-    public @NonNull ExtensionPlugin loadService(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider) {
+    public @NonNull ExtensionPluginData loadService(@NonNull ModuleLayer pluginLayer, @NonNull ServiceProvider serviceProvider) {
         final var instance = createExtension(pluginLayer, serviceProvider);
         final var factory = CommandDeclaration.factory(instance.getName());
         final var commandDefinitions = createCommandDefinitions(instance, serviceProvider, factory);
         return createExtensionPlugin(instance, commandDefinitions);
     }
 
-    protected abstract @NonNull ExtensionPlugin createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDeclaration> commandDeclarations);
+    protected abstract @NonNull ExtensionPluginData createExtensionPlugin(@NonNull E extension, @NonNull ImmutableList<CommandDeclaration> commandDeclarations);
 
     /**
      * @param  pluginLayer the module layer used to load the plugin

@@ -1,10 +1,12 @@
 package perobobbot.plugin;
 
+import jplugman.annotation.ExtensionPoint;
 import lombok.NonNull;
 
 /**
  * @author perococco
  */
+@ExtensionPoint(version = 1)
 public interface PerobobbotPlugin {
 
     /**
@@ -12,12 +14,8 @@ public interface PerobobbotPlugin {
      */
     @NonNull String getName();
 
-    <T> @NonNull T accept(@NonNull Visitor<T> visitor);
-
-    interface Visitor<T> {
-        @NonNull T visit(@NonNull ExtensionPlugin extensionPlugin);
-        @NonNull T visit(@NonNull ChatPlatformPlugin chatPlatformPlugin);
-        @NonNull T visit(@NonNull WebPlugin webPlugin);
-        @NonNull T visit(@NonNull EndPointPlugin endPointPlugin);
-    }
+    /**
+     * @return the data defining this plugin
+     */
+    @NonNull PerobobbotPluginData getData();
 }

@@ -11,7 +11,7 @@ import perobobbot.lang.ImmutableEntry;
 import perobobbot.lang.MapTool;
 import perobobbot.plugin.ResourceLocation;
 import perobobbot.plugin.ViewInfo;
-import perobobbot.plugin.WebPlugin;
+import perobobbot.plugin.WebPluginData;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -33,16 +33,16 @@ public class WebPluginMappingFactory {
 
     private final @NonNull UUID pluginId;
 
-    private final @NonNull WebPlugin webPlugin;
+    private final @NonNull WebPluginData webPluginData;
 
     public @NonNull ImmutableMap<String, Object> createHandlerMappings() {
         return Stream.concat(
-                webPlugin.getResourceLocations()
-                         .stream()
-                         .flatMap(this::createMapping),
-                webPlugin.getViewInformation()
-                         .stream()
-                         .map(this::createMapping)
+                webPluginData.resourceLocations()
+                             .stream()
+                             .flatMap(this::createMapping),
+                webPluginData.viewInformation()
+                             .stream()
+                             .map(this::createMapping)
         ).collect(MapTool.entryCollector());
     }
 

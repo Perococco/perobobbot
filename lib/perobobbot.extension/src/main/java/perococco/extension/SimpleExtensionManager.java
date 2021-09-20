@@ -8,7 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import perobobbot.command.CommandRegistry;
 import perobobbot.extension.ExtensionManager;
 import perobobbot.lang.Subscription;
-import perobobbot.plugin.ExtensionPlugin;
+import perobobbot.plugin.ExtensionPluginData;
 
 import java.util.*;
 
@@ -22,23 +22,23 @@ public class SimpleExtensionManager implements ExtensionManager {
     private final @NonNull Map<UUID, Subscription> subscriptions = new HashMap<>();
 
     private final @NonNull Map<String, UUID> extensionIds = new HashMap<>();
-    private final @NonNull Map<UUID, ExtensionPlugin> extensionPlugins = new HashMap<>();
+    private final @NonNull Map<UUID, ExtensionPluginData> extensionPlugins = new HashMap<>();
 
     @Override
     @Synchronized
-    public @NonNull Optional<Subscription> addExtension(@NonNull ExtensionPlugin extensionPlugin) {
-        final String extensionName = extensionPlugin.getExtensionName();
+    public @NonNull Optional<Subscription> addExtension(@NonNull ExtensionPluginData extensionPluginData) {
+        final String extensionName = extensionPluginData.getExtensionName();
         if (extensionIds.containsKey(extensionName)) {
             LOG.warn("An extension with the name '{}' is registered already", extensionName);
             return Optional.empty();
         }
         final UUID id = UUID.randomUUID();
         this.extensionIds.put(extensionName, id);
-        this.extensionPlugins.put(id, extensionPlugin);
+        this.extensionPlugins.put(id, extensionPluginData);
 
-        final var subscription = this.commandRegistry.addCommandDefinitions(extensionPlugin.getCommandDeclarations());
+        final var subscription = this.commandRegistry.addCommandDefinitions(extensionPluginData.commandDeclarations());
 
-        extensionPlugin.getExtension().enable();
+        extensionPluginData.enableExtension();
 
         return Optional.of(Subscription.multi(
                 subscription,
@@ -55,7 +55,7 @@ public class SimpleExtensionManager implements ExtensionManager {
         final var extensionPlugin = extensionPlugins.remove(id);
         if (extensionPlugin != null) {
             this.extensionIds.remove(extensionPlugin.getExtensionName());
-            extensionPlugin.getExtension().disable();
+            extensionPlugin.disableExtension();
         }
     }
 
@@ -90,7 +90,7 @@ public class SimpleExtensionManager implements ExtensionManager {
         Optional.ofNullable(extensionPlugins.get(id))
                 .map(e -> Subscription.multi(
                         e::disableExtension,
-                        commandRegistry.addCommandDefinitions(e.getCommandDeclarations())
+                        commandRegistry.addCommandDefinitions(e.commandDeclarations())
                 ))
                 .ifPresent(s -> this.subscriptions.put(id, s));
 

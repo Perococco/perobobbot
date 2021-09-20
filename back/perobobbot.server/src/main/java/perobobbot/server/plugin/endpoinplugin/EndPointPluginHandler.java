@@ -7,16 +7,13 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import perobobbot.lang.Subscription;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.plugin.EndPointPlugin;
+import perobobbot.plugin.EndPointPluginData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Predicate;
-
-import static java.util.function.Predicate.not;
 
 @Component
 public class EndPointPluginHandler extends AbstractHandlerMapping implements EndPointPluginManager {
@@ -52,9 +49,9 @@ public class EndPointPluginHandler extends AbstractHandlerMapping implements End
 
     @Override
     @Synchronized
-    public @NonNull Subscription addEndPointPlugin(@NonNull EndPointPlugin plugin) {
+    public @NonNull Subscription addEndPointPlugin(@NonNull EndPointPluginData plugin) {
         final var uuid = findUnusedUUID();
-        pluginMappings.put(uuid, plugin.getHandlerMapping());
+        pluginMappings.put(uuid, plugin.handlerMapping());
         return () -> removeEndPointPlugin(uuid);
     }
 

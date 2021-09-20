@@ -46,7 +46,7 @@ public class PluginApplication implements Application {
     @Override
     public void plugService(@NonNull PluginService pluginService) {
         LOG.info("Plug service   : {}",pluginService);
-        pluginService.getServiceAs(PerobobbotPlugin.class)
+        pluginService.getServiceAs(PerobobbotPluginData.class)
                         .flatMap(p -> p.accept(new AddPluginVisitor()))
                         .ifPresent(s -> subscriptions.put(pluginService,s));
     }
@@ -60,12 +60,12 @@ public class PluginApplication implements Application {
         }
     }
 
-    private class AddPluginVisitor implements PerobobbotPlugin.Visitor<Optional<Subscription>> {
+    private class AddPluginVisitor implements PerobobbotPluginData.Visitor<Optional<Subscription>> {
         @Override
-        public @NonNull Optional<Subscription> visit(@NonNull ExtensionPlugin extensionPlugin) {
-            final var extensionName= extensionPlugin.getExtensionName();
+        public @NonNull Optional<Subscription> visit(@NonNull ExtensionPluginData extensionPluginData) {
+            final var extensionName= extensionPluginData.getExtensionName();
             final Subscription setExtensionUnavailable = () -> extensionService.setExtensionUnavailable(extensionName);
-            final var subscription = extensionManager.addExtension(extensionPlugin);
+            final var subscription = extensionManager.addExtension(extensionPluginData);
             if (subscription.isPresent()) {
                 extensionService.setExtensionAvailable(extensionName);
             }
@@ -73,18 +73,18 @@ public class PluginApplication implements Application {
         }
 
         @Override
-        public @NonNull Optional<Subscription> visit(@NonNull ChatPlatformPlugin chatPlatformPlugin) {
-            return chatPlatformPluginManager.addChatPlatformPlugin(chatPlatformPlugin);
+        public @NonNull Optional<Subscription> visit(@NonNull ChatPlatformPluginData chatPlatformPluginData) {
+            return chatPlatformPluginManager.addChatPlatformPlugin(chatPlatformPluginData);
         }
 
         @Override
-        public @NonNull Optional<Subscription> visit(@NonNull WebPlugin webPlugin) {
-            return Optional.of(webPluginManager.addWebPlugin(webPlugin));
+        public @NonNull Optional<Subscription> visit(@NonNull WebPluginData webPluginData) {
+            return Optional.of(webPluginManager.addWebPlugin(webPluginData));
         }
 
         @Override
-        public @NonNull Optional<Subscription> visit(@NonNull EndPointPlugin endPointPlugin) {
-            return Optional.of(endPointPluginManager.addEndPointPlugin(endPointPlugin));
+        public @NonNull Optional<Subscription> visit(@NonNull EndPointPluginData endPointPluginData) {
+            return Optional.of(endPointPluginManager.addEndPointPlugin(endPointPluginData));
         }
     }
 

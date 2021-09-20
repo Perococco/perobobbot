@@ -1,4 +1,4 @@
-import perobobbot.plugin.PerobobbotPlugin;
+import perobobbot.plugin.PerobobbotPluginData;
 
 module perobobbot.plugin {
     requires static lombok;
@@ -16,7 +16,7 @@ module perobobbot.plugin {
 
     exports perobobbot.plugin;
 
-    uses PerobobbotPlugin;
+    uses PerobobbotPluginData;
 
 
 }
