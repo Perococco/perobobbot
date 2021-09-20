@@ -12,6 +12,7 @@ import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
+import perobobbot.lang.CommonConfig;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.server.config.externaluri.ExternalURIProvider;
@@ -25,6 +26,7 @@ import java.util.List;
 @Log4j2
 public class SubscriptionSynchronizer {
 
+
     private final @NonNull EventSubManager eventSubManager;
     private final @NonNull
     @EventService
@@ -33,6 +35,9 @@ public class SubscriptionSynchronizer {
 
     @Scheduled(fixedDelay = 3600_000)
     public void synchronize() {
+        if (CommonConfig.isNoSubscriptionSync()) {
+            return;
+        }
         Mono.when(Platform.stream()
                           .filter(eventSubManager::isPlatformManaged)
                           .map(this::synchronizePlatform)
