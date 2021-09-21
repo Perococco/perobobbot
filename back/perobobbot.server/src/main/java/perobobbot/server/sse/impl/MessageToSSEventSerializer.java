@@ -1,22 +1,24 @@
 package perobobbot.server.sse.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+import perobobbot.lang.ObjectMapperFactory;
 import perobobbot.server.config.RestObjectMapper;
 import perobobbot.server.sse.MessageToSSEventTransformer;
 import perobobbot.server.sse.SSEvent;
 
 import java.io.UncheckedIOException;
 
-@Component
 @RequiredArgsConstructor
+@Component
 @Log4j2
 public class MessageToSSEventSerializer implements MessageToSSEventTransformer {
 
-    private final @NonNull RestObjectMapper mapper;
+    private final @NonNull ObjectMapper mapper;
 
     @Override
     public @NonNull SSEvent transform(@NonNull Object event) {

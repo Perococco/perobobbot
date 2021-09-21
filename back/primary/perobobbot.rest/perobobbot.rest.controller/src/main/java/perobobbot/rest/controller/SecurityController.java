@@ -78,7 +78,7 @@ public class SecurityController {
 
     @PostMapping(EndPoints.OAUTH)
     public @NonNull OAuthInfo oauthWith(@RequestBody Platform openIdPlatform) {
-        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform);
+        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform).getInfo();
     }
 
     //WARNING security risk !!

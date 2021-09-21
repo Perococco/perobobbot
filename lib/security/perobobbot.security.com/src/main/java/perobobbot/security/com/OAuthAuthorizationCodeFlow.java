@@ -10,11 +10,11 @@ public interface OAuthAuthorizationCodeFlow {
 
     int VERSION = 1;
 
-    @NonNull OAuthInfo oauthWith(@NonNull Platform openIdPlatform);
+    @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform);
 
-    @NonNull OAuthInfo oauthWith(@NonNull Platform openIdPlatform, @NonNull ImmutableSet<String> scopes);
+    @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull ImmutableSet<String> scopes);
 
-    @NonNull OAuthInfo oauthWith(@NonNull Platform openIdPlatform, @NonNull String... scopes);
+    @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull String... scopes);
 
     @NonNull JwtInfo getOpenIdUser(@NonNull UUID id) throws Throwable;
 }

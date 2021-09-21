@@ -9,6 +9,7 @@ module perobobbot.security.com {
     requires spring.security.core;
     requires java.validation;
     requires com.fasterxml.jackson.databind;
+    requires perobobbot.oauth;
 
     opens perobobbot.security.com to com.fasterxml.jackson.databind, org.hibernate.validator;
 

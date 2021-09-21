@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.Token;
+import perobobbot.security.com.JwtInfo;
+import perobobbot.security.com.OAuthToken;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -29,7 +31,7 @@ public class OAuthSignIn {
 
 
     @Synchronized
-    public @NonNull UUID addPendingSignIn(@NonNull Platform platform, @NonNull CompletionStage<Token> futureToken) {
+    public @NonNull UUID addPendingSignIn(@NonNull Platform platform, @NonNull CompletionStage<OAuthToken> futureToken) {
         final var id = findAvailableUUID();
         final var data = new OAuthData(instants.now(), platform, futureToken);
         pendingSignIn.put(id, data);
@@ -78,7 +80,7 @@ public class OAuthSignIn {
 
         private final @NonNull Platform platform;
 
-        private final @NonNull CompletionStage<Token> futureToken;
+        private final @NonNull CompletionStage<OAuthToken> futureToken;
 
 
         public boolean canBeDeleted(@NonNull Instant now) {

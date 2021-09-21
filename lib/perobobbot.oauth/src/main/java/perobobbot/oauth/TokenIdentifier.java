@@ -9,12 +9,7 @@ public interface TokenIdentifier  {
 
     interface Visitor<T> extends Function1<TokenIdentifier,T> {
 
-        default @NonNull Function1<TokenIdentifier,T> asFunction() {
-            return t -> t.accept(this);
-        }
-
         @NonNull T visit(@NonNull ChatTokenIdentifier tokenIdentifier);
-
         @NonNull T visit(@NonNull LoginTokenIdentifier tokenIdentifier);
 
         @Override

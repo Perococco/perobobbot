@@ -3,6 +3,7 @@ package perobobbot.server.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -17,16 +18,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import perobobbot.http.WebClientFactory;
+import perobobbot.lang.ObjectMapperFactory;
 
 import java.util.concurrent.Executors;
 
 
+@RequiredArgsConstructor
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    private final ObjectMapperFactory objectMapperFactory;
+
     @Bean
     public ObjectMapper objectMapper() {
-        return RestObjectMapper.create();
+        return objectMapperFactory.create();
     }
 
     @Override
