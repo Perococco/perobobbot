@@ -10,7 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.domain.ClientTokenEntity;
 import perobobbot.data.domain.UserTokenEntity;
-import perobobbot.data.jpa.UserTokenSaving;
+import perobobbot.data.jpa.UserTokenSaver;
 import perobobbot.data.jpa.repository.*;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
@@ -45,7 +45,7 @@ public class JPAOAuthService implements OAuthService {
 
     private final @NonNull Instants instants;
 
-    private final @NonNull UserTokenSaving.Saver userTokenSaver;
+    private final @NonNull UserTokenSaver.Saver userTokenSaver;
 
 
     public JPAOAuthService(@NonNull PlatformTransactionManager platformTransactionManager,
@@ -65,7 +65,7 @@ public class JPAOAuthService implements OAuthService {
         this.clientTokenRepository = clientTokenRepository;
         this.instants = instants;
         this.userRepository = userRepository;
-        this.userTokenSaver = UserTokenSaving.saver(clientRepository, userRepository, viewerIdentityRepository,
+        this.userTokenSaver = UserTokenSaver.saver(clientRepository, userRepository, viewerIdentityRepository,
                 userTokenRepository, oAuthManager, textEncryptor);
     }
 

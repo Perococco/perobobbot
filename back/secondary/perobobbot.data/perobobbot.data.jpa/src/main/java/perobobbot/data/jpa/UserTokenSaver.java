@@ -13,6 +13,7 @@ import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserTokenRepository;
 import perobobbot.data.jpa.repository.ViewerIdentityRepository;
 import perobobbot.lang.*;
+import perobobbot.lang.fp.Try0;
 import perobobbot.lang.token.DecryptedUserToken;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.lang.token.EncryptedUserToken;
@@ -25,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 @Log4j2
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserTokenSaving {
+public class UserTokenSaver {
 
     public interface Saver {
         @NonNull DecryptedUserTokenView save(@NonNull String login, @NonNull UUID clientId, @NonNull Token token);
@@ -43,12 +44,10 @@ public class UserTokenSaving {
     private final @NonNull UUID clientId;
     private final @NonNull Token token;
 
-    private EncryptedClient encryptedClient;
     private DecryptedClient decryptedClient;
     private UserEntity owner;
     private UserIdentity userIdentity;
     private ViewerIdentityEntity viewerIdentity;
-    private DecryptedUserToken decryptedUserToken;
     private EncryptedUserToken encryptedUserToken;
     private UserTokenEntity userToken;
     private DecryptedUserTokenView decryptedUserTokenView;
@@ -56,19 +55,17 @@ public class UserTokenSaving {
     private @NonNull DecryptedUserTokenView save() {
         try {
             this.getClientFromRepository();
-            this.decryptedClient();
-            this.getOwnerFromRepository();
+            this.getOwnerFromLoginFromRepository();
             this.getUserIdentityFromPlatform();
             this.getOrCreateViewerIdentityFromRepository();
-            this.buildDecryptedUserToken();
-            this.encryptUserToken();
+            this.buildEncryptedUserToken();
             this.addEncryptedUserTokenToOwner();
             this.saveEncryptedUserTokenIntoRepository();
             this.transformUserTokenToView();
 
             return decryptedUserTokenView;
         } catch (Throwable t) {
-            LOG.error("Could not save token : {} ",t.getMessage());
+            LOG.error("Could not save token : {} ", t.getMessage());
             LOG.debug(t);
             t.printStackTrace();
             throw t;
@@ -77,40 +74,25 @@ public class UserTokenSaving {
 
 
     private void getClientFromRepository() {
-        this.encryptedClient = this.clientRepository.getClientByUuid(clientId).toView();
+        this.decryptedClient = this.clientRepository.getClientByUuid(clientId).toDecryptedView(textEncryptor);
     }
 
-    private void decryptedClient() {
-        this.decryptedClient = this.encryptedClient.decrypt(textEncryptor);
-    }
-
-    private void getOwnerFromRepository() {
+    private void getOwnerFromLoginFromRepository() {
         this.owner = this.userRepository.getByLogin(login);
     }
 
     private void getUserIdentityFromPlatform() {
-        final var promise = oAuthManager.getUserIdentity(decryptedClient,token.getAccessToken());
-        final Throwable error;
-        try {
-            this.userIdentity = promise.toCompletableFuture().get();
-            return;
-        } catch (Throwable e) {
-            if (e instanceof ExecutionException) {
-                error = e.getCause();
-            } else {
-                error = e;
-            }
-        }
-
-        assert error != null;
-
-        ThrowableTool.interruptThreadIfCausedByInterruption(error);
-        throw new DataException("Could not retrieve user identity and save associated user token", error);
+        final var promise = oAuthManager.getUserIdentity(decryptedClient, token.getAccessToken());
+        this.userIdentity = Try0.of(promise.toCompletableFuture()::get)
+                                .fSafe()
+                                .mapFailure(e -> (e instanceof ExecutionException) ? e.getCause() : e)
+                                .mapFailure(e -> new DataException("Could not retrieve user identity", e))
+                                .get();
     }
 
     private void getOrCreateViewerIdentityFromRepository() {
         this.viewerIdentity = viewerIdentityRepository.findByPlatformAndViewerId(decryptedClient.getPlatform(),
-                                                                                 userIdentity.getUserId())
+                                                              userIdentity.getUserId())
                                                       .orElseGet(this::createViewerIdentity);
     }
 
@@ -121,18 +103,8 @@ public class UserTokenSaving {
         return viewerIdentityRepository.save(new ViewerIdentityEntity(platform, viewerId, login));
     }
 
-    private void buildDecryptedUserToken() {
-        this.decryptedUserToken = DecryptedUserToken.builder()
-                                                    .accessToken(token.getAccessToken())
-                                                    .duration(token.getDuration())
-                                                    .expirationInstant(token.getExpirationInstant())
-                                                    .refreshToken(token.getRefreshToken().orElse(Secret.empty()))
-                                                    .scopes(token.getScopes())
-                                                    .build();
-    }
-
-    private void encryptUserToken() {
-        this.encryptedUserToken = this.decryptedUserToken.encrypt(textEncryptor);
+    private void buildEncryptedUserToken() {
+        this.encryptedUserToken = token.toDecryptedUserToken().encrypt(textEncryptor);
     }
 
 
@@ -156,8 +128,8 @@ public class UserTokenSaving {
                                        @NonNull OAuthManager oAuthManager,
                                        @NonNull TextEncryptor textEncryptor) {
         return (login, clientId, token) -> save(clientRepository, userRepository, viewerIdentityRepository,
-                                                userTokenRepository, oAuthManager, textEncryptor, login, clientId,
-                                                token);
+                userTokenRepository, oAuthManager, textEncryptor, login, clientId,
+                token);
     }
 
     public static @NonNull DecryptedUserTokenView save(@NonNull ClientRepository clientRepository,
@@ -169,8 +141,8 @@ public class UserTokenSaving {
                                                        @NonNull String login,
                                                        @NonNull UUID clientId,
                                                        @NonNull Token token) {
-        return new UserTokenSaving(clientRepository, userRepository, viewerIdentityRepository, userTokenRepository,
-                                   oAuthManager, textEncryptor, login, clientId, token).save();
+        return new UserTokenSaver(clientRepository, userRepository, viewerIdentityRepository, userTokenRepository,
+                oAuthManager, textEncryptor, login, clientId, token).save();
     }
 
 }

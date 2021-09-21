@@ -79,6 +79,10 @@ public class TryResult<T extends Throwable, R> {
         return either.merge(t -> leftFunction.f(), rightFunction);
     }
 
+    public <E extends Throwable> @NonNull TryResult<E,R> mapFailure(@NonNull Function1<? super T, ? extends E> errorMapper) {
+        return new TryResult<>(either.mapLeft(errorMapper));
+    }
+
     @NonNull
     public <M, T1 extends Throwable> M tryMerge(@NonNull Try1<? super T, ? extends M, T1> leftFunction, @NonNull Try1<? super R, ? extends M, T1> rightFunction) throws T1 {
         return either.tryMerge(leftFunction, rightFunction);
