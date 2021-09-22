@@ -49,6 +49,16 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
         return oauthWith(openIdPlatform, OAuthController::getDefaultScopes);
     }
 
+    public @NonNull JwtInfo getOpenIdUser(@NonNull UUID id) throws Throwable {
+        final var data = oAuthSignIn.getOAuthData(id);
+
+        return data.getFutureToken()
+                   .thenApply(OAuthToken::jwtInfo)
+                   .toCompletableFuture()
+                   .get();
+    }
+
+
     private @NonNull OAuthData oauthWith(Platform openIdPlatform,
                                          @NonNull Function1<? super OAuthController, ? extends ImmutableSet<? extends Scope>> scopeProvider) {
         final var oauthController = oAuthManager.getController(openIdPlatform);
@@ -71,15 +81,6 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
         return controller.getUserIdentity(client, token.getAccessToken())
                          .thenApply(userIdentity -> getJwtTokenFromUserIdentity(userIdentity, openIdPlatform))
                          .thenApply(jwt -> new OAuthToken(token, jwt));
-    }
-
-    public @NonNull JwtInfo getOpenIdUser(@NonNull UUID id) throws Throwable {
-        final var data = oAuthSignIn.getOAuthData(id);
-
-        return data.getFutureToken()
-                   .thenApply(OAuthToken::jwtInfo)
-                   .toCompletableFuture()
-                   .get();
     }
 
     private @NonNull JwtInfo getJwtTokenFromUserIdentity(@NonNull UserIdentity userIdentity, @NonNull Platform platform) {
