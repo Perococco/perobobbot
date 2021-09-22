@@ -97,8 +97,8 @@ public class SecuredOAuthService implements OAuthService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
-        return delegate.authenticateUser(login,scopes,platform);
+    public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
+        return delegate.createUserToken(login,scopes,platform);
     }
 
     @Override

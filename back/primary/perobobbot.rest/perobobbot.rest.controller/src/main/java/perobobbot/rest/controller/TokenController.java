@@ -47,7 +47,7 @@ public class TokenController {
     @PostMapping("/oauth")
     public @NonNull URI initiateOAuth(@NonNull @AuthenticationPrincipal BotUser principal, @RequestBody @NonNull OAuthProcessParameter parameter) {
         final var login = principal.getUsername();
-        final var oauthInfo = oauthService.authenticateUser(login,parameter.getScopes(),parameter.getPlatform());
+        final var oauthInfo = oauthService.createUserToken(login,parameter.getScopes(),parameter.getPlatform());
         return oauthInfo.getOauthURI();
     }
 

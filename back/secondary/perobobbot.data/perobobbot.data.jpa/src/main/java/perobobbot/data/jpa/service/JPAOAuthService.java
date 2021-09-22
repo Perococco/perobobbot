@@ -170,8 +170,11 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public @NonNull UserOAuthInfo<DecryptedUserTokenView> authenticateUser(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
+    public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login,
+                                                                          @NonNull ImmutableSet<? extends Scope> scopes,
+                                                                          @NonNull Platform platform) {
         final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
+
         final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
 
         return userOAuthInfo.then(
