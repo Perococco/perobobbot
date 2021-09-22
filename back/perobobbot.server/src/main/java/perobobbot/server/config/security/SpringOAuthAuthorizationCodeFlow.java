@@ -40,10 +40,6 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     UserService userService;
     private final @NonNull JWTokenManager jwTokenManager;
 
-    @Override
-    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull String... scopes) {
-        return oauthWith(openIdPlatform, ImmutableSet.copyOf(scopes));
-    }
 
     public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull ImmutableSet<String> scopes) {
         return oauthWith(openIdPlatform, c -> c.mapScope(scopes));
@@ -55,11 +51,11 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
 
     private @NonNull OAuthData oauthWith(Platform openIdPlatform,
                                          @NonNull Function1<? super OAuthController, ? extends ImmutableSet<? extends Scope>> scopeProvider) {
-        final var controller = oAuthManager.getController(openIdPlatform);
+        final var oauthController = oAuthManager.getController(openIdPlatform);
         final var client = clientService.getClient(openIdPlatform);
-        final var scopes = scopeProvider.apply(controller);
+        final var scopes = scopeProvider.apply(oauthController);
 
-        final var userOAuthInfo = controller.prepareUserOAuth(client, scopes);
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
         final var jwtTokenFuture = userOAuthInfo.getFutureToken()
                                                 .thenCompose(token -> formOAuthToken(openIdPlatform, token));
 
