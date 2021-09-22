@@ -14,6 +14,7 @@ import perobobbot.lang.PluginService;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.oauth.Token;
 import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
@@ -97,8 +98,14 @@ public class SecuredOAuthService implements OAuthService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
-    public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform) {
-        return delegate.createUserToken(login,scopes,platform);
+    public void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId, @NonNull Token token) {
+
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
+    public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull Platform platform) {
+        return delegate.createUserToken(login,platform);
     }
 
     @Override

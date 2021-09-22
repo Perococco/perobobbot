@@ -13,7 +13,5 @@ public class OAuthProcessParameter {
 
     @NonNull Platform platform;
 
-    @NonNull ImmutableSet<Scope> scopes;
-
 
 }

@@ -51,8 +51,8 @@ public interface OAuthManager {
     /**
      * shortcut to <code>getController(client.getPlatform()).prepareUserOAuth(client,accessToken)</code>
      */
-    default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
-        return getController(client.getPlatform()).prepareUserOAuth(client,scopes);
+    default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client) {
+        return getController(client.getPlatform()).prepareUserOAuth(client);
     }
 
 

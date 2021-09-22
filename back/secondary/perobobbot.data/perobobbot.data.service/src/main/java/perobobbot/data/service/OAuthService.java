@@ -7,6 +7,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.oauth.Token;
 import perobobbot.oauth.UserOAuthInfo;
 
 import java.util.Optional;
@@ -40,7 +41,9 @@ public interface OAuthService {
     @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
 
 
-    @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull Platform platform);
+    void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId, @NonNull Token token);
+
+    @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull Platform platform);
 
     @NonNull Optional<DecryptedUserTokenView> findUserToken(@NonNull UUID tokenId);
 

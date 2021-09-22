@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
+import perobobbot.lang.Platform;
 import perobobbot.rest.com.OAuthProcessParameter;
 import perobobbot.rest.com.RestUserToken;
 import perobobbot.security.com.BotUser;
@@ -45,9 +46,9 @@ public class TokenController {
     }
 
     @PostMapping("/oauth")
-    public @NonNull URI initiateOAuth(@NonNull @AuthenticationPrincipal BotUser principal, @RequestBody @NonNull OAuthProcessParameter parameter) {
+    public @NonNull URI initiateOAuth(@NonNull @AuthenticationPrincipal BotUser principal, @RequestBody @NonNull Platform platform) {
         final var login = principal.getUsername();
-        final var oauthInfo = oauthService.createUserToken(login,parameter.getScopes(),parameter.getPlatform());
+        final var oauthInfo = oauthService.createUserToken(login,platform);
         return oauthInfo.getOauthURI();
     }
 

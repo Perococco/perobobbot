@@ -1,6 +1,7 @@
 package perobobbot.oauth;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import lombok.NonNull;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
@@ -20,14 +21,7 @@ public interface OAuthController {
     /**
      * @return the URI to use to perform the OAuth Authorization Code Flow
      */
-    @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, ImmutableSet<? extends Scope> scopes);
-
-    /**
-     * @return the URI to use to perform the OAuth Authorization Code Flow
-     */
-    default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client) {
-        return prepareUserOAuth(client,getDefaultScopes());
-    }
+    @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client);
 
     /**
      * Request a Client Token. The client id and secret are provided by configuration
@@ -53,9 +47,6 @@ public interface OAuthController {
 
     @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken);
 
-    @NonNull ImmutableSet<? extends Scope> getDefaultScopes();
-
-    @NonNull ImmutableSet<? extends Scope> mapScope(@NonNull ImmutableSet<String> scopeNames);
-
     void dispose();
+
 }

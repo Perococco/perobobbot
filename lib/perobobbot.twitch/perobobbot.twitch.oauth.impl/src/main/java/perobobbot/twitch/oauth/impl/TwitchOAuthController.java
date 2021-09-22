@@ -86,11 +86,12 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull ImmutableSet<? extends Scope> scopes) {
+    public @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client) {
         final var listener = new OAuthAuthorizationListener(webClient, client, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
-        final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(client.getClientId(), scopes,
+        final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(client.getClientId(),
+                DEFAULT_SCOPES,
                 subscriptionData.getState(),
                 subscriptionData.getOAuthRedirectURI());
 
@@ -123,19 +124,6 @@ public class TwitchOAuthController implements OAuthController {
     @Override
     public void dispose() {
         oAuthSubscriptions.dispose();
-    }
-
-    @Override
-    public @NonNull ImmutableSet<? extends Scope> getDefaultScopes() {
-        return DEFAULT_SCOPES;
-    }
-
-    @Override
-    public @NonNull ImmutableSet<? extends Scope> mapScope(@NonNull ImmutableSet<String> scopeNames) {
-        return scopeNames.stream()
-                         .map(TwitchScope::findScopeByName)
-                         .flatMap(Optional::stream)
-                         .collect(ImmutableSet.toImmutableSet());
     }
 
 }

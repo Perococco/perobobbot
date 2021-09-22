@@ -1,6 +1,7 @@
 package perobobbot.server.config.security;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
+import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
@@ -20,6 +22,7 @@ import perobobbot.oauth.Token;
 import perobobbot.oauth.UserIdentity;
 import perobobbot.security.com.*;
 import perobobbot.security.core.jwt.JWTokenManager;
+import perobobbot.server.config.security.jwt.JwtTokenFromUserIdentityCreator;
 
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
@@ -34,6 +37,9 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     private final @NonNull OAuthManager oAuthManager;
     private final @NonNull
     @EventService
+    OAuthService oAuthService;
+    private final @NonNull
+    @EventService
     ClientService clientService;
     private final @NonNull
     @EventService
@@ -41,14 +47,7 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     private final @NonNull JWTokenManager jwTokenManager;
 
 
-    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull ImmutableSet<String> scopes) {
-        return oauthWith(openIdPlatform, c -> c.mapScope(scopes));
-    }
-
-    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform) {
-        return oauthWith(openIdPlatform, OAuthController::getDefaultScopes);
-    }
-
+    @Override
     public @NonNull JwtInfo getOpenIdUser(@NonNull UUID id) throws Throwable {
         final var data = oAuthSignIn.getOAuthData(id);
 
@@ -58,14 +57,11 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
                    .get();
     }
 
-
-    private @NonNull OAuthData oauthWith(Platform openIdPlatform,
-                                         @NonNull Function1<? super OAuthController, ? extends ImmutableSet<? extends Scope>> scopeProvider) {
-        final var oauthController = oAuthManager.getController(openIdPlatform);
+    @Override
+    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform) {
         final var client = clientService.getClient(openIdPlatform);
-        final var scopes = scopeProvider.apply(oauthController);
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client);
 
-        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
         final var jwtTokenFuture = userOAuthInfo.getFutureToken()
                                                 .thenCompose(token -> formOAuthToken(openIdPlatform, token));
 
@@ -78,28 +74,22 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     private @NonNull CompletionStage<OAuthToken> formOAuthToken(@NonNull Platform openIdPlatform, @NonNull Token token) {
         final var controller = oAuthManager.getController(openIdPlatform);
         final var client = clientService.getClient(openIdPlatform);
+
         return controller.getUserIdentity(client, token.getAccessToken())
-                         .thenApply(userIdentity -> getJwtTokenFromUserIdentity(userIdentity, openIdPlatform))
-                         .thenApply(jwt -> new OAuthToken(token, jwt));
+                         .thenApply(userIdentity -> createOAuthToken(userIdentity, openIdPlatform,token))
+                         .whenComplete(this::saveUserToken);
     }
 
-    private @NonNull JwtInfo getJwtTokenFromUserIdentity(@NonNull UserIdentity userIdentity, @NonNull Platform platform) {
-        final var login = userIdentity.getLogin();
-        final var user = userService.findUser(login).orElse(null);
+    private OAuthToken createOAuthToken(@NonNull UserIdentity userIdentity, @NonNull Platform openIdPlatform, @NonNull Token token) {
+        final var jwtInfo = JwtTokenFromUserIdentityCreator.create(jwTokenManager,userService,userIdentity.getLogin(),openIdPlatform);
+        return new OAuthToken(token, openIdPlatform, userIdentity.getUserId(), jwtInfo);
+    }
 
-        if (user == null) {
-            final var parameter = new CreateUserParameters(login, Identification.openId(platform));
-            userService.createUser(parameter);
-        } else {
-            final var userPlatform = user.getIdentificationOpenIdPlatform().orElse(null);
-            if (!platform.equals(userPlatform)) {
-                LOG.warn("Invalid platform used to identify user '{}': expected='{}' actual='{}'", login, userPlatform, platform);
-                throw new BadCredentialsException("A user exists with this login already");
-            }
+
+    private void saveUserToken(OAuthToken token, Throwable error) {
+        if (token != null) {
+            oAuthService.updateUserToken(token.getUserLogin(), token.platform(), token.getUserLogin(), token.token());
         }
-
-        return jwTokenManager.createJwtInfo(login);
     }
-
 
 }

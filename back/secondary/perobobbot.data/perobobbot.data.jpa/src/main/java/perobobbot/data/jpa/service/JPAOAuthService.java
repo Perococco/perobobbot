@@ -42,7 +42,7 @@ public class JPAOAuthService implements OAuthService {
     private final @NonNull UserRepository userRepository;
     private final @NonNull UserTokenRepository userTokenRepository;
     private final @NonNull ClientTokenRepository clientTokenRepository;
-
+    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
     private final @NonNull Instants instants;
 
     private final @NonNull UserTokenSaver.Saver userTokenSaver;
@@ -65,6 +65,7 @@ public class JPAOAuthService implements OAuthService {
         this.clientTokenRepository = clientTokenRepository;
         this.instants = instants;
         this.userRepository = userRepository;
+        this.viewerIdentityRepository = viewerIdentityRepository;
         this.userTokenSaver = UserTokenSaver.saver(clientRepository, userRepository, viewerIdentityRepository,
                 userTokenRepository, oAuthManager, textEncryptor);
     }
@@ -170,13 +171,42 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
+    public void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId, @NonNull Token token) {
+        final var user = userRepository.getByLogin(login);
+        final var viewerIdentity = viewerIdentityRepository.getByPlatformAndViewerId(platform,viewerId);
+
+        final var existingToken = viewerIdentity.getUserTokenEntity().orElse(null);
+
+        final var shouldReplace = existingToken != null && existingToken.getExpirationInstant().isBefore(token.getExpirationInstant());
+        final var shouldCreate = existingToken == null || shouldReplace;
+
+
+        Secret accessTokenToRevoke = null;
+
+        if (shouldReplace) {
+            accessTokenToRevoke = existingToken.toDecryptedView(textEncryptor).getAccessToken();
+        }
+
+        if (shouldCreate) {
+            final var newUserToken = token.toDecryptedUserToken().encrypt(textEncryptor);
+            final var tokenEntity = user.setUserToken(viewerIdentity,newUserToken);
+            userTokenRepository.save(tokenEntity);
+        } else {
+            accessTokenToRevoke = token.getAccessToken();
+        }
+
+        if (accessTokenToRevoke != null) {
+            final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
+            final var oauthController = oAuthManager.getController(platform);
+            oauthController.revokeToken(client,accessTokenToRevoke);
+        }
+    }
+
+    @Override
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login,
-                                                                          @NonNull ImmutableSet<? extends Scope> scopes,
                                                                           @NonNull Platform platform) {
         final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
-
-        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, scopes);
-
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client);
         return userOAuthInfo.then(
                 token -> transactionTemplate.execute(status -> userTokenSaver.save(login, client.getId(), token)));
     }
