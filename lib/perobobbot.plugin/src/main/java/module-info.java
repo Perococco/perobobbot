@@ -13,6 +13,7 @@ module perobobbot.plugin {
     requires jplugman.annotation;
     requires java.servlet;
     requires spring.webmvc;
+    requires spring.context;
 
     exports perobobbot.plugin;
 

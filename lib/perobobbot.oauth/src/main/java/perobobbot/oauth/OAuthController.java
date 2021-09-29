@@ -21,7 +21,7 @@ public interface OAuthController {
     /**
      * @return the URI to use to perform the OAuth Authorization Code Flow
      */
-    @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client);
+    @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull OAuthUrlOptions options);
 
     /**
      * Request a Client Token. The client id and secret are provided by configuration

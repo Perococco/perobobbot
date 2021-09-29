@@ -14,6 +14,7 @@ import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.service.*;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.OAuthManager;
+import perobobbot.oauth.OAuthUrlOptions;
 import perobobbot.oauth.UserIdentity;
 import perobobbot.security.com.OAuthInfo;
 import perobobbot.security.com.*;
@@ -78,7 +79,7 @@ public class SecurityController {
 
     @PostMapping(EndPoints.OAUTH)
     public @NonNull OAuthInfo oauthWith(@RequestBody Platform openIdPlatform) {
-        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform).getInfo();
+        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform, new OAuthUrlOptions(false)).getInfo();
     }
 
     //WARNING security risk !!

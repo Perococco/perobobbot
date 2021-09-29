@@ -12,7 +12,7 @@ public class EventStream {
 
     private final Hub hub;
 
-    @GetMapping("/events/ssee")
+    @GetMapping("/events/sse")
     public SseEmitter handleSse(@RequestHeader(name = "Last-Event-ID", required = false) String lastEventId) {
         final SseEmitter emitter;
         if (lastEventId == null) {

@@ -9,6 +9,7 @@ import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 import perobobbot.lang.SecretURI;
+import perobobbot.oauth.OAuthUrlOptions;
 
 import java.net.URI;
 
@@ -45,12 +46,16 @@ public class TwitchOAuthURI {
                 .build();
     }
 
-    public @NonNull URI getUserAuthorizationURI(@NonNull String clientId, @NonNull ImmutableSet<? extends Scope> scopes, @NonNull String state, @NonNull URI oAuthRedirectURI) {
+    public @NonNull URI getUserAuthorizationURI(@NonNull String clientId,
+                                                @NonNull ImmutableSet<? extends Scope> scopes,
+                                                @NonNull String state,
+                                                @NonNull URI oAuthRedirectURI,
+                                                @NonNull OAuthUrlOptions options) {
         return UriComponentsBuilder.fromHttpUrl("https://id.twitch.tv/oauth2/authorize")
                                    .queryParam("client_id", clientId)
                                    .queryParam("redirect_uri", oAuthRedirectURI)
                                    .queryParam("response_type", "code")
-                                   .queryParam("force_verify", "true")
+                                   .queryParam("force_verify", options.isForceVerify()?"true":"false")
                                    .queryParam("scope", Scope.scopeNamesSpaceSeparated(scopes))
                                    .queryParam("state", state)
                                    .build().toUri();

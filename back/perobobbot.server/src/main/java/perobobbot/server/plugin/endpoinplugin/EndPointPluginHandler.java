@@ -1,7 +1,9 @@
 package perobobbot.server.plugin.endpoinplugin;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
@@ -15,12 +17,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Component
 public class EndPointPluginHandler extends AbstractHandlerMapping implements EndPointPluginManager {
 
-
     private final @NonNull Map<UUID, HandlerMapping> pluginMappings = new LinkedHashMap<>();
-
 
     @Override
     public int getOrder() {

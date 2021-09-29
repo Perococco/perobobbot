@@ -86,14 +86,16 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client) {
+    public @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull OAuthUrlOptions options) {
         final var listener = new OAuthAuthorizationListener(webClient, client, instants);
 
         final var subscriptionData = oAuthSubscriptions.subscribe(TWITCH_OAUTH_PATH, listener);
-        final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(client.getClientId(),
+        final var oauthURI = twitchOAuthURI.getUserAuthorizationURI(
+                client.getClientId(),
                 DEFAULT_SCOPES,
                 subscriptionData.getState(),
-                subscriptionData.getOAuthRedirectURI());
+                subscriptionData.getOAuthRedirectURI(),
+                options);
 
         return new UserOAuthInfo<>(oauthURI, listener.getFutureToken());
     }

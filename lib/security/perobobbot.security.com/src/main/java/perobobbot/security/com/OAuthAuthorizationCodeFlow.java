@@ -2,6 +2,7 @@ package perobobbot.security.com;
 
 import lombok.NonNull;
 import perobobbot.lang.Platform;
+import perobobbot.oauth.OAuthUrlOptions;
 
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ public interface OAuthAuthorizationCodeFlow {
      * @param openIdPlatform the platform to perform the authorization against
      * @return data require to proceed the authorization code flow (like the URL to call, and the id of the process)
      */
-    @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform);
+    @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull OAuthUrlOptions options);
 
     /**
      * Return the jwt token obtained from the user oauth token. This is basically the same as retrieving

@@ -16,10 +16,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.Scope;
 import perobobbot.lang.fp.Function1;
-import perobobbot.oauth.OAuthController;
-import perobobbot.oauth.OAuthManager;
-import perobobbot.oauth.Token;
-import perobobbot.oauth.UserIdentity;
+import perobobbot.oauth.*;
 import perobobbot.security.com.*;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtTokenFromUserIdentityCreator;
@@ -58,9 +55,9 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     }
 
     @Override
-    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform) {
+    public @NonNull OAuthData oauthWith(@NonNull Platform openIdPlatform, @NonNull OAuthUrlOptions options) {
         final var client = clientService.getClient(openIdPlatform);
-        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client);
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client,options);
 
         final var jwtTokenFuture = userOAuthInfo.getFutureToken()
                                                 .thenCompose(token -> formOAuthToken(openIdPlatform, token));
@@ -88,7 +85,7 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
 
     private void saveUserToken(OAuthToken token, Throwable error) {
         if (token != null) {
-            oAuthService.updateUserToken(token.getUserLogin(), token.platform(), token.getUserLogin(), token.token());
+            oAuthService.updateUserToken(token.getUserLogin(), token.platform(), token.userId(), token.token());
         }
     }
 

@@ -190,6 +190,7 @@ public class JPAOAuthService implements OAuthService {
         if (shouldCreate) {
             final var newUserToken = token.toDecryptedUserToken().encrypt(textEncryptor);
             final var tokenEntity = user.setUserToken(viewerIdentity,newUserToken);
+            tokenEntity.setMain(existingToken != null && existingToken.isMain());
             userTokenRepository.save(tokenEntity);
         } else {
             accessTokenToRevoke = token.getAccessToken();
@@ -206,7 +207,7 @@ public class JPAOAuthService implements OAuthService {
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login,
                                                                           @NonNull Platform platform) {
         final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
-        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client);
+        final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, new OAuthUrlOptions(true));
         return userOAuthInfo.then(
                 token -> transactionTemplate.execute(status -> userTokenSaver.save(login, client.getId(), token)));
     }
