@@ -24,7 +24,6 @@ public class EventStream {
     public ResponseBodyEmitter handleSse(@AuthenticationPrincipal BotUser principal,
                                          @RequestHeader(name = "Last-Event-ID", required = false) String lastEventId) {
         final var user = userService.getUser(principal.getUsername());
-        System.out.println("User : "+user.getLogin()+ " "+user.getUsername());
         final SseEmitter emitter;
         if (lastEventId == null) {
             emitter = hub.createEmitterForNewConnection(user);

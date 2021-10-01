@@ -1,26 +1,34 @@
 package perobobbot.server.sse.impl;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import perobobbot.lang.MapTool;
 import perobobbot.lang.ThreadFactories;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.Todo;
+import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Log4j2
 public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
+
 
     private final ExecutorService EVENT_SENDER_EXECUTOR = Executors.newCachedThreadPool(ThreadFactories.daemon("Event Emitter %d"));
 
-    public final Map<UUID, EmitterData> emitters = new HashMap<>();
+    public @NonNull ImmutableMap<UUID, EmitterData> emitters = ImmutableMap.of();
 
     @Override
     public @NonNull SseEmitter createEmitter(@NonNull User user, long lastEventId, long timeout) {
@@ -30,7 +38,6 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     }
 
     @Override
-    @Synchronized
     public @NonNull OptionalLong findMinimalIdOfSentMessage() {
         return emitters.values()
                        .stream()
@@ -40,10 +47,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
 
     @Override
     public void send(ImmutableList<EventBuffer.Event> messages) {
-        if (messages.isEmpty()) {
-            return;
-        }
-        final var emitterDataList = copyAllEmitterData();
+        final var emitterDataList = emitters.values();
         emitterDataList.forEach(emitterData -> EVENT_SENDER_EXECUTOR.submit(() -> emitterData.send(messages)));
     }
 
@@ -60,13 +64,8 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     }
 
     @Synchronized
-    private List<EmitterData> copyAllEmitterData() {
-        return List.copyOf(emitters.values());
-    }
-
-    @Synchronized
     private void unregister(@NonNull UUID uuid) {
-        emitters.remove(uuid);
+        updateEmitters(e -> MapTool.remove(e,uuid));
     }
 
     @Synchronized
@@ -74,20 +73,37 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
         while (true) {
             var uuid = UUID.randomUUID();
             if (!emitters.containsKey(uuid)) {
-                emitters.put(uuid, emitterData);
+                updateEmitters(e -> MapTool.add(e,uuid,emitterData));
                 return uuid;
             }
         }
     }
 
+    private void updateEmitters(@NonNull UnaryOperator1<ImmutableMap<UUID,EmitterData>> mutation) {
+        final int nbEmitters = emitters.size();
+        this.emitters = mutation.apply(emitters);
+        final int newNbEmitters = emitters.size();
+        LOG.info("SseEmitters count : {} -> {}",nbEmitters,newNbEmitters);
+    }
+
 
     @Getter
-    @AllArgsConstructor
     private static class EmitterData {
+
+        private static final long MAX_DURATION_WITHOUT_MESSAGES = 30_000;
+
         private final @NonNull SseEmitter emitter;
         private final @NonNull User user;
         private long lastSentEventId;
+        private Instant timeOfLastMessageSent;
 
+
+        public EmitterData(@NonNull SseEmitter emitter, @NonNull User user, long lastSentEventId) {
+            this.emitter = emitter;
+            this.user = user;
+            this.lastSentEventId = lastSentEventId;
+            this.timeOfLastMessageSent = Instant.now();
+        }
 
         public void sendConnectionMessage() {
             try {
@@ -101,17 +117,40 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
         }
 
         public void send(@NonNull ImmutableList<EventBuffer.Event> events) {
+            final var now = Instant.now();
+            boolean someMessageSent = false;
             try {
                 for (EventBuffer.Event event : events) {
                     if (shouldSendMessage(event)) {
+                        someMessageSent = true;
                         emitter.send(event.getPayload());
                     }
                 }
-                this.lastSentEventId = events.get(events.size() - 1).getId();
-            } catch (IOException e) {
+                final var shouldPing = !someMessageSent && Duration.between(timeOfLastMessageSent,now).toMillis() > MAX_DURATION_WITHOUT_MESSAGES;
+                if (shouldPing){
+                        emitter.send(pingEvent(now));
+                }
+
+                if (!events.isEmpty()) {
+                    lastSentEventId = events.get(events.size() - 1).getId();
+                }
+
+                if (someMessageSent || shouldPing) {
+                    timeOfLastMessageSent = now;
+                }
+
+            } catch (Throwable e) {
+                e.printStackTrace();
                 emitter.completeWithError(e);
                 ThrowableTool.interruptThreadIfCausedByInterruption(e);
             }
+        }
+
+        private SseEmitter.SseEventBuilder pingEvent(@NonNull Instant now) {
+            return SseEmitter.event()
+                             .id(String.valueOf(lastSentEventId))
+                             .name("ping")
+                             .data(now.toString(), MediaType.TEXT_PLAIN);
         }
 
         private boolean shouldSendMessage(EventBuffer.Event event) {
