@@ -8,7 +8,7 @@ import perobobbot.twitch.api.UserInfo;
 import java.time.Instant;
 
 @Value
-public class HypeTrainEndEvent implements EventSubEvent {
+public class HypeTrainEndEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull String id;
     @NonNull UserInfo broadcaster;

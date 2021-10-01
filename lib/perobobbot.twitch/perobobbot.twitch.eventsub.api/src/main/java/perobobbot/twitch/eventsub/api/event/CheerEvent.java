@@ -7,7 +7,7 @@ import perobobbot.twitch.api.UserInfo;
 import java.util.Optional;
 
 @Value
-public class CheerEvent implements EventSubEvent {
+public class CheerEvent implements BroadcasterProvider, EventSubEvent {
     UserInfo user;
     @NonNull UserInfo broadcaster;
     boolean anonymous;

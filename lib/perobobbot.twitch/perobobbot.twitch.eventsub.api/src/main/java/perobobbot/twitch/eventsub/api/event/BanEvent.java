@@ -9,7 +9,7 @@ import perobobbot.twitch.api.UserInfo;
 import java.util.Optional;
 
 @Value
-public class BanEvent implements EventSubEvent {
+public class BanEvent implements BroadcasterProvider, EventSubEvent {
     @NonNull UserInfo user;
     @NonNull UserInfo broadcaster;
     @NonNull UserInfo moderator;

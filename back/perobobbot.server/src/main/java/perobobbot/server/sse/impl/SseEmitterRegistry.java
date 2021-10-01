@@ -3,7 +3,7 @@ package perobobbot.server.sse.impl;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import perobobbot.security.com.BotUser;
+import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 
 import java.util.OptionalLong;
@@ -14,5 +14,5 @@ public interface SseEmitterRegistry {
 
     void send(ImmutableList<EventBuffer.Event> messages);
 
-    @NonNull SseEmitter createEmitter(@NonNull BotUser botUser, long lastEventId, long timeout);
+    @NonNull SseEmitter createEmitter(@NonNull User user, long lastEventId, long timeout);
 }

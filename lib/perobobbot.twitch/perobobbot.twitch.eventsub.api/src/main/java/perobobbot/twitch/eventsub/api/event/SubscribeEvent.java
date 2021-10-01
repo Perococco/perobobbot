@@ -6,7 +6,7 @@ import perobobbot.twitch.api.UserInfo;
 import perobobbot.twitch.eventsub.api.Tier;
 
 @Value
-public class SubscribeEvent implements EventSubEvent {
+public class SubscribeEvent implements BroadcasterProvider, EventSubEvent {
     @NonNull UserInfo user;
     @NonNull UserInfo broadcaster;
     @NonNull Tier tier;

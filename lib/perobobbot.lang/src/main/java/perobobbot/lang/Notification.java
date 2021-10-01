@@ -1,5 +1,5 @@
 package perobobbot.lang;
 
-public interface Notification {
+public interface Notification extends Owned {
 
 }

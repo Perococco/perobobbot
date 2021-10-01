@@ -6,7 +6,7 @@ import perobobbot.twitch.api.UserInfo;
 
 import java.time.Instant;
 
-public interface PredicationEvent extends EventSubEvent {
+public interface PredicationEvent extends BroadcasterProvider, EventSubEvent {
     @NonNull String getId();
     @NonNull UserInfo getBroadcaster();
     @NonNull String getTitle();

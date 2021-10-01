@@ -7,9 +7,10 @@ import perobobbot.twitch.api.UserInfo;
 import java.time.Instant;
 
 @Value
-public class FollowEvent implements EventSubEvent {
+public class FollowEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull UserInfo user;
     @NonNull UserInfo broadcaster;
     @NonNull Instant followedAt;
+
 }

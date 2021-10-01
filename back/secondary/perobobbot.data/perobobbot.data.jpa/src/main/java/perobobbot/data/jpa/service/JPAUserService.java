@@ -1,13 +1,13 @@
 package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.*;
 import perobobbot.data.domain.UserEntity;
-import perobobbot.data.domain.base.UserIdentification;
 import perobobbot.data.jpa.repository.UserDetailProjection;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserTokenRepository;
@@ -15,6 +15,7 @@ import perobobbot.data.service.UnsecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.PasswordEncoder;
+import perobobbot.lang.Platform;
 import perobobbot.security.com.*;
 import perobobbot.security.core.UserProvider;
 
@@ -128,5 +129,10 @@ public class JPAUserService implements UserService, UserProvider {
         user.regenerateJwtClaim();
 
         userRepository.save(user);
+    }
+
+    @Override
+    public @NonNull ImmutableSet<String> findLoginOfUsersAuthenticatedWithViewerId(@NonNull Platform platform, @NonNull String viewerId) {
+        return userRepository.getLoginOfUsersAuthenticatedWithViewerId(platform,viewerId).collect(ImmutableSet.toImmutableSet());
     }
 }

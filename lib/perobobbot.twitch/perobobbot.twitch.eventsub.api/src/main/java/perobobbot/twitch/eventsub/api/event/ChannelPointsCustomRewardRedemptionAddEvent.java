@@ -8,7 +8,7 @@ import perobobbot.twitch.api.UserInfo;
 import java.time.Instant;
 
 @Value
-public class ChannelPointsCustomRewardRedemptionAddEvent implements EventSubEvent {
+public class ChannelPointsCustomRewardRedemptionAddEvent implements BroadcasterProvider, EventSubEvent {
     @NonNull String id;
     @NonNull UserInfo broadcaster;
     @NonNull UserInfo user;

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Value
 @NonNull
-public class ChannelPointsCustomRewardAddEvent implements EventSubEvent {
+public class ChannelPointsCustomRewardAddEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull String id;
     @NonNull UserInfo broadcaster;

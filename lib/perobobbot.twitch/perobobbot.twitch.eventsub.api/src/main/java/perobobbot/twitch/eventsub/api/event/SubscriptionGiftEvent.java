@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 @Value
-public class SubscriptionGiftEvent implements EventSubEvent {
+public class SubscriptionGiftEvent implements BroadcasterProvider, EventSubEvent {
 
     UserInfo user;
     @NonNull UserInfo broadcaster;

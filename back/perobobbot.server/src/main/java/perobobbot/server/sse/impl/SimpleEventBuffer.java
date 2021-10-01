@@ -64,7 +64,7 @@ public class SimpleEventBuffer implements EventBuffer {
                                     .name(sseEvent.getEventName())
                                     .data(sseEvent.getPayload(), MediaType.TEXT_PLAIN);
 
-        return new EventBuffer.Event(id, timestamp, new FixedSseEventBuilder(event.build()));
+        return new EventBuffer.Event(id, sseEvent.getAccess(), timestamp, new FixedSseEventBuilder(event.build()));
     }
 
     @Override

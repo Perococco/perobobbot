@@ -1,6 +1,7 @@
 package perobobbot.data.security.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +11,7 @@ import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
+import perobobbot.lang.Platform;
 import perobobbot.security.com.User;
 
 import java.util.Optional;
@@ -61,5 +63,11 @@ public class SecuredUserService implements UserService {
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public void changePassword(@NonNull String login, @NonNull String newPassword) {
         delegate.changePassword(login,newPassword);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull ImmutableSet<String> findLoginOfUsersAuthenticatedWithViewerId(@NonNull Platform platform, @NonNull String viewerId) {
+        return delegate.findLoginOfUsersAuthenticatedWithViewerId(platform,viewerId);
     }
 }

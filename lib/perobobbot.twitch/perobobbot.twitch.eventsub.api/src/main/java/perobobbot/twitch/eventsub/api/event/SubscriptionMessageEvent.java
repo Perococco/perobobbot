@@ -8,7 +8,7 @@ import perobobbot.twitch.eventsub.api.Tier;
 import java.util.OptionalInt;
 
 @Value
-public class SubscriptionMessageEvent implements EventSubEvent {
+public class SubscriptionMessageEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull UserInfo user;
     @NonNull UserInfo broadcaster;

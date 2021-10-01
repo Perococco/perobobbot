@@ -8,6 +8,7 @@ import perobobbot.lang.ThreadFactories;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.Todo;
 import perobobbot.security.com.BotUser;
+import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     public final Map<UUID, EmitterData> emitters = new HashMap<>();
 
     @Override
-    public @NonNull SseEmitter createEmitter(@NonNull BotUser user, long lastEventId, long timeout) {
+    public @NonNull SseEmitter createEmitter(@NonNull User user, long lastEventId, long timeout) {
         var emitterData = register(user, lastEventId, timeout);
         EVENT_SENDER_EXECUTOR.submit(emitterData::sendConnectionMessage);
         return emitterData.getEmitter();
@@ -47,7 +48,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     }
 
 
-    private @NonNull EmitterData register(@NonNull BotUser user, long lastEventId, long timeout) {
+    private @NonNull EmitterData register(@NonNull User user, long lastEventId, long timeout) {
         final var emitterData = new EmitterData(new SseEmitter(timeout), user, lastEventId);
         final var uuid = addToMap(emitterData);
 
@@ -84,7 +85,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     @AllArgsConstructor
     private static class EmitterData {
         private final @NonNull SseEmitter emitter;
-        private final @NonNull BotUser user;
+        private final @NonNull User user;
         private long lastSentEventId;
 
 
@@ -117,9 +118,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
             if (event.getId() <= lastSentEventId) {
                 return false;
             }
-            //TODO test on user
-
-            return true;
+            return event.isAllowedToSend(user.getLogin());
         }
     }
 

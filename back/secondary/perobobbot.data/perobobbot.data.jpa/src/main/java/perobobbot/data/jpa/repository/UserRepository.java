@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import perobobbot.data.com.UnknownUser;
 import perobobbot.data.domain.UserEntity;
+import perobobbot.lang.Platform;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author perococco
@@ -41,4 +43,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                     "left join PEROBOBBOT.ROLE_OPERATION as ro on ro.ROLE_ID = r.ID " +
                     "where u.login = :login")
     List<UserDetailProjection> getUserDetail(String login);
+
+
+    @Query(value = """
+                    select u.login
+                    from UserEntity u
+                    join UserTokenEntity ur on ur.owner = u
+                    join ViewerIdentityEntity vi on vi = ur.viewerIdentity
+                    WHERE vi.platform = :platform AND vi.viewerId = :viewerId
+                    """)
+    @NonNull Stream<String> getLoginOfUsersAuthenticatedWithViewerId(@NonNull Platform platform, @NonNull String viewerId);
 }

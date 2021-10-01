@@ -5,6 +5,6 @@ import lombok.Value;
 import perobobbot.twitch.api.UserInfo;
 
 @Value
-public class StreamOfflineEvent implements EventSubEvent {
+public class StreamOfflineEvent implements BroadcasterProvider, EventSubEvent {
     @NonNull UserInfo broadcaster;
 }

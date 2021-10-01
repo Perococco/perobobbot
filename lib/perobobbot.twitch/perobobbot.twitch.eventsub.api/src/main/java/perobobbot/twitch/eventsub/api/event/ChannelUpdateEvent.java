@@ -5,7 +5,7 @@ import lombok.Value;
 import perobobbot.twitch.api.UserInfo;
 
 @Value
-public class ChannelUpdateEvent implements EventSubEvent {
+public class ChannelUpdateEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull UserInfo broadcaster;
     @NonNull String title;

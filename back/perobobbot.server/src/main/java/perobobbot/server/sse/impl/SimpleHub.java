@@ -11,6 +11,7 @@ import perobobbot.lang.Parser;
 import perobobbot.lang.ParsingFailure;
 import perobobbot.lang.fp.TryResult;
 import perobobbot.security.com.BotUser;
+import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 import perobobbot.server.sse.Hub;
 
@@ -40,18 +41,18 @@ public class SimpleHub implements Hub {
     }
 
     @Override
-    public @NonNull SseEmitter createEmitterForNewConnection(@NonNull BotUser user) {
+    public @NonNull SseEmitter createEmitterForNewConnection(@NonNull User user) {
         return this.createEmitter(user, eventBuffer.getSmallestId());
     }
 
     @Override
-    public @NonNull SseEmitter createEmitterForReconnection(@NonNull BotUser user, @NonNull String lastEventId) {
+    public @NonNull SseEmitter createEmitterForReconnection(@NonNull User user, @NonNull String lastEventId) {
         return tryParseLastEventId(lastEventId)
                 .map(id -> createEmitter(user, id))
                 .get();
     }
 
-    private @NonNull SseEmitter createEmitter(@NonNull BotUser user, long id) {
+    private @NonNull SseEmitter createEmitter(@NonNull User user, long id) {
         return emitters.createEmitter(user, id, this.timeout);
     }
 

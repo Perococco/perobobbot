@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Value
 @NonFinal
-public abstract class PollEvent implements EventSubEvent {
+public abstract class PollEvent implements BroadcasterProvider, EventSubEvent {
 
     @NonNull String id;
     @NonNull UserInfo broadcaster;

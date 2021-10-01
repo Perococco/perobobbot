@@ -5,7 +5,7 @@ import lombok.Value;
 import perobobbot.twitch.api.UserInfo;
 
 @Value
-public class ExtensionBitsTransactionCreateEvent implements EventSubEvent {
+public class ExtensionBitsTransactionCreateEvent implements BroadcasterProvider, EventSubEvent {
     @NonNull String extensionClientId;
     @NonNull String id;
     @NonNull UserInfo broadcaster;

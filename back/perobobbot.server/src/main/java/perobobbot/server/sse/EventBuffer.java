@@ -26,9 +26,13 @@ public interface EventBuffer {
     @lombok.Value
     class Event {
         long id;
+        @NonNull SSEventAccess ssEventAccess;
         @NonNull Instant timestamp;
         @NonNull FixedSseEventBuilder payload;
 
+        public boolean isAllowedToSend(String login) {
+            return ssEventAccess.isAllowed(login);
+        }
     }
 
 

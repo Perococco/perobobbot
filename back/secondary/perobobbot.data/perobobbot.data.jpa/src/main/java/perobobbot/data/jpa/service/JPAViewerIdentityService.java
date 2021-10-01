@@ -1,5 +1,6 @@
 package perobobbot.data.jpa.service;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.ViewerIdentity;
 import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.Predicate1;
+import perobobbot.security.com.BotUser;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -63,4 +65,5 @@ public class JPAViewerIdentityService implements ViewerIdentityService {
         final var identity = new ViewerIdentityEntity(platform, viewerId, newLogin, newPseudo);
         return viewerIdentityRepository.save(identity).toView();
     }
+
 }

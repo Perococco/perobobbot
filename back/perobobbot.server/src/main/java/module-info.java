@@ -66,6 +66,7 @@ module perobobbot.server {
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.sse to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.sse.transformer to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.sse.impl to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
