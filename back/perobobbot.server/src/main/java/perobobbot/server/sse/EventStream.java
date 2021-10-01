@@ -16,13 +16,13 @@ public class EventStream {
     private final Hub hub;
 
     @GetMapping("/events/sse")
-    public ResponseBodyEmitter handleSse(@AuthenticationPrincipal BotUser principal, @RequestHeader(name = "Last-Event-ID", required = false) String lastEventId) {
-        System.out.println("Connected to SSE for "+principal.getUsername());
+    public ResponseBodyEmitter handleSse(@AuthenticationPrincipal BotUser principal,
+                                         @RequestHeader(name = "Last-Event-ID", required = false) String lastEventId) {
         final SseEmitter emitter;
         if (lastEventId == null) {
-            emitter = hub.createEmitterForNewConnection();
+            emitter = hub.createEmitterForNewConnection(principal);
         } else {
-            emitter = hub.createEmitterForReconnection(lastEventId);
+            emitter = hub.createEmitterForReconnection(principal,lastEventId);
         }
         return emitter;
     }
