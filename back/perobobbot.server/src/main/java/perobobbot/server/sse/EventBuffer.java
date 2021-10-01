@@ -1,8 +1,10 @@
 package perobobbot.server.sse;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.Synchronized;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import perobobbot.server.sse.impl.FixedSseEventBuilder;
 
 import java.time.Instant;
 import java.util.List;
@@ -13,7 +15,11 @@ public interface EventBuffer {
 
     long getSmallestId();
 
-    @NonNull List<Event> getAllMessagesFrom(long firstId);
+    /**
+     * @param firstId  a message id
+     * @return an unmodifiable list containing the messages with an id above or equal to the provided 'firstId'
+     */
+    @NonNull ImmutableList<Event> getAllMessagesFrom(long firstId);
 
     void cleanBuffer();
 
@@ -21,7 +27,7 @@ public interface EventBuffer {
     class Event {
         long id;
         @NonNull Instant timestamp;
-        @NonNull SseEmitter.SseEventBuilder payload;
+        @NonNull FixedSseEventBuilder payload;
 
     }
 

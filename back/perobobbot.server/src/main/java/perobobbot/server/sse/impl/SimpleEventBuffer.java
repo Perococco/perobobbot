@@ -1,9 +1,11 @@
 package perobobbot.server.sse.impl;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -60,9 +62,9 @@ public class SimpleEventBuffer implements EventBuffer {
         final var event = SseEmitter.event()
                                     .id(String.valueOf(id))
                                     .name(sseEvent.getEventName())
-                                    .data(sseEvent.getPayload());
+                                    .data(sseEvent.getPayload(), MediaType.TEXT_PLAIN);
 
-        return new EventBuffer.Event(id, timestamp, event);
+        return new EventBuffer.Event(id, timestamp, new FixedSseEventBuilder(event.build()));
     }
 
     @Override
@@ -90,8 +92,8 @@ public class SimpleEventBuffer implements EventBuffer {
     }
 
     @Override
-    public @NonNull List<EventBuffer.Event> getAllMessagesFrom(long firstId) {
-        return lock.getLocked(() -> messages.stream().filter(m -> m.getId() >= firstId).toList());
+    public @NonNull ImmutableList<Event> getAllMessagesFrom(long firstId) {
+        return lock.getLocked(() -> messages.stream().filter(m -> m.getId() >= firstId).collect(ImmutableList.toImmutableList()));
     }
 
 
