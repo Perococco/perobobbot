@@ -10,6 +10,7 @@ import perobobbot.lang.MapTool;
 import perobobbot.lang.ThreadFactories;
 import perobobbot.lang.ThrowableTool;
 import perobobbot.lang.Todo;
+import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.UnaryOperator1;
 import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
@@ -53,14 +54,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
 
 
     private @NonNull EmitterData register(@NonNull User user, long lastEventId, long timeout) {
-        final var emitterData = new EmitterData(new SseEmitter(timeout), user, lastEventId);
-        final var uuid = addToMap(emitterData);
-
-        emitterData.getEmitter().onCompletion(() -> unregister(uuid));
-        emitterData.getEmitter().onError(t -> unregister(uuid));
-        emitterData.getEmitter().onTimeout(() -> unregister(uuid));
-
-        return emitterData;
+        return addToMap(uuid -> new EmitterData(uuid,timeout,user,lastEventId));
     }
 
     @Synchronized
@@ -69,12 +63,13 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
     }
 
     @Synchronized
-    private @NonNull UUID addToMap(@NonNull EmitterData emitterData) {
+    private @NonNull EmitterData addToMap(@NonNull Function1<UUID,EmitterData> emitterDataFactory) {
         while (true) {
             var uuid = UUID.randomUUID();
             if (!emitters.containsKey(uuid)) {
+                final var emitterData = emitterDataFactory.f(uuid);
                 updateEmitters(e -> MapTool.add(e,uuid,emitterData));
-                return uuid;
+                return emitterData;
             }
         }
     }
@@ -88,18 +83,22 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
 
 
     @Getter
-    private static class EmitterData {
+    private class EmitterData {
 
         private static final long MAX_DURATION_WITHOUT_MESSAGES = 30_000;
 
+        private final @NonNull UUID id;
         private final @NonNull SseEmitter emitter;
         private final @NonNull User user;
         private long lastSentEventId;
         private Instant timeOfLastMessageSent;
 
 
-        public EmitterData(@NonNull SseEmitter emitter, @NonNull User user, long lastSentEventId) {
-            this.emitter = emitter;
+        public EmitterData(@NonNull UUID id,
+                           long timeout,
+                           @NonNull User user, long lastSentEventId) {
+            this.id = id;
+            this.emitter = new SseEmitter(timeout);
             this.user = user;
             this.lastSentEventId = lastSentEventId;
             this.timeOfLastMessageSent = Instant.now();
@@ -112,6 +111,7 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
                                        .data("connection opened", MediaType.TEXT_PLAIN));
             } catch (Throwable e) {
                 emitter.completeWithError(e);
+                unregister(id);
             }
 
         }
@@ -140,7 +140,6 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
                 }
 
             } catch (Throwable e) {
-                e.printStackTrace();
                 emitter.completeWithError(e);
                 ThrowableTool.interruptThreadIfCausedByInterruption(e);
             }
