@@ -82,9 +82,13 @@ public class SecurityController {
         return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform, new OAuthUrlOptions(false)).getInfo();
     }
 
-    //WARNING security risk !!
-    @GetMapping(EndPoints.OAUTH + "/{id}")
-    public @NonNull JwtInfo getOpenIdUser(@PathVariable UUID id) throws Throwable {
+    /**
+     * Use post method to send the id into the body to be encrypted over tls
+     * @param id the id identifying the requested token
+     * @return the token
+     */
+    @PostMapping(EndPoints.OAUTH + "/openId")
+    public @NonNull JwtInfo getOpenIdUser(@RequestBody UUID id) throws Throwable {
         return oAuthAuthorizationCodeFlow.getOpenIdUser(id);
     }
 

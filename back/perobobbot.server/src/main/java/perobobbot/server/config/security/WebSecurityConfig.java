@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.PASSWORD_CHANGE)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_IN)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.OAUTH)).permitAll()
-            .antMatchers(HttpMethod.GET, EndPoints.fullPath(EndPoints.OAUTH+"/**")).permitAll()
+            .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.OAUTH+"/**")).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_UP)).permitAll()
             .antMatchers(EndPoints.fullPath("/**")).authenticated()
             .and()
