@@ -15,6 +15,7 @@ import perobobbot.eventsub.EventSubManager;
 import perobobbot.lang.CommonConfig;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
+import perobobbot.lang.ThrowableTool;
 import perobobbot.server.config.externaluri.ExternalURIProvider;
 import reactor.core.publisher.Mono;
 
@@ -38,11 +39,16 @@ public class SubscriptionSynchronizer {
         if (CommonConfig.isNoSubscriptionSync()) {
             return;
         }
-        Mono.when(Platform.stream()
-                          .filter(eventSubManager::isPlatformManaged)
-                          .map(this::synchronizePlatform)
-                          .toList())
-            .subscribe();
+        try {
+            Mono.when(Platform.stream()
+                              .filter(eventSubManager::isPlatformManaged)
+                              .map(this::synchronizePlatform)
+                              .toList())
+                .subscribe();
+        } catch (Throwable t) {
+            ThrowableTool.interruptThreadIfCausedByInterruption(t);
+            LOG.error("Subscription synchronization failed : {}",t.getMessage());
+        }
 
     }
 

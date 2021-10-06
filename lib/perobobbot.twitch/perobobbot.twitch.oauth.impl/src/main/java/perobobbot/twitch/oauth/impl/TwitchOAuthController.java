@@ -23,10 +23,14 @@ public class TwitchOAuthController implements OAuthController {
             TwitchScope.CHANNEL_MANAGE_REDEMPTIONS,
             TwitchScope.CHANNEL_MANAGE_POLLS,
             TwitchScope.CHANNEL_MANAGE_PREDICTIONS,
+            TwitchScope.CHAT_READ,
+            TwitchScope.CHAT_EDIT,
 
             TwitchScope.BITS_READ,
             TwitchScope.CHANNEL_READ_REDEMPTIONS,
-            TwitchScope.USER_READ_BROADCAST
+            TwitchScope.USER_READ_BROADCAST,
+            TwitchScope.CHANNEL_READ_SUBSCRIPTIONS,
+            TwitchScope.USER_READ_FOLLOWS
     );
 
     public static final String TWITCH_OAUTH_PATH = "/twitch/oauth";
