@@ -1,6 +1,5 @@
 package perobobbot.server.sse.transformer;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.MessageContext;

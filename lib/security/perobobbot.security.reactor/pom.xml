@@ -5,45 +5,37 @@
     <parent>
         <groupId>perobobbot</groupId>
         <artifactId>perobobbot-lib</artifactId>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <version>1.0.1-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>perobobbot-http</artifactId>
+    <artifactId>perobobbot-security-reactor</artifactId>
 
     <name>${application.name}: ${module.name} - ${submodule.name}</name>
 
     <properties>
-        <submodule.name>Http</submodule.name>
+        <submodule.name>Security Reactor</submodule.name>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>perobobbot</groupId>
-            <artifactId>perobobbot-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-oauth</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webflux</artifactId>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
 

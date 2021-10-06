@@ -16,6 +16,8 @@ import java.util.UUID;
  */
 public interface SubscriptionService {
 
+    static int VERSION = 1;
+
     /**
      * @param login the login of the user
      * @return all the subscriptions made by the user with the provided login

@@ -34,6 +34,7 @@ module perobobbot.server {
     requires perobobbot.spring;
     requires perobobbot.messaging;
     requires perobobbot.security.com;
+    requires perobobbot.security.reactor;
     requires perobobbot.http;
     requires perobobbot.eventsub;
     requires perobobbot.oauth;
@@ -66,7 +67,7 @@ module perobobbot.server {
     opens perobobbot.server to spring.core,spring.beans,spring.context, spring.web;
 
     opens perobobbot.server.sse to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
-    opens perobobbot.server.sse.transformer to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
+    opens perobobbot.server.sse.transformer to spring.core,spring.beans,spring.context, spring.web, spring.messaging, com.fasterxml.jackson.databind;
     opens perobobbot.server.sse.impl to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.config to spring.core,spring.beans,spring.context, spring.web, spring.messaging;
     opens perobobbot.server.oauth to spring.core,spring.beans,spring.context, spring.web, spring.messaging;

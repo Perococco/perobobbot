@@ -16,7 +16,7 @@ public class DefaultPayloadConstructor {
 
     public @NonNull String createPayload(@NonNull Object event) {
         try {
-            return mapper.writeValueAsString(event);
+            return mapper.writeValueAsString(new Payload(event));
         } catch (JsonProcessingException e) {
             throw new UncheckedIOException(e);
         }

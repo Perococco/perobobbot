@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface UserService {
 
+    int VERSION = 1;
+
     /**
      * @param login the login of the user to search
      * @return the user with the provided login

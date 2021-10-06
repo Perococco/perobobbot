@@ -69,12 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
 
         http.authorizeRequests()
-            .antMatchers("/ws-perobobbot/**").authenticated()
+//            .antMatchers("/ws-perobobbot/**").authenticated()
             .antMatchers(HttpMethod.GET,"/events/sse").authenticated()
             .antMatchers(HttpMethod.GET,"/api/ping").permitAll()
             .antMatchers(HttpMethod.GET,"/api/plugin/**").permitAll()
             .antMatchers(HttpMethod.GET,"/api/dictionaries/**").permitAll()
-            .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.PASSWORD_CHANGE)).permitAll()
+            .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.PASSWORD_CHANGE)).authenticated()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.SIGN_IN)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.OAUTH)).permitAll()
             .antMatchers(HttpMethod.POST, EndPoints.fullPath(EndPoints.OAUTH+"/**")).permitAll()

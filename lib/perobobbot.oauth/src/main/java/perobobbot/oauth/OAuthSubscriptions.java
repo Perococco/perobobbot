@@ -93,6 +93,9 @@ public class OAuthSubscriptions {
         return Optional.ofNullable(sub);
     }
 
+    /**
+     * Called when the server send its OAuth result (accepted or denied)
+     */
     private void onCall(@NonNull String path,
                         @NonNull RequestMethod method,
                         @NonNull HttpServletRequest request,

@@ -2,12 +2,15 @@ package perobobbot.server.config.security;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.UserAuthenticator;
 import perobobbot.server.config.security.jwt.JwtAuthentication;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +35,12 @@ public class BasicUserAuthenticator implements UserAuthenticator {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public @NonNull Optional<String> authenticatedLogin() {
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                       .map(Authentication::getName);
     }
 
     @Override

@@ -98,6 +98,10 @@
         </dependency>
         <dependency>
             <groupId>perobobbot</groupId>
+            <artifactId>perobobbot-security-reactor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>perobobbot</groupId>
             <artifactId>perobobbot-access</artifactId>
         </dependency>
         <dependency>

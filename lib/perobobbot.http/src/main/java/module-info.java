@@ -9,6 +9,7 @@ module perobobbot.http {
     requires java.servlet;
     requires com.google.common;
     requires reactor.core;
+    requires spring.security.core;
 
     exports perobobbot.http;
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 
-public class UnknownExtension extends DataException{
+public class UnknownExtension extends DataException {
 
     @Getter
     private final @NonNull String extensionName;
@@ -13,4 +13,5 @@ public class UnknownExtension extends DataException{
         super("No extension with name '"+extensionName+"' exists.");
         this.extensionName = extensionName;
     }
+
 }

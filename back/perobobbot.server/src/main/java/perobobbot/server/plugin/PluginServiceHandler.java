@@ -38,7 +38,11 @@ public class PluginServiceHandler implements InvocationHandler {
         try {
             return method.invoke(delegate, args);
         } finally {
-            context.setAuthentication(authentication);
+            if (authentication == null) {
+                SecurityContextHolder.clearContext();
+            } else {
+                context.setAuthentication(authentication);
+            }
         }
     }
 

@@ -12,6 +12,7 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PluginService;
 import perobobbot.lang.SubscriptionData;
 
 import java.util.Optional;

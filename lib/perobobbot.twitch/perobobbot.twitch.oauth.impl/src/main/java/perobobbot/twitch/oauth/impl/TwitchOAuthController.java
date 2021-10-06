@@ -20,17 +20,12 @@ import java.util.concurrent.CompletionStage;
 public class TwitchOAuthController implements OAuthController {
 
     public static final ImmutableSet<TwitchScope> DEFAULT_SCOPES = ImmutableSet.of(
+            TwitchScope.CHANNEL_MANAGE_REDEMPTIONS,
             TwitchScope.CHANNEL_MANAGE_POLLS,
             TwitchScope.CHANNEL_MANAGE_PREDICTIONS,
-            TwitchScope.CHANNEL_MANAGE_REDEMPTIONS,
-            TwitchScope.CHANNEL_MANAGE_BROADCAST,
 
             TwitchScope.BITS_READ,
-            TwitchScope.CHANNEL_READ_HYPE_TRAIN,
             TwitchScope.CHANNEL_READ_REDEMPTIONS,
-            TwitchScope.CHANNEL_READ_SUBSCRIPTIONS,
-            TwitchScope.USER_READ_EMAIL,
-            TwitchScope.MODERATION_READ,
             TwitchScope.USER_READ_BROADCAST
     );
 

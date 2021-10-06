@@ -220,6 +220,11 @@
                 <artifactId>perobobbot-security-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-security-reactor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>perobobbot</groupId>

@@ -36,6 +36,7 @@
         <module>perobobbot.spring</module>
         <module>security/perobobbot.security.com</module>
         <module>security/perobobbot.security.core</module>
+        <module>security/perobobbot.security.reactor</module>
 
         <module>chat/perobobbot.chat.core</module>
         <module>chat/perobobbot.chat.advanced</module>

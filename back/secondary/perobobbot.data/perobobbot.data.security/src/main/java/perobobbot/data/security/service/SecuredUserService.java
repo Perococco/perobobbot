@@ -8,10 +8,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
+import perobobbot.data.service.BankService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PluginService;
 import perobobbot.security.com.User;
 
 import java.util.Optional;
@@ -19,6 +21,7 @@ import java.util.Optional;
 @Service
 @SecuredService
 @RequiredArgsConstructor
+@PluginService(type = UserService.class, apiVersion = UserService.VERSION,sensitive = true)
 public class SecuredUserService implements UserService {
 
     private final @NonNull@EventService UserService delegate;

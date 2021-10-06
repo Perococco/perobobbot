@@ -79,7 +79,7 @@ public class SecurityController {
 
     @PostMapping(EndPoints.OAUTH)
     public @NonNull OAuthInfo oauthWith(@RequestBody Platform openIdPlatform) {
-        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform, new OAuthUrlOptions(false)).getInfo();
+        return oAuthAuthorizationCodeFlow.oauthWith(openIdPlatform, new OAuthUrlOptions(true)).getInfo();
     }
 
     /**

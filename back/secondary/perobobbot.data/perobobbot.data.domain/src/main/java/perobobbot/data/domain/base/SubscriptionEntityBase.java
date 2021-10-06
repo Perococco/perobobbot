@@ -30,13 +30,6 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     private @NonNull Platform platform;
 
     /**
-     * The id of the subscription. This is the id returned by the platform
-     */
-    @Column(name = "SUBSCRIPTION_ID",nullable = false,unique = true)
-    @NotBlank
-    private @NonNull String subscriptionId = "";
-
-    /**
      * The type of the subscription (see subscription doc for each platform)
      */
     @Column(name = "TYPE",nullable = false)
@@ -44,10 +37,15 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     private @NonNull String type = "";
 
     /**
+     * The id of the subscription. This is the id returned by the platform
+     */
+    @Column(name = "SUBSCRIPTION_ID",nullable = false)
+    private @NonNull String subscriptionId = "";
+
+    /**
      * The type of the subscription (see subscription doc for each platform)
      */
     @Column(name = "CALLBACK_URL",nullable = false)
-    @NotBlank
     private @NonNull String callbackUrl = "";
 
     /**

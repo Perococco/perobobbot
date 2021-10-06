@@ -106,7 +106,8 @@ public class DefaultSseEmitterRegistry implements SseEmitterRegistry {
 
         public void sendConnectionMessage() {
             try {
-                emitter.send(SseEmitter.event().id(String.valueOf(lastSentEventId))
+                emitter.send(SseEmitter.event()
+                                       .id(String.valueOf(lastSentEventId))
                                        .name("message")
                                        .data("connection opened", MediaType.TEXT_PLAIN));
             } catch (Throwable e) {
