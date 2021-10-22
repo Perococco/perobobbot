@@ -21,6 +21,9 @@ public interface UserTokenRepository extends JpaRepository<UserTokenEntity,Long>
                                                                                                              @NonNull String viewerId,
                                                                                                              @NonNull Platform platform);
 
+    @NonNull Stream<UserTokenEntity> findByViewerIdentity_ViewerIdAndViewerIdentity_Platform(@NonNull String viewerId, @NonNull Platform platform);
+    @NonNull Stream<UserTokenEntity> findByViewerIdentity_ViewerIdAndViewerIdentity_PlatformAndScopesContains(@NonNull String viewerId, @NonNull Platform platform, @NonNull String scope);
+
     @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
     @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
 

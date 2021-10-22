@@ -11,6 +11,7 @@ public interface TokenIdentifier  {
 
         @NonNull T visit(@NonNull ChatTokenIdentifier tokenIdentifier);
         @NonNull T visit(@NonNull LoginTokenIdentifier tokenIdentifier);
+        @NonNull T visit(@NonNull BroadcasterIdentifier tokenIdentifier);
 
         @Override
         @NonNull

@@ -16,23 +16,20 @@ import java.util.Optional;
 public class UserTokenViewGetter {
 
     public static Optional<DecryptedUserTokenView> getToken(
-            @NonNull OAuthService oAuthService,
-            @NonNull Platform platform,
-            @NonNull String login,
-            @NonNull UserOAuth scopeRequirements) {
-        return new UserTokenViewGetter(oAuthService, platform, login, scopeRequirements).getToken();
-    }
-
-    public static Function1<String,Optional<DecryptedUserTokenView>> createTokenGetter(
-            @NonNull OAuthService oAuthService,
+            @NonNull BasicOAuthService oAuthService,
             @NonNull Platform platform,
             @NonNull UserOAuth scopeRequirements) {
-        return login -> getToken(oAuthService, platform, login, scopeRequirements);
+        return new UserTokenViewGetter(oAuthService, platform, scopeRequirements).getToken();
     }
 
-    private final @NonNull OAuthService oAuthService;
+    public static Function1<BasicOAuthService,Optional<DecryptedUserTokenView>> createTokenGetter(
+            @NonNull Platform platform,
+            @NonNull UserOAuth scopeRequirements) {
+        return oAuthService -> getToken(oAuthService, platform, scopeRequirements);
+    }
+
+    private final @NonNull BasicOAuthService oAuthService;
     private final @NonNull Platform platform;
-    private final @NonNull String login;
     private final @NonNull UserOAuth scopeRequirements;
 
     private DecryptedUserTokenView token = null;
@@ -47,14 +44,14 @@ public class UserTokenViewGetter {
         if (token == null) {
             final var scope = scopeRequirements.scope();
             if (!scope.isEmpty()) {
-                token = oAuthService.findUserMainToken(login, platform, Scope.basic(scope)).orElse(null);
+                token = oAuthService.findUserTokenView(platform, Scope.basic(scope)).orElse(null);
             }
         }
     }
 
     private void retrieveWithoutScopeIfNecessary() {
         if (token == null && scopeRequirements.optional()) {
-            token = oAuthService.findUserMainToken(login, platform).orElse(null);
+            token = oAuthService.findUserTokenView(platform).orElse(null);
         }
     }
 

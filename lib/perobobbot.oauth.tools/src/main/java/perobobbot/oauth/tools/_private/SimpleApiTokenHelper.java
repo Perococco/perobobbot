@@ -12,7 +12,7 @@ import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.*;
 import perobobbot.oauth.tools.ApiTokenHelper;
-import perobobbot.oauth.tools.LoginGetter;
+import perobobbot.oauth.tools.BasicOAuthService;
 import perobobbot.oauth.tools.UserTokenViewGetter;
 
 import java.util.Optional;
@@ -97,16 +97,45 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
             LOG.warn(Markers.OAUTH_MARKER, "TokenIdentifier missing for UserOAuth");
             return;
         }
-        final var tokenGetter = UserTokenViewGetter.createTokenGetter(oAuthService, platform, userOAuth);
-        final var userToken = new LoginGetter(botService).f(tokenIdentifier)
-                                                         .flatMap(tokenGetter)
-                                                         .orElse(null);
+        final var userToken = new BasicOAuthServiceGetter(oAuthService).f(tokenIdentifier)
+                                                                       .flatMap(UserTokenViewGetter.createTokenGetter(platform, userOAuth))
+                                                                       .orElse(null);
+
 
         if (userToken != null) {
             LOG.debug(Markers.OAUTH_MARKER, "Use user token {}", userToken.getId());
             this.userTokenView = userToken;
         } else {
             LOG.debug(Markers.OAUTH_MARKER, "No user token found");
+        }
+    }
+
+    @RequiredArgsConstructor
+    private class BasicOAuthServiceGetter implements TokenIdentifier.Visitor<Optional<BasicOAuthService>> {
+
+        private final OAuthService oAuthService;
+
+        @Override
+        public @NonNull Optional<BasicOAuthService> visit(@NonNull ChatTokenIdentifier tokenIdentifier) {
+            if (tokenIdentifier.getPlatform() != platform) {
+                return Optional.empty();
+            }
+            return botService.findLoginOfBotOwner(tokenIdentifier.getBotId())
+                             .map(login -> new LoginBaseBasicOauthService(oAuthService, login));
+        }
+
+        @Override
+        public @NonNull Optional<BasicOAuthService> visit(@NonNull LoginTokenIdentifier tokenIdentifier) {
+            return Optional.of(new LoginBaseBasicOauthService(oAuthService, tokenIdentifier.getLogin()));
+        }
+
+        @Override
+        public @NonNull Optional<BasicOAuthService> visit(@NonNull BroadcasterIdentifier tokenIdentifier) {
+            if (tokenIdentifier.getPlatform() != platform) {
+                return Optional.empty();
+            }
+
+            return Optional.of(new BroadcasterBaseBasicOauthService(oAuthService, tokenIdentifier.getBroadcasterId()));
         }
     }
 }

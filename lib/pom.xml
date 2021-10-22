@@ -29,6 +29,7 @@
         <module>perobobbot.messaging</module>
         <module>perobobbot.command</module>
         <module>perobobbot.extension</module>
+        <module>perobobbot.endpoint</module>
         <module>perobobbot.http</module>
         <module>perobobbot.eventsub</module>
         <module>perobobbot.oauth</module>

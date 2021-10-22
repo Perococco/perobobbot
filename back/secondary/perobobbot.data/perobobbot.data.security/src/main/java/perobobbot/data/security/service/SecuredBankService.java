@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 @SecuredService
 @RequiredArgsConstructor
-@PluginService(type = BankService.class, apiVersion = BankService.VERSION,sensitive = true)
 public class SecuredBankService implements BankService {
 
     private final @NonNull @EventService BankService delegate;

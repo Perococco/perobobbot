@@ -68,8 +68,10 @@ public class SubscriptionSynchronizer {
 
         final var match = Matcher.match(onPlatform, persisted);
 
+        if (match.hasAnyChange()) {
+            LOG.info("Synchronize Subscriptions : Rf:{} Up:{} Rk:{}",match.getToRefreshSubs().size(), match.getToUpdateSubs().size(), match.getToRevokeSubs().size());
+        }
 
-        LOG.info("Synchronize Subscriptions : Rf:{} Up:{} Rk:{}",match.getToRefreshSubs().size(), match.getToUpdateSubs().size(), match.getToRevokeSubs().size());
 
 
         final List<Mono<Nil>> todo = new ArrayList<>();

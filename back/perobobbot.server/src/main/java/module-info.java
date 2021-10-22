@@ -33,6 +33,7 @@ module perobobbot.server {
     requires perobobbot.extension;
     requires perobobbot.spring;
     requires perobobbot.messaging;
+    requires perobobbot.endpoint;
     requires perobobbot.security.com;
     requires perobobbot.security.reactor;
     requires perobobbot.http;

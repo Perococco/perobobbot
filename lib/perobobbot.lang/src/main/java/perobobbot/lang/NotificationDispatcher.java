@@ -12,4 +12,5 @@ public interface NotificationDispatcher {
      */
     @NonNull Subscription addListener(@NonNull NotificationListener messageListener);
 
+    void sendNotification(@NonNull Notification notification);
 }

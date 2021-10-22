@@ -1,6 +1,7 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
+import perobobbot.lang.fp.Function0;
 
 import java.util.Optional;
 
@@ -27,5 +28,14 @@ public class OAuthContext implements OAuthTokenIdentifierSetter {
     }
 
 
-
+    @Override
+    public <T> @NonNull T wrapCall(@NonNull TokenIdentifier tokenIdentifier, @NonNull Function0<T> call) {
+        final TokenIdentifier current = this.tokenIdentifier;
+        try {
+            this.tokenIdentifier = tokenIdentifier;
+            return call.f();
+        } finally {
+            this.tokenIdentifier = current;
+        }
+    }
 }

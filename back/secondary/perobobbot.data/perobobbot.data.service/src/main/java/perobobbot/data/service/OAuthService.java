@@ -40,6 +40,9 @@ public interface OAuthService {
     @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform);
     @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope);
 
+    @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform);
+    @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform, Scope requiredScope);
+
 
     void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId, @NonNull Token token);
 
@@ -58,4 +61,5 @@ public interface OAuthService {
     void deleteUserToken(@NonNull UUID tokenId);
 
     void deleteClientToken(@NonNull UUID uuid);
+
 }

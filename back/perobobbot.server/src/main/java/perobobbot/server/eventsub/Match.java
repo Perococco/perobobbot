@@ -19,4 +19,8 @@ public class Match {
     private final @NonNull ImmutableMap<UUID, SubscriptionIdentity> toUpdateSubs;
     @Singular
     private final @NonNull ImmutableList<SubscriptionView> toRefreshSubs;
+
+    public boolean hasAnyChange() {
+        return !toRevokeSubs.isEmpty() || !toUpdateSubs.isEmpty() || !toRefreshSubs.isEmpty();
+    }
 }

@@ -39,7 +39,7 @@
 
         <hibernate.version>5.5.0.Final</hibernate.version>
         <velocity.version>2.3</velocity.version>
-        <jplugman.version>2.0.5</jplugman.version>
+        <jplugman.version>2.0.6</jplugman.version>
 
     </properties>
 
@@ -213,6 +213,11 @@
             <dependency>
                 <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-endpoint</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -533,6 +538,17 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
@@ -589,6 +605,10 @@
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>

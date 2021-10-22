@@ -1,11 +1,14 @@
 package perobobbot.lang;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import perobobbot.lang.fp.Consumer1;
 import perobobbot.lang.fp.Consumer2;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author perococco
@@ -13,7 +16,9 @@ import perobobbot.lang.fp.Consumer2;
 @Log4j2
 public class Listeners<L> {
 
-    private ImmutableList<L> listeners = ImmutableList.of();
+    private static final AtomicLong ID_GENERATOR = new AtomicLong(0);
+
+    private ImmutableMap<Long,L> listeners = ImmutableMap.of();
 
 
     public <P> void warnListeners(@NonNull Consumer2<? super L, ? super P> action, @NonNull P parameter) {
@@ -21,7 +26,7 @@ public class Listeners<L> {
     }
 
     public void warnListeners(@NonNull Consumer1<? super L> action) {
-        listeners.forEach(l -> {
+        listeners.values().forEach(l -> {
             try {
                 action.accept(l);
             } catch (Exception t) {
@@ -33,12 +38,16 @@ public class Listeners<L> {
 
     @Synchronized
     public Subscription addListener(@NonNull L listener) {
-        this.listeners = ListTool.addLast(listeners,listener);
-        return () -> removeListener(listener);
+        final var id = ID_GENERATOR.incrementAndGet();
+        final var builder = ImmutableMap.<Long,L>builder();
+        builder.putAll(listeners);
+        builder.put(id,listener);
+        listeners = builder.build();
+        return () -> removeListener(id);
     }
 
     @Synchronized
-    private void removeListener(@NonNull L listener) {
-        this.listeners = ListTool.removeLast(listeners,listener);
+    private void removeListener(long id) {
+        this.listeners = MapTool.remove(listeners, id);
     }
 }

@@ -7,8 +7,6 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.IdentityInfo;
 import perobobbot.lang.Notification;
-import perobobbot.lang.SetTool;
-import perobobbot.security.com.User;
 import perobobbot.server.sse.SSEventAccess;
 
 @Component
@@ -36,7 +34,7 @@ public class NotificationTransformer extends BaseEventTransformer<Notification> 
     }
 
     private @NonNull ImmutableSet<String> getBotUserFromIdentityInfo(@NonNull IdentityInfo info) {
-        return userService.findLoginOfUsersAuthenticatedWithViewerId(info.getGetPlatform(), info.getGetViewerId());
+        return userService.findLoginOfUsersAuthenticatedWithViewerId(info.getPlatform(), info.getViewerId());
     }
 
 

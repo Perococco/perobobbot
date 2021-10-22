@@ -23,10 +23,11 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @SecuredService
-@PluginService(type = OAuthService.class, apiVersion = OAuthService.VERSION,sensitive = true)
+@PluginService(type = OAuthService.class, apiVersion = OAuthService.VERSION, sensitive = true)
 public class SecuredOAuthService implements OAuthService {
 
-    private final @EventService OAuthService delegate;
+    private final @EventService
+    OAuthService delegate;
 
 
     @Override
@@ -59,13 +60,13 @@ public class SecuredOAuthService implements OAuthService {
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
-        return delegate.findUserToken(login,platform);
+        return delegate.findUserToken(login, platform);
     }
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
-        return delegate.findUserToken(login,platform,requiredScope);
+        return delegate.findUserToken(login, platform, requiredScope);
     }
 
     @Override
@@ -105,7 +106,7 @@ public class SecuredOAuthService implements OAuthService {
     @Override
     @PreAuthorize("hasRole('ADMIN') || authentication.name == #login")
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login, @NonNull Platform platform) {
-        return delegate.createUserToken(login,platform);
+        return delegate.createUserToken(login, platform);
     }
 
     @Override
@@ -142,5 +143,17 @@ public class SecuredOAuthService implements OAuthService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteClientToken(@NonNull UUID uuid) {
         delegate.deleteClientToken(uuid);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform) {
+        return delegate.findUserTokenByViewerId(broadcasterId, platform);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform, Scope requiredScope) {
+        return delegate.findUserTokenByViewerId(broadcasterId, platform, requiredScope);
     }
 }

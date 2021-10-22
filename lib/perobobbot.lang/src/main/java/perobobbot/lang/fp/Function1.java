@@ -25,6 +25,7 @@ public interface Function1<A,R> extends Function<A,R> {
     }
 
 
+
     @NonNull
     R f(@NonNull A a);
 
