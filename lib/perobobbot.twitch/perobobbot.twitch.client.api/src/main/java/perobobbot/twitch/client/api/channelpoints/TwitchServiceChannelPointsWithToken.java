@@ -3,6 +3,8 @@ package perobobbot.twitch.client.api.channelpoints;
 import lombok.NonNull;
 import perobobbot.http.Page;
 import perobobbot.oauth.UserApiToken;
+import perobobbot.oauth.UserOAuth;
+import perobobbot.twitch.api.RewardRedemptionStatus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,4 +21,7 @@ public interface TwitchServiceChannelPointsWithToken {
     @NonNull Mono<CustomReward> updateCustomReward(@NonNull UserApiToken userApiToken, @NonNull String customRewardId, @NonNull UpdateCustomRewardParameter parameter);
 
     @NonNull Mono<CustomRewardRedemption[]> updateRedemptionStatus(@NonNull UserApiToken userApiToken, @NonNull String rewardId, @NonNull String[] redemptionsId, @NonNull UpdateRedemptionStatus parameter);
+
+    @NonNull Mono<CustomRewardRedemption> updateOneRedemptionStatus(@NonNull UserApiToken userApiToken, @NonNull String rewardId, @NonNull String redemptionId, @NonNull RewardRedemptionStatus redemptionStatus);
+
 }

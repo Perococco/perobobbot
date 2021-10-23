@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.http.Page;
 import perobobbot.oauth.OAuthWebClientFactory;
 import perobobbot.oauth.UserApiToken;
+import perobobbot.twitch.api.RewardRedemptionStatus;
 import perobobbot.twitch.client.api.QueryParameterBuilder;
 import perobobbot.twitch.client.api.channelpoints.*;
 import reactor.core.publisher.Flux;
@@ -107,5 +108,11 @@ public class WebClientTwitchServiceChannelPoints implements TwitchServiceChannel
                 .retrieve()
                 .bodyToMono(RedemptionsResponse.class)
                 .map(r -> r.getData());
+    }
+
+    @Override
+    public @NonNull Mono<CustomRewardRedemption> updateOneRedemptionStatus(@NonNull UserApiToken userApiToken, @NonNull String rewardId, @NonNull String redemptionId, @NonNull RewardRedemptionStatus redemptionStatus) {
+        return updateRedemptionStatus(userApiToken, rewardId, new String[]{redemptionId},new UpdateRedemptionStatus(redemptionStatus))
+                .map(r -> r[0]);
     }
 }

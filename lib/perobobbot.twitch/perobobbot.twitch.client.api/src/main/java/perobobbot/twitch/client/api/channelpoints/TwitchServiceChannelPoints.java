@@ -3,6 +3,7 @@ package perobobbot.twitch.client.api.channelpoints;
 import lombok.NonNull;
 import perobobbot.http.Page;
 import perobobbot.oauth.UserOAuth;
+import perobobbot.twitch.api.RewardRedemptionStatus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,11 +19,15 @@ public interface TwitchServiceChannelPoints {
     @NonNull Flux<CustomReward> getCustomReward(@NonNull GetCustomRewardsParameter parameter);
 
     @UserOAuth(scope = "channel:read:redemptions")
-    @NonNull Mono<Page<CustomRewardRedemption[],GetCustomRewardRedemptionParameter>> getCustomRewardRedemption(@NonNull GetCustomRewardRedemptionParameter parameter);
+    @NonNull Mono<Page<CustomRewardRedemption[], GetCustomRewardRedemptionParameter>> getCustomRewardRedemption(@NonNull GetCustomRewardRedemptionParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
     @NonNull Mono<CustomReward> updateCustomReward(@NonNull String customRewardId, @NonNull UpdateCustomRewardParameter parameter);
 
     @UserOAuth(scope = "channel:manage:redemptions")
     @NonNull Mono<CustomRewardRedemption[]> updateRedemptionStatus(@NonNull String rewardId, @NonNull String[] redemptionsId, @NonNull UpdateRedemptionStatus parameter);
+
+    @UserOAuth(scope = "channel:manage:redemptions")
+    @NonNull Mono<CustomRewardRedemption> updateOneRedemptionStatus(@NonNull String rewardId, @NonNull String redemptionId, @NonNull RewardRedemptionStatus redemptionStatus);
+
 }
