@@ -2,6 +2,7 @@ package perobobbot.data.jpa.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.jpa.repository.SafeRepository;
@@ -53,7 +54,7 @@ public class JPABankService implements BankService {
 
     @Override
     @Transactional
-    public @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, int amount) {
+    public @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, long amount) {
         final var safe = safeRepository.getByUuid(safeId);
         safe.addToAmount(pointType,amount);
         return safeRepository.save(safe).toBalance(pointType);
@@ -74,6 +75,7 @@ public class JPABankService implements BankService {
 
     @Override
     @Transactional
+    @Scheduled(fixedDelay = 10_000)
     public void cleanTransactions() {
         final var now = instants.now();
         final var transactions = transactionRepository.findAllByStateEqualsAndExpirationTimeBefore(

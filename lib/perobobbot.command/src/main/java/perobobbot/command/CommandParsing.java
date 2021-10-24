@@ -73,6 +73,15 @@ public interface CommandParsing {
     }
 
 
+    default @NonNull Optional<Long> findLongParameter(@NonNull String parameterName) {
+        return findParameter(parameterName,Parser.PARSE_LONG);
+    }
+
+    default long getLongParameter(@NonNull String parameterName) {
+        return getParameter(parameterName,Parser.PARSE_LONG);
+    }
+
+
     default @NonNull Optional<Double> findDoubleParameter(@NonNull String parameterName) {
         return findParameter(parameterName,Parser.PARSE_DOUBLE);
     }

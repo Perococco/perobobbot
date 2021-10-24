@@ -80,7 +80,7 @@ public class SafeEntityBase extends PersistentObjectWithUUID {
             return;
         }
         final var balance = getBalance(pointType);
-        this.credits.put(pointType, balance + amountToAdd);
+        this.credits.put(pointType, Math.addExact(balance , amountToAdd));
     }
 
 

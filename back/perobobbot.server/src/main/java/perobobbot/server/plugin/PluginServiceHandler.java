@@ -12,6 +12,7 @@ import perobobbot.security.com.User;
 import perobobbot.server.config.security.jwt.JwtAuthentication;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Locale;
@@ -23,7 +24,7 @@ public class PluginServiceHandler implements InvocationHandler {
         if (!type.isInterface()) {
             return service;
         }
-        return type.cast(Proxy.newProxyInstance(service.getClass().getClassLoader(),new Class[]{type},new PluginServiceHandler(service)));
+        return type.cast(Proxy.newProxyInstance(service.getClass().getClassLoader(), new Class[]{type}, new PluginServiceHandler(service)));
     }
 
     private final @NonNull Object delegate;
@@ -37,6 +38,8 @@ public class PluginServiceHandler implements InvocationHandler {
         }
         try {
             return method.invoke(delegate, args);
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
         } finally {
             if (authentication == null) {
                 SecurityContextHolder.clearContext();

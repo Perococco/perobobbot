@@ -41,7 +41,7 @@ public class SecuredBankService implements BankService {
 
     @Override
     @PreAuthorize("isAuthenticated()")
-    public @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, int amount) {
+    public @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, long amount) {
         return delegate.addPoints(safeId, pointType, amount);
     }
 

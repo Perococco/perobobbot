@@ -33,7 +33,7 @@ public interface BankService {
      */
     @NonNull Safe getSafe(@NonNull UUID uuid);
 
-    @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, int amount);
+    @NonNull Balance addPoints(@NonNull UUID safeId, @NonNull PointType pointType, long amount);
 
     @NonNull TransactionInfo createTransaction(@NonNull UUID safeId, @NonNull PointType pointType, long requestedAmount, @NonNull Duration duration);
 
