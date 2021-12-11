@@ -107,7 +107,7 @@ public class WebClientTwitchServiceChannelPoints implements TwitchServiceChannel
                 .body(Mono.just(parameter),UpdateRedemptionStatus.class)
                 .retrieve()
                 .bodyToMono(RedemptionsResponse.class)
-                .map(r -> r.getData());
+                .map(RedemptionsResponse::getData);
     }
 
     @Override
