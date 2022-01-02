@@ -13,7 +13,6 @@ import perobobbot.lang.ApplicationCloser;
 import perobobbot.lang.OSInfo;
 import perobobbot.lang.Packages;
 import perobobbot.lang.fp.Predicate1;
-import perobobbot.lang.fp.Value2;
 
 import java.awt.*;
 import java.nio.file.Path;
@@ -113,9 +112,7 @@ public class SpringLauncher {
             final boolean headless = GraphicsEnvironment.isHeadless();
             application = new SpringApplication(applicationClasses);
             application.setHeadless(headless);
-            application.addInitializers(app -> {
-                app.getBeanFactory().registerSingleton("__closer", createCloser(app));
-            });
+            application.addInitializers(app -> app.getBeanFactory().registerSingleton("__closer", createCloser(app)));
             application.addInitializers(initializers);
             application.setBannerMode(bannerMode);
         }

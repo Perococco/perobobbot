@@ -3,7 +3,6 @@ package perobobbot.oauth.tools;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
 import perobobbot.lang.fp.Function1;

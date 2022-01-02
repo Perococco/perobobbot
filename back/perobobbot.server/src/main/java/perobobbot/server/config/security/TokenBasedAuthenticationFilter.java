@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import perobobbot.lang.ThrowableTool;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtAuthentication;
 
@@ -25,7 +24,7 @@ public abstract class TokenBasedAuthenticationFilter extends OncePerRequestFilte
     private final @NonNull JWTokenManager jwTokenManager;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         retrieveAccessTokenFromRequest(request)
                 .ifPresent(this::performAuthentication);
 

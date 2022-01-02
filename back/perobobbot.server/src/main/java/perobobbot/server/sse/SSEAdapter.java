@@ -6,10 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.*;
-import perobobbot.server.sse.transformer.ApplicationEventTransformer;
-import perobobbot.server.sse.transformer.EventTransformer;
-import perobobbot.server.sse.transformer.MessageTransformer;
-import perobobbot.server.sse.transformer.NotificationTransformer;
 
 /**
  * Adapter to convert application messages to Server Side Events

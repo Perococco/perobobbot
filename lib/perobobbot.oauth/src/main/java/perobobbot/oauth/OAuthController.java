@@ -1,14 +1,10 @@
 package perobobbot.oauth;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import lombok.NonNull;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 
-import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 public interface OAuthController {

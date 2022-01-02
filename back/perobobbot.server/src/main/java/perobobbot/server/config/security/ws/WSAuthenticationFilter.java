@@ -21,7 +21,7 @@ public class WSAuthenticationFilter extends TokenBasedAuthenticationFilter {
         super(jwTokenManager);
     }
 
-    public @NonNull Optional<String> retrieveAccessTokenFromRequest(HttpServletRequest request) {
+    public @NonNull Optional<String> retrieveAccessTokenFromRequest(@NonNull HttpServletRequest request) {
         if (request.getQueryString() == null || !request.getQueryString().contains(ACCESS_TOKEN_NAME)) {
             return Optional.empty();
         }

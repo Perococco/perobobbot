@@ -2,24 +2,24 @@ package perobobbot.server.sse.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Synchronized;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import perobobbot.lang.MapTool;
 import perobobbot.lang.ThreadFactories;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.lang.Todo;
 import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.UnaryOperator1;
-import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.OptionalLong;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

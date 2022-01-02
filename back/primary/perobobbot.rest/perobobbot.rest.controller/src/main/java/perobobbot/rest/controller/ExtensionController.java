@@ -4,11 +4,10 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import perobobbot.data.com.BotExtension;
 import perobobbot.data.com.Extension;
+import perobobbot.data.com.UpdateExtensionParameters;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.data.com.UpdateExtensionParameters;
 
 import java.util.UUID;
 

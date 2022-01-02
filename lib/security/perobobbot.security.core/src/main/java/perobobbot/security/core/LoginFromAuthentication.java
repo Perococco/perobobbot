@@ -4,8 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import perobobbot.lang.Lazy;
-import perobobbot.security.com.LoginFailed;
 import perobobbot.security.com.BotUser;
+import perobobbot.security.com.LoginFailed;
 
 /**
  * @author perococco

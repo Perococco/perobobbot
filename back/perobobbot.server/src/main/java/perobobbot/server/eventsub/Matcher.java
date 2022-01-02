@@ -9,7 +9,6 @@ import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.lang.SubscriptionData;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;

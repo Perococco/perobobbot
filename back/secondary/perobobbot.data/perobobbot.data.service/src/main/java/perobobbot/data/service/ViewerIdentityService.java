@@ -1,7 +1,6 @@
 package perobobbot.data.service;
 
 import lombok.NonNull;
-import perobobbot.data.com.UnknownViewIdentity;
 import perobobbot.data.com.ViewerIdentityNotFound;
 import perobobbot.lang.Platform;
 import perobobbot.lang.ViewerIdentity;

@@ -3,7 +3,6 @@ package perobobbot.server.plugin.endpoinplugin;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
@@ -29,7 +28,7 @@ public class EndPointPluginHandler extends AbstractHandlerMapping implements End
     }
 
     @Override
-    protected Object getHandlerInternal(HttpServletRequest request) {
+    protected Object getHandlerInternal(@NonNull HttpServletRequest request) {
         return pluginMappings.values()
                              .stream()
                              .map(h -> tryGetHandler(h, request))

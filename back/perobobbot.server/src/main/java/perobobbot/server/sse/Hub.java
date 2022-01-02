@@ -2,7 +2,6 @@ package perobobbot.server.sse;
 
 import lombok.NonNull;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
 
 public interface Hub {

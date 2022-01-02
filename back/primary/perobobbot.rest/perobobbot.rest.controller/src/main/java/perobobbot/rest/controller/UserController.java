@@ -1,18 +1,15 @@
 package perobobbot.rest.controller;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import perobobbot.data.com.BotExtension;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;
-import perobobbot.lang.Bot;
 import perobobbot.lang.ListTool;
 import perobobbot.rest.com.RestUserToken;
 import perobobbot.security.com.SimpleUser;

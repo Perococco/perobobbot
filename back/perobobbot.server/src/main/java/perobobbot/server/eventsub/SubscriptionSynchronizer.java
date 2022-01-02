@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import perobobbot.data.com.SubscriptionIdentity;
@@ -16,7 +15,6 @@ import perobobbot.lang.CommonConfig;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.ThrowableTool;
-import perobobbot.server.config.externaluri.ExternalURIProvider;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package perobobbot.server.sse.transformer;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

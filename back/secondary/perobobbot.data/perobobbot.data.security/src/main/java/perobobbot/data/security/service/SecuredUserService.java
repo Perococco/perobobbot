@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
-import perobobbot.data.service.BankService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.UserService;

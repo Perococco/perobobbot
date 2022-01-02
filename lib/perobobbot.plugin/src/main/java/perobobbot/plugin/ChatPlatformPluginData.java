@@ -1,7 +1,6 @@
 package perobobbot.plugin;
 
 import lombok.NonNull;
-import lombok.Value;
 import perobobbot.chat.core.ChatPlatform;
 
 /**

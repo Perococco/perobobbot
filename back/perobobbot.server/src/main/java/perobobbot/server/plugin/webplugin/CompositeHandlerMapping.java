@@ -7,9 +7,6 @@ import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class CompositeHandlerMapping implements HandlerMapping {
@@ -18,7 +15,7 @@ public class CompositeHandlerMapping implements HandlerMapping {
 
     @Override
     public HandlerExecutionChain getHandler(@NonNull HttpServletRequest request) throws Exception {
-        HandlerExecutionChain result = null;
+        HandlerExecutionChain result;
         for (HandlerMapping handlerMapping : handlerMappings) {
             result = handlerMapping.getHandler(request);
             if (result != null) {

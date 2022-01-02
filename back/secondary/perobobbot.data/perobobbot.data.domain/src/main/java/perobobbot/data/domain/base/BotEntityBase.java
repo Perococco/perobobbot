@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
 import perobobbot.data.domain.BotExtensionEntity;
 import perobobbot.data.domain.JoinedChannelEntity;
 import perobobbot.data.domain.UserEntity;

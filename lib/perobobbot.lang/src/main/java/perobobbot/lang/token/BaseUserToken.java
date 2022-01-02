@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
-import lombok.experimental.SuperBuilder;
 import perobobbot.lang.Scope;
 
 import java.time.Instant;

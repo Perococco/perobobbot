@@ -2,12 +2,9 @@ package perobobbot.server.sse;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import lombok.Synchronized;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import perobobbot.server.sse.impl.FixedSseEventBuilder;
 
 import java.time.Instant;
-import java.util.List;
 
 public interface EventBuffer {
 

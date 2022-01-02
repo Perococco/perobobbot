@@ -1,6 +1,5 @@
 package perobobbot.lang;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.Synchronized;

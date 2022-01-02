@@ -2,7 +2,6 @@ package perobobbot.data.service;
 
 import lombok.NonNull;
 import perobobbot.lang.PointType;
-import perobobbot.lang.Safe;
 import perobobbot.lang.Transaction;
 import perobobbot.lang.TransactionInfo;
 

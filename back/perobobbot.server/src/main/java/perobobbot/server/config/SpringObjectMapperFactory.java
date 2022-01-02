@@ -7,13 +7,15 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.NonNull;
-import org.springframework.jmx.support.ObjectNameManager;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.JsonModuleProvider;
 import perobobbot.lang.ObjectMapperFactory;
 import perobobbot.lang.PluginService;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.ServiceLoader;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

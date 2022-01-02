@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Platform;
-import perobobbot.rest.com.OAuthProcessParameter;
 import perobobbot.rest.com.RestUserToken;
 import perobobbot.security.com.BotUser;
 

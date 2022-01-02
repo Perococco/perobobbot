@@ -5,10 +5,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.security.com.Identification;
 import perobobbot.data.domain.base.UserEntityBase;
 import perobobbot.lang.RandomString;
 import perobobbot.lang.token.EncryptedUserToken;
+import perobobbot.security.com.Identification;
 import perobobbot.security.com.User;
 
 import javax.persistence.Entity;

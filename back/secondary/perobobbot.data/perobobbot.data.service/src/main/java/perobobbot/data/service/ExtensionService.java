@@ -1,13 +1,11 @@
 package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.data.com.BotExtension;
 import perobobbot.data.com.Extension;
 import perobobbot.data.com.UpdateBotExtensionParameters;
 import perobobbot.data.com.UpdateExtensionParameters;
-import perobobbot.lang.Bot;
 
 import java.util.UUID;
 

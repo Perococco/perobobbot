@@ -12,7 +12,6 @@ import perobobbot.lang.*;
 import perobobbot.oauth.*;
 import perobobbot.twitch.oauth.api.TwitchScope;
 
-import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 @RequiredArgsConstructor

@@ -8,11 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.MapKeyType;
 import org.hibernate.annotations.Type;
 import perobobbot.data.com.NotEnoughPoints;
-import perobobbot.lang.PointType;
 import perobobbot.data.com.PromotionManager;
 import perobobbot.data.domain.TransactionEntity;
 import perobobbot.data.domain.ViewerIdentityEntity;
 import perobobbot.lang.Balance;
+import perobobbot.lang.PointType;
 import perobobbot.lang.Safe;
 import perobobbot.persistence.PersistentObjectWithUUID;
 

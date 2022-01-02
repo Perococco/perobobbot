@@ -1,22 +1,19 @@
 package perobobbot.server.config.security;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
-import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
-import perobobbot.lang.Scope;
-import perobobbot.lang.fp.Function1;
-import perobobbot.oauth.*;
+import perobobbot.oauth.OAuthManager;
+import perobobbot.oauth.OAuthUrlOptions;
+import perobobbot.oauth.Token;
+import perobobbot.oauth.UserIdentity;
 import perobobbot.security.com.*;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtTokenFromUserIdentityCreator;

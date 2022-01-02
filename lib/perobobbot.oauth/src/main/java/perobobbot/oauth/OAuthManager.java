@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
 import perobobbot.oauth._private.MapOAuthManager;
 

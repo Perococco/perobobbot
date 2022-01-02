@@ -3,7 +3,6 @@ package perobobbot.server.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import perobobbot.lang.JsonModuleProvider;
 import perobobbot.lang.PluginService;
-import perobobbot.lang.PluginServices;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,12 +1,10 @@
 package perobobbot.data.jpa.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.BotExtension;
@@ -22,16 +20,9 @@ import perobobbot.data.jpa.repository.ExtensionRepository;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.ListTool;
-import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.Function2;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @UnsecuredService

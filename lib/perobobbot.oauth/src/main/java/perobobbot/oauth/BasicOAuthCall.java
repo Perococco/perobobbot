@@ -3,8 +3,6 @@ package perobobbot.oauth;
 import lombok.NonNull;
 import reactor.util.annotation.Nullable;
 
-import java.util.Optional;
-
 public interface BasicOAuthCall<T> extends OAuthCall {
 
     @Nullable

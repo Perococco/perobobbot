@@ -1,7 +1,6 @@
 package perobobbot.data.security.service;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +12,6 @@ import perobobbot.data.com.UpdateExtensionParameters;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.Bot;
 
 import java.util.UUID;
 

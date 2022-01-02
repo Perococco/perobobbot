@@ -12,8 +12,8 @@ import perobobbot.data.service.ExtensionService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Bot;
 import perobobbot.rest.com.CreateBotParameters;
-import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.BotUser;
+import perobobbot.security.com.RoleKind;
 
 import java.util.UUID;
 

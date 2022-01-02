@@ -4,7 +4,6 @@ import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.fp.Function0;
-import perobobbot.oauth.OAuthContext;
 import perobobbot.oauth.OAuthContextHolder;
 import perobobbot.oauth.OAuthTokenIdentifierSetter;
 import perobobbot.oauth.TokenIdentifier;

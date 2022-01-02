@@ -15,7 +15,7 @@ public class BasicOAuthCallHelper<T> implements OAuthCallHelper<T> {
 
     private final @NonNull ApiTokenHelper apiTokenHelper;
 
-    public T call() throws Throwable {
+    public @NonNull T call() throws Throwable {
         boolean alreadyRefreshed = false;
         apiTokenHelper.initialize();
 

@@ -6,7 +6,6 @@ import lombok.NonNull;
 import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.com.UpdateUserParameters;
 import perobobbot.lang.Platform;
-import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
 
 import java.util.Optional;

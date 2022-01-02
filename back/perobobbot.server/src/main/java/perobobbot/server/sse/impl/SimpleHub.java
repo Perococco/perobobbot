@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import perobobbot.lang.Parser;
 import perobobbot.lang.ParsingFailure;
 import perobobbot.lang.fp.TryResult;
-import perobobbot.security.com.BotUser;
 import perobobbot.security.com.User;
 import perobobbot.server.sse.EventBuffer;
 import perobobbot.server.sse.Hub;
