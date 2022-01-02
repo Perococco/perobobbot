@@ -19,10 +19,14 @@ public interface OAuthService {
 
     /**
      * @param tokenId the id of the searched token
-     * @return an optional containing the client token associated with the provided <code>tokenId</code>, or an empty if none could by found
+     * @return an optional containing the client token associated with the provided <code>tokenId</code>, or an empty if none could be found
      */
     @NonNull Optional<DecryptedClientTokenView> findClientToken(@NonNull UUID tokenId);
 
+    /**
+     * @param platform the platform of the searched token
+     * @return an optional containing the client token for the provided <code>platform</code>, or an empty if none could be found
+     */
     @NonNull Optional<DecryptedClientTokenView> findClientToken(@NonNull Platform platform);
 
     @NonNull DecryptedClientTokenView findOrAuthenticateClientToken(@NonNull Platform platform);
@@ -30,8 +34,11 @@ public interface OAuthService {
     @NonNull DecryptedClientTokenView authenticateClient(@NonNull Platform platform);
 
 
-
-
+    /**
+     *
+     * @param login the login of the user
+     * @return the list of all token associated with the user with the provided <code>login</code>
+     */
     @NonNull ImmutableSet<DecryptedUserTokenView> getAllUserTokens(@NonNull String login);
 
     @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform);
