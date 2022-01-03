@@ -15,6 +15,8 @@ public class MapOAuthManager implements OAuthManager {
 
     private final @NonNull ImmutableMap<Platform, OAuthController> controllerPerPlatform;
 
+
+
     public MapOAuthManager(@NonNull ImmutableList<OAuthController> controllers) {
         this.controllerPerPlatform = controllers.stream()
                                                 .collect(ImmutableMap.toImmutableMap(OAuthController::getPlatform, Function.identity()));

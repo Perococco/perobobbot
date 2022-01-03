@@ -20,17 +20,9 @@ public class TwitchOAuthConfiguration {
         return Packages.with("Twitch OAuth", TwitchOAuthConfiguration.class);
     }
 
-    private final @NonNull Instants instants;
-    private final @NonNull WebHookManager webHookManager;
-
     @Bean
-    public OAuthController twitchOAuthController() {
-        return new TwitchOAuthController(oAuthSubscriptions(), WebClient.create(), instants);
-    }
-
-    @Bean(destroyMethod = "removeAll")
-    public OAuthSubscriptions oAuthSubscriptions() {
-        return new OAuthSubscriptions(instants, webHookManager);
+    public OAuthController.Factory twitchOAuthController() {
+        return (oAuthSubscriptions,instants) -> new TwitchOAuthController(oAuthSubscriptions, WebClient.create(),instants);
     }
 
 }

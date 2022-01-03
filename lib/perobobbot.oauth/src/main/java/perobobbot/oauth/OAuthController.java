@@ -1,14 +1,21 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
 import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.Instants;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 
+import java.time.Instant;
 import java.util.concurrent.CompletionStage;
 
 public interface OAuthController {
-    
+
+    interface Factory {
+        @NonNull OAuthController create(@NonNull OAuthSubscriptions oAuthSubscriptions, @NonNull Instants instants);
+    }
+
     /**
      * @return the platform this OAuth controller applies to
      */
