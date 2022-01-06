@@ -289,10 +289,13 @@ public class JPAOAuthService implements OAuthService {
     @Override
     public void deleteClientToken(@NonNull UUID id) {
         final var token = clientTokenRepository.getByUuid(id);
-        //todo delete all client token associated with the removed client
         clientTokenRepository.delete(token);
     }
 
+    /**
+     * TODO investigate the double fk between ViewerIdentity and UserToken
+     * @param tokenId
+     */
     @Override
     public void deleteUserToken(@NonNull UUID tokenId) {
         final var token = userTokenRepository.getByUuid(tokenId);
@@ -307,6 +310,5 @@ public class JPAOAuthService implements OAuthService {
         token.getOwner().removeUserToken(tokenId);
         userRepository.save(token.getOwner());
         userTokenRepository.delete(token);
-
     }
 }

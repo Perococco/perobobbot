@@ -78,4 +78,10 @@ public class SecuredSubscriptionService implements SubscriptionService {
     public @NonNull ImmutableList<SubscriptionView> listAllByPlatform(@NonNull Platform platform) {
         return subscriptionService.listAllByPlatform(platform);
     }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void clearCallbackUrlIfDoesNotStartWith(String callbackHost) {
+        subscriptionService.clearCallbackUrlIfDoesNotStartWith(callbackHost);
+    }
 }

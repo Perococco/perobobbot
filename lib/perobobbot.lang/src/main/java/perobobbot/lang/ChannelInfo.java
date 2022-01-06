@@ -25,6 +25,8 @@ public class ChannelInfo {
         return switch (platform) {
             case TWITCH -> channelName.equals(user.getUserId());
             case LOCAL -> true;
+            case DISCORD -> Todo.TODO();
+            case SPOTIFY -> Todo.TODO();
         };
     }
 }

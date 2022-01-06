@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public enum Platform implements IdentifiedEnum {
     TWITCH("Twitch"),
+    DISCORD("Discord"),
+    SPOTIFY("Spotify"),
     LOCAL("Local"),
     ;
 
@@ -16,20 +18,11 @@ public enum Platform implements IdentifiedEnum {
     private final @NonNull String identification;
 
     public static @NonNull Stream<Platform> stream() {
-        return Stream.of(TWITCH,LOCAL);
+        return Stream.of(TWITCH,LOCAL,DISCORD,SPOTIFY);
     }
 
     public boolean isLocal() {
         return LOCAL == this;
     }
-
-
-    public static @NonNull Stream<Platform> platformWithSubscriptions() {
-        return Stream.of(
-                TWITCH
-        );
-    }
-
-
 
 }

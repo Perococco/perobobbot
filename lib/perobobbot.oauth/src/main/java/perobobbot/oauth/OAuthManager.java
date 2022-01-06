@@ -40,7 +40,7 @@ public interface OAuthManager {
      * shortcut to <code>getController(client.getPlatform()).getUserIdentity(client,accessToken)</code>
      */
     default @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
-        return getController(client.getPlatform()).getUserIdentity(client,accessToken);
+        return getController(client.getPlatform()).getUserIdentity(accessToken);
     }
 
     default @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
@@ -62,9 +62,6 @@ public interface OAuthManager {
     static @NonNull OAuthManager create(@NonNull ImmutableList<OAuthController> controllers) {
         return new MapOAuthManager(controllers);
     }
-
-
-    void dispose();
 
 
 }

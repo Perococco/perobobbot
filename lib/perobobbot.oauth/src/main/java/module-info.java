@@ -21,6 +21,7 @@ module perobobbot.oauth {
     requires org.apache.logging.log4j;
     requires reactor.core;
 
+    opens perobobbot.oauth.spring to spring.context, spring.beans, spring.core;
     opens perobobbot.oauth to com.fasterxml.jackson.databind;
 
     exports perobobbot.oauth;

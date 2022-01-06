@@ -54,8 +54,4 @@ public class TwitchToken {
                     .build();
     }
 
-    public String[] getScopes() {
-        return this.scopes == null?new String[0]:this.scopes;
-    }
-
 }

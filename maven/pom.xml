@@ -339,6 +339,23 @@
 
             <dependency>
                 <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-discord-resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-discord-oauth-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-discord-oauth-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-extension</artifactId>
                 <version>${project.version}</version>
             </dependency>

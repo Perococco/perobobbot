@@ -73,17 +73,13 @@ public class Matcher {
     }
 
     private void checkForOneData(@NonNull Key key) {
-        final var listOfValidOnPlatform = validOnPlatformPerKey.get(key);
+        final var listOfValidOnPlatform = validOnPlatformPerKey.getOrDefault(key,List.of());
         final var onBot = onBotPerKey.get(key);
 
-        final Predicate<SubscriptionIdentity> sameId = s -> s.getSubscriptionId().equals(onBot.getSubscriptionId());
-
-        if (listOfValidOnPlatform == null && onBot == null) {
-            return;
-        }
-
-        if (onBot != null && (listOfValidOnPlatform == null || listOfValidOnPlatform.isEmpty())) {
-            builder.toRefreshSub(onBot);
+        if (listOfValidOnPlatform.isEmpty()) {
+            if (onBot != null) {
+                builder.toRefreshSub(onBot);
+            }
             return;
         }
 
@@ -94,10 +90,12 @@ public class Matcher {
             return;
         }
 
-        final boolean match = listOfValidOnPlatform.stream().anyMatch(sameId);
+        final Predicate<SubscriptionIdentity> sameIdPredicate = s -> s.getSubscriptionId().equals(onBot.getSubscriptionId());
+
+        final boolean match = listOfValidOnPlatform.stream().anyMatch(sameIdPredicate);
         if (match) {
             listOfValidOnPlatform.stream()
-             .filter(Predicate.not(sameId))
+             .filter(Predicate.not(sameIdPredicate))
              .map(SubscriptionIdentity::getSubscriptionId)
              .forEach(builder::toRevokeSub);
         } else {

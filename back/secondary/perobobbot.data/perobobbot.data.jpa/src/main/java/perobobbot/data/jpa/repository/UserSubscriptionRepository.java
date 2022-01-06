@@ -2,6 +2,9 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import perobobbot.data.domain.UserSubscriptionEntity;
 import perobobbot.lang.Platform;
 
@@ -20,5 +23,9 @@ public interface UserSubscriptionRepository extends JpaRepository<UserSubscripti
     void deleteAllByOwner_LoginAndSubscription_Uuid(@NonNull String login, @NonNull UUID subscriptionId);
 
     long countAllBySubscription_Uuid(@NonNull UUID subscriptionId);
+
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query("update SubscriptionEntity s set s.callbackUrl = '' where s.callbackUrl NOT LIKE CONCAT(:callbackHost,'%') ")
+    void clearCallbackUrlIfDoesNotStartWith(@Param("callbackHost") @NonNull String callbackHost);
 }
 

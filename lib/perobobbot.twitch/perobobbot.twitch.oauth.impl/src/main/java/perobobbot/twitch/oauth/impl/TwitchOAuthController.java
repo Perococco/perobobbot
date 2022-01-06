@@ -32,7 +32,7 @@ public class TwitchOAuthController implements OAuthController {
             TwitchScope.USER_READ_FOLLOWS
     );
 
-    public static final String TWITCH_OAUTH_PATH = "/twitch/oauth";
+    private static final String TWITCH_OAUTH_PATH = "/twitch/oauth";
 
     private final @NonNull OAuthSubscriptions oAuthSubscriptions;
     private final @NonNull WebClient webClient;
@@ -104,7 +104,7 @@ public class TwitchOAuthController implements OAuthController {
     }
 
     @Override
-    public @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
+    public @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull Secret accessToken) {
         return performTokenValidation(accessToken).thenApply(TwitchValidation::toUserIdentity);
     }
 
@@ -121,9 +121,5 @@ public class TwitchOAuthController implements OAuthController {
 
     }
 
-    @Override
-    public void dispose() {
-        oAuthSubscriptions.dispose();
-    }
 
 }

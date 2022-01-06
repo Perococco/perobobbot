@@ -67,9 +67,8 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
 
     private @NonNull CompletionStage<OAuthToken> formOAuthToken(@NonNull Platform openIdPlatform, @NonNull Token token) {
         final var controller = oAuthManager.getController(openIdPlatform);
-        final var client = clientService.getClient(openIdPlatform);
 
-        return controller.getUserIdentity(client, token.getAccessToken())
+        return controller.getUserIdentity(token.getAccessToken())
                          .thenApply(userIdentity -> createOAuthToken(userIdentity, openIdPlatform,token))
                          .whenComplete(this::saveUserToken);
     }

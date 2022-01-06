@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import perobobbot.data.com.SubscriptionIdentity;
@@ -15,6 +16,7 @@ import perobobbot.lang.CommonConfig;
 import perobobbot.lang.Nil;
 import perobobbot.lang.Platform;
 import perobobbot.lang.ThrowableTool;
+import perobobbot.server.config.externaluri.ExternalURIProvider;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ import java.util.List;
 public class SubscriptionSynchronizer {
 
 
+    @Qualifier("webhook")
+    private final @NonNull ExternalURIProvider oauthExternalURIProvider;
     private final @NonNull EventSubManager eventSubManager;
     private final @NonNull
     @EventService
@@ -38,38 +42,42 @@ public class SubscriptionSynchronizer {
             return;
         }
         try {
-            Mono.when(Platform.stream()
-                              .filter(eventSubManager::isPlatformManaged)
-                              .map(this::synchronizePlatform)
-                              .toList())
-                .subscribe();
+            final var callbackUrlChecker = checkCallbackUrl();
+            final var synchronizer = Mono.when(Platform.stream()
+                                                       .filter(eventSubManager::isPlatformManaged)
+                                                       .map(this::synchronizePlatform)
+                                                       .toList());
+
+            callbackUrlChecker.then(synchronizer).subscribe();
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
-            LOG.error("Subscription synchronization failed : {}",t.getMessage());
+            LOG.error("Subscription synchronization failed : {}", t.getMessage());
         }
 
     }
 
-    private Mono<Nil> synchronizePlatform(@NonNull Platform platform) {
-        final var persisted = subscriptionService.listAllByPlatform(platform);
+    private Mono<?> checkCallbackUrl() {
+        final var webhookHost = oauthExternalURIProvider.get().toURI();
+        return Mono.fromRunnable(() -> subscriptionService.clearCallbackUrlIfDoesNotStartWith(webhookHost));
+    }
 
+    private Mono<Nil> synchronizePlatform(@NonNull Platform platform) {
         return eventSubManager.listAllSubscriptions(platform)
-                              .flatMap(existing -> synchronizePlatform(platform, existing, persisted));
+                              .flatMap(existing -> synchronizePlatform(platform, existing));
 
     }
 
     private Mono<Nil> synchronizePlatform(
             @NonNull Platform platform,
-            @NonNull ImmutableList<SubscriptionIdentity> onPlatform,
-            @NonNull ImmutableList<SubscriptionView> persisted) {
+            @NonNull ImmutableList<SubscriptionIdentity> onPlatform) {
 
+        final var persisted = subscriptionService.listAllByPlatform(platform);
 
         final var match = Matcher.match(onPlatform, persisted);
 
         if (match.hasAnyChange()) {
-            LOG.info("Synchronize Subscriptions : Rf:{} Up:{} Rk:{}",match.getToRefreshSubs().size(), match.getToUpdateSubs().size(), match.getToRevokeSubs().size());
+            LOG.info("Synchronize Subscriptions : Rf:{} Up:{} Rk:{}", match.getToRefreshSubs().size(), match.getToUpdateSubs().size(), match.getToRevokeSubs().size());
         }
-
 
 
         final List<Mono<Nil>> todo = new ArrayList<>();

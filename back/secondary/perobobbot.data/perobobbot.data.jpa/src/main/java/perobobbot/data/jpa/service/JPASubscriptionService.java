@@ -123,4 +123,10 @@ public class JPASubscriptionService implements SubscriptionService {
     public void removeUserFromSubscription(@NonNull UUID id, @NonNull String login) {
         userSubscriptionRepository.deleteAllByOwner_LoginAndSubscription_Uuid(login, id);
     }
+
+    @Override
+    @Transactional
+    public void clearCallbackUrlIfDoesNotStartWith(String callbackHost) {
+        userSubscriptionRepository.clearCallbackUrlIfDoesNotStartWith(callbackHost);
+    }
 }

@@ -13,7 +13,6 @@ import perobobbot.oauth.OAuthSubscriptions;
 import perobobbot.twitch.oauth.impl.TwitchOAuthController;
 
 @Configuration
-@RequiredArgsConstructor
 public class TwitchOAuthConfiguration {
 
     public static @NonNull Packages provider() {

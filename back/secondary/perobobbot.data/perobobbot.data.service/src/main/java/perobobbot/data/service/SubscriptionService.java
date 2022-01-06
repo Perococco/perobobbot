@@ -69,4 +69,5 @@ public interface SubscriptionService {
     @NonNull Optional<SubscriptionView> cleanSubscription(@NonNull UUID id);
 
 
+    void clearCallbackUrlIfDoesNotStartWith(String callbackHost);
 }

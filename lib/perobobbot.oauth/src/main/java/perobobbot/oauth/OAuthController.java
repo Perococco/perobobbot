@@ -1,13 +1,11 @@
 package perobobbot.oauth;
 
 import lombok.NonNull;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Instants;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 
-import java.time.Instant;
 import java.util.concurrent.CompletionStage;
 
 public interface OAuthController {
@@ -48,8 +46,6 @@ public interface OAuthController {
 
     @NonNull CompletionStage<?> validateToken(@NonNull Secret accessToken);
 
-    @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken);
-
-    void dispose();
+    @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull Secret accessToken);
 
 }

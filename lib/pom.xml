@@ -51,6 +51,10 @@
         <module>perobobbot.twitch/perobobbot.twitch.eventsub.api</module>
         <module>perobobbot.twitch/perobobbot.twitch.eventsub.manager</module>
 
+        <module>perobobbot.discord/perobobbot.discord.resources</module>
+        <module>perobobbot.discord/perobobbot.discord.oauth.api</module>
+        <module>perobobbot.discord/perobobbot.discord.oauth.impl</module>
+
     </modules>
 
 </project>
