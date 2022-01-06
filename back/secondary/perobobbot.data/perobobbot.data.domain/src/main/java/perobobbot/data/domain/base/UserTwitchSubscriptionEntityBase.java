@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import perobobbot.data.com.UserSubscriptionView;
-import perobobbot.data.domain.SubscriptionEntity;
+import perobobbot.data.domain.TwitchSubscriptionEntity;
 import perobobbot.data.domain.UserEntity;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserSubscriptionEntityBase extends PersistentObjectWithUUID {
+public class UserTwitchSubscriptionEntityBase extends PersistentObjectWithUUID {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID",nullable = false)
@@ -26,9 +26,9 @@ public class UserSubscriptionEntityBase extends PersistentObjectWithUUID {
 
     @ManyToOne
     @JoinColumn(name = "SUBSCRIPTION_ID",nullable = false)
-    private @NonNull SubscriptionEntity subscription;
+    private @NonNull TwitchSubscriptionEntity subscription;
 
-    protected UserSubscriptionEntityBase(@NonNull UserEntity owner, @NonNull SubscriptionEntity subscription) {
+    protected UserTwitchSubscriptionEntityBase(@NonNull UserEntity owner, @NonNull TwitchSubscriptionEntity subscription) {
         super(UUID.randomUUID());
         this.owner = owner;
         this.subscription = subscription;

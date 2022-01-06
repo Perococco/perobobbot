@@ -5,12 +5,15 @@ hide methods
 User "1" -- Bot
 User -- Role
 
-User "1" -- UserSubscription
-UserSubscription -- "1" Subscription
+User "1" -- UserTwitchSubscription
+UserTwitchSubscription -- "1" TwitchSubscription
 
 Safe "1" -- Transaction
 
-ViewerIdentity -- Safe
+PlatformUser -- Safe
+
+PlatformUser -- "0-1" DiscordUser
+PlatformUser -- "0-1" TwitchUser
 
 Token <|.. ClientToken
 Token <|.. UserToken
@@ -18,9 +21,12 @@ Token <|.. UserToken
 User "1"-- Overlay
 Overlay "1" -- WidgetGeometry
 
-UserToken  -left- "1" ViewerIdentity
+UserToken  -- "1" DiscordUser
+UserToken  -- "1" TwitchUser
 UserToken   -- "1" User
 ClientToken  -- "1" Client
+
+User -- PlatformUser
 
 
 Bot "1" -- BotExtension

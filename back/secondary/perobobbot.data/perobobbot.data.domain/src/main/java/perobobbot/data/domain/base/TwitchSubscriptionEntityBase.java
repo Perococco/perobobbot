@@ -20,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SubscriptionEntityBase extends PersistentObjectWithUUID {
+public class TwitchSubscriptionEntityBase extends PersistentObjectWithUUID {
 
     /**
      * The platform this subscription applies to
@@ -57,11 +57,11 @@ public class SubscriptionEntityBase extends PersistentObjectWithUUID {
     @CollectionTable(name="CONDITION", joinColumns=@JoinColumn(name="ID"))
     private @NonNull Map<String,String> condition = new HashMap<>();
 
-    public SubscriptionEntityBase(@NonNull Platform platform,
-                                  @NonNull String subscriptionId,
-                                  @NonNull String type,
-                                  @NonNull Conditions conditions,
-                                  @NonNull String callbackUrl) {
+    public TwitchSubscriptionEntityBase(@NonNull Platform platform,
+                                        @NonNull String subscriptionId,
+                                        @NonNull String type,
+                                        @NonNull Conditions conditions,
+                                        @NonNull String callbackUrl) {
         super(UUID.randomUUID());
         this.platform = platform;
         this.subscriptionId = subscriptionId;

@@ -9,12 +9,12 @@ class Bot {
    +extensions:List<Extension>,
 }
 
-class UserSubscription {
+class UserTwitchSubscription {
   + owner : User,
   + subscription : Subscription;
 }
 
-class Subscription {
+class TwitchSubscription {
   + subscriptionId : String,
   + type : String,
   + condition : String
@@ -45,14 +45,25 @@ class Role {
 
 class Safe #C8FF8D {
  +channelName:String,
- +viewerIdentity:ViewerIdentity,
+ +platformUser:PlatformUser,
  +amount:int
  +pointType:PointType,
 }
 
-class ViewerIdentity {
-    platform:Platform,
-    viewerId:String,
+class PlatformUser #FFD538 {
+    discordUser:?DiscordUser,
+    twitchUser:?DiscordUser,
+}
+
+class DiscordUser #FFD538 {
+    userId:String
+    login:String
+    discriminator:String
+}
+
+class TwitchUser #FFD538 {
+    userId:String,
+    login:String,
     pseudo:String
 }
 
@@ -66,9 +77,17 @@ class ClientToken #7591FF {
      client:Client
 }
 
+note left of UserToken {
+At least one of
+**discordUser**
+and **twitchUser**
+must be specified,
+but not both
+}
 class UserToken #7591FF {
     owner:User
-    viewerIdentity:ViewerIdentity,
+    discordUser:?DiscordUser,
+    twitchUser:?TwitchUser,
     refreshToken:String,
     scopes:String
 }
