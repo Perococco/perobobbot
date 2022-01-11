@@ -2,6 +2,8 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.TwitchUserEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TwitchIdentity;
@@ -14,9 +16,9 @@ public interface TwitchUserRepository extends PlatformUserRepositoryBase<TwitchI
 
     @Query("""
             select v from TwitchUserEntity as v
-            where (v.userId = :userInfo or UPPER(v.pseudo) = UPPER(:userInfo) or v.login = :userInfo) 
+            where (v.userId = :userInfo or UPPER(v.pseudo) = UPPER(:userInfo) or v.login = :userInfo)
             """)
-    @NonNull Stream<TwitchUserEntity> findFromUserInfo(@NonNull String userInfo);
+    @NonNull List<TwitchUserEntity> findAllFromUserInfo(@NonNull String userInfo);
 
     @Override
     default @NonNull Platform getPlatform() {

@@ -9,6 +9,7 @@ import perobobbot.data.domain.PlatformUserEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.UserIdentity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
 @NoRepositoryBean
 public interface PlatformUserRepositoryBase<I extends UserIdentity,T extends PlatformUserEntity<I>> extends JpaRepository<T,Long> {
 
-    @NonNull Stream<T> findFromUserInfo(@NonNull String viewerInfo);
+    @NonNull List<T> findAllFromUserInfo(@NonNull String viewerInfo);
 
     @NonNull Optional<T> findByUserId(@NonNull String userId);
 

@@ -27,9 +27,10 @@ public class JPAPlatformUserService implements PlatformUserService {
     @Override
     public @NonNull Optional<PlatformUser> findPlatformUser(@NonNull Platform platform, @NonNull String userInfo) {
         return platformUserHelper.repositoryForPlatform(platform)
-                          .findFromUserInfo(userInfo)
-                          .map(PlatformUserEntity::toView)
-                          .findFirst();
+                                 .findAllFromUserInfo(userInfo)
+                                 .stream()
+                                 .map(PlatformUserEntity::toView)
+                                 .findFirst();
     }
 
     @Override

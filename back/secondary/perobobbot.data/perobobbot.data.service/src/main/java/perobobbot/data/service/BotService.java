@@ -35,7 +35,7 @@ public interface BotService {
 
     @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
 
-    @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
+    @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID platformUserId, @NonNull String channelName);
 
     @NonNull Optional<JoinedTwitchChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
 

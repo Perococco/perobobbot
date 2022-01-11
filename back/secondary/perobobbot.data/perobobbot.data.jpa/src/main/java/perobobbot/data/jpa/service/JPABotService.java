@@ -70,7 +70,7 @@ public class JPABotService implements BotService {
     @Override
     @Transactional
     public @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID platformUserId, @NonNull String channelName) {
-        var existing = joinedChannelRepository.findByBot_UuidAndTwitchUser_PlatformAndChannelName(botId,platformUserId,channelName)
+        var existing = joinedChannelRepository.findByBot_UuidAndTwitchUser_UuidAndChannelName(botId,platformUserId,channelName)
                 .orElse(null);
 
         if (existing == null) {

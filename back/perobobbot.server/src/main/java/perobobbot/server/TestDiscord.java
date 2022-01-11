@@ -15,7 +15,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class TestDiscord {
 

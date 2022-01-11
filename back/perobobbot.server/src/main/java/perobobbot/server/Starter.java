@@ -4,21 +4,32 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 import perobobbot.chat.core.IO;
 import perobobbot.data.com.CreateClientParameter;
+import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.*;
 import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.ChatConnectionInfo;
-import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
+import perobobbot.lang.*;
+import perobobbot.lang.fp.Function1;
+import perobobbot.lang.token.DecryptedUserTokenView;
+import perobobbot.oauth.LoginTokenIdentifier;
+import perobobbot.oauth.OAuthContextHolder;
+import perobobbot.oauth.UserOAuthInfo;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
+import perobobbot.twitch.eventsub.api.CriteriaType;
+import perobobbot.twitch.eventsub.api.SubscriptionType;
 import reactor.core.publisher.Mono;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.stream.Stream;
 
 //@Component
 @RequiredArgsConstructor
@@ -50,8 +61,19 @@ public class Starter {
 
 
     @EventListener(ApplicationReadyEvent.class)
-    public void run() throws Exception {
+    public void run() {
         try {
+
+//            Thread.sleep(5000);
+//
+//            joinChannel();
+//            final var authInfo = oAuthService.createUserToken("perococco", Platform.TWITCH);
+//
+//            Desktop.getDesktop().browse(authInfo.getOauthURI());
+//            authInfo.get();
+
+
+//            joinChannel();
 //            OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
 //            final var bot = botService.findBotByName("perococco","Perobobbot").get();
 //
@@ -80,6 +102,32 @@ public class Starter {
             System.out.println("Starter Failed ! ");
             t.printStackTrace();
         }
+    }
+
+    private void createSubscriptions() {
+        final var identity = platformUserService.getPlatformUser(Platform.TWITCH, "perococco");
+        final var conditions = Conditions.with(CriteriaType.BROADCASTER_USER_ID, identity.getUserId());
+        final var login = "perococco";
+        final var toSubscriptionData = Function1.toFunction1((SubscriptionType s) -> new SubscriptionData(Platform.TWITCH, s, conditions));
+        OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier(login));
+
+
+        final var subscriptionData = Stream.of(
+                SubscriptionType.CHANNEL_CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
+                SubscriptionType.CHANNEL_UPDATE,
+                SubscriptionType.CHANNEL_CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_UPDATE,
+                SubscriptionType.CHANNEL_FOLLOW,
+                SubscriptionType.CHANNEL_SUBSCRIBE,
+                SubscriptionType.CHANNEL_SUBSCRIPTION_GIFT,
+                SubscriptionType.CHANNEL_CHANNEL_POINTS_CUSTOM_REWARD_ADD,
+                SubscriptionType.CHANNEL_CHANNEL_POINTS_CUSTOM_REWARD_REMOVE,
+                SubscriptionType.CHANNEL_CHANNEL_POINTS_CUSTOM_REWARD_UPDATE
+        ).map(toSubscriptionData).toList();
+
+        for (SubscriptionData subscriptionDatum : subscriptionData) {
+            userEventSubManager.createUserSubscription(login, subscriptionDatum).subscribe();
+        }
+
     }
 
     private @NonNull Mono<CustomReward> create(@NonNull String name, int cost) {
@@ -123,16 +171,4 @@ public class Starter {
           });
     }
 
-    private void createClient() throws IOException {
-        final var existing = clientService.findClientForPlatform(Platform.TWITCH).orElse(null);
-        if (existing == null) {
-            final var clientId = "m01e1fb0emhtr0toc6eydvl9zkuecu";
-            final var clientSecret = Secret.with(Files.readAllLines(Path.of("/home/perococco/twitch_keys/perobobbot_app_secret.txt")).get(0));
-            clientService.createClient(new CreateClientParameter(
-                    Platform.TWITCH,
-                    clientId,
-                    clientSecret
-            ));
-        }
-    }
 }

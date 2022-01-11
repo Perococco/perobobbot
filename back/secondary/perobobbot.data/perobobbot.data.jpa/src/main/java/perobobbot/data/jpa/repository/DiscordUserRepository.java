@@ -2,6 +2,8 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.DiscordUserEntity;
 import perobobbot.lang.DiscordIdentity;
 import perobobbot.lang.Platform;
@@ -13,9 +15,9 @@ public interface DiscordUserRepository extends PlatformUserRepositoryBase<Discor
 
     @Query("""
             select d from DiscordUserEntity as d
-            where (d.userId = :userInfo or d.login = :userInfo) 
+            where (d.userId = :userInfo or d.login = :userInfo)
             """)
-    @NonNull Stream<DiscordUserEntity> findFromUserInfo(@NonNull String userInfo);
+    @NonNull List<DiscordUserEntity> findAllFromUserInfo(@NonNull String userInfo);
 
 
     @Override

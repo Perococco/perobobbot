@@ -16,6 +16,6 @@ public interface JoinedChannelRepository extends JpaRepository<JoinedTwitchChann
 
     @NonNull List<JoinedTwitchChannelEntity> findAllByTwitchUser_Platform(@NonNull Platform platform);
 
-    @NonNull Optional<JoinedTwitchChannelEntity> findByBot_UuidAndTwitchUser_PlatformAndChannelName(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
+    @NonNull Optional<JoinedTwitchChannelEntity> findByBot_UuidAndTwitchUser_UuidAndChannelName(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
 
 }

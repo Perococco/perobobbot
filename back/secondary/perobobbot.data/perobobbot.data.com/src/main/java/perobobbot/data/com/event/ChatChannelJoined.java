@@ -10,21 +10,19 @@ public class ChatChannelJoined extends ChatEvent {
 
     @Getter
     private final @NonNull UUID botId;
-    private final @NonNull UUID viewerIdentityId;
+    @Getter
+    private final @NonNull UUID platformUserId;
     @Getter
     private final @NonNull String channelName;
 
     public ChatChannelJoined(@NonNull UUID botId,
-                             @NonNull UUID viewerIdentityId,
+                             @NonNull UUID platformUserId,
                              @NonNull Platform platform,
                              @NonNull String channelName) {
         super(platform);
         this.botId = botId;
         this.channelName = channelName;
-        this.viewerIdentityId = viewerIdentityId;
+        this.platformUserId = platformUserId;
     }
 
-    public @NonNull UUID getViewerIdentityId() {
-        return viewerIdentityId;
-    }
 }
