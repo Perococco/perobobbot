@@ -9,8 +9,6 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.UserIdentity;
 import perobobbot.lang.fp.Function1;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Getter
 public class PlatformIdentityHelper<I extends UserIdentity, T extends PlatformUserEntity<I>> {

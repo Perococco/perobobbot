@@ -1,7 +1,10 @@
 package perobobbot.data.domain;
 
 import lombok.*;
-import perobobbot.lang.*;
+import perobobbot.lang.DiscordIdentity;
+import perobobbot.lang.DiscordUser;
+import perobobbot.lang.PlatfomId;
+import perobobbot.lang.Platform;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;

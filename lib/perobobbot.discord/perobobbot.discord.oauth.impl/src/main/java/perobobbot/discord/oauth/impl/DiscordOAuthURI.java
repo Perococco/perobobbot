@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 import perobobbot.discord.oauth.api.DiscordScope;
-import perobobbot.lang.*;
+import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.Scope;
+import perobobbot.lang.Secret;
+import perobobbot.lang.SecretURI;
 import perobobbot.oauth.OAuthUrlOptions;
 
 import java.net.URI;

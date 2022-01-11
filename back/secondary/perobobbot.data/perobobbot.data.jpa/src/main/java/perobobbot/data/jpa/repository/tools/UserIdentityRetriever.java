@@ -2,7 +2,6 @@ package perobobbot.data.jpa.repository.tools;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import perobobbot.data.com.DataException;
 import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.lang.*;

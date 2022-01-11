@@ -2,8 +2,8 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import perobobbot.data.com.UnknownPlatformUserId;
 import perobobbot.data.com.UnknownPlatformUser;
+import perobobbot.data.com.UnknownPlatformUserId;
 import perobobbot.data.domain.PlatformUserEntity;
 import perobobbot.lang.Platform;
 

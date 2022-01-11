@@ -4,7 +4,6 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PlatformUser;
-import perobobbot.lang.UserIdentification;
 import perobobbot.lang.Secret;
 
 import java.time.Instant;

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import perobobbot.lang.Platform;
-import perobobbot.lang.TwitchIdentity;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;

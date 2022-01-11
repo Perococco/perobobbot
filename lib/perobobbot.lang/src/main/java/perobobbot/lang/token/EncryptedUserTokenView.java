@@ -5,7 +5,6 @@ import lombok.Value;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PlatformUser;
 import perobobbot.lang.TextEncryptor;
-import perobobbot.lang.UserIdentification;
 
 import java.util.UUID;
 

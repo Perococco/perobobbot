@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.PlatformUser;
 import perobobbot.lang.TypeScript;
-import perobobbot.lang.UserIdentification;
 import perobobbot.lang.token.DecryptedUserTokenView;
 
 import java.time.Instant;

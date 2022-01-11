@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.PlatformUser;
 import perobobbot.lang.PointType;
-import perobobbot.lang.UserIdentification;
 
 @Getter
 public class NotEnoughPoints extends DataException {

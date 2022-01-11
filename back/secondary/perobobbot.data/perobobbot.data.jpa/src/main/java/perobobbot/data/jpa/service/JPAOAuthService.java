@@ -11,7 +11,6 @@ import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.domain.ClientTokenEntity;
 import perobobbot.data.domain.UserTokenEntity;
 import perobobbot.data.jpa.repository.*;
-import perobobbot.data.jpa.repository.tools.UserIdentityRetriever;
 import perobobbot.data.jpa.repository.tools.UserTokenSaver;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;

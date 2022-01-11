@@ -2,7 +2,6 @@ package perobobbot.lang;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import lombok.NonNull;
 
 import java.util.UUID;

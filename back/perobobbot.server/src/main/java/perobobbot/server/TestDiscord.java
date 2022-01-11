@@ -4,10 +4,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
-import perobobbot.data.service.*;
+import perobobbot.data.service.ClientService;
+import perobobbot.data.service.OAuthService;
+import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Platform;
-import perobobbot.oauth.*;
+import perobobbot.oauth.OAuthControllerFromManager;
+import perobobbot.oauth.OAuthManager;
 
 import java.awt.*;
 import java.io.IOException;

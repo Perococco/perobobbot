@@ -2,14 +2,11 @@ package perobobbot.data.jpa.repository;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.TwitchUserEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TwitchIdentity;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public interface TwitchUserRepository extends PlatformUserRepositoryBase<TwitchIdentity, TwitchUserEntity> {
 

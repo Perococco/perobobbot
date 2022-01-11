@@ -7,8 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import perobobbot.data.com.NoClientForPlatform;
-import perobobbot.data.com.NoClientTokenForPlatform;
 import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.service.ClientService;

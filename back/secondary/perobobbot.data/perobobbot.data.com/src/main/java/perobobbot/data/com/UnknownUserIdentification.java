@@ -3,7 +3,6 @@ package perobobbot.data.com;
 import lombok.Getter;
 import lombok.NonNull;
 import perobobbot.lang.PerobobbotException;
-import perobobbot.lang.Platform;
 
 import java.util.UUID;
 

@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import perobobbot.data.service.EventService;
-import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.PlatformUserService;
-import perobobbot.lang.*;
+import perobobbot.data.service.SecuredService;
+import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformUser;
+import perobobbot.lang.PluginService;
+import perobobbot.lang.UserIdentity;
 
 import java.util.Optional;
 

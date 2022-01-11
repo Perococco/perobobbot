@@ -3,8 +3,8 @@ package perobobbot.data.jpa.repository;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import perobobbot.data.com.UnknownPlatformUserId;
 import perobobbot.data.com.UnknownPlatformUser;
+import perobobbot.data.com.UnknownPlatformUserId;
 import perobobbot.data.domain.PlatformUserEntity;
 import perobobbot.lang.Platform;
 import perobobbot.lang.UserIdentity;
@@ -12,7 +12,6 @@ import perobobbot.lang.UserIdentity;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @NoRepositoryBean
 public interface PlatformUserRepositoryBase<I extends UserIdentity,T extends PlatformUserEntity<I>> extends JpaRepository<T,Long> {

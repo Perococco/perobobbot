@@ -4,18 +4,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 import perobobbot.chat.core.IO;
-import perobobbot.data.com.CreateClientParameter;
-import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.service.*;
 import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.*;
+import perobobbot.lang.ChatConnectionInfo;
+import perobobbot.lang.Conditions;
+import perobobbot.lang.Platform;
+import perobobbot.lang.SubscriptionData;
 import perobobbot.lang.fp.Function1;
-import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.LoginTokenIdentifier;
 import perobobbot.oauth.OAuthContextHolder;
-import perobobbot.oauth.UserOAuthInfo;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
@@ -23,12 +21,6 @@ import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 import reactor.core.publisher.Mono;
 
-import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.concurrent.locks.Condition;
 import java.util.stream.Stream;
 
 @SuppressWarnings("all")

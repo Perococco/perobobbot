@@ -13,11 +13,9 @@ import perobobbot.lang.*;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.Token;
 import perobobbot.oauth.UserOAuthInfo;
-import perobobbot.security.com.User;
 import uk.co.jemos.podam.api.PodamFactory;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;

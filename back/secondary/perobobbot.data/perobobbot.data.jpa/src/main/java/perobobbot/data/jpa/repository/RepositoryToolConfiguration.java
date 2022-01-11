@@ -4,10 +4,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import perobobbot.data.jpa.repository.tools.DefaultUserTokenSaver;
 import perobobbot.data.jpa.repository.tools.PlatformUserHelper;
 import perobobbot.data.jpa.repository.tools.UserIdentityRetriever;
 import perobobbot.data.jpa.repository.tools.UserTokenSaver;
-import perobobbot.data.jpa.repository.tools.DefaultUserTokenSaver;
 import perobobbot.lang.TextEncryptor;
 import perobobbot.oauth.OAuthManager;
 
