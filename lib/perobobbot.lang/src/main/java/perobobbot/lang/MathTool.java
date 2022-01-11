@@ -1,8 +1,11 @@
 package perobobbot.lang;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
+import perobobbot.lang.fp.Function1;
 import perobobbot.lang.fp.Value2;
 
+import java.util.Map;
 import java.util.Random;
 
 public class MathTool {
@@ -34,5 +37,11 @@ public class MathTool {
 
     public static int roundedToInt(double value) {
         return (int)Math.round(value);
+    }
+
+    public static <K,V1,V2> ImmutableMap<K,V2> mapValue(@NonNull ImmutableMap<K,V1> map, @NonNull Function1<? super V1, ? extends V2> mapper) {
+        return map.entrySet()
+                  .stream()
+                  .collect(ImmutableMap.toImmutableMap(Map.Entry::getKey, e -> mapper.apply(e.getValue())));
     }
 }

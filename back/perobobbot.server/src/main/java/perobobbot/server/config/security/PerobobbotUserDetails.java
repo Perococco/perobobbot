@@ -12,7 +12,7 @@ public class PerobobbotUserDetails extends org.springframework.security.core.use
 
     public PerobobbotUserDetails(@NonNull User user) {
         super(user.getLogin(),
-              user.getIdentification().getPassword().orElse(""),
+              user.getAuthentication().getPassword().orElse(""),
               !user.isDeactivated(),
               true,true,true,
               ExtractorOfGrantedAuthorities.extract(user));

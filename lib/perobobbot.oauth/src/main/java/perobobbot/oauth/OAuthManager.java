@@ -6,9 +6,9 @@ import lombok.NonNull;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
+import perobobbot.lang.UserIdentity;
 import perobobbot.oauth._private.MapOAuthManager;
 
-import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -21,39 +21,20 @@ public interface OAuthManager {
      */
     @NonNull ImmutableSet<Platform> getManagedPlatform();
 
-    /**
-     * @param platform a platform
-     * @return the {@link OAuthController} for the requested platform
-     */
-    @NonNull Optional<OAuthController> findController(@NonNull Platform platform);
-
-    /**
-     * @param platform a platform
-     * @return the {@link OAuthController} for the requested platform
-     * @throws OAuthUnmanagedPlatform if no controller exists for the requested platform
-     */
-    default @NonNull OAuthController getController(@NonNull Platform platform) {
-        return findController(platform).orElseThrow(() -> new OAuthUnmanagedPlatform(platform));
-    }
+    @NonNull CompletionStage<Token> getClientToken(@NonNull DecryptedClient decryptedClient);
 
     /**
      * shortcut to <code>getController(client.getPlatform()).getUserIdentity(client,accessToken)</code>
      */
-    default @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull DecryptedClient client, @NonNull Secret accessToken) {
-        return getController(client.getPlatform()).getUserIdentity(accessToken);
-    }
+    @NonNull CompletionStage<UserIdentity> getUserIdentity(@NonNull Platform platform, @NonNull Secret accessToken);
 
-    default @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken) {
-        return getController(client.getPlatform()).refreshToken(client,refreshToken);
-    }
+    @NonNull CompletionStage<RefreshedToken> refreshToken(@NonNull DecryptedClient client, @NonNull Secret refreshToken);
 
-    /**
-     * shortcut to <code>getController(client.getPlatform()).prepareUserOAuth(client,accessToken)</code>
-     */
-    default @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull OAuthUrlOptions options) {
-        return getController(client.getPlatform()).prepareUserOAuth(client,options);
-    }
+    @NonNull CompletionStage<?> revokeToken(@NonNull DecryptedClient client, @NonNull Secret accessToken);
 
+    @NonNull UserOAuthInfo<Token> prepareUserOAuth(@NonNull DecryptedClient client, @NonNull OAuthUrlOptions options);
+
+    @NonNull CompletionStage<?> validateToken(@NonNull Platform platform, @NonNull Secret accessToken);
 
     /**
      * @param controllers the controllers to manage

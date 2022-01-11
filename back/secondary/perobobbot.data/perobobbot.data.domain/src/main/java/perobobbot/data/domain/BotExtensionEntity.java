@@ -1,30 +1,43 @@
 package perobobbot.data.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import perobobbot.data.com.BotExtension;
-import perobobbot.data.domain.base.BotExtensionEntityBase;
+import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "BOT_EXTENSION",uniqueConstraints = {@UniqueConstraint(columnNames = {"BOT_ID","EXTENSION_ID"})})
 @NoArgsConstructor
-public class BotExtensionEntity extends BotExtensionEntityBase {
+public class BotExtensionEntity extends SimplePersistentObject {
 
-    BotExtensionEntity(@NonNull BotEntity bot, @NonNull ExtensionEntity extension) {
-        super(bot,extension);
+    @ManyToOne
+    @JoinColumn(name = "BOT_ID",nullable = false)
+    private BotEntity bot;
+
+    @ManyToOne
+    @JoinColumn(name = "EXTENSION_ID",nullable = false)
+    @Getter
+    private ExtensionEntity extension;
+
+    @Column(name = "ENABLED",nullable = false)
+    @Getter @Setter
+    private boolean enabled = true;
+
+    public BotExtensionEntity(@NonNull BotEntity bot, @NonNull ExtensionEntity extension) {
+        this.bot = bot;
+        this.extension = extension;
     }
 
     public boolean isEnabledAndExtensionActiveAndAvailable() {
-        return this.isEnabled() && getExtension().isActiveAndAvailable();
+        return this.enabled && extension.isActiveAndAvailable();
     }
 
     public @NonNull BotExtension toView() {
-        return new BotExtension(this.getBot().toView(), this.getExtension().toView(), this.isEnabled());
+        return new BotExtension(this.bot.toView(), this.extension.toView(), this.enabled);
     }
-
 
 }

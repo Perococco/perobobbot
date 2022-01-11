@@ -35,7 +35,7 @@ public class ChatConnectionInterceptor {
                                 );
 
                         final var joinEvent = new ChatChannelJoined(connectionInfo.getBotId(),
-                                connectionInfo.getViewerIdentityId(),
+                                connectionInfo.getPlatformUserId(),
                                 connectionInfo.getPlatform(),
                                 channelName);
                         messageGateway.sendEvent(joinEvent);

@@ -9,6 +9,7 @@ import java.io.InterruptedIOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -65,5 +66,12 @@ public class ThrowableTool {
                 throw new UncheckedIOException(e);
             }
         };
+    }
+
+    public static @NonNull Throwable getCauseIfExecutionException(@NonNull Throwable throwable) {
+        if (throwable instanceof ExecutionException) {
+            return throwable.getCause();
+        }
+        return throwable;
     }
 }

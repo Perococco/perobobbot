@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface SafeRepository extends JpaRepository<SafeEntity, Long> {
 
-    @NonNull Optional<SafeEntity> findByChannelNameAndViewerIdentity_Uuid(@NonNull String channelName,@NonNull UUID viewerIdentityId);
+    @NonNull Optional<SafeEntity> findByChannelIdAndPlatformUser_Uuid(@NonNull String channelName,@NonNull UUID userIdentiticationId);
 
     @NonNull Optional<SafeEntity> findByUuid(@NonNull UUID id);
 

@@ -1,6 +1,7 @@
 package perobobbot.data.security.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,13 +31,7 @@ public class SecuredClientService implements ClientService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull Optional<DecryptedClient> findClient(@NonNull Platform platform, @NonNull String clientId) {
-        return clientService.findClient(platform,clientId);
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull ImmutableList<DecryptedClient> findAllClients() {
+    public @NonNull ImmutableMap<Platform, DecryptedClient> findAllClients() {
         return clientService.findAllClients();
     }
 
@@ -44,12 +39,6 @@ public class SecuredClientService implements ClientService {
     @PreAuthorize("hasRole('ADMIN')")
     public @NonNull DecryptedClient getClient(@NonNull Platform platform) {
         return clientService.getClient(platform);
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public @NonNull DecryptedClient getClient(@NonNull Platform platform, @NonNull String clientId) {
-        return clientService.getClient(platform, clientId);
     }
 
     @Override

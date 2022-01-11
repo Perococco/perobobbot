@@ -9,7 +9,7 @@ import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
 import perobobbot.data.service.proxy.ProxyBotService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedChannel;
+import perobobbot.lang.JoinedTwitchChannel;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 
@@ -63,7 +63,7 @@ public class SecuredBotService extends ProxyBotService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN') || hasPermission(#botId,'BotEntity','WRITE')" )
-    public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
+    public @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
         return super.addJoinedChannel(botId, viewerIdentityId, channelName);
     }
 
@@ -74,7 +74,7 @@ public class SecuredBotService extends ProxyBotService {
     }
 
     @Override
-    public @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform) {
+    public @NonNull ImmutableList<JoinedTwitchChannel> findJoinedChannels(@NonNull Platform platform) {
         return super.findJoinedChannels(platform);
     }
 }

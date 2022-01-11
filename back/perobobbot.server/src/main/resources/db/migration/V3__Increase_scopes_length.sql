@@ -1,1 +1,0 @@
-alter table PEROBOBBOT.USER_TOKEN alter column SCOPES VARCHAR(2048) not null

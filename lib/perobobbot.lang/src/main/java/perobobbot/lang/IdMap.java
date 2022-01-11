@@ -19,7 +19,7 @@ public class IdMap<K, T> {
 
     public @NonNull IdBooking bookNewId(@NonNull K userKey) {
         do {
-            final var id = new IdKey<>(userKey, RandomString.generate(32));
+            final var id = new IdKey<>(userKey, RandomString.createWithLength(32));
             if (keys.add(id)) {
                 return new IdBooking(id);
             }

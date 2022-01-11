@@ -41,7 +41,7 @@ public class JPAUserService implements UserService, UserProvider {
     private final UserRepository userRepository;
 
     @NonNull
-    private final UserTokenRepository credentialRepository;
+    private final UserTokenRepository userTokenRepository;
 
     @NonNull
     private final PasswordEncoder passwordEncoder;
@@ -71,7 +71,7 @@ public class JPAUserService implements UserService, UserProvider {
         final var builder = User.builder();
         final var first = userInfo.get(0);
         builder.login(first.getLogin())
-               .identification(first.identification())
+               .authentication(first.identification())
                .deactivated(first.isDeactivated())
                .locale(Locale.forLanguageTag(first.getLocale()))
                .jwtClaim(first.getJwtClaim());
@@ -130,7 +130,7 @@ public class JPAUserService implements UserService, UserProvider {
         final var encodedPassword = passwordEncoder.encode(newPassword);
 
         final var user = userRepository.getByLogin(login);
-        user.getIdentification().changePassword(encodedPassword);
+        user.getAuthentication().changePassword(encodedPassword);
         user.regenerateJwtClaim();
 
         userRepository.save(user);

@@ -3,8 +3,9 @@ package perobobbot.lang.token;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformUser;
 import perobobbot.lang.TextEncryptor;
-import perobobbot.lang.ViewerIdentity;
+import perobobbot.lang.UserIdentification;
 
 import java.util.UUID;
 
@@ -14,19 +15,18 @@ public class EncryptedUserTokenView  implements TokenView<String> {
     @NonNull UUID id;
     @NonNull String ownerLogin;
     boolean main;
-    @NonNull ViewerIdentity viewerIdentity;
+    @NonNull PlatformUser platformUser;
     @NonNull EncryptedUserToken userToken;
 
     public @NonNull Platform getPlatform() {
-        return viewerIdentity.getPlatform();
+        return platformUser.getPlatform();
     }
-
-    public String getViewerPseudo() {
-        return viewerIdentity.getPseudo();
+    public String getUserPseudo() {
+        return platformUser.getPseudo();
     }
 
     public @NonNull DecryptedUserTokenView decrypt(@NonNull TextEncryptor textEncryptor) {
-        return new DecryptedUserTokenView(id,ownerLogin,main,viewerIdentity,userToken.decrypt(textEncryptor));
+        return new DecryptedUserTokenView(id,ownerLogin,main, platformUser,userToken.decrypt(textEncryptor));
     }
 
     @Override

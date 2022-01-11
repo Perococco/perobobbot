@@ -30,7 +30,7 @@
         <byte-buddy.version>1.11.2</byte-buddy.version>
         <lombok.version>1.18.20</lombok.version>
         <bucket4j.version>6.2.0</bucket4j.version>
-        <junit-jupiter.version>5.7.2</junit-jupiter.version>
+        <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
         <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
         <controlsfx.version>11.1.0</controlsfx.version>

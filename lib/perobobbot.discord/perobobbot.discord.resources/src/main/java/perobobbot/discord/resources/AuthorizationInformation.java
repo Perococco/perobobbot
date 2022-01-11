@@ -2,7 +2,6 @@ package perobobbot.discord.resources;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.oauth.UserIdentity;
 
 import java.time.Instant;
 

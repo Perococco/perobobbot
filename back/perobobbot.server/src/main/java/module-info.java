@@ -135,4 +135,5 @@ module perobobbot.server {
     uses JsonModuleProvider;
 
     exports perobobbot.server;
+    exports perobobbot.server.component;
 }

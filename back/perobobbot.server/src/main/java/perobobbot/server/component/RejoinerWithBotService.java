@@ -11,7 +11,7 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedChannel;
+import perobobbot.lang.JoinedTwitchChannel;
 import perobobbot.lang.Platform;
 import perobobbot.server.config.io.ChatConnectionHelper;
 import perobobbot.server.config.io.Rejoiner;
@@ -39,7 +39,7 @@ public class RejoinerWithBotService implements Rejoiner {
         private final @NonNull ChatPlatform chatPlatform;
         private final @NonNull ChatConnectionHelper chatConnectionHelper;
 
-        private ImmutableList<JoinedChannel> joinedChannels;
+        private ImmutableList<JoinedTwitchChannel> joinedTwitchChannels;
 
         public Execution(@NonNull ChatPlatform chatPlatform) {
             this.chatPlatform = chatPlatform;
@@ -48,18 +48,18 @@ public class RejoinerWithBotService implements Rejoiner {
 
         private void run() {
             this.retrieveJoinedChannels();
-            assert joinedChannels != null;
-            joinedChannels.forEach(this::rejoin);
+            assert joinedTwitchChannels != null;
+            joinedTwitchChannels.forEach(this::rejoin);
         }
 
         private void retrieveJoinedChannels() {
-            this.joinedChannels = botService.findJoinedChannels(chatPlatform.getPlatform());
+            this.joinedTwitchChannels = botService.findJoinedChannels(chatPlatform.getPlatform());
         }
 
-        private void rejoin(@NonNull JoinedChannel joinedChannel) {
-            final var channelName = joinedChannel.getChannelName();
-            final var bot = joinedChannel.getBot();
-            final var connectionInfo = chatConnectionHelper.createRefreshable(joinedChannel).orElse(null);
+        private void rejoin(@NonNull JoinedTwitchChannel joinedTwitchChannel) {
+            final var channelName = joinedTwitchChannel.getChannelName();
+            final var bot = joinedTwitchChannel.getBot();
+            final var connectionInfo = chatConnectionHelper.createRefreshable(joinedTwitchChannel).orElse(null);
 
             if (connectionInfo == null) {
                 warnOnRejoinFailure("No credential to join", bot, channelName);

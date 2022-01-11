@@ -10,8 +10,6 @@ import perobobbot.data.com.SubscriptionView;
 import perobobbot.data.com.UserSubscriptionView;
 import perobobbot.data.domain.TwitchSubscriptionEntity;
 import perobobbot.data.domain.UserTwitchSubscriptionEntity;
-import perobobbot.data.domain.base.TwitchSubscriptionEntityBase;
-import perobobbot.data.domain.base.UserTwitchSubscriptionEntityBase;
 import perobobbot.data.jpa.repository.SubscriptionRepository;
 import perobobbot.data.jpa.repository.UserRepository;
 import perobobbot.data.jpa.repository.UserSubscriptionRepository;
@@ -38,21 +36,21 @@ public class JPASubscriptionService implements SubscriptionService {
     @Override
     public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptions(@NonNull String login) {
         return userSubscriptionRepository.findByOwner_Login(login)
-                                         .map(UserTwitchSubscriptionEntityBase::toView)
+                                         .map(UserTwitchSubscriptionEntity::toView)
                                          .collect(ImmutableList.toImmutableList());
     }
 
     @Override
     public @NonNull ImmutableList<UserSubscriptionView> listAllSubscriptionsByPlatform(@NonNull String login, @NonNull Platform platform) {
         return userSubscriptionRepository.findByOwner_LoginAndSubscription_Platform(login, platform)
-                                         .map(UserTwitchSubscriptionEntityBase::toView)
+                                         .map(UserTwitchSubscriptionEntity::toView)
                                          .collect(ImmutableList.toImmutableList());
     }
 
     @Override
     public @NonNull ImmutableList<SubscriptionView> listAllByPlatform(@NonNull Platform platform) {
         return subscriptionRepository.findByPlatform(platform)
-                                     .map(TwitchSubscriptionEntityBase::toView)
+                                     .map(TwitchSubscriptionEntity::toView)
                                      .collect(ImmutableList.toImmutableList());
     }
 
@@ -68,7 +66,7 @@ public class JPASubscriptionService implements SubscriptionService {
         final var subscription = subscriptionRepository.getByUuid(subscriptionId);
         final var user = userRepository.getByLogin(login);
 
-        return userSubscriptionRepository.save(new UserTwitchSubscriptionEntity(user, subscription)).toView();
+        return userSubscriptionRepository.save(user.subscribeTo(subscription)).toView();
     }
 
     @Override
@@ -95,7 +93,7 @@ public class JPASubscriptionService implements SubscriptionService {
 
     @Override
     public @NonNull Optional<SubscriptionView> findSubscription(@NonNull SubscriptionData subscriptionData) {
-        return findSubscriptionEntity(subscriptionData).map(TwitchSubscriptionEntityBase::toView);
+        return findSubscriptionEntity(subscriptionData).map(TwitchSubscriptionEntity::toView);
     }
 
     private @NonNull Optional<TwitchSubscriptionEntity> findSubscriptionEntity(@NonNull SubscriptionData subscriptionData) {

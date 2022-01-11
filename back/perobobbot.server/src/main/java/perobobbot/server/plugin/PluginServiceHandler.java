@@ -3,9 +3,8 @@ package perobobbot.server.plugin;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import perobobbot.security.com.Identification;
+import perobobbot.security.com.Authentication;
 import perobobbot.security.com.Operation;
 import perobobbot.security.com.RoleKind;
 import perobobbot.security.com.User;
@@ -54,10 +53,10 @@ public class PluginServiceHandler implements InvocationHandler {
                                                 .jwtClaim("")
                                                 .deactivated(false)
                                                 .locale(Locale.ENGLISH)
-                                                .identification(Identification.password("plugin"))
+                                                .authentication(Authentication.password("plugin"))
                                                 .role(RoleKind.ADMIN)
                                                 .operation(Operation.READ_CREDENTIALS)
                                                 .build();
 
-    private static final Authentication AUTHENTICATION = JwtAuthentication.create(PLUGIN_USER);
+    private static final org.springframework.security.core.Authentication AUTHENTICATION = JwtAuthentication.create(PLUGIN_USER);
 }

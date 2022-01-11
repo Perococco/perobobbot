@@ -2,7 +2,8 @@ package perobobbot.twitch.oauth.impl;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.*;
-import perobobbot.oauth.UserIdentity;
+import perobobbot.lang.TwitchIdentity;
+import perobobbot.lang.UserIdentity;
 
 import java.util.Optional;
 
@@ -32,6 +33,6 @@ public class TwitchValidation {
     }
 
     public @NonNull UserIdentity toUserIdentity() {
-        return new UserIdentity(userId,login);
+        return new TwitchIdentity(userId,login,login);
     }
 }

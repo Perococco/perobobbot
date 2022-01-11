@@ -2,15 +2,14 @@ package perobobbot.rest.controller;
 
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.BaseClient;
-import perobobbot.lang.ListTool;
-import perobobbot.lang.SafeClient;
+import perobobbot.lang.*;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -20,8 +19,8 @@ public class ClientController {
     private final @NonNull @SecuredService ClientService clientService;
 
     @GetMapping("")
-    public @NonNull ImmutableList<SafeClient> listClients() {
-        return ListTool.map(clientService.findAllClients(), BaseClient::stripSecret);
+    public @NonNull ImmutableMap<Platform, SafeClient> listClients() {
+        return MathTool.mapValue(clientService.findAllClients(), BaseClient::stripSecret);
     }
 
     @PutMapping("")

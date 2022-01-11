@@ -7,6 +7,7 @@ import perobobbot.lang.fp.Function1;
 
 import java.net.URI;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 public class UserOAuthInfo<T> {
@@ -29,5 +30,9 @@ public class UserOAuthInfo<T> {
                 oauthURI,
                 futureToken.thenApply(mapper)
         );
+    }
+
+    public @NonNull T get() throws ExecutionException, InterruptedException {
+        return this.futureToken.toCompletableFuture().get();
     }
 }

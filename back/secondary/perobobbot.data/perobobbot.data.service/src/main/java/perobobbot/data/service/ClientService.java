@@ -1,6 +1,7 @@
 package perobobbot.data.service;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.com.NoClientForPlatform;
@@ -23,8 +24,6 @@ public interface ClientService {
      */
     @NonNull Optional<DecryptedClient> findClientForPlatform(@NonNull Platform platform);
 
-    @NonNull Optional<DecryptedClient> findClient(@NonNull Platform platform, @NonNull String clientId);
-
     default @NonNull DecryptedClient getClient(@NonNull Platform platform) {
         return findClientForPlatform(platform).orElseThrow(() -> new NoClientForPlatform(platform));
     }
@@ -33,12 +32,11 @@ public interface ClientService {
         return getClient(platform).stripSecret();
     }
 
-    default @NonNull DecryptedClient getClient(@NonNull Platform platform, @NonNull String clientId) {
-        return findClient(platform,clientId).orElseThrow(() -> new UnknownClient(platform,clientId));
-    }
-
-    @NonNull ImmutableList<DecryptedClient> findAllClients();
+    @NonNull ImmutableMap<Platform, DecryptedClient> findAllClients();
 
     @NonNull DecryptedClient createClient(@NonNull CreateClientParameter parameter);
 
+    default boolean hasClientForPlatform(Platform platform) {
+        return findClientForPlatform(platform).isPresent();
+    }
 }

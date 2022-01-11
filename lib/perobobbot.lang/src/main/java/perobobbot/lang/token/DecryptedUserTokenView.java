@@ -3,8 +3,9 @@ package perobobbot.lang.token;
 import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformUser;
+import perobobbot.lang.UserIdentification;
 import perobobbot.lang.Secret;
-import perobobbot.lang.ViewerIdentity;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -15,21 +16,23 @@ public class DecryptedUserTokenView  implements DecryptedTokenView {
     @NonNull UUID id;
     @NonNull String ownerLogin;
     boolean main;
-    @NonNull ViewerIdentity viewerIdentity;
+    @NonNull PlatformUser platformUser;
     @NonNull DecryptedUserToken userToken;
 
-    public @NonNull Platform getPlatform() {
-        return viewerIdentity.getPlatform();
+
+    @NonNull
+    public Platform getPlatform() {
+        return platformUser.getPlatform();
     }
 
-    public String getViewerId() {
-        return viewerIdentity.getViewerId();
+    public String getUserId() {
+        return platformUser.getUserId();
     }
-    public String getViewerPseudo() {
-        return viewerIdentity.getPseudo();
+    public String getUserPseudo() {
+        return platformUser.getPseudo();
     }
-    public String getViewerLogin() {
-        return viewerIdentity.getLogin();
+    public String getUserLogin() {
+        return platformUser.getLogin();
     }
 
     public Instant getExpirationInstant() {

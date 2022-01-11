@@ -33,9 +33,9 @@ class BotExtension {
 }
 
 class JoinedChannel {
-  + viewerIdentity: ViewerIdentity,
+  + platformUser: platformUser,
   + bot:Bot
-  + channelName:String,
+  + channelId:String,
 }
 
 class Role {
@@ -44,28 +44,30 @@ class Role {
 }
 
 class Safe #C8FF8D {
- +channelName:String,
+ +channelId:String,
  +platformUser:PlatformUser,
  +amount:int
  +pointType:PointType,
 }
 
-class PlatformUser #FFD538 {
-    discordUser:?DiscordUser,
-    twitchUser:?DiscordUser,
+abstract class PlatformUser #FFD538 {
+    userIdentification:UserIdentification,
+    userToken:UserToken,
+    userId:String,
+    platform:Platform
+
 }
 
 class DiscordUser #FFD538 {
-    userId:String
     login:String
     discriminator:String
 }
 
 class TwitchUser #FFD538 {
-    userId:String,
     login:String,
     pseudo:String
 }
+
 
 class Client {
     platform:Platform,
@@ -77,17 +79,9 @@ class ClientToken #7591FF {
      client:Client
 }
 
-note left of UserToken {
-At least one of
-**discordUser**
-and **twitchUser**
-must be specified,
-but not both
-}
 class UserToken #7591FF {
     owner:User
-    discordUser:?DiscordUser,
-    twitchUser:?TwitchUser,
+    platformUser:PlatformUser,
     refreshToken:String,
     scopes:String
 }
@@ -113,7 +107,7 @@ class User {
 +password:String,
 }
 
-class Overlay {
+class Overlay #17D6FF {
 +name:String
 +urlId:String
 +width:int
@@ -121,7 +115,7 @@ class Overlay {
 +widgetGeometries:List<WidgetGeometry>
 }
 
-class WidgetGeometry {
+class WidgetGeometry #17D6FF {
 +widgetName:string
 +x:int
 +y:int

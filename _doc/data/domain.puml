@@ -8,12 +8,11 @@ User -- Role
 User "1" -- UserTwitchSubscription
 UserTwitchSubscription -- "1" TwitchSubscription
 
-Safe "1" -- Transaction
+
+
+Safe "1"-- Transaction
 
 PlatformUser -- Safe
-
-PlatformUser -- "0-1" DiscordUser
-PlatformUser -- "0-1" TwitchUser
 
 Token <|.. ClientToken
 Token <|.. UserToken
@@ -21,19 +20,18 @@ Token <|.. UserToken
 User "1"-- Overlay
 Overlay "1" -- WidgetGeometry
 
-UserToken  -- "1" DiscordUser
-UserToken  -- "1" TwitchUser
+UserToken  -- "1" PlatformUser
 UserToken   -- "1" User
 ClientToken  -- "1" Client
 
-User -- PlatformUser
-
+PlatformUser <|-- TwitchUser
+PlatformUser <|-- DiscordUser
 
 Bot "1" -- BotExtension
-Extension "1"-- BotExtension
+BotExtension --"1" Extension
 Bot "1" -- JoinedChannel
 
-JoinedChannel --"1" ViewerIdentity
+JoinedChannel --"1" PlatformUser
 
 
 @enduml

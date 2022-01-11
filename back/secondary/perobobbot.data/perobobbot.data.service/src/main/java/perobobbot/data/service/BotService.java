@@ -3,7 +3,7 @@ package perobobbot.data.service;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedChannel;
+import perobobbot.lang.JoinedTwitchChannel;
 import perobobbot.lang.Platform;
 
 import java.util.Optional;
@@ -35,9 +35,9 @@ public interface BotService {
 
     @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
 
-    @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
+    @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName);
 
-    @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
+    @NonNull Optional<JoinedTwitchChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
 
     void removeJoinedChannel(@NonNull UUID joinedChannelId);
 
@@ -53,6 +53,6 @@ public interface BotService {
 
     void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
 
-    @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform);
+    @NonNull ImmutableList<JoinedTwitchChannel> findJoinedChannels(@NonNull Platform platform);
 
 }

@@ -3,7 +3,8 @@ package perobobbot.discord.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.oauth.UserIdentity;
+import perobobbot.lang.DiscordIdentity;
+import perobobbot.lang.UserIdentity;
 
 /**
  *
@@ -35,7 +36,7 @@ public class DiscordUser {
 
 
     public @NonNull UserIdentity toUserIdentity() {
-        return new UserIdentity(id,username+"#"+discriminator);
+        return new DiscordIdentity(id,username,discriminator);
     }
 
 }

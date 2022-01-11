@@ -25,14 +25,16 @@ module perobobbot.data.jpa {
     requires perobobbot.oauth;
     requires com.google.common;
 
-    opens perobobbot.data.jpa to spring.core;
-    opens perobobbot.data.jpa.service to spring.core,spring.beans,spring.context;
-    opens perobobbot.data.jpa.repository to spring.core,spring.beans,spring.context,spring.data.commons;
+    opens perobobbot.data.jpa to spring.beans, spring.context, spring.core, perobobbot.data.jpa.test;
+    opens perobobbot.data.jpa.service to spring.core,spring.beans,spring.context, perobobbot.data.jpa.test;
+    opens perobobbot.data.jpa.repository to spring.core,spring.beans,spring.context,spring.data.commons, perobobbot.data.jpa.test;
+    opens perobobbot.data.jpa.repository.tools to spring.beans, spring.context, spring.core, perobobbot.data.jpa.test;
 
     provides Packages with DataJpaConfiguration;
 
     exports perobobbot.data.jpa;
     exports perobobbot.data.jpa.service;
     exports perobobbot.data.jpa.repository;
+    exports perobobbot.data.jpa.repository.tools;
 
 }

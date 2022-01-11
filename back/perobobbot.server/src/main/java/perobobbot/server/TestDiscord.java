@@ -1,37 +1,19 @@
 package perobobbot.server;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import perobobbot.chat.core.IO;
-import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.*;
-import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.ChatConnectionInfo;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
-import perobobbot.lang.token.DecryptedClientTokenView;
-import perobobbot.lang.token.DecryptedUserTokenView;
-import perobobbot.oauth.OAuthManager;
-import perobobbot.oauth.OAuthUrlOptions;
-import perobobbot.oauth.Token;
-import perobobbot.oauth.UserOAuthInfo;
-import perobobbot.twitch.client.api.TwitchService;
-import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
-import perobobbot.twitch.client.api.channelpoints.CustomReward;
-import reactor.core.publisher.Mono;
+import perobobbot.oauth.*;
 
-import javax.swing.plaf.DesktopPaneUI;
 import java.awt.*;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.concurrent.CompletionStage;
 
 @Component
 @RequiredArgsConstructor
@@ -54,7 +36,7 @@ public class TestDiscord {
 //            new ClientUpdater(clientService, Path.of("/home/perococco/perobobbot_clients.txt")).update();
 
             final var client = clientService.getClient(Platform.DISCORD);
-            final var controller = oAuthManager.getController(Platform.DISCORD);
+            final var controller = new OAuthControllerFromManager(oAuthManager,Platform.DISCORD);
 
             final var tokens = oAuthService.getAllUserTokens("perococco");
 

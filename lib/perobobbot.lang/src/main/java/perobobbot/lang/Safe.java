@@ -19,12 +19,12 @@ public class Safe {
     /**
      * id of the viewer owning the safe
      */
-    @NonNull ViewerIdentity viewerIdentity;
+    @NonNull UUID platformUserId;
 
     /**
      * The name of the channel this safe applies to
      */
-    @NonNull String channelName;
+    @NonNull String channelId;
 
     /**
      * Credit for each credit type

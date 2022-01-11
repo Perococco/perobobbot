@@ -13,7 +13,7 @@ import perobobbot.lang.PluginService;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.OAuthUrlOptions;
 import perobobbot.oauth.Token;
-import perobobbot.oauth.UserIdentity;
+import perobobbot.lang.UserIdentity;
 import perobobbot.security.com.*;
 import perobobbot.security.core.jwt.JWTokenManager;
 import perobobbot.server.config.security.jwt.JwtTokenFromUserIdentityCreator;
@@ -66,9 +66,7 @@ public class SpringOAuthAuthorizationCodeFlow implements OAuthAuthorizationCodeF
     }
 
     private @NonNull CompletionStage<OAuthToken> formOAuthToken(@NonNull Platform openIdPlatform, @NonNull Token token) {
-        final var controller = oAuthManager.getController(openIdPlatform);
-
-        return controller.getUserIdentity(token.getAccessToken())
+        return oAuthManager.getUserIdentity(openIdPlatform, token.getAccessToken())
                          .thenApply(userIdentity -> createOAuthToken(userIdentity, openIdPlatform,token))
                          .whenComplete(this::saveUserToken);
     }

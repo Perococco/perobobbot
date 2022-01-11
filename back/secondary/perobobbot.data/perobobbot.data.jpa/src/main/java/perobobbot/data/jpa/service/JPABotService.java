@@ -11,7 +11,7 @@ import perobobbot.data.jpa.repository.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedChannel;
+import perobobbot.lang.JoinedTwitchChannel;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
 
@@ -29,7 +29,7 @@ public class JPABotService implements BotService {
     private final @NonNull BotExtensionRepository botExtensionRepository;
     private final @NonNull UserRepository userRepository;
     private final @NonNull JoinedChannelRepository joinedChannelRepository;
-    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
+    private final @NonNull TwitchUserRepository twitchUserRepository;
     private final @NonNull TextEncryptor textEncryptor;
 
     @Override
@@ -69,14 +69,14 @@ public class JPABotService implements BotService {
 
     @Override
     @Transactional
-    public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID viewerIdentityId, @NonNull String channelName) {
-        var existing = joinedChannelRepository.findByBotUuidAndViewerIdentityUuidAndChannelName(botId,viewerIdentityId,channelName)
+    public @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID platformUserId, @NonNull String channelName) {
+        var existing = joinedChannelRepository.findByBot_UuidAndTwitchUser_PlatformAndChannelName(botId,platformUserId,channelName)
                 .orElse(null);
 
         if (existing == null) {
             final var bot = botRepository.getByUuid(botId);
-            final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
-            final var joinedChannel = bot.joinChannel(viewerIdentity, channelName);
+            final var twitchUser = twitchUserRepository.getByUuid(platformUserId);
+            final var joinedChannel = bot.joinChannel(twitchUser, channelName);
             existing = joinedChannelRepository.save(joinedChannel);
         }
 
@@ -85,7 +85,7 @@ public class JPABotService implements BotService {
     }
 
     @Override
-    public @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
+    public @NonNull Optional<JoinedTwitchChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
         return joinedChannelRepository.findByUuid(joinedChannelId)
                                       .map(e -> e.toView(textEncryptor));
     }
@@ -101,9 +101,9 @@ public class JPABotService implements BotService {
     }
 
     @Override
-    public @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform) {
+    public @NonNull ImmutableList<JoinedTwitchChannel> findJoinedChannels(@NonNull Platform platform) {
 
-        return joinedChannelRepository.findAllByViewerIdentity_Platform(platform)
+        return joinedChannelRepository.findAllByTwitchUser_Platform(platform)
                                       .stream()
                                       .map(e -> e.toView(textEncryptor))
                                       .collect(ImmutableList.toImmutableList());

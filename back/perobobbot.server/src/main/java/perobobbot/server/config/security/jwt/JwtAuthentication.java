@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import perobobbot.security.com.BotUser;
-import perobobbot.security.com.Identification;
+import perobobbot.security.com.Authentication;
 import perobobbot.security.com.User;
 import perobobbot.server.config.security.ExtractorOfGrantedAuthorities;
 
@@ -29,7 +29,7 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
 
     public JwtAuthentication(User user, ImmutableList<GrantedAuthority> authorities) {
         super(authorities);
-        this.user = new JwtUser(user.getUsername(), user.getIdentification(), ExtractorOfGrantedAuthorities.extract(user));
+        this.user = new JwtUser(user.getUsername(), user.getAuthentication(), ExtractorOfGrantedAuthorities.extract(user));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
         private final @NonNull String username;
 
         @Getter
-        private final @NonNull Identification credentials;
+        private final @NonNull Authentication credentials;
 
         @Getter
         private final Collection<? extends GrantedAuthority> authorities;

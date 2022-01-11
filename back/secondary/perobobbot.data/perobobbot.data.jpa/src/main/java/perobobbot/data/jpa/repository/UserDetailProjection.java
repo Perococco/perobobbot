@@ -3,7 +3,7 @@ package perobobbot.data.jpa.repository;
 import lombok.NonNull;
 import perobobbot.lang.IdentifiedEnumTools;
 import perobobbot.lang.Platform;
-import perobobbot.security.com.Identification;
+import perobobbot.security.com.Authentication;
 
 public interface UserDetailProjection {
 
@@ -16,10 +16,10 @@ public interface UserDetailProjection {
     String getRoleKind();
     String getOperation();
 
-    default @NonNull Identification identification() {
+    default @NonNull Authentication identification() {
         if (getPassword() != null) {
-            return Identification.password(getPassword());
+            return Authentication.password(getPassword());
         }
-        return Identification.openId(IdentifiedEnumTools.getEnum(getOpenIdPlatform(), Platform.class));
+        return Authentication.openId(IdentifiedEnumTools.getEnum(getOpenIdPlatform(), Platform.class));
     }
 }

@@ -1,5 +1,6 @@
 package perobobbot.server.config.security;
 
+import lombok.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ public class PerobobbotPasswordEncoder implements PasswordEncoder, perobobbot.la
     private final PasswordEncoder delegate = new BCryptPasswordEncoder();
 
     @Override
-    public String encode(CharSequence rawPassword) {
+    public @NonNull String encode(@NonNull CharSequence rawPassword) {
         return delegate.encode(rawPassword);
     }
 

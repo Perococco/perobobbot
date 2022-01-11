@@ -1,49 +1,110 @@
 package perobobbot.data.domain;
 
 import com.google.common.collect.ImmutableSet;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import perobobbot.data.com.CreateUserParameters;
-import perobobbot.data.domain.base.UserEntityBase;
+import perobobbot.data.domain.converter.LocaleConverter;
 import perobobbot.lang.RandomString;
 import perobobbot.lang.token.EncryptedUserToken;
-import perobobbot.security.com.Identification;
+import perobobbot.persistence.SimplePersistentObject;
+import perobobbot.security.com.Authentication;
 import perobobbot.security.com.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.UUID;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "USER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity extends UserEntityBase {
+@Getter @Setter
+public class UserEntity extends SimplePersistentObject {
 
-    public UserEntity(@NonNull @Email String login, @NonNull Identification identification) {
-        super(login, identification);
+    @NonNull
+    @NotBlank
+    @Column(name = "LOGIN",unique = true)
+    @Size(max = 255)
+    private String login = "";
+
+    @Column(name = "DEACTIVATED", nullable = false)
+    private boolean deactivated = false;
+
+    @Column(name = "JWT_CLAIM", nullable = false)
+    private String jwtClaim = "";
+
+    @Column(name = "LOCALE")
+    @Convert(converter = LocaleConverter.class)
+    private Locale locale = Locale.ENGLISH;
+
+    @Embedded
+    private UserAuthentication authentication;
+
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
+    @JoinTable(
+            name = "USER_ROLE",
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_ID","ROLE_ID"})},
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")}
+    )
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
+    private Set<RoleEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @Getter(AccessLevel.PROTECTED)
+    @Setter(AccessLevel.PROTECTED)
+    private List<UserTokenEntity> userTokens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner")
+    @Fetch(FetchMode.JOIN)
+    private List<BotEntity> bots = new ArrayList<>();
+
+    public UserEntity(
+            @NonNull @Email String login,
+            @NonNull Authentication authentication) {
+        this.login = login;
+        this.authentication = new UserAuthentication(authentication);
+        this.jwtClaim = RandomString.createWithLength(16);
+    }
+
+    protected boolean hasRole(RoleEntity role) {
+        return roles.contains(role);
+    }
+
+    public @NonNull Stream<RoleEntity> roles() {
+        return roles.stream();
+    }
+
+    public @NonNull Stream<UserTokenEntity> credentials() {
+        return userTokens.stream();
     }
 
     public @NonNull BotEntity createBot(@NonNull String botName) {
         final var bot = new BotEntity(this, botName);
-        this.getBots().add(bot);
+        this.bots.add(bot);
         return bot;
     }
 
     public static @NonNull UserEntity create(CreateUserParameters parameters) {
-        return new UserEntity(parameters.getLogin(), parameters.getIdentification());
+        return new UserEntity(parameters.getLogin(), parameters.getAuthentication());
     }
 
     /**
      *
-     * @param viewerIdentityEntity the identity of the viewer the token refers to
+     * @param platformUser the identity of the viewer the token refers to
      * @param userToken the user token obtain by OAuth processs
      * @return the new entity representing the token for the provided viewer identity and owned by this
      */
-    public @NonNull UserTokenEntity setUserToken(@NonNull ViewerIdentityEntity viewerIdentityEntity, @NonNull EncryptedUserToken userToken) {
-        final var existing = viewerIdentityEntity.getUserTokenEntity().orElse(null);
-        final var userTokenEntity = viewerIdentityEntity.setUserToken(this,userToken);
+    public @NonNull UserTokenEntity setUserToken(@NonNull PlatformUserEntity<?> platformUser, @NonNull EncryptedUserToken userToken) {
+        final var existing = platformUser.getUserToken().orElse(null);
+        final var userTokenEntity = platformUser.setUserToken(this,userToken);
         if (existing != null) {
             this.removeUserToken(existing.getUuid());
         }
@@ -56,14 +117,16 @@ public class UserEntity extends UserEntityBase {
     }
 
 
-
+    public UserTwitchSubscriptionEntity subscribeTo(@NonNull TwitchSubscriptionEntity twitchSubscription) {
+        return new UserTwitchSubscriptionEntity(this,twitchSubscription);
+    }
 
     /**
      * Regenerate the JWT claim. This will invalidate all
      * jwt tokens.
      */
     public void regenerateJwtClaim() {
-        this.setJwtClaim(RandomString.generate(16));
+        this.jwtClaim = RandomString.createWithLength(16);
     }
 
     /**
@@ -91,11 +154,11 @@ public class UserEntity extends UserEntityBase {
 
     public @NonNull User toView() {
         return User.builder()
-                   .deactivated(this.isDeactivated())
-                   .login(this.getLogin())
-                   .locale(getLocale())
-                   .identification(this.getIdentification().toView())
-                   .jwtClaim(this.getJwtClaim())
+                   .deactivated(deactivated)
+                   .login(login)
+                   .locale(locale)
+                   .authentication(authentication.toView())
+                   .jwtClaim(jwtClaim)
                    .roles(this.roles().map(RoleEntity::getRole).collect(ImmutableSet.toImmutableSet()))
                    .operations(this.roles().flatMap(RoleEntity::allowedOperations).collect(ImmutableSet.toImmutableSet()))
                    .build();

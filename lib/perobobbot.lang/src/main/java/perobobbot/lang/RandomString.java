@@ -1,26 +1,28 @@
 package perobobbot.lang;
 
+import lombok.NonNull;
+
 import java.security.SecureRandom;
 import java.util.Random;
 
 /**
  * @author perococco
  */
-public class RandomString {
+public enum RandomString {
 
-    public static String generate(int length) {
-        return INSTANCE.doGenerate(length);
-    }
+    INSTANCE,
+    ;
 
-
-    private static final RandomString INSTANCE = new RandomString();
+    private static final char[] CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789)=".toCharArray();
 
 
     private final Random random = new SecureRandom();
 
-    private static final char[] CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789)=".toCharArray();
+    public static @NonNull String createWithLength(int length) {
+        return INSTANCE.generate(length);
+    }
 
-    private String doGenerate(int length) {
+    public @NonNull  String generate(int length) {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(nextRandomChar());

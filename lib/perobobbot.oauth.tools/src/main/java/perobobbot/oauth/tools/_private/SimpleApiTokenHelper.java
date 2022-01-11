@@ -69,7 +69,7 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
     public @NonNull Optional<ApiToken> getToken() {
         final ApiToken apiToken;
         if (userTokenView != null) {
-            apiToken = new UserApiToken(userTokenView.getViewerId(), safeClient.getClientId(), userTokenView.getUserToken().getAccessToken());
+            apiToken = new UserApiToken(userTokenView.getUserId(), safeClient.getClientId(), userTokenView.getUserToken().getAccessToken());
         } else if (clientTokenView != null) {
             apiToken = new ClientApiToken(safeClient.getClientId(), clientTokenView.getToken().getAccessToken());
         } else {

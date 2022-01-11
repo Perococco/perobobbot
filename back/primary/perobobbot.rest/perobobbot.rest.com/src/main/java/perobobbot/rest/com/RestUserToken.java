@@ -3,8 +3,9 @@ package perobobbot.rest.com;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.PlatformUser;
 import perobobbot.lang.TypeScript;
-import perobobbot.lang.ViewerIdentity;
+import perobobbot.lang.UserIdentification;
 import perobobbot.lang.token.DecryptedUserTokenView;
 
 import java.time.Instant;
@@ -17,14 +18,14 @@ public class RestUserToken {
 
     @NonNull UUID id;
     @NonNull String ownerLogin;
-    @NonNull ViewerIdentity viewerIdentity;
+    @NonNull PlatformUser platformUser;
     @NonNull Instant expirationInstant;
 
     public static @NonNull RestUserToken fromUserTokenView(@NonNull DecryptedUserTokenView decryptedUserTokenView) {
         return new RestUserToken(
                 decryptedUserTokenView.getId(),
                 decryptedUserTokenView.getOwnerLogin(),
-                decryptedUserTokenView.getViewerIdentity(),
+                decryptedUserTokenView.getPlatformUser(),
                 decryptedUserTokenView.getExpirationInstant());
     }
 

@@ -1,21 +1,35 @@
 package perobobbot.data.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import perobobbot.data.domain.base.BotCredentialEntityBase;
+import lombok.Setter;
+import perobobbot.persistence.SimplePersistentObject;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "BOT_CREDENTIAL", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {BotCredentialEntityBase.BOT_COLUMN_NAME,BotCredentialEntityBase.CREDENTIAL_COLUMN_NAME})
+        @UniqueConstraint(columnNames = {"BOT_ID","CREDENTIAL_ID"})
 })
 @NoArgsConstructor
-public class BotCredentialEntity extends BotCredentialEntityBase {
+@Getter @Setter(AccessLevel.PROTECTED)
+public class BotCredentialEntity extends SimplePersistentObject {
 
-    public BotCredentialEntity(@NonNull BotEntity bot, @NonNull UserTokenEntity credentialEntity) {
-        super(bot, credentialEntity);
+    public static final String BOT_COLUMN_NAME = "BOT_ID";
+    public static final String CREDENTIAL_COLUMN_NAME = "CREDENTIAL_ID";
+
+    @ManyToOne
+    @JoinColumn(name = "BOT_ID",nullable = false)
+    private BotEntity bot;
+
+    @ManyToOne
+    @JoinColumn(name = "CREDENTIAL_ID",nullable = false)
+    private UserTokenEntity credentialEntity;
+
+    public BotCredentialEntity(BotEntity bot, UserTokenEntity credentialEntity) {
+        this.bot = bot;
+        this.credentialEntity = credentialEntity;
     }
+
 }

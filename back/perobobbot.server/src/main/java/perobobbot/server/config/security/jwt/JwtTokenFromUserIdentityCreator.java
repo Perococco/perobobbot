@@ -9,7 +9,7 @@ import perobobbot.data.com.CreateUserParameters;
 import perobobbot.data.service.UserService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Function1;
-import perobobbot.security.com.Identification;
+import perobobbot.security.com.Authentication;
 import perobobbot.security.com.JwtInfo;
 import perobobbot.security.com.User;
 import perobobbot.security.core.jwt.JWTokenManager;
@@ -63,7 +63,7 @@ public class JwtTokenFromUserIdentityCreator {
     }
 
     private void createNewUser() {
-        final var parameter = new CreateUserParameters(login, Identification.openId(platform));
+        final var parameter = new CreateUserParameters(login, Authentication.openId(platform));
         userService.createUser(parameter);
 
     }

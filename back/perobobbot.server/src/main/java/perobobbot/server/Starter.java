@@ -30,7 +30,7 @@ public class Starter {
 
     private final @NonNull
     @UnsecuredService
-    ViewerIdentityService viewerIdentityService;
+    PlatformUserService platformUserService;
 
     private final @NonNull
     UserEventSubManager userEventSubManager;
@@ -97,16 +97,16 @@ public class Starter {
 
         final var token = oAuthService.findUserToken(userLogin, Platform.TWITCH)
                                       .stream()
-                                      .filter(d -> d.getViewerLogin().equals(chatUser))
+                                      .filter(d -> d.getUserLogin().equals(chatUser))
                                       .findAny()
                                       .get();
 
         final var connectionInfo = ChatConnectionInfo.builder()
                                                      .botId(bot.getId())
-                                                     .viewerIdentityId(token.getViewerIdentity().getId())
+                                                     .platformUserId(token.getPlatformUser().getId())
                                                      .platform(Platform.TWITCH)
                                                      .botName(bot.getName())
-                                                     .nick(token.getViewerLogin())
+                                                     .nick(token.getUserLogin())
                                                      .secret(token.getAccessToken())
                                                      .build();
 

@@ -20,7 +20,7 @@ public class User implements UsernameProvider {
     String login;
 
     @NonNull
-    Identification identification;
+    Authentication authentication;
 
     boolean deactivated;
 
@@ -39,7 +39,7 @@ public class User implements UsernameProvider {
     ImmutableSet<Operation> operations;
 
     public @NonNull SimpleUser simplify() {
-        return new SimpleUser(login, locale, deactivated, identification.getMode(), roles);
+        return new SimpleUser(login, locale, deactivated, authentication.getMode(), roles);
     }
 
     @Override
@@ -48,11 +48,11 @@ public class User implements UsernameProvider {
     }
 
     public @NonNull Optional<String> getPassword() {
-        return identification.getPassword();
+        return authentication.getPassword();
     }
 
     public @NonNull Optional<Platform> getIdentificationOpenIdPlatform() {
-        return identification.getOpenIdPlatform();
+        return authentication.getOpenIdPlatform();
     }
 }
 

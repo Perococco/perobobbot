@@ -10,8 +10,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.domain.ClientTokenEntity;
 import perobobbot.data.domain.UserTokenEntity;
-import perobobbot.data.jpa.UserTokenSaver;
 import perobobbot.data.jpa.repository.*;
+import perobobbot.data.jpa.repository.tools.UserIdentityRetriever;
+import perobobbot.data.jpa.repository.tools.UserTokenSaver;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
@@ -42,10 +43,10 @@ public class JPAOAuthService implements OAuthService {
     private final @NonNull UserRepository userRepository;
     private final @NonNull UserTokenRepository userTokenRepository;
     private final @NonNull ClientTokenRepository clientTokenRepository;
-    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
+    private final @NonNull PlatformUserRepository platformUserRepository;
     private final @NonNull Instants instants;
 
-    private final @NonNull UserTokenSaver.Saver userTokenSaver;
+    private final @NonNull UserTokenSaver userTokenSaver;
 
 
     public JPAOAuthService(@NonNull PlatformTransactionManager platformTransactionManager,
@@ -53,9 +54,10 @@ public class JPAOAuthService implements OAuthService {
                            @NonNull TextEncryptor textEncryptor,
                            @NonNull UserRepository userRepository,
                            @NonNull ClientRepository clientRepository,
-                           @NonNull ViewerIdentityRepository viewerIdentityRepository,
                            @NonNull UserTokenRepository userTokenRepository,
                            @NonNull ClientTokenRepository clientTokenRepository,
+                           @NonNull PlatformUserRepository platformUserRepository,
+                           @NonNull UserTokenSaver userTokenSaver,
                            @NonNull Instants instants) {
         this.transactionTemplate = new TransactionTemplate(platformTransactionManager);
         this.oAuthManager = oAuthManager;
@@ -65,9 +67,8 @@ public class JPAOAuthService implements OAuthService {
         this.clientTokenRepository = clientTokenRepository;
         this.instants = instants;
         this.userRepository = userRepository;
-        this.viewerIdentityRepository = viewerIdentityRepository;
-        this.userTokenSaver = UserTokenSaver.saver(clientRepository, userRepository, viewerIdentityRepository,
-                userTokenRepository, oAuthManager, textEncryptor);
+        this.platformUserRepository = platformUserRepository;
+        this.userTokenSaver = userTokenSaver;
     }
 
     @Override
@@ -91,11 +92,11 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull DecryptedClientTokenView authenticateClient(@NonNull Platform platform) {
-        final var client = clientRepository.getFirstByPlatform(platform);
-        final var oauthController = oAuthManager.getController(platform);
+        final var client = clientRepository.getByPlatform(platform);
 
         try {
-            final var token = oauthController.getClientToken(client.toView().decrypt(textEncryptor))
+            final var decryptedClient = client.toView().decrypt(textEncryptor);
+            final var token = oAuthManager.getClientToken(decryptedClient)
                                              .toCompletableFuture()
                                              .get();
 
@@ -111,7 +112,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform) {
-        return userTokenRepository.findByOwner_LoginAndViewerIdentity_Platform(login, platform)
+        return userTokenRepository.findByOwner_LoginAndPlatformUser_Platform(login, platform)
                                   .map(UserTokenEntity::toView)
                                   .map(t -> t.decrypt(textEncryptor))
                                   .collect(ImmutableList.toImmutableList());
@@ -119,7 +120,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull ImmutableList<DecryptedUserTokenView> findUserToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
-        return userTokenRepository.findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(login, platform,
+        return userTokenRepository.findByOwner_LoginAndPlatformUser_PlatformAndScopesContains(login, platform,
                                           requiredScope.getName())
                                   .map(UserTokenEntity::toView)
                                   .map(t -> t.decrypt(textEncryptor))
@@ -129,7 +130,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform) {
-        return userTokenRepository.findByViewerIdentity_ViewerIdAndViewerIdentity_Platform(broadcasterId, platform)
+        return userTokenRepository.findByPlatformUser_UserIdAndPlatformUser_Platform(broadcasterId, platform)
                                   .findFirst()
                                   .map(UserTokenEntity::toView)
                                   .map((t -> t.decrypt(textEncryptor)));
@@ -137,7 +138,7 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform, Scope requiredScope) {
-        return userTokenRepository.findByViewerIdentity_ViewerIdAndViewerIdentity_PlatformAndScopesContains(broadcasterId, platform, requiredScope.getName())
+        return userTokenRepository.findByPlatformUser_UserIdAndPlatformUser_PlatformAndScopesContains(broadcasterId, platform, requiredScope.getName())
                                   .findFirst()
                                   .map(UserTokenEntity::toView)
                                   .map((t -> t.decrypt(textEncryptor)));
@@ -145,13 +146,13 @@ public class JPAOAuthService implements OAuthService {
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform) {
-        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndViewerIdentity_Platform(login, platform)
+        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndPlatformUser_Platform(login, platform)
                                   .map(e -> e.toDecryptedView(textEncryptor));
     }
 
     @Override
     public @NonNull Optional<DecryptedUserTokenView> findUserMainToken(@NonNull String login, @NonNull Platform platform, @NonNull Scope requiredScope) {
-        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndViewerIdentity_PlatformAndScopesContains(login, platform, requiredScope.getName())
+        return userTokenRepository.findByOwner_LoginAndMainIsTrueAndPlatformUser_PlatformAndScopesContains(login, platform, requiredScope.getName())
                                   .map(e -> e.toDecryptedView(textEncryptor));
     }
 
@@ -187,11 +188,11 @@ public class JPAOAuthService implements OAuthService {
     }
 
     @Override
-    public void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String viewerId, @NonNull Token token) {
+    public void updateUserToken(@NonNull String login, @NonNull Platform platform, @NonNull String userId, @NonNull Token token) {
         final var user = userRepository.getByLogin(login);
-        final var viewerIdentity = viewerIdentityRepository.getByPlatformAndViewerId(platform, viewerId);
+        final var platformUser = platformUserRepository.getByPlatformAndUserId(platform, userId);
 
-        final var existingToken = viewerIdentity.getUserTokenEntity().orElse(null);
+        final var existingToken = platformUser.getUserToken().orElse(null);
 
         final var shouldReplace = existingToken != null && existingToken.getExpirationInstant().isBefore(token.getExpirationInstant());
         final var shouldCreate = existingToken == null || shouldReplace;
@@ -205,7 +206,7 @@ public class JPAOAuthService implements OAuthService {
 
         if (shouldCreate) {
             final var newUserToken = token.toDecryptedUserToken().encrypt(textEncryptor);
-            final var tokenEntity = user.setUserToken(viewerIdentity, newUserToken);
+            final var tokenEntity = user.setUserToken(platformUser, newUserToken);
             tokenEntity.setMain(existingToken != null && existingToken.isMain());
             userTokenRepository.save(tokenEntity);
         } else {
@@ -213,16 +214,15 @@ public class JPAOAuthService implements OAuthService {
         }
 
         if (accessTokenToRevoke != null) {
-            final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
-            final var oauthController = oAuthManager.getController(platform);
-            oauthController.revokeToken(client, accessTokenToRevoke);
+            final var client = clientRepository.getByPlatform(platform).toView().decrypt(textEncryptor);
+            oAuthManager.revokeToken(client, accessTokenToRevoke);
         }
     }
 
     @Override
     public @NonNull UserOAuthInfo<DecryptedUserTokenView> createUserToken(@NonNull String login,
                                                                           @NonNull Platform platform) {
-        final var client = clientRepository.getFirstByPlatform(platform).toView().decrypt(textEncryptor);
+        final var client = clientRepository.getByPlatform(platform).toView().decrypt(textEncryptor);
         final var userOAuthInfo = oAuthManager.prepareUserOAuth(client, new OAuthUrlOptions(true));
         return userOAuthInfo.then(
                 token -> transactionTemplate.execute(status -> userTokenSaver.save(login, client.getId(), token)));
@@ -253,7 +253,7 @@ public class JPAOAuthService implements OAuthService {
     public @NonNull DecryptedUserTokenView refreshUserToken(@NonNull UUID tokenId) {
         final var tokenEntity = userTokenRepository.getByUuid(tokenId);
         final var platform = tokenEntity.getPlatform();
-        final var client = clientRepository.getFirstByPlatform(platform).toDecryptedView(textEncryptor);
+        final var client = clientRepository.getByPlatform(platform).toDecryptedView(textEncryptor);
 
         final var refreshToken = textEncryptor.decrypt(tokenEntity.getRefreshToken());
 
@@ -293,7 +293,6 @@ public class JPAOAuthService implements OAuthService {
     }
 
     /**
-     * TODO investigate the double fk between ViewerIdentity and UserToken
      * @param tokenId
      */
     @Override
@@ -302,10 +301,9 @@ public class JPAOAuthService implements OAuthService {
         final var decryptedAccessToken = textEncryptor.decrypt(token.getAccessToken());
 
         final var platform = token.getPlatform();
-        final var client = clientRepository.getFirstByPlatform(platform).toDecryptedView(textEncryptor);
+        final var client = clientRepository.getByPlatform(platform).toDecryptedView(textEncryptor);
 
-        oAuthManager.getController(token.getPlatform())
-                    .revokeToken(client, decryptedAccessToken);
+        oAuthManager.revokeToken(client, decryptedAccessToken);
 
         token.getOwner().removeUserToken(tokenId);
         userRepository.save(token.getOwner());

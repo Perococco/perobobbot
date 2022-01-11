@@ -51,8 +51,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             select u.login
             from UserEntity u
             join UserTokenEntity ur on ur.owner = u
-            join ViewerIdentityEntity vi on vi = ur.viewerIdentity
-            WHERE vi.platform = :platform AND vi.viewerId = :viewerId
+            join PlatformUserEntity vi on vi = ur.platformUser
+            WHERE vi.platform = :platform AND vi.userId = :viewerId
             """)
     @NonNull Stream<String> getLoginOfUsersAuthenticatedWithViewerId(@NonNull Platform platform, @NonNull String viewerId);
 }

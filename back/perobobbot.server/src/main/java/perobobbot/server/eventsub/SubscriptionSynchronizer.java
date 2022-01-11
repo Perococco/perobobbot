@@ -7,8 +7,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import perobobbot.data.com.NoClientForPlatform;
+import perobobbot.data.com.NoClientTokenForPlatform;
 import perobobbot.data.com.SubscriptionIdentity;
 import perobobbot.data.com.SubscriptionView;
+import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SubscriptionService;
 import perobobbot.eventsub.EventSubManager;
@@ -31,6 +34,7 @@ public class SubscriptionSynchronizer {
     @Qualifier("webhook")
     private final @NonNull ExternalURIProvider oauthExternalURIProvider;
     private final @NonNull EventSubManager eventSubManager;
+    private final @NonNull @EventService ClientService clientService;
     private final @NonNull
     @EventService
     SubscriptionService subscriptionService;
@@ -45,16 +49,23 @@ public class SubscriptionSynchronizer {
             final var callbackUrlChecker = checkCallbackUrl();
             final var synchronizer = Mono.when(Platform.stream()
                                                        .filter(eventSubManager::isPlatformManaged)
+                                                       .filter(clientService::hasClientForPlatform)
                                                        .map(this::synchronizePlatform)
                                                        .toList());
 
-            callbackUrlChecker.then(synchronizer).subscribe();
+            callbackUrlChecker.then(synchronizer)
+                              .subscribe(v -> {}, this::handleError);
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             LOG.error("Subscription synchronization failed : {}", t.getMessage());
         }
 
     }
+
+    private void handleError(@NonNull Throwable throwable) {
+        LOG.error("Subscription synchronization failed : {}", throwable.getMessage());
+    }
+
 
     private Mono<?> checkCallbackUrl() {
         final var webhookHost = oauthExternalURIProvider.get().toURI();

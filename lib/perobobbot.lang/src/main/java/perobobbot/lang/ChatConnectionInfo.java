@@ -21,7 +21,7 @@ public class ChatConnectionInfo {
 
     @NonNull UUID botId;
     @NonNull String botName;
-    @NonNull UUID viewerIdentityId;
+    @NonNull UUID platformUserId;
     @NonNull Platform platform;
 
     /**

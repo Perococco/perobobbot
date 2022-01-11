@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public enum Platform implements IdentifiedEnum {
-    TWITCH("Twitch"),
-    DISCORD("Discord"),
-    SPOTIFY("Spotify"),
-    LOCAL("Local"),
+    TWITCH(PlatfomId.TWITCH),
+    DISCORD(PlatfomId.DISCORD),
+    SPOTIFY(PlatfomId.SPOTIFY),
+    LOCAL(PlatfomId.LOCAL),
     ;
 
     @Getter
@@ -25,4 +25,8 @@ public enum Platform implements IdentifiedEnum {
         return LOCAL == this;
     }
 
+
+
+
 }
+

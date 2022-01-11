@@ -1,16 +1,16 @@
 package perobobbot.data.jpa.service;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.domain.ClientEntity;
-import perobobbot.data.domain.base.ClientEntityBase;
 import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.lang.BaseClient;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
@@ -28,26 +28,19 @@ public class JPAClientService implements ClientService {
 
     @Override
     public @NonNull Optional<DecryptedClient> findClientForPlatform(@NonNull Platform platform) {
-        return clientRepository.findFirstByPlatform(platform)
-                               .map(ClientEntityBase::toView)
-                               .map(t -> t.decrypt(textEncryptor));
-    }
-
-    @Override
-    public @NonNull Optional<DecryptedClient> findClient(@NonNull Platform platform, @NonNull String clientId) {
-        return clientRepository.findByPlatformAndClientId(platform, clientId)
-                               .map(ClientEntityBase::toView)
+        return clientRepository.findByPlatform(platform)
+                               .map(ClientEntity::toView)
                                .map(t -> t.decrypt(textEncryptor));
     }
 
 
     @Override
-    public @NonNull ImmutableList<DecryptedClient> findAllClients() {
+    public @NonNull ImmutableMap<Platform, DecryptedClient> findAllClients() {
         return clientRepository.findAll()
                                .stream()
-                               .map(ClientEntityBase::toView)
+                               .map(ClientEntity::toView)
                                .map(t -> t.decrypt(textEncryptor))
-                               .collect(ImmutableList.toImmutableList());
+                               .collect(ImmutableMap.toImmutableMap(BaseClient::getPlatform, c -> c));
     }
 
     @Override
@@ -55,8 +48,7 @@ public class JPAClientService implements ClientService {
     public @NonNull DecryptedClient createClient(@NonNull CreateClientParameter parameter) {
         final var encryptedSecret = textEncryptor.encrypt(parameter.getClientSecret());
 
-        final var client = clientRepository.findByPlatformAndClientId(parameter.getPlatform(),
-                                                                        parameter.getClientId())
+        final var client = clientRepository.findByPlatform(parameter.getPlatform())
                                              .orElseGet(() -> new ClientEntity(parameter.getPlatform(),
                                                                                parameter.getClientId(),
                                                                                encryptedSecret));

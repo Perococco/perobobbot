@@ -11,20 +11,25 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public interface UserTokenRepository extends JpaRepository<UserTokenEntity,Long> {
+public interface UserTokenRepository extends JpaRepository<UserTokenEntity, Long> {
 
-    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
-    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
+    long countDistinctByPlatformUser_Platform(@NonNull Platform platform);
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndViewerIdentity_ViewerIdAndViewerIdentity_Platform(@NonNull String login,
-                                                                                                             @NonNull String viewerId,
-                                                                                                             @NonNull Platform platform);
+    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndPlatformUser_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
 
-    @NonNull Stream<UserTokenEntity> findByViewerIdentity_ViewerIdAndViewerIdentity_Platform(@NonNull String viewerId, @NonNull Platform platform);
-    @NonNull Stream<UserTokenEntity> findByViewerIdentity_ViewerIdAndViewerIdentity_PlatformAndScopesContains(@NonNull String viewerId, @NonNull Platform platform, @NonNull String scope);
+    @NonNull Stream<UserTokenEntity> findByOwner_LoginAndPlatformUser_Platform(@NonNull String login, @NonNull Platform platform);
 
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_Platform(@NonNull String login, @NonNull Platform platform);
-    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndViewerIdentity_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndPlatformUser_UserIdAndPlatformUser_Platform(@NonNull String login,
+                                                                                                       @NonNull String userId,
+                                                                                                       @NonNull Platform platform);
+
+    @NonNull Stream<UserTokenEntity> findByPlatformUser_UserIdAndPlatformUser_Platform(@NonNull String userId, @NonNull Platform platform);
+
+    @NonNull Stream<UserTokenEntity> findByPlatformUser_UserIdAndPlatformUser_PlatformAndScopesContains(@NonNull String viewerId, @NonNull Platform platform, @NonNull String scope);
+
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndPlatformUser_Platform(@NonNull String login, @NonNull Platform platform);
+
+    @NonNull Optional<UserTokenEntity> findByOwner_LoginAndMainIsTrueAndPlatformUser_PlatformAndScopesContains(@NonNull String login, @NonNull Platform platform, @NonNull String scope);
 
     @NonNull Optional<UserTokenEntity> findByUuid(@NonNull UUID uuid);
 
@@ -33,7 +38,6 @@ public interface UserTokenRepository extends JpaRepository<UserTokenEntity,Long>
     default @NonNull UserTokenEntity getByUuid(@NonNull UUID uuid) {
         return findByUuid(uuid).orElseThrow(() -> new UnknownUserToken(uuid));
     }
-
 
 
 }

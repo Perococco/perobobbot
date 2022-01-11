@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perobobbot.data.jpa.repository.PlatformUserRepository;
 import perobobbot.data.jpa.repository.SafeRepository;
 import perobobbot.data.jpa.repository.TransactionRepository;
-import perobobbot.data.jpa.repository.ViewerIdentityRepository;
 import perobobbot.data.service.BankService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
@@ -25,26 +25,27 @@ public class JPABankService implements BankService {
 
     private final @NonNull SafeRepository safeRepository;
     private final @NonNull TransactionRepository transactionRepository;
-    private final @NonNull ViewerIdentityRepository viewerIdentityRepository;
+    private final @NonNull PlatformUserRepository platformUserRepository;
 
     @Override
     @Transactional
-    public @NonNull Safe findSafe(@NonNull UUID viewerIdentityId, @NonNull String channelName) {
-        final var existing = safeRepository.findByChannelNameAndViewerIdentity_Uuid(channelName,viewerIdentityId)
+    public @NonNull Safe findSafe(@NonNull UUID platformUserId, @NonNull String channelId) {
+        final var existing = safeRepository.findByChannelIdAndPlatformUser_Uuid(channelId,platformUserId)
                 .orElse(null);
         if (existing != null) {
             return existing.toView();
         }
-        final var viewerIdentity = viewerIdentityRepository.getByUuid(viewerIdentityId);
-        final var safe = viewerIdentity.createSafe(channelName);
+        final var platformUser = platformUserRepository.getByUuid(platformUserId);
+        final var safe = platformUser.createSafe(channelId);
         return safeRepository.save(safe).toView();
     }
 
     @Override
     @Transactional
-    public @NonNull Safe findSafe(@NonNull Platform platform, @NonNull String viewerId, @NonNull String channelName) {
-        final var viewerIdentity = viewerIdentityRepository.getByPlatformAndViewerId(platform,viewerId);
-        return findSafe(viewerIdentity.getUuid(),channelName);
+    public @NonNull Safe findSafe(@NonNull Platform platform, @NonNull String userId, @NonNull String channelId) {
+        //IMPROVE might want a method in the repository to get the UUID only instead of the whole entity
+        final var platformUser = platformUserRepository.getByPlatformAndUserId(platform, userId);
+        return findSafe(platformUser.getUuid(),channelId);
     }
 
     @Override
