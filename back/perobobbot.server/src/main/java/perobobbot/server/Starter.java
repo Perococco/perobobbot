@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.stream.Stream;
 
+@SuppressWarnings("all")
 //@Component
 @RequiredArgsConstructor
 public class Starter {
