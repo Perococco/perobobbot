@@ -26,7 +26,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <guava.version>30.1.1-jre</guava.version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
         <byte-buddy.version>1.11.2</byte-buddy.version>
         <lombok.version>1.18.22</lombok.version>
         <bucket4j.version>6.2.0</bucket4j.version>
