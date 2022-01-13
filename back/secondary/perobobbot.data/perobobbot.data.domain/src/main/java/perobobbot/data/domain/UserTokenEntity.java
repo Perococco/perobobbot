@@ -42,10 +42,14 @@ public class UserTokenEntity extends TokenEntityBase {
                     @NonNull PlatformUserEntity<?> platformUser,
                     @NonNull EncryptedUserToken userToken) {
         super(userToken);
-        this.owner = owner;
-        this.platformUser = platformUser;
         this.refreshToken = userToken.getRefreshToken();
         this.scopes = Scope.scopeNamesSpaceSeparated(userToken.getScopes());
+
+        this.owner = owner;
+        this.platformUser = platformUser;
+
+        this.owner.getUserTokens().add(this);
+        this.platformUser.setUserToken(this);
     }
 
     @Override
@@ -89,5 +93,10 @@ public class UserTokenEntity extends TokenEntityBase {
 
     public @NonNull DecryptedUserTokenView toDecryptedView(@NonNull TextEncryptor textEncryptor) {
         return toView().decrypt(textEncryptor);
+    }
+
+    public void detach() {
+        this.owner.removeUserToken(this.uuid);
+        this.platformUser.removeUserToken();
     }
 }

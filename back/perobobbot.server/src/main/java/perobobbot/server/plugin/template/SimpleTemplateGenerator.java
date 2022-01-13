@@ -11,6 +11,7 @@ import org.apache.velocity.app.Velocity;
 import perobobbot.lang.TemplateGenerator;
 import perobobbot.server.plugin.Bom;
 import perobobbot.server.plugin.BotVersionedServices;
+import perobobbot.server.plugin.Dependency;
 import perobobbot.template.StructureEntry;
 import perobobbot.template.Templates;
 
@@ -19,12 +20,22 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiredArgsConstructor
 @Builder
 public class SimpleTemplateGenerator implements TemplateGenerator {
+
+    public static final Comparator<Dependency> GROUP_ID_THEN_ARTIFACT_ID = Comparator.comparing(Dependency::getGroupId)
+                                                                                     .thenComparing(Dependency::getArtifactId);
+
+    public static final Comparator<Dependency> PEROBOBBOT_GROUPID_FIRST = Comparator.comparing(SimpleTemplateGenerator::oneForPerobobbot).thenComparing(GROUP_ID_THEN_ARTIFACT_ID);
+
+    private static int oneForPerobobbot(@NonNull Dependency dependency) {
+        return dependency.getGroupId().equals("perobobbot") ? 0 : 1;
+    }
 
     private static final ImmutableSet<String> REQUIRED_MODULE_NAMES = ImmutableSet.of(
             "perobobbot.plugin",
@@ -47,6 +58,7 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
     }
 
     private final @NonNull Bom bom;
+    private final String rawApplicationVersion;
     private final @NonNull Version applicationVersion;
     private final @NonNull BotVersionedServices botVersionedServices;
 
@@ -76,6 +88,25 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             templates.forEach(type, this::performCopy);
 
             return outputPath;
+        }
+
+        private void createContext() {
+            this.context = new VelocityContext();
+            context.put("dependencies", bom.getDependencies().stream().map(this::prepareDependency).sorted(PEROBOBBOT_GROUPID_FIRST).toList());
+            context.put("perobobbotVersion",rawApplicationVersion);
+            context.put("artifactId", artifactId);
+            context.put("groupId", groupId);
+            final var s = botVersionedServices.getServices()
+                                              .stream().map(PluginInfo.ServiceWrapper::new)
+                                              .collect(ImmutableList.toImmutableList());
+            context.put("plugin", new PluginInfo(applicationVersion, groupId, groupId, REQUIRED_MODULE_NAMES,s));
+        }
+
+        private @NonNull Dependency prepareDependency(@NonNull Dependency dependency) {
+            if (dependency.getGroupId().equals("perobobbot") && dependency.getVersion().equals(rawApplicationVersion)) {
+                return dependency.withVersion("${perobobbot.version}");
+            }
+            return dependency;
         }
 
         private void performCopy(StructureEntry structureEntry) {
@@ -140,15 +171,5 @@ public class SimpleTemplateGenerator implements TemplateGenerator {
             Velocity.mergeTemplate(template, StandardCharsets.UTF_8.name(), context, writer);
         }
 
-        private void createContext() {
-            this.context = new VelocityContext();
-            context.put("dependencies", bom.getDependencies());
-            context.put("artifactId", artifactId);
-            context.put("groupId", groupId);
-            final var s = botVersionedServices.getServices()
-                                              .stream().map(PluginInfo.ServiceWrapper::new)
-                                              .collect(ImmutableList.toImmutableList());
-            context.put("plugin", new PluginInfo(applicationVersion, groupId, groupId, REQUIRED_MODULE_NAMES,s));
-        }
     }
 }

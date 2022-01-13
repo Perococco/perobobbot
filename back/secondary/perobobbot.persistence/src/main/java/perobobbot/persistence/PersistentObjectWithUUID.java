@@ -16,7 +16,7 @@ public abstract class PersistentObjectWithUUID extends SimplePersistentObject {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name= "EXTERNAL_ID", nullable = false)
+    @Column(name= "EXTERNAL_ID", nullable = false, unique = true)
     protected UUID uuid;
 
     @NonNull

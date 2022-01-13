@@ -9,7 +9,6 @@ import perobobbot.data.com.InvalidPlatformUserId;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PlatformUser;
 import perobobbot.lang.UserIdentity;
-import perobobbot.lang.token.EncryptedUserToken;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
@@ -61,9 +60,9 @@ public abstract class PlatformUserEntity<I extends UserIdentity> extends Persist
         }
     }
 
-    @NonNull UserTokenEntity setUserToken(@NonNull UserEntity userEntity, @NonNull EncryptedUserToken userToken) {
-        this.userToken = new UserTokenEntity(userEntity, this, userToken);
-        return this.userToken;
+    void setUserToken(@NonNull UserTokenEntity userToken) {
+        assert this.userToken == null:"The old token should be detached before setting a new one";
+        this.userToken = userToken;
     }
 
     public @NonNull SafeEntity createSafe(@NonNull String channelName) {
@@ -77,4 +76,8 @@ public abstract class PlatformUserEntity<I extends UserIdentity> extends Persist
     }
 
     public abstract void update(@NonNull I userIdentity);
+
+    public void removeUserToken() {
+        this.userToken = null;
+    }
 }

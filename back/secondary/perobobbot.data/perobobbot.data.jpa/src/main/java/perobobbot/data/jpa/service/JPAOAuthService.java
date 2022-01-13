@@ -304,8 +304,9 @@ public class JPAOAuthService implements OAuthService {
 
         oAuthManager.revokeToken(client, decryptedAccessToken);
 
-        token.getOwner().removeUserToken(tokenId);
-        userRepository.save(token.getOwner());
+        token.detach();
+
         userTokenRepository.delete(token);
+
     }
 }

@@ -37,6 +37,7 @@ public interface ChatUser {
 
     boolean canActAs(@NonNull Role role);
 
+    @NonNull UserIdentity toUserIdentity();
 
     @NonNull
     default Optional<Role> findHighestRole(@NonNull ImmutableCollection<Role> roles) {

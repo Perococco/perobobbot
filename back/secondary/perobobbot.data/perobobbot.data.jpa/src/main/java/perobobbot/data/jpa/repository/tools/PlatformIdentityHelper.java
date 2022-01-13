@@ -30,7 +30,12 @@ public class PlatformIdentityHelper<I extends UserIdentity, T extends PlatformUs
 
     public @NonNull T getOrCreatePlatformUser() {
         return platformUserRepository.findByUserId(userIdentity.getUserId())
-                                     .orElseGet(() -> platformUserEntityFactory.apply(userIdentity));
+                                     .orElseGet(this::createAndSaveEntity);
 
+    }
+
+    private @NonNull T createAndSaveEntity() {
+        final T entity = platformUserEntityFactory.apply(userIdentity);
+        return platformUserRepository.save(entity);
     }
 }

@@ -15,10 +15,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${D}{java.version}</maven.compiler.source>
         <maven.compiler.target>${D}{java.version}</maven.compiler.target>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
+        <perobobbot.version>${perobobbotVersion}</perobobbot.version>
         <archive.name>${D}{plugin.name}-${D}{project.version}</archive.name>
     </properties>
 

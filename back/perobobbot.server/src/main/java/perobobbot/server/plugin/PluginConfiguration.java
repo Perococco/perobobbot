@@ -65,7 +65,12 @@ public class PluginConfiguration {
 
     @Bean
     public TemplateGenerator templateGenerator() throws IOException {
-        return new SimpleTemplateGenerator(bom(), getApplicationVersion(), versionedServices());
+        return SimpleTemplateGenerator.builder()
+                                      .bom(bom())
+                                      .applicationVersion(getApplicationVersion())
+                                      .rawApplicationVersion(rawVersion)
+                                      .botVersionedServices(versionedServices())
+                                      .build();
     }
 
     private @NonNull Bom bom() throws IOException {

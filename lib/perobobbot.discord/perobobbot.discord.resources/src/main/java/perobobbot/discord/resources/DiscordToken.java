@@ -23,9 +23,8 @@ public class DiscordToken {
     String refreshToken;
     @JsonAlias("expires_in")
     double expiresIn;
-    @JsonAlias("scope")
     @Getter(AccessLevel.NONE)
-    String scopes;
+    String scope;
     @JsonAlias("token_type")
     @NonNull String tokenType;
 
@@ -33,10 +32,10 @@ public class DiscordToken {
 
         final ImmutableSet<DiscordScope> discordScopes;
 
-        if (scopes == null) {
+        if (scope == null) {
             discordScopes = ImmutableSet.of();
         } else {
-            discordScopes = Arrays.stream(scopes.split(" "))
+            discordScopes = Arrays.stream(scope.split(" "))
                                  .map(DiscordScope::findScopeByName)
                                  .flatMap(Optional::stream)
                                  .collect(ImmutableSet.toImmutableSet());

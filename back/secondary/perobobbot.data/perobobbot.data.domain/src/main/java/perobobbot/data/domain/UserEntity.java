@@ -57,7 +57,7 @@ public class UserEntity extends SimplePersistentObject {
     @Setter(AccessLevel.PROTECTED)
     private Set<RoleEntity> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
     private List<UserTokenEntity> userTokens = new ArrayList<>();
@@ -103,17 +103,13 @@ public class UserEntity extends SimplePersistentObject {
      * @return the new entity representing the token for the provided viewer identity and owned by this
      */
     public @NonNull UserTokenEntity setUserToken(@NonNull PlatformUserEntity<?> platformUser, @NonNull EncryptedUserToken userToken) {
-        final var existing = platformUser.getUserToken().orElse(null);
-        final var userTokenEntity = platformUser.setUserToken(this,userToken);
-        if (existing != null) {
-            this.removeUserToken(existing.getUuid());
-        }
-        this.getUserTokens().add(userTokenEntity);
-        return userTokenEntity;
+        platformUser.getUserToken().ifPresent(UserTokenEntity::detach);
+
+        return new UserTokenEntity(this,platformUser,userToken);
     }
 
-    public void removeUserToken(@NonNull UUID tokenId) {
-        this.getUserTokens().removeIf(t -> tokenId.equals(t.getUuid()));
+    void removeUserToken(@NonNull UUID tokenId) {
+        this.userTokens.removeIf(t -> tokenId.equals(t.getUuid()));
     }
 
 

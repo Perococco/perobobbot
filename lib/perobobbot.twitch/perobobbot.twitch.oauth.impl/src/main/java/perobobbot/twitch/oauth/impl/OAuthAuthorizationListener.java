@@ -1,5 +1,7 @@
 package perobobbot.twitch.oauth.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +52,9 @@ public class OAuthAuthorizationListener implements OAuthListener {
                         webClient.post()
                                  .uri(secretURI.getUri())
                                  .retrieve()
-                                 .bodyToMono(TwitchToken.class)
+                                 .bodyToMono(String.class)
+                                 .map(this::toTwitchToken)
+//                                 .bodyToMono(TwitchToken.class)
                                  .map(r -> r.toToken(instants.now()))
                                  .onErrorMap(e -> new OAuthFailure(client.getPlatform(), client.getClientId(), e))
                         ,
@@ -59,6 +63,14 @@ public class OAuthAuthorizationListener implements OAuthListener {
         } catch (Throwable t) {
             ThrowableTool.interruptThreadIfCausedByInterruption(t);
             futureToken.completeExceptionally(new OAuthFailure(client.getPlatform(), client.getClientId(), t));
+        }
+    }
+
+    private TwitchToken toTwitchToken(@NonNull String body) {
+        try {
+            return new ObjectMapper().readValue(body, TwitchToken.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,6 +100,6 @@ public class OAuthAuthorizationListener implements OAuthListener {
 
     @Override
     public void onInterrupted() {
-        futureToken.completeExceptionally(new OAuthInterrupted(client.getPlatform(),client.getClientId()));
+        futureToken.completeExceptionally(new OAuthInterrupted(client.getPlatform(), client.getClientId()));
     }
 }

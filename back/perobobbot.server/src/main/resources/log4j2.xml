@@ -45,6 +45,8 @@
         <Logger name="org.springframework.web.servlet.resource.ResourceResolver" level="off"/>
         <Logger name="org.springframework.boot.autoconfigure" level="off"/>
 
+        <Logger name="org.hibernate.event.internal.DefaultPersistEventListener" level="debug"/>
+
         <Logger name="perobobbot.server.config.io.ChatConnectionInterceptor" level="info"/>
         <Logger name="perobobbot.server.plugin.PluginApplication" level="info"/>
         <Logger name="perobobbot.spring.SpringLauncher" level="info"/>

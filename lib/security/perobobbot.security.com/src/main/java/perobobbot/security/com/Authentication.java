@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import perobobbot.lang.PasswordEncoder;
 import perobobbot.lang.Platform;
+import perobobbot.lang.TypeScript;
 
 import java.util.Optional;
 
 @Value
+@TypeScript
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Authentication {
 

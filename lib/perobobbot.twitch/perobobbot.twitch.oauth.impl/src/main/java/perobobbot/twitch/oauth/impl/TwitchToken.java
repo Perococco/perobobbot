@@ -23,9 +23,9 @@ public class TwitchToken {
     String refreshToken;
     @JsonAlias("expires_in")
     double expiresIn;
-    @JsonAlias("scope")
+
     @Getter(AccessLevel.NONE)
-    String[] scopes;
+    String[] scope;
     @JsonAlias("token_type")
     @NonNull String tokenType;
 
@@ -33,10 +33,10 @@ public class TwitchToken {
 
         final ImmutableSet<TwitchScope> twitchScopes;
 
-        if (scopes == null) {
+        if (scope == null) {
             twitchScopes = ImmutableSet.of();
         } else {
-            twitchScopes = Arrays.stream(scopes)
+            twitchScopes = Arrays.stream(scope)
                                  .map(TwitchScope::findScopeByName)
                                  .flatMap(Optional::stream)
                                  .collect(ImmutableSet.toImmutableSet());

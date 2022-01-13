@@ -77,6 +77,7 @@ public class DefaultUserTokenSaver implements UserTokenSaver {
             this.encryptedUserToken = token.toDecryptedUserToken().encrypt(textEncryptor);
         }
 
+
         private void createUserToken() {
             this.userToken = owner.setUserToken(platformUser, encryptedUserToken);
         }
@@ -87,9 +88,7 @@ public class DefaultUserTokenSaver implements UserTokenSaver {
 
 
         private void saveModifiedEntities() {
-            helper.getPlatformUserRepository().save(platformUser);
             userTokenRepository.save(userToken);
-            userRepository.save(owner);
         }
 
 
