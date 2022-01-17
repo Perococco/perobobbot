@@ -7,7 +7,7 @@ import perobobbot.discord.oauth.impl.builder.ClientCredentialsRequestBuilder;
 import perobobbot.discord.oauth.impl.builder.RefreshDiscordRequestBuilder;
 import perobobbot.discord.oauth.impl.builder.UserDiscordRequestBuilder;
 import perobobbot.discord.oauth.impl.builder.UserInfoRequestBuilder;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 
 public interface DiscordRequestBuilder<B extends DiscordRequestBuilder<B>> {
 

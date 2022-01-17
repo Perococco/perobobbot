@@ -23,7 +23,7 @@ import perobobbot.data.service.ClientService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.PlatformUserService;
 import perobobbot.data.service.UserService;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.RandomString;
 import perobobbot.lang.Secret;

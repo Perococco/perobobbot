@@ -2,6 +2,7 @@ package perobobbot.oauth;
 
 import lombok.NonNull;
 import perobobbot.lang.*;
+import perobobbot.lang.client.DecryptedClient;
 
 import java.util.concurrent.CompletionStage;
 

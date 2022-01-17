@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.com.NoClientForPlatform;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
-import perobobbot.lang.SafeClient;
+import perobobbot.lang.client.SafeClient;
 
 import java.util.Optional;
 

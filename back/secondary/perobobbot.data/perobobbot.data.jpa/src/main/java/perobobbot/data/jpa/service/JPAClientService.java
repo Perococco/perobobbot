@@ -10,8 +10,8 @@ import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.lang.BaseClient;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.Client;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
 
@@ -40,18 +40,21 @@ public class JPAClientService implements ClientService {
                                .stream()
                                .map(ClientEntity::toView)
                                .map(t -> t.decrypt(textEncryptor))
-                               .collect(ImmutableMap.toImmutableMap(BaseClient::getPlatform, c -> c));
+                               .collect(ImmutableMap.toImmutableMap(Client::getPlatform, c -> c));
     }
 
     @Override
     @Transactional
     public @NonNull DecryptedClient createClient(@NonNull CreateClientParameter parameter) {
+        final var platform = parameter.getPlatform();
+        final var clientId = parameter.getClientId();
         final var encryptedSecret = textEncryptor.encrypt(parameter.getClientSecret());
 
-        final var client = clientRepository.findByPlatform(parameter.getPlatform())
-                                             .orElseGet(() -> new ClientEntity(parameter.getPlatform(),
-                                                                               parameter.getClientId(),
-                                                                               encryptedSecret));
+        final var clientConstructor = ClientEntity.getConstructor(platform);
+
+        final var client = clientRepository.findByPlatform(platform)
+                                             .orElseGet(() -> clientConstructor.f(clientId,encryptedSecret));
+
         client.setClientSecret(encryptedSecret);
 
         return clientRepository.save(client).toView().decrypt(textEncryptor);

@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.lang.*;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.oauth.*;
 import perobobbot.twitch.oauth.api.TwitchScope;
 

@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 import perobobbot.discord.oauth.api.DiscordScope;
 import perobobbot.discord.oauth.impl.DiscordRequest;
 import perobobbot.discord.oauth.impl.DiscordRequestBuilder;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.ImmutableEntry;
 import perobobbot.lang.Scope;
 

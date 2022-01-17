@@ -3,7 +3,7 @@ package perobobbot.oauth;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Secret;
 import perobobbot.lang.UserIdentity;

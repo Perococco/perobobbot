@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import perobobbot.lang.*;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.Token;
 import perobobbot.oauth.UserOAuthInfo;

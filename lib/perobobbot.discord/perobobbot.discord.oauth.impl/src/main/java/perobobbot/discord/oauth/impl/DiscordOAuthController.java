@@ -12,6 +12,7 @@ import perobobbot.discord.resources.DiscordRefreshedToken;
 import perobobbot.discord.resources.DiscordToken;
 import perobobbot.discord.resources.DiscordUser;
 import perobobbot.lang.*;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.oauth.*;
 
 import java.util.concurrent.CompletionStage;

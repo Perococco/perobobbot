@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.BaseClient;
 import perobobbot.lang.MathTool;
 import perobobbot.lang.Platform;
-import perobobbot.lang.SafeClient;
+import perobobbot.lang.client.Client;
+import perobobbot.lang.client.SafeClient;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -22,7 +22,7 @@ public class ClientController {
 
     @GetMapping("")
     public @NonNull ImmutableMap<Platform, SafeClient> listClients() {
-        return MathTool.mapValue(clientService.findAllClients(), BaseClient::stripSecret);
+        return MathTool.mapValue(clientService.findAllClients(), Client::stripSecret);
     }
 
     @PutMapping("")

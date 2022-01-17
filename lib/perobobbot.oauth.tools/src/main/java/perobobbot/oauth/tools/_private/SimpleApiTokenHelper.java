@@ -7,7 +7,7 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.lang.SafeClient;
+import perobobbot.lang.client.SafeClient;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.*;

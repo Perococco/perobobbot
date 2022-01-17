@@ -1,16 +1,17 @@
-package perobobbot.lang;
+package perobobbot.lang.client;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
+import perobobbot.lang.Platform;
 
 import java.util.UUID;
 
 @Value
 @NonFinal
 @EqualsAndHashCode(of = "id")
-public class BaseClient<T> {
+abstract class BaseClient<T> implements Client<T> {
 
     @NonNull UUID id;
     @NonNull Platform platform;

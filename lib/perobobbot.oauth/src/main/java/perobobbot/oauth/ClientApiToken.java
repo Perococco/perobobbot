@@ -2,7 +2,7 @@ package perobobbot.oauth;
 
 import lombok.NonNull;
 import lombok.Value;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Secret;
 
 

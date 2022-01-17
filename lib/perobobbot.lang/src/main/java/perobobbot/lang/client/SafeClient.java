@@ -1,8 +1,10 @@
-package perobobbot.lang;
+package perobobbot.lang.client;
 
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
+import perobobbot.lang.Platform;
+import perobobbot.lang.TypeScript;
 
 import java.util.UUID;
 

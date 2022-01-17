@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.data.com.DataException;
 import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.lang.*;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.fp.Try0;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.Token;

@@ -9,7 +9,7 @@ import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
-import perobobbot.lang.DecryptedClient;
+import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
 
 import java.util.Optional;

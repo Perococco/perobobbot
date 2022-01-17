@@ -20,6 +20,7 @@ module perobobbot.lang {
     exports perobobbot.lang;
     exports perobobbot.lang.fp;
     exports perobobbot.lang.token;
+    exports perobobbot.lang.client;
 
     uses AsyncIdentityFactory;
     uses FactoryProvider.WithLifeCycle;
@@ -31,4 +32,5 @@ module perobobbot.lang {
 
     opens perobobbot.lang to com.fasterxml.jackson.databind;
     opens perobobbot.lang.token to com.fasterxml.jackson.databind;
+    opens perobobbot.lang.client to com.fasterxml.jackson.databind;
 }
