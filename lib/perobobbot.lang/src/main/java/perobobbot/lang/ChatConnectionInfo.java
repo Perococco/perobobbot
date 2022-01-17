@@ -56,4 +56,7 @@ public class ChatConnectionInfo {
     public @NonNull UUID getPlatformBotId() {
         return this.platformBot.getId();
     }
+    public @NonNull UUID getBotId() {
+        return this.platformBot.getBot().getId();
+    }
 }

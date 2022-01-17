@@ -108,4 +108,8 @@ public class MessageContext {
     public @NonNull UUID getPlatformBotId() {
         return chatConnectionInfo.getPlatformBotId();
     }
+
+    public @NonNull UUID getBotId() {
+        return chatConnectionInfo.getBotId();
+    }
 }

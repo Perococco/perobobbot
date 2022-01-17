@@ -37,6 +37,10 @@ public interface ExecutionContext {
     }
 
     default @NonNull UUID getBotId() {
+        return getMessageContext().getBotId();
+    }
+
+    default @NonNull UUID getPlatformBotId() {
         return getMessageContext().getPlatformBotId();
     }
 
