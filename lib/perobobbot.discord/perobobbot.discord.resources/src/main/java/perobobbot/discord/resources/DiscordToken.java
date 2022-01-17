@@ -19,6 +19,7 @@ public class DiscordToken {
 
     @JsonAlias("access_token")
     @NonNull String accessToken;
+    Guild guild;
     @JsonAlias("refresh_token")
     String refreshToken;
     @JsonAlias("expires_in")
@@ -29,6 +30,8 @@ public class DiscordToken {
     @NonNull String tokenType;
 
     public @NonNull Token toToken(@NonNull Instant now) {
+
+        System.out.println("Guild id "+(guild==null?"??": guild.getId()));
 
         final ImmutableSet<DiscordScope> discordScopes;
 
@@ -52,5 +55,7 @@ public class DiscordToken {
                     .tokenType(tokenType)
                     .build();
     }
+
+
 
 }

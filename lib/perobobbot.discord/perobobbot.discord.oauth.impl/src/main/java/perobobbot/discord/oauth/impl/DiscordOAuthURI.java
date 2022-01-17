@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 import perobobbot.discord.oauth.api.DiscordScope;
+import perobobbot.discord.oauth.api.Permission;
 import perobobbot.lang.DecryptedClient;
 import perobobbot.lang.Scope;
 import perobobbot.lang.Secret;
@@ -80,15 +81,22 @@ public class DiscordOAuthURI {
                                                 @NonNull ImmutableSet<? extends Scope> scopes,
                                                 @NonNull String state,
                                                 @NonNull URI oAuthRedirectURI,
-                                                @NonNull OAuthUrlOptions options) {
-        return UriComponentsBuilder.fromHttpUrl(apiEndpoint + "/oauth2/authorize")
+                                                @NonNull OAuthUrlOptions options,
+                                                @NonNull ImmutableSet<Permission> permissions) {
+        final var builder = UriComponentsBuilder.fromHttpUrl(apiEndpoint + "/oauth2/authorize")
                                    .queryParam("response_type", "code")
                                    .queryParam("client_id", clientId)
                                    .queryParam("scope", Scope.scopeNamesSpaceSeparated(scopes))
                                    .queryParam("state", state)
                                    .queryParam("redirect_uri", oAuthRedirectURI)
-                                   .queryParam("prompt", options.isForceVerify() ? "consent" : "none")
-                                   .build().toUri();
+                                   .queryParam("prompt", options.isForceVerify() ? "consent" : "none");
+
+        if (!permissions.isEmpty()) {
+            builder.queryParam("permissions",Permission.computeQueryParam(permissions));
+        }
+
+
+        return builder.build().toUri();
     }
 
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 import perobobbot.discord.oauth.api.DiscordScope;
+import perobobbot.discord.oauth.api.Permission;
 import perobobbot.discord.resources.AuthorizationInformation;
 import perobobbot.discord.resources.DiscordRefreshedToken;
 import perobobbot.discord.resources.DiscordToken;
@@ -21,7 +22,18 @@ public class DiscordOAuthController implements OAuthController {
     private static final String DISCORD_OAUTH_PATH = "/discord/oauth";
 
 
-    private static final ImmutableSet<DiscordScope> DEFAULT_SCOPES = ImmutableSet.of(DiscordScope.IDENTIFY);
+    private static final ImmutableSet<DiscordScope> DEFAULT_SCOPES = ImmutableSet.of(
+            DiscordScope.IDENTIFY,
+            DiscordScope.BOT,
+            DiscordScope.GUILDS);
+
+    private static final ImmutableSet<Permission> DEFAULT_PERMISSIONS = ImmutableSet.of(
+            Permission.SEND_MESSAGES,
+            Permission.MANAGE_CHANNELS,
+            Permission.MENTION_EVERYONE,
+            Permission.EMBED_LINKS,
+            Permission.VIEW_CHANNEL
+    );
 
     private final @NonNull OAuthSubscriptions oAuthSubscriptions;
     private final @NonNull WebClient webClient;
@@ -69,7 +81,9 @@ public class DiscordOAuthController implements OAuthController {
                 DEFAULT_SCOPES,
                 subscriptionData.getState(),
                 subscriptionData.getOAuthRedirectURI(),
-                options);
+                options,
+                DEFAULT_PERMISSIONS
+        );
 
         return new UserOAuthInfo<>(oauthURI, listener.getFutureToken());
     }
