@@ -19,10 +19,7 @@ public class ChatConnectionInfo {
     @JsonIgnore
     UserTokenRefresher refresher;
 
-    @NonNull UUID botId;
-    @NonNull String botName;
-    @NonNull UUID platformUserId;
-    @NonNull Platform platform;
+    @NonNull PlatformBot platformBot;
 
     /**
      * @return the nick to use to connect
@@ -45,4 +42,18 @@ public class ChatConnectionInfo {
     }
 
 
+    public @NonNull String getBotName() {
+        return this.platformBot.getBotName();
+    }
+
+    public @NonNull Platform getPlatform() {
+        return this.platformBot.getPlatform();
+    }
+
+    public @NonNull UUID getPlatformUserId() {
+        return this.platformBot.getPlatformUserId();
+    }
+    public @NonNull UUID getPlatformBotId() {
+        return this.platformBot.getId();
+    }
 }

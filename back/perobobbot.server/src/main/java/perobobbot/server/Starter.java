@@ -1,19 +1,19 @@
 package perobobbot.server;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 import perobobbot.chat.core.IO;
 import perobobbot.data.service.*;
 import perobobbot.eventsub.UserEventSubManager;
-import perobobbot.lang.ChatConnectionInfo;
-import perobobbot.lang.Conditions;
-import perobobbot.lang.Platform;
-import perobobbot.lang.SubscriptionData;
+import perobobbot.lang.*;
 import perobobbot.lang.fp.Function1;
 import perobobbot.oauth.LoginTokenIdentifier;
 import perobobbot.oauth.OAuthContextHolder;
+import perobobbot.server.component.ClientUpdater;
 import perobobbot.twitch.client.api.TwitchService;
 import perobobbot.twitch.client.api.channelpoints.CreateCustomRewardParameter;
 import perobobbot.twitch.client.api.channelpoints.CustomReward;
@@ -21,12 +21,21 @@ import perobobbot.twitch.eventsub.api.CriteriaType;
 import perobobbot.twitch.eventsub.api.SubscriptionType;
 import reactor.core.publisher.Mono;
 
+import java.awt.*;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 @SuppressWarnings("all")
-//@Component
+@Component
 @RequiredArgsConstructor
 public class Starter {
+
+
+    public static final String LOGIN = "perococco";
+    public static final String BOT_NAME = "Perobobbot";
 
     private final @NonNull
     @UnsecuredService
@@ -50,6 +59,8 @@ public class Starter {
     private final @NonNull
     TwitchService twitchService;
 
+    private final @NonNull ClientUpdater clientUpdater;
+
     private final @NonNull IO io;
 
 
@@ -57,52 +68,79 @@ public class Starter {
     public void run() {
         try {
 
+//            Optional<PlatformUser> perococco = platformUserService.findPlatformUser(Platform.TWITCH, "perococco");
+//            ImmutableList<PlatformBot> perococco1 = botService.listPlatformBotsForBotName("perococco", BOT_NAME);
+//            System.out.println(perococco1);
 //            Thread.sleep(5000);
-//
-//            joinChannel();
-//            final var authInfo = oAuthService.createUserToken("perococco", Platform.TWITCH);
-//
-//            Desktop.getDesktop().browse(authInfo.getOauthURI());
-//            authInfo.get();
+//            this.setupClients();
+//            this.setupTokens();
+            final var bot = this.setupBots();
+            final var platformBot = this.setupPlatformBot(bot);
 
+//            createSubscriptions();
+//            joinChannel(platformBot);
 
-//            joinChannel();
-//            OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier("perococco"));
-//            final var bot = botService.findBotByName("perococco","Perobobbot").get();
-//
-//            final var viewerId = viewerIdentityService.findIdentity(Platform.TWITCH, "perococco");
-//            botService.addJoinedChannel(bot.getId(),viewerId.get().getId(),"pantoufl");
-
-//            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
-//                    Platform.TWITCH,
-//                    SubscriptionType.CHANNEL_SUBSCRIBE,
-//                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
-//            )).subscribe(s -> System.out.println(s));
-//            userEventSubManager.createUserSubscription("perococco",new SubscriptionData(
-//                    Platform.TWITCH,
-//                    SubscriptionType.CHANNEL_SUBSCRIPTION_GIFT,
-//                    Conditions.with(CriteriaType.BROADCASTER_USER_ID,"211307900")
-//            )).subscribe(s -> System.out.println(s));
-//            twitchService.getChannelInformation("211307900").subscribe(s -> System.out.println(s));
-//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 100").cost(100).build()).subscribe();
-//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 1000").cost(1000).build()).subscribe();
-//            twitchService.createCustomReward(CreateCustomRewardParameter.builder().title("Convert 10000").cost(10000).build()).subscribe();
-//            twitchService.getCustomReward(new GetCustomRewardsParameter(new String[0], true))
-//                         .subscribe(s -> System.out.println(s.getId() + "'"+s.getTitle()+"'"));
-//            createClient();
-//            joinChannel();
         } catch (Throwable t) {
             System.out.println("Starter Failed ! ");
             t.printStackTrace();
         }
     }
 
+    private void setupClients() throws IOException {
+        if (clientService.findAllClients().isEmpty()) {
+            clientUpdater.update();
+        }
+    }
+
+    private void setupTokens() throws ExecutionException, InterruptedException, IOException {
+        System.out.println("Twitch Token for perococco : user perococco");
+        setupToken(Platform.TWITCH);
+        System.out.println("Twitch Token for perococco : user perobobbot");
+        setupToken(Platform.TWITCH);
+        System.out.println("Discord Token for perococco");
+        setupToken(Platform.DISCORD);
+    }
+
+    private void setupToken(@NonNull Platform platform) throws IOException, ExecutionException, InterruptedException {
+        final var userToken = oAuthService.createUserToken(LOGIN, platform);
+        Desktop.getDesktop().browse(userToken.getOauthURI());
+        userToken.get();
+    }
+
+
+    private Bot setupBots() {
+        final var bot = botService.findBotByName(LOGIN, BOT_NAME);
+        if (bot.isPresent()) {
+            return bot.get();
+        }
+        return botService.createBot(LOGIN, BOT_NAME);
+    }
+
+    private @NonNull PlatformBot setupPlatformBot(@NonNull Bot bot) {
+        {
+            final var platformBot = botService
+                    .listPlatformBotsForBotName(LOGIN, BOT_NAME)
+                    .stream()
+                    .filter(b -> b.getPlatform() == Platform.TWITCH)
+                    .findFirst()
+                    .orElse(null);
+            if (platformBot != null) {
+                return platformBot;
+            }
+        }
+
+        final var platformUser = platformUserService.getPlatformUser(Platform.TWITCH, "perobobbot");
+
+        final var platformBot = botService.createPlatformBot(bot.getId(), platformUser.getId());
+        return platformBot;
+    }
+
+
     private void createSubscriptions() {
-        final var identity = platformUserService.getPlatformUser(Platform.TWITCH, "perococco");
+        final var identity = platformUserService.getPlatformUser(Platform.TWITCH, LOGIN);
         final var conditions = Conditions.with(CriteriaType.BROADCASTER_USER_ID, identity.getUserId());
-        final var login = "perococco";
         final var toSubscriptionData = Function1.toFunction1((SubscriptionType s) -> new SubscriptionData(Platform.TWITCH, s, conditions));
-        OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier(login));
+        OAuthContextHolder.getContext().setTokenIdentifier(new LoginTokenIdentifier(LOGIN));
 
 
         final var subscriptionData = Stream.of(
@@ -118,7 +156,7 @@ public class Starter {
         ).map(toSubscriptionData).toList();
 
         for (SubscriptionData subscriptionDatum : subscriptionData) {
-            userEventSubManager.createUserSubscription(login, subscriptionDatum).subscribe();
+            userEventSubManager.createUserSubscription(LOGIN, subscriptionDatum).subscribe();
         }
 
     }
@@ -131,22 +169,19 @@ public class Starter {
     }
 
 
-    private void joinChannel() {
+    private void joinChannel(@NonNull PlatformBot platformBot) {
         final var userLogin = "perococco";
         final var chatUser = "perobobbot";
-        final var bot = botService.findBotByName(userLogin, "Perobobbot").get();
 
-        final var token = oAuthService.findUserToken(userLogin, Platform.TWITCH)
+
+        final var token = oAuthService.findUserToken(LOGIN, Platform.TWITCH)
                                       .stream()
                                       .filter(d -> d.getUserLogin().equals(chatUser))
                                       .findAny()
                                       .get();
 
         final var connectionInfo = ChatConnectionInfo.builder()
-                                                     .botId(bot.getId())
-                                                     .platformUserId(token.getPlatformUser().getId())
-                                                     .platform(Platform.TWITCH)
-                                                     .botName(bot.getName())
+                                                     .platformBot(platformBot)
                                                      .nick(token.getUserLogin())
                                                      .secret(token.getAccessToken())
                                                      .build();

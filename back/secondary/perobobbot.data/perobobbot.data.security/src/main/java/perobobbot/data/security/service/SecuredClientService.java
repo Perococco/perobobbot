@@ -9,8 +9,10 @@ import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.SecuredService;
+import perobobbot.lang.Secret;
 import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
+import perobobbot.lang.client.DecryptedDiscordClient;
 
 import java.util.Optional;
 
@@ -44,5 +46,11 @@ public class SecuredClientService implements ClientService {
     @PreAuthorize("hasRole('ADMIN')")
     public @NonNull DecryptedClient createClient(@NonNull CreateClientParameter parameter) {
         return clientService.createClient(parameter);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull DecryptedDiscordClient setDiscordBotToken(@NonNull Secret botToken) {
+        return clientService.setDiscordBotToken(botToken);
     }
 }

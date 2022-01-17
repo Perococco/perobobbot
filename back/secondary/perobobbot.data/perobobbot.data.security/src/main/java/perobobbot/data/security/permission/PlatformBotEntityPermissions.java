@@ -5,18 +5,19 @@ import org.springframework.stereotype.Component;
 import perobobbot.data.security.DataPermission;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.data.service.UserService;
 
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.UUID;
 
 @Component
-public class JoinedChannelEntityPermissions extends DataEntityPermission {
+public class PlatformBotEntityPermissions extends DataEntityPermission {
 
-    private final @NonNull BotService botService;
+    private final BotService botService;
 
-    public JoinedChannelEntityPermissions(@NonNull @UnsecuredService BotService botService) {
-        super("JoinedChannelEntity");
+    public PlatformBotEntityPermissions(@NonNull @UnsecuredService BotService botService, @NonNull @UnsecuredService UserService userService) {
+        super("PlatformBotEntity");
         this.botService = botService;
     }
 
@@ -28,16 +29,16 @@ public class JoinedChannelEntityPermissions extends DataEntityPermission {
     @Override
     protected boolean hasPermissionWithId(@NonNull Principal principal, Serializable targetId, @NonNull DataPermission permission) {
         return switch (permission) {
-            case DELETE,READ,UPDATE -> doesNotExistOrIsMyCredential(principal, (UUID)targetId);
+            case DELETE,READ,UPDATE -> isMyBot(principal, (UUID)targetId);
             default -> false;
         };
     }
 
-    private boolean doesNotExistOrIsMyCredential(@NonNull Principal userDetails, @NonNull UUID uuid) {
-        final var joinedChannel = botService.findJoinedChannel(uuid).orElse(null);
-        if (joinedChannel == null) {
-            return true;
+    private boolean isMyBot(Principal userDetails, UUID uuid) {
+        final var bot = botService.findBotOwningPlatformBot(uuid).orElse(null);
+        if (bot == null) {
+            return false;
         }
-        return joinedChannel.getPlatformBot().getBotOwnerLogin().equals(userDetails.getName());
+        return bot.getOwnerLogin().equals(userDetails.getName());
     }
 }

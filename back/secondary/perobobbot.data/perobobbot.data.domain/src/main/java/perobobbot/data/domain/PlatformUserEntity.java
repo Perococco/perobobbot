@@ -23,6 +23,10 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PlatformUserEntity<I extends UserIdentity> extends PersistentObjectWithUUID {
 
+    @Column(name = "PLATFORM", insertable = false, updatable = false)
+    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
+    private @NonNull Platform platform;
+
     @Column(name = "USER_ID",nullable = false)
     @NotBlank
     @Getter
@@ -31,12 +35,6 @@ public abstract class PlatformUserEntity<I extends UserIdentity> extends Persist
     @Getter(AccessLevel.NONE)
     @OneToOne(mappedBy = "platformUser", cascade = {CascadeType.ALL}, orphanRemoval = true, optional = true)
     private UserTokenEntity userToken;
-
-    @Column(name = "PLATFORM", insertable = false, updatable = false)
-    @Type(type = "perobobbot.persistence.type.IdentifiedEnumType")
-    @Getter
-    private Platform platform;
-
 
     public @NonNull Optional<UserTokenEntity> getUserToken() {
         return Optional.ofNullable(userToken);
@@ -50,8 +48,10 @@ public abstract class PlatformUserEntity<I extends UserIdentity> extends Persist
 
     public abstract @NonNull PlatformUser toView();
 
+    public abstract @NonNull Platform getPlatform();
+
     public boolean hasSamePlatformAndIdThan(@NonNull UserIdentity identity) {
-        return this.platform == identity.getPlatform() && identity.getUserId().equals(this.userId);
+        return this.getPlatform() == identity.getPlatform() && identity.getUserId().equals(this.userId);
     }
 
     public void checkSamePlatformAndIdThan(@NonNull UserIdentity identity) {
@@ -76,6 +76,8 @@ public abstract class PlatformUserEntity<I extends UserIdentity> extends Persist
     }
 
     public abstract void update(@NonNull I userIdentity);
+
+    abstract PlatformBotEntity createPlatformBot(@NonNull BotEntity bot);
 
     public void removeUserToken() {
         this.userToken = null;

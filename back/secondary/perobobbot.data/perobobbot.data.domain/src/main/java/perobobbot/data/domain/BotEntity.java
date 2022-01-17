@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "BOT",uniqueConstraints = {
@@ -30,8 +31,8 @@ public class BotEntity extends PersistentObjectWithUUID {
     @Setter
     private String name;
 
-    @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JoinedTwitchChannelEntity> joinedChannels = new ArrayList<>();
+    @OneToMany(mappedBy = "bot", targetEntity = PlatformBotEntity.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlatformBotEntity> platformBots = new ArrayList<>();
 
     @OneToMany(mappedBy = "bot",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<BotExtensionEntity> botExtensions = new ArrayList<>();
@@ -45,8 +46,19 @@ public class BotEntity extends PersistentObjectWithUUID {
 
 
 
+    public @NonNull Stream<PlatformBotEntity> platformBotStream() {
+        return platformBots.stream();
+    }
+
     public @NonNull String getOwnerLogin() {
         return owner.getLogin();
+    }
+
+
+    public @NonNull PlatformBotEntity addPlatformBot(@NonNull PlatformUserEntity<?> platformUser) {
+        final var platformBot = platformUser.createPlatformBot(this);
+        this.platformBots.add(platformBot);
+        return platformBot;
     }
 
     public @NonNull BotExtensionEntity addExtension(@NonNull ExtensionEntity extension) {
@@ -80,11 +92,6 @@ public class BotEntity extends PersistentObjectWithUUID {
                   .build();
     }
 
-    public @NonNull JoinedTwitchChannelEntity joinChannel(@NonNull TwitchUserEntity viewerIdentity, @NonNull String channelName) {
-        return new JoinedTwitchChannelEntity(this,viewerIdentity,channelName);
-    }
 
-    void disconnectChannel(@NonNull JoinedTwitchChannelEntity joinedChannel) {
-        joinedChannels.removeIf(jc -> jc.getUuid().equals(joinedChannel.getUuid()));
-    }
+
 }

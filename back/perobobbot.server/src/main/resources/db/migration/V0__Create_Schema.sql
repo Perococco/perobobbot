@@ -30,12 +30,13 @@ create table PEROBOBBOT.BOT_EXTENSION (
 );
 
 create table PEROBOBBOT.CLIENT (
+                                   PLATFORM varchar(31) not null,
                                    ID bigint not null,
                                    VERSION integer not null,
                                    EXTERNAL_ID binary not null,
                                    CLIENT_ID varchar(255),
                                    CLIENT_SECRET varchar(255),
-                                   PLATFORM varchar(255),
+                                   BOT_TOKEN varchar(255),
                                    primary key (ID)
 );
 
@@ -67,14 +68,24 @@ create table PEROBOBBOT.EXTENSION (
                                       primary key (ID)
 );
 
-create table PEROBOBBOT.JOINED_TWITCH_CHANNEL (
-                                                  ID bigint not null,
-                                                  VERSION integer not null,
-                                                  EXTERNAL_ID binary not null,
-                                                  CHANNEL_NAME varchar(255) not null,
-                                                  BOT_ID bigint not null,
-                                                  TWITCH_USER_ID bigint not null,
-                                                  primary key (ID)
+create table PEROBOBBOT.JOINED_CHANNEL (
+                                           ID bigint not null,
+                                           VERSION integer not null,
+                                           EXTERNAL_ID binary not null,
+                                           CHANNEL_ID varchar(255) not null,
+                                           PLATFORM_BOT_ID bigint not null,
+                                           primary key (ID)
+);
+
+create table PEROBOBBOT.PLATFORM_BOT (
+                                         PLATFORM varchar(31) not null,
+                                         ID bigint not null,
+                                         VERSION integer not null,
+                                         EXTERNAL_ID binary not null,
+                                         BOT_ID bigint not null,
+                                         DISCORD_USER_ID bigint,
+                                         TWITCH_USER_ID bigint,
+                                         primary key (ID)
 );
 
 create table PEROBOBBOT.PLATFORM_USER (
@@ -187,6 +198,9 @@ create table PEROBOBBOT.USER_TWITCH_SUBSCRIPTION (
 alter table PEROBOBBOT.BOT
     add constraint UKtb35df8l26y2awkllnmjp6mfa unique (USER_ID, NAME);
 
+alter table PEROBOBBOT.BOT
+    add constraint UK_kvynkrm7ffxo3d0t0i00biyfh unique (EXTERNAL_ID);
+
 alter table PEROBOBBOT.BOT_CREDENTIAL
     add constraint UK9nvc80q1ypfsewimmwnggsm98 unique (BOT_ID, CREDENTIAL_ID);
 
@@ -194,22 +208,52 @@ alter table PEROBOBBOT.BOT_EXTENSION
     add constraint UK9wsjqtkhhoqwugwia2jcnc4mm unique (BOT_ID, EXTENSION_ID);
 
 alter table PEROBOBBOT.CLIENT
-    add constraint UK_5vcmducx1a00wdxf6gu7fk6us unique (PLATFORM);
+    add constraint UK_h0t1ejkabltngyhoe488ciylp unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.CLIENT_TOKEN
+    add constraint UK_6xa29fvdaigcmjbq0j75ax0s0 unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.EXTENSION
+    add constraint UK_s1g88q6fj23rfbfi9njbw61ti unique (EXTERNAL_ID);
 
 alter table PEROBOBBOT.EXTENSION
     add constraint UK_dbsdvpyjxwg2lb4b7ohdtun42 unique (NAME);
 
-alter table PEROBOBBOT.JOINED_TWITCH_CHANNEL
-    add constraint UKshhkq6o9ktqd166kosp5ivplq unique (BOT_ID, TWITCH_USER_ID, CHANNEL_NAME);
+alter table PEROBOBBOT.JOINED_CHANNEL
+    add constraint UKdexjb8v8cv49425vkh788n14 unique (PLATFORM_BOT_ID, CHANNEL_ID);
+
+alter table PEROBOBBOT.JOINED_CHANNEL
+    add constraint UK_783xr6eyujxrd394389toknmn unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.PLATFORM_BOT
+    add constraint UK_thefwsiqofjo5lrl15ql2cau2 unique (EXTERNAL_ID);
 
 alter table PEROBOBBOT.PLATFORM_USER
     add constraint UKdiuduwgx1c5vrieuleuy7ubwg unique (PLATFORM, USER_ID);
 
+alter table PEROBOBBOT.PLATFORM_USER
+    add constraint UK_a7wbk8ux7jf1faj2alvu0m8o4 unique (EXTERNAL_ID);
+
 alter table PEROBOBBOT.ROLE
     add constraint UK_3lhyjfk8dr6wyuurwws7wxtdv unique (ROLE);
 
+alter table PEROBOBBOT.SAFE
+    add constraint UK_8ki7lobvcyps6dq1s39ou8cru unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.TRANSACTION
+    add constraint UK_hqrndtxcvk5frrtw07rrlun8d unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.TWITCH_SUBSCRIPTION
+    add constraint UK_90e1l36ray0y5gcja3iks7g6o unique (EXTERNAL_ID);
+
 alter table PEROBOBBOT.USER
     add constraint UK_m6gjtxi6t4thhq8x960qif5cy unique (LOGIN);
+
+alter table PEROBOBBOT.USER_TOKEN
+    add constraint UK_k6wyoogyytj8shlnkgtot80ta unique (EXTERNAL_ID);
+
+alter table PEROBOBBOT.USER_TWITCH_SUBSCRIPTION
+    add constraint UK_majmgdnjce095qqqnhqxn7coi unique (EXTERNAL_ID);
 
 alter table PEROBOBBOT.BOT
     add constraint FKa7dtiy852v0u37blbl5x09mfs
@@ -246,13 +290,23 @@ alter table PEROBOBBOT.CONDITION
         foreign key (ID)
             references PEROBOBBOT.TWITCH_SUBSCRIPTION;
 
-alter table PEROBOBBOT.JOINED_TWITCH_CHANNEL
-    add constraint FKke6fr4w18y3cq9bq89jbgt0ou
+alter table PEROBOBBOT.JOINED_CHANNEL
+    add constraint FKkoywh2pyu0qwglwluwdc722ad
+        foreign key (PLATFORM_BOT_ID)
+            references PEROBOBBOT.PLATFORM_BOT;
+
+alter table PEROBOBBOT.PLATFORM_BOT
+    add constraint FKqnxhsdwrgkhuj51ssapnwwq1
         foreign key (BOT_ID)
             references PEROBOBBOT.BOT;
 
-alter table PEROBOBBOT.JOINED_TWITCH_CHANNEL
-    add constraint FKj9qurhfn4rsu4nsssjup8hb5u
+alter table PEROBOBBOT.PLATFORM_BOT
+    add constraint FKg4u1l3p4qycr3yes6kjsdsdsy
+        foreign key (DISCORD_USER_ID)
+            references PEROBOBBOT.PLATFORM_USER;
+
+alter table PEROBOBBOT.PLATFORM_BOT
+    add constraint FKk67aowmwbw191gg8hp5s6xsyg
         foreign key (TWITCH_USER_ID)
             references PEROBOBBOT.PLATFORM_USER;
 

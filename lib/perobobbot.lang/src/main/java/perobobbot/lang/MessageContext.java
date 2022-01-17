@@ -105,7 +105,7 @@ public class MessageContext {
         return toBuilder().source(this);
     }
 
-    public @NonNull UUID getBotId() {
-        return chatConnectionInfo.getBotId();
+    public @NonNull UUID getPlatformBotId() {
+        return chatConnectionInfo.getPlatformBotId();
     }
 }

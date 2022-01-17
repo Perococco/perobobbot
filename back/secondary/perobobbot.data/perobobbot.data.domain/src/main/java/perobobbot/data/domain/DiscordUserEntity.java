@@ -47,4 +47,14 @@ public final class DiscordUserEntity extends PlatformUserEntity<DiscordIdentity>
         this.login = userIdentity.getLogin();
         this.discriminator = userIdentity.getDiscriminator();
     }
+
+    @Override
+    public @NonNull Platform getPlatform() {
+        return Platform.DISCORD;
+    }
+
+    @Override
+    DiscordBotEntity createPlatformBot(@NonNull BotEntity bot) {
+        return new DiscordBotEntity(bot, this);
+    }
 }

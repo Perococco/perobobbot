@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import perobobbot.data.com.InvalidClientType;
 import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.client.EncryptedClient;
 import perobobbot.lang.Platform;
@@ -71,6 +72,14 @@ public abstract class ClientEntity extends PersistentObjectWithUUID {
             case TWITCH ->  TwitchClientEntity::new;
             default -> throw new IllegalArgumentException("Invalid platform: Cannot create a client for the platform '"+platform+"'");
         };
+    }
+
+    public <E extends ClientEntity> @NonNull E toSpecificPlatform(@NonNull Class<E> clientType) {
+        if (clientType.isInstance(this)) {
+            return clientType.cast(this);
+        }
+
+        throw new InvalidClientType(getUuid(), clientType);
     }
 
 }

@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.domain.BotEntity;
 import perobobbot.data.domain.BotExtensionEntity;
+import perobobbot.data.domain.PlatformBotEntity;
+import perobobbot.data.domain.PlatformUserEntity;
 import perobobbot.data.jpa.repository.*;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.UnsecuredService;
-import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedTwitchChannel;
-import perobobbot.lang.Platform;
-import perobobbot.lang.TextEncryptor;
+import perobobbot.lang.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,11 +26,12 @@ import java.util.UUID;
 public class JPABotService implements BotService {
 
     private final @NonNull BotRepository botRepository;
+    private final @NonNull PlatformBotRepository platformBotRepository;
     private final @NonNull ExtensionRepository extensionRepository;
     private final @NonNull BotExtensionRepository botExtensionRepository;
     private final @NonNull UserRepository userRepository;
     private final @NonNull JoinedChannelRepository joinedChannelRepository;
-    private final @NonNull TwitchUserRepository twitchUserRepository;
+    private final @NonNull PlatformUserRepository platformUserRepository;
     private final @NonNull TextEncryptor textEncryptor;
 
     @Override
@@ -38,6 +40,18 @@ public class JPABotService implements BotService {
                             .stream()
                             .map(BotEntity::toView)
                             .collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
+    @Transactional
+    public @NonNull PlatformBot createPlatformBot(@NonNull UUID botId, @NonNull UUID platformUserId) {
+        final var platformUser = platformUserRepository.getByUuid(platformUserId);
+        final var bot = botRepository.getByUuid(botId);
+
+        final var platformBotEntity = bot.addPlatformBot(platformUser);
+
+        return platformBotRepository.save(platformBotEntity).toView();
+
     }
 
     @Override
@@ -63,29 +77,41 @@ public class JPABotService implements BotService {
     }
 
     @Override
+    public @NonNull Optional<Bot> findBotOwningPlatformBot(@NonNull UUID platformBotId) {
+        return botRepository.findByPlatformBotUUID(platformBotId).map(BotEntity::toView);
+    }
+
+    @Override
     public @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName) {
         return botRepository.findByNameAndOwnerLogin(botName, login).map(BotEntity::toView);
     }
 
     @Override
+    public ImmutableList<PlatformBot> listPlatformBotsForBotName(@NonNull String login, @NonNull String botName) {
+        return botRepository.findByNameAndOwnerLogin(botName, login)
+                            .stream()
+                            .flatMap(BotEntity::platformBotStream)
+                            .map(PlatformBotEntity::toView)
+                            .collect(ImmutableList.toImmutableList());
+    }
+
+    @Override
     @Transactional
-    public @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID platformUserId, @NonNull String channelName) {
-        var existing = joinedChannelRepository.findByBot_UuidAndTwitchUser_UuidAndChannelName(botId,platformUserId,channelName)
-                .orElse(null);
+    public @NonNull JoinedChannel addJoinedChannel(@NonNull UUID platformBotId, @NonNull String channelId) {
+        var existing = joinedChannelRepository.findByPlatformBot_UuidAndChannelId(platformBotId, channelId)
+                                              .orElse(null);
 
         if (existing == null) {
-            final var bot = botRepository.getByUuid(botId);
-            final var twitchUser = twitchUserRepository.getByUuid(platformUserId);
-            final var joinedChannel = bot.joinChannel(twitchUser, channelName);
+            final var platformBot = platformBotRepository.getByUuid(platformBotId);
+            final var joinedChannel = platformBot.joinChannel(channelId);
             existing = joinedChannelRepository.save(joinedChannel);
         }
 
         return existing.toView(textEncryptor);
-
     }
 
     @Override
-    public @NonNull Optional<JoinedTwitchChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
+    public @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId) {
         return joinedChannelRepository.findByUuid(joinedChannelId)
                                       .map(e -> e.toView(textEncryptor));
     }
@@ -101,9 +127,9 @@ public class JPABotService implements BotService {
     }
 
     @Override
-    public @NonNull ImmutableList<JoinedTwitchChannel> findJoinedChannels(@NonNull Platform platform) {
+    public @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform) {
 
-        return joinedChannelRepository.findAllByTwitchUser_Platform(platform)
+        return joinedChannelRepository.findAllByPlatformBot_Platform(platform)
                                       .stream()
                                       .map(e -> e.toView(textEncryptor))
                                       .collect(ImmutableList.toImmutableList());

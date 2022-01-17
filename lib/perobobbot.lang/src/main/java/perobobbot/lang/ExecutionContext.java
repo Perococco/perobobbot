@@ -37,7 +37,7 @@ public interface ExecutionContext {
     }
 
     default @NonNull UUID getBotId() {
-        return getMessageContext().getBotId();
+        return getMessageContext().getPlatformBotId();
     }
 
     default @NonNull ChatUser getMessageOwner() {

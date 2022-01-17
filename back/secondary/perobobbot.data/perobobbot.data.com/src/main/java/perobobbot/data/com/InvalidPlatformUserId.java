@@ -10,7 +10,7 @@ public class InvalidPlatformUserId extends DataException {
     private final @NonNull String userId;
 
     public InvalidPlatformUserId(@NonNull String userId) {
-        super("The userId '%s' is invalid for the opertion".formatted(userId));
+        super("The userId '%s' is invalid for the operation".formatted(userId));
         this.userId = userId;
     }
 }

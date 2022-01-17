@@ -47,4 +47,14 @@ public final class TwitchUserEntity extends PlatformUserEntity<TwitchIdentity> {
         this.login = userIdentity.getLogin();
         this.pseudo = userIdentity.getPseudo();
     }
+
+    @Override
+    TwitchBotEntity createPlatformBot(@NonNull BotEntity bot) {
+        return new TwitchBotEntity(bot, this);
+    }
+
+    @Override
+    public @NonNull Platform getPlatform() {
+        return Platform.TWITCH;
+    }
 }

@@ -20,16 +20,16 @@ public interface ChatConnection {
 
     /**
      * join a channel
-     * @param channelName the name of the channel to join
+     * @param channelId the name of the channel to join
      * @return a {@link CompletionStage} containing the {@link MessageChannelIO} after successful connection
      */
-    @NonNull CompletionStage<? extends MessageChannelIO> join(@NonNull String channelName);
+    @NonNull CompletionStage<? extends MessageChannelIO> join(@NonNull String channelId);
 
-    @NonNull CompletionStage<? extends Optional<? extends MessageChannelIO>> findChannel(@NonNull String channelName);
+    @NonNull CompletionStage<? extends Optional<? extends MessageChannelIO>> findChannel(@NonNull String channelId);
 
-    default @NonNull CompletionStage<? extends MessageChannelIO> getChannel(@NonNull String channelName) {
-        return findChannel(channelName)
-                .thenApply(o -> o.orElseThrow(() -> new ChatChannelNotJoined(getChatConnectionInfo(),channelName)));
+    default @NonNull CompletionStage<? extends MessageChannelIO> getChannel(@NonNull String channelId) {
+        return findChannel(channelId)
+                .thenApply(o -> o.orElseThrow(() -> new ChatChannelNotJoined(getChatConnectionInfo(),channelId)));
     }
 
 }

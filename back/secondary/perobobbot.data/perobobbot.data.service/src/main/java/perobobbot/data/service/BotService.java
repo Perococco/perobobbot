@@ -3,8 +3,9 @@ package perobobbot.data.service;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedTwitchChannel;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformBot;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,10 +16,13 @@ public interface BotService {
 
     @NonNull ImmutableList<Bot> listAllBots();
 
-    /**
-     * @param login the login of the user
-     * @return all the bots for the user with the given login
-     */
+
+    @NonNull PlatformBot createPlatformBot(@NonNull UUID botId, @NonNull UUID platformUserId);
+
+        /**
+         * @param login the login of the user
+         * @return all the bots for the user with the given login
+         */
     @NonNull ImmutableList<Bot> listBots(@NonNull String login);
 
     /**
@@ -35,9 +39,11 @@ public interface BotService {
 
     @NonNull Optional<Bot> findBotByName(@NonNull String login, @NonNull String botName);
 
-    @NonNull JoinedTwitchChannel addJoinedChannel(@NonNull UUID botId, @NonNull UUID platformUserId, @NonNull String channelName);
+    @NonNull ImmutableList<PlatformBot> listPlatformBotsForBotName(@NonNull String login, @NonNull String botName);
 
-    @NonNull Optional<JoinedTwitchChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
+    @NonNull JoinedChannel addJoinedChannel(@NonNull UUID platformBotId, @NonNull String channelId);
+
+    @NonNull Optional<JoinedChannel> findJoinedChannel(@NonNull UUID joinedChannelId);
 
     void removeJoinedChannel(@NonNull UUID joinedChannelId);
 
@@ -47,12 +53,14 @@ public interface BotService {
      */
     @NonNull Optional<Bot> findBot(@NonNull UUID botId);
 
+    @NonNull Optional<Bot> findBotOwningPlatformBot(@NonNull UUID platformBotId);
+
     default @NonNull Optional<String> findLoginOfBotOwner(@NonNull UUID botId) {
         return findBot(botId).map(Bot::getOwnerLogin);
     }
 
     void enableExtension(@NonNull UUID botId, @NonNull String extensionName);
 
-    @NonNull ImmutableList<JoinedTwitchChannel> findJoinedChannels(@NonNull Platform platform);
+    @NonNull ImmutableList<JoinedChannel> findJoinedChannels(@NonNull Platform platform);
 
 }

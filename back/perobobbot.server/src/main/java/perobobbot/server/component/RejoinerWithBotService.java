@@ -10,9 +10,9 @@ import perobobbot.chat.core.IO;
 import perobobbot.data.service.BotService;
 import perobobbot.data.service.EventService;
 import perobobbot.data.service.OAuthService;
-import perobobbot.lang.Bot;
-import perobobbot.lang.JoinedTwitchChannel;
+import perobobbot.lang.JoinedChannel;
 import perobobbot.lang.Platform;
+import perobobbot.lang.PlatformBot;
 import perobobbot.server.config.io.ChatConnectionHelper;
 import perobobbot.server.config.io.Rejoiner;
 
@@ -39,7 +39,7 @@ public class RejoinerWithBotService implements Rejoiner {
         private final @NonNull ChatPlatform chatPlatform;
         private final @NonNull ChatConnectionHelper chatConnectionHelper;
 
-        private ImmutableList<JoinedTwitchChannel> joinedTwitchChannels;
+        private ImmutableList<JoinedChannel> joinedChannels;
 
         public Execution(@NonNull ChatPlatform chatPlatform) {
             this.chatPlatform = chatPlatform;
@@ -48,51 +48,51 @@ public class RejoinerWithBotService implements Rejoiner {
 
         private void run() {
             this.retrieveJoinedChannels();
-            assert joinedTwitchChannels != null;
-            joinedTwitchChannels.forEach(this::rejoin);
+            assert joinedChannels != null;
+            joinedChannels.forEach(this::rejoin);
         }
 
         private void retrieveJoinedChannels() {
-            this.joinedTwitchChannels = botService.findJoinedChannels(chatPlatform.getPlatform());
+            this.joinedChannels = botService.findJoinedChannels(chatPlatform.getPlatform());
         }
 
-        private void rejoin(@NonNull JoinedTwitchChannel joinedTwitchChannel) {
-            final var channelName = joinedTwitchChannel.getChannelName();
-            final var bot = joinedTwitchChannel.getBot();
-            final var connectionInfo = chatConnectionHelper.createRefreshable(joinedTwitchChannel).orElse(null);
+        private void rejoin(@NonNull JoinedChannel joinedChannel) {
+            final var channelId = joinedChannel.getChannelId();
+            final var platformBot = joinedChannel.getPlatformBot();
+            final var connectionInfo = chatConnectionHelper.createRefreshable(joinedChannel).orElse(null);
 
             if (connectionInfo == null) {
-                warnOnRejoinFailure("No credential to join", bot, channelName);
+                warnOnRejoinFailure("No credential to join", platformBot, channelId);
                 return;
             }
 
             if (!connectionInfo.getPlatform().equals(chatPlatform.getPlatform())) {
-                warnOnRejoinFailure("Connection information are not for this platform : this=" + chatPlatform.getPlatform() + " that=" + connectionInfo.getPlatform(), bot, channelName);
+                warnOnRejoinFailure("Connection information are not for this platform : this=" + chatPlatform.getPlatform() + " that=" + connectionInfo.getPlatform(), platformBot, channelId);
                 return;
             }
 
 
             chatPlatform.connect(connectionInfo)
-                        .thenCompose(connection -> connection.join(channelName))
+                        .thenCompose(connection -> connection.join(channelId))
                         .whenComplete((r, error) -> {
                             if (error != null) {
-                                warnOnRejoinFailure(error, bot, channelName);
+                                warnOnRejoinFailure(error, platformBot, channelId);
                             }
                         });
 
         }
 
-        private void warnOnRejoinFailure(@NonNull Throwable error, @NonNull Bot bot, @NonNull String channelName) {
+        private void warnOnRejoinFailure(@NonNull Throwable error, @NonNull PlatformBot bot, @NonNull String channelName) {
             warnOnRejoinFailure(error.getMessage(), bot, channelName);
             LOG.debug(error);
 
         }
 
-        private void warnOnRejoinFailure(@NonNull String message, @NonNull Bot bot, @NonNull String channelName) {
+        private void warnOnRejoinFailure(@NonNull String message, @NonNull PlatformBot bot, @NonNull String channelName) {
             LOG.warn("Fail to connect to channel {}/{} with bot {} : {}",
                     chatPlatform.getPlatform(),
                     channelName,
-                    bot.getName(),
+                    bot.getBotName(),
                     message);
         }
 

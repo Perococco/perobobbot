@@ -7,15 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perobobbot.data.com.CreateClientParameter;
 import perobobbot.data.domain.ClientEntity;
+import perobobbot.data.domain.DiscordBotEntity;
+import perobobbot.data.domain.DiscordClientEntity;
 import perobobbot.data.jpa.repository.ClientRepository;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.UnsecuredService;
+import perobobbot.lang.Secret;
 import perobobbot.lang.client.Client;
 import perobobbot.lang.client.DecryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
+import perobobbot.lang.client.DecryptedDiscordClient;
+import perobobbot.lang.client.EncryptedDiscordClient;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @UnsecuredService
@@ -41,6 +47,14 @@ public class JPAClientService implements ClientService {
                                .map(ClientEntity::toView)
                                .map(t -> t.decrypt(textEncryptor))
                                .collect(ImmutableMap.toImmutableMap(Client::getPlatform, c -> c));
+    }
+
+    @Override
+    @Transactional
+    public @NonNull DecryptedDiscordClient setDiscordBotToken(@NonNull Secret botToken) {
+        final var client = this.clientRepository.getByPlatform(Platform.DISCORD).toSpecificPlatform(DiscordClientEntity.class);
+        client.setBotToken(textEncryptor.encrypt(botToken));
+        return clientRepository.save(client).toView().decrypt(textEncryptor);
     }
 
     @Override

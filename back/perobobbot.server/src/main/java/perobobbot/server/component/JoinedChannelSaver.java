@@ -32,20 +32,19 @@ public class JoinedChannelSaver {
 
 
     private @NonNull ConnectionSaver createSaver(@NonNull ChatChannelJoined event) {
-        return new ConnectionSaver(botService,event.getBotId(), event.getPlatformUserId(), event.getChannelName());
+        return new ConnectionSaver(botService,event.getPlatformBotId(), event.getChannelName());
     }
 
     @RequiredArgsConstructor
     private static class ConnectionSaver implements Runnable {
 
         private final @NonNull BotService botService;
-        private final @NonNull UUID botId;
-        private final @NonNull UUID platformUserId;
+        private final @NonNull UUID platformBotId;
         private final @NonNull String channelName;
 
         public void run() {
             try {
-                botService.addJoinedChannel(botId, platformUserId, channelName);
+                botService.addJoinedChannel(platformBotId, channelName);
             } catch (Exception e) {
                 ThrowableTool.interruptThreadIfCausedByInterruption(e);
                 LOG.warn("Could not save channel connection information : {}",e.getMessage());

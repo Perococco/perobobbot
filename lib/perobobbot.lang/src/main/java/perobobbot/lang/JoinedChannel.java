@@ -10,22 +10,20 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Getter
-public class JoinedTwitchChannel {
+public class JoinedChannel {
 
     private final @NonNull UUID id;
 
-    private final @NonNull Bot bot;
-
-    private final @NonNull TwitchUser twitchUser;
+    private final @NonNull PlatformBot platformBot;
 
     @Getter(AccessLevel.NONE)
     private final DecryptedTokenInfo decryptedTokenInfo;
 
-    private final @NonNull String channelName;
+    private final @NonNull String channelId;
 
 
     public @NonNull UUID getBotId() {
-        return bot.getId();
+        return platformBot.getBot().getId();
     }
 
     public @NonNull Optional<DecryptedTokenInfo> getDecryptedTokenInfo() {
@@ -33,15 +31,15 @@ public class JoinedTwitchChannel {
     }
 
     public @NonNull String getBotName() {
-        return bot.getName();
+        return platformBot.getBot().getName();
     }
 
     public @NonNull UUID getTwitchUserId() {
-        return twitchUser.getId();
+        return platformBot.getUser().getId();
     }
 
     public @NonNull String getNick() {
-        return twitchUser.getLogin();
+        return platformBot.getUser().getLogin();
     }
 
 }

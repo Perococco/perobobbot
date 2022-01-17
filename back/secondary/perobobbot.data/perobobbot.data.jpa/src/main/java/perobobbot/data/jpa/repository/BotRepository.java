@@ -21,6 +21,9 @@ public interface BotRepository extends JpaRepository<BotEntity, Long> {
     @Query("select b from BotEntity as b where b.name = :name and b.owner.login = :login")
     @NonNull Optional<BotEntity> findByNameAndOwnerLogin(@NonNull @Param("name") String name, @NonNull @Param("login") String login);
 
+    @Query("select pf.bot from PlatformBotEntity pf where pf.uuid = :platformBotId")
+    @NonNull Optional<BotEntity> findByPlatformBotUUID(@NonNull @Param("platformBotId")  UUID platformBotId);
+
     @NonNull Optional<BotEntity> findByUuid(@NonNull UUID uuid);
 
     default @NonNull BotEntity getByUuid(@NonNull UUID uuid) {

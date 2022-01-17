@@ -22,22 +22,21 @@ public class ChatConnectionInterceptor {
     public @NonNull ChatConnection intercept(@NonNull ChatConnection chatConnection) {
         return new ProxyChatConnection(chatConnection) {
             @Override
-            public @NonNull CompletionStage<? extends MessageChannelIO> join(@NonNull String channelName) {
-                return super.join(channelName).whenComplete((messageChannelIO, error) -> {
+            public @NonNull CompletionStage<? extends MessageChannelIO> join(@NonNull String channelId) {
+                return super.join(channelId).whenComplete((messageChannelIO, error) -> {
                     if (messageChannelIO != null) {
                         final var connectionInfo = getChatConnectionInfo();
 
                         LOG.info("{} join {}/{} as {}",
                                 connectionInfo.getBotName(),
                                 connectionInfo.getPlatform(),
-                                channelName,
+                                channelId,
                                 connectionInfo.getNick()
                                 );
 
-                        final var joinEvent = new ChatChannelJoined(connectionInfo.getBotId(),
-                                connectionInfo.getPlatformUserId(),
+                        final var joinEvent = new ChatChannelJoined(connectionInfo.getPlatformBotId(),
                                 connectionInfo.getPlatform(),
-                                channelName);
+                                channelId);
                         messageGateway.sendEvent(joinEvent);
                     }
 
