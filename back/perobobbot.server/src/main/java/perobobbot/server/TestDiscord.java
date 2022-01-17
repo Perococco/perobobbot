@@ -20,7 +20,7 @@ import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class TestDiscord {
 
@@ -38,7 +38,7 @@ public class TestDiscord {
     @EventListener(ApplicationReadyEvent.class)
     public void run() throws Exception {
         try {
-           deleteAllTokens(d -> d.getPlatform() == Platform.DISCORD);
+//           deleteAllTokens(d -> d.getPlatform() == Platform.DISCORD);
 //           createUserToken(Platform.DISCORD);
 //            final var tokens = oAuthService.getAllUserTokens("perococco");
 //            for (DecryptedUserTokenView token : tokens) {
