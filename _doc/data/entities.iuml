@@ -1,12 +1,49 @@
 @startuml
 !if TOTO
 !define TOTO
-class Bot {
+!$bot_color = "#24FFD1"
+
+hide methods
+
+
+
+class TwitchClient {
+}
+
+class DiscordClient {
+    botToken:String
+}
+
+class Bot $bot_color {
    +name:String,
    +deactivated:bool,
    +owner:User,
-   +joined_channels:List<JoinedChannel>,
    +extensions:List<Extension>,
+   +platformBot:List<PlatformBot>,
+}
+
+class JoinedTwitchChannel {
+  + bot:TwitchBot
+  + channelId:String,
+}
+
+class JoinedDiscordChannel {
+  + bot:DiscordBot
+  + channelId:String,
+}
+
+class PlatformBot $bot_color {
+
+}
+
+class TwitchBot $bot_color {
+   +user:TwitchUser
+   +joined_twitch_channels:List<JoinedTwitchChannel>,
+}
+
+class DiscordBot $bot_color {
+  + user: DiscordUser,
+  +joined_discord_channels:List<JoinedDiscordChannel>,
 }
 
 class UserTwitchSubscription {
@@ -32,11 +69,6 @@ class BotExtension {
   + enabled:boolean,
 }
 
-class JoinedChannel {
-  + platformUser: platformUser,
-  + bot:Bot
-  + channelId:String,
-}
 
 class Role {
  +role:RoleKind

@@ -1,6 +1,17 @@
 @startuml
 !include entities.iuml
-hide methods
+
+Client <-- TwitchClient
+Client <-- DiscordClient
+
+Bot --* PlatformBot
+
+PlatformBot <-- TwitchBot
+PlatformBot <-- DiscordBot
+
+TwitchUser -- TwitchBot
+DiscordUser -- DiscordBot
+
 
 User "1" -- Bot
 User -- Role
@@ -9,6 +20,8 @@ User "1" -- UserTwitchSubscription
 UserTwitchSubscription -- "1" TwitchSubscription
 
 
+PlatformUser <|-- TwitchUser
+PlatformUser <|-- DiscordUser
 
 Safe "1"-- Transaction
 
@@ -24,14 +37,14 @@ UserToken  -- "1" PlatformUser
 UserToken   -- "1" User
 ClientToken  -- "1" Client
 
-PlatformUser <|-- TwitchUser
-PlatformUser <|-- DiscordUser
 
 Bot "1" -- BotExtension
 BotExtension --"1" Extension
-Bot "1" -- JoinedChannel
 
-JoinedChannel --"1" PlatformUser
+
+
+TwitchBot "1" -- JoinedTwitchChannel
+DiscordBot "1" -- JoinedDiscordChannel
 
 
 @enduml
