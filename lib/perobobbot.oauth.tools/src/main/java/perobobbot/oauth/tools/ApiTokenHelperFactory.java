@@ -20,7 +20,7 @@ public interface ApiTokenHelperFactory {
     );
 
 
-    default Function2<Platform,OAuthRequirement,ApiTokenHelper> withToken(@NonNull TokenIdentifier tokenIdentifier) {
+    default @NonNull Function2<Platform,OAuthRequirement,ApiTokenHelper> withToken(@NonNull TokenIdentifier tokenIdentifier) {
         return (platform, requirement) -> createWithToken(platform,requirement,tokenIdentifier);
     }
 }
