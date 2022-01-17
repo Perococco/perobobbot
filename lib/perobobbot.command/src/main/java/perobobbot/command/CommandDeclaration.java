@@ -15,6 +15,13 @@ public class CommandDeclaration {
 
     public interface Factory {
 
+        /**
+         *
+         * @param definition the definition of the command used to create the parser (something like <code>play {x},{y} [arg3]</code>)
+         * @param defaultAccessRule The default access rule if none is provided by the bot launching the command
+         * @param commandAction The action associated with this definition
+         * @return a command declaration made from the provided parameters
+         */
         @NonNull CommandDeclaration create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull CommandAction commandAction);
 
         default @NonNull CommandDeclaration create(@NonNull String definition, @NonNull AccessRule defaultAccessRule, @NonNull Runnable runnable) {

@@ -15,6 +15,7 @@ public class CommandParserTest {
 
     private static Stream<Arguments> testNumberOfParameters() {
         return Stream.of(
+                Arguments.of("decho*", "decho twitch Hello World","twitch Hello World",Map.of()),
                 Arguments.of("play {title} [volume]", "play chut", "chut", Map.of("title","chut")),
                 Arguments.of("play {title} [volume]","play chut 10", "chut 10", Map.of("title","chut","volume","10")),
                 Arguments.of("list {arg1} {title} {volume}","list oups chut 10", "oups chut 10", Map.of("arg1","oups","title","chut","volume","10")),

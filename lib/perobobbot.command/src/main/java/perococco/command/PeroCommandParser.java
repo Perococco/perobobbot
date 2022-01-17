@@ -2,6 +2,7 @@ package perococco.command;
 
 import lombok.Getter;
 import lombok.NonNull;
+import perobobbot.command.CommandDefinitionParsingFailure;
 import perobobbot.command.CommandParser;
 import perobobbot.command.CommandParsing;
 import perobobbot.command.ParameterDefinition;
@@ -13,14 +14,16 @@ import java.util.regex.Pattern;
 
 public class PeroCommandParser implements CommandParser {
 
+    private static CommandDefinitionParser PARSER = CommandDefinitionParser.chain(FullMatchCommandDefinitionParser.create(), CommandRegexpParser.create());
+
     @Getter
     private final @NonNull String commandDefinition;
-    private final @NonNull CommandRegexpParser.Result parsingResult;
+    private final @NonNull CommandDefinitionParsingResult parsingResult;
     private final @NonNull Pattern pattern;
 
     public PeroCommandParser(@NonNull String commandDefinition) {
         this.commandDefinition = commandDefinition.trim();
-        this.parsingResult = CommandRegexpParser.parse(this.commandDefinition);
+        this.parsingResult = PARSER.parse(this.commandDefinition);
         this.pattern = Pattern.compile(this.parsingResult.getRegexp());
     }
 

@@ -11,4 +11,5 @@ module perobobbot.command {
     requires org.apache.logging.log4j;
 
     exports perobobbot.command;
+    exports perococco.command;
 }
