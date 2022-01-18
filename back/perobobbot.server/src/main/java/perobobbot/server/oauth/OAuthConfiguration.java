@@ -12,6 +12,9 @@ import perobobbot.lang.Instants;
 import perobobbot.oauth.OAuthController;
 import perobobbot.oauth.OAuthManager;
 import perobobbot.oauth.OAuthSubscriptions;
+import perobobbot.oauth.tools.ApiTokenHelperFactory;
+import perobobbot.oauth.tools.ServiceWithTokenMapper;
+import perobobbot.oauth.tools._private.DefaultServiceWithTokenMapper;
 
 import java.util.stream.Collectors;
 
@@ -23,6 +26,11 @@ public class OAuthConfiguration {
     private final @NonNull ApplicationContext applicationContext;
     private final @NonNull WebHookManager webHookManager;
     private final @NonNull Instants instants;
+
+    @Bean
+    public @NonNull ServiceWithTokenMapper serviceWithTokenMapper(@NonNull ApiTokenHelperFactory apiTokenHelperFactory) {
+        return new DefaultServiceWithTokenMapper(apiTokenHelperFactory);
+    }
 
     @Bean
     public OAuthManager oAuthManager() {

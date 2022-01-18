@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.Value;
 import perobobbot.lang.IdentityInfo;
 import perobobbot.lang.Platform;
+import perobobbot.lang.TwitchIdentity;
 
 @Value
 public class UserInfo {
@@ -18,4 +19,9 @@ public class UserInfo {
                            .viewerId(id)
                            .build();
     }
+
+    public TwitchIdentity asUserIdentity() {
+        return new TwitchIdentity(id,login,name);
+    }
 }
+

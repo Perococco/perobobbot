@@ -14,7 +14,7 @@
 
     <artifactId>perobobbot-discord-resources</artifactId>
 
-    <name>${application.name}: ${module.name} - Discord API</name>
+    <name>${application.name}: ${module.name} - Discord Resources</name>
 
     <dependencies>
         <dependency>

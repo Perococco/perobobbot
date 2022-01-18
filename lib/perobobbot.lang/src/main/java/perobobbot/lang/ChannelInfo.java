@@ -19,11 +19,11 @@ public class ChannelInfo {
      * The name of the channel
      */
     @NonNull
-    String channelName;
+    String channelId;
 
     public boolean isOwnedBy(ChatUser user) {
         return switch (platform) {
-            case TWITCH -> channelName.equals(user.getUserId());
+            case TWITCH -> channelId.equals(user.getUserId());
             case LOCAL -> true;
             case DISCORD -> Todo.TODO();
             case SPOTIFY -> Todo.TODO();

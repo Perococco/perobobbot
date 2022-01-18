@@ -2,6 +2,7 @@ package perobobbot.http;
 
 import lombok.NonNull;
 import org.springframework.web.reactive.function.client.WebClient;
+import perobobbot.lang.Platform;
 import perobobbot.lang.fp.Consumer1;
 import perococco.perobobbot.http.WebClientFactoryBuilder;
 
@@ -82,5 +83,7 @@ public interface WebClientFactory {
         @NonNull Builder addModifier(@NonNull Consumer1<? super WebClient.Builder> modifier);
 
         @NonNull Builder baseUrl(@NonNull String baseUrl);
+
+        @NonNull Builder addRateLimitLogger(@NonNull Platform platform);
     }
 }

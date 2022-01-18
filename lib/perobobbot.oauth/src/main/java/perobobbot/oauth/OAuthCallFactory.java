@@ -1,11 +1,10 @@
-package perobobbot.twitch.client.webclient.spring;
+package perobobbot.oauth;
 
 import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.lang.FluxTools;
-import perobobbot.oauth.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

@@ -77,10 +77,10 @@ public class MessageContext {
     }
 
     /**
-     * @return the name of channel the message is coming from
+     * @return the id of channel the message is coming from
      */
-    public @NonNull String getChannelName() {
-        return channelInfo.getChannelName();
+    public @NonNull String getChannelId() {
+        return channelInfo.getChannelId();
     }
 
     /**

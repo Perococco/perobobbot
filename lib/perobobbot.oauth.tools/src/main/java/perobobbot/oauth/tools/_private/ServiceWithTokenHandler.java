@@ -1,38 +1,29 @@
-package perobobbot.twitch.client.webclient.spring;
+package perobobbot.oauth.tools._private;
 
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
 import perobobbot.oauth.*;
 import perobobbot.oauth.tools.*;
-import perobobbot.twitch.client.api.TwitchService;
-import perobobbot.twitch.client.api.TwitchServiceWithToken;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Optional;
 
-public class TwitchServiceHandler implements InvocationHandler {
+public class ServiceWithTokenHandler<T> implements InvocationHandler {
 
-    public static @NonNull TwitchService createService(
-            @NonNull TwitchServiceWithToken twitchServiceWithToken,
-            @NonNull ApiTokenHelperFactory factory) {
-        return (TwitchService) Proxy.newProxyInstance(twitchServiceWithToken.getClass().getClassLoader(),
-                new Class<?>[]{TwitchService.class}, new TwitchServiceHandler(twitchServiceWithToken, factory));
-    }
-
-    private final @NonNull TwitchServiceWithToken twitchServiceWithToken;
+    private final @NonNull T serviceWithToken;
 
     private final @NonNull ApiTokenHelperFactory factory;
 
     private final ImmutableMap<Method, ProxyMethod> proxyMethods;
 
-    public TwitchServiceHandler(@NonNull TwitchServiceWithToken twitchServiceWithToken,
-                                @NonNull ApiTokenHelperFactory factory) {
-        this.twitchServiceWithToken = twitchServiceWithToken;
+    public ServiceWithTokenHandler(@NonNull T serviceWithToken,
+                                   @NonNull ApiTokenHelperFactory factory,
+                                   @NonNull ImmutableMap<Method, ProxyMethod>proxyMethods) {
+        this.serviceWithToken = serviceWithToken;
         this.factory = factory;
-        this.proxyMethods = ApiProxy.mapProxyMethods(TwitchService.class, TwitchServiceWithToken.class);
+        this.proxyMethods = proxyMethods;
 
     }
 
@@ -49,10 +40,10 @@ public class TwitchServiceHandler implements InvocationHandler {
         final int tokenIndex = proxyMethod.getTokenPosition().orElse(-1);
         final Method methodWithToken = proxyMethod.getMethodWithToken();
         if (tokenIndex < 0) {
-            return methodWithToken.invoke(twitchServiceWithToken, args);
+            return methodWithToken.invoke(serviceWithToken, args);
         }
 
-        final var call = OAuthCallFactory.create(twitchServiceWithToken, methodWithToken, args, tokenIndex);
+        final var call = OAuthCallFactory.create(serviceWithToken, methodWithToken, args, tokenIndex);
 
         final var token = OAuthContextHolder.getContext().getTokenIdentifier();
 
@@ -83,8 +74,8 @@ public class TwitchServiceHandler implements InvocationHandler {
 
     private Optional<Object> evaluateNativeMethod(Method method) {
         return switch (method.getName()) {
-            case "hashCode" -> Optional.of(twitchServiceWithToken.hashCode());
-            case "toString" -> Optional.of(twitchServiceWithToken.toString());
+            case "hashCode" -> Optional.of(serviceWithToken.hashCode());
+            case "toString" -> Optional.of(serviceWithToken.toString());
             default -> Optional.empty();
         };
     }

@@ -48,8 +48,8 @@ public interface ExecutionContext {
         return getMessageContext().getMessageOwner();
     }
 
-    default @NonNull String getChannelName() {
-        return getMessageContext().getChannelName();
+    default @NonNull String getChannelId() {
+        return getMessageContext().getChannelId();
     }
 
     default @NonNull Platform getPlatform() {

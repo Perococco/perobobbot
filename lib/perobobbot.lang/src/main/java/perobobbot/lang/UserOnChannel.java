@@ -11,11 +11,11 @@ public class UserOnChannel {
 
     @NonNull
     public static UserOnChannel from(@NonNull ExecutionContext executionContext) {
-        return from(executionContext.getMessageOwner(),executionContext.getChannelName());
+        return from(executionContext.getMessageOwner(),executionContext.getChannelId());
     }
 
     public static UserOnChannel from(@NonNull MessageContext messageContext) {
-        return from(messageContext.getMessageOwner(), messageContext.getChannelName());
+        return from(messageContext.getMessageOwner(), messageContext.getChannelId());
     }
 
     public static UserOnChannel from(@NonNull ChatUser chatUser, @NonNull String channelName) {

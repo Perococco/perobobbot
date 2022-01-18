@@ -8,7 +8,9 @@ module perobobbot.oauth.tools {
     requires perobobbot.http;
     requires reactor.core;
     requires org.reactivestreams;
+    requires com.google.common;
 
     exports perobobbot.oauth.tools;
+    exports perobobbot.oauth.tools._private;
 
 }

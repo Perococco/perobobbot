@@ -46,7 +46,7 @@ public interface IO {
 
     default @NonNull CompletionStage<? extends MessageChannelIO> getMessageChannelIO(@NonNull ChatConnectionInfo chatConnectionInfo, @NonNull ChannelInfo channelInfo) {
         return getPlatform(channelInfo.getPlatform())
-                .getChannelIO(chatConnectionInfo, channelInfo.getChannelName());
+                .getChannelIO(chatConnectionInfo, channelInfo.getChannelId());
     }
 
 }
