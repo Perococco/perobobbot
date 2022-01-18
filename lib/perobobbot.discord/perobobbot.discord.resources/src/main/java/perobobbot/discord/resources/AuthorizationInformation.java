@@ -11,6 +11,4 @@ public class AuthorizationInformation {
     @NonNull String[] scopes;
     @NonNull Instant expires;
     @NonNull DiscordUser user;
-
-
 }

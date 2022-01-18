@@ -14,14 +14,18 @@ public class ServiceWithTokenHandler<T> implements InvocationHandler {
 
     private final @NonNull T serviceWithToken;
 
+    private final @NonNull Platform platform;
+
     private final @NonNull ApiTokenHelperFactory factory;
 
     private final ImmutableMap<Method, ProxyMethod> proxyMethods;
 
-    public ServiceWithTokenHandler(@NonNull T serviceWithToken,
+    public ServiceWithTokenHandler(@NonNull Platform platform,
+                                   @NonNull T serviceWithToken,
                                    @NonNull ApiTokenHelperFactory factory,
-                                   @NonNull ImmutableMap<Method, ProxyMethod>proxyMethods) {
+                                   @NonNull ImmutableMap<Method, ProxyMethod> proxyMethods) {
         this.serviceWithToken = serviceWithToken;
+        this.platform = platform;
         this.factory = factory;
         this.proxyMethods = proxyMethods;
 
@@ -50,7 +54,7 @@ public class ServiceWithTokenHandler<T> implements InvocationHandler {
         final var helper = token
                 .map(factory::withToken)
                 .orElse(factory::createWithoutToken)
-                .f(Platform.TWITCH, proxyMethod.getOAuthRequirement());
+                .f(platform, proxyMethod.getOAuthRequirement());
 
         final var callHelper = call.accept(new OAuthCall.Visitor<OAuthCallHelper<?>>() {
             @Override

@@ -8,12 +8,14 @@ import org.hibernate.annotations.Type;
 import perobobbot.lang.*;
 import perobobbot.lang.client.EncryptedClient;
 import perobobbot.lang.client.EncryptedTwitchClient;
+import perobobbot.lang.token.EncryptedBotToken;
 import perobobbot.lang.token.EncryptedClientToken;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -35,5 +37,10 @@ public class TwitchClientEntity extends ClientEntity {
                                     .clientId(getClientId())
                                     .clientSecret(this.getClientSecret())
                                     .build();
+    }
+
+    @Override
+    public @NonNull Optional<EncryptedBotToken> getBotTokenView() {
+        return Optional.empty();
     }
 }

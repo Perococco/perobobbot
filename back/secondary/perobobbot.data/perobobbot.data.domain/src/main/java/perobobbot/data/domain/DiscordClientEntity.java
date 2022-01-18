@@ -9,6 +9,7 @@ import perobobbot.lang.Platform;
 import perobobbot.lang.client.EncryptedClient;
 import perobobbot.lang.client.EncryptedDiscordClient;
 import perobobbot.lang.client.EncryptedTwitchClient;
+import perobobbot.lang.token.EncryptedBotToken;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -30,8 +31,8 @@ public class DiscordClientEntity extends ClientEntity {
         super(Platform.DISCORD, clientId, clientSecret);
     }
 
-    public @NonNull Optional<String> getBotToken() {
-        return Optional.ofNullable(botToken);
+    public @NonNull Optional<EncryptedBotToken> getBotTokenView() {
+        return Optional.ofNullable(botToken).map(b -> new EncryptedBotToken(this.getClientId(),b));
     }
 
     public void setBotToken(@NonNull String botToken) {

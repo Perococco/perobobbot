@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perobobbot.lang.Platform;
 import perobobbot.lang.Scope;
+import perobobbot.lang.Secret;
+import perobobbot.lang.token.DecryptedBotToken;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.Token;
@@ -69,4 +71,5 @@ public interface OAuthService {
 
     void deleteClientToken(@NonNull UUID uuid);
 
+    @NonNull DecryptedBotToken getBotToken(@NonNull Platform platform);
 }

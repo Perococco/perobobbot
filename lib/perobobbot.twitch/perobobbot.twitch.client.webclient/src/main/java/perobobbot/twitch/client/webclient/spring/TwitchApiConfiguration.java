@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import perobobbot.http.WebClientFactory;
 import perobobbot.lang.Packages;
+import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 import perobobbot.oauth.tools.ServiceWithTokenMapper;
 import perobobbot.twitch.client.api.TwitchService;
@@ -29,7 +30,7 @@ public class TwitchApiConfiguration {
     @Bean
     @PluginService(type = TwitchService.class, apiVersion = TwitchService.VERSION, sensitive = false)
     public TwitchService twitchService() {
-        return serviceWithTokenMapper.mapService(ProxyTwitchService.helix(webClientFactory), TwitchServiceWithToken.class, TwitchService.class);
+        return serviceWithTokenMapper.mapService(Platform.TWITCH, ProxyTwitchService.helix(webClientFactory), TwitchServiceWithToken.class, TwitchService.class);
     }
 
 }

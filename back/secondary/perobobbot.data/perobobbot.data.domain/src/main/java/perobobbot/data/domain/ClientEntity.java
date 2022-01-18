@@ -11,12 +11,14 @@ import perobobbot.lang.client.EncryptedClient;
 import perobobbot.lang.Platform;
 import perobobbot.lang.TextEncryptor;
 import perobobbot.lang.fp.Function2;
+import perobobbot.lang.token.EncryptedBotToken;
 import perobobbot.lang.token.EncryptedClientToken;
 import perobobbot.persistence.PersistentObjectWithUUID;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Entity
@@ -49,6 +51,8 @@ public abstract class ClientEntity extends PersistentObjectWithUUID {
     }
 
     public abstract @NonNull EncryptedClient toView();
+
+    public abstract @NonNull Optional<EncryptedBotToken> getBotTokenView();
 
     public @NonNull DecryptedClient toDecryptedView(@NonNull TextEncryptor textEncryptor) {
         return toView().decrypt(textEncryptor);

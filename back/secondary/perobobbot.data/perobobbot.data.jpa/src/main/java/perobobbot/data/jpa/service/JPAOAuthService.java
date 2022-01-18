@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+import perobobbot.data.com.NoBotTokenFound;
 import perobobbot.data.domain.ClientEntity;
 import perobobbot.data.domain.ClientTokenEntity;
 import perobobbot.data.domain.UserTokenEntity;
@@ -15,6 +16,7 @@ import perobobbot.data.jpa.repository.tools.UserTokenSaver;
 import perobobbot.data.service.OAuthService;
 import perobobbot.data.service.UnsecuredService;
 import perobobbot.lang.*;
+import perobobbot.lang.token.DecryptedBotToken;
 import perobobbot.lang.token.DecryptedClientToken;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
@@ -308,5 +310,12 @@ public class JPAOAuthService implements OAuthService {
 
         userTokenRepository.delete(token);
 
+    }
+
+    @Override
+    public @NonNull DecryptedBotToken getBotToken(@NonNull Platform platform) {
+        final var client = clientRepository.getByPlatform(platform);
+        final var encryptedBotToken =  client.getBotTokenView().orElseThrow(() -> new NoBotTokenFound(platform));
+        return encryptedBotToken.decrypt(textEncryptor);
     }
 }

@@ -12,6 +12,8 @@ import perobobbot.data.service.SecuredService;
 import perobobbot.lang.Platform;
 import perobobbot.lang.PluginService;
 import perobobbot.lang.Scope;
+import perobobbot.lang.Secret;
+import perobobbot.lang.token.DecryptedBotToken;
 import perobobbot.lang.token.DecryptedClientTokenView;
 import perobobbot.lang.token.DecryptedUserTokenView;
 import perobobbot.oauth.Token;
@@ -155,5 +157,11 @@ public class SecuredOAuthService implements OAuthService {
     @PreAuthorize("hasRole('ADMIN')")
     public @NonNull Optional<DecryptedUserTokenView> findUserTokenByViewerId(String broadcasterId, Platform platform, Scope requiredScope) {
         return delegate.findUserTokenByViewerId(broadcasterId, platform, requiredScope);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public @NonNull DecryptedBotToken getBotToken(@NonNull Platform platform) {
+        return delegate.getBotToken(platform);
     }
 }

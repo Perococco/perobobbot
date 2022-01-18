@@ -54,6 +54,8 @@
         <module>perobobbot.discord/perobobbot.discord.resources</module>
         <module>perobobbot.discord/perobobbot.discord.oauth.api</module>
         <module>perobobbot.discord/perobobbot.discord.oauth.impl</module>
+        <module>perobobbot.discord/perobobbot.discord.client.api</module>
+        <module>perobobbot.discord/perobobbot.discord.client.webclient</module>
 
     </modules>
 
