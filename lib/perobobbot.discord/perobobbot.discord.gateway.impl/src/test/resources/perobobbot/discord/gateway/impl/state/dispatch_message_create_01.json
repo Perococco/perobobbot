@@ -1,0 +1,101 @@
+{
+  "t": "MESSAGE_CREATE",
+  "s": 5,
+  "op": 0,
+  "d": {
+    "type": 19,
+    "tts": false,
+    "timestamp": "2022-01-21T10:07:51.912000+00:00",
+    "referenced_message": {
+      "type": 0,
+      "tts": false,
+      "timestamp": "2022-01-21T09:46:01.527000+00:00",
+      "pinned": false,
+      "mentions": [
+        {
+          "username": "perococco",
+          "public_flags": 0,
+          "id": "589845310218698752",
+          "discriminator": "1956",
+          "avatar": "390e67645696fab97ba595a59e7b4467"
+        }
+      ],
+      "mention_roles": [],
+      "mention_everyone": false,
+      "id": "934021007784685618",
+      "flags": 0,
+      "embeds": [],
+      "edited_timestamp": null,
+      "content": "GG <@589845310218698752>, you just advanced to level 1!",
+      "components": [],
+      "channel_id": "931140928196976670",
+      "author": {
+        "username": "MEE6",
+        "public_flags": 65536,
+        "id": "159985870458322944",
+        "discriminator": "4876",
+        "bot": true,
+        "avatar": "b50adff099924dd5e6b72d13f77eb9d7"
+      },
+      "attachments": []
+    },
+    "pinned": false,
+    "nonce": "934026503383941120",
+    "message_reference": {
+      "message_id": "934021007784685618",
+      "guild_id": "589846155962089477",
+      "channel_id": "931140928196976670"
+    },
+    "mentions": [
+      {
+        "username": "MEE6",
+        "public_flags": 65536,
+        "member": {
+          "roles": [
+            "932562319404314695"
+          ],
+          "premium_since": null,
+          "pending": false,
+          "nick": null,
+          "mute": false,
+          "joined_at": "2022-01-17T09:09:43.167001+00:00",
+          "hoisted_role": null,
+          "deaf": false,
+          "communication_disabled_until": null,
+          "avatar": null
+        },
+        "id": "159985870458322944",
+        "discriminator": "4876",
+        "bot": true,
+        "avatar": "b50adff099924dd5e6b72d13f77eb9d7"
+      }
+    ],
+    "mention_roles": [],
+    "mention_everyone": false,
+    "member": {
+      "roles": [
+        "698936627162120252"
+      ],
+      "mute": false,
+      "joined_at": "2019-06-16T15:58:02.395000+00:00",
+      "hoisted_role": "698936627162120252",
+      "deaf": false
+    },
+    "id": "934026503937740830",
+    "flags": 0,
+    "embeds": [],
+    "edited_timestamp": null,
+    "content": "Hello MEE6, what are you doing in my guild !!!",
+    "components": [],
+    "channel_id": "931140928196976670",
+    "author": {
+      "username": "perococco",
+      "public_flags": 0,
+      "id": "589845310218698752",
+      "discriminator": "1956",
+      "avatar": "390e67645696fab97ba595a59e7b4467"
+    },
+    "attachments": [],
+    "guild_id": "589846155962089477"
+  }
+}

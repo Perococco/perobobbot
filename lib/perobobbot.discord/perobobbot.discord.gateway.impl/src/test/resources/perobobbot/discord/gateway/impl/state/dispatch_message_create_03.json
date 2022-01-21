@@ -1,0 +1,41 @@
+{
+  "t": "MESSAGE_CREATE",
+  "s": 4,
+  "op": 0,
+  "d": {
+    "type": 0,
+    "tts": false,
+    "timestamp": "2022-01-21T09:47:01.429000+00:00",
+    "referenced_message": null,
+    "pinned": false,
+    "nonce": "934021258541006848",
+    "mentions": [],
+    "mention_roles": [],
+    "mention_everyone": false,
+    "member": {
+      "roles": [
+        "698936627162120252"
+      ],
+      "mute": false,
+      "joined_at": "2019-06-16T15:58:02.395000+00:00",
+      "hoisted_role": "698936627162120252",
+      "deaf": false
+    },
+    "id": "934021259031883786",
+    "flags": 0,
+    "embeds": [],
+    "edited_timestamp": null,
+    "content": "toto",
+    "components": [],
+    "channel_id": "931140928196976670",
+    "author": {
+      "username": "perococco",
+      "public_flags": 0,
+      "id": "589845310218698752",
+      "discriminator": "1956",
+      "avatar": "390e67645696fab97ba595a59e7b4467"
+    },
+    "attachments": [],
+    "guild_id": "589846155962089477"
+  }
+}

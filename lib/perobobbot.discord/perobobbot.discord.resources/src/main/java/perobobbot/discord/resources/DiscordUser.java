@@ -25,6 +25,11 @@ public class DiscordUser {
     Integer flags;//	integer	the flags on a user's account	identify
     Integer premiumType;//	integer	the type of Nitro subscription on a user's account	identify
     Integer publicFlags;//?	integer	the public flags on a user's account	identify
+    /**
+     * This field is available when deserializing Message object
+     * <a href="https://discord.com/developers/docs/resources/channel#message-object-message-structure">Message Structure</a>
+     */
+    GuildMember member;
 
 
     public @NonNull UserIdentity toUserIdentity() {

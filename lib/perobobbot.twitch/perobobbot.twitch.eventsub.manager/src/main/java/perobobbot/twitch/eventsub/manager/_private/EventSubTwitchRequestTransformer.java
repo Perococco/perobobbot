@@ -74,7 +74,7 @@ public class EventSubTwitchRequestTransformer implements EventSubRequestHandler 
 
         private void saveBodyContent() {
             if (SAVE_NOTIFICATION) {
-                twitchRequestSaver.saveBody(requestContent.content());
+                twitchRequestSaver.saveMessage(requestContent.content());
             }
         }
 

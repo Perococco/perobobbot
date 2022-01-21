@@ -367,6 +367,17 @@
 
             <dependency>
                 <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-discord-gateway-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>perobobbot</groupId>
+                <artifactId>perobobbot-discord-gateway-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>perobobbot</groupId>
                 <artifactId>perobobbot-extension</artifactId>
                 <version>${project.version}</version>
             </dependency>

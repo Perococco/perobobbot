@@ -1,5 +1,6 @@
 package perobobbot.discord.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.NonNull;
@@ -8,6 +9,7 @@ import lombok.Value;
 import java.time.Instant;
 
 @Value
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GuildMember {
     DiscordUser discordUser;//	user object	the user this guild member represents

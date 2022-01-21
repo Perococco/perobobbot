@@ -1,0 +1,49 @@
+{
+  "t": "READY",
+  "s": 1,
+  "op": 0,
+  "d": {
+    "v": 8,
+    "user_settings": {},
+    "user": {
+      "verified": true,
+      "username": "Perobobbot",
+      "mfa_enabled": false,
+      "id": "927263698496655390",
+      "flags": 0,
+      "email": null,
+      "discriminator": "6519",
+      "bot": true,
+      "avatar": null
+    },
+    "shard": [
+      0,
+      1
+    ],
+    "session_id": "a2d80ffd32bb8f4d700bbd0315c10a3a",
+    "relationships": [],
+    "private_channels": [],
+    "presences": [],
+    "guilds": [
+      {
+        "unavailable": true,
+        "id": "589846155962089477"
+      }
+    ],
+    "guild_join_requests": [],
+    "geo_ordered_rtc_regions": [
+      "rotterdam",
+      "milan",
+      "stockholm",
+      "st-pete",
+      "russia"
+    ],
+    "application": {
+      "id": "927263698496655390",
+      "flags": 262144
+    },
+    "_trace": [
+      "[\"gateway-prd-main-fwlz\",{\"micros\":91377,\"calls\":[\"discord-sessions-blue-prd-2-84\",{\"micros\":82937,\"calls\":[\"start_session\",{\"micros\":34911,\"calls\":[\"discord-api-c8d57d9bb-zpnr9\",{\"micros\":31456,\"calls\":[\"get_user\",{\"micros\":2747},\"add_authorized_ip\",{\"micros\":1270},\"get_guilds\",{\"micros\":6856},\"coros_wait\",{\"micros\":1}]}]},\"guilds_connect\",{\"micros\":1,\"calls\":[]},\"presence_connect\",{\"micros\":2411,\"calls\":[]}]}]}]"
+    ]
+  }
+}

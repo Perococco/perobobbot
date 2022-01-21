@@ -1,0 +1,28 @@
+{
+  "t": "GUILD_MEMBER_UPDATE",
+  "s": 2,
+  "op": 0,
+  "d": {
+    "user": {
+      "username": "Perobobbot",
+      "id": "927263698496655390",
+      "discriminator": "6519",
+      "bot": true,
+      "avatar": null
+    },
+    "roles": [
+      "931113717750452225",
+      "698936627162120252"
+    ],
+    "premium_since": null,
+    "pending": false,
+    "nick": null,
+    "mute": false,
+    "joined_at": "2022-01-13T09:13:29.629491+00:00",
+    "hoisted_role": "698936627162120252",
+    "guild_id": "589846155962089477",
+    "deaf": false,
+    "communication_disabled_until": null,
+    "avatar": null
+  }
+}

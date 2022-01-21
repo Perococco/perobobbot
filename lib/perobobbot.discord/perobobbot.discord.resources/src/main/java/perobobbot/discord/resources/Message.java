@@ -1,6 +1,5 @@
 package perobobbot.discord.resources;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -13,24 +12,20 @@ import java.time.Instant;
 @Value
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class Message {
+public class Message implements GatewayEvent {
 
     @NonNull String id;//	id of the message
-    @JsonAlias("channel_id")
     @NonNull String channelId;//	snowflake	id of the channel the message was sent in
-    @JsonAlias("guildId")
     String guild_id;//	snowflake	id of the guild the message was sent in
     DiscordUser author;//	user object	the author of this message (not guaranteed to be a valid user, see below)
     GuildMember member;//	partial guild member object	member properties for this message's author
     @NonNull String content;//	string	contents of the message
     @NonNull Instant timestamp;//	ISO8601 timestamp	when this message was sent
-    @JsonAlias("edited_timestamp")
     Instant editedTimestamp;//	?ISO8601 timestamp	when this message was edited (or null if never)
     boolean tts;//	whether this was a TTS message
-    @JsonAlias("mention_everyone")
     boolean mentionEveryone;//	boolean	whether this message mentions everyone
     @NonNull DiscordUser[] mentions;//	array of user objects, with an additional partial member field	users specifically mentioned in the message
-//    mention_roles	array of role object ids	roles specifically mentioned in this message
+    @NonNull String[] mentionRoles;//	array of role object ids	roles specifically mentioned in this message
 //    mention_channels?****	array of channel mention objects	channels specifically mentioned in this message
 //    attachments	array of attachment objects	any attached files
 //    embeds	array of embed objects	any embedded content
