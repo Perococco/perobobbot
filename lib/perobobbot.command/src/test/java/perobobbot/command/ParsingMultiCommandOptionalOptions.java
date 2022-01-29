@@ -30,7 +30,7 @@ public class ParsingMultiCommandOptionalOptions {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         commandRegistry = CommandRegistry.create();
         final var factory = CommandDeclaration.factory("test");
 

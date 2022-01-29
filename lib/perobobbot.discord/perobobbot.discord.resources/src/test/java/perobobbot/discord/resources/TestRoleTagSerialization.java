@@ -28,7 +28,7 @@ public class TestRoleTagSerialization {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         this.objectMapper = new JsonMapper();
     }
 
