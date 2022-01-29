@@ -1,6 +1,7 @@
 package perobobbot.discord.gateway.impl.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import perobobbot.discord.gateway.impl.state.connection.ConnectionError;
 import perobobbot.discord.resources.HelloMessage;
 
+import java.util.Arrays;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public enum OpCode {
@@ -28,7 +31,7 @@ public enum OpCode {
     private final int value;
 
     @Getter
-    final @NonNull Function<String,Class<?>> eventTypeGetter;
+    final @NonNull Function<String, Class<?>> eventTypeGetter;
 
     OpCode(int value, Class<?> eventType) {
         this.value = value;
@@ -36,10 +39,11 @@ public enum OpCode {
     }
 
     public static @NonNull OpCode fromValue(int op) {
-        return Holder.VALUES.stream()
-                            .filter(o -> o.value == op)
-                            .findFirst()
-                            .orElseThrow(() -> new ConnectionError("Unknown opcode value : "+op));
+        final var opCode = Holder.VALUES.get(op);
+        if (opCode == null) {
+            throw new ConnectionError("Unknown opcode value : " + op);
+        }
+        return opCode;
     }
 
 
@@ -48,6 +52,6 @@ public enum OpCode {
     }
 
     private static class Holder {
-        private static final ImmutableSet<OpCode> VALUES = ImmutableSet.copyOf(values());
+        private static final ImmutableMap<Integer, OpCode> VALUES = Arrays.stream(values()).collect(ImmutableMap.toImmutableMap(OpCode::getValue, o -> o));
     }
 }

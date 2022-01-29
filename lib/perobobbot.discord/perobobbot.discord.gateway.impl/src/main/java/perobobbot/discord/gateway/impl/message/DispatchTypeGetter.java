@@ -7,8 +7,13 @@ import perobobbot.discord.resources.GatewayEvent;
 import perobobbot.discord.resources.Message;
 import perobobbot.discord.resources.Ready;
 
+import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * Function to retrieve the Java type of Discord gateway message from its type name. If
+ * no Java type could be found, returns {@link JsonNode}
+ */
 public class DispatchTypeGetter implements Function<String,Class<?>> {
 
     private final ImmutableMap<String,Class<? extends GatewayEvent>> typePerEventName = ImmutableMap.<String,Class<? extends GatewayEvent>>builder()
@@ -22,11 +27,7 @@ public class DispatchTypeGetter implements Function<String,Class<?>> {
 
         final var eventType = typePerEventName.get(eventName.toUpperCase());
 
-        if (eventType == null) {
-            return JsonNode.class;
-        } else {
-            return eventType;
-        }
+        return Objects.requireNonNullElse(eventType, JsonNode.class);
 
     }
 }
