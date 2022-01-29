@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Log4j2
-public class Connection implements Closeable {
+public class GatewayConnection implements Closeable {
 
 
     public static final boolean SAVE_MESSAGE_ON_ERROR = Boolean.getBoolean("save-discord-message-on-error");
@@ -32,11 +32,11 @@ public class Connection implements Closeable {
     private AtomicReference<Session> sessionHandler = new AtomicReference<>();
     private final BlockingDeque<ConnectionEvent> queue;
 
-    public Connection(@NonNull URI gatewayURI, @NonNull MessageMapper messageMapper) {
+    public GatewayConnection(@NonNull URI gatewayURI, @NonNull MessageMapper messageMapper) {
         this(gatewayURI,messageMapper, Integer.MAX_VALUE);
     }
 
-    public Connection(@NonNull URI gatewayURI, @NonNull MessageMapper messageMapper, int queueCapacity) {
+    public GatewayConnection(@NonNull URI gatewayURI, @NonNull MessageMapper messageMapper, int queueCapacity) {
         this.gatewayURI = gatewayURI;
         this.messageMapper = messageMapper;
         this.queue = new LinkedBlockingDeque<>(queueCapacity);

@@ -5,10 +5,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perobobbot.discord.gateway.impl.Intents;
 import perobobbot.discord.gateway.impl.message.ConnectionProperties;
+import perobobbot.discord.gateway.impl.state.connection.GatewayConnection;
 import perobobbot.discord.resources.HelloMessage;
 import perobobbot.discord.gateway.impl.message.Identify;
 import perobobbot.discord.gateway.impl.message.OpCode;
-import perobobbot.discord.gateway.impl.state.connection.Connection;
 import perobobbot.discord.gateway.impl.state.connection.ConnectionError;
 import perobobbot.discord.gateway.impl.state.connection.MessagePoller;
 
@@ -30,15 +30,15 @@ public class GatewayConnector {
     private final @NonNull StateData stateData;
 
     private URI gatewayURI;
-    private Connection connection;
+    private GatewayConnection gatewayConnection;
 
     private @NonNull ConnectedGateway connect() {
         this.createGatewayURI();
         this.createGatewayConnection();
 
         try {
-            connection.connect();
-            final var event1 = MessagePoller.poll(connection, DEFAULT_CONNECTION_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS);
+            gatewayConnection.connect();
+            final var event1 = MessagePoller.poll(gatewayConnection, DEFAULT_CONNECTION_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS);
 
             if (event1.getOpCode() != OpCode.Hello) {
                 throw new ConnectionError("Invalid opcode for first Discord event '" + event1.getOpCode() + "'");
@@ -47,9 +47,9 @@ public class GatewayConnector {
 
             final var identify = createIdentifyMessage();
 
-            connection.send(identify);
+            gatewayConnection.send(identify);
 
-            final var event2 = MessagePoller.poll(connection, DEFAULT_CONNECTION_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS);
+            final var event2 = MessagePoller.poll(gatewayConnection, DEFAULT_CONNECTION_TIMEOUT_IN_MS, TimeUnit.MILLISECONDS);
 
             if (event2.getOpCode() == OpCode.Dispatch && event2.getEventName().equalsIgnoreCase("Ready")) {
                 System.out.println(" Got ready event "+event2.getEvent());
@@ -57,10 +57,10 @@ public class GatewayConnector {
                 throw new ConnectionError("Connection failed");
             }
 
-            return new ConnectedGateway(stateData, connection, helloMessage.getHeartbeatInterval());
+            return new ConnectedGateway(stateData, gatewayConnection, helloMessage.getHeartbeatInterval());
 
         } catch (Throwable e) {
-            connection.disconnect();
+            gatewayConnection.disconnect();
             throw new ConnectionError(e);
         }
 
@@ -85,7 +85,7 @@ public class GatewayConnector {
     }
 
     private void createGatewayConnection() {
-        connection = new Connection(gatewayURI, stateData.getMessageMapper());
+        gatewayConnection = new GatewayConnection(gatewayURI, stateData.getMessageMapper());
     }
 
 
