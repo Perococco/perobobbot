@@ -12,7 +12,7 @@ import perobobbot.lang.fp.Function1;
  * If the action has been triggered by a chat command, the token identifier will be set to a {@link ChatTokenIdentifier} that contains all the
  * information to identify the user that executed the chat command.
  */
-public interface TokenIdentifier  {
+public sealed interface TokenIdentifier permits ChatTokenIdentifier, LoginTokenIdentifier, BroadcasterIdentifier  {
 
     <T> @NonNull T accept(@NonNull Visitor<T> visitor);
 

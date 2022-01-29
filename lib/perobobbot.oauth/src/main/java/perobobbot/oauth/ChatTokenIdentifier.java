@@ -7,7 +7,7 @@ import perobobbot.lang.Platform;
 import java.util.UUID;
 
 @Value
-public class ChatTokenIdentifier implements TokenIdentifier{
+public class ChatTokenIdentifier implements TokenIdentifier {
 
     /**
      * The id of the {@link perobobbot.lang.Bot} on which the command has been executed

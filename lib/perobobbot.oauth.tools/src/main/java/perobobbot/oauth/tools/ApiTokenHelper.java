@@ -14,15 +14,19 @@ import java.util.Optional;
 
 public interface ApiTokenHelper {
 
-    void initialize();
-
     /**
      * @return true if the token has been refreshed, false otherwise
      */
     boolean refreshToken();
 
+    /**
+     * Remove the token
+     */
     void deleteToken();
 
+    /**
+     * @return the token obtained during
+     */
     @NonNull Optional<ApiToken> getToken();
 
 

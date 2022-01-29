@@ -7,8 +7,6 @@ import perobobbot.data.service.BotService;
 import perobobbot.data.service.ClientService;
 import perobobbot.data.service.OAuthService;
 import perobobbot.lang.Platform;
-import perobobbot.lang.Secret;
-import perobobbot.lang.Todo;
 import perobobbot.lang.client.SafeClient;
 import perobobbot.lang.token.DecryptedBotToken;
 import perobobbot.lang.token.DecryptedClientTokenView;
@@ -39,16 +37,11 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
     private DecryptedUserTokenView userTokenView;
     private DecryptedBotToken botToken;
 
-    @Override
-    public void initialize() {
-        requirement.getClientOAuth().ifPresent(this::retrieveClientToken);
-        requirement.getUserOAuth().ifPresent(this::retrieveUserToken);
-        requirement.getBotOAuth().ifPresent(this::retrieveBotToken);
-        safeClient = retrieveClient();
-    }
+    private boolean initialized = false;
 
     @Override
     public boolean refreshToken() {
+        this.initialize();
         if (clientTokenView != null || botToken != null) {
             clientTokenView = oAuthService.authenticateClient(platform);
         }
@@ -60,6 +53,7 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
 
     @Override
     public void deleteToken() {
+        this.initialize();
         if (clientTokenView != null || botToken != null) {
             oAuthService.deleteClientToken(clientTokenView.getId());
         }
@@ -73,17 +67,29 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
 
     @Override
     public @NonNull Optional<ApiToken> getToken() {
+        this.initialize();
         final ApiToken apiToken;
         if (userTokenView != null) {
             apiToken = new UserApiToken(userTokenView.getUserId(), safeClient.getClientId(), userTokenView.getUserToken().getAccessToken());
         } else if (clientTokenView != null) {
             apiToken = new ClientApiToken(safeClient.getClientId(), clientTokenView.getToken().getAccessToken());
         } else if (botToken != null) {
-            apiToken =new BotApiToken(botToken.getClientId(),botToken.getBotToken());
+            apiToken = new BotApiToken(botToken.getClientId(), botToken.getBotToken());
         } else {
             apiToken = null;
         }
         return Optional.ofNullable(apiToken);
+    }
+
+    private void initialize() {
+        if (initialized) {
+            return;
+        }
+        requirement.getClientOAuth().ifPresent(this::retrieveClientToken);
+        requirement.getUserOAuth().ifPresent(this::retrieveUserToken);
+        requirement.getBotOAuth().ifPresent(this::retrieveBotToken);
+        safeClient = retrieveClient();
+        this.initialized = true;
     }
 
 
@@ -110,9 +116,10 @@ public class SimpleApiTokenHelper implements ApiTokenHelper {
             LOG.warn(Markers.OAUTH_MARKER, "TokenIdentifier missing for UserOAuth");
             return;
         }
-        final var userToken = new BasicOAuthServiceGetter(oAuthService).f(tokenIdentifier)
-                                                                       .flatMap(UserTokenViewGetter.createTokenGetter(platform, userOAuth))
-                                                                       .orElse(null);
+        final var tokenGetter = UserTokenViewGetter.createTokenGetter(platform, userOAuth);
+        final var userToken = tokenIdentifier.accept(new BasicOAuthServiceGetter(oAuthService))
+                                             .flatMap(tokenGetter)
+                                             .orElse(null);
 
 
         if (userToken != null) {
